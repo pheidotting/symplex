@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.lakedigital.as</groupId>
-    <artifactId>dejonge</artifactId>
+    <artifactId>relatiebeheer</artifactId>
     <version>5.0</version>
     <packaging>war</packaging>
 
@@ -73,13 +73,13 @@
 
         <dependency>
             <groupId>nl.lakedigital.djfc</groupId>
-            <artifactId>djfc-clients</artifactId>
-            <version>5.59</version>
+            <artifactId>clients</artifactId>
+            <version>6.00</version>
         </dependency>
         <dependency>
             <groupId>nl.lakedigital.as</groupId>
             <artifactId>messaging</artifactId>
-            <version>5.30</version>
+            <version>6.00</version>
         </dependency>
 
         <dependency>

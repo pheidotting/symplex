@@ -10,12 +10,39 @@ pipeline {
             }
         }
 
-        stage ('Build') {
+        stage ('Install Commons') {
+            steps {
+                sh '''
+                    cd DJFC-Commons
+                    mvn clean install
+                '''
+        }
+
+        stage ('Install Clients') {
+            steps {
+                sh '''
+                    cd DJFC-Clients
+                    mvn clean install
+                '''
+        }
+
+        stage ('Install Messaging') {
+            steps {
+                sh '''
+                    cd DJFC-Messaging
+                    mvn clean install
+                '''
+        }
+
+        stage ('Build Relatiebeheer') {
             steps {
                 sh '''
                     cd DJFC-Relatiebeheer
                     mvn clean package  -P jenkins
                 '''
+        }
+
+        stage ('Build GUI') {
                 sh '''
                     cd DJFC-Webgui/web
                     npm cache clear
@@ -25,7 +52,7 @@ pipeline {
             }
         }
 
-        stage ('Verify') {
+        stage ('Verify Relatiebeheer') {
             steps {
                 sh '''
                     cd DJFC-Relatiebeheer
@@ -34,7 +61,7 @@ pipeline {
             }
         }
 
-        stage ('Sonar') {
+        stage ('Sonar Relatiebeheer') {
             steps {
                 sh '''
                     cd DJFC-Relatiebeheer

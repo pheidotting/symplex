@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dejonge" />
+        <module name="djfc-clients" />
+        <module name="djfc-commons" />
+        <module name="messaging" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dejonge" target="1.8" />
+      <module name="djfc-clients" target="1.8" />
+      <module name="djfc-commons" target="1.7" />
+      <module name="messaging" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

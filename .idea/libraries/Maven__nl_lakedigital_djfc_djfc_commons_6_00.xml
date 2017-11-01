@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Maven: nl.lakedigital.djfc:djfc-commons:6.00">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/nl/lakedigital/djfc/djfc-commons/6.00/djfc-commons-6.00.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/DJFC-Commons/djfc-commons-6.00-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/nl/lakedigital/djfc/djfc-commons/6.00/djfc-commons-6.00-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/DJFC-Commons/djfc-commons-6.00-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/nl/lakedigital/djfc/djfc-commons/6.00/djfc-commons-6.00-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

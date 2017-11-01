@@ -4,7 +4,7 @@
 
     <groupId>nl.lakedigital.as</groupId>
     <artifactId>messaging</artifactId>
-    <version>5.30</version>
+    <version>6.00</version>
     <packaging>jar</packaging>
 
     <name>djfc-messaging</name>
