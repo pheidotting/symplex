@@ -47,6 +47,7 @@ pipeline {
         }
 
         stage ('Build GUI') {
+            steps {
                 sh '''
                     cd DJFC-Webgui/web
                     npm cache clear
@@ -78,5 +79,5 @@ pipeline {
                 }
             }
         }
-    }
+
 }
