@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DJFC-Relatiebeheer/dejonge.iml" filepath="$PROJECT_DIR$/DJFC-Relatiebeheer/dejonge.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DJFC-Clients/djfc-clients.iml" filepath="$PROJECT_DIR$/DJFC-Clients/djfc-clients.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DJFC-Commons/djfc-commons.iml" filepath="$PROJECT_DIR$/DJFC-Commons/djfc-commons.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DJFC-Messaging/messaging.iml" filepath="$PROJECT_DIR$/DJFC-Messaging/messaging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Clients/clients.iml" filepath="$PROJECT_DIR$/Clients/clients.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Commons/djfc-commons.iml" filepath="$PROJECT_DIR$/Commons/djfc-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Relatiebeheer/dejonge.iml" filepath="$PROJECT_DIR$/Relatiebeheer/dejonge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Messaging/messaging.iml" filepath="$PROJECT_DIR$/Messaging/messaging.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/symplex.iml" filepath="$PROJECT_DIR$/.idea/symplex.iml" />
     </modules>
   </component>
