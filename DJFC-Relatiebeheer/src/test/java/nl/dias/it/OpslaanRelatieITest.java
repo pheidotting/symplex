@@ -8,6 +8,7 @@ import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.commons.json.JsonRelatie;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class OpslaanRelatieITest extends AbstractITest {
