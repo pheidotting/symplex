@@ -1,0 +1,115 @@
+<div>
+    <div class="kolom">
+        <h3>Bedrijfsgegevens</h3>
+
+        <label for="naam">Naam</label>
+        <input class="form-control" type="text" id="naam" placeholder="Naam..." data-bind="value: bedrijf.naam"/>
+        <label for="kvk">Kvk</label>
+        <input class="form-control" type="text" id="kvk" placeholder="Kvk..." data-bind="value: bedrijf.kvk"
+               maxlength="8"/>
+        <label for="rechtsvorm">Rechtsvorm</label>
+        <input class="form-control" type="text" id="rechtsvorm" placeholder="Rechtsvorm..."
+               data-bind="value: bedrijf.rechtsvorm"/>
+        <label for="email">E-mailadres</label>
+        <input class="form-control" type="text" id="email" placeholder="E-mailadres..."
+               data-bind="value: bedrijf.email"/>
+        <label for="internetadres">Internetadres</label>
+        <input class="form-control" type="text" id="internetadres" placeholder="Internetadres..."
+               data-bind="value: bedrijf.internetadres"/>
+        <label for="hoedanigheid">Hoedanigheid</label>
+        <input class="form-control" type="text" id="hoedanigheid" placeholder="Hoedanigheid..."
+               data-bind="value: bedrijf.hoedanigheid"/>
+        <label for="cAoVerplichtingen">CAO Verplichtingen</label>
+        <input class="form-control" type="text" id="cAoVerplichtingen" placeholder="CAO Verplichtingen..."
+               data-bind="value: bedrijf.cAoVerplichtingen"/>
+
+        <div id="adressen"></div>
+
+        <div id="taken"></div>
+    </div>
+
+    <div class="kolom">
+        <div id="telefoonnummers"></div>
+
+        <div id="telefonie"></div>
+    </div>
+
+    <div class="kolom">
+        <div id="bijlages"></div>
+
+        <div id="opmerkingen"></div>
+
+
+        <h3>Contactpersonen
+            &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true"
+                        data-bind="click: voegContactpersoonToe" id="voegContactpersoonToe"
+                        style="cursor:pointer">Toevoegen</span>
+        </h3>
+        <div id="contactpersonen" data-bind="foreach: contactpersonen, visible: contactpersonen().length > 0">
+            <input class="form-control" type="hidden" name="contactpersoonid" id="contactpersoonid"
+                   data-bind="value: identificatie"/>
+
+            <label for="voornaam">Voornaam</label>
+            <input class="form-control" type="text" id="voornaam" name="voornaam" data-bind="value: voornaam"/>
+            <label for="tussenvoegsel">Tussenvoegsel</label>
+            <input class="form-control" type="text" id="tussenvoegsel" name="tussenvoegsel"
+                   data-bind="value: tussenvoegsel"/>
+            <label for="achternaam">Achternaam</label>
+            <input class="form-control" type="text" id="achternaam" name="achternaam"
+                   data-bind="value: achternaam"/>
+            <label for="emailadres">E-mailadres</label>
+            <input class="form-control" type="text" id="emailadres" name="emailadres"
+                   data-bind="value: emailadres"/>
+            <label for="functie">Functie</label>
+            <input class="form-control" type="text" id="functie" name="functie" data-bind="value: functie"/>
+                <span class="glyphicon glyphicon-minus" id="verwijderContactpersoon"
+                      data-bind="click: $parent.verwijderContactpersoon"></span>
+
+            <div class="telefoongegevens">
+                <h4>Telefoongegevens
+                    &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true"
+                                data-bind="click: voegTelefoonNummerToe" id="voegTelefoonNummerToeBijContactpersoon"
+                                style="cursor:pointer">Toevoegen</span>
+                </h4>
+                <div id="telefoonnummersBijContactpersoon"
+                     data-bind="foreach: telefoonnummers, visible: telefoonnummers().length > 0">
+                    <div id="telefoonnummerBijContactpersoon">
+                        <input class="form-control" type="hidden" name="telefoonid" id="telefoonid"
+                               data-bind="value: identificatie"/>
+
+                        <label for="telnummerBijContactpersoon">Telefoonnummer</label>
+                        <input class="form-control" type="text" id="telnummerBijContactpersoon"
+                               name="telnummerBijContactpersoon"
+                               data-bind="value: telefoonnummer, event: {click: $parent.telefoonnummersModel.startBewerken, blur: $parent.telefoonnummersModel.stopBewerken}"
+                               maxlength="10"/>
+
+                        <label for="soorttelnummerBijContactpersoon">Soort</label>
+                        <select id="soorttelnummerBijContactpersoon" name="soorttelnummerBijContactpersoon"
+                                data-bind="value: soort">
+                            <option value="MOBIEL">Mobiel</option>
+                            <option value="VAST">Prive</option>
+                            <option value="WERK">Zakelijk</option>
+                        </select>
+                        <label for="telefoonomschrijvingBijContactpersoon">Omschrijving</label>
+                            <textarea id="telefoonomschrijvingBijContactpersoon" data-bind="value: omschrijving"
+                                      class="form-control"
+                                      rows="3"></textarea>
+                    </div>
+                    &nbsp;<a class="fa fa-trash" aria-hidden="true" id="verwijderTelefoonNummerBijContactpersoon"
+                             data-bind="click: $parent.telefoonnummersModel.verwijderTelefoonNummer"
+                             style="cursor:pointer"></a>
+                    <hr/>
+                </div>
+            </div>
+            &nbsp;<a class="fa fa-trash" aria-hidden="true" id="verwijderTelefoonNummerBijContactpersoon"
+                     data-bind="click: $parent.telefoonnummersModel.verwijderTelefoonNummer" style="cursor:pointer"></a>
+            <hr/>
+        </div>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div style="clear: both;"></div>
+<button id="opslaanBedrijf" class="fa fa-floppy-o fa-3x btn-awesome" data-bind="click: opslaan"></button>
+<button class="fa fa-times fa-3x btn-awesome" data-bind="click: annuleren"></button>
+<!--<button id="verwijderen" class="fa fa-trash fa-3x btn-awesome" data-bind="click: verwijderenRelatie"></button>-->

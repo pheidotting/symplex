@@ -1,0 +1,93 @@
+<div class="form-group">
+	<label for="verzekeringsMaatschappijen">Maatschappij en Soort</label>
+	<select id="verzekeringsMaatschappijen" name="verzekeringsMaatschappijen"
+			data-bind="value: polis.maatschappij.id, disable: readOnly"></select>
+	<select id="soortVerzekering" name="soortVerzekering" data-bind="value: polis.soort, disable: readOnly"></select>
+</div>
+<div class="form-group">
+	<label for="status">Status</label>
+	<select id="status" name="status" data-bind="value: polis.status, disable: readOnly">
+		<option value="Aanvraag/Offerte">Aanvraag/Offerte</option>
+		<option value="Actief">Actief</option>
+		<option value="Geschorst">Geschorst</option>
+		<option value="Premievrij">Premievrij</option>
+		<option value="Beindigd">Beindigd</option>
+	</select>
+</div>
+<div class="form-group">
+	<label for="polisNummer">Polisnummer</label>
+	<input class="form-control" type="text" id="polisNummer" name="polisNummer" placeholder="Polisnummer..."
+		   maxlength="25" data-bind="value: polis.polisNummer, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="kenmerk">Kenmerk</label>
+	<input class="form-control" type="text" id="kenmerk" name="kenmerk" placeholder="Kenmerk..." maxlength="100"
+		   data-bind="value: polis.kenmerk, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="dekking">Dekking</label>
+	<input class="form-control" type="text" id="dekking" name="dekking" placeholder="Dekking..." maxlength="250"
+		   data-bind="value: polis.dekking, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="verzekerdeZaak">Verzekerde Zaak/Object</label>
+	<input class="form-control" type="text" id="verzekerdeZaak" name="verzekerdeZaak" placeholder="Verzekerde Zaak/Object..." maxlength="250"
+		   data-bind="value: polis.verzekerdeZaak, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="premie">Premie</label>
+	<input class="form-control" type="text" id="premie" placeholder="Premie..."
+		   data-bind="value: polis.premie, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="ingangsDatumString">Ingangsdatum</label>
+	<input class="form-control" type="text" id="ingangsDatumString" placeholder="Ingangs datum..."
+		   data-bind="value: polis.ingangsDatum, event: {blur: exitIngangsDatum}, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="wijzigingsdatumString">Wijzigingsdatum</label>
+	<input class="form-control" type="text" id="wijzigingsdatumString" placeholder="Wijzigingsdatum..."
+		   data-bind="value: polis.wijzigingsDatum, event: {blur: exitWijzigingsDatum}, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="prolongatiedatumString">Prolongatiedatum</label>
+	<input class="form-control" type="text" id="prolongatiedatumString" placeholder="Prolongatiedatum..."
+		   data-bind="value: polis.prolongatieDatum, event: {blur: exitProlongatieDatum}, disable: readOnly"/>
+</div>
+<div class="form-group">
+	<label for="betaalfrequentie">Betaalfrequente</label>
+	<div id="div_betaalfrequentie">
+		<select id="betaalfrequentie" data-bind="value: polis.betaalfrequentie, disable: readOnly">
+			<option value="">Betaalfrequentie...</option>
+			<option value="Maand">Maand</option>
+			<option value="Kwartaal">Kwartaal</option>
+			<option value="Half jaar">Half jaar</option>
+			<option value="Jaar">Jaar</option>
+		</select>
+	</div>
+</div>
+<br />
+<div class="form-group">
+	<label for="omschrijvingVerzekering">Omschrijving Verzekering</label>
+	<textarea id="omschrijvingVerzekering" placeholder="Omschrijving Verzekering..."
+			  data-bind="value: polis.omschrijvingVerzekering, disable: readOnly"></textarea>
+</div>
+
+<div id="bijlages"></div>
+
+<hr />
+
+<div id="opmerkingen"></div>
+
+<hr/>
+
+<div id="taken"></div>
+
+<hr />
+
+<div class="form-group">
+	<label for="opslaanPolis">&nbsp;</label>
+	<button id="opslaanPolis" class=" btn btn-primary" data-bind="click: opslaan, disable: readOnly">Opslaan</button>
+	<button type="button" class="btn btn-warning" data-bind="click: annuleren, visible: notReadOnly">Annuleren</button>
+	<button type="button" class="btn btn-warning" data-bind="click: annuleren, visible: readOnly">Terug</button>
+</div>

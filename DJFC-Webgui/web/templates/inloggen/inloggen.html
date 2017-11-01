@@ -1,0 +1,34 @@
+<div class="logo-background">
+    &nbsp;
+    <div class="inloggen-main">
+        <div class="inloggen-main-background">
+            <div class="inloggen-main-wit">
+                <div class="inloggen-main-header">
+                    Symplex Login
+                </div>
+            </div>
+        </div>
+        <div class="inloggen-main-form">
+            <form>
+                <div class="getbruikersnaam-wachtwoord">
+                    Gebruikernaam
+                </div>
+                <input type="text" onClick="this.select();" autocomplete="off" id="identificatie"
+                       data-bind="value: identificatie, attr: {class: onjuisteGebruikersnaam}, event: {change: resetfoutmeldingGebruikersnaam}"/>
+                <div id="foutmeldingOnjuisteGebruikersnaam" class="validationMessage"
+                     data-bind="visible: onjuisteGebruikersnaam">
+                    De gebruikersnaam is onjuist
+                </div>
+                <div class="getbruikersnaam-wachtwoord">
+                    Wachtwoord
+                </div>
+                <input type="password" id="wachtwoord"
+                       data-bind="value: wachtwoord, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
+                <div id="foutmeldingOnjuistWachtwoord" class="validationMessage" data-bind="visible: onjuistWachtwoord">
+                    Het wachtwoord is onjuist
+                </div>
+                <button id="inlogButton" data-bind="click: inloggen">Inloggen</button>
+            </form>
+        </div>
+    </div>
+</div>

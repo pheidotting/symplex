@@ -1,0 +1,51 @@
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th style="width: 35px;"></th>
+        <th style="width: 150px;">Datum/Tijd</th>
+        <th>Onderwerp</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: communicatieproducten">
+    <tr>
+        <td><span class="glyphicon glyphicon-envelope"></span></td>
+        <td data-bind="text: datumTijdVerzending"></td>
+        <td>
+            <a data-bind="text: onderwerp, attr: {href: idDivLink, class: klasse}, click: $parent.markeerAlsGelezen"
+               role="button" data-toggle="collapse" aria-expanded="false"/>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="2">
+            <div class="collapse" data-bind="attr: {id: idDiv}">
+                <div data-bind="text: tekst"/>
+                <br/>
+                <br/>
+                <button type="button" class="btn btn-success"
+                        data-bind="click: $parent.beantwoorden, visible: beantwoordenKnopTonen">Beantwoorden
+                </button>
+                <button type="button" class="btn btn-info"
+                        data-bind="click: $parent.bewerken, visible: bewerkenKnopTonen">Bewerken
+                </button>
+                <table class="table" data-bind="visible: bijlages().length > 0"
+                ">
+    <tr>
+        <th>Bijlage</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tbody data-bind="foreach: bijlages">
+    <tr>
+        <td>
+            <span data-bind="text: bestandsNaam"></span>
+        </td>
+        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+               target="_blank">Download</a></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>

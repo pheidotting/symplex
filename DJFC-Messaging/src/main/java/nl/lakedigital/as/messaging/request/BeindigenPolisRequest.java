@@ -1,0 +1,23 @@
+package nl.lakedigital.as.messaging.request;
+
+import nl.lakedigital.as.messaging.AbstractMessage;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
+
+@XmlRootElement(name = "beindigenPolisRequest")
+public class BeindigenPolisRequest extends AbstractMessage {
+    private List<Long> ids;
+
+    public List<Long> getIds() {
+        if (ids == null) {
+            ids = new ArrayList();
+        }
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
+    }
+}

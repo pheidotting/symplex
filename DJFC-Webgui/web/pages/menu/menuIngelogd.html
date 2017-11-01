@@ -1,0 +1,17 @@
+<script type="text/javascript">
+	function uitloggen(){
+		$.ajax({
+			type: "GET",
+			url: './rest/gebruiker/uitloggen',
+			dataType:'json'
+		});
+		document.location.hash='#inloggen';
+	};
+</script>
+
+<ul>
+	<li><a onclick="document.location.hash='#beherenKantoor'">Kantoor</a></li>
+	<li><a onclick="document.location.hash='#beherenMedewerker'">Medewerker</a></li>
+	<li><a onclick="document.location.hash='#lijstRelaties'">Lijst Relaties</a></li>
+	<li><a onclick="uitloggen();">Uitloggen</a></li>
+</ul>

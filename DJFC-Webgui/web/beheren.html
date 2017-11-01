@@ -1,0 +1,77 @@
+<html>
+<head>
+    <title>Symplex - Beheren</title>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="templates/beheren/beheren.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <script>
+		var refreshIntervalId = 0;
+
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+        require(['sammyconfig'], function (App) {
+            var app = new App();
+
+            app.addView('relatie', 'view/beheren-relatie-view');
+            app.addView('relatie/:identificatie', 'view/beheren-relatie-view');
+            app.addView('bedrijf', 'view/beheren-bedrijf-view');
+            app.addView('bedrijf/:identificatie', 'view/beheren-bedrijf-view');
+
+            app.addView('polissen/:identificatie', 'view/lijst-polissen-view');
+            app.addView('polis', 'view/beheren-polis-view');
+            app.addView('polis/:identificatie', 'view/beheren-polis-view');
+            app.addView('polis/:identificatie/:readonly', 'view/beheren-polis-view');
+
+            app.addView('schades/:identificatie', 'view/lijst-schades-view');
+            app.addView('schade/:identificatie', 'view/beheren-schade-view');
+            app.addView('schade/:identificatie/:readonly', 'view/beheren-schade-view');
+
+            app.run('#relatie');
+        });
+
+</script>
+<div class="top">
+    <img src="images/Symplex-logo.png"/>
+</div>
+<div class="bar">
+    <button class="uitloggen-button">Uitloggen</button>
+</div>
+
+<img class="logo-bedrijf" src="images/logo-djfc.jpg"/>
+
+<div class="main">
+    <div id="hoofd"></div>
+    <div class="menu-balk">
+        <div class="menu-balk-within">
+            <div class="menu-balk-holder">
+                <ul>
+                    <li class="first"><a href="zoeken.html">Home</a></li>
+                    <li><a style="cursor: pointer;"
+                           data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
+                    </li>
+                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe
+                        polis</a>
+                    </li>
+                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
+                    </li>
+                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe
+                        schade</a>
+                    </li>
+                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="content"></div>
+</div>
+
+<div class="bottom"></div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<br/>
+<div class="form-group">
+    <label for="voornaam">Voornaam</label>
+    <input class="form-control" type="text" id="voornaam" name="voornaam" data-bind="value: medewerker.voornaam"/>
+</div>
+<div class="form-group">
+    <label for="tussenvoegsel">Tussenvoegsel</label>
+    <input class="form-control" type="text" id="tussenvoegsel" name="tussenvoegsel"
+           data-bind="value: medewerker.tussenvoegsel"/>
+</div>
+<div class="form-group">
+    <label for="achternaam">Achternaam</label>
+    <input class="form-control" type="text" id="achternaam" name="achternaam" data-bind="value: medewerker.achternaam"/>
+</div>
+<div class="form-group">
+    <label for="emailadres">E-mailadres</label>
+    <input class="form-control" type="text" id="emailadres" name="emailadres" data-bind="value: medewerker.emailadres"/>
+</div>
+
+<hr/>
+<h3>Wachtwoord wijzigen</h3>
+<div class="form-group">
+    <label for="nieuw-wachtwoord">Nieuw wachtwoord</label>
+    <input class="form-control" type="password" id="nieuw-wachtwoord" name="nieuw-wachtwoord"
+           data-bind="value: nieuwWachtwoord, event: {blur: wachtwoordGewijzigd}"/>
+    <div data-bind="visible: tonenWachtwoordSterkte" class="validationMessage" id="wachtwoordSterkteMelding">
+        Dit is een <span data-bind="text: wachtwoordSterkte"></span> wachtwoord!
+    </div>
+</div>
+<div class="form-group">
+    <label for="wachtwoord-nogmaals">Nogmaals</label>
+    <input class="form-control" type="password" id="wachtwoord-nogmaals" name="wachtwoord-nogmaals"
+           data-bind="value: wachtwoordNogmaals, event: {blur: wachtwoordGewijzigd}"/>
+    <div data-bind="visible: wachtwoordNietAccoordTonen" id="wachtwoordenKomNietOvereenMelding" class="validationMessage">
+        De ingevulde wachtwoorden komen niet met elkaar overeen!
+    </div>
+</div>
+
+
+<button id="opslaan" class="btn btn-primary" data-bind="click: opslaan, enable: magDoorgaan" disabled>Opslaan</button>
+<!--<button type="button" class="btn btn-warning" data-bind="click: annuleren">Annuleren</button>-->
+<!--<button  id="verwijderen" class="btn btn-danger" data-bind="click: verwijderenRelatie">Verwijderen</button>-->

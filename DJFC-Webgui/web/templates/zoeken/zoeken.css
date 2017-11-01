@@ -1,0 +1,82 @@
+.zoekvelden {
+    width: 800px;
+    float: left;
+}
+
+.zoekvelden label {
+    display: inline-block;
+    width: 147px;
+}
+
+.zoekvelden input {
+    width: 200px;
+    margin-right: 20px;
+    margin-top: 5px;
+    background-color: #e7e7e8;
+    border: 0;
+    height: 20px;
+}
+
+.zoekknop {
+    float: left;
+    padding-top:95px;
+}
+
+.zoekknop button {
+    margin-top:10px;
+    margin-right:20px;
+    float:right;
+    border: 1px solid #575656;
+    height: 25px;
+    width: 90px;
+    background: linear-gradient(to bottom, #ffffff , #d5dbe2);
+    font-size: 12px;
+    color: #575656;
+}
+
+.actiepunten {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.top-zoek-scherm {
+}
+
+.zoek-resultaten {
+    margin-top:40px;
+}
+
+h3 {
+    font-size: 14px;
+}
+
+.zoek-resultaten th {
+    font-size: 14px;
+    text-align: left;
+}
+
+.zoek-resultaten table {
+    width: 100%;
+}
+
+.zoek-resultaten td {
+    background-color: #e7e7e8;
+    height: 20px;
+    padding: 3px;
+}
+
+.zoek-resultaten td  a {
+    text-decoration: none;
+    color: black;
+}
+
+.geboortedatum {
+    width: 130px;
+}
+
+.postcode {
+    width: 85px;
+}

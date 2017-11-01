@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Symplex - Zoeken</title>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="templates/zoeken/zoeken.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <script>
+		var refreshIntervalId = 0;
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+        require(['sammyconfig'], function (App) {
+            var app = new App();
+
+            app.addView('zoeken', 'view/zoeken-view');
+
+            app.run('#zoeken');
+        });
+
+</script>
+<div class="top">
+    <img src="images/Symplex-logo.png"/>
+</div>
+<div class="bar">
+    <button class="uitloggen-button">Uitloggen</button>
+</div>
+
+<img class="logo-bedrijf" src="images/logo-djfc.jpg"/>
+
+<button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
+<button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
+
+<div class="main">
+    <div id="hoofd"></div>
+    <div class="menu-balk">
+        <div class="menu-balk-within">
+            <div class="menu-balk-holder">
+                <ul>
+                    <li class="first"><a href="#">Home</a></li>
+                    <!--<li><a href="#">Polis</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="content"></div>
+</div>
+
+<div class="bottom"></div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<table class="table">
+	<tr>
+		<th>Soort</th>
+		<th>Bijlage</th>
+	</tr>
+	<tbody data-bind="foreach: bijlages">
+		<tr>
+			<td data-bind="text: tonen"></a></td>
+			<td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam, text: omschrijvingOfBestandsNaam"
+				   target="_blank"></a></td>
+		</tr>
+	</tbody>
+</table>

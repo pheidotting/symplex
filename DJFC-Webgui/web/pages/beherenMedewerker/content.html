@@ -1,0 +1,111 @@
+<script type="text/javascript">
+function start(){
+	$('#beherenMedewerker_wachtwoord1').puipassword({
+		promptLabel : "Voer hier je nieuwe wachtwoord in",
+		weakLabel : "Zwak wachtwoord",
+		mediumLabel : "Redelijk wachtwoord",
+		strongLabel : "Sterk wachtwoord"
+	});
+
+	$('#opslaan').puibutton({
+   		click: function(event) {
+/*    			var kantoor = {
+   					id : $('#beherenKantoor_id').val(),
+   					naam : $('#beherenKantoor_naam').val()
+   			}
+   			var adres = {
+   					straat : $('#beherenKantoor_straat').val(),
+   					huisnummer : $('#beherenKantoor_huisnummer').val(),
+   					toevoeging : $('#beherenKantoor_toevoeging').val(),
+   					postcode : $('#beherenKantoor_postcode').val(),
+   					plaats : $('#beherenKantoor_plaats').val()
+   			};
+   			var factuurAdres = {
+   					straat : $('#beherenKantoor_straatFactuur').val(),
+   					huisnummer : $('#beherenKantoor_huisnummerFactuur').val(),
+   					toevoeging : $('#beherenKantoor_toevoegingFactuur').val(),
+   					postcode : $('#beherenKantoor_postcodeFactuur').val(),
+   					plaats : $('#beherenKantoor_plaatsFactuur').val()
+   			};
+ */   			var medewerker = {
+   					id : $('#beherenMedewerker_id').val(),
+   					voornaam : $('#beherenMedewerker_voornaam').val(),
+   					tussenvoegsel : $('#beherenMedewerker_tussenvoegsel').val(),
+   					achternaam : $('#beherenMedewerker_achternaam').val(),
+   					identificatie : $('#beherenMedewerker_emailadres').val(),
+   					wachtwoordString : $('#beherenMedewerker_wachtwoord1').val()
+   			}
+				$.ajax({
+					type: "GET",
+					url: './OpslaanMedewerker',
+					dataType:'json',
+					data: {
+/* 					kantoor : JSON.stringify(kantoor),
+					adres : JSON.stringify(adres),
+					factuurAdres : JSON.stringify(factuurAdres),
+ */
+ 						medewerker : JSON.stringify(medewerker)
+					},
+				success: function (data) {
+				}
+				});
+			}
+   	});
+	
+	$.ajax({
+		type: "GET",
+		url: './LeesMedewerker',
+		dataType:'json',
+	/* 	data: {
+			identificatie : $('#aanmeld_mail').val(),
+			waar : $('#aanmeld_waar').val()
+		},
+	 */	success: function (data) {
+			$('#beherenMedewerker_id').val(data.id);
+			$('#beherenMedewerker_voornaam').val(data.voornaam);
+			$('#beherenMedewerker_tussenvoegsel').val(data.tussenvoegsel);
+			$('#beherenMedewerker_achternaam').val(data.achternaam);
+			$('#beherenMedewerker_emailadres').val(data.identificatie);
+			$('#beherenMedewerker_wachtwoord1').val('');
+			$('#beherenMedewerker_wachtwoord2').val('');
+		}
+	})
+}
+</script>
+
+<input type="hidden"  id="beherenMedewerker_id" />
+<div class="inputField">
+	<input type="text" id="beherenMedewerker_voornaam" placeholder="Naam..." />
+</div>
+<div class="inputField">
+	<input type="text" id="beherenMedewerker_tussenvoegsel" placeholder="Tussenvoegsel..." />
+</div>
+<div class="inputField">
+	<input type="text" id="beherenMedewerker_achternaam" placeholder="Achternaam..." />
+</div>
+<div class="inputField">
+	<input type="text" id="beherenMedewerker_emailadres" placeholder="E-mailadres..." />
+</div>
+<div class="inputField">
+	<h3>Wachtwoord wijzigen</h3>
+</div>
+<div class="inputField">
+	<input type="password" id="beherenMedewerker_wachtwoord1" placeholder="Wachtwoord..." />
+</div>
+<div class="inputField">
+	<input type="password" id="beherenMedewerker_wachtwoord2" placeholder="Bevestig wachtwoord..." onblur="checkWachtwoorden()" />
+</div>
+<script type="text/javascript">
+	function checkWachtwoorden() {
+		if($('#beherenMedewerker_wachtwoord1').val() != $('#beherenMedewerker_wachtwoord2').val()){
+			addMessage([{severity: 'error', summary: 'Er is een fout opgetreden', detail: "De ingevulde wachtwoorden komen niet met elkaar overeen"}]);
+		}
+	}
+</script>
+
+<!-- <div class="inputField">
+ -->
+	<button id="opslaan">Opslaan</button>
+
+<!-- </div>
+ -->

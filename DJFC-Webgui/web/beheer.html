@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>DJFC - Beheer</title>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="lakedigital.css">
+</head>
+<body>
+<script type="text/javascript">
+    require(['sammyconfig'], function (App) {
+        var app = new App();
+
+        app.addView('mijn-gegevens', 'view/mijn-gegevens-view');
+
+        app.run('#mijn-gegevens');
+    });
+
+
+</script>
+<div id="hoofd"></div>
+<div id="content"></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<table>
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Soort Schade</th>
+        <th>Schadenummer Maatschappij</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: schades">
+    <tr>
+        <td>
+            <a class="fa fa-pencil-square-o"
+               data-bind="click: $parent.bewerk, attr: {title: 'Schade met nummer : ' + schadeNummerMaatschappij() + ' bewerken'}"></a>
+            <a class="fa fa-search"
+               data-bind="click: $parent.inzien, attr: {title: 'Schade met nummer : ' + schadeNummerMaatschappij() + ' inzien'}"></a>
+            <a class="fa fa-times"
+               data-bind="click: $parent.verwijder, attr: {title: 'Schade met nummer : ' + schadeNummerMaatschappij() + ' verwijderen'}"></a>
+        </td>
+        <td data-bind="text: soortSchade" class="schade-overzicht soort-schade"></td>
+        <td data-bind="text: schadeNummerMaatschappij" class="schade-overzicht schadenummer-maatschappij"></td>
+    </tr>
+    </tbody>
+</table>

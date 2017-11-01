@@ -1,0 +1,46 @@
+<h3>
+    Adresgegevens
+    &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true" data-bind="click: adressenModel.voegAdresToe"
+                id="voegAdresToe"
+                style="cursor:pointer">Toevoegen</span>
+</h3>
+<div id="adressen" data-bind="foreach: adressenModel.adressen, visible: adressenModel.adressen().length > 0">
+    <div class="persoonsgegevens_details">
+        <div class="form-group">
+            <label for="soortadres">Soort</label>
+            <select id="soortadres" name="soortadres" data-bind="value: soortAdres">
+                <option value="WOONADRES">Woonadres</option>
+                <option value="POSTADRES">Postadres</option>
+                <option value="RISICOADRES">Risicoadres</option>
+                <option value="FACTUURADRES">Factuuradres</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input class="form-control" type="text" id="postcode" name="postcode"
+                   data-bind="value: postcode, event: {blur: $parent.adressenModel.opzoekenAdres}" maxlength="6"/>
+        </div>
+        <div class="form-group">
+            <label for="huisnummer">Huisnummer</label>
+            <input class="form-control" type="text" id="huisnummer" name="huisnummer"
+                   data-bind="value: huisnummer, event: {blur: $parent.adressenModel.opzoekenAdres}"/>
+        </div>
+        <div class="form-group">
+            <label for="toevoeging">Toevoeging</label>
+            <input class="form-control" type="text" id="toevoeging" name="toevoeging" data-bind="value: toevoeging"/>
+        </div>
+        <div class="form-group">
+            <label for="straat">Straat</label>
+            <input class="form-control" type="text" id="straat" name="straat" data-bind="value: straat"/>
+        </div>
+        <div class="form-group">
+            <label for="plaats">Plaats</label>
+            <input class="form-control" type="text" id="plaats" name="plaats" data-bind="value: plaats"/>
+        </div>
+    </div>
+    &nbsp;<a class="fa fa-trash" aria-hidden="true" data-bind="click: $parent.adressenModel.verwijderAdres"
+             id="verwijderAdres"
+             style="cursor:pointer"></a>
+    <hr/>
+</div>

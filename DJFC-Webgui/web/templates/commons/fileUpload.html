@@ -1,0 +1,82 @@
+<!--<div data-bind="visible: schermTonen">-->
+    <form enctype="multipart/form-data" id="fileUploadForm">
+        <input type="hidden" id="identificatie" name="identificatie" data-bind="value: bijlageModel.id"/>
+        <input type="hidden" id="soortEntiteit" name="soortEntiteit" data-bind="value: bijlageModel.soortEntiteit"/>
+
+        <!--ko if: typeof bijlageModel.groepBijlages != 'undefined'-->
+        <div class="form-group" data-bind="foreach: bijlageModel.groepBijlages">
+            <h3 data-bind="text: naam"/>
+            <table class="table">
+                <tr>
+                    <th>Bijlage</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tbody data-bind="foreach: bijlages">
+                <tr>
+                    <td>
+                        <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}, click: $root.bijlageModel.startEditModus, visible: $root.bijlageModel.notReadOnly"></span>
+                        <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}, visible: $root.bijlageModel.readOnly"></span>
+
+                        <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                            <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                            <button data-bind="click: $root.bijlageModel.stopEditModus">Opslaan</button>
+                            <button data-bind="click: $root.bijlageModel.stopEditModusAnnuleren">Annuleren</button>
+                        </div>
+                    </td>
+                    <td data-bind="text: datumUpload"></td>
+                    <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                           target="_blank" class="fa fa-download"></a></td>
+                    <td data-bind="click: $root.bijlageModel.verwijderBijlage, visible: $root.bijlageModel.notReadOnly"
+                        style="cursor:pointer;" class="fa fa-trash">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- /ko -->​
+
+        <div class="form-group">
+            <table class="table">
+                <tr>
+                    <th>Bijlage</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tbody data-bind="foreach: bijlageModel.bijlages">
+                <tr>
+                    <td>
+                        <span name="omschrijvingOfBestandsNaam"
+                              data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}, click: $parent.bijlageModel.startEditModus, visible: $parent.notReadOnly"></span>
+                        <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}, visible: $parent.readOnly"></span>
+
+                        <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                            <input name="omschrijvingOfBestandsNaamEdit" type="text"
+                                   data-bind="value: omschrijvingOfBestandsNaam"/>
+                            <button name="opslaanOmschrijvingOfBestandsNaam"
+                                    data-bind="click: $parent.bijlageModel.stopEditModus">Opslaan
+                            </button>
+                            <button data-bind="click: $parent.bijlageModel.stopEditModusAnnuleren">Annuleren</button>
+                        </div>
+                    </td>
+                    <td data-bind="text: datumUpload"></td>
+                    <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                           target="_blank" class="fa fa-download"></a></td>
+                    <td data-bind="click: $parent.bijlageModel.verwijderBijlage, visible: $parent.bijlageModel.notReadOnly"
+                        style="cursor:pointer;" class="fa fa-trash">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="form-group" id="bijlage" data-bind="visible: bijlageModel.tonenUploadVeld">
+                <input type="file" id="bijlageFile" name="bijlageFile"
+                       data-bind="event: {change: bijlageModel.nieuwePolisUpload}"/>
+                <progress id="uploadprogress" style="display:none;"></progress>
+            </div>
+        </div>
+    </form>
+<!--</div>-->

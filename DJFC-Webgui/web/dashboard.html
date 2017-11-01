@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>DJFC - Dashboard</title>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Twitter Bootstrap -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!--<script src="bootstrap/js/bootstrap.min.js"></script>-->
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="lakedigital.css">
+</head>
+<body>
+<script type="text/javascript">
+    require(['sammyconfig'], function (App) {
+        var app = new App();
+
+        app.addView('dashboard', 'view/dashboard-view');
+
+        app.run('#dashboard');
+    });
+
+</script>
+<div id="hoofd"></div>
+<div id="content"></div>
+</body>
+</html>

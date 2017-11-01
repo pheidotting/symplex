@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<mapping>
+		<class-a>nl.dias.domein.Bedrijf</class-a>
+		<class-b>nl.lakedigital.djfc.commons.json.JsonBedrijf</class-b>
+		<field>
+			<a>adres.straat</a>
+			<b>straat</b>
+		</field>
+		<field>
+			<a>adres.huisnummer</a>
+			<b>huisnummer</b>
+		</field>
+		<field>
+			<a>adres.toevoeging</a>
+			<b>toevoeging</b>
+		</field>
+		<field>
+			<a>adres.postcode</a>
+			<b>postcode</b>
+		</field>
+		<field>
+			<a>adres.plaats</a>
+			<b>plaats</b>
+		</field>
+		<field custom-converter="nl.dias.web.mapper.dozer.RelatieDozerMapper">
+			<a>relatie</a>
+			<b>relatie</b>
+		</field>
+	</mapping>
+</mappings>

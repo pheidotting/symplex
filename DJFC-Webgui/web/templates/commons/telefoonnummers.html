@@ -1,0 +1,33 @@
+<h3>
+    Telefoongegevens
+    &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true"
+                data-bind="click: telefoonnummersModel.voegTelefoonNummerToe"
+                id="voegTelefoonNummerToe" style="cursor:pointer">Toevoegen</span>
+</h3>
+
+<div id="telefoonnummers"
+     data-bind="foreach: telefoonnummersModel.telefoonnummers, visible: telefoonnummersModel.telefoonnummers().length > 0">
+    <div id="telefoonnummer">
+        <input class="form-control" type="hidden" name="telefoonid" id="telefoonid" data-bind="value: id"/>
+
+        <label for="telnummer">Telefoonnummer</label>
+        <input class="form-control" type="text" id="telnummer" name="telnummer"
+               data-bind="value: telefoonnummer, event: {click: $parent.telefoonnummersModel.startBewerken, blur: $parent.telefoonnummersModel.stopBewerken}"
+               maxlength="10"/>
+
+        <label for="soorttelnummer">Soort</label>
+        <select id="soorttelnummer" name="soorttelnummer" data-bind="value: soort">
+            <option value="MOBIEL">Mobiel</option>
+            <option value="VAST">Prive</option>
+            <option value="WERK">Zakelijk</option>
+        </select>
+
+        <label for="telefoonomschrijving">Omschrijving</label>
+        <textarea id="telefoonomschrijving" data-bind="value: omschrijving" class="form-control"
+                  rows="5"></textarea>
+
+        &nbsp;<a class="fa fa-trash" aria-hidden="true" id="verwijderTelefoonNummer"
+                 data-bind="click: $parent.telefoonnummersModel.verwijderTelefoonNummer" style="cursor:pointer"></a>
+        <hr/>
+    </div>
+</div>

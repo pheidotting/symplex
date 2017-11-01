@@ -1,0 +1,18 @@
+<div id="schadesHerhaal" data-bind="foreach: cijfers, visible: cijfers().length > 0">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <a data-toggle="collapse" data-parent="#accordion" data-bind="attr:{href: idDivLink}, text: jaar" id="jaar"></a>
+                </h4>
+            </div>
+            <div data-bind="attr:{id: idDiv}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div id="opmerkingen"></div>
+                    <br/>
+                    <div id="fileUpload"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<h3>Persoonsgegevens</h3>
+
+<div data-bind="if: relatie().voornaam">
+	<span class="polisLabel">Voornaam :</span>
+	<span data-bind="text: relatie().voornaam" name="voornaam"></span>
+</div>
+<div data-bind="if: relatie().tussenvoegsel">
+	<span class="polisLabel">Tussenvoegsel :</span>
+	<span data-bind="text: relatie().tussenvoegsel" name="tussenvoegsel"></span>
+</div>
+<div data-bind="if: relatie().achternaam">
+	<span class="polisLabel">Achternaam :</span>
+	<span data-bind="text: relatie().achternaam" name="achternaam"></span>
+</div>
+<div data-bind="if: relatie().identificatie">
+	<span class="polisLabel">E-mailadres :</span>
+	<span data-bind="text: relatie().identificatie" name="identificatie"></span>
+</div>
+<div data-bind="if: relatie().straat">
+	<span class="polisLabel">Straat :</span>
+	<span data-bind="text: relatie().straat" name="straat"></span>
+</div>
+<div data-bind="if: relatie().huisnummer">
+	<span class="polisLabel">Huisnummer :</span>
+	<span data-bind="text: relatie().huisnummer" name="huisnummer"></span>
+</div>
+<div data-bind="if: relatie().toevoeging">
+	<span class="polisLabel">Toevoeging :</span>
+	<span data-bind="text: relatie().toevoeging" name="toevoeging"></span>
+</div>
+<div data-bind="if: relatie().postcode">
+	<span class="polisLabel">Postcode :</span>
+	<span data-bind="text: relatie().postcode" name="postcode"></span>
+</div>
+<div data-bind="if: relatie().plaats">
+	<span class="polisLabel">Plaats :</span>
+	<span data-bind="text: relatie().plaats" name="plaats"></span>
+</div>
+<div data-bind="if: relatie().bsn">
+	<span class="polisLabel">Bsn :</span>
+	<span data-bind="text: relatie().bsn" name="bsn"></span>
+</div>
+<div data-bind="if: relatie().geslacht">
+	<span class="polisLabel">Geslacht :</span>
+	<span data-bind="text: relatie().geslacht" name="geslacht"></span>
+</div>
+<div data-bind="if: relatie().burgerlijkeStaat">
+	<span class="polisLabel">Burgerlijke staat :</span>
+	<span data-bind="text: relatie().burgerlijkeStaat" name="burgerlijkeStaat"></span>
+</div>
+
+<div id="taakContent"></div>
+
+<button data-bind="click: opslaan" class="btn btn-primary">Opslaan</button>
+<button data-bind="click: terug" class="btn btn-danger">Terug</button>

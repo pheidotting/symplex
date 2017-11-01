@@ -1,0 +1,215 @@
+body {
+    margin: 0 auto;
+    height: 100%;
+    font-family:verdana;
+}
+
+.top {
+    min-height:50px;
+    margin-bottom:6px;
+    text-align: right;
+    padding-right: 20px;
+}
+
+.bar-inloggen {
+    min-height: 28px;
+    background-color: #0e71b8;
+}
+
+.bar {
+    min-height: 48px;
+    background-color: #0e71b8;
+}
+
+.logo-bedrijf {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    float: left;
+}
+
+.main {
+    clear: both;
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -30;
+}
+
+.bottom, .push {
+    clear: both;
+    min-height: 30px;
+    background-color: #0e71b8;
+}
+
+.logo-background {
+    margin: auto;
+    width: 800px;
+    height: 573px;
+    background-size: 100%;
+    background-image: url('templates/inloggen/background.png');
+}
+
+.inloggen-main {
+    margin: auto;
+    margin-top: 200px;
+    width:380px;
+}
+
+.inloggen-main-background {
+    background-color: #575656;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.inloggen-main-wit {
+    background: linear-gradient(to bottom, #ffffff , #c7c6c6);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.inloggen-main-header {
+    margin-left: 1px;
+    margin-right: 1px;
+    text-align: center;
+    color: #575656;
+    background: linear-gradient(to bottom, #a2a1a1 , #fbfbfb);
+    min-height: 34px;
+    font-size: 25px;
+}
+
+.inloggen-main-form {
+    border: 1px solid #575656;
+    margin-top: 4px;
+    background-color: #ececec;
+    color: #575656;
+    padding: 45px;
+    padding-top: 5px;
+}
+
+.getbruikersnaam-wachtwoord {
+    margin-bottom:5px;
+    margin-left:5px;
+    margin-top:20px;
+}
+
+.onjuiste-waarde {
+    border: 1px solid #ff0000 !important;
+}
+
+.validationMessage {
+    color: #ff0000;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.inloggen-main-form input {
+    width: 285px;
+    padding-left: 5px;
+    border: 1px solid #575656;
+    height: 30px;
+    font-size: 16px;
+}
+
+.inloggen-main-form button {
+    margin-top: 20px;
+    margin-left: 185px;
+    width: 100px;
+    border: 1px solid #575656;
+    height: 30px;
+    background: linear-gradient(to bottom, #ffffff , #d5dbe2);
+    font-size: 16px;
+}
+
+.uitloggen-button {
+    margin-top:10px;
+    margin-right:20px;
+    float:right;
+    border: 1px solid #575656;
+    height: 25px;
+    width: 90px;
+    background: linear-gradient(to bottom, #ffffff , #d5dbe2);
+    font-size: 12px;
+    color: #575656;
+}
+
+.menu-balk {
+    background-color: #000000;
+    height: 50px;
+    margin-top:25px;
+    margin-bottom:25px;
+    padding-top: 3px;
+}
+
+.menu-balk-within {
+    background: linear-gradient(to bottom, #fefefe , #bdbec1);
+    margin-bottom:2px;
+    margin-left: 4px;
+    margin-right: 4px;
+    height: 39px;
+    padding:4px;
+}
+
+.menu-balk-holder {
+    background: linear-gradient(to bottom, #9d9ea2, #fdfdfd);
+    height: 39px;
+}
+
+.menu-balk-holder ul {
+    margin: 0px;
+}
+
+.menu-balk-holder li {
+    margin-left: 0px;
+    float: left;
+    display: block;
+    text-align: center;
+    padding-top: 7px;
+    margin-top:3px;
+    height: 27px;
+    border-right: 1px inset;
+    width: 130px;
+}
+
+.menu-balk-holder li a {
+    text-decoration: none;
+    color: black;
+}
+
+.first {
+    margin-left: -30px !important;
+}
+
+#content {
+    margin-left:75px;
+    margin-right:75px;
+    margin-bottom: 40px;
+}
+
+#telefoonomschrijving {
+    width: 65%;
+}
+
+.nieuweOpmerking {
+    width: 63%;
+}
+
+.btn-awesome {
+    border: 0px;
+    background: none;
+    cursor: pointer;
+}
+
+.nieuw {
+    background-color: #0e71b8;
+    border: 0px;
+    color: #ffffff;
+    height: 44px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin-left:40px;
+    padding-left:10px;
+    padding-right:10px;
+}

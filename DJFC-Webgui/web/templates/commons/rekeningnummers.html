@@ -1,0 +1,29 @@
+<h3>
+    Rekeninggegevens
+    &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true"
+                data-bind="click: rekeningnummerModel.voegRekeningToe" id="voegAdresToe"
+                style="cursor:pointer">Toevoegen</span>
+</h3>
+<div id="rekeningnummers"
+     data-bind="foreach: rekeningnummerModel.rekeningnummers, visible: rekeningnummerModel.rekeningnummers().length > 0">
+    <div id="rekeningnummer">
+        <input class="form-control" type="hidden" id="rekeningid" name="rekeningid" data-bind="value: id"/>
+
+        <label for="rekeningnummernummer">Rekeningnummer</label>
+        <input class="form-control" type="text" id="rekeningnummernummer" name="rekeningnummernummer"
+               data-bind="value: rekeningnummer, event: {click: $parent.rekeningnummerModel.startBewerken, blur: $parent.rekeningnummerModel.stopBewerken}"
+               maxlength="18"/>
+
+        <div data-bind="visible: bicTonen">
+            <label for="bic">Bic</label>
+            <input class="form-control" type="text" id="bic" name="bic"
+                   data-bind="value: bic, event: {blur: $parent.rekeningnummerModel.bicNaarUpperCase}"
+                   maxlength="11"/>
+        </div>
+
+        &nbsp;<a class="fa fa-trash" aria-hidden="true" data-bind="click: $parent.rekeningnummerModel.verwijderRekening"
+                 id="verwijderAdres"
+                 style="cursor:pointer"></a>
+        <hr/>
+    </div>
+</div>

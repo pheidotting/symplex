@@ -1,0 +1,222 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<persistence version="1.0"-->
+<!--xmlns="http://java.sun.com/xml/ns/persistence">-->
+
+<!--<persistence-unit name="dias" transaction-type="JTA">-->
+<!--&lt;!&ndash;provider>org.hibernate.jpa.HibernatePersistenceProvider</provider&ndash;&gt;-->
+<!--<jta-data-source>jdbcDias</jta-data-source>-->
+<!--<class>nl.dias.domein.Aangifte</class>-->
+<!--<class>nl.dias.domein.Adres</class>-->
+<!--<class>nl.dias.domein.Bedrijf</class>-->
+<!--<class>nl.dias.domein.Beheerder</class>-->
+<!--<class>nl.dias.domein.Bijlage</class>-->
+<!--<class>nl.dias.domein.ContactPersoon</class>-->
+<!--<class>nl.dias.domein.Gebruiker</class>-->
+<!--<class>nl.dias.domein.Hypotheek</class>-->
+<!--<class>nl.dias.domein.HypotheekPakket</class>-->
+<!--<class>nl.dias.domein.JaarCijfers</class>-->
+<!--<class>nl.dias.domein.Kantoor</class>-->
+<!--<class>nl.dias.domein.Medewerker</class>-->
+<!--<class>nl.dias.domein.OnderlingeRelatie</class>-->
+<!--<class>nl.dias.domein.Opmerking</class>-->
+<!--<class>nl.dias.domein.polis.Polis</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.AanhangerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AansprakelijkheidVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AnnuleringsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AutoVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AnnuleringsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.BankspaarVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.BromSnorfietsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.CamperVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.CaravanVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.FietsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.GlasVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.InboedelVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.KostbaarhedenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.LevensVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.MobieleApparatuurVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.MotorVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OldtimerAutoVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OldtimerMotorVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OngevallenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.Pakket</class>-->
+<!--<class>nl.dias.domein.polis.PleziervaartuigVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.RechtsbijstandVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.RecreatieVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.ReisVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.SpaarVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.SviSchadeverzekerininzittende</class>-->
+<!--<class>nl.dias.domein.polis.UitvaartVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.WoonhuisVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.ZorgVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.AanhangerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.AansprakelijkheidBedrijfVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.ArbeidsongeschiktheidVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.BedrijfsSchadeVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.BeroepsAansprakelijkheidsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.CarVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.CollegaOngevalVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.ComputerEnElektronicaVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.EigenVervoerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.GarageVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.GebouewenEnOpstalVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.GeldVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.HuurdersBelangVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.InstallatieMontageVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.InventariesatieGoederenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.LandbouwMaterieelVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.MilieuSchadeVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.MotorRijtuigenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.TrailerAanhangerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.VervoerdersVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.VerzuimZiekengeldVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.VrachtwagenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.WerkmaterieelVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.WGAEigenRisicoDragerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.WGAHIaatVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.ZakelijkeGlasVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.ZakelijkeRechtsbijstandVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.ZakelijkeReisVerzekering</class>-->
+<!--<class>nl.dias.domein.RekeningNummer</class>-->
+<!--<class>nl.dias.domein.Relatie</class>-->
+<!--<class>nl.dias.domein.RisicoAnalyse</class>-->
+<!--<class>nl.dias.domein.Schade</class>-->
+<!--<class>nl.dias.domein.Sessie</class>-->
+<!--<class>nl.dias.domein.SoortHypotheek</class>-->
+<!--<class>nl.dias.domein.SoortSchade</class>-->
+<!--<class>nl.dias.domein.StatusSchade</class>-->
+<!--<class>nl.dias.domein.Telefoonnummer</class>-->
+<!--<class>nl.dias.domein.VerzekeringsMaatschappij</class>-->
+<!--<class>nl.dias.service.envers.RevEntity</class>-->
+
+<!--<properties>-->
+<!--<property name="eclipselink.logging.logger" value="ServerLogger"/>-->
+<!--<property name="eclipselink.logging.level.sql" value="FINE"/>-->
+<!--<property name="eclipselink.logging.parameters" value="true"/>-->
+<!--</properties>-->
+<!--&lt;!&ndash;-->
+<!--<properties>-->
+<!--<property name="hibernate.ejb.event.post-insert"-->
+<!--value="o r g . hibernate.ejb.event.EJB3PostInsertEventListener,o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="hibernate.ejb.event.post-update"-->
+<!--value="o r g . hibernate.ejb.event.EJB3PostUpdateEventListener,o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="hibernate.ejb.event.post-delete"-->
+<!--value="o r g . hibernate.ejb.event.EJB3PostDeleteEventListener,o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="hibernate.ejb.event.pre-collection-update"-->
+<!--value="o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="hibernate.ejb.event.pre-collection-remove"-->
+<!--value="o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="hibernate.ejb.event.post-collection-recreate"-->
+<!--value="o r g . hibernate.envers.event.Audit Event Listener" />-->
+<!--<property name="o r g . hibernate.envers.versionsTableSuffix"-->
+<!--value="_V" />-->
+<!--<property name="o r g . hibernate.envers.revisionFieldName" value="ver_rev" />-->
+<!--<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />-->
+<!--<property name="hibernate.dialect" value="o r g . hibernate.dialect.MySQLDialect"/>-->
+<!--&ndash;&gt;-->
+
+<!--&lt;!&ndash;-->
+<!--<property name="hibernate.transaction.manager_lookup_class" value="o r g . hibernate.transaction.SunONETransactionManagerLookup"/>-->
+<!--<property name="hibernate.show_sql" value="true"/>-->
+<!--<property name="hibernate.generate_statistics" value="true"/>-->
+<!--<property name="hibernate.archive.autodetection" value="class,hbm"/>-->
+<!--<property name="hibernate.transaction.factory_class" value="o r g . hibernate.transaction.JTATransactionFactory"/>-->
+<!--<property name="hibernate.dialect" value="o r g . hibernate.dialect.MySQLDialect" />-->
+<!--<property name="hibernate.connection.url" value="jdbc:mysql://192.168.2.20/unittest" />-->
+<!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />-->
+<!--<property name="hibernate.connection.username" value="root" />-->
+<!--<property name="hibernate.connection.password" value="herman" />-->
+<!--&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;-->
+<!--<property name="eclipselink.debug" value="ALL" />-->
+<!--<property name="eclipselink.weaving" value="static" />-->
+<!--<property name="eclipselink.logging.level" value="FINEST" />-->
+<!--<property name="eclipselink.logging.level.sql" value="FINEST" />-->
+<!--<property name="eclipselink.logging.level.cache" value="FINEST" />-->
+<!--</properties>-->
+<!--&ndash;&gt;-->
+<!--&lt;!&ndash;properties>-->
+<!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLMyISAMDialect"/>-->
+<!--</properties&ndash;&gt;-->
+<!--</persistence-unit>-->
+
+<!--<persistence-unit name="unittest" transaction-type="RESOURCE_LOCAL">-->
+<!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
+<!--<class>nl.dias.domein.Aangifte</class>-->
+<!--<class>nl.dias.domein.Adres</class>-->
+<!--<class>nl.dias.domein.Bedrijf</class>-->
+<!--<class>nl.dias.domein.Beheerder</class>-->
+<!--<class>nl.dias.domein.Bijlage</class>-->
+<!--<class>nl.dias.domein.ContactPersoon</class>-->
+<!--<class>nl.dias.domein.Gebruiker</class>-->
+<!--<class>nl.dias.domein.Hypotheek</class>-->
+<!--<class>nl.dias.domein.HypotheekPakket</class>-->
+<!--<class>nl.dias.domein.JaarCijfers</class>-->
+<!--<class>nl.dias.domein.Kantoor</class>-->
+<!--<class>nl.dias.domein.Medewerker</class>-->
+<!--<class>nl.dias.domein.OnderlingeRelatie</class>-->
+<!--<class>nl.dias.domein.Opmerking</class>-->
+<!--<class>nl.dias.domein.polis.Polis</class>-->
+<!--<class>nl.dias.domein.polis.zakelijk.AanhangerVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AansprakelijkheidVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AnnuleringsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AutoVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.AnnuleringsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.BankspaarVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.BromSnorfietsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.CamperVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.CaravanVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.FietsVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.GlasVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.InboedelVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.KostbaarhedenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.LevensVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.MobieleApparatuurVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.MotorVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OldtimerAutoVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OldtimerMotorVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.OngevallenVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.Pakket</class>-->
+<!--<class>nl.dias.domein.polis.PleziervaartuigVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.RechtsbijstandVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.RecreatieVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.ReisVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.SpaarVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.SviSchadeverzekerininzittende</class>-->
+<!--<class>nl.dias.domein.polis.UitvaartVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.WoonhuisVerzekering</class>-->
+<!--<class>nl.dias.domein.polis.ZorgVerzekering</class>-->
+<!--<class>nl.dias.domein.RekeningNummer</class>-->
+<!--<class>nl.dias.domein.Relatie</class>-->
+<!--<class>nl.dias.domein.RisicoAnalyse</class>-->
+<!--<class>nl.dias.domein.Schade</class>-->
+<!--<class>nl.dias.domein.Sessie</class>-->
+<!--<class>nl.dias.domein.SoortHypotheek</class>-->
+<!--<class>nl.dias.domein.SoortSchade</class>-->
+<!--<class>nl.dias.domein.StatusSchade</class>-->
+<!--<class>nl.dias.domein.Telefoonnummer</class>-->
+<!--<class>nl.dias.domein.VerzekeringsMaatschappij</class>-->
+<!--<class>nl.dias.service.envers.RevEntity</class>-->
+<!--<properties>-->
+<!--&lt;!&ndash;-->
+<!--<property name="hibernate.connection.url" value="jdbc:mysql://89.18.180.239:3306/patrick_unittest"/>-->
+<!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+<!--<property name="hibernate.connection.username" value="patrick_unittest"/>-->
+<!--<property name="hibernate.connection.password" value="7jAASQFX"/>-->
+<!--&ndash;&gt;-->
+<!--<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLMyISAMDialect"/>-->
+<!--<property name="hibernate.connection.url" value="jdbc:derby:memory:unit-testing-jpa;create=true"/>-->
+<!--<property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/>-->
+<!--<property name="hibernate.connection.username" value=""/>-->
+<!--<property name="hibernate.connection.password" value=""/>-->
+<!--<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>-->
+
+<!--<property name="hibernate.hbm2ddl.auto" value="create"/>-->
+
+<!--<property name="hibernate.show_sql" value="true" />-->
+<!--<property name="hibernate.format_sql" value="true" />-->
+<!--</properties>-->
+<!--</persistence-unit>-->
+<!--</persistence>-->

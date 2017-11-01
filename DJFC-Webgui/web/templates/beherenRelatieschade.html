@@ -1,0 +1,72 @@
+<h4>Schademeldingen</h4>
+<div class="form-group">
+	<label for="polisVoorSchademelding">Verzekering</label>
+	<select id="polisVoorSchademelding" data-bind="value: schade.polis">
+	</select>
+</div>
+<div class="form-group">
+	<label for="schadeNummerMaatschappij">Schadenummer Maatschappij</label>
+	<input class="form-control" type="text" id="schadeNummerMaatschappij" name="schadeNummerMaatschappij"
+		   data-bind="value: schade.schadeNummerMaatschappij"/>
+</div>
+<div class="form-group">
+	<label for="schadeNummerTussenpersoon">Schadenummer Tussenpersoon</label>
+	<input class="form-control" type="text" id="schadeNummerTussenpersoon" name="schadeNummerTussenpersoon"
+		   data-bind="value: schade.schadeNummerTussenPersoon"/>
+</div>
+<div class="form-group">
+	<label for="soortSchade">Soort schade</label>
+	<input class="form-control" type="text" id="soortSchade" name="soortSchade" data-bind="value: schade.soortSchade"/>
+</div>
+<div class="form-group">
+	<label for="locatieSchade">Locatie schade</label>
+	<input class="form-control" type="text" id="locatieSchade" name="locatieSchade" data-bind="value: schade.locatie"/>
+</div>
+<div class="form-group">
+	<label for="statusSchade">Status schade</label>
+	<select id="statusSchade" name="statusSchade" data-bind="value: schade.statusSchade">
+		<option id="0">Kies een status uit de lijst..</option>
+	</select>
+</div>
+<div class="form-group">
+	<label for="datumTijdSchade">Datum tijd schade</label>
+	<input class="form-control" type="text" id="datumTijdSchade" name="datumTijdSchade" placeholder="dd-mm-eejj uu:mm"
+		   data-bind="value: schade.datumTijdSchade, event: {blur: exitDatumTijdSchade}"/>
+</div>
+<div class="form-group">
+	<label for="datumTijdMelding">Datum tijd melding</label>
+	<input class="form-control" type="text" id="datumTijdMelding" name="datumTijdMelding" placeholder="dd-mm-eejj uu:mm"
+		   data-bind="value: schade.datumTijdMelding, event: {blur: exitDatumTijdMelding}"/>
+</div>
+<div class="form-group">
+	<label for="datumAfgehandeld">Datum afgehandeld</label>
+	<input class="form-control" type="text" id="datumAfgehandeld" name="datumAfgehandeld" placeholder="dd-mm-eejj"
+		   data-bind="value: schade.datumAfgehandeld, event: {blur: exitDatumAfgehandeld}"/>
+</div>
+<div class="form-group">
+	<label for="eigenRisico">Eigen risico</label>
+	<input class="form-control" type="text" id="eigenRisico" name="eigenRisico" data-bind="value: schade.eigenRisico"/>
+</div>
+<div class="form-group">
+	<label for="omschrijving">Omschrijving</label>
+	<textarea class="form-control" id="omschrijving" name="omschrijving" style="width:600px; height:200px;"
+			  data-bind="value: schade.omschrijving"></textarea>
+</div>
+
+<div id="bijlages"></div>
+
+<hr />
+
+<div id="opmerkingen"></div>
+
+<hr/>
+
+<div id="taken"></div>
+
+<hr />
+
+<div class="form-group">
+	<label for="schadeMeldingOpslaan">&nbsp;</label>
+	<button class="btn btn-primary" id="schadeMeldingOpslaan" data-bind="click: opslaan">Opslaan</button>
+	<button type="button" class="btn btn-warning" data-bind="click: annuleren">Annuleren</button>
+</div>

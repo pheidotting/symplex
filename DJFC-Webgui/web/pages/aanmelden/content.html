@@ -1,0 +1,32 @@
+<script type="text/javascript">
+	function start(){
+    	$('#aanmeld_button').puibutton({
+   			click: function(event) {
+   				$.ajax({
+   					type: "GET",
+   					url: './rest/kantoor/aanmelden',	
+   					dataType:'json',
+   					data: {
+       					identificatie : $('#aanmeld_mail').val(),
+       					waar : $('#aanmeld_waar').val()
+   					},
+   					success: function (data) {
+   						if($.type(data) == "string"){
+   							addMessage([{severity: 'error', summary: 'Er is een fout opgetreden', detail: data}]);  
+   						}else{
+							document.location.hash='#beherenKantoor';
+   						}
+   					}
+   				});
+   			}
+   		});
+	}
+</script>
+<input type="text" id="aanmeld_mail" placeholder="Je e-mailadres"><br />
+<select id="aanmeld_waar">
+	<option value="">Geef hier a.u.b. aan hoe je ons kentt</option>
+	<option value="presentatie">Een presentatie gehad</option>
+	<option value="advertentie">Een advertentie gezien</option>
+	<option value="zoekmachine">Gevonden via een zoekmachine</option>
+</select><br />
+<button id="aanmeld_button">Aanmelden</button>

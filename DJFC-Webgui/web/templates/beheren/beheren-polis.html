@@ -1,0 +1,84 @@
+<div>
+    <div class="kolom">
+        <h3>Polisgegevens</h3>
+
+        <label for="verzekeringsMaatschappijen">Maatschappij</label>
+        <select id="verzekeringsMaatschappijen" name="verzekeringsMaatschappijen"
+                data-bind="value: polis.maatschappij.id, disable: readOnly"></select>
+        <label for="soortVerzekering">Soort</label>
+        <select id="soortVerzekering" name="soortVerzekering"
+                data-bind="value: polis.soort, disable: readOnly"></select>
+
+        <label for="status">Status</label>
+        <select id="status" name="status" data-bind="value: polis.status, disable: readOnly">
+            <option value="Aanvraag/Offerte">Aanvraag/Offerte</option>
+            <option value="Actief">Actief</option>
+            <option value="Geschorst">Geschorst</option>
+            <option value="Premievrij">Premievrij</option>
+            <option value="Beindigd">Beindigd</option>
+        </select>
+
+        <label for="polisNummer">Polisnummer</label>
+        <input class="form-control" type="text" id="polisNummer" name="polisNummer" placeholder="Polisnummer..."
+               maxlength="25" data-bind="value: polis.polisNummer, disable: readOnly"/>
+
+        <label for="kenmerk">Kenmerk</label>
+        <input class="form-control" type="text" id="kenmerk" name="kenmerk" placeholder="Kenmerk..." maxlength="100"
+               data-bind="value: polis.kenmerk, disable: readOnly"/>
+
+        <label for="dekking">Dekking</label>
+        <input class="form-control" type="text" id="dekking" name="dekking" placeholder="Dekking..." maxlength="250"
+               data-bind="value: polis.dekking, disable: readOnly"/>
+
+        <label for="verzekerdeZaak">Verzekerde Zaak</label>
+        <input class="form-control" type="text" id="verzekerdeZaak" name="verzekerdeZaak"
+               placeholder="Verzekerde Zaak/Object..." maxlength="250"
+               data-bind="value: polis.verzekerdeZaak, disable: readOnly"/>
+
+        <label for="premie">Premie</label>
+        <input class="form-control" type="number" id="premie" placeholder="Premie..."
+               data-bind="value: polis.premie, disable: readOnly"/>
+
+        <label for="ingangsDatumString">Ingangsdatum</label>
+        <input class="form-control" type="date" id="ingangsDatumString" placeholder="Ingangs datum..."
+               data-bind="value: polis.ingangsDatum, event: {blur: exitIngangsDatum}, disable: readOnly"/>
+
+        <label for="wijzigingsdatumString">Wijzigingsdatum</label>
+        <input class="form-control" type="date" id="wijzigingsdatumString" placeholder="Wijzigingsdatum..."
+               data-bind="value: polis.wijzigingsDatum, disable: readOnly"/>
+
+        <label for="prolongatiedatumString">Prolongatiedatum</label>
+        <input class="form-control" type="date" id="prolongatiedatumString" placeholder="Prolongatiedatum..."
+               data-bind="value: polis.prolongatieDatum, disable: readOnly"/>
+
+        <label for="betaalfrequentie">Betaalfrequentie</label>
+        <!--<div id="div_betaalfrequentie">-->
+        <select id="betaalfrequentie" data-bind="value: polis.betaalfrequentie, disable: readOnly">
+            <option value="">Betaalfrequentie...</option>
+            <option value="Maand">Maand</option>
+            <option value="Kwartaal">Kwartaal</option>
+            <option value="Half jaar">Half jaar</option>
+            <option value="Jaar">Jaar</option>
+        </select>
+        <!--</div>-->
+        <br/>
+        <label for="omschrijvingVerzekering">Omschrijving</label>
+        <textarea id="omschrijvingVerzekering" placeholder="Omschrijving Verzekering..."
+                  data-bind="value: polis.omschrijvingVerzekering, disable: readOnly"></textarea>
+    </div>
+    <div class="kolom">
+        <div id="bijlages"></div>
+
+        <hr/>
+
+        <div id="opmerkingen"></div>
+
+        <hr/>
+
+        <div id="taken"></div>
+    </div>
+    <div style="clear: both;"></div>
+    <button id="opslaanPolis" class="fa fa-floppy-o fa-3x btn-awesome"
+            data-bind="click: opslaan, disable: readOnly"></button>
+    <button type="button" class="fa fa-times fa-3x btn-awesome" data-bind="click: annuleren"></button>
+</div>

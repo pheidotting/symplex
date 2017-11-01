@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <context:component-scan base-package="nl.dias"/>
+    <context:component-scan base-package="nl.lakedigital"/>
+
+    <!--<bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="locations">-->
+    <!--<list>-->
+    <!--<value>classpath:dev/djfc.app.properties</value>-->
+    <!--</list>-->
+    <!--</property>-->
+    <!--<property name="placeholderPrefix" value="${"/>-->
+    <!--</bean>-->
+
+    <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init"
+          depends-on="broker">
+        <property name="poortNummer" value="3315"/>
+    </bean>
+
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+        <property name="targetMethod" value="initLogging"/>
+        <property name="arguments">
+            <list>
+                <value>classpath:it/djfc.log4j.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" depends-on="MariaDbServer">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+
+        <property name="url" value="jdbc:mysql://localhost:3315/test"/>
+        <property name="username" value=""/>
+        <property name="password" value=""/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>nl.dias</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--&lt;!&ndash;<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="sessionFactory" ref="sessionFactory" />&ndash;&gt;-->
+    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+    <!--&lt;!&ndash;<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true" />&ndash;&gt;-->
+
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
+    </bean>
+
+    <!--Embedded ActiveMQ -->
+    <bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
+        <property name="config" value="classpath:activemq.xml" />
+        <property name="start" value="true" />
+    </bean>
+
+    <import resource="applicationContext-jms.xml"/>
+
+    <bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="groepBijlagesClient" class="nl.lakedigital.djfc.client.oga.GroepBijlagesClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="opmerkingClient" class="nl.lakedigital.djfc.client.oga.OpmerkingClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="polisClient" class="nl.lakedigital.djfc.client.polisadministratie.PolisClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="rekeningClient" class="nl.lakedigital.djfc.client.oga.RekeningClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="telefoonnummerClient" class="nl.lakedigital.djfc.client.oga.TelefoonnummerClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="schadeClient" class="nl.lakedigital.djfc.client.polisadministratie.SchadeClient">
+        <constructor-arg value="pa.url"/>
+    </bean>
+    <bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+    <bean id="taakClient" class="nl.lakedigital.djfc.client.taakbeheer.TaakClient">
+        <constructor-arg value="tb.url"/>
+    </bean>
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <constructor-arg value="http://localhost:8089"/>
+    </bean>
+
+    <bean id="beindigenPolisRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.pa.beindigenPolisRequestQueue"/>
+    </bean>
+    <bean id="beindigenPolisRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="beindigenPolisRequestDestination"/>
+    </bean>
+    <bean id="beindigenPolisRequestSender" class="nl.dias.messaging.sender.BeindigenPolisRequestSender">
+        <constructor-arg index="0" ref="beindigenPolisRequestTemplate"/>
+    </bean>
+
+</beans>

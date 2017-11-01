@@ -1,0 +1,28 @@
+<br />
+<div style="float:left; width:20%; padding-top:35px;">
+	<input type="radio" name="welkeTaken" value="openstaand">Alle openstaande taken
+	<br>
+	<input type="radio" name="welkeTaken" value="afgehandeld">Mijn afgehandelde taken
+	<br>
+	<input type="radio" name="welkeTaken" value="openstaandKantoor">Alle openstaande voor kantoor
+	<br>
+	<input type="radio" name="welkeTaken" value="alleAfgehandeld">Alle afgehandelde taken
+</div>
+<div style="float:right; width:80%;">
+	<table class="table">
+		<tr>
+			<th>Soort</th>
+			<th>Creatiedatum</th>
+			<th>Einddatum</th>
+			<th>&nbsp;</th>
+		</tr>
+		<tbody data-bind="foreach: taken">
+			<tr>
+				<td data-bind="text : soortTaak, click: oppakken" name="soortTaak" style="cursor:pointer;"></td>
+				<td data-bind="text : datumTijdCreatie, click: oppakken" name="datumTijdCreatie" style="cursor:pointer;"></td>
+				<td data-bind="text : eindDatum, click: oppakken" name="eindDatum" style="cursor:pointer;"></td>
+				<td><span data-bind="visible : mijnTaak, click: vrijgeven" title="Klik om deze taak weer vrij te geven" class="glyphicon glyphicon-user" name="mijnTaak"></span></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

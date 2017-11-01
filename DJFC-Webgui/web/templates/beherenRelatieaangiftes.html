@@ -1,0 +1,26 @@
+<h2>Algemeen belastingzaken</h2>
+<div id="bedrijven" data-bind="foreach: aangiftes, visible: aangiftes().length > 0">
+	<div class="panel-group" id="accordion">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4">
+					<a data-toggle="collapse" data-parent="#accordion" data-bind="attr:{href: idDivLink}, text: jaar" name="jaar"></a>
+					&nbsp;&nbsp;&nbsp;
+					<div class="btn-group">
+					</div>
+				</h4>
+			</div>
+			<div data-bind="attr:{id: idDiv}" class="panel-collapse collapse">
+				Datum afgerond: <span data-bind="text: datumAfgerond"></span><br />
+				Afgerond door: <span data-bind="text: afgerondDoor"></span><br />
+				<div id="bijlages2" class="bijlages" data-bind="foreach: bijlages, visible: bijlages().length > 0">
+					<div>
+						<span class="polisLabel">Bijlage :</span>
+						<a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam, text: omschrijvingOfBestandsNaam"
+						   target="_blank"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

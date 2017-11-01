@@ -1,0 +1,120 @@
+.kolom {
+    width: 31%;
+    float: left;
+    padding: 1em;
+}
+
+.kolom h3 {
+    padding-bottom: 5px;
+    border-bottom: 4px solid #4a95ca;
+    text-decoration: none;
+}
+
+.telefoongegevens {
+    margin-left: 15px;
+}
+
+.telefoongegevens h4 {
+    padding-bottom: 5px;
+    border-bottom: 4px solid #4a95ca;
+    text-decoration: none;
+}
+
+input {
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 33%;
+}
+
+select {
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 100px;
+    font-size: 16px;
+}
+
+.rechts-icon {
+    float: right;
+    color: #4a95ca;
+}
+
+.rechts-icon::before{
+    margin-right: 10px
+}
+
+#telefoonomschrijving{
+    width: 65%;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+td.overzicht {
+    background-color: #ececec;
+    padding: 4px;
+    border-bottom: 4px solid #ffffff;
+    border-right: 2px solid #ffffff;
+}
+
+td.polisNummer {
+    width: 300px;
+}
+td.status {
+    width: 150px;
+}
+td.soort {
+    width: 200px;
+}
+td.kenmerk {
+    width: 300px;
+}
+td.ingangsDatum {
+    width: 135px;
+}
+td.Beindigd {
+    color: #ff0000;
+}
+td.Aanvraag/Offerte {
+    color: #000000;
+}
+td.Actief {
+    color: #00c541;
+}
+td.Geschorst {
+    color: #ff0000;
+}
+td.Premievrij {
+    color: #00c541;
+}
+
+td.schade-overzicht {
+    background-color: #ececec;
+    padding: 4px;
+    border-bottom: 4px solid #ffffff;
+    border-right: 2px solid #ffffff;
+}
+td.soort-schade {
+    width: 200px;
+}
+td.schadenummer-maatschappij {
+    width: 300px;
+}
