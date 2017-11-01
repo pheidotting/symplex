@@ -16,12 +16,6 @@ pipeline {
                     cd DJFC-Relatiebeheer'
                     mvn clean package  -P jenkins
                 '''
-                sh '''
-                    cd DJFC-Webgui/web
-                    npm cache clear
-                    npm install
-                    zip -r gui *
-                '''
             }
         }
 
