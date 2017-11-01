@@ -65,19 +65,5 @@ pipeline {
                 '''
             }
         }
-
-        stage ('Sonar Relatiebeheer') {
-            steps {
-                sh '''
-                    cd Relatiebeheer
-                    mvn clean test
-                '''
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml'
-                }
-            }
-        }
     }
 }
