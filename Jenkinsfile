@@ -16,8 +16,6 @@ pipeline {
                     cd DJFC-Relatiebeheer'
                     mvn clean package  -P jenkins
                 '''
-            }
-            steps {
                 sh '''
                     cd DJFC-Webgui/web
                     npm cache clear
