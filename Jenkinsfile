@@ -19,7 +19,7 @@ pipeline {
             }
             steps {
                 sh '''
-                    cd web
+                    cd DJFC-Webgui/web
                     npm cache clear
                     npm install
                     zip -r gui *
