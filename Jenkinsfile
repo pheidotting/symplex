@@ -13,8 +13,14 @@ pipeline {
         stage ('Build') {
             steps {
                 sh '''
-                    cd DJFC-Relatiebeheer'
+                    cd DJFC-Relatiebeheer
                     mvn clean package  -P jenkins
+                '''
+                sh '''
+                    cd DJFC-Webgui/web
+                    npm cache clear
+                    npm install
+                    zip -r gui *
                 '''
             }
         }
@@ -22,7 +28,7 @@ pipeline {
         stage ('Verify') {
             steps {
                 sh '''
-                    cd DJFC-Relatiebeheer'
+                    cd DJFC-Relatiebeheer
                     mvn clean verify
                 '''
             }
@@ -31,8 +37,8 @@ pipeline {
         stage ('Sonar') {
             steps {
                 sh '''
-                    cd DJFC-Relatiebeheer'
-                    mvn clean test cobertura:cobertura'
+                    cd DJFC-Relatiebeheer
+                    mvn clean test cobertura:cobertura
                 '''
             }
             post {
