@@ -70,7 +70,7 @@ pipeline {
             steps {
                 sh '''
                     cd DJFC-Relatiebeheer
-                    mvn clean test cobertura:cobertura
+                    mvn clean test
                 '''
             }
             post {
