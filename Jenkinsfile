@@ -16,6 +16,7 @@ pipeline {
                     cd DJFC-Commons
                     mvn clean install
                 '''
+            }
         }
 
         stage ('Install Clients') {
@@ -24,6 +25,7 @@ pipeline {
                     cd DJFC-Clients
                     mvn clean install
                 '''
+            }
         }
 
         stage ('Install Messaging') {
@@ -32,6 +34,7 @@ pipeline {
                     cd DJFC-Messaging
                     mvn clean install
                 '''
+            }
         }
 
         stage ('Build Relatiebeheer') {
@@ -40,6 +43,7 @@ pipeline {
                     cd DJFC-Relatiebeheer
                     mvn clean package  -P jenkins
                 '''
+            }
         }
 
         stage ('Build GUI') {
