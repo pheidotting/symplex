@@ -58,7 +58,7 @@ pipeline {
         stage ('Build OverigeGegevensAdministratie') {
             steps {
                 sh '''
-                    cd OverigeGegevensAdministratie
+                    cd OverigeRelatieGegevensAdministratie
                     mvn clean package  -P jenkins
                 '''
             }
@@ -114,7 +114,7 @@ pipeline {
         stage ('Verify OverigeGegevensAdministratie') {
             steps {
                 sh '''
-                    cd OverigeGegevensAdministratie
+                    cd OverigeRelatieGegevensAdministratie
                     mvn clean verify
                 '''
             }
