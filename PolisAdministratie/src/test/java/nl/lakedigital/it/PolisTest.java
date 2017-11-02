@@ -8,6 +8,7 @@ import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.domain.particulier.AanhangerParticulierVerzekering;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import static nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class PolisTest extends AbstractITest {
