@@ -3,4 +3,5 @@
 /.settings
 *.log
 *.iml
-/KahaDB/*
+db.data
+db.redo

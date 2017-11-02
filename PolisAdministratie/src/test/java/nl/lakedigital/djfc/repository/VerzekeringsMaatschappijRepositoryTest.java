@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.repository;
 
 import nl.lakedigital.djfc.domain.VerzekeringsMaatschappij;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-unittest.xml")
 public class VerzekeringsMaatschappijRepositoryTest {
