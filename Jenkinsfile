@@ -137,5 +137,33 @@ pipeline {
                 '''
             }
         }
+
+        stage ('Sonar Relatiebeheer') {
+            def sonarBranchParam = getSonarBranchParameter(props.getProperty('SONAR_BRANCH'))
+
+            steps {
+                sh '''
+                    cd Relatiebeheer
+                    mvn sonar:sonar ${sonarBranchParam}
+                '''
+            }
+        }
+    }
+
+    def getSonarBranchParameter(branch) {
+        sonarBranchParam = ""
+         if ("develop".equals(branch)) {
+            echo "branch is develop, sonar.branch not mandatory"
+        } else {
+            echo "branch is not develop"
+            sonarBranchParam="-Dsonar.branch=" + branch
+        }
+       return sonarBranchParam
+    }
+
+    def Properties getBuildProperties(filename) {
+        def properties = new Properties()
+        properties.load(new StringReader(readFile(filename)))
+        return properties
     }
 }
