@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:component-scan base-package="nl.lakedigital"/>
+
+    <context:annotation-config/>
+
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
+        <property name="targetMethod" value="initLogging"/>
+        <property name="arguments">
+            <list>
+                <value>oga.log4j.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>file:oga.app.properties</value>
+            </list>
+        </property>
+        <property name="placeholderPrefix" value="${"/>
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <!--<property name="uniqueResourceName" value="NonXA_DataSource" />-->
+        <!--<property name="minPoolSize" value="2" />-->
+        <!--<property name="maxPoolSize" value="30" />-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${oga.db.name}"/>
+        <property name="username" value="${oga.db.user}"/>
+        <property name="password" value="${oga.db.pass}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>nl.lakedigital.djfc</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">false</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >-->
+    <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true" />-->
+
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
+    </bean>
+
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <property name="basisUrl" value="${id.url}"/>
+    </bean>
+
+    <import resource="applicationContext-jms.xml"/>
+</beans>

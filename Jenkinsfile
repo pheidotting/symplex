@@ -37,11 +37,52 @@ pipeline {
             }
         }
 
+        stage ('Build Communicatie') {
+            steps {
+                sh '''
+                    cd Communicatie
+                    mvn clean package  -P jenkins
+
+                '''
+            }
+        }
+
+        stage ('Build IdBeheer') {
+            steps {
+                sh '''
+                    cd IdBeheer
+                    mvn clean package  -P jenkins
+
+                '''
+            }
+        }
+
+        stage ('Build OverigeGegevensAdministratie') {
+            steps {
+                sh '''
+                    cd OverigeGegevensAdministratie
+                    mvn clean package  -P jenkins
+
+                '''
+            }
+        }
+
+        stage ('Build PolisAdministratie') {
+            steps {
+                sh '''
+                    cd PolisAdministratie
+                    mvn clean package  -P jenkins
+
+                '''
+            }
+        }
+
         stage ('Build Relatiebeheer') {
             steps {
                 sh '''
                     cd Relatiebeheer
                     mvn clean package  -P jenkins
+
                 '''
             }
         }

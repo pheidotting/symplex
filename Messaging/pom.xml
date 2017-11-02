@@ -7,7 +7,7 @@
     <version>6.00</version>
     <packaging>jar</packaging>
 
-    <name>djfc-messaging</name>
+    <name>messaging</name>
     <url>http://maven.apache.org</url>
 
     <properties>

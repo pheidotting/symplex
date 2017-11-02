@@ -6,17 +6,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="clients" />
+        <module name="commons" />
+        <module name="communicatie" />
         <module name="dejonge" />
         <module name="djfc-clients" />
         <module name="djfc-commons" />
+        <module name="idbeheer" />
         <module name="messaging" />
+        <module name="overigegegevensadministratie" />
+        <module name="polisadministratie" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="clients" target="1.8" />
+      <module name="commons" target="1.7" />
+      <module name="communicatie" target="1.7" />
       <module name="dejonge" target="1.8" />
       <module name="djfc-clients" target="1.8" />
       <module name="djfc-commons" target="1.7" />
+      <module name="idbeheer" target="1.8" />
       <module name="messaging" target="1.8" />
+      <module name="overigegegevensadministratie" target="1.8" />
+      <module name="polisadministratie" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

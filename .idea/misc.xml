@@ -7,6 +7,14 @@
         <option value="$PROJECT_DIR$/DJFC-Clients/pom.xml" />
         <option value="$PROJECT_DIR$/DJFC-Commons/pom.xml" />
         <option value="$PROJECT_DIR$/DJFC-Messaging/pom.xml" />
+        <option value="$PROJECT_DIR$/Communicatie/pom.xml" />
+        <option value="$PROJECT_DIR$/IdBeheer/pom.xml" />
+        <option value="$PROJECT_DIR$/OverigeRelatieGegevensAdministratie/pom.xml" />
+        <option value="$PROJECT_DIR$/PolisAdministratie/pom.xml" />
+        <option value="$PROJECT_DIR$/Relatiebeheer/pom.xml" />
+        <option value="$PROJECT_DIR$/Clients/pom.xml" />
+        <option value="$PROJECT_DIR$/Commons/pom.xml" />
+        <option value="$PROJECT_DIR$/Messaging/pom.xml" />
       </list>
     </option>
   </component>

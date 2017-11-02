@@ -4,8 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Clients/clients.iml" filepath="$PROJECT_DIR$/Clients/clients.iml" />
       <module fileurl="file://$PROJECT_DIR$/Commons/djfc-commons.iml" filepath="$PROJECT_DIR$/Commons/djfc-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Communicatie/communicatie.iml" filepath="$PROJECT_DIR$/Communicatie/communicatie.iml" />
       <module fileurl="file://$PROJECT_DIR$/Relatiebeheer/dejonge.iml" filepath="$PROJECT_DIR$/Relatiebeheer/dejonge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IdBeheer/idbeheer.iml" filepath="$PROJECT_DIR$/IdBeheer/idbeheer.iml" />
       <module fileurl="file://$PROJECT_DIR$/Messaging/messaging.iml" filepath="$PROJECT_DIR$/Messaging/messaging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OverigeRelatieGegevensAdministratie/overigegegevensadministratie.iml" filepath="$PROJECT_DIR$/OverigeRelatieGegevensAdministratie/overigegegevensadministratie.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PolisAdministratie/polisadministratie.iml" filepath="$PROJECT_DIR$/PolisAdministratie/polisadministratie.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/symplex.iml" filepath="$PROJECT_DIR$/.idea/symplex.iml" />
     </modules>
   </component>
