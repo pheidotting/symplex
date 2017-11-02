@@ -42,7 +42,6 @@ pipeline {
                 sh '''
                     cd Communicatie
                     mvn clean package  -P jenkins
-
                 '''
             }
         }
@@ -52,7 +51,6 @@ pipeline {
                 sh '''
                     cd IdBeheer
                     mvn clean package  -P jenkins
-
                 '''
             }
         }
@@ -62,7 +60,6 @@ pipeline {
                 sh '''
                     cd OverigeGegevensAdministratie
                     mvn clean package  -P jenkins
-
                 '''
             }
         }
@@ -72,7 +69,6 @@ pipeline {
                 sh '''
                     cd PolisAdministratie
                     mvn clean package  -P jenkins
-
                 '''
             }
         }
@@ -82,7 +78,6 @@ pipeline {
                 sh '''
                     cd Relatiebeheer
                     mvn clean package  -P jenkins
-
                 '''
             }
         }
@@ -94,6 +89,42 @@ pipeline {
                     npm cache clear
                     npm install
                     zip -r gui *
+                '''
+            }
+        }
+
+        stage ('Verify Communicatie') {
+            steps {
+                sh '''
+                    cd Communicatie
+                    mvn clean verify
+                '''
+            }
+        }
+
+        stage ('Verify IdBeheer') {
+            steps {
+                sh '''
+                    cd IdBeheer
+                    mvn clean verify
+                '''
+            }
+        }
+
+        stage ('Verify OverigeGegevensAdministratie') {
+            steps {
+                sh '''
+                    cd OverigeGegevensAdministratie
+                    mvn clean verify
+                '''
+            }
+        }
+
+        stage ('Verify PolisAdministratie') {
+            steps {
+                sh '''
+                    cd PolisAdministratie
+                    mvn clean verify
                 '''
             }
         }
