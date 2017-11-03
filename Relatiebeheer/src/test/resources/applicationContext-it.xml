@@ -77,7 +77,7 @@
         <constructor-arg value="${tb.url}"/>
     </bean>
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
-        <constructor-arg value="${id.url}"/>
+        <constructor-arg value="http://localhost:8089"/>
     </bean>
 
     <import resource="applicationContext-jms.xml"/>
