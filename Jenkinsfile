@@ -37,59 +37,61 @@ pipeline {
             }
         }
 
-        stage ('Build Communicatie') {
-            steps {
-                sh '''
-                    cd Communicatie
-                    mvn clean package  -P jenkins
-                '''
+        parallel {
+            stage ('Build Communicatie') {
+                steps {
+                    sh '''
+                        cd Communicatie
+                        mvn clean package  -P jenkins
+                    '''
+                }
             }
-        }
 
-        stage ('Build IdBeheer') {
-            steps {
-                sh '''
-                    cd IdBeheer
-                    mvn clean package  -P jenkins
-                '''
+            stage ('Build IdBeheer') {
+                steps {
+                    sh '''
+                        cd IdBeheer
+                        mvn clean package  -P jenkins
+                    '''
+                }
             }
-        }
 
-        stage ('Build OverigeGegevensAdministratie') {
-            steps {
-                sh '''
-                    cd OverigeRelatieGegevensAdministratie
-                    mvn clean package  -P jenkins
-                '''
+            stage ('Build OverigeGegevensAdministratie') {
+                steps {
+                    sh '''
+                        cd OverigeRelatieGegevensAdministratie
+                        mvn clean package  -P jenkins
+                    '''
+                }
             }
-        }
 
-        stage ('Build PolisAdministratie') {
-            steps {
-                sh '''
-                    cd PolisAdministratie
-                    mvn clean package  -P jenkins
-                '''
+            stage ('Build PolisAdministratie') {
+                steps {
+                    sh '''
+                        cd PolisAdministratie
+                        mvn clean package  -P jenkins
+                    '''
+                }
             }
-        }
 
-        stage ('Build Relatiebeheer') {
-            steps {
-                sh '''
-                    cd Relatiebeheer
-                    mvn clean package  -P jenkins
-                '''
+            stage ('Build Relatiebeheer') {
+                steps {
+                    sh '''
+                        cd Relatiebeheer
+                        mvn clean package  -P jenkins
+                    '''
+                }
             }
-        }
 
-        stage ('Build GUI') {
-            steps {
-                sh '''
-                    cd Webgui/web
-                    npm cache clear
-                    npm install
-                    zip -r gui *
-                '''
+            stage ('Build GUI') {
+                steps {
+                    sh '''
+                        cd Webgui/web
+                        npm cache clear
+                        npm install
+                        zip -r gui *
+                    '''
+                }
             }
         }
 
@@ -142,7 +144,7 @@ pipeline {
             steps {
                 sh '''
                     cd Relatiebeheer
-                    mvn sonar:sonar -Dsonar.branch= + props.getProperty('SONAR_BRANCH')
+                    mvn sonar:sonar -Dsonar.branch= + ${BRANCH_NAME}
                 '''
             }
         }
