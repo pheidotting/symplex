@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        parallel {
+        parallel ('Builds') {
             stage ('Build Communicatie') {
                 steps {
                     sh '''
