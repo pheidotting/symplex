@@ -135,7 +135,7 @@ pipeline {
 
         stage ('Deployment Test') {
             when {
-                expression { $BRANCH == 'development' }
+                expression { BRANCH == 'development' }
             }
             steps {
                 slackSend (color: '#4245f4', message: "Deployment Test")
@@ -144,7 +144,7 @@ pipeline {
 
         stage ('Deployment Live') {
             when {
-                expression { $BRANCH == 'master' }
+                expression { BRANCH == 'master' }
             }
             steps {
                 slackSend (color: '#4245f4', message: "Deployment Live")
