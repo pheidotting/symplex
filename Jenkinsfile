@@ -150,13 +150,5 @@ pipeline {
                 '''
             }
         }
-                steps {
-#                sh '''
-#                    cd Relatiebeheer
-#                    mvn sonar:sonar -Dsonar.branch= + ${BRANCH_NAME}
-#                '''
-#                slackSend (color: '#4245f4', message: "Build klaar :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-            }
-        }
     }
 }
