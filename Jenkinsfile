@@ -132,24 +132,22 @@ pipeline {
             }
         }
 
-        stage ('Verify Relatiebeheer') {
+
+        stage ('Deployment Test') {
+            when {
+                expression { $BRANCH == 'development' }
+            }
             steps {
-                sh '''
-                    cd Relatiebeheer
-                    mvn clean verify
-                '''
-                slackSend (color: '#4245f4', message: "Verify klaar, start Sonarqube build :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh 'echo Deployment naar Test'
             }
         }
 
-        stage ('Sonar Relatiebeheer') {
+        stage ('Deployment Live') {
+            when {
+                expression { $BRANCH == 'master' }
+            }
             steps {
-                withSonarQubeEnv('Sonar') {
-                    sh '''
-                        cd Relatiebeheer
-                        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -f all/pom.xml -Dsonar.projectKey=nl.symplex:all:master -Dsonar.login=admin -Dsonar.password=admin -Dsonar.language=java -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/*Test*/** -Dsonar.exclusions=**/*Test*/**'
-                    '''
-                }
+                sh 'echo Deployment naar Live'
             }
         }
     }
