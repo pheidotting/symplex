@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -40,6 +40,7 @@ pipeline {
 
         stage ('Build Communicatie') {
             steps {
+                slackSend (color: '#4245f4', message: "Start building wars :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     cd Communicatie
                     mvn clean package  -P jenkins
@@ -96,6 +97,7 @@ pipeline {
 
         stage ('Verify Communicatie') {
             steps {
+                slackSend (color: '#4245f4', message: "War's klaar, Verify :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     cd Communicatie
                     mvn clean verify
@@ -141,10 +143,12 @@ pipeline {
 
         stage ('Sonar Relatiebeheer') {
             steps {
+                slackSend (color: '#4245f4', message: "Verify klaar, start Sonarqube build :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     cd Relatiebeheer
                     mvn sonar:sonar -Dsonar.branch= + ${BRANCH_NAME}
                 '''
+                slackSend (color: '#4245f4', message: "Build klaar :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             }
         }
     }
