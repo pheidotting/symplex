@@ -143,11 +143,13 @@ pipeline {
         }
 
         stage ('Sonar Relatiebeheer') {
-            withSonarQubeEnv('Sonar') {
-                sh '''
-                    cd Relatiebeheer
-                    mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -f all/pom.xml -Dsonar.projectKey=nl.symplex:all:master -Dsonar.login=admin -Dsonar.password=admin -Dsonar.language=java -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/*Test*/** -Dsonar.exclusions=**/*Test*/**'
-                '''
+            steps {
+                withSonarQubeEnv('Sonar') {
+                    sh '''
+                        cd Relatiebeheer
+                        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -f all/pom.xml -Dsonar.projectKey=nl.symplex:all:master -Dsonar.login=admin -Dsonar.password=admin -Dsonar.language=java -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/*Test*/** -Dsonar.exclusions=**/*Test*/**'
+                    '''
+                }
             }
         }
     }
