@@ -138,17 +138,24 @@ pipeline {
                     cd Relatiebeheer
                     mvn clean verify
                 '''
+                slackSend (color: '#4245f4', message: "Verify klaar, start Sonarqube build :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             }
         }
 
         stage ('Sonar Relatiebeheer') {
-            steps {
-#                slackSend (color: '#4245f4', message: "Verify klaar, start Sonarqube build :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            withSonarQubeEnv('Sonar') {
+                sh '''
+                    cd Relatiebeheer
+                    mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar -f all/pom.xml -Dsonar.projectKey=nl.symplex:all:master -Dsonar.login=admin -Dsonar.password=admin -Dsonar.language=java -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/*Test*/** -Dsonar.exclusions=**/*Test*/**'
+                '''
+            }
+        }
+                steps {
 #                sh '''
 #                    cd Relatiebeheer
 #                    mvn sonar:sonar -Dsonar.branch= + ${BRANCH_NAME}
 #                '''
-                slackSend (color: '#4245f4', message: "Build klaar :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+#                slackSend (color: '#4245f4', message: "Build klaar :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             }
         }
     }
