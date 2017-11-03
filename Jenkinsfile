@@ -138,7 +138,7 @@ pipeline {
                 expression { $BRANCH == 'development' }
             }
             steps {
-                sh 'echo Deployment naar Test'
+                slackSend (color: '#4245f4', message: "Deployment Test")
             }
         }
 
@@ -147,7 +147,7 @@ pipeline {
                 expression { $BRANCH == 'master' }
             }
             steps {
-                sh 'echo Deployment naar Live'
+                slackSend (color: '#4245f4', message: "Deployment Live")
             }
         }
     }
