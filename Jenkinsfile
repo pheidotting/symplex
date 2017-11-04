@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})//${env.BRANCH_NAME}")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -136,8 +136,7 @@ pipeline {
         stage ('Deployment Test') {
             when {
                 expression {
-                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return GIT_BRANCH == 'development'
+                    return env.BRANCH_NAME == 'development'
                 }
             }
             steps {
@@ -148,8 +147,7 @@ pipeline {
         stage ('Deployment Live') {
             when {
                 expression {
-                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return GIT_BRANCH == 'master'
+                    return env.BRANCH_NAME == 'master'
                 }
             }
             steps {
