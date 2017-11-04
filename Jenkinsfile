@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})//${BRANCH_PATTERN}")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})//${env.BRANCH_PATTERN}")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
