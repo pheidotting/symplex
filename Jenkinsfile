@@ -129,6 +129,8 @@ pipeline {
                     cd PolisAdministratie
                     mvn clean verify
                 '''
+                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return GIT_BRANCH
             }
         }
 
