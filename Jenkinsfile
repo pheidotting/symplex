@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})//${BRANCH_PATTERN}")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -129,8 +129,6 @@ pipeline {
                     cd PolisAdministratie
                     mvn clean verify
                 '''
-                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-                    return GIT_BRANCH
             }
         }
 
