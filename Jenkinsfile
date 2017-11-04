@@ -135,7 +135,10 @@ pipeline {
 
         stage ('Deployment Test') {
             when {
-                expression { BRANCH == 'development' }
+                expression {
+                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return GIT_BRANCH == 'development'
+                }
             }
             steps {
                 slackSend (color: '#4245f4', message: "Deployment Test")
@@ -144,7 +147,10 @@ pipeline {
 
         stage ('Deployment Live') {
             when {
-                expression { BRANCH == 'master' }
+                expression {
+                    GIT_BRANCH =  sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    return GIT_BRANCH == 'master'
+                }
             }
             steps {
                 slackSend (color: '#4245f4', message: "Deployment Live")
