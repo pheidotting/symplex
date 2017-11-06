@@ -260,4 +260,9 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            slackSend (color: '#4245f4', message: "Afgerond : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+    }
 }
