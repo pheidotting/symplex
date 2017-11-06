@@ -170,6 +170,8 @@ pipeline {
                     scp Communicatie/target/communicatie.war jetty@192.168.91.215:/home/jetty
                     scp Communicatie/src/main/resources/tst/djfc.app.properties jetty@192.168.91.215:/home/jetty
                     scp Communicatie/src/main/resources/tst/djfc.log4j.xml jetty@192.168.91.215:/home/jetty
+
+                    scp -r Webgui/web jetty@192.168.91.215:/home/jetty
                 '''
             }
             post {
