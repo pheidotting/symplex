@@ -62,7 +62,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden Communicatie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -79,7 +79,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden IdBeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -96,7 +96,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden OverigeGegevensAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -113,7 +113,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -130,7 +130,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden Relatiebeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -149,7 +149,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Builden GUI gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -178,7 +178,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Verify Communicatie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -195,7 +195,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Verify IdBeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -212,7 +212,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Verify OverigeGegevensAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
@@ -229,7 +229,7 @@ pipeline {
                 '''
             }
             post {
-                succes {
+                success {
                     slackSend (color: '#4245f4', message: "Verify PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
