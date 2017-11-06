@@ -18,6 +18,11 @@ pipeline {
                     mvn clean install
                 '''
             }
+            post {
+                failure {
+                    slackSend (color: '#0000FF', message: "Commons Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Install Clients') {
@@ -27,6 +32,11 @@ pipeline {
                     mvn clean install
                 '''
             }
+            post {
+                failure {
+                    slackSend (color: '#0000FF', message: "Clients Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Install Messaging') {
@@ -35,6 +45,11 @@ pipeline {
                     cd Messaging
                     mvn clean install
                 '''
+            }
+            post {
+                failure {
+                    slackSend (color: '#0000FF', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
             }
         }
 
@@ -46,6 +61,14 @@ pipeline {
                     mvn clean package  -P jenkins
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden Communicatie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden Communicatie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Build IdBeheer') {
@@ -54,6 +77,14 @@ pipeline {
                     cd IdBeheer
                     mvn clean package  -P jenkins
                 '''
+            }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden IdBeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden IdBeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
             }
         }
 
@@ -64,6 +95,14 @@ pipeline {
                     mvn clean package  -P jenkins
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden OverigeGegevensAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden OverigeGegevensAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Build PolisAdministratie') {
@@ -73,6 +112,14 @@ pipeline {
                     mvn clean package  -P jenkins
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Build Relatiebeheer') {
@@ -81,6 +128,14 @@ pipeline {
                     cd Relatiebeheer
                     mvn clean package  -P jenkins
                 '''
+            }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden Relatiebeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden Relatiebeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
             }
         }
 
@@ -93,6 +148,25 @@ pipeline {
                     zip -r gui *
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Builden GUI gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Builden GUI Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Deployment Test') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master'
+                }
+            }
+            steps {
+                slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            }
         }
 
         stage ('Verify Communicatie') {
@@ -103,6 +177,14 @@ pipeline {
                     mvn clean verify
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Verify Communicatie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Verify Communicatie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Verify IdBeheer') {
@@ -111,6 +193,14 @@ pipeline {
                     cd IdBeheer
                     mvn clean verify
                 '''
+            }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Verify IdBeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Verify IdBeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
             }
         }
 
@@ -121,6 +211,14 @@ pipeline {
                     mvn clean verify
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Verify OverigeGegevensAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Verify OverigeGegevensAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
 
         stage ('Verify PolisAdministratie') {
@@ -130,8 +228,15 @@ pipeline {
                     mvn clean verify
                 '''
             }
+            post {
+                succes {
+                    slackSend (color: '#4245f4', message: "Verify PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#0000FF', message: "Verify PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
         }
-
 
         stage ('Deployment Test') {
             when {
