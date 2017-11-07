@@ -167,23 +167,24 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
-                    scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/home/jetty
-                    scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/home/jetty
-                    scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/home/jetty
+                    scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/opt/jetty
+                    scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/opt/jetty
 
-                    scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.230:/home/jetty
-                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.app.properties jetty@192.168.91.230:/home/jetty
-                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.log4j.xml jetty@192.168.91.230:/home/jetty
+                    scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.230:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.log4j.xml jetty@192.168.91.230:/opt/jetty
 
-                    scp PolisAdministratie/target/pa.war jetty@192.168.91.230:/home/jetty
-                    scp PolisAdministratie/src/main/resources/tst2/pa.app.properties jetty@192.168.91.230:/home/jetty
-                    scp PolisAdministratie/src/main/resources/tst2/pa.log4j.xml jetty@192.168.91.230:/home/jetty
+                    scp PolisAdministratie/target/pa.war jetty@192.168.91.230:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/tst2/pa.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/tst2/pa.log4j.xml jetty@192.168.91.230:/opt/jetty
 
-                    scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/home/jetty
-                    scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.230:/home/jetty
-                    scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/home/jetty
+                    scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/opt/jetty
 
-                    scp -r Webgui/web jetty@192.168.91.230:/home/jetty
+                    ssh jetty@192.168.91.230 rm -fr /data/web/gui
+                    scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
                 '''
             }
             post {
