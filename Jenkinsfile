@@ -167,8 +167,28 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+/*                    mysql -u base_user -pbase_user_pass -e "create database new_db; GRANT ALL PRIVILEGES ON new_db.* TO new_db_user@localhost IDENTIFIED BY 'new_db_user_pass'"
+*/
 
-                    scp -r Webgui/web jetty@192.168.91.215:/home/jetty
+                    ssh jetty@192.168.91.230 ls
+
+                    scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/home/jetty
+                    scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/home/jetty
+                    scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/home/jetty
+
+                    scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.230:/home/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.app.properties jetty@192.168.91.230:/home/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.log4j.xml jetty@192.168.91.230:/home/jetty
+
+                    scp PolisAdministratie/target/pa.war jetty@192.168.91.230:/home/jetty
+                    scp PolisAdministratie/src/main/resources/tst2/pa.app.properties jetty@192.168.91.230:/home/jetty
+                    scp PolisAdministratie/src/main/resources/tst2/pa.log4j.xml jetty@192.168.91.230:/home/jetty
+
+                    scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/home/jetty
+                    scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.230:/home/jetty
+                    scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/home/jetty
+
+                    scp -r Webgui/web jetty@192.168.91.230:/home/jetty
                 '''
             }
             post {
