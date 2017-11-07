@@ -183,7 +183,6 @@ pipeline {
                     scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty/webapps
 
-                    ssh jetty@192.168.91.230 mkdir /data/web/gui
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
                 '''
