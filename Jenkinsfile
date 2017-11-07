@@ -168,7 +168,7 @@ pipeline {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
 
-                    ssh jetty@192.168.91.230 ls
+                    ssh jetty@192.168.91.230 -pjetty ls
 
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/home/jetty
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/home/jetty
