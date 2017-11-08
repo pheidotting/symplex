@@ -37,7 +37,7 @@
         </property>
     </bean>
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
-        <property name="basisUrl" value=""/>
+        <constructor-arg value=""/>
     </bean>
 
     <import resource="classpath:applicationContext-jms-it.xml"/>

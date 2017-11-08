@@ -32,7 +32,6 @@ public abstract class AbstractTest<T extends AbstracteJsonEntiteitMetSoortEnId> 
     public abstract void wijzig(T entiteit);
 
     @Test
-    @Ignore
     public void allesOpslaanTest() {
         List<Long> ids = Lists.newArrayList(3L, 6L, 9L);
         List<T> adressen = new ArrayList<>();
@@ -97,8 +96,8 @@ public abstract class AbstractTest<T extends AbstracteJsonEntiteitMetSoortEnId> 
         assertEquals(0, getClient().lijst(soortEntiteit.name(), entiteitId).size());
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testZoek() {
         SoortEntiteit soortEntiteit = SoortEntiteit.RELATIE;
         Long entiteitId = 5L;
