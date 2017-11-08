@@ -55,12 +55,21 @@ public class TelefonieController extends AbstractController {
     public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bestandsnaam) throws IOException {
         File file = new File(recordingspad + File.separator + bestandsnaam);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/wav"));
-        headers.add("content-disposition", "inline;filename=" + bestandsnaam);
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
-        return response;
+        if (file != null && file.exists()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/wav"));
+            headers.add("content-disposition", "inline;filename=" + bestandsnaam);
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
+            return response;
+        } else {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.parseMediaType("application/wav"));
+            headers.add("content-disposition", "inline;filename=" + bestandsnaam);
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(null, headers, HttpStatus.OK);
+            return response;
+        }
     }
 
 }
