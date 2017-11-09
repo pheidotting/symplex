@@ -6,6 +6,7 @@ import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.Relatie;
 import nl.lakedigital.djfc.domain.response.Telefoongesprek;
 import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
@@ -72,13 +73,15 @@ public class RelatieController {
         List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 
         if (!telefoonnummers.isEmpty()) {
-            Map<String, List<String>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
+            Map<String, List<JsonTelefonieBestand>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
             for (String nummer : telefonieResult.keySet()) {
                 TelefoonnummerMetGesprekken telefoonnummerMetGesprekken = new TelefoonnummerMetGesprekken();
                 telefoonnummerMetGesprekken.setTelefoonnummer(nummer);
                 telefoonnummerMetGesprekken.setTelefoongesprekken(telefonieResult.get(nummer).stream().map(s -> {
                     Telefoongesprek telefoongesprek = new Telefoongesprek();
-                    telefoongesprek.setBestandsnaam(s);
+                    telefoongesprek.setBestandsnaam(s.getBestandsnaam());
+                    telefoongesprek.setTijdstip(s.getTijdstip());
+                    telefoongesprek.setTelefoonnummer(s.getTelefoonnummer());
 
                     return telefoongesprek;
                 }).collect(Collectors.toList()));

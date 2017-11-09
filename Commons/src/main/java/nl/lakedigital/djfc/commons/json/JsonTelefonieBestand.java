@@ -1,9 +1,15 @@
-package nl.lakedigital.djfc.domain.response;
+package nl.lakedigital.djfc.commons.json;
 
-public class Telefoongesprek {
+public class JsonTelefonieBestand {
     private String bestandsnaam;
     private String telefoonnummer;
     private String tijdstip;
+
+    public JsonTelefonieBestand(String bestandsnaam, String telefoonnummer, String tijdstip) {
+        this.bestandsnaam = bestandsnaam;
+        this.telefoonnummer = telefoonnummer;
+        this.tijdstip = tijdstip;
+    }
 
     public String getBestandsnaam() {
         return bestandsnaam;

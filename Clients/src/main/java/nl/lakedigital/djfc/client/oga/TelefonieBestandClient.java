@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.commons.json.JsonCommunicatieProduct;
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class TelefonieBestandClient extends AbstractClient {
         }.getType();
     }
 
-    public Map<String, List<String>> getRecordingsAndVoicemails(List<String> telefoonnummers) {
+    public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(List<String> telefoonnummers) {
         String nummers = "?telefoonnummers=" + join("&telefoonnummers=", telefoonnummers);
 
         String result = uitvoerenGetString(URL_ALLES + nummers, LOGGER);
@@ -40,7 +41,7 @@ public class TelefonieBestandClient extends AbstractClient {
         LOGGER.debug("result {}", result);
 
         Gson gson = new Gson();
-        Type stringStringMap = new TypeToken<Map<String, List<String>>>() {
+        Type stringStringMap = new TypeToken<Map<String, List<JsonTelefonieBestand>>>() {
         }.getType();
 
         return gson.fromJson(result, stringStringMap);

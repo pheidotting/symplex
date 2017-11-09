@@ -1,6 +1,7 @@
 package nl.dias.web.medewerker;
 
 import nl.lakedigital.djfc.client.oga.TelefonieBestandClient;
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +46,7 @@ public class TelefonieController extends AbstractController {
 
     @RequestMapping("/recordings")
     @ResponseBody
-    public Map<String, List<String>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers) {
+    public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers) {
         return telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
     }
 

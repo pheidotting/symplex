@@ -1,7 +1,6 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Bedrijf;
-import nl.dias.mapper.Mapper;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.RelatieService;
@@ -11,6 +10,7 @@ import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.Telefoongesprek;
 import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -144,20 +144,21 @@ public class BedrijfController extends AbstractController {
         telefoonnummers.addAll(bedrijf.getContactPersoons().stream().map(contactPersoon -> contactPersoon.getTelefoonnummers())//
                 .flatMap(List::stream).map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList()));
 
-        Map<String, List<String>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
+        Map<String, List<JsonTelefonieBestand>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
         for (String nummer : telefonieResult.keySet()) {
             TelefoonnummerMetGesprekken telefoonnummerMetGesprekken = new TelefoonnummerMetGesprekken();
             telefoonnummerMetGesprekken.setTelefoonnummer(nummer);
             telefoonnummerMetGesprekken.setTelefoongesprekken(telefonieResult.get(nummer).stream().map(s -> {
                 Telefoongesprek telefoongesprek = new Telefoongesprek();
-                telefoongesprek.setBestandsnaam(s);
+                telefoongesprek.setBestandsnaam(s.getBestandsnaam());
+                telefoongesprek.setTijdstip(s.getTijdstip());
+                telefoongesprek.setTelefoonnummer(s.getTelefoonnummer());
 
                 return telefoongesprek;
             }).collect(Collectors.toList()));
 
             bedrijf.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
         }
-
 
         return bedrijf;
     }
