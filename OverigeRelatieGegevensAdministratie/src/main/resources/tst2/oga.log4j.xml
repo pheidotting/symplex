@@ -70,7 +70,7 @@
 
     <root>
         <priority value="trace"/>
-        <appender-ref ref="Slack"/>
+        <!--<appender-ref ref="Slack"/>-->
         <appender-ref ref="loggly"/>
         <appender-ref ref="debugFileAppender"/>
     </root>
