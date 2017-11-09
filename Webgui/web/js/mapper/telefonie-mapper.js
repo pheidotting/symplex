@@ -44,7 +44,7 @@ define(['jquery',
 //                        gesprek.telefoonnummer(parts[2]);
 
                     }
-                    gesprek.tijdstip(moment(telefoongesprek.tijdstip, 'YYYY-MM-DD HH:mm'));
+                    gesprek.tijdstip(moment(telefoongesprek.tijdstip, 'DD-MM-YYYY HH:mm'));
 
                     result.push(gesprek);
                 });

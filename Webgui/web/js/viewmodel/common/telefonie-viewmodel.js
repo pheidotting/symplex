@@ -32,6 +32,7 @@ define(['commons/3rdparty/log2',
             .each(function(g) {
                 gesprekken.push({'maand':g[0].maand, 'gesprekken':g});
             })
+            .orderBy('maand')
             .value();
 
             $.each(gesprekken, function(i, gesprek){
