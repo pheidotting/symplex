@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.TelefonieBestand;
 import nl.lakedigital.djfc.service.InlezenTelefonieBestandenService;
 import nl.lakedigital.djfc.service.TelefonieBestandService;
@@ -34,17 +35,17 @@ public class TelefonieController {
 
     @RequestMapping("/recordings")
     @ResponseBody
-    public Map<String, List<String>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers) {
+    public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers) {
         LOGGER.debug("Ophalen gesprekken met telefoonnummers {}", telefoonnummers);
 
-        Map<String, List<String>> ret = new HashMap<>();
+        Map<String, List<JsonTelefonieBestand>> ret = new HashMap<>();
 
         for (String telefoonnummer : telefoonnummers) {
             List<TelefonieBestand> telefonieBestands = newArrayList();
             LOGGER.debug("Ophalen met nummer {}", telefoonnummer);
             telefonieBestands.addAll(telefonieBestandService.alleTelefonieBestandenOpTelefoonnummer(telefoonnummer));
 
-            List<String> bestanden = telefonieBestands.stream().map(telefonieBestand -> telefonieBestand.getBestandsnaam()).collect(Collectors.toList());
+            List<JsonTelefonieBestand> bestanden = telefonieBestands.stream().map(telefonieBestand -> new JsonTelefonieBestand(telefonieBestand.getBestandsnaam(), telefonieBestand.getTelefoonnummer(), telefonieBestand.getTijdstip().toString("dd-MM-yyyy HH:mm"))).collect(Collectors.toList());
 
             ret.put(telefoonnummer, bestanden);
         }

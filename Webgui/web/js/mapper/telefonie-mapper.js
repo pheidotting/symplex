@@ -36,15 +36,15 @@ define(['jquery',
                     if(parts[0] == 'out') {
                         gesprek.uitgaand(true);
                         gesprek.inkomend(false);
-                        gesprek.telefoonnummer(parts[1]);
+//                        gesprek.telefoonnummer(parts[1]);
 
                     } else {
                         gesprek.uitgaand(false);
                         gesprek.inkomend(true);
-                        gesprek.telefoonnummer(parts[2]);
+//                        gesprek.telefoonnummer(parts[2]);
 
                     }
-                    gesprek.tijdstip(moment(parts[3] + parts[4], 'YYYYMMDDHHmmSS'));
+                    gesprek.tijdstip(moment(telefoongesprek.tijdstip, 'DD-MM-YYYY HH:mm'));
 
                     result.push(gesprek);
                 });

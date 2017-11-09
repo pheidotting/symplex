@@ -3,9 +3,8 @@ define(['commons/3rdparty/log2',
         'knockout',
         'dataServices',
         'moment',
-        'mapper/opmerking-mapper',
-        'lodash'],
-    function(log, Opmerking, ko, dataServices, moment, opmerkingMapper, _) {
+        'mapper/opmerking-mapper'],
+    function(log, Opmerking, ko, dataServices, moment, opmerkingMapper) {
 
     return function(readOnly, soortEntiteit, entiteitId, opmerkingen) {
         var _this = this;
@@ -14,26 +13,7 @@ define(['commons/3rdparty/log2',
         this.readOnly = readOnly;
 		this.opmerkingen = ko.observableArray();
 
-        var opm = [];
-
-        _.chain(opmerkingMapper.mapOpmerkingen(opmerkingen)())
-            .orderBy('tijd')
-            .flatten()
-            .map(function(g) {
-                g.maand = moment(g.tijd(), 'DD-MM-YYYY HH:mm').format('YYYY-MM');
-                return g;
-            })
-            .map(function(g) {
-                return g;
-            })
-            .groupBy(function(g) {
-                return g.maand;
-            })
-            .each(function(g) {
-                opm.push({'maand':g[0].maand, 'opmerkingen':g});
-            })
-            .value();
-        $.each(opm, function(i, opmerking){
+        $.each(opmerkingMapper.mapOpmerkingen(opmerkingen)(), function(i, opmerking){
             _this.opmerkingen.push(opmerking);
         });
 
@@ -74,18 +54,6 @@ define(['commons/3rdparty/log2',
 
         this.opslaan = function() {};
         this.annuleren = function() {};
-
-        this.toonOfVerberg = function(a) {
-            if($('#opmerkingen'+a.maand).is(':visible')) {
-                $('#opmerkingen'+a.maand).hide();
-                $('#opmerkingen'+a.maand+'dicht').hide();
-                $('#opmerkingen'+a.maand+'open').show();
-            } else {
-                $('#opmerkingen'+a.maand).show();
-                $('#opmerkingen'+a.maand+'dicht').show();
-                $('#opmerkingen'+a.maand+'open').hide();
-            }
-        };
 
         this.startBewerken = function(telefoonnummer){
 //            if(telefoonnummer.telefoonnummer()){

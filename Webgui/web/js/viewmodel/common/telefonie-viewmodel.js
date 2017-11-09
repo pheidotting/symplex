@@ -3,8 +3,9 @@ define(['commons/3rdparty/log2',
         'service/common/telefonie-service',
         'mapper/telefonie-mapper',
         'moment',
-        'navRegister'],
-    function(log, ko, telefonieService, telefonieMapper, moment, navRegister) {
+        'navRegister',
+        'lodash'],
+    function(log, ko, telefonieService, telefonieMapper, moment, navRegister, _) {
 
     return function(recordings) {
         var _this = this;
@@ -14,11 +15,29 @@ define(['commons/3rdparty/log2',
 		this.gesprekken = ko.observableArray();
 
         if(recordings && recordings.length !== 0) {
-//            $.when(telefonieService.haalOp(telefoonnummers)).then(function(recordings) {
-                $.each(telefonieMapper.mapGesprekken(recordings)(), function(i, gesprek){
-                    _this.gesprekken.push(gesprek);
-                });
-//            });
+            var gesprekken = [];
+            _.chain(telefonieMapper.mapGesprekken(recordings)())
+            .orderBy('tijdstip')
+            .flatten()
+            .map(function(g) {
+                g.maand = g.tijdstip().format('YYYY-MM');
+                return g;
+            })
+            .map(function(g) {
+                return g;
+            })
+            .groupBy(function(g) {
+                return g.maand;
+            })
+            .each(function(g) {
+                gesprekken.push({'maand':g[0].maand, 'gesprekken':g});
+            })
+            .orderBy('maand')
+            .value();
+
+            $.each(gesprekken, function(i, gesprek){
+                _this.gesprekken.push(gesprek);
+            });
 		}
 
 		this.maakUrl = function(bestandsnaam) {
@@ -46,6 +65,18 @@ define(['commons/3rdparty/log2',
 
                     return tel;
                 }
+            }
+        };
+
+        this.toonOfVerberg = function(a) {
+            if($('#gesprekken'+a.maand).is(':visible')) {
+                $('#gesprekken'+a.maand).hide();
+                $('#gesprekken'+a.maand+'dicht').hide();
+                $('#gesprekken'+a.maand+'open').show();
+            } else {
+                $('#gesprekken'+a.maand).show();
+                $('#gesprekken'+a.maand+'dicht').show();
+                $('#gesprekken'+a.maand+'open').hide();
             }
         };
 
