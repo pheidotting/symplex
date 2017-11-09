@@ -160,6 +160,7 @@ public class BedrijfController extends AbstractController {
             bedrijf.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
         }
 
+
         return bedrijf;
     }
 
