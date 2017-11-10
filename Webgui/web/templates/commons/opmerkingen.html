@@ -1,0 +1,35 @@
+<h3>
+    Opmerkingen
+    &nbsp;<span class="fa fa-plus-square-o rechts-icon" aria-hidden="true"
+                data-bind="click: opmerkingenModel.voegOpmerkingToe" id="voegOpmerkingToe"
+                style="cursor:pointer">Toevoegen</span>
+</h3>
+<div id="opmerkingen" data-bind="foreach: opmerkingenModel.opmerkingen">
+    <div data-bind="if: idIsNietNull">
+        <strong>
+            <span data-bind="text: medewerker"/>, <span data-bind="text: tijd"/>
+        </strong>
+        &nbsp;<span class="glyphicon glyphicon-minus" data-bind="click: $parent.opmerkingenModel.verwijder"
+                    id="verwijder" style="cursor:pointer"></span>
+        <br/>
+        <div style="white-space: pre-wrap"
+             data-bind="text: opmerking, click: $parent.opmerkingenModel.startBewerken, visible: $parent.opmerkingenModel.notReadOnly, attr:{id: 'tekst' + id()}"></div>
+        <div style="white-space: pre-wrap"
+             data-bind="text: opmerking, visible: $parent.opmerkingenModel.readOnly, attr:{id: 'tekst' + id()}"></div>
+        <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+            <textarea class="nieuweOpmerking" data-bind="value: opmerking" rows="5"></textarea><br/>
+            <button data-bind="click: $parent.opmerkingenModel.opslaan">Opslaan</button>
+            <button data-bind="click: $parent.opmerkingenModel.annuleren">Annuleren</button>
+        </div>
+        <br/>
+    </div>
+
+    <div data-bind="if: idIsNull">
+        <label>
+            Nieuwe opmerking:
+        </label>
+        &nbsp;<span class="glyphicon glyphicon-minus" data-bind="click: $parent.opmerkingenModel.verwijder"
+                    id="verwijderNieuweOpmerking" style="cursor:pointer"></span>
+        <textarea class="nieuweOpmerking" name="nieuweOpmerking" data-bind="value: opmerking" rows="5"></textarea><br/>
+    </div>
+</div>

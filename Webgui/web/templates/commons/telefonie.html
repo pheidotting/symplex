@@ -1,0 +1,21 @@
+<h3>Telefoongesprekken</h3>
+<div data-bind="foreach: telefonie.gesprekken, visible: telefonie.gesprekken().length > 0">
+    <span data-bind="text: maand + ' (' + gesprekken.length + ')'"></span>
+    <span data-bind="attr: {id: 'gesprekken'+maand+'open'}, event: {click: $root.telefonie.toonOfVerberg}"
+          class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+    <span data-bind="attr: {id: 'gesprekken'+maand+'dicht'}, event: {click: $root.telefonie.toonOfVerberg}, visible:false"
+          class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+    <br/>
+    <div data-bind="foreach: gesprekken, visible: false, attr: {id: 'gesprekken'+maand}">
+        <span name="ingaandUitgaand" data-bind="visible: uitgaand">Uitgaand</span>
+        <span name="ingaandUitgaand" data-bind="visible: inkomend">Inkomend</span>
+        ,
+        <span name="telefoonnummer" data-bind="text: $root.telefonie.zetTelefoonnummerOm(telefoonnummer)"/>
+        (<span name="telefoonnummer" data-bind="text: $root.telefonie.formatDatumTijd(tijdstip)"/>)
+        <br/>
+        <audio controls>
+            <source data-bind="attr: {src: $root.telefonie.maakUrl(bestandsnaam)}" type="audio/wav">
+        </audio>
+        <br/>
+    </div>
+</div>
