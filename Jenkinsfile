@@ -273,7 +273,7 @@ pipeline {
                 }
             }
             steps {
-                slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.215:/opt/jetty
@@ -297,10 +297,10 @@ pipeline {
             }
             post {
                 success {
-                    slackSend (color: '#4245f4', message: "Deploy naar testbak gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    slackSend (color: '#4245f4', message: "Deploy naar test gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
                 failure {
-                    slackSend (color: '#FF0000', message: "Deploy naar testbak Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
