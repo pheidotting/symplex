@@ -275,20 +275,20 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
-                    scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp IdBeheer/src/main/resources/tst/id.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp IdBeheer/src/main/resources/tst/id.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.215:/opt/jetty/webapps
 
-                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.215:/opt/jetty/webapps
 
-                    scp PolisAdministratie/src/main/resources/tst2/pa.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp PolisAdministratie/src/main/resources/tst2/pa.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/tst/pa.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/tst/pa.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp PolisAdministratie/target/pa.war jetty@192.168.91.215:/opt/jetty/webapps
 
-                    scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/tst/djfc.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/tst/djfc.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     ssh jetty@192.168.91.215 rm -fr /data/web/gui/*
