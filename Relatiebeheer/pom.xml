@@ -37,6 +37,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.coaxys</groupId>
             <artifactId>log4slack-java</artifactId>
             <version>1.2</version>
