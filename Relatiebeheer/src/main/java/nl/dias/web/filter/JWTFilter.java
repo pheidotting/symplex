@@ -62,11 +62,9 @@ public class JWTFilter implements Filter {
                     LOGGER.info("#### valid token : " + token);
 
                     ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, authorizationHeader);
-
-                    filterChain.doFilter(request, response);
                 } catch (Exception e) {
                     LOGGER.error("#### invalid token : " + token);
-                    LOGGER.trace("Oorspronkelijke fout : ", e);
+                    LOGGER.trace("Oorspronkelijke fout : {}", e);
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             } else {
@@ -77,6 +75,8 @@ public class JWTFilter implements Filter {
             LOGGER.error("#### geen token");
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
+        filterChain.doFilter(request, response);
     }
 
     @Override
