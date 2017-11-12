@@ -42,7 +42,7 @@ public class OpmerkingController extends AbstractController {
                 return opmerking;
             }
         }).collect(Collectors.toList());
-        opmerkingClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        opmerkingClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_JSON)
@@ -65,7 +65,7 @@ public class OpmerkingController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijder(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        opmerkingClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        opmerkingClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_JSON)
@@ -73,7 +73,7 @@ public class OpmerkingController extends AbstractController {
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") String parentid, HttpServletRequest httpServletRequest) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(parentid);
 
-        opmerkingClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        opmerkingClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_JSON)

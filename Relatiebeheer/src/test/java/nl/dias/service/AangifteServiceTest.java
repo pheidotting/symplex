@@ -147,6 +147,6 @@ public class AangifteServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        aangifteService.afronden(id, datum, medewerker);
+        aangifteService.afronden(id, datum, 3L);
     }
 }

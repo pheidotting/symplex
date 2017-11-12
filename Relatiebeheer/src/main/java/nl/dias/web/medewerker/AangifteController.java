@@ -50,7 +50,7 @@ public class AangifteController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         try {
-            aangifteService.afronden(id, LocalDate.now(), getGebruiker(httpServletRequest));
+            aangifteService.afronden(id, LocalDate.now(), getIngelogdeGebruiker(httpServletRequest).getId());
         } catch (Exception e) {
             LOGGER.trace("{}", e);
             return Response.status(500).build();
@@ -73,15 +73,5 @@ public class AangifteController extends AbstractController {
     @ResponseBody
     public List<JsonAangifte> geslotenAangiftes(@QueryParam("relatie") Long relatie) {
         return aangifteMapper.mapAllNaarJson(aangifteService.getAfgeslotenAangiftes((Relatie) gebruikerService.lees(relatie)));
-    }
-
-    private Gebruiker getGebruiker(HttpServletRequest httpServletRequest) {
-        String sessie = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
-        }
-
-        return authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr());
-
     }
 }

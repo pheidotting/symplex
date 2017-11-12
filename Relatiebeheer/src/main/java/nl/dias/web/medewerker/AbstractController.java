@@ -1,15 +1,19 @@
 package nl.dias.web.medewerker;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import inloggen.SessieHolder;
 import nl.dias.domein.Gebruiker;
-import nl.dias.domein.Sessie;
+import nl.dias.domein.Relatie;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.HttpHeaders;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,53 +26,33 @@ public abstract class AbstractController {
     protected GebruikerService gebruikerService;
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
-        SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest));
+        SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest).getId());
         SessieHolder.get().setTrackAndTraceId(getTrackAndTraceId(httpServletRequest));
     }
 
-    protected Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        String sessie = null;
-        String id = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
-        }
-        if (httpServletRequest.getSession().getAttribute("id") != null && !"".equals(httpServletRequest.getSession().getAttribute("id"))) {
-            id = httpServletRequest.getSession().getAttribute("id").toString();
-        }
-
-        LOGGER.debug("sessie {}", sessie);
-
+    protected Gebruiker getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
         Long ingelogdeGebruiker = null;
-        if (sessie != null) {
-            ingelogdeGebruiker = authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr()).getId();
+        String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
-            LOGGER.debug("DJFC Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
-        } else if (id != null) {
-            //igv ITest
-            ingelogdeGebruiker = Long.valueOf(id);
-            Gebruiker gebruikerUitDatabase = gebruikerService.lees(ingelogdeGebruiker);
-            // Gebruiker dus gevonden en wachtwoord dus juist..
-            LOGGER.debug("Aanmaken nieuwe sessie");
-            Sessie sessie1 = new Sessie();
-            sessie1.setBrowser(httpServletRequest.getHeader("user-agent"));
-            sessie1.setIpadres(httpServletRequest.getRemoteAddr());
-            sessie1.setDatumLaatstGebruikt(new Date());
-            sessie1.setGebruiker(gebruikerUitDatabase);
-            sessie1.setSessie(UUID.randomUUID().toString());
-
-            gebruikerService.opslaan(sessie1);
-
-            gebruikerUitDatabase.getSessies().add(sessie1);
-
-            gebruikerService.opslaan(gebruikerUitDatabase);
-
-            LOGGER.debug("sessie id " + sessie1.getSessie() + " in de request plaatsen");
-            httpServletRequest.getSession().setAttribute("sessie", sessie1.getSessie());
+        // Extract the token from the HTTP Authorization header
+        String token = null;
+        if (authorizationHeader != null) {
+            try {
+                token = authorizationHeader.substring("Bearer".length()).trim();
+            } catch (StringIndexOutOfBoundsException e) {
+                LOGGER.trace("Niks aan de hand", e);
+            }
         }
+        DecodedJWT decodedJWT=JWT.decode(token);
 
-
-        return ingelogdeGebruiker;
-
+        try {
+            return gebruikerService.zoekOpIdentificatie(decodedJWT.getSubject());
+        }catch (NietGevondenException nge){
+            LOGGER.error("Net gevonden : {}",decodedJWT.getSubject());
+            Gebruiker gebruiker=new Relatie();
+            gebruiker.setId(0L);
+            return gebruiker;
+        }
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {

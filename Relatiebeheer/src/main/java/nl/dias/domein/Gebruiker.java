@@ -22,8 +22,6 @@ import java.util.Set;
 @NamedQueries({//
         @NamedQuery(name = "Gebruiker.zoekOpEmail", query = "select g from Gebruiker g where g.emailadres = :emailadres"), //
         @NamedQuery(name = "Gebruiker.zoekOpIdentificatie", query = "select g from Gebruiker g where g.identificatie = :identificatie"), //
-        @NamedQuery(name = "Gebruiker.zoekOpSessieEnIpAdres", query = "select distinct g from Gebruiker g join g.sessies as s where s.sessie = :sessie and s.ipadres = :ipadres"), //
-        @NamedQuery(name = "Gebruiker.zoekOpCookieCode", query = "select distinct g from Gebruiker g join g.sessies as s where s.cookieCode = :cookieCode"), //
         @NamedQuery(name = "Gebruiker.zoekOpNaam", query = "select g from Relatie g where g.voornaam like :naam or g.achternaam like :naam"),//
         @NamedQuery(name = "Gebruiker.alles", query = "select g from Gebruiker g"),//
         @NamedQuery(name = "Gebruiker.zoekOpTussenVoegsel", query = "select g from Gebruiker g where g.tussenvoegsel = :tussenvoegsel"),//
@@ -39,9 +37,6 @@ public abstract class Gebruiker extends Onderwerp implements PersistenceObject, 
     private String achternaam;
     @Column(name = "EMAILADRES")
     private String emailadres;
-    @NotAudited
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "gebruiker", orphanRemoval = true, targetEntity = Sessie.class)
-    private Set<Sessie> sessies;
 
     @Transient
     private String wachtwoordString;
@@ -78,16 +73,6 @@ public abstract class Gebruiker extends Onderwerp implements PersistenceObject, 
         this.emailadres = emailadres;
     }
 
-    public Set<Sessie> getSessies() {
-        if (sessies == null) {
-            sessies = new HashSet<>();
-        }
-        return sessies;
-    }
-
-    public void setSessies(Set<Sessie> sessies) {
-        this.sessies = sessies;
-    }
 
     public String getWachtwoordString() {
         return wachtwoordString;

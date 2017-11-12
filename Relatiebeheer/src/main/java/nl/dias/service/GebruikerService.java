@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import nl.dias.domein.*;
 import nl.dias.domein.polis.Polis;
-import nl.dias.domein.predicates.SessieOpCookiePredicate;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
@@ -207,28 +206,7 @@ public class GebruikerService {
         return gebruikerRepository.zoekOpSessieEnIpadres(sessie, ipadres);
     }
 
-    public Sessie zoekSessieOp(String sessieId, String ipadres, Set<Sessie> sessies) {
-        for (Sessie sessie : sessies) {
-            if (sessie.getSessie().equals(sessieId) && sessie.getIpadres().equals(ipadres)) {
-                return sessie;
-            }
-        }
 
-        return null;
-    }
-
-    public Sessie zoekSessieOp(String cookieCode, Set<Sessie> sessies) {
-        return getFirst(filter(sessies, new SessieOpCookiePredicate(cookieCode)), null);
-    }
-
-    public Gebruiker zoekOpCookieCode(String cookieCode) {
-        try {
-            return gebruikerRepository.zoekOpCookieCode(cookieCode);
-        } catch (NietGevondenException e) {
-            LOGGER.info("Niets gevonden", e);
-            return null;
-        }
-    }
 
     public Gebruiker zoek(String emailadres) throws NietGevondenException {
         return gebruikerRepository.zoek(emailadres);
@@ -242,37 +220,8 @@ public class GebruikerService {
         return gebruikerRepository.zoekOpNaam(naam);
     }
 
-    public void refresh(Sessie sessie) {
-        gebruikerRepository.refresh(sessie);
-    }
 
-    public void opslaan(Sessie sessie) {
-        gebruikerRepository.opslaan(sessie);
-    }
 
-    public void verwijder(Sessie sessie) {
-        gebruikerRepository.verwijder(sessie);
-    }
-
-    public void verwijderVerlopenSessies(Gebruiker gebr) {
-        Gebruiker gebruiker = gebruikerRepository.lees(gebr.getId());
-
-        List<Sessie> teVerwijderenSessies = new ArrayList<>();
-
-        for (Sessie sessie : gebruiker.getSessies()) {
-            if (sessie.getDatumLaatstGebruikt().isBefore(LocalDate.now().minusDays(3)) || sessie.getBrowser().startsWith("curl")) {
-                teVerwijderenSessies.add(sessie);
-            }
-        }
-
-        if (!teVerwijderenSessies.isEmpty()) {
-            for (Sessie sessie : teVerwijderenSessies) {
-                gebruiker.getSessies().remove(sessie);
-            }
-
-            gebruikerRepository.opslaan(gebruiker);
-        }
-    }
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {
         LOGGER.debug("zoekOpNaamAdresOfPolisNummer met zoekTerm " + zoekTerm);
