@@ -68,11 +68,11 @@ public class JWTFilter implements Filter {
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             } else {
-                LOGGER.error("#### geen token");
+                LOGGER.debug("#### geen token 1");
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
         } else {
-            LOGGER.error("#### geen token");
+            LOGGER.debug("#### geen token 2");
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
