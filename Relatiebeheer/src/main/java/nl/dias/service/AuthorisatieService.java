@@ -27,11 +27,11 @@ public class AuthorisatieService {
     @Inject
     private GebruikerService gebruikerService;
 
-    public void inloggen(String identificatie, String wachtwoord, boolean onthouden, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException {
+    public void inloggen(String identificatie, String wachtwoord, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException {
         boolean uitZabbix = "true".equals(request.getHeader("Zabbix"));
 
         if (!uitZabbix) {
-            LOGGER.debug("Inloggen met " + identificatie + " en onthouden " + onthouden);
+            LOGGER.debug("Inloggen met {}" , identificatie);
         }
         Gebruiker gebruikerUitDatabase = gebruikerService.zoekOpIdentificatie(identificatie);
         Gebruiker inloggendeGebruiker = null;
@@ -61,8 +61,8 @@ public class AuthorisatieService {
         }
 
         if (!uitZabbix) {
-            LOGGER.debug("Ingevoerd wachtwoord    " + inloggendeGebruiker.getWachtwoord());
-            LOGGER.debug("Wachtwoord uit database " + gebruikerUitDatabase.getWachtwoord());
+            LOGGER.debug("Ingevoerd wachtwoord    {}",  inloggendeGebruiker.getWachtwoord());
+            LOGGER.debug("Wachtwoord uit database {}" , gebruikerUitDatabase.getWachtwoord());
         }
 
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
@@ -70,29 +70,33 @@ public class AuthorisatieService {
         }
 
         // Gebruiker dus gevonden en wachtwoord dus juist..
-        if (!uitZabbix) {
-            LOGGER.debug("Aanmaken nieuwe sessie");
-        }
-        String nieuweSessie = UUID.randomUUID().toString();
-        Sessie sessie = new Sessie();
-        sessie.setBrowser(request.getHeader("user-agent"));
-        sessie.setIpadres(request.getRemoteAddr());
-        sessie.setDatumLaatstGebruikt(new Date());
-        sessie.setGebruiker(gebruikerUitDatabase);
-        sessie.setSessie(nieuweSessie);
+//        if (!uitZabbix) {
+//            LOGGER.debug("Aanmaken nieuwe sessie");
+//        }
+//        String nieuweSessie = UUID.randomUUID().toString();
+//        Sessie sessie = new Sessie();
+//        sessie.setBrowser(request.getHeader("user-agent"));
+//        sessie.setIpadres(request.getRemoteAddr());
+//        sessie.setDatumLaatstGebruikt(new Date());
+//        sessie.setGebruiker(gebruikerUitDatabase);
+//        sessie.setSessie(nieuweSessie);
+//
+//        gebruikerService.opslaan(sessie);
+//
+//        gebruikerUitDatabase.getSessies().add(sessie);
+//
+//        gebruikerService.opslaan(gebruikerUitDatabase);
+//
+//        if (!uitZabbix) {
+//            LOGGER.debug("sessie id {} in de request en response plaatsen", nieuweSessie);
+//        }
+//        request.getSession().setAttribute("sessie", nieuweSessie);
+//
+//        response.setHeader("sessie", nieuweSessie);
+    }
 
-        gebruikerService.opslaan(sessie);
-
-        gebruikerUitDatabase.getSessies().add(sessie);
-
-        gebruikerService.opslaan(gebruikerUitDatabase);
-
-        if (!uitZabbix) {
-            LOGGER.debug("sessie id {} in de request en response plaatsen", nieuweSessie);
-        }
-        request.getSession().setAttribute("sessie", nieuweSessie);
-
-        response.setHeader("sessie", nieuweSessie);
+    public Gebruiker zoekOpIdentificatie(String identificatie) throws NietGevondenException {
+        return gebruikerService.zoekOpIdentificatie(identificatie);
     }
 
     public Gebruiker getIngelogdeGebruiker(HttpServletRequest request, String sessieId, String ipadres) {
@@ -118,45 +122,4 @@ public class AuthorisatieService {
 
         return gebruiker;
     }
-
-    public void uitloggen(HttpServletRequest request) {
-        String sessieId = (String) request.getSession().getAttribute("sessie");
-        String ipadres = request.getRemoteAddr();
-
-        Gebruiker gebruiker = getIngelogdeGebruiker(request, sessieId, ipadres);
-
-        if (gebruiker == null) {
-            LOGGER.debug("Er is helemaal niemand ingelogd");
-        } else {
-            Sessie sessie = gebruikerService.zoekSessieOp(sessieId, ipadres, gebruiker.getSessies());
-            //            gebruikerService.verwijder(sessie);
-            gebruiker.getSessies().remove(sessie);
-            gebruikerService.opslaan(gebruiker);
-
-            // Cookies opruimen
-            for (Cookie cookie : getCookies(request)) {
-                if (gebruikerService.zoekOpCookieCode(cookie.getValue()) != null) {
-                    cookie.setMaxAge(0);
-                }
-            }
-        }
-    }
-
-    public List<Cookie> getCookies(HttpServletRequest request) {
-        List<Cookie> cookies = new ArrayList<Cookie>();
-
-        if (request != null && request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                LOGGER.debug(cookie.getDomain());
-                LOGGER.debug(cookie.getName());
-                LOGGER.debug(cookie.getValue());
-                if (cookie.getName().equals(COOKIE_DOMEIN_CODE)) {
-                    cookies.add(cookie);
-                }
-            }
-        }
-
-        return cookies;
-    }
-
 }

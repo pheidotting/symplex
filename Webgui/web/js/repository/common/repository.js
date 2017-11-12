@@ -14,15 +14,37 @@ define(["commons/3rdparty/log2",
                 } else {
                     logger.trace('uitvoeren get op url \'' + url + '\' met data \'' + JSON.stringify(data) + '\'');
                 }
-                $.get(url, data)
-                .done(function(response) {
-                    return deferred.resolve(response);
-                })
-                .fail(function(response){
-                    if (response.status.toString().startsWith(40)) {
-                        location.href = 'inloggen.html';
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    contentType: "application/json",
+                    data: data,
+                    ataType: "json",
+                    async: false,
+                    beforeSend: function(request) {
+                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                    },
+                    success: function (response, textStatus, request) {
+                        if( request.getResponseHeader('Authorization') != null ) {
+                            localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
+                        }
+
+                        return deferred.resolve(response);
+                    },
+                    error: function (response, textStatus, request) {
+                        if (response.status.toString().startsWith(40)) {
+                            location.href = 'inloggen.html';
+                        }else{
+                            if(request != 'Server Error') {
+                                if( request.getResponseHeader('Authorization') != null ) {
+                                    localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
+                                }
+                            }
+
+                            return deferred.resolve(response);
+                        }
                     }
-                    return deferred.reject();
                 });
 
                 return deferred.promise();
@@ -38,8 +60,15 @@ define(["commons/3rdparty/log2",
                     data: data,
                     ataType: "json",
                     async: false,
-                    beforeSend: function(xhr){xhr.setRequestHeader('trackAndTraceId', trackAndTraceId);},
-                    success: function (response) {
+                    beforeSend: function(request){
+                        request.setRequestHeader('trackAndTraceId', trackAndTraceId);
+                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                    },
+                    success: function (response, textStatus, request) {
+                        if( request.getResponseHeader('Authorization') != null ) {
+                            localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
+                        }
+
                         return deferred.resolve(response);
                     },
                     error: function (response) {

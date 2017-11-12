@@ -82,7 +82,7 @@
 
 	<filter>
 		<filter-name>Authorisatie</filter-name>
-		<filter-class>nl.dias.web.filter.AuthorisatieFilter</filter-class>
+		<filter-class>nl.dias.web.filter.JWTFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>Authorisatie</filter-name>

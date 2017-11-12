@@ -501,8 +501,27 @@
             </plugin>
         </plugins>
         <finalName>communicatie</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.3.0.603</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
     <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.host.url>http://jenkins.djfc.local:9000</sonar.host.url>
+            </properties>
+        </profile>
         <profile>
             <id>dev</id>
             <build>
