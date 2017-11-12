@@ -11,8 +11,9 @@ define(['jquery',
         'service/zoeken-service',
         'service/gebruiker-service',
         'mapper/zoekresultaat-mapper',
+        'viewmodel/common/menubalk-viewmodel',
         'moment'],
-    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, moment) {
+    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, moment) {
 
     return function() {
         var _this = this;
@@ -24,6 +25,7 @@ define(['jquery',
         this.zoekTerm = ko.observable('');
         this.zoekResultaat = ko.observableArray([]);
         this.zoekvelden = new zoekvelden();
+		this.menubalkViewmodel      = null;
 
 		this.veranderDatum = function(datum){
 			datum(commonFunctions.zetDatumOm(datum()));
@@ -31,6 +33,8 @@ define(['jquery',
 
         this.init = function() {
             var deferred = $.Deferred();
+
+            _this.menubalkViewmodel     = new menubalkViewmodel();
 
             $.when(zoekenService.zoeken(), gebruikerService.haalIngelogdeGebruiker()).then(function(zoekResultaat){
                 $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function(i, gemapt) {

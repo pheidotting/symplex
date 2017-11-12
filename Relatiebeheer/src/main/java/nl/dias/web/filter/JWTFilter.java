@@ -26,10 +26,6 @@ import java.io.UnsupportedEncodingException;
 public class JWTFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTFilter.class);
 
-    private GebruikerService gebruikerService = null;
-    private GebruikerRepository gebruikerRepository = null;
-    private AuthorisatieService authorisatieService = null;
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         // Get the HTTP Authorization header from the request
@@ -50,7 +46,7 @@ public class JWTFilter implements Filter {
                     // Validate the token
                     try {
                         Algorithm algorithm = Algorithm.HMAC512("secret");
-                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build(); //Reusable verifier instance
+                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
                         DecodedJWT jwt = verifier.verify(token);
                     } catch (UnsupportedEncodingException exception) {
                         LOGGER.error("UTF8 fout", exception);
@@ -83,19 +79,6 @@ public class JWTFilter implements Filter {
         }
     }
 
-    private void init() {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        gebruikerRepository = (GebruikerRepository) applicationContext.getBean("gebruikerRepository");
-        gebruikerService = (GebruikerService) applicationContext.getBean("gebruikerService");
-        authorisatieService = (AuthorisatieService) applicationContext.getBean("authorisatieService");
-    }
-
-    private void opruimen() {
-        gebruikerService = null;
-        gebruikerRepository = null;
-        authorisatieService = null;
-    }
-
     @Override
     public void destroy() {
         LOGGER.debug("destroy filter");
@@ -104,17 +87,5 @@ public class JWTFilter implements Filter {
     @Override
     public void init(FilterConfig arg0) throws ServletException {
         LOGGER.debug("init filter");
-    }
-
-    public void setGebruikerService(GebruikerService gebruikerService) {
-        this.gebruikerService = gebruikerService;
-    }
-
-    public void setGebruikerRepository(GebruikerRepository gebruikerRepository) {
-        this.gebruikerRepository = gebruikerRepository;
-    }
-
-    public void setAuthorisatieService(AuthorisatieService authorisatieService) {
-        this.authorisatieService = authorisatieService;
     }
 }

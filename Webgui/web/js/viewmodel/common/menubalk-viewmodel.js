@@ -5,7 +5,9 @@ define(['redirect'],
         var _this = this;
 
         this.identificatie = identificatie;
-        this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
+        if(soortEntiteit != null) {
+            this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
+        }
 
         this.getSoortEntiteit = function() {
             return _this.soortEntiteit;
@@ -30,5 +32,9 @@ define(['redirect'],
         this.naarSchades = function() {
             redirect.redirect('LIJST_SCHADES', _this.identificatie);
         };
+
+        this.uitloggen = function() {
+            localStorage.removeItem("symplexAccessToken");
+        }
 	};
 });

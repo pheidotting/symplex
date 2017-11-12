@@ -45,7 +45,7 @@ public class AuthorisatieController {
     public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         try {
             LOGGER.debug("Inloggen");
-            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), inloggen.isOnthouden(), httpServletRequest, httpServletResponse);
+            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
             String token = issueToken(inloggen.getIdentificatie(), httpServletRequest);
 
@@ -62,19 +62,12 @@ public class AuthorisatieController {
         return 0L;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/uitloggen", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public Response uitloggen(HttpServletRequest httpServletRequest) {
-        authorisatieService.uitloggen(httpServletRequest);
-        return Response.status(200).entity(new JsonFoutmelding()).build();
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/ingelogdeGebruiker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public IngelogdeGebruiker getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Ophalen ingelogde gebruiker");
+    public IngelogdeGebruiker getIngelogdeGebruiker(@RequestParam String userid) {
+        LOGGER.debug("Ophalen ingelogde gebruiker '{}'",userid);
 
-        Gebruiker gebruiker = getGebruiker(httpServletRequest);
+        Gebruiker gebruiker = getGebruiker(userid);
 
         IngelogdeGebruiker ingelogdeGebruiker = new IngelogdeGebruiker();
         if (gebruiker != null) {
@@ -104,37 +97,39 @@ public class AuthorisatieController {
     public class GebruikerNietGevondenOfWachtwoordOnjuisException extends RuntimeException {
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/isIngelogd", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public Response isIngelogd(HttpServletRequest httpServletRequest) {
-        LOGGER.debug("is gebruiker ingelogd");
+//    @RequestMapping(method = RequestMethod.GET, value = "/isIngelogd", produces = MediaType.APPLICATION_JSON)
+//    @ResponseBody
+//    public Response isIngelogd(HttpServletRequest httpServletRequest) {
+//        LOGGER.debug("is gebruiker ingelogd");
+//
+//        Gebruiker gebruiker = getGebruiker(httpServletRequest);
+//
+//        if (gebruiker == null) {
+//            return Response.status(401).entity(false).build();
+//        } else {
+//            return Response.status(200).entity(true).build();
+//        }
+//    }
 
-        Gebruiker gebruiker = getGebruiker(httpServletRequest);
-
-        if (gebruiker == null) {
-            return Response.status(401).entity(false).build();
-        } else {
-            return Response.status(200).entity(true).build();
-        }
-    }
-
-    private Gebruiker getGebruiker(HttpServletRequest httpServletRequest) {
-        String sessie = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
-        }
-
-        Gebruiker gebruiker = authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr());
-
-        if (gebruiker == null) {
-            String sessieHeader = httpServletRequest.getHeader("sessieCode");
+    private Gebruiker getGebruiker(String userid) {
+        Gebruiker gebruiker=null;
+//        String sessie = null;
+//        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
+//            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
+//        }
+//
+//        Gebruiker gebruiker = authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr());
+//
+//        if (gebruiker == null) {
+//            String sessieHeader = httpServletRequest.getHeader("sessieCode");
 
             try {
-                gebruiker = gebruikerRepository.zoekOpSessieEnIpadres(sessieHeader, "0:0:0:0:0:0:0:1");
+             gebruiker=authorisatieService.zoekOpIdentificatie(userid);
+//                gebruiker = gebruikerRepository.zoekOpSessieEnIpadres(sessieHeader, "0:0:0:0:0:0:0:1");
             } catch (NietGevondenException nge) {
                 LOGGER.trace("Gebruiker dus niet gevonden", nge);
             }
-        }
+//        }
 
         return gebruiker;
     }
