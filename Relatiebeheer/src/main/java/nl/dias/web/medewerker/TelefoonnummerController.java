@@ -35,7 +35,7 @@ public class TelefoonnummerController extends AbstractController {
                 return telefoonnummer;
             }
         }).collect(Collectors.toList());
-        telefoonnummerClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        telefoonnummerClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_JSON)
@@ -53,7 +53,7 @@ public class TelefoonnummerController extends AbstractController {
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") String parentid, HttpServletRequest httpServletRequest) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(parentid);
 
-        telefoonnummerClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        telefoonnummerClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_JSON)

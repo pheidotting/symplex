@@ -51,7 +51,7 @@ public class AdresController extends AbstractController {
             }
             return adres;
         }).collect(Collectors.toList());
-        adresClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        adresClient.opslaan(lijst, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_JSON)
@@ -67,7 +67,7 @@ public class AdresController extends AbstractController {
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") String parentid, HttpServletRequest httpServletRequest) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(parentid);
 
-        adresClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        adresClient.verwijder(soortentiteit, identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_JSON)

@@ -68,58 +68,9 @@ public class AuthorisatieService {
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
             throw new OnjuistWachtwoordException();
         }
-
-        // Gebruiker dus gevonden en wachtwoord dus juist..
-//        if (!uitZabbix) {
-//            LOGGER.debug("Aanmaken nieuwe sessie");
-//        }
-//        String nieuweSessie = UUID.randomUUID().toString();
-//        Sessie sessie = new Sessie();
-//        sessie.setBrowser(request.getHeader("user-agent"));
-//        sessie.setIpadres(request.getRemoteAddr());
-//        sessie.setDatumLaatstGebruikt(new Date());
-//        sessie.setGebruiker(gebruikerUitDatabase);
-//        sessie.setSessie(nieuweSessie);
-//
-//        gebruikerService.opslaan(sessie);
-//
-//        gebruikerUitDatabase.getSessies().add(sessie);
-//
-//        gebruikerService.opslaan(gebruikerUitDatabase);
-//
-//        if (!uitZabbix) {
-//            LOGGER.debug("sessie id {} in de request en response plaatsen", nieuweSessie);
-//        }
-//        request.getSession().setAttribute("sessie", nieuweSessie);
-//
-//        response.setHeader("sessie", nieuweSessie);
     }
 
     public Gebruiker zoekOpIdentificatie(String identificatie) throws NietGevondenException {
         return gebruikerService.zoekOpIdentificatie(identificatie);
-    }
-
-    public Gebruiker getIngelogdeGebruiker(HttpServletRequest request, String sessieId, String ipadres) {
-
-        Gebruiker gebruiker = null;
-        try {
-            gebruiker = gebruikerService.zoekOpSessieEnIpAdres(sessieId, ipadres);
-
-            if (gebruiker != null) {
-                LOGGER.debug("Opzoeken Sessie met id " + sessieId + " en ipadres " + ipadres);
-                Sessie sessie = gebruikerService.zoekSessieOp(sessieId, ipadres, gebruiker.getSessies());
-                if (sessie != null) {
-                    sessie.setDatumLaatstGebruikt(new Date());
-
-                    gebruikerService.opslaan(gebruiker);
-
-                    gebruikerService.verwijderVerlopenSessies(gebruiker);
-                }
-            }
-        } catch (NietGevondenException e) {
-            LOGGER.trace("Geen ingelogde gebruiker gevonden", e);
-        }
-
-        return gebruiker;
     }
 }

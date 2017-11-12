@@ -52,19 +52,19 @@ public class BijlageController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigOmschrijvingBijlage", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     public void wijzigOmschrijvingBijlage(@RequestBody WijzigenOmschrijvingBijlage wijzigenOmschrijvingBijlage, HttpServletRequest httpServletRequest) {
-        bijlageClient.wijzigOmschrijvingBijlage(wijzigenOmschrijvingBijlage, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        bijlageClient.wijzigOmschrijvingBijlage(wijzigenOmschrijvingBijlage, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     public void opslaan(@RequestBody List<JsonBijlage> jsonEntiteiten, HttpServletRequest httpServletRequest) {
-        bijlageClient.opslaan(jsonEntiteiten, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        bijlageClient.opslaan(jsonEntiteiten, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanBijlage", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     public void opslaanBijlage(JsonBijlage jsonBijlage, HttpServletRequest httpServletRequest) {
-        bijlageClient.opslaan(jsonBijlage, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        bijlageClient.opslaan(jsonBijlage, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/genereerBestandsnaam", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
@@ -90,13 +90,13 @@ public class BijlageController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{soortentiteit}/{parentid}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
-        bijlageClient.verwijder(soortentiteit, parentid, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        bijlageClient.verwijder(soortentiteit, parentid, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijderen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        bijlageClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        bijlageClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
@@ -146,7 +146,7 @@ public class BijlageController extends AbstractController {
             if (fileDetail != null) {
                 groepBijlages.setNaam(fileDetail.getOriginalFilename().replace(".zip", ""));
             }
-            String groepId = groepBijlagesClient.opslaan(groepBijlages, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+            String groepId = groepBijlagesClient.opslaan(groepBijlages, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
 
             groepBijlages.setId(Long.valueOf(groepId));
 
@@ -193,7 +193,7 @@ public class BijlageController extends AbstractController {
                 bijlage.setEntiteitId(entiteitId);
                 LOGGER.debug(ReflectionToStringBuilder.toString(bijlage, ToStringStyle.SHORT_PREFIX_STYLE));
                 JsonBijlage jsonBijlage = bijlageNaarJsonBijlageMapper.map(bijlage, null, null);
-                String id = bijlageClient.opslaan(jsonBijlage, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+                String id = bijlageClient.opslaan(jsonBijlage, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
 
                 EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest = new EntiteitenOpgeslagenRequest();
                 SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();

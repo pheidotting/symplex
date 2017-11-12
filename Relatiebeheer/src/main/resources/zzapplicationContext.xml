@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <context:component-scan base-package="nl.dias"/>
     <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
 
-    <bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter"/>
+    <!--<bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter"/>-->
 
     <!-- Activemq connection factory -->
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">

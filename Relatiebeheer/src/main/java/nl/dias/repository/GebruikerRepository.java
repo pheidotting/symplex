@@ -248,21 +248,6 @@ public class GebruikerRepository {//extends AbstractRepository<Gebruiker> {
         return gebruiker;
     }
 
-    public void refresh(Sessie sessie) {
-        getEm().refresh(sessie);
-    }
-
-    public void opslaan(Sessie sessie) {
-        getTransaction();
-
-        if (sessie.getId() == null) {
-            getEm().persist(sessie);
-        } else {
-            getEm().merge(sessie);
-        }
-
-        getTransaction().commit();
-    }
 
     public void verwijderAdressenBijRelatie(Relatie relatie) {
         getEm().getTransaction();
@@ -272,11 +257,6 @@ public class GebruikerRepository {//extends AbstractRepository<Gebruiker> {
         getEm().getTransaction().commit();
     }
 
-    public void verwijder(Sessie sessie) {
-        getTransaction();
-        getEm().delete(sessie);
-        getTransaction().commit();
-    }
 
     public void verwijder(Gebruiker gebruiker) {
         getTransaction();
@@ -284,23 +264,6 @@ public class GebruikerRepository {//extends AbstractRepository<Gebruiker> {
         getTransaction().commit();
     }
 
-    public Gebruiker zoekOpCookieCode(String cookieCode) throws NietGevondenException {
-        Gebruiker gebruiker;
-        getTransaction();
-
-        Query query = getEm().getNamedQuery("Gebruiker.zoekOpCookieCode");
-        query.setParameter("cookieCode", cookieCode);
-        try {
-            gebruiker = (Gebruiker) query.list().get(0);
-        } catch (NoResultException e) {
-            LOGGER.info("Niets gevonden", e);
-            throw new NietGevondenException(cookieCode);
-        }
-
-        getTransaction().commit();
-
-        return gebruiker;
-    }
 
     public Gebruiker lees(Long id) {
         getTransaction();

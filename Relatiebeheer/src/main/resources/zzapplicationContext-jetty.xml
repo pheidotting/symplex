@@ -11,7 +11,7 @@
     <context:component-scan base-package="nl.dias"/>
     <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
 
-    <bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter"/>
+    <!--<bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter"/>-->
 
     <!--
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
