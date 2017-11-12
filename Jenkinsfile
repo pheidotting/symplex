@@ -6,7 +6,7 @@ pipeline {
             steps {
                 sh '''
                     cd Commons
-                    mvn clean test sonar:sonar
+                    mvn clean test -Psonar sonar:sonar
                 '''
             }
             post {
