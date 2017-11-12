@@ -4,7 +4,7 @@ pipeline {
 
         stage ('Sonar Commons') {
             steps {
-                sh '/Commons/mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}''
+                sh 'cd Commons && mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}''
             }
             post {
                 success {
