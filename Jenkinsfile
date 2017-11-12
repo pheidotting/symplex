@@ -320,7 +320,7 @@ pipeline {
             steps {
                 sh '''
                     cd Commons
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -336,7 +336,7 @@ pipeline {
             steps {
                 sh '''
                     cd Clients
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -352,7 +352,7 @@ pipeline {
             steps {
                 sh '''
                     cd Messaging
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -368,7 +368,7 @@ pipeline {
             steps {
                 sh '''
                     cd Communicatie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -384,7 +384,7 @@ pipeline {
             steps {
                 sh '''
                     cd IdBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -400,7 +400,7 @@ pipeline {
             steps {
                 sh '''
                     cd OverigeRelatieGegevensAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -416,7 +416,7 @@ pipeline {
             steps {
                 sh '''
                     cd PolisAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
@@ -432,7 +432,7 @@ pipeline {
             steps {
                 sh '''
                     cd Relatiebeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=env.BRANCH_NAME
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=${env.BRANCH_NAME}
                 '''
             }
             post {
