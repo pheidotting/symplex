@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Ignore
-
 public class RekeningTest extends AbstractTest<JsonRekeningNummer> {
     private RekeningClient rekeningClient = new RekeningClient("http://localhost:7072/oga");
 
