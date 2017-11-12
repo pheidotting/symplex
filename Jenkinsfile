@@ -416,7 +416,7 @@ pipeline {
             }
         }
 
-        stage ('Sonar Branch') {
+        stage ('Sonar Master') {
             when {
                 expression {
                     return env.BRANCH_NAME == 'master'
