@@ -2,8 +2,9 @@ pipeline {
     agent any
     stages {
         stage ('Initialize') {
+                def commitMessage = commitMessage()
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```commitMessage()```")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```${commitMessage}```")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
