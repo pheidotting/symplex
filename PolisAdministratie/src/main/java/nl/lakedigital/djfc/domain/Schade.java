@@ -15,9 +15,7 @@ import java.util.Objects;
 @Table(name = "SCHADE")
 @NamedQueries({@NamedQuery(name = "Schade.zoekOpschadeNummerMaatschappij", query = "select s from Schade s where s.schadeNummerMaatschappij = :schadeNummerMaatschappij"),//
         @NamedQuery(name = "Schade.allesBijPolis", query = "select s from Schade s where s.polis = :polis")})
-public class Schade implements Serializable {
-    private static final long serialVersionUID = -8340805705038811388L;
-
+public class Schade  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
