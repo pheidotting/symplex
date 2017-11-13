@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                def commitMessage = commitMessage()
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```${commitMessage}```")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -471,4 +472,11 @@ pipeline {
             slackSend (color: '#4245f4', message: "Afgerond : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
+}
+
+def commitMessage() {
+    sh 'git log --format=%B -n 1 HEAD > commitMessage'
+    def commitMessage = readFile('commitMessage')
+    sh 'rm commitMessage'
+    commitMessage
 }
