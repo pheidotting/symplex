@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "WG")
 public class WGAEigenRisicoDragerVerzekering extends Polis {
-    public WGAEigenRisicoDragerVerzekering() {
+    public WGAEigenRisicoDragerVerzekering() {//Hibernate wil deze, maar SonarQube niet
     }
 
     public WGAEigenRisicoDragerVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
