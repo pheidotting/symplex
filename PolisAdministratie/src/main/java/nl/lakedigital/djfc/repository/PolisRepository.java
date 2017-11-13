@@ -28,7 +28,7 @@ public class PolisRepository {
         try {
             return sessionFactory.getCurrentSession();
         } catch (HibernateException e) {
-            return sessionFactory.openSession();
+            return sessionFactory.openSession();//NOSONAR
         }
     }
 
