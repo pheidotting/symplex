@@ -27,7 +27,7 @@ public class AuthorisatieService {
     @Inject
     private GebruikerService gebruikerService;
 
-    public void inloggen(String identificatie, String wachtwoord, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException {
+    public Gebruiker inloggen(String identificatie, String wachtwoord, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException {
         boolean uitZabbix = "true".equals(request.getHeader("Zabbix"));
 
         if (!uitZabbix) {
@@ -68,6 +68,8 @@ public class AuthorisatieService {
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
             throw new OnjuistWachtwoordException();
         }
+
+        return gebruikerUitDatabase;
     }
 
     public Gebruiker zoekOpIdentificatie(String identificatie) throws NietGevondenException {
