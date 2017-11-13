@@ -298,6 +298,7 @@ pipeline {
             post {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar test gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```" channel: "#deployments")
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
