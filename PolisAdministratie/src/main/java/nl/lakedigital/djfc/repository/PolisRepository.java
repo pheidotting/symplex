@@ -68,7 +68,6 @@ public class PolisRepository {
                 getSession().merge(t);
             }
         }
-        //        getSession().getTransaction().commit();
     }
 
     @Transactional(readOnly = true)
@@ -99,12 +98,13 @@ public class PolisRepository {
     public List<Polis> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
         String queryString = null;
         if (soortEntiteit == SoortEntiteit.RELATIE) {
-            queryString = "select p from Polis p where relatie = " + entiteitId;
+            queryString = "select p from Polis p where relatie = :entiteitId";
         } else if (soortEntiteit == SoortEntiteit.BEDRIJF) {
-            queryString = "select p from Polis p where bedrijf = " + entiteitId;
+            queryString = "select p from Polis p where bedrijf = :entiteitId";
         }
 
         Query query = getSession().createQuery(queryString);
+        query.setParameter("entiteitId",entiteitId);
 
         return query.list();
     }
