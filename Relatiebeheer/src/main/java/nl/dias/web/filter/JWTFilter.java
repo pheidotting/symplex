@@ -5,9 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import nl.dias.domein.Gebruiker;
 import nl.dias.repository.GebruikerRepository;
-import nl.dias.service.AuthorisatieService;
-import nl.dias.service.GebruikerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -28,6 +27,9 @@ public class JWTFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        GebruikerRepository gebruikerRepository = (GebruikerRepository) applicationContext.getBean("gebruikerRepository");
+
         // Get the HTTP Authorization header from the request
         String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -45,9 +47,13 @@ public class JWTFilter implements Filter {
                     LOGGER.debug("Evaluating token {}", token);
                     // Validate the token
                     try {
-                        Algorithm algorithm = Algorithm.HMAC512("secret");
+                        DecodedJWT decodedJWT = JWT.decode(token);
+
+                        Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
+
+                        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getWachtwoord());
                         JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
-                        DecodedJWT jwt = verifier.verify(token);
+                        verifier.verify(token);
                     } catch (UnsupportedEncodingException exception) {
                         LOGGER.error("UTF8 fout", exception);
                         //UTF-8 encoding not supported

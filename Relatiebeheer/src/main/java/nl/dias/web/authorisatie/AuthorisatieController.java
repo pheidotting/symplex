@@ -45,9 +45,9 @@ public class AuthorisatieController {
     public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         try {
             LOGGER.debug("Inloggen");
-            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
+            Gebruiker gebruiker= authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
-            String token = issueToken(inloggen.getIdentificatie(), httpServletRequest);
+            String token = issueToken(gebruiker, httpServletRequest);
 
             // Return the token on the response
             httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
@@ -109,13 +109,13 @@ public class AuthorisatieController {
         return gebruiker;
     }
 
-    private String issueToken(String login, HttpServletRequest httpServletRequest) {
+    private String issueToken(Gebruiker gebruiker, HttpServletRequest httpServletRequest) {
         String token = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC512("secret");
+            Algorithm algorithm = Algorithm.HMAC512(gebruiker.getWachtwoord());
 
             token = JWT.create()
-                    .withSubject(login)
+                    .withSubject(gebruiker.getIdentificatie())
                     .withIssuer(httpServletRequest.getContextPath())
                     .withIssuedAt(new Date())
                     .withExpiresAt(LocalDateTime.now().plusHours(1).toDate())
