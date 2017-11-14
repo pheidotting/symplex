@@ -23,7 +23,9 @@ define(["commons/3rdparty/log2",
                     ataType: "json",
                     async: false,
                     beforeSend: function(request) {
-                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        if(localStorage.getItem('symplexAccessToken')!=null){
+                            request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        }
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
@@ -62,7 +64,9 @@ define(["commons/3rdparty/log2",
                     async: false,
                     beforeSend: function(request){
                         request.setRequestHeader('trackAndTraceId', trackAndTraceId);
-                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        if(localStorage.getItem('symplexAccessToken')!=null){
+                            request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        }
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
