@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 
 @Repository
-public class GebruikerRepository {//extends AbstractRepository<Gebruiker> {
+public class GebruikerRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(GebruikerRepository.class);
     private static final int MAX_RESULTS = 30;
 
