@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -16,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @NamedQueries({//
         @NamedQuery(name = "GroepBijlages.allesGroepBijlages", query = "select gb from GroepBijlages gb where gb.bijlages IN (select b from Bijlage b where b.soortEntiteit = :soortEntiteit and b.entiteitId = :entiteitId)")//
 })
-public class GroepBijlages {
+public class GroepBijlages implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

@@ -88,7 +88,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
                     public boolean apply(T t) {
                         return adres.getId().equals(t.getId());
                     }
-                })).size() == 0;
+                })).isEmpty();
             }
         });
 
