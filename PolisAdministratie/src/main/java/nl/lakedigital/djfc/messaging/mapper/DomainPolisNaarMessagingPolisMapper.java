@@ -26,16 +26,16 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
 
         String patternDatum = "yyyy-MM-dd";
 
-        if (polisIn.getIngangsDatum() != null && !"".equals(polisIn.getIngangsDatum())) {
+        if (polisIn.getIngangsDatum() != null ) {
             polis.setIngangsDatum(polisIn.getIngangsDatum().toString(patternDatum));
         }
-        if (polisIn.getWijzigingsDatum() != null && !"".equals(polisIn.getWijzigingsDatum())) {
+        if (polisIn.getWijzigingsDatum() != null ) {
             polis.setWijzigingsDatum(polisIn.getWijzigingsDatum().toString(patternDatum));
         }
-        if (polisIn.getProlongatieDatum() != null && !"".equals(polisIn.getProlongatieDatum())) {
+        if (polisIn.getProlongatieDatum() != null ) {
             polis.setProlongatieDatum(polisIn.getProlongatieDatum().toString(patternDatum));
         }
-        if (polisIn.getEindDatum() != null && !"".equals(polisIn.getEindDatum())) {
+        if (polisIn.getEindDatum() != null ) {
             polis.setEindDatum(polisIn.getEindDatum().toString(patternDatum));
         }
         polis.setPolisNummer(polisIn.getPolisNummer());

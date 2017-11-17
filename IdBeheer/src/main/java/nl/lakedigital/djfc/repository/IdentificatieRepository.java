@@ -27,6 +27,7 @@ public class IdentificatieRepository {
         try {
             return sessionFactory.getCurrentSession();
         } catch (HibernateException e) {
+            LOGGER.trace("Sonar vindt dat ik deze fout moet loggen", e);
             return sessionFactory.openSession();
         }
     }
@@ -70,7 +71,6 @@ public class IdentificatieRepository {
         }
     }
 
-    @Transactional(readOnly = true)
     private boolean komtCodeAlVoor(String identificatieCode) {
         LOGGER.debug("trace {} al voor?", identificatieCode);
         Query query = getSession().getNamedQuery("Identificatie.zoekOpIdentificatieCode");

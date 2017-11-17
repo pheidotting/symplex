@@ -9,8 +9,7 @@ import nl.dias.domein.Gebruiker;
 import nl.dias.repository.GebruikerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,11 +24,10 @@ import java.io.UnsupportedEncodingException;
 public class JWTFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTFilter.class);
 
+    private GebruikerRepository gebruikerRepository;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        GebruikerRepository gebruikerRepository = (GebruikerRepository) applicationContext.getBean("gebruikerRepository");
-
         // Get the HTTP Authorization header from the request
         String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -51,7 +49,7 @@ public class JWTFilter implements Filter {
 
                         Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
 
-                        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getWachtwoord());
+                        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
                         JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
                         verifier.verify(token);
                     } catch (UnsupportedEncodingException exception) {
@@ -91,7 +89,10 @@ public class JWTFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig arg0) throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
         LOGGER.debug("init filter");
+        gebruikerRepository = WebApplicationContextUtils.
+                getRequiredWebApplicationContext(filterConfig.getServletContext()).
+                getBean(GebruikerRepository.class);
     }
 }

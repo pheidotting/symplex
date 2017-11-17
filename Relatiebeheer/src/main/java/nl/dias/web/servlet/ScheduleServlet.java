@@ -1,8 +1,6 @@
 package nl.dias.web.servlet;
 
 import nl.dias.repository.GebruikerRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.inject.Inject;
@@ -13,8 +11,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class ScheduleServlet implements ServletContextListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduleServlet.class);
-
     private ScheduledExecutorService scheduler;
 
     @Inject

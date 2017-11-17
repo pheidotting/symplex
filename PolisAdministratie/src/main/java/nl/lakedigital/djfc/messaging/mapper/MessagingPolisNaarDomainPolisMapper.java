@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -36,7 +37,7 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
 
     @Override
     public nl.lakedigital.djfc.domain.Polis apply(Polis polisIn) {
-        nl.lakedigital.djfc.domain.Polis polis;
+        nl.lakedigital.djfc.domain.Polis polis=null;
 
         if (StringUtils.isNotEmpty(polisIn.getIdentificatie())) {
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
@@ -50,7 +51,13 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
 
         if (polisIn.getId() == null || polisIn.getId() == 0L) {
             LOGGER.debug("Polis zonder id, nieuwe aanmaken dus");
-            polis = polissen.stream().filter(new JPolisOpSchermNaamPredicate(polisIn.getSoort())).findFirst().get().nieuweInstantie(SoortEntiteit.valueOf(polisIn.getSoortEntiteit()), polisIn.getEntiteitId());
+            Optional<nl.lakedigital.djfc.domain.Polis> firstPolisOptional = polissen.stream().filter(new JPolisOpSchermNaamPredicate(polisIn.getSoort()))
+                    .findFirst();
+
+            if(firstPolisOptional.isPresent()){
+            polis = firstPolisOptional
+                    .get()
+                    .nieuweInstantie(SoortEntiteit.valueOf(polisIn.getSoortEntiteit()), polisIn.getEntiteitId());}
         } else {
             LOGGER.debug("Bestaande polis, ophalen dus..");
             polis = polisService.lees(polisIn.getId());
@@ -79,7 +86,7 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
         polis.setKenmerk(polisIn.getKenmerk());
         polis.setIngangsDatum(ingangsDatum);
         if (polisIn.getPremie() != null) {
-            polis.setPremie(new Bedrag(polisIn.getPremie().toString()));
+            polis.setPremie(new Bedrag(polisIn.getPremie()));
         }
         polis.setWijzigingsDatum(wijzigingsDatum);
         polis.setProlongatieDatum(prolongatieDatum);

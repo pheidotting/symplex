@@ -36,7 +36,7 @@ define(["commons/3rdparty/log2",
                         if (response.status.toString().startsWith(40)) {
                             location.href = 'inloggen.html';
                         }else{
-                            if(request != 'Server Error') {
+                            if(request != 'Server Error' && request != 'Service Unavailable') {
                                 if( request.getResponseHeader('Authorization') != null ) {
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
                                 }
