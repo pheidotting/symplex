@@ -124,7 +124,7 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Response verwijder(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+    public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
         LOGGER.debug("verwijderen Polis met id " + id);
 
         zetSessieWaarden(httpServletRequest);

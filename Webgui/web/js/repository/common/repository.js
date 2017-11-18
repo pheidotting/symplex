@@ -33,7 +33,7 @@ define(["commons/3rdparty/log2",
                         return deferred.resolve(response);
                     },
                     error: function (response, textStatus, request) {
-                        if (response.status.toString().startsWith(40)) {
+                        if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
                             if(request != 'Server Error') {
@@ -72,7 +72,7 @@ define(["commons/3rdparty/log2",
                         return deferred.resolve(response);
                     },
                     error: function (response) {
-                        if (response.status.toString().startsWith(40)) {
+                        if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
                             return deferred.resolve(response);

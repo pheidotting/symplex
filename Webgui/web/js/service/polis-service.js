@@ -37,7 +37,7 @@ define(["commons/3rdparty/log",
             },
 
             verwijder: function(id){
-                return repository.voerUitGet(navRegister.bepaalUrl('VERWIJDER_POLIS'), {id : id});
+                return repository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id);
             },
 
             lees: function(id, basisEntiteit){

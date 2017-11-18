@@ -115,22 +115,22 @@ public class PolisServiceTest extends EasyMockSupport {
         assertNull(polisService.zoekOpPolisNummer("1234"));
     }
 
-    @Test
-    public void testVerwijder() {
-        MobieleApparatuurVerzekering verzekering = new MobieleApparatuurVerzekering();
-        expect(polisRepository.lees(1L)).andReturn(verzekering);
-
-        Relatie relatie = new Relatie();
-        relatie.setId(2L);
-        verzekering.setRelatie(relatie.getId());
-
-        polisRepository.verwijder(verzekering);
-        expectLastCall();
-
-        replayAll();
-
-        polisService.verwijder(1L);
-    }
+    //    @Test
+    //    public void testVerwijder() {
+    //        MobieleApparatuurVerzekering verzekering = new MobieleApparatuurVerzekering();
+    //        expect(polisRepository.lees(1L)).andReturn(verzekering);
+    //
+    //        Relatie relatie = new Relatie();
+    //        relatie.setId(2L);
+    //        verzekering.setRelatie(relatie.getId());
+    //
+    //        polisRepository.verwijder(verzekering);
+    //        expectLastCall();
+    //
+    //        replayAll();
+    //
+    //        polisService.verwijder(1L);
+    //    }
 
     @Test
     public void testAllePolisSoorten() {
