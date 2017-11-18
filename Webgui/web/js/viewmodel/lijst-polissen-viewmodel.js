@@ -59,7 +59,7 @@ define(['jquery',
             var r=confirm("Weet je zeker dat je deze polis wilt verwijderen?");
 			if (r==true) {
 			    _this.polissen.remove(polis);
-			    polisService.verwijder(polis.identificatie());
+			    polisService.verwijderPolis(polis.identificatie());
 			}
         }
 

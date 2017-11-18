@@ -1,9 +1,11 @@
 package nl.dias.web.medewerker;
 
+import nl.dias.domein.Schade;
 import nl.dias.domein.polis.Polis;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
 import nl.dias.service.RelatieService;
+import nl.dias.service.SchadeService;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
@@ -25,6 +27,8 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
@@ -58,6 +62,10 @@ public class RelatieController {
     private PolisService polisService;
     @Inject
     private PolisMapper polisMapper;
+    @Inject
+    private SchadeService schadeService;
+    @Inject
+    private SchadeMapper schadeMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -79,7 +87,24 @@ public class RelatieController {
         List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
         List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
 
-        relatie.setPolissen(jsonPolissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+        List<Schade> schades = schadeService.alleSchadesBijRelatie(relatieDomain.getId());
+        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
+            @Override
+            public JsonPolis apply(JsonPolis jsonPolis) {
+                List<Schade> schadesBijPolis = schades.stream().filter(new Predicate<Schade>() {
+                    @Override
+                    public boolean test(Schade schade) {
+                        return schade.getPolis() == jsonPolis.getId();
+                    }
+                }).collect(Collectors.toList());
+
+                jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
+
+                return jsonPolis;
+            }
+        }).collect(Collectors.toList());
+
+        relatie.setPolissen(jsonPolisList.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 

@@ -71,7 +71,11 @@ define(['jquery',
         }
 
         this.verwijder = function(schade) {
-            logger.debug(schade);
+            var r=confirm("Weet je zeker dat je deze schade wilt verwijderen?");
+			if (r==true) {
+			    _this.schades.remove(schade);
+			    schadeService.verwijderSchade(schade.identificatie());
+			}
         }
 
 		this.verwijderSchade = function(schade) {

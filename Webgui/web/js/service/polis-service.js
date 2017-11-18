@@ -36,10 +36,6 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            verwijder: function(id){
-                return repository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id);
-            },
-
             lees: function(id, basisEntiteit){
                 var identificatie = id.identificatie;
                 var deferred = $.Deferred();

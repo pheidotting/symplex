@@ -169,6 +169,9 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
         }
         jsonPolis.setOmschrijvingVerzekering(polis.getOmschrijvingVerzekering());
 
+        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", jsonPolis.getId());
+        jsonPolis.setIdentificatie(identificatie.getIdentificatie());
+
         return jsonPolis;
     }
 
