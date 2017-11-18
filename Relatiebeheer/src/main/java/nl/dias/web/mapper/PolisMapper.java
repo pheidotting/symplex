@@ -70,12 +70,11 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
         }
 
         Polis polis;
-        if (jsonPolis.getId() == null || jsonPolis.getId() == 0L) {
+        if (jsonPolis.getIdentificatie() == null) {
             polis = polisService.definieerPolisSoort(jsonPolis.getSoort());
-
-            polis.setId(jsonPolis.getId());
         } else {
-            polis = polisService.lees(jsonPolis.getId());
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getIdentificatie());
+            polis = polisService.lees(identificatie.getEntiteitId());
 
             Polis p = polisService.definieerPolisSoort(jsonPolis.getSoort());
 
