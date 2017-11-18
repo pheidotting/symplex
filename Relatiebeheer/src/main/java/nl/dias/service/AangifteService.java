@@ -66,11 +66,13 @@ public class AangifteService {
         return false;
     }
 
-    public void afronden(Long id, LocalDate datumAfronden, Gebruiker medewerker) {
+    public void afronden(Long id, LocalDate datumAfronden, Long medewerkerId) {
         Aangifte aangifte = aangifteRepository.lees(id);
 
+        Medewerker medewerker=(Medewerker)gebruikerService.lees(medewerkerId);
+
         aangifte.setDatumAfgerond(datumAfronden);
-        aangifte.setAfgerondDoor((Medewerker) medewerker);
+        aangifte.setAfgerondDoor( medewerker);
 
         aangifteRepository.opslaan(aangifte);
     }

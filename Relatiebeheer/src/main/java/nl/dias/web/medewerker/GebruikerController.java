@@ -165,7 +165,7 @@ public class GebruikerController extends AbstractController {
             sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
         }
 
-        Medewerker medewerker = (Medewerker) authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr());
+        Medewerker medewerker = (Medewerker) getIngelogdeGebruiker(httpServletRequest);
 
         Kantoor kantoor = kantoorRepository.lees(medewerker.getKantoor().getId());
 
@@ -262,7 +262,7 @@ public class GebruikerController extends AbstractController {
         LOGGER.debug("Opslaan Authcode {}", code);
         zetSessieWaarden(httpServletRequest);
 
-        gebruikerService.opslaanOAuthCodeTodoist(code, getIngelogdeGebruiker(httpServletRequest));
+        gebruikerService.opslaanOAuthCodeTodoist(code, getIngelogdeGebruiker(httpServletRequest).getId());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/leesoauthcode", produces = MediaType.TEXT_PLAIN)
@@ -270,7 +270,7 @@ public class GebruikerController extends AbstractController {
     public String leesOAuthCode(HttpServletRequest httpServletRequest) {
         LOGGER.debug("Lees Authcode ");
 
-        return gebruikerService.leesOAuthCodeTodoist(getIngelogdeGebruiker(httpServletRequest));
+        return gebruikerService.leesOAuthCodeTodoist(getIngelogdeGebruiker(httpServletRequest).getId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/wijzig-wachtwoord", produces = MediaType.APPLICATION_JSON)

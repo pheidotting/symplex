@@ -1,5 +1,7 @@
 package nl.dias.web.authorisatie;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import nl.dias.domein.Beheerder;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
@@ -11,6 +13,7 @@ import nl.lakedigital.djfc.commons.json.Inloggen;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 @RequestMapping("/authorisatie")
 @Controller
@@ -38,7 +45,13 @@ public class AuthorisatieController {
     public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         try {
             LOGGER.debug("Inloggen");
-            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), inloggen.isOnthouden(), httpServletRequest, httpServletResponse);
+            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
+
+            String token = issueToken(inloggen.getIdentificatie(), httpServletRequest);
+
+            // Return the token on the response
+            httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
+
         } catch (NietGevondenException e) {
             LOGGER.trace("gebruiker niet gevonden", e);
             return 1L;
@@ -49,19 +62,12 @@ public class AuthorisatieController {
         return 0L;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/uitloggen", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public Response uitloggen(HttpServletRequest httpServletRequest) {
-        authorisatieService.uitloggen(httpServletRequest);
-        return Response.status(200).entity(new JsonFoutmelding()).build();
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/ingelogdeGebruiker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public IngelogdeGebruiker getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Ophalen ingelogde gebruiker");
+    public IngelogdeGebruiker getIngelogdeGebruiker(@RequestParam String userid) {
+        LOGGER.debug("Ophalen ingelogde gebruiker '{}'",userid);
 
-        Gebruiker gebruiker = getGebruiker(httpServletRequest);
+        Gebruiker gebruiker = getGebruiker(userid);
 
         IngelogdeGebruiker ingelogdeGebruiker = new IngelogdeGebruiker();
         if (gebruiker != null) {
@@ -91,38 +97,33 @@ public class AuthorisatieController {
     public class GebruikerNietGevondenOfWachtwoordOnjuisException extends RuntimeException {
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/isIngelogd", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public Response isIngelogd(HttpServletRequest httpServletRequest) {
-        LOGGER.debug("is gebruiker ingelogd");
-
-        Gebruiker gebruiker = getGebruiker(httpServletRequest);
-
-        if (gebruiker == null) {
-            return Response.status(401).entity(false).build();
-        } else {
-            return Response.status(200).entity(true).build();
-        }
-    }
-
-    private Gebruiker getGebruiker(HttpServletRequest httpServletRequest) {
-        String sessie = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
-        }
-
-        Gebruiker gebruiker = authorisatieService.getIngelogdeGebruiker(httpServletRequest, sessie, httpServletRequest.getRemoteAddr());
-
-        if (gebruiker == null) {
-            String sessieHeader = httpServletRequest.getHeader("sessieCode");
+    private Gebruiker getGebruiker(String userid) {
+        Gebruiker gebruiker=null;
 
             try {
-                gebruiker = gebruikerRepository.zoekOpSessieEnIpadres(sessieHeader, "0:0:0:0:0:0:0:1");
+             gebruiker=authorisatieService.zoekOpIdentificatie(userid);
             } catch (NietGevondenException nge) {
                 LOGGER.trace("Gebruiker dus niet gevonden", nge);
             }
-        }
 
         return gebruiker;
+    }
+
+    private String issueToken(String login, HttpServletRequest httpServletRequest) {
+        String token = null;
+        try {
+            Algorithm algorithm = Algorithm.HMAC512("secret");
+
+            token = JWT.create()
+                    .withSubject(login)
+                    .withIssuer(httpServletRequest.getContextPath())
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(LocalDateTime.now().plusHours(1).toDate())
+                    .sign(algorithm);
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("Fout bij aanmaken JWT",e);
+        }
+
+        return token;
     }
 }

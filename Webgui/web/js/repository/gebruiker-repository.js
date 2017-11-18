@@ -44,8 +44,8 @@ define(["commons/3rdparty/log2",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OAUTH_CODE'), code, trackAndTraceId);
             },
 
-            haalIngelogdeGebruiker: function(){
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('INGELOGDE_GEBRUIKER'));
+            haalIngelogdeGebruiker: function(token){
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('INGELOGDE_GEBRUIKER'), {'userid' : token});
             },
 
             leesOAuthCode: function() {

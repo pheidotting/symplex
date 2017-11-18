@@ -12,14 +12,6 @@
         <spring-framework.version>4.2.5.RELEASE</spring-framework.version>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>central-release</id>
-            <name>jenkins-releases</name>
-            <url>http://jenkins.djfc.local:8081/artifactory/libs-release-local</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -102,5 +94,26 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.3.0.603</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.host.url>http://jenkins.djfc.local:9000</sonar.host.url>
+            </properties>
+        </profile>
+    </profiles>
 </project>

@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import nl.dias.domein.Bedrag;
 import nl.dias.domein.Medewerker;
-import nl.dias.domein.Sessie;
 import nl.dias.domein.StatusPolis;
 import nl.dias.domein.polis.Betaalfrequentie;
 import nl.dias.domein.polis.Polis;
@@ -55,11 +54,6 @@ public class PolisOpslaanTest {
         String dateformat = "yyyy-MM-dd";
 
         Medewerker medewerker = (Medewerker) gebruikerRepository.lees(3L);
-        Sessie sessie = new Sessie();
-        sessie.setSessie("abc");
-        sessie.setIpadres("0:0:0:0:0:0:0:1");
-        medewerker.getSessies().add(sessie);
-        sessie.setGebruiker(medewerker);
         gebruikerRepository.opslaan(medewerker);
 
 

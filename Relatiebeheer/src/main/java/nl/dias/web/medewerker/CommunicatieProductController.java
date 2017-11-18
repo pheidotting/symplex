@@ -37,27 +37,27 @@ public class CommunicatieProductController extends AbstractController {
     public Long nieuwCommunicatieProduct(@RequestBody OpslaanCommunicatieProduct opslaanCommunicatieProduct, HttpServletRequest httpServletRequest) {
         LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(opslaanCommunicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
 
-        opslaanCommunicatieProduct.setMedewerker(getIngelogdeGebruiker(httpServletRequest));
+        opslaanCommunicatieProduct.setMedewerker(getIngelogdeGebruiker(httpServletRequest).getId());
 
-        return communicatieClient.nieuwCommunicatieProduct(opslaanCommunicatieProduct, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        return communicatieClient.nieuwCommunicatieProduct(opslaanCommunicatieProduct, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/versturen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void versturen(@PathVariable Long id, HttpServletRequest httpServletRequest) {
-        communicatieClient.versturen(id, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        communicatieClient.versturen(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/markeerAlsGelezen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void markeerAlsGelezen(@PathVariable Long id, HttpServletRequest httpServletRequest) {
-        communicatieClient.markeerAlsGelezen(id, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        communicatieClient.markeerAlsGelezen(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/markeerOmTeVerzenden/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void markeerOmTeVerzenden(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        communicatieClient.markeerOmTeVerzenden(id, getIngelogdeGebruiker(httpServletRequest), getTrackAndTraceId(httpServletRequest));
+        communicatieClient.markeerOmTeVerzenden(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
