@@ -13,6 +13,7 @@ import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -22,6 +23,7 @@ import static org.easymock.EasyMock.expect;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 @RunWith(EasyMockRunner.class)
 public class RelatieServiceTest extends EasyMockSupport {
     @TestSubject

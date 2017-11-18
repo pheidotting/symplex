@@ -13,10 +13,6 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
             },
 
-            verwijder: function(id) {
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('VERWIJDER_SCHADE'), {id : id});
-            },
-
             lees: function(id) {
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_SCHADE'), {"id" : id});
             },

@@ -5,6 +5,8 @@ import nl.dias.domein.Schade;
 import nl.dias.domein.polis.Polis;
 import nl.dias.service.PolisService;
 import nl.dias.service.SchadeService;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -23,11 +25,13 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
     private SchadeService schadeService;
     @Inject
     private PolisService polisService;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @Override
     public Schade mapVanJson(JsonSchade json) {
-        String patternDatumTijd = "dd-MM-yyyy HH:mm";
-        String patternDatum = "dd-MM-yyyy";
+        String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
+        String patternDatum = "yyyy-MM-dd";
 
         LocalDate datumAfgehandeld = null;
         if (json.getDatumAfgehandeld() != null) {
@@ -35,10 +39,11 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
         }
 
         Schade schade;
-        if (json.getId() == null) {
+        if (json.getIdentificatie() == null) {
             schade = new Schade();
         } else {
-            schade = schadeService.lees(json.getId());
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(json.getIdentificatie());
+            schade = schadeService.lees(identificatie.getEntiteitId());
         }
         schade.setId(json.getId());
 

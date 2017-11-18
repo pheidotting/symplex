@@ -56,7 +56,11 @@ define(['jquery',
         }
 
         this.verwijder = function(polis) {
-            logger.debug(polis);
+            var r=confirm("Weet je zeker dat je deze polis wilt verwijderen?");
+			if (r==true) {
+			    _this.polissen.remove(polis);
+			    polisService.verwijderPolis(polis.identificatie());
+			}
         }
 
 		this.formatDatum = function(datum) {
