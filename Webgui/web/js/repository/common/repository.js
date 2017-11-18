@@ -23,7 +23,9 @@ define(["commons/3rdparty/log2",
                     ataType: "json",
                     async: false,
                     beforeSend: function(request) {
-                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        if(localStorage.getItem('symplexAccessToken')!=null){
+                            request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        }
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
@@ -33,7 +35,7 @@ define(["commons/3rdparty/log2",
                         return deferred.resolve(response);
                     },
                     error: function (response, textStatus, request) {
-                        if (response.status.toString().startsWith(40)) {
+                        if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
                             if(request != 'Server Error' && request != 'Service Unavailable') {
@@ -62,7 +64,9 @@ define(["commons/3rdparty/log2",
                     async: false,
                     beforeSend: function(request){
                         request.setRequestHeader('trackAndTraceId', trackAndTraceId);
-                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        if(localStorage.getItem('symplexAccessToken')!=null){
+                            request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        }
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
@@ -72,7 +76,7 @@ define(["commons/3rdparty/log2",
                         return deferred.resolve(response);
                     },
                     error: function (response) {
-                        if (response.status.toString().startsWith(40)) {
+                        if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
                             return deferred.resolve(response);

@@ -7,6 +7,8 @@ import nl.dias.domein.predicates.PolissenOpSoortPredicate;
 import nl.dias.domein.transformers.PolisToSchermNaamTransformer;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.repository.PolisRepository;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -36,6 +38,8 @@ public class PolisService {
     private VerzekeringsMaatschappijService verzekeringsMaatschappijService;
     @Inject
     private List<Polis> polissen;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     public List<String> allePolisSoorten(final SoortVerzekering soortVerzekering) {
         Iterable<Polis> poli = filter(polissen, new PolissenOpSoortPredicate(soortVerzekering));
@@ -74,9 +78,10 @@ public class PolisService {
         }
     }
 
-    public void verwijder(Long id) {
+    public void verwijder(String id) {
         LOGGER.debug("Ophalen Polis");
-        Polis polis = polisRepository.lees(id);
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
+        Polis polis = polisRepository.lees(identificatie.getEntiteitId());
 
         if (polis == null) {
             throw new IllegalArgumentException("Geen Polis gevonden met id " + id);

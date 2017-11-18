@@ -152,13 +152,18 @@ define(['jquery',
 	    		result.showAllMessages(true);
 	    	}else{
 	    		logger.debug("Versturen : " + ko.toJSON(_this.schade));
+	    		var allOk = true;
 
                 schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function(){
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 //                    redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'schades');
 	    		}).fail(function(data){
+	    		    allOk = false;
 					commonFunctions.plaatsFoutmelding(data);
 	    		});
+	    		if(allOk){
+                    redirect.redirect('LIJST_SCHADES', _this.basisId);
+	    		}
 	    	}
 		};
 

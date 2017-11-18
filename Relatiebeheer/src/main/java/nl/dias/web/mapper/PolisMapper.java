@@ -11,6 +11,8 @@ import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
 import nl.dias.service.VerzekeringsMaatschappijService;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -43,10 +45,12 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
     private GebruikerService gebruikerService;
     @Inject
     private BedrijfService bedrijfService;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @Override
     public Polis mapVanJson(JsonPolis jsonPolis) {
-        String patternDatum = "dd-MM-yyyy";
+        String patternDatum = "yyyy-MM-dd";
 
         LocalDate ingangsDatum = null;
         if (jsonPolis.getIngangsDatum() != null && !"".equals(jsonPolis.getIngangsDatum())) {
@@ -66,12 +70,11 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
         }
 
         Polis polis;
-        if (jsonPolis.getId() == null || jsonPolis.getId() == 0L) {
+        if (jsonPolis.getIdentificatie() == null) {
             polis = polisService.definieerPolisSoort(jsonPolis.getSoort());
-
-            polis.setId(jsonPolis.getId());
         } else {
-            polis = polisService.lees(jsonPolis.getId());
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getIdentificatie());
+            polis = polisService.lees(identificatie.getEntiteitId());
 
             Polis p = polisService.definieerPolisSoort(jsonPolis.getSoort());
 
@@ -105,10 +108,11 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
 
         polis.setMaatschappij(Long.valueOf(jsonPolis.getMaatschappij()));
 
-        if ("relatie".equalsIgnoreCase(jsonPolis.getSoortEntiteit())) {
-            polis.setRelatie(jsonPolis.getEntiteitId());
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getParentIdentificatie());
+        if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
+            polis.setRelatie(identificatie.getEntiteitId());
         } else {
-            polis.setBedrijf(jsonPolis.getEntiteitId());
+            polis.setBedrijf(identificatie.getEntiteitId());
         }
 
         polis.setOmschrijvingVerzekering(jsonPolis.getOmschrijvingVerzekering());
@@ -164,6 +168,9 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
             jsonPolis.setSoortEntiteit("RELATIE");
         }
         jsonPolis.setOmschrijvingVerzekering(polis.getOmschrijvingVerzekering());
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", jsonPolis.getId());
+        jsonPolis.setIdentificatie(identificatie.getIdentificatie());
 
         return jsonPolis;
     }
