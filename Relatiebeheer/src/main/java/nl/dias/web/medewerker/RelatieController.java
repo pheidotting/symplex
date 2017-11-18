@@ -1,11 +1,14 @@
 package nl.dias.web.medewerker;
 
+import nl.dias.domein.polis.Polis;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.PolisService;
 import nl.dias.service.RelatieService;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.Relatie;
 import nl.lakedigital.djfc.domain.response.Telefoongesprek;
@@ -51,6 +54,10 @@ public class RelatieController {
     private RelatieService relatieService;
     @Inject
     private PolisClient polisClient;
+    @Inject
+    private PolisService polisService;
+    @Inject
+    private PolisMapper polisMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -68,7 +75,11 @@ public class RelatieController {
         relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
         relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
         relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
-        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+
+        List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
+        List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
+
+        relatie.setPolissen(jsonPolissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 
