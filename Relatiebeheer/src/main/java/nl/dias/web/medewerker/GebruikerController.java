@@ -65,7 +65,7 @@ public class GebruikerController extends AbstractController {
     public JsonRelatie lees(@QueryParam("id") String id) {
         LOGGER.debug("Ophalen Relatie met id : " + id);
 
-        JsonRelatie jsonRelatie = null;
+        JsonRelatie jsonRelatie;
         if (id != null && !"0".equals(id.trim())) {
             Relatie relatie = (Relatie) gebruikerService.lees(Long.parseLong(id));
 
@@ -158,11 +158,6 @@ public class GebruikerController extends AbstractController {
             if (identificatie != null) {
                 jsonRelatie.setId(identificatie.getEntiteitId());
             }
-        }
-
-        String sessie = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
         }
 
         Medewerker medewerker = (Medewerker) getIngelogdeGebruiker(httpServletRequest);

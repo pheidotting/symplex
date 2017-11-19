@@ -3,11 +3,12 @@ package nl.dias.domein;
 import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "SOORTHYPOTHEEK")
 @NamedQueries({ @NamedQuery(name = "SoortHypotheek.allesInGebruik", query = "select s from SoortHypotheek s where s.ingebruik = '1'") })
-public class SoortHypotheek implements PersistenceObject {
+public class SoortHypotheek implements PersistenceObject, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

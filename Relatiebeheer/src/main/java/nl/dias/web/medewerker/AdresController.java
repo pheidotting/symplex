@@ -38,6 +38,7 @@ public class AdresController extends AbstractController {
                         Thread.sleep(2000);
                     } catch (InterruptedException e1) {
                         LOGGER.trace("Fout, eerste keer bij ophalen identificatie {}", e);
+                        Thread.interrupted();
                     }
                     try {
                         entiteitId = identificatieClient.zoekIdentificatieCode(adres.getParentIdentificatie()).getEntiteitId();

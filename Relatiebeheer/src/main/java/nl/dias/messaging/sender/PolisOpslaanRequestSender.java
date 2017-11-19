@@ -57,7 +57,7 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
             polis1.setDekking(jsonPolis.getDekking());
             polis1.setVerzekerdeZaak(jsonPolis.getVerzekerdeZaak());
             if (jsonPolis.getMaatschappij() != null) {
-                polis1.setMaatschappij(jsonPolis.getMaatschappij().toString());
+                polis1.setMaatschappij(jsonPolis.getMaatschappij());
             }
             polis1.setSoort(jsonPolis.getSoort());
             polis1.setSoortEntiteit(jsonPolis.getSoortEntiteit());

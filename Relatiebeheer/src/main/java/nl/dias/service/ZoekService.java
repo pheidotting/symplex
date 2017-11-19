@@ -50,7 +50,7 @@ public class ZoekService {
             relaties.addAll(gebruikerService.zoekOpNaam(naam).stream().map(gebruiker -> (Relatie) gebruiker).collect(Collectors.toList()));
             bedrijven.addAll(bedrijfService.zoekOpNaam(naam));
         }
-        if (geboortedatum != null && !"".equals(geboortedatum)) {
+        if (geboortedatum != null) {
             List<Relatie> result = gebruikerService.zoekOpGeboortedatum(geboortedatum);
             if (result != null) {
                 relaties.addAll(result);

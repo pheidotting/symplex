@@ -64,7 +64,7 @@ public class TrackAndTraceFilter implements Filter {
     }
 
     private String getFullURL(HttpServletRequest request) {
-        StringBuffer requestURL = request.getRequestURL();
+        StringBuilder requestURL = new StringBuilder().append(request.getRequestURL().toString());
         String queryString = request.getQueryString();
 
         if (queryString == null) {
