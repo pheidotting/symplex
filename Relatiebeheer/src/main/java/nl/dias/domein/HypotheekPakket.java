@@ -47,7 +47,7 @@ public class HypotheekPakket implements PersistenceObject, Serializable {
 
     public Set<Hypotheek> getHypotheken() {
         if (hypotheken == null) {
-            hypotheken = new HashSet<Hypotheek>();
+            hypotheken = new HashSet<>();
         }
         return hypotheken;
     }
@@ -63,13 +63,6 @@ public class HypotheekPakket implements PersistenceObject, Serializable {
         builder.append(id);
         builder.append(", relatie=");
         builder.append(relatie.getId());
-        //        builder.append(", hypotheken=");
-        //        if (hypotheken != null) {
-        //            for (Hypotheek h : hypotheken) {
-        //                builder.append(h.getId());
-        //                builder.append(", ");
-        //            }
-        //        }
         builder.append("]");
         return builder.toString();
     }

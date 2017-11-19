@@ -113,7 +113,7 @@ public class Kantoor implements Serializable, PersistenceObject {
     }
 
     public void setDatumOprichting(LocalDate datumOprichting) {
-        this.datumOprichting = datumOprichting.toDateMidnight().toDate();
+        this.datumOprichting = datumOprichting.toDate();
     }
 
     public Rechtsvorm getRechtsvorm() {
@@ -198,8 +198,6 @@ public class Kantoor implements Serializable, PersistenceObject {
         builder.append(emailadres);
         builder.append(", medewerkers=");
         builder.append(medewerkers);
-        //        builder.append(", relaties=");
-        //        builder.append(relaties);
         builder.append(", afkorting=");
         builder.append(afkorting);
         builder.append("]");
