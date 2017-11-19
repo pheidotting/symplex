@@ -28,22 +28,24 @@ public class LogglyEventsBuffer {
             int period = 5000;
             try {
                 this.timer = new Timer();
-                timer.scheduleAtFixedRate(new TimerTask() {
+            } catch (OutOfMemoryError outOfMemoryError) {
+                throw new RuntimeException(outOfMemoryError.getMessage());
+            }
+            timer.scheduleAtFixedRate(new TimerTask() {
 
-                    public void run() {
-                        flush(token);
+                public void run() {
+                    flush(token);
 
-                    }
-                }, delay, period);
-                timer = null;
-            }catch (OutOfMemoryError outOfMemoryError){}
+                }
+            }, delay, period);
+            timer = null;
         }
     }
 
     public void flush(String token) {
         if (events != null && !events.isEmpty() && !flushing) {
             flushing = true;
-            List<LogglyEvent> eventsToFlush = new ArrayList<>(events != null ? events : new ArrayList<LogglyEvent>());
+            List<LogglyEvent> eventsToFlush = new ArrayList<>(events);
             events = null;
 
             for (LogglyEvent event : eventsToFlush) {
@@ -51,7 +53,7 @@ public class LogglyEventsBuffer {
                 try {
                     Unirest.post("http://logs-01.loggly.com/inputs/" + token + "/tag/" + event.getTag() + "," + event.getLevel().toString()).header("accept", "application/json").body(event.getEvent()).asString();
                 } catch (UnirestException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e.getMessage());
                 }
             }
             flushing = false;

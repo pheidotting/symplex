@@ -25,8 +25,7 @@ public class JsonRelatie {
     private List<String> lijst;
     private String readOnly;
     private String notReadOnly;
-//    private List<JsonTaak> openstaandeTaken;
-private String emailadres;
+    private String emailadres;
 
     public String getRoepnaam() {
         return roepnaam;
@@ -92,55 +91,6 @@ private String emailadres;
         this.achternaam = achternaam;
     }
 
-    //    public List<JsonAdres> getAdressen() {
-    //        if (adressen == null) {
-    //            adressen = new ArrayList<>();
-    //        }
-    //        return adressen;
-    //    }
-    //
-    //    public void setAdressen(List<JsonAdres> adressen) {
-    //        this.adressen = adressen;
-    //    }
-    //
-    //    public String getAdresOpgemaakt() {
-    //        JsonAdres adres = (JsonAdres) getFirst(filter(getAdressen(), new JsonWoonAdresPredicate()), null);
-    //
-    //        if (adresOpgemaakt == null && adres != null) {
-    //            StringBuilder sb = new StringBuilder();
-    //            if (adres.getStraat() != null) {
-    //                sb.append(adres.getStraat() + " ");
-    //            }
-    //            if (adres.getHuisnummer() != null) {
-    //                sb.append(adres.getHuisnummer() + " ");
-    //            }
-    //            if (adres.getToevoeging() != null && !"".equals(adres.getToevoeging())) {
-    //                sb.append(adres.getToevoeging() + " ");
-    //            }
-    //            if (adres.getPlaats() != null) {
-    //                sb.append(", " + adres.getPlaats());
-    //            }
-    //            adresOpgemaakt = sb.toString();
-    //
-    //        }
-    //        return adresOpgemaakt;
-    //    }
-    //
-    //    public void setAdresOpgemaakt(String adresOpgemaakt) {
-    //        this.adresOpgemaakt = adresOpgemaakt;
-    //    }
-
-    //    public List<JsonTelefoonnummer> getTelefoonnummers() {
-    //        if (telefoonnummers == null) {
-    //            telefoonnummers = new ArrayList<JsonTelefoonnummer>();
-    //        }
-    //        return telefoonnummers;
-    //    }
-    //
-    //    public void setTelefoonnummers(List<JsonTelefoonnummer> telefoonnummers) {
-    //        this.telefoonnummers = telefoonnummers;
-    //    }
-    //
     public String getBsn() {
         return bsn;
     }
@@ -148,17 +98,6 @@ private String emailadres;
     public void setBsn(String bsn) {
         this.bsn = bsn;
     }
-
-    //    public List<JsonRekeningNummer> getRekeningnummers() {
-    //        if (rekeningnummers == null) {
-    //            rekeningnummers = new ArrayList<JsonRekeningNummer>();
-    //        }
-    //        return rekeningnummers;
-    //    }
-    //
-    //    public void setRekeningnummers(List<JsonRekeningNummer> rekeningnummers) {
-    //        this.rekeningnummers = rekeningnummers;
-    //    }
 
     public Long getKantoor() {
         return kantoor;
@@ -168,15 +107,6 @@ private String emailadres;
         this.kantoor = kantoor;
     }
 
-    //
-    //    public List<JsonOpmerking> getOpmerkingen() {
-    //        return opmerkingen;
-    //    }
-    //
-    //    public void setOpmerkingen(List<JsonOpmerking> opmerkingen) {
-    //        this.opmerkingen = opmerkingen;
-    //    }
-    //
     public String getGeslacht() {
         return geslacht;
     }
@@ -193,25 +123,6 @@ private String emailadres;
         this.burgerlijkeStaat = burgerlijkeStaat;
     }
 
-    //    public List<JsonOnderlingeRelatie> getOnderlingeRelaties() {
-    //        if (onderlingeRelaties == null) {
-    //            onderlingeRelaties = new ArrayList<>();
-    //        }
-    //        return onderlingeRelaties;
-    //    }
-    //
-    //    public void setOnderlingeRelaties(List<JsonOnderlingeRelatie> onderlingeRelaties) {
-    //        this.onderlingeRelaties = onderlingeRelaties;
-    //    }
-    //
-    //    public boolean isZakelijkeKlant() {
-    //        return zakelijkeKlant;
-    //    }
-    //
-    //    public void setZakelijkeKlant(boolean zakelijkeKlant) {
-    //        this.zakelijkeKlant = zakelijkeKlant;
-    //    }
-
     public List<String> getErrors() {
         return errors;
     }
@@ -219,14 +130,6 @@ private String emailadres;
     public void setErrors(List<String> errors) {
         this.errors = errors;
     }
-
-    //    public List<JsonBijlage> getBijlages() {
-    //        return bijlages;
-    //    }
-    //
-    //    public void setBijlages(List<JsonBijlage> bijlages) {
-    //        this.bijlages = bijlages;
-    //    }
 
     public String getSoortEntiteit() {
         return soortEntiteit;
@@ -267,14 +170,6 @@ private String emailadres;
     public void setNotReadOnly(String notReadOnly) {
         this.notReadOnly = notReadOnly;
     }
-
-//    public List<JsonTaak> getOpenstaandeTaken() {
-//        return openstaandeTaken;
-//    }
-//
-//    public void setOpenstaandeTaken(List<JsonTaak> openstaandeTaken) {
-//        this.openstaandeTaken = openstaandeTaken;
-//    }
 
     public String getEmailadres() {
         return emailadres;
