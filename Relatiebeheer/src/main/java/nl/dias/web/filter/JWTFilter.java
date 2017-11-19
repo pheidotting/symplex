@@ -59,21 +59,20 @@ public class JWTFilter implements Filter {
                         token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(((HttpServletRequest) request).getContextPath()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
 
                     } catch (UnsupportedEncodingException exception) {
-                        LOGGER.error("UTF8 fout", exception);
+                        LOGGER.trace("UTF8 fout", exception);
                         //UTF-8 encoding not supported
                         ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     } catch (JWTVerificationException exception) {
-                        LOGGER.error("", exception);
+                        LOGGER.trace("", exception);
                         //Invalid signature/claims
                         ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     }
-
 
                     LOGGER.info("#### valid token : " + token);
 
                     ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
                 } catch (Exception e) {
-                    LOGGER.error("#### invalid token : " + token);
+                    LOGGER.trace("#### invalid token : " + token);
                     LOGGER.trace("Oorspronkelijke fout : {}", e);
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
