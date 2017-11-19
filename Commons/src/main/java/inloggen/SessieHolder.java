@@ -3,6 +3,9 @@ package inloggen;
 public final class SessieHolder {
     private static ThreadLocal<Sessie> sessie = new ThreadLocal<Sessie>();
 
+    public SessieHolder() {
+    }
+
     public static Sessie get() {
         return SessieHolder.sessie.get();
     }

@@ -12,6 +12,7 @@ public class LogglyAppender extends AppenderSkeleton {
     private String tag = "";
     private String token = "";
     private String interval = "1";
+    private LogglyEventsBuffer logglyEventsBuffer;
 
     public LogglyAppender() {
         super();
@@ -20,8 +21,6 @@ public class LogglyAppender extends AppenderSkeleton {
     public LogglyAppender(boolean isActive) {
         super(isActive);
     }
-
-    private LogglyEventsBuffer logglyEventsBuffer;
 
     @Override
     protected void append(LoggingEvent event) {
@@ -65,7 +64,7 @@ public class LogglyAppender extends AppenderSkeleton {
 
     @Override
     public void close() {
-
+        //Gebruiken we niet
     }
 
     @Override
