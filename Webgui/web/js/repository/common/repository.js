@@ -1,8 +1,9 @@
 define(["commons/3rdparty/log2",
         "navRegister",
         'knockout',
-        'redirect'],
-    function(log, navRegister, ko, redirect) {
+        'redirect',
+        'viewmodel/common/foutpagina-viewmodel'],
+    function(log, navRegister, ko, redirect, foutpaginaViewmodel) {
         var logger = log.getLogger('repository');
 
         return {
@@ -42,6 +43,8 @@ define(["commons/3rdparty/log2",
                                 if( request.getResponseHeader('Authorization') != null ) {
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
                                 }
+                            } else {
+                                foutpagina = new foutpaginaViewmodel(response.responseText);
                             }
 
                             return deferred.resolve(response);
@@ -79,7 +82,7 @@ define(["commons/3rdparty/log2",
                         if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
-                            return deferred.resolve(response);
+                            foutpagina = new foutpaginaViewmodel(response.responseText);
                         }
                     }
                 });
