@@ -143,11 +143,11 @@
         <!--<artifactId>djfc-json</artifactId>-->
         <!--<version>3.1</version>-->
         <!--</dependency>-->
-        <dependency>
-            <groupId>nl.lakedigital.as.taakbeheer.client</groupId>
-            <artifactId>taakbeheerclient</artifactId>
-            <version>3.1</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>nl.lakedigital.as.taakbeheer.client</groupId>-->
+        <!--<artifactId>taakbeheerclient</artifactId>-->
+        <!--<version>3.1</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
