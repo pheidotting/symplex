@@ -29,6 +29,7 @@ public class Identificatie implements Serializable {
     private Long entiteitId;
 
     public Identificatie() {
+        //Hibernate wil een default constructor
     }
 
     public Identificatie(String soortEntiteit, Long entiteitId) {

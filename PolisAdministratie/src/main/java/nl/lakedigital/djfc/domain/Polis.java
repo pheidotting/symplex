@@ -84,6 +84,12 @@ public abstract class Polis implements Serializable, Cloneable {
     private String identificatie;
     @Transient
     private List<Schade> schades;
+    public Polis() {
+    }
+
+    public Polis(SoortEntiteit soortEntiteit, Long entiteitId) {
+        setSoortEntiteitEnEntiteitId(soortEntiteit, entiteitId);
+    }
 
     public String getIdentificatie() {
         return identificatie;
@@ -113,12 +119,6 @@ public abstract class Polis implements Serializable, Cloneable {
         return canonicalName.replace("Verzekering", "").replace(pakket, "");
     }
 
-    public Polis() {
-    }
-
-    public Polis(SoortEntiteit soortEntiteit, Long entiteitId) {
-        setSoortEntiteitEnEntiteitId(soortEntiteit, entiteitId);
-    }
 
     public void setSoortEntiteitEnEntiteitId(SoortEntiteit soortEntiteit, Long entiteitId) {
         if (soortEntiteit == SoortEntiteit.RELATIE) {
@@ -173,7 +173,7 @@ public abstract class Polis implements Serializable, Cloneable {
         if (ingangsDatum == null) {
             this.ingangsDatum = null;
         } else {
-            this.ingangsDatum = ingangsDatum.toDateMidnight().toDate();
+            this.ingangsDatum = ingangsDatum.toDate();
         }
     }
 
@@ -228,7 +228,7 @@ public abstract class Polis implements Serializable, Cloneable {
         if (wijzigingsDatum == null) {
             this.wijzigingsDatum = null;
         } else {
-            this.wijzigingsDatum = wijzigingsDatum.toDateMidnight().toDate();
+            this.wijzigingsDatum = wijzigingsDatum.toDate();
         }
     }
 
@@ -243,7 +243,7 @@ public abstract class Polis implements Serializable, Cloneable {
         if (prolongatieDatum == null) {
             this.prolongatieDatum = null;
         } else {
-            this.prolongatieDatum = prolongatieDatum.toDateMidnight().toDate();
+            this.prolongatieDatum = prolongatieDatum.toDate();
         }
     }
 

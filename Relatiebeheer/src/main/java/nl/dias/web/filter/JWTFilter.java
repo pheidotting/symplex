@@ -5,13 +5,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import nl.dias.domein.Gebruiker;
 import nl.dias.repository.GebruikerRepository;
-import nl.dias.service.AuthorisatieService;
-import nl.dias.service.GebruikerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +23,8 @@ import java.io.UnsupportedEncodingException;
 @Provider
 public class JWTFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTFilter.class);
+
+    private GebruikerRepository gebruikerRepository;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -45,9 +45,13 @@ public class JWTFilter implements Filter {
                     LOGGER.debug("Evaluating token {}", token);
                     // Validate the token
                     try {
-                        Algorithm algorithm = Algorithm.HMAC512("secret");
+                        DecodedJWT decodedJWT = JWT.decode(token);
+
+                        Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
+
+                        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
                         JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
-                        DecodedJWT jwt = verifier.verify(token);
+                        verifier.verify(token);
                     } catch (UnsupportedEncodingException exception) {
                         LOGGER.error("UTF8 fout", exception);
                         //UTF-8 encoding not supported
@@ -85,7 +89,10 @@ public class JWTFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig arg0) throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
         LOGGER.debug("init filter");
+        gebruikerRepository = WebApplicationContextUtils.
+                getRequiredWebApplicationContext(filterConfig.getServletContext()).
+                getBean(GebruikerRepository.class);
     }
 }

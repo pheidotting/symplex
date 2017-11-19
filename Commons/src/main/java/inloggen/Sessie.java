@@ -12,6 +12,9 @@ public class Sessie {
     private static Long ingelogdeGebruiker;
     private static String trackAndTraceId;
 
+    public Sessie() {
+    }
+
     public static Long getIngelogdeGebruiker() {
         return ingelogdeGebruiker;
     }

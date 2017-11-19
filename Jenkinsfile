@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```" + commitMessage() + "```")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -298,6 +298,7 @@ pipeline {
             post {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar test gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -312,7 +313,36 @@ pipeline {
                 }
             }
             steps {
-                slackSend (color: '#4245f4', message: "Deployment Live")
+                slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh '''
+                    scp IdBeheer/src/main/resources/prd/id.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp IdBeheer/src/main/resources/prd/id.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp IdBeheer/target/identificatie.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/prd/oga.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/src/main/resources/prd/oga.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    scp PolisAdministratie/src/main/resources/prd/pa.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/prd/pa.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp PolisAdministratie/target/pa.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    scp Relatiebeheer/src/main/resources/prd/djfc.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/prd/djfc.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp Relatiebeheer/target/dejonge.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    ssh jetty@192.168.91.220 rm -fr /data/web/gui/*
+                    scp -r Webgui/web/* jetty@192.168.91.220:/data/web/gui
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Deploy naar PRD gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                    slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
             }
         }
 
@@ -471,4 +501,11 @@ pipeline {
             slackSend (color: '#4245f4', message: "Afgerond : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
     }
+}
+
+def commitMessage() {
+    sh 'git log --format=%B -n 1 HEAD > commitMessage'
+    def commitMessage = readFile('commitMessage')
+    sh 'rm commitMessage'
+    commitMessage
 }

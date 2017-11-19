@@ -23,7 +23,6 @@ public class EntiteitenOpgeslagenRequestReciever extends AbstractReciever<Entite
     @Override
     @Transactional
     public void verwerkMessage(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
-//        LOGGER.debug("Opslaan {} entiteiten",entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds().size());
         for(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId:entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds()){
             Identificatie identificatie=new Identificatie(soortEntiteitEnEntiteitId.getSoortEntiteit().name(),soortEntiteitEnEntiteitId.getEntiteitId());
             LOGGER.debug("{}",identificatie);

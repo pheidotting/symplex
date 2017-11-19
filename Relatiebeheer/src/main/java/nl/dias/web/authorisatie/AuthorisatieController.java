@@ -10,7 +10,6 @@ import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.lakedigital.djfc.commons.json.IngelogdeGebruiker;
 import nl.lakedigital.djfc.commons.json.Inloggen;
-import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
 import org.joda.time.LocalDateTime;
@@ -24,8 +23,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -45,9 +44,9 @@ public class AuthorisatieController {
     public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         try {
             LOGGER.debug("Inloggen");
-            authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
+            Gebruiker gebruiker= authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
-            String token = issueToken(inloggen.getIdentificatie(), httpServletRequest);
+            String token = issueToken(gebruiker, httpServletRequest);
 
             // Return the token on the response
             httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
@@ -93,10 +92,6 @@ public class AuthorisatieController {
 
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public class GebruikerNietGevondenOfWachtwoordOnjuisException extends RuntimeException {
-    }
-
     private Gebruiker getGebruiker(String userid) {
         Gebruiker gebruiker=null;
 
@@ -109,18 +104,23 @@ public class AuthorisatieController {
         return gebruiker;
     }
 
-    private String issueToken(String login, HttpServletRequest httpServletRequest) {
+    private String issueToken(Gebruiker gebruiker, HttpServletRequest httpServletRequest) {
         String token = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC512("secret");
+            Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
+
+            LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
+            if ("0:0:0:0:0:0:0:1".equals(httpServletRequest.getLocalAddr())) {
+                LOGGER.debug("Devomgeving, dus token met langere expire");
+                expireTime = LocalDateTime.now().plusDays(10);
+            }
 
             token = JWT.create()
-                    .withSubject(login)
+                    .withSubject(gebruiker.getIdentificatie())
                     .withIssuer(httpServletRequest.getContextPath())
-                    .withIssuedAt(new Date())
-                    .withExpiresAt(LocalDateTime.now().plusHours(1).toDate())
+                    .withIssuedAt(new Date()).withExpiresAt(expireTime.toDate())
                     .sign(algorithm);
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             LOGGER.error("Fout bij aanmaken JWT",e);
         }
 

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "AO")
 public class ArbeidsongeschiktheidVerzekering extends Polis {
-    public ArbeidsongeschiktheidVerzekering() {
+    public ArbeidsongeschiktheidVerzekering() {//Hibernate wil deze, maar SonarQube niet
     }
 
     public ArbeidsongeschiktheidVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {

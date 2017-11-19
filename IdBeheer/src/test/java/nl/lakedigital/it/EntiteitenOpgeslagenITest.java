@@ -94,7 +94,7 @@ public class EntiteitenOpgeslagenITest {
 
     private void verstuurEntiteitenOpgeslagenRequest(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(500);//NOSONAR
         } catch (InterruptedException e) {
             LOGGER.trace("{}", e);
             Thread.currentThread().interrupt();
@@ -118,7 +118,7 @@ public class EntiteitenOpgeslagenITest {
 
     private void verstuurEntiteitenVerwijderdRequest(VerwijderEntiteitenRequest verwijderEntiteitenRequest) {
         try {
-            Thread.sleep(500);
+            Thread.sleep(500);//NOSONAR
         } catch (InterruptedException e) {
             LOGGER.trace("{}", e);
             Thread.currentThread().interrupt();
@@ -144,7 +144,7 @@ public class EntiteitenOpgeslagenITest {
     private void controleer(List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds) {
         for (SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId1 : soortEntiteitEnEntiteitIds) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(5000);//NOSONAR
             } catch (InterruptedException e) {
                 LOGGER.trace("{}", e);
                 Thread.currentThread().interrupt();
@@ -170,7 +170,7 @@ public class EntiteitenOpgeslagenITest {
     private void controleerNietAanwezig(List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds) {
         for (SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId1 : soortEntiteitEnEntiteitIds) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000);//NOSONAR
             } catch (InterruptedException e) {
                 LOGGER.trace("{}", e);
                 Thread.currentThread().interrupt();
@@ -196,7 +196,7 @@ public class EntiteitenOpgeslagenITest {
             gevonden = identificatieClient.zoekIdentificatie(soortEntiteitEnEntiteitId1.getSoortEntiteit().name(), soortEntiteitEnEntiteitId1.getEntiteitId());
             if (gevonden == null) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000);//NOSONAR
                 } catch (InterruptedException e) {
                     LOGGER.trace("{}", e);
                     Thread.currentThread().interrupt();
