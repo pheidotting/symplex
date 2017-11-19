@@ -52,7 +52,7 @@ public class JWTFilter implements Filter {
                         Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
 
                         Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
-                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
+                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getRemoteUser()).build();
                         verifier.verify(token);
 
                         LocalDateTime expireTime = LocalDateTime.now().plusHours(1);

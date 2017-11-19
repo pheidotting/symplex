@@ -111,8 +111,7 @@ public class AuthorisatieController {
 
             LocalDateTime expireTime = LocalDateTime.now().plusHours(2);
             token = JWT.create()
-                    .withSubject(gebruiker.getIdentificatie())
-                    .withIssuer(httpServletRequest.getContextPath())
+                    .withSubject(gebruiker.getIdentificatie()).withIssuer(httpServletRequest.getRemoteAddr())
                     .withIssuedAt(new Date()).withExpiresAt(expireTime.toDate())
                     .sign(algorithm);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
