@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.dias.domein.Gebruiker;
 import nl.dias.repository.GebruikerRepository;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 
 @Provider
@@ -50,8 +52,12 @@ public class JWTFilter implements Filter {
                         Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
 
                         Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
-                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getContextPath()).build();
+                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getRemoteUser()).build();
                         verifier.verify(token);
+
+                        LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
+                        token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(((HttpServletRequest) request).getContextPath()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
+
                     } catch (UnsupportedEncodingException exception) {
                         LOGGER.error("UTF8 fout", exception);
                         //UTF-8 encoding not supported
@@ -65,7 +71,7 @@ public class JWTFilter implements Filter {
 
                     LOGGER.info("#### valid token : " + token);
 
-                    ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, authorizationHeader);
+                    ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
                 } catch (Exception e) {
                     LOGGER.error("#### invalid token : " + token);
                     LOGGER.trace("Oorspronkelijke fout : {}", e);

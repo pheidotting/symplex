@@ -109,15 +109,9 @@ public class AuthorisatieController {
         try {
             Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
 
-            LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
-            if ("0:0:0:0:0:0:0:1".equals(httpServletRequest.getLocalAddr())) {
-                LOGGER.debug("Devomgeving, dus token met langere expire");
-                expireTime = LocalDateTime.now().plusDays(10);
-            }
-
+            LocalDateTime expireTime = LocalDateTime.now().plusHours(2);
             token = JWT.create()
-                    .withSubject(gebruiker.getIdentificatie())
-                    .withIssuer(httpServletRequest.getContextPath())
+                    .withSubject(gebruiker.getIdentificatie()).withIssuer(httpServletRequest.getRemoteAddr())
                     .withIssuedAt(new Date()).withExpiresAt(expireTime.toDate())
                     .sign(algorithm);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
