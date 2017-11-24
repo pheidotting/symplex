@@ -12,6 +12,7 @@ import nl.dias.web.mapper.RelatieMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.domain.response.Adres;
+import nl.lakedigital.djfc.domain.response.Telefoonnummer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -56,6 +57,8 @@ public class GebruikerController extends AbstractController {
 
     @Inject
     private AdresController adresController;
+    @Inject
+    private TelefoonnummerController telefoonnummerController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -225,10 +228,26 @@ public class GebruikerController extends AbstractController {
                 jsonAdres.setToevoeging(adres.getToevoeging());
                 jsonAdres.setEntiteitId(relatie.getId());
                 jsonAdres.setIdentificatie(adres.getIdentificatie());
-                //jsonAdres.setParentIdentificatie();
+                jsonAdres.setParentIdentificatie(relatie.getIdentificatie());
                 jsonAdres.setSoortEntiteit("RELATIE");
 
                 return jsonAdres;
+            }
+        }).collect(Collectors.toList()), httpServletRequest);
+        telefoonnummerController.opslaan(jsonRelatie.getTelefoonnummers().stream().map(new Function<Telefoonnummer, JsonTelefoonnummer>() {
+            @Override
+            public JsonTelefoonnummer apply(Telefoonnummer telefoonnummer) {
+
+
+                JsonTelefoonnummer jsonTelefoonnummer = new JsonTelefoonnummer();
+                jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
+                jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
+                jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
+                jsonTelefoonnummer.setEntiteitId(relatie.getId());
+                jsonTelefoonnummer.setSoortEntiteit("RELATIE");
+                jsonTelefoonnummer.setParentIdentificatie(relatie.getIdentificatie());
+
+                return jsonTelefoonnummer;
             }
         }).collect(Collectors.toList()), httpServletRequest);
 

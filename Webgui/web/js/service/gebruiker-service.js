@@ -16,6 +16,14 @@ define(["commons/3rdparty/log2",
                 var deferred = $.Deferred();
 
                 relatie.adressen = adressen;
+                relatie.telefoonnummers = telefoonnummers;
+                $.each(relatie.telefoonnummers(), function(i, telefoonnummer){
+                    telefoonnummer.parentIdentificatie(relatie.id());
+                    telefoonnummer.soortEntiteit('RELATIE');
+                    if(telefoonnummer.telefoonnummer() != null && telefoonnummer.telefoonnummer() != '') {
+                        telefoonnummer.telefoonnummer(telefoonnummer.telefoonnummer().replace(/ /g, "").replace("-", ""));
+                    }
+                });
 
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
@@ -23,10 +31,9 @@ define(["commons/3rdparty/log2",
                         logger.debug(id);
                         var soortEntiteit = 'RELATIE';
 
-                        $.when(telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, soortEntiteit, id),
-                            rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
+                        $.when(rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
                             opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-                        .then(function(telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
+                        .then(function(rekeningnummerResponse, opmerkingResponse) {
                             return deferred.resolve(id);
                         });
                     });
