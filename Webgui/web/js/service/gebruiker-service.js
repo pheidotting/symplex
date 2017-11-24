@@ -30,16 +30,11 @@ define(["commons/3rdparty/log2",
                     rekeningnummer.soortEntiteit('RELATIE');
                     rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
                 });
+                relatie.opmerkingen = opmerkingen;
 
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
-                        var id = response;
-                        var soortEntiteit = 'RELATIE';
-
-                        $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-                        .then(function(rekeningnummerResponse, opmerkingResponse) {
-                            return deferred.resolve(id);
-                        });
+                        return deferred.resolve(id);
                     });
                 });
 

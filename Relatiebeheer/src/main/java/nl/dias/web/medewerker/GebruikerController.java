@@ -12,7 +12,10 @@ import nl.dias.web.mapper.RelatieMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.domain.response.Adres;
+import nl.lakedigital.djfc.domain.response.Opmerking;
+import nl.lakedigital.djfc.domain.response.RekeningNummer;
 import nl.lakedigital.djfc.domain.response.Telefoonnummer;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -59,6 +62,10 @@ public class GebruikerController extends AbstractController {
     private AdresController adresController;
     @Inject
     private TelefoonnummerController telefoonnummerController;
+    @Inject
+    private RekeningNummerController rekeningNummerController;
+    @Inject
+    private OpmerkingController opmerkingController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -161,7 +168,7 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        LOGGER.info("Opslaan " + jsonRelatie);
+        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonRelatie));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -237,9 +244,8 @@ public class GebruikerController extends AbstractController {
         telefoonnummerController.opslaan(jsonRelatie.getTelefoonnummers().stream().map(new Function<Telefoonnummer, JsonTelefoonnummer>() {
             @Override
             public JsonTelefoonnummer apply(Telefoonnummer telefoonnummer) {
-
-
                 JsonTelefoonnummer jsonTelefoonnummer = new JsonTelefoonnummer();
+
                 jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
                 jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
                 jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
@@ -248,6 +254,36 @@ public class GebruikerController extends AbstractController {
                 jsonTelefoonnummer.setParentIdentificatie(relatie.getIdentificatie());
 
                 return jsonTelefoonnummer;
+            }
+        }).collect(Collectors.toList()), httpServletRequest);
+        rekeningNummerController.opslaan(jsonRelatie.getRekeningNummers().stream().map(new Function<RekeningNummer, JsonRekeningNummer>() {
+            @Override
+            public JsonRekeningNummer apply(RekeningNummer rekeningNummer) {
+                JsonRekeningNummer jsonRekeningNummer = new JsonRekeningNummer();
+
+                jsonRekeningNummer.setBic(rekeningNummer.getBic());
+                jsonRekeningNummer.setRekeningnummer(rekeningNummer.getRekeningnummer());
+                jsonRekeningNummer.setEntiteitId(relatie.getId());
+                jsonRekeningNummer.setSoortEntiteit("RELATIE");
+                jsonRekeningNummer.setParentIdentificatie(relatie.getIdentificatie());
+
+                return jsonRekeningNummer;
+            }
+        }).collect(Collectors.toList()), httpServletRequest);
+        opmerkingController.opslaan(jsonRelatie.getOpmerkingen().stream().map(new Function<Opmerking, JsonOpmerking>() {
+            @Override
+            public JsonOpmerking apply(Opmerking opmerking) {
+                JsonOpmerking jsonOpmerking = new JsonOpmerking();
+
+                jsonOpmerking.setMedewerker(opmerking.getMedewerker());
+                jsonOpmerking.setOpmerking(opmerking.getOpmerking());
+                jsonOpmerking.setTijd(opmerking.getTijd());
+                jsonOpmerking.setEntiteitId(relatie.getId());
+                jsonOpmerking.setSoortEntiteit("RELATIE");
+                jsonOpmerking.setParentIdentificatie(relatie.getIdentificatie());
+                jsonOpmerking.setMedewerkerId(getIngelogdeGebruiker(httpServletRequest).getId());
+
+                return jsonOpmerking;
             }
         }).collect(Collectors.toList()), httpServletRequest);
 
