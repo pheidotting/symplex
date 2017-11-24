@@ -7,9 +7,11 @@ import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.mapper.RelatieMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.domain.response.Adres;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequestMapping("/gebruiker")
 @Controller
@@ -38,6 +42,8 @@ public class GebruikerController extends AbstractController {
     @Inject
     private RelatieMapper relatieMapper;
     @Inject
+    private JsonRelatieMapper jsonRelatieMapper;
+    @Inject
     private Mapper mapper;
     @Inject
     private AuthorisatieService authorisatieService;
@@ -47,6 +53,9 @@ public class GebruikerController extends AbstractController {
     private JsonMedewerkerNaarMedewerkerMapper jsonMedewerkerNaarMedewerkerMapper;
     @Inject
     private IdentificatieClient identificatieClient;
+
+    @Inject
+    private AdresController adresController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -148,7 +157,7 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaan(@RequestBody JsonRelatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan " + jsonRelatie);
 
         zetSessieWaarden(httpServletRequest);
@@ -164,7 +173,7 @@ public class GebruikerController extends AbstractController {
 
         Kantoor kantoor = kantoorRepository.lees(medewerker.getKantoor().getId());
 
-        Relatie relatie = relatieMapper.mapVanJson(jsonRelatie);
+        Relatie relatie = jsonRelatieMapper.mapVanJson(jsonRelatie);
         relatie.setKantoor(kantoor);
         LOGGER.debug("Uit mapper " + relatie);
 
@@ -186,7 +195,7 @@ public class GebruikerController extends AbstractController {
 
             if (identificatie != null) {
                 relatie.setIdentificatie(identificatie.getIdentificatie());
-            }else{
+            } else {
                 try {
                     Thread.sleep(3000);
                     Future<Identificatie> identificatieFuture1 = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
@@ -202,6 +211,26 @@ public class GebruikerController extends AbstractController {
         }
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
+
+        adresController.opslaan(jsonRelatie.getAdressen().stream().map(new Function<Adres, JsonAdres>() {
+            @Override
+            public JsonAdres apply(Adres adres) {
+                JsonAdres jsonAdres = new JsonAdres();
+                jsonAdres.setHuisnummer(adres.getHuisnummer());
+                //                jsonAdres.setId(adres.geti);
+                jsonAdres.setPlaats(adres.getPlaats());
+                jsonAdres.setPostcode(adres.getPostcode());
+                jsonAdres.setSoortAdres(adres.getSoortAdres());
+                jsonAdres.setStraat(adres.getStraat());
+                jsonAdres.setToevoeging(adres.getToevoeging());
+                jsonAdres.setEntiteitId(relatie.getId());
+                jsonAdres.setIdentificatie(adres.getIdentificatie());
+                //jsonAdres.setParentIdentificatie();
+                jsonAdres.setSoortEntiteit("RELATIE");
+
+                return jsonAdres;
+            }
+        }).collect(Collectors.toList()), httpServletRequest);
 
         return relatie.getIdentificatie();
     }

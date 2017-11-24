@@ -15,17 +15,18 @@ define(["commons/3rdparty/log2",
             opslaan: function(relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
                 var deferred = $.Deferred();
 
+                relatie.adressen = adressen;
+
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
                         var id = response;
                         logger.debug(id);
                         var soortEntiteit = 'RELATIE';
 
-                        $.when(adresService.opslaan(adressen, trackAndTraceId, soortEntiteit, id),
-                            telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, soortEntiteit, id),
+                        $.when(telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, soortEntiteit, id),
                             rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
                             opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-                        .then(function(adresResponse, telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
+                        .then(function(telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
                             return deferred.resolve(id);
                         });
                     });
