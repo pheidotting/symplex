@@ -24,15 +24,19 @@ define(["commons/3rdparty/log2",
                         telefoonnummer.telefoonnummer(telefoonnummer.telefoonnummer().replace(/ /g, "").replace("-", ""));
                     }
                 });
+                relatie.rekeningNummers = rekeningnummers;
+                $.each(relatie.rekeningNummers(), function(i, rekeningnummer){
+                    rekeningnummer.parentIdentificatie(relatie.id());
+                    rekeningnummer.soortEntiteit('RELATIE');
+                    rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
+                });
 
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
                         var id = response;
-                        logger.debug(id);
                         var soortEntiteit = 'RELATIE';
 
-                        $.when(rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
-                            opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
+                        $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
                         .then(function(rekeningnummerResponse, opmerkingResponse) {
                             return deferred.resolve(id);
                         });
