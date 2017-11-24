@@ -41,7 +41,9 @@ public class BijlageService {
                     LOGGER.error("Fout bij uploaden", e);
                 }
                 bijlages.addAll(verwerkZipFile(bestand, uploadPad));
-                new File(bestand).delete();
+                if (!new File(bestand).delete()) {
+                    LOGGER.info("Kon '{}' niet verwijderen", bestand);
+                }
             } catch (IOException e) {
                 LOGGER.info("{}", e);
             }

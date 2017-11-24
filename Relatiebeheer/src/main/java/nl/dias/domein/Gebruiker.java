@@ -6,12 +6,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
 
 @Audited
 @Entity
