@@ -40,17 +40,20 @@ public abstract class AbstractController {
                 LOGGER.trace("Niks aan de hand", e);
             }
         }
-        DecodedJWT decodedJWT=JWT.decode(token);
+        if (token != null) {
+            DecodedJWT decodedJWT = JWT.decode(token);
 
-        try {
-            return gebruikerService.zoekOpIdentificatie(decodedJWT.getSubject());
-        }catch (NietGevondenException nge){
-            LOGGER.error("Net gevonden : {}",decodedJWT.getSubject());
-            LOGGER.trace("Bijbehorende error {}", nge);
-            Gebruiker gebruiker=new Relatie();
-            gebruiker.setId(0L);
-            return gebruiker;
+            try {
+                return gebruikerService.zoekOpIdentificatie(decodedJWT.getSubject());
+            } catch (NietGevondenException nge) {
+                LOGGER.error("Net gevonden : {}", decodedJWT.getSubject());
+                LOGGER.trace("Bijbehorende error {}", nge);
+                Gebruiker gebruiker = new Relatie();
+                gebruiker.setId(0L);
+                return gebruiker;
+            }
         }
+        return null;
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {

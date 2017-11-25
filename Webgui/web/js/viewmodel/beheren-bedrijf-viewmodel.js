@@ -117,7 +117,7 @@ define(['jquery',
 	    		result.showAllMessages(true);
 	    	}else{
 				var foutmelding;
-				bedrijfService.opslaan(_this.bedrijf).done(function(){
+				bedrijfService.opslaan(_this.bedrijf, _this.telefoonnummersModel.telefoonnummers).done(function(){
                     document.location.href = 'zoeken.html';
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 				}).fail(function(response){
