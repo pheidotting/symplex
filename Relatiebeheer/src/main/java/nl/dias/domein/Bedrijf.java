@@ -1,7 +1,6 @@
 package nl.dias.domein;
 
 import com.google.common.collect.Sets;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,7 +18,7 @@ import java.util.Set;
 @NamedQueries({
         //        @NamedQuery(name = "Bedrijf.allesBijRelatie", query = "select b from Bedrijf b where b.relatie = :relatie"),
         @NamedQuery(name = "Bedrijf.zoekOpNaam", query = "select b from Bedrijf b where b.naam like :zoekTerm"), @NamedQuery(name = "Bedrijf.alles", query = "select b from Bedrijf b")})
-public class Bedrijf implements Serializable, PersistenceObject {
+public class Bedrijf implements Serializable {
     private static final long serialVersionUID = 4611123664803995245L;
 
     @Id
@@ -60,12 +59,10 @@ public class Bedrijf implements Serializable, PersistenceObject {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "bedrijf")
     private Set<RisicoAnalyse> risicoAnalyses;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

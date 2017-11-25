@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.envers.Audited;
 
@@ -14,7 +13,7 @@ import java.util.Objects;
 @DiscriminatorValue(value = "C")
 @AttributeOverrides({@AttributeOverride(name = "identificatie", column = @Column(name = "GEBRUIKERSNAAM"))})
 @NamedQuery(name = "ContactPersoon.alleContactPersonen", query = "select cp from ContactPersoon cp where cp.bedrijf = :bedrijf")
-public class ContactPersoon extends Gebruiker implements Serializable, PersistenceObject {
+public class ContactPersoon extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -4313251874716582151L;
 
     @Column(name = "BEDRIJF")
@@ -39,7 +38,6 @@ public class ContactPersoon extends Gebruiker implements Serializable, Persisten
         this.functie = functie;
     }
 
-    @Override
     public String getName() {
         return this.getIdentificatie();
     }
