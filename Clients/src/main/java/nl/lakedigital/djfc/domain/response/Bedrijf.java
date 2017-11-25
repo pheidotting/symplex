@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bedrijf {
+    private Long id;
     private String identificatie;
     private String naam;
     private String kvk;
@@ -21,6 +22,14 @@ public class Bedrijf {
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens = new ArrayList<>();
     private List<Polis> polissen = new ArrayList<>();
     private List<ContactPersoon> contactPersoons = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getIdentificatie() {
         return identificatie;
