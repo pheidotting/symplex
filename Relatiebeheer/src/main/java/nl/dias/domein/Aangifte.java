@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
@@ -10,11 +9,11 @@ import java.util.Date;
 @Entity
 @Table(name = "AANGIFTE")
 @NamedQueries({//
-         @NamedQuery(name = "Aangifte.openAangiftesBijRelatie", query = "select a from Aangifte a where a.datumAfgerond is null and a.relatie = :relatie"), //
-         @NamedQuery(name = "Aangifte.geslotenAangiftesBijRelatie", query = "select a from Aangifte a where a.datumAfgerond is not null and a.relatie = :relatie"),//
+        @NamedQuery(name = "Aangifte.openAangiftesBijRelatie", query = "select a from Aangifte a where a.datumAfgerond is null and a.relatie = :relatie"), //
+        @NamedQuery(name = "Aangifte.geslotenAangiftesBijRelatie", query = "select a from Aangifte a where a.datumAfgerond is not null and a.relatie = :relatie"),//
         @NamedQuery(name = "Aangifte.alleAangiftesBijRelatie", query = "select a from Aangifte a where a.relatie = :relatie")//
-        })
-public class Aangifte implements PersistenceObject, Serializable {
+})
+public class Aangifte implements Serializable {
     private static final long serialVersionUID = 5438273206870999491L;
 
     @Id
@@ -41,12 +40,10 @@ public class Aangifte implements PersistenceObject, Serializable {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
     private Relatie relatie;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

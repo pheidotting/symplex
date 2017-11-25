@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,7 +25,7 @@ import java.util.Set;
         @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Gebruiker g where g.geboorteDatum = :geboorteDatum"),//
         @NamedQuery(name = "Relatie.roepnaam", query = "select g from Gebruiker g where g.roepnaam = :roepnaam")//
 })
-public class Relatie extends Gebruiker implements Serializable, PersistenceObject {
+public class Relatie extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -1920949633670770763L;
 
     @Column(name = "ROEPNAAM")
@@ -194,7 +193,6 @@ public class Relatie extends Gebruiker implements Serializable, PersistenceObjec
         return new ToStringBuilder(this).append("\ngeslacht", this.geslacht).append("burgerlijkeStaat", this.burgerlijkeStaat).append("identificatie", this.getIdentificatie()).append("voornaam", this.getVoornaam()).append("id", this.getId()).append("overlijdensdatum", this.overlijdensdatum).append("geboorteDatum", this.geboorteDatum).append("bsn", this.bsn).append("onderlingeRelaties", this.onderlingeRelaties).append("wachtwoordString", this.getWachtwoordString()).append("tussenvoegsel", this.getTussenvoegsel()).append("achternaam", this.getAchternaam()).toString();
     }
 
-    @Override
     public String getName() {
         return this.getIdentificatie();
     }

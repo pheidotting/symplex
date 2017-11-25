@@ -44,7 +44,7 @@ public class AuthorisatieController {
     public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         try {
             LOGGER.debug("Inloggen");
-            Gebruiker gebruiker= authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
+            Gebruiker gebruiker = authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
             String token = issueToken(gebruiker, httpServletRequest);
 
@@ -64,7 +64,7 @@ public class AuthorisatieController {
     @RequestMapping(method = RequestMethod.GET, value = "/ingelogdeGebruiker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public IngelogdeGebruiker getIngelogdeGebruiker(@RequestParam String userid) {
-        LOGGER.debug("Ophalen ingelogde gebruiker '{}'",userid);
+        LOGGER.debug("Ophalen ingelogde gebruiker '{}'", userid);
 
         Gebruiker gebruiker = getGebruiker(userid);
 
@@ -93,13 +93,13 @@ public class AuthorisatieController {
     }
 
     private Gebruiker getGebruiker(String userid) {
-        Gebruiker gebruiker=null;
+        Gebruiker gebruiker = null;
 
-            try {
-             gebruiker=authorisatieService.zoekOpIdentificatie(userid);
-            } catch (NietGevondenException nge) {
-                LOGGER.trace("Gebruiker dus niet gevonden", nge);
-            }
+        try {
+            gebruiker = authorisatieService.zoekOpIdentificatie(userid);
+        } catch (NietGevondenException nge) {
+            LOGGER.trace("Gebruiker dus niet gevonden", nge);
+        }
 
         return gebruiker;
     }
@@ -110,12 +110,9 @@ public class AuthorisatieController {
             Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
 
             LocalDateTime expireTime = LocalDateTime.now().plusHours(2);
-            token = JWT.create()
-                    .withSubject(gebruiker.getIdentificatie()).withIssuer(httpServletRequest.getRemoteAddr())
-                    .withIssuedAt(new Date()).withExpiresAt(expireTime.toDate())
-                    .sign(algorithm);
+            token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(httpServletRequest.getRemoteAddr()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            LOGGER.error("Fout bij aanmaken JWT",e);
+            LOGGER.error("Fout bij aanmaken JWT", e);
         }
 
         return token;
