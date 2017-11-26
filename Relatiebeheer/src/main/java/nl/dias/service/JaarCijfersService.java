@@ -40,7 +40,7 @@ public class JaarCijfersService {
             }
         });
 
-        if (Lists.newArrayList(cijfersMetHuidigJaar).size() == 0) {
+        if (Lists.newArrayList(cijfersMetHuidigJaar).isEmpty()) {
             JaarCijfers jaarCijfersNw = new JaarCijfers();
             jaarCijfersNw.setJaar(Long.valueOf(LocalDate.now().getYear()));
             jaarCijfersNw.setBedrijf(bedrijf);
@@ -57,7 +57,7 @@ public class JaarCijfersService {
             }
         });
 
-        if (Lists.newArrayList(cijfersMetVorigJaar).size() == 0) {
+        if (Lists.newArrayList(cijfersMetVorigJaar).isEmpty()) {
             JaarCijfers jaarCijfersNw = new JaarCijfers();
             jaarCijfersNw.setJaar(Long.valueOf(LocalDate.now().minusYears(1).getYear()));
             jaarCijfersNw.setBedrijf(bedrijf);

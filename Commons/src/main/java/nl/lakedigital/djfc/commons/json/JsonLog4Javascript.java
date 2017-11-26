@@ -6,8 +6,6 @@ public class JsonLog4Javascript {
     private String level;
     private String url;
     private String message;
-    private String layout;
-
 
     public String getLogger() {
         return logger;

@@ -1,7 +1,6 @@
 package nl.dias.domein;
 
 import nl.dias.web.SoortEntiteit;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.util.Date;
 @NamedQueries({//
         @NamedQuery(name = "Bijlage.zoekBijlagesBijEntiteit", query = "select b from Bijlage b where b.soortBijlage = :soortBijlage and b.entiteitId = :entiteitId")//
 })
-public class Bijlage implements PersistenceObject, Serializable {
+public class Bijlage implements Serializable {
     private static final long serialVersionUID = 5743959281799187372L;
 
     @Id
@@ -43,12 +42,10 @@ public class Bijlage implements PersistenceObject, Serializable {
     @Column(name = "OMSCHRIJVING")
     private String omschrijving;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

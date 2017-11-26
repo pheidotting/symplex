@@ -50,7 +50,7 @@ public class ZoekService {
             relaties.addAll(gebruikerService.zoekOpNaam(naam).stream().map(gebruiker -> (Relatie) gebruiker).collect(Collectors.toList()));
             bedrijven.addAll(bedrijfService.zoekOpNaam(naam));
         }
-        if (geboortedatum != null && !"".equals(geboortedatum)) {
+        if (geboortedatum != null) {
             List<Relatie> result = gebruikerService.zoekOpGeboortedatum(geboortedatum);
             if (result != null) {
                 relaties.addAll(result);
@@ -117,8 +117,7 @@ public class ZoekService {
             bedrijven.addAll(adressen.stream()//
                     .filter(adres1 -> "BEDRIJF".equals(adres1.getSoortEntiteit()))//
                     .map(adres1 -> bedrijfService.lees(adres1.getEntiteitId()))//
-                    .filter(bedrijf1 -> bedrijf1 != null)
-                    .collect(Collectors.toList()));
+                    .filter(bedrijf1 -> bedrijf1 != null).collect(Collectors.toList()));
         }
         if (postcode != null && !"".equals(postcode)) {
             List<JsonAdres> adressen = adresClient.zoekOpPostcode(postcode);
@@ -130,8 +129,7 @@ public class ZoekService {
             bedrijven.addAll(adressen.stream()//
                     .filter(adres1 -> "BEDRIJF".equals(adres1.getSoortEntiteit()))//
                     .map(adres1 -> bedrijfService.lees(adres1.getEntiteitId()))//
-                    .filter(bedrijf1 -> bedrijf1 != null)
-                    .collect(Collectors.toList()));
+                    .filter(bedrijf1 -> bedrijf1 != null).collect(Collectors.toList()));
         }
         if (woonplaats != null && !"".equals(woonplaats)) {
             List<JsonAdres> adressen = adresClient.zoekOpPlaats(woonplaats);
@@ -143,8 +141,7 @@ public class ZoekService {
             bedrijven.addAll(adressen.stream()//
                     .filter(adres1 -> "BEDRIJF".equals(adres1.getSoortEntiteit()))//
                     .map(adres1 -> bedrijfService.lees(adres1.getEntiteitId()))//
-                    .filter(bedrijf1 -> bedrijf1 != null)
-                    .collect(Collectors.toList()));
+                    .filter(bedrijf1 -> bedrijf1 != null).collect(Collectors.toList()));
         }
 
         if (!alleenBedrijven) {

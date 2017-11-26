@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +19,7 @@ import java.util.Date;
         @NamedQuery(name = "Hypotheek.allesVanRelatieInclDePakketten", query = "select h from Hypotheek h where h.relatie = :relatie"),//
         @NamedQuery(name = "Hypotheek.allesVanRelatieInEenPakket", query = "select h from Hypotheek h where h.relatie = :relatie and size(h.hypotheekPakket.hypotheken) >= 2")//
 })
-public class Hypotheek implements PersistenceObject, Serializable {
+public class Hypotheek implements Serializable {
     private static final long serialVersionUID = -8709743283669873667L;
 
     @Id
@@ -87,12 +86,10 @@ public class Hypotheek implements PersistenceObject, Serializable {
     @AttributeOverride(name = "bedrag", column = @Column(name = "BOXIII"))
     private Bedrag boxIII;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

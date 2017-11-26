@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
@@ -207,7 +206,6 @@ public class GebruikerService {
     }
 
 
-
     public Gebruiker zoek(String emailadres) throws NietGevondenException {
         return gebruikerRepository.zoek(emailadres);
     }
@@ -219,8 +217,6 @@ public class GebruikerService {
     public List<Gebruiker> zoekOpNaam(String naam) {
         return gebruikerRepository.zoekOpNaam(naam);
     }
-
-
 
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {

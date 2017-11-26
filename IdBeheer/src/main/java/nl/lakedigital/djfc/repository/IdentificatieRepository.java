@@ -26,8 +26,7 @@ public class IdentificatieRepository {
     public Session getSession() {
         try {
             return sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            LOGGER.trace("Sonar vindt dat ik deze fout moet loggen", e);
+        } catch (HibernateException e) {//NOSONAR
             return sessionFactory.openSession();
         }
     }

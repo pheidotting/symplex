@@ -12,7 +12,7 @@ public class Sessie {
     private static Long ingelogdeGebruiker;
     private static String trackAndTraceId;
 
-    public Sessie() {
+    public Sessie() {//is nodig voor Spring
     }
 
     public static Long getIngelogdeGebruiker() {

@@ -1,6 +1,9 @@
 package nl.dias.service;
 
-import nl.dias.domein.*;
+import nl.dias.domein.Beheerder;
+import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
+import nl.dias.domein.Relatie;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
 import org.slf4j.Logger;
@@ -8,15 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AuthorisatieService {
@@ -31,7 +29,7 @@ public class AuthorisatieService {
         boolean uitZabbix = "true".equals(request.getHeader("Zabbix"));
 
         if (!uitZabbix) {
-            LOGGER.debug("Inloggen met {}" , identificatie);
+            LOGGER.debug("Inloggen met {}", identificatie);
         }
         Gebruiker gebruikerUitDatabase = gebruikerService.zoekOpIdentificatie(identificatie);
         Gebruiker inloggendeGebruiker = null;
@@ -61,8 +59,8 @@ public class AuthorisatieService {
         }
 
         if (!uitZabbix) {
-            LOGGER.debug("Ingevoerd wachtwoord    {}",  inloggendeGebruiker.getWachtwoord());
-            LOGGER.debug("Wachtwoord uit database {}" , gebruikerUitDatabase.getWachtwoord());
+            LOGGER.debug("Ingevoerd wachtwoord    {}", inloggendeGebruiker.getWachtwoord());
+            LOGGER.debug("Wachtwoord uit database {}", gebruikerUitDatabase.getWachtwoord());
         }
 
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
