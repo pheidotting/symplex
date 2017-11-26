@@ -26,8 +26,8 @@ public class IdentificatieRepository {
     public Session getSession() {
         try {
             return sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            return sessionFactory.openSession();//NOSONAR
+        } catch (HibernateException e) {//NOSONAR
+            return sessionFactory.openSession();
         }
     }
 

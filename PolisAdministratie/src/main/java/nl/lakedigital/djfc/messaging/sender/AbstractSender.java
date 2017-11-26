@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.sender;
 
+import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.djfc.service.envers.SessieHolder;
 import org.slf4j.Logger;
 import org.springframework.jms.core.JmsTemplate;
 

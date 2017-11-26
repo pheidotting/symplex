@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
+import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -7,7 +8,6 @@ import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.messaging.mapper.DomainPolisNaarMessagingPolisMapper;
 import nl.lakedigital.djfc.messaging.mapper.MessagingPolisNaarDomainPolisMapper;
 import nl.lakedigital.djfc.service.PolisService;
-import nl.lakedigital.djfc.service.envers.SessieHolder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

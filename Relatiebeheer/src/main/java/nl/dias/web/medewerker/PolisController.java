@@ -135,6 +135,6 @@ public class PolisController extends AbstractController {
             LOGGER.error("Fout bij verwijderen Polis", e);
             return Response.status(500).entity(new JsonFoutmelding(e.getMessage())).build();
         }
-        return Response.status(202).entity(new JsonFoutmelding()).build();
+        return Response.status(202).entity(new JsonFoutmelding("")).build();
     }
 }
