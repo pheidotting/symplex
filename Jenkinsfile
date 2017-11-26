@@ -266,6 +266,23 @@ pipeline {
             }
         }
 
+        stage ('Verify Relatiebeheer') {
+            steps {
+                sh '''
+                    cd Relatiebeheer
+                    mvn clean verify
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Verify Relatiebeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Verify Relatiebeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Deployment Test') {
             when {
                 expression {
