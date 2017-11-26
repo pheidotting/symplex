@@ -26,7 +26,6 @@ public class JsonBedrijf {
     private String idDivLink;
     private List<String> errors;
     private JsonOpmerkingenModel opmerkingenModel;
-    private String adresOpgemaakt;
     private List<JsonAdres> adressen;
     private List<JsonBijlage> bijlages;
     private AdressenModel adressenModel;
@@ -113,7 +112,7 @@ public class JsonBedrijf {
 
     public List<JsonPolis> getPolissen() {
         if (polissen == null) {
-            polissen = new ArrayList<JsonPolis>();
+            polissen = new ArrayList<>();
         }
         return polissen;
     }
@@ -264,10 +263,6 @@ public class JsonBedrijf {
 
     public void setTelefoonnummers(List<JsonTelefoonnummer> telefoonnummers) {
         this.telefoonnummers = telefoonnummers;
-    }
-
-    public void setAdresOpgemaakt(String adresOpgemaakt) {
-        this.adresOpgemaakt = adresOpgemaakt;
     }
 
     public AdressenModel getAdressenModel() {

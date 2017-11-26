@@ -1,9 +1,9 @@
 package inloggen;
 
 public final class SessieHolder {
-    private static ThreadLocal<Sessie> sessie = new ThreadLocal<Sessie>();
+    private static ThreadLocal<Sessie> sessie = new ThreadLocal<>();
 
-    public SessieHolder() {
+    public SessieHolder() {//is nodig voor Spring
     }
 
     public static Sessie get() {
