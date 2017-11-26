@@ -28,13 +28,6 @@
         <developerConnection>scm:git:git@github.com/pheidotting/dejonge.git</developerConnection>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>Symplex</id>
-            <url>http://jenkins.djfc.local:8081/artifactory/libs-release</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.auth0</groupId>
