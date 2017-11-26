@@ -1,6 +1,9 @@
 package nl.dias.web.medewerker;
 
-import nl.dias.domein.*;
+import nl.dias.domein.ContactPersoon;
+import nl.dias.domein.Kantoor;
+import nl.dias.domein.Medewerker;
+import nl.dias.domein.Relatie;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
@@ -125,29 +128,6 @@ public class GebruikerController extends AbstractController {
         Medewerker medewerker = (Medewerker) gebruikerService.lees(jsonMedewerker.getId());
 
         gebruikerService.opslaan(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/lijstRelaties", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonLijstRelaties lijstRelaties(@QueryParam("weglaten") String weglaten) {
-        LOGGER.debug("Ophalen lijst met alle Relaties");
-
-        Long idWeglaten = null;
-        if (weglaten != null) {
-            LOGGER.debug("id " + weglaten + " moet worden weggelaten");
-            idWeglaten = Long.parseLong(weglaten);
-        }
-
-        JsonLijstRelaties lijst = new JsonLijstRelaties();
-
-        for (Gebruiker r : gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor())) {
-            if (idWeglaten == null || !idWeglaten.equals(r.getId())) {
-                lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-            }
-        }
-        LOGGER.debug("Opgehaald, lijst met " + lijst.getJsonRelaties().size() + " relaties");
-
-        return lijst;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
@@ -298,33 +278,6 @@ public class GebruikerController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         gebruikerService.verwijder(id);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/zoekOpNaamAdresOfPolisNummer", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonLijstRelaties zoekOpNaamAdresOfPolisNummer(@QueryParam("zoekTerm") String zoekTerm, @QueryParam("weglaten") String weglaten) {
-        LOGGER.info("zoekOpNaamAdresOfPolisNummer met zoekterm " + zoekTerm);
-
-        JsonLijstRelaties lijst = new JsonLijstRelaties();
-
-        if (zoekTerm == null || "".equals(zoekTerm)) {
-            for (Gebruiker r : gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor())) {
-                lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-            }
-        } else {
-            Long idWeglaten = null;
-            if (weglaten != null) {
-                LOGGER.debug("id " + weglaten + " moet worden weggelaten");
-                idWeglaten = Long.parseLong(weglaten);
-            }
-
-            for (Gebruiker r : gebruikerService.zoekOpNaamAdresOfPolisNummer(zoekTerm)) {
-                if (idWeglaten == null || !idWeglaten.equals(r.getId())) {
-                    lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-                }
-            }
-        }
-        return lijst;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)
