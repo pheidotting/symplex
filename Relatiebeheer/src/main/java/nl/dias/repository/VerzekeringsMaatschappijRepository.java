@@ -38,6 +38,7 @@ public class VerzekeringsMaatschappijRepository {
 
         return transaction;
     }
+
     public VerzekeringsMaatschappij zoekOpNaam(String naam) {
         getTransaction();
 

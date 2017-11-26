@@ -1,14 +1,11 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "SOORTSCHADE")
-@NamedQueries({ @NamedQuery(name = "SoortSchade.alles", query = "select s from SoortSchade s where s.ingebruik = '1'"),
-        @NamedQuery(name = "SoortSchade.zoekOpOmschrijving", query = "select s from SoortSchade s where s.omschrijving like :omschrijving and s.ingebruik = '1'") })
-public class SoortSchade implements PersistenceObject {
+@NamedQueries({@NamedQuery(name = "SoortSchade.alles", query = "select s from SoortSchade s where s.ingebruik = '1'"), @NamedQuery(name = "SoortSchade.zoekOpOmschrijving", query = "select s from SoortSchade s where s.omschrijving like :omschrijving and s.ingebruik = '1'")})
+public class SoortSchade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -24,12 +21,10 @@ public class SoortSchade implements PersistenceObject {
         ingebruik = true;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

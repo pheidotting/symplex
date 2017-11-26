@@ -5,7 +5,6 @@ import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -44,13 +43,13 @@ public class KantoorRepository {
     }
 
     @Transactional
-    public void opslaanKantoor(Kantoor o) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
+    public void opslaanKantoor(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
         getTransaction();
-        
-        if (((PersistenceObject) o).getId() == null) {
-            getSession().persist(o);
+
+        if (kantoor.getId() == null) {
+            getSession().persist(kantoor);
         } else {
-            getSession().merge(o);
+            getSession().merge(kantoor);
         }
 
         getTransaction().commit();

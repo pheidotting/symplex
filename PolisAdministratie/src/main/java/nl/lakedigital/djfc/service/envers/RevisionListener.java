@@ -1,6 +1,8 @@
 package nl.lakedigital.djfc.service.envers;
 
 
+import inloggen.SessieHolder;
+
 public class RevisionListener implements org.hibernate.envers.RevisionListener {
     @Override
     public void newRevision(Object revisionEntity) {

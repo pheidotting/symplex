@@ -1,7 +1,6 @@
 package nl.dias.service;
 
 import nl.dias.domein.Aangifte;
-import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.AangifteRepository;
@@ -69,10 +68,10 @@ public class AangifteService {
     public void afronden(Long id, LocalDate datumAfronden, Long medewerkerId) {
         Aangifte aangifte = aangifteRepository.lees(id);
 
-        Medewerker medewerker=(Medewerker)gebruikerService.lees(medewerkerId);
+        Medewerker medewerker = (Medewerker) gebruikerService.lees(medewerkerId);
 
         aangifte.setDatumAfgerond(datumAfronden);
-        aangifte.setAfgerondDoor( medewerker);
+        aangifte.setAfgerondDoor(medewerker);
 
         aangifteRepository.opslaan(aangifte);
     }

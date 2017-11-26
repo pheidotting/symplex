@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -8,8 +7,8 @@ import javax.persistence.*;
 @Audited
 @Entity
 @Table(name = "STATUSSCHADE")
-@NamedQueries({ @NamedQuery(name = "StatusSchade.zoekOpSoort", query = "select s from StatusSchade s where s.status =:status and s.ingebruik = '1'") })
-public class StatusSchade implements PersistenceObject {
+@NamedQueries({@NamedQuery(name = "StatusSchade.zoekOpSoort", query = "select s from StatusSchade s where s.status =:status and s.ingebruik = '1'")})
+public class StatusSchade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -25,12 +24,10 @@ public class StatusSchade implements PersistenceObject {
         ingebruik = true;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

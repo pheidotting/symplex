@@ -31,7 +31,7 @@ public class AdresController extends AbstractController {
     public void opslaan(@RequestBody List<JsonAdres> jsonEntiteiten, HttpServletRequest httpServletRequest) {
         List<JsonAdres> lijst = jsonEntiteiten.stream().map(adres -> {
             Long entiteitId;
-            if (adres.getParentIdentificatie() != null&&!"".equals(adres.getParentIdentificatie())) {
+            if (adres.getParentIdentificatie() != null && !"".equals(adres.getParentIdentificatie())) {
                 try {
                     entiteitId = identificatieClient.zoekIdentificatieCode(adres.getParentIdentificatie()).getEntiteitId();
                 } catch (Exception e) {
