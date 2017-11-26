@@ -1,7 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,9 +7,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "GEBRUIKER")
 @DiscriminatorValue(value = "M")
-@AttributeOverrides({ @AttributeOverride(name = "identificatie", column = @Column(name = "GEBRUIKERSNAAM")) })
+@AttributeOverrides({@AttributeOverride(name = "identificatie", column = @Column(name = "GEBRUIKERSNAAM"))})
 //@NamedQueries({ @NamedQuery(name = "Medewerker.zoekOpEmail", query = "select m from Medewerker m where m.identificatie = :emailadres") })
-public class Medewerker extends Gebruiker implements Serializable, PersistenceObject {
+public class Medewerker extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -4313251874716582151L;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = true, targetEntity = Kantoor.class)
@@ -80,7 +78,6 @@ public class Medewerker extends Gebruiker implements Serializable, PersistenceOb
         return Objects.hash(super.hashCode(), getKantoor(), getoAuthCodeTodoist());
     }
 
-    @Override
     public String getName() {
         return this.getIdentificatie();
     }

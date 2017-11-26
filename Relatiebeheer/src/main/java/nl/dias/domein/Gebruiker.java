@@ -1,14 +1,12 @@
 package nl.dias.domein;
 
 import nl.lakedigital.domein.Onderwerp;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
-import java.security.Principal;
 
 @Audited
 @Entity
@@ -23,7 +21,7 @@ import java.security.Principal;
         @NamedQuery(name = "Gebruiker.alles", query = "select g from Gebruiker g"),//
         @NamedQuery(name = "Gebruiker.zoekOpTussenVoegsel", query = "select g from Gebruiker g where g.tussenvoegsel = :tussenvoegsel"),//
 })
-public abstract class Gebruiker extends Onderwerp implements PersistenceObject, Principal {
+public abstract class Gebruiker extends Onderwerp {
     private static final long serialVersionUID = -643848502264838675L;
 
     @Column(name = "VOORNAAM")

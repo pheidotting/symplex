@@ -13,16 +13,16 @@ public class PostcodeService {
         if (index > -1) {
             String plaats = apiAntwoord.substring(index + 8);
             index = plaats.indexOf('\"');
-                if (index > -1) {
-                    plaats = plaats.substring(0, index);
-                    jsonAdres.setPlaats(plaats.toUpperCase());
+            if (index > -1) {
+                plaats = plaats.substring(0, index);
+                jsonAdres.setPlaats(plaats.toUpperCase());
 
-                    String straat = apiAntwoord.substring(apiAntwoord.indexOf("street") + 9);
-                    index = straat.indexOf('\"');
-                    if (index > -1) {
-                        straat = straat.substring(0, index);
-                        straat = straat.substring(0, 1).toUpperCase() + straat.substring(1).toLowerCase();
-                        jsonAdres.setStraat(straat);
+                String straat = apiAntwoord.substring(apiAntwoord.indexOf("street") + 9);
+                index = straat.indexOf('\"');
+                if (index > -1) {
+                    straat = straat.substring(0, index);
+                    straat = straat.substring(0, 1).toUpperCase() + straat.substring(1).toLowerCase();
+                    jsonAdres.setStraat(straat);
                 }
             }
         }

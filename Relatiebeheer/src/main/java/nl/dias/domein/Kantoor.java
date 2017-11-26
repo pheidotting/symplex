@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
@@ -11,7 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "KANTOOR")
-public class Kantoor implements Serializable, PersistenceObject {
+public class Kantoor implements Serializable {
     private static final long serialVersionUID = 3842257675777516787L;
 
     @Id
@@ -52,12 +51,10 @@ public class Kantoor implements Serializable, PersistenceObject {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Relatie.class)
     private Set<Relatie> relaties;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
