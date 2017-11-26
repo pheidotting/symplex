@@ -61,6 +61,7 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
                 relatie.setBurgerlijkeStaat(bs);
             }
         }
+        relatie.setEmailadres(jsonRelatie.getEmailadres());
 
         return relatie;
     }
