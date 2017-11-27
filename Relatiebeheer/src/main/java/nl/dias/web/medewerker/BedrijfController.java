@@ -138,7 +138,7 @@ public class BedrijfController extends AbstractController {
                 jsonOpmerking.setEntiteitId(bedrijf.getId());
                 jsonOpmerking.setSoortEntiteit("BEDRIJF");
                 jsonOpmerking.setParentIdentificatie(identificatie.getIdentificatie());
-                jsonOpmerking.setMedewerkerId(getIngelogdeGebruiker(httpServletRequest).getId());
+                jsonOpmerking.setMedewerkerId(opmerking.getMedewerkerId());
 
                 return jsonOpmerking;
             }

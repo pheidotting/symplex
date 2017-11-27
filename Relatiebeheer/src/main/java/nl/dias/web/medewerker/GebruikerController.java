@@ -261,7 +261,7 @@ public class GebruikerController extends AbstractController {
                 jsonOpmerking.setEntiteitId(relatie.getId());
                 jsonOpmerking.setSoortEntiteit("RELATIE");
                 jsonOpmerking.setParentIdentificatie(relatie.getIdentificatie());
-                jsonOpmerking.setMedewerkerId(getIngelogdeGebruiker(httpServletRequest).getId());
+                jsonOpmerking.setMedewerkerId(opmerking.getMedewerkerId());
 
                 return jsonOpmerking;
             }
