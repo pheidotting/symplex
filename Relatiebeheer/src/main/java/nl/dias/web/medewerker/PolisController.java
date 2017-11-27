@@ -12,6 +12,7 @@ import nl.dias.web.mapper.PolisMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -162,7 +164,7 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
+    public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
         LOGGER.debug("verwijderen Polis met id " + id);
 
         //        zetSessieWaarden(httpServletRequest);
