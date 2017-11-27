@@ -29,13 +29,6 @@
         <sonar.jacoco.itReportPath>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.itReportPath>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>Symplex</id>
-            <url>http://jenkins.djfc.local:8081/artifactory/libs-release</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>com.coaxys</groupId>
@@ -45,7 +38,7 @@
         <dependency>
             <groupId>nl.lakedigital.as</groupId>
             <artifactId>messaging</artifactId>
-            <version>5.30</version>
+            <version>6.00</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>nl.lakedigital.djfc.commons</groupId>-->
@@ -319,25 +312,25 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify</id>
-                        <goals>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-failsafe-plugin</artifactId>-->
+            <!--<version>2.19.1</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>integration-test</id>-->
+            <!--<goals>-->
+            <!--<goal>integration-test</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--<execution>-->
+            <!--<id>verify</id>-->
+            <!--<goals>-->
+            <!--<goal>verify</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>

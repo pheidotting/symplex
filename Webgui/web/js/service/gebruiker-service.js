@@ -65,32 +65,6 @@ define(["commons/3rdparty/log2",
                 return deferred.promise();
             },
 
-            lijstRelaties: function(zoekTerm, weglaten) {
-                logger.debug('ophalen lijst relaties met zoekTerm '+ zoekTerm);
-                var deferred = $.Deferred();
-                var relatieRelaties;
-
-                gebruikerRepository.lijstRelaties(zoekTerm, weglaten).done(function(relatie) {
-                    relatieRelaties = relatie;
-
-                    var ids = _.map(relatie.jsonRelaties, function(relatie){
-                        return relatie.id;
-                    });
-
-                    $.when(repository.voerUitGet(navRegister.bepaalUrl('ALLE_ADRESSEN_BIJ_ENTITEIT') + '?soortEntiteit=RELATIE&lijst=' + ids.join('&lijst='))).then(function(lijstAdressen){
-                        $.each(relatie.jsonRelaties, function(i, item) {
-                            item.adressen = _.filter(lijstAdressen, function(adres){
-                                return adres.entiteitId == item.id;
-                            });
-                        });
-
-                        return deferred.resolve(relatieRelaties);
-                    });
-                });
-
-                return deferred.promise();
-            },
-
             verwijderRelatie: function(id) {
                 var deferred = $.Deferred();
 

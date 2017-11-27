@@ -24,7 +24,6 @@ import static com.google.common.collect.Lists.newArrayList;
 public class SchadeRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchadeRepository.class);
 
-
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -32,8 +31,7 @@ public class SchadeRepository {
         try {
             return sessionFactory.getCurrentSession();
         } catch (HibernateException e) {
-            LOGGER.trace("{}", e);
-            return sessionFactory.openSession();
+            return sessionFactory.openSession();//NOSONAR
         }
     }
 
@@ -61,6 +59,7 @@ public class SchadeRepository {
 
     @Transactional
     public void opslaan(StatusSchade statusSchade) {
+        getSession().getTransaction().begin();
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(statusSchade, ToStringStyle.SHORT_PREFIX_STYLE));
         if (statusSchade.getId() == null) {
             getSession().save(statusSchade);
@@ -71,6 +70,7 @@ public class SchadeRepository {
 
     @Transactional
     public void opslaan(SoortSchade soortSchade) {
+        getSession().getTransaction().begin();
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(soortSchade, ToStringStyle.SHORT_PREFIX_STYLE));
         if (soortSchade.getId() == null) {
             getSession().save(soortSchade);
@@ -151,13 +151,15 @@ public class SchadeRepository {
 
     @Transactional
     public void opslaan(List<Schade> schades) {
+        //        getSession().getTransaction().begin();
         for (Schade t : schades) {
             LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
-            if (t.getId() == null) {
-                getSession().save(t);
-            } else {
-                getSession().merge(t);
-            }
+            //            if (t.getId() == null) {
+            getSession().saveOrUpdate(t);
+            getSession().flush();
+            //            } else {
+            //                getSession().merge(t);
+            //            }
         }
     }
 

@@ -59,59 +59,6 @@ define(["commons/3rdparty/log",
                 return this.voerUitGet(navRegister.bepaalUrl('UITLOGGEN'));
             },
 
-//            lijstRelaties: function(zoekTerm, weglaten){
-//                log.debug('ophalen lijst relaties');
-//                var deferred = $.Deferred();
-//                var _this = this;
-//                var aantal = 0;
-//                var dataRelaties;
-//
-//                this.voerUitGet(navRegister.bepaalUrl('LIJST_RELATIES'), {"zoekTerm" : zoekTerm, "weglaten" : weglaten}).done(function(data){
-//                    aantal = data.jsonRelaties.length;
-//                    dataRelaties = data;
-//                    $.each(data.jsonRelaties, function(i, item) {
-//                        _this.voerUitGet(navRegister.bepaalUrl('LIJST_ADRESSEN') + '/RELATIE/' + item.id).done(function(adressen){
-//                            item.adressen = adressen;
-//                            teruggeven(--aantal);
-//                        });
-//                    });
-//                });
-//
-//                function teruggeven(aantalOphalen){
-//                    if(aantalOphalen === 0) {
-//                        return deferred.resolve(dataRelaties);
-//                    }
-//                }
-//
-//                return deferred.promise();
-//            },
-//
-//            leesRelatie: function(id){
-//                var deferred = $.Deferred();
-//                var _this = this;
-//
-//                $.when(this.voerUitGet(navRegister.bepaalUrl('LEES_RELATIE'), {id : id}),
-//                        _this.lijstBijlages('RELATIE', id),
-//                        _this.voerUitGet(navRegister.bepaalUrl('LIJST_GROEP_BIJLAGES') + '/RELATIE/' + id),
-//                        _this.lijstOpmerkingen('RELATIE', id),
-//                        _this.voerUitGet(navRegister.bepaalUrl('LIJST_ADRESSEN') + '/RELATIE/' + id),
-//                        _this.voerUitGet(navRegister.bepaalUrl('LIJST_TELEFOONNUMMERS') + '/RELATIE/' + id),
-//                        _this.voerUitGet(navRegister.bepaalUrl('LIJST_REKENINGNUMMERS') + '/RELATIE/' + id)
-//                        ).then(function(relatie, bijlages, groepBijlages, opmerkingen, adressen, telefoonnummers, rekeningnummers ) {
-//
-//                            relatie.bijlages = bijlages;
-//                            relatie.groepBijlages = groepBijlages;
-//                            relatie.opmerkingen = opmerkingen;
-//                            relatie.adressen = adressen;
-//                            relatie.telefoonnummers = telefoonnummers;
-//                            relatie.rekeningnummers = rekeningnummers;
-//
-//                            return deferred.resolve(relatie);
-//                });
-//
-//                return deferred.promise();
-//            },
-
             verwijderRelatie: function(id){
                 return this.voerUitGet(navRegister.bepaalUrl('VERWIJDER_RELATIE'), {id : id});
             },

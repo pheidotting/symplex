@@ -1,13 +1,18 @@
 package nl.dias.web.medewerker;
 
 import com.google.common.collect.Lists;
+import nl.dias.domein.Bedrijf;
 import nl.dias.domein.polis.Polis;
-import nl.dias.domein.polis.SoortVerzekering;
 import nl.dias.mapper.Mapper;
+import nl.dias.messaging.sender.BeindigenPolisRequestSender;
+import nl.dias.messaging.sender.PolisOpslaanRequestSender;
+import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
 import nl.dias.web.mapper.PolisMapper;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -17,11 +22,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequestMapping("/polis")
 @Controller
@@ -40,23 +48,40 @@ public class PolisController extends AbstractController {
     private BedrijfService bedrijfService;
     @Inject
     private Mapper mapper;
+    @Inject
+    private PolisVerwijderenRequestSender polisVerwijderenRequestSender;
+    @Inject
+    private PolisOpslaanRequestSender polisOpslaanRequestSender;
+    @Inject
+    private Destination polisOpslaanResponseDestination;
+    @Inject
+    private PolisClient polisClient;
+    //    @Inject
+    private BeindigenPolisRequestSender beindigenPolisRequestSender;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleParticulierePolisSoorten() {
-        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
+        return polisClient.alleParticulierePolisSoorten();
+
+        //        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleZakelijkePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleZakelijkePolisSoorten() {
-        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
+        return polisClient.alleZakelijkePolisSoorten();
+        //        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public JsonPolis lees(@QueryParam("id") String id) {
         LOGGER.debug("ophalen Polis met id " + id);
+
+        //        return polisClient.lees(id);
         if (id != null && !"".equals(id) && !"0".equals(id)) {
             LOGGER.debug("ophalen Polis");
             return polisMapper.mapNaarJson(polisService.lees(Long.valueOf(id)));
@@ -74,13 +99,15 @@ public class PolisController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         polisService.beeindigen(id);
+        //
+        //        beindigenPolisRequestSender.send(newArrayList(id));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijst", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<JsonPolis> lijst(@QueryParam("relatieId") String relatieId) {
         LOGGER.debug("Ophalen alle polissen voor Relatie " + relatieId);
-        //        Relatie relatie = (Relatie) gebruikerService.lees(Long.valueOf(relatieId));
+        //                        Relatie relatie = (Relatie) gebruikerService.lees(Long.valueOf(relatieId));
         Long relatie = Long.valueOf(relatieId);
 
         List<JsonPolis> result = Lists.newArrayList();
@@ -89,20 +116,24 @@ public class PolisController extends AbstractController {
         }
 
         return result;
+        //
+        //        return polisClient.lijst(relatieId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijstBijBedrijf", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<JsonPolis> lijstBijBedrijf(@QueryParam("bedrijfId") Long bedrijfId) {
         LOGGER.debug("Ophalen alle polissen voor Bedrijf " + bedrijfId);
-        //        Bedrijf bedrijf = bedrijfService.lees(bedrijfId);
+        Bedrijf bedrijf = bedrijfService.lees(bedrijfId);
 
-        //        Set<Polis> polissen = new HashSet<>();
-        //        for (Polis polis : polisService.allePolissenBijBedrijf(bedrijfId)) {
-        //            polissen.add(polis);
-        //        }
-
+        Set<Polis> polissen = new HashSet<>();
+        for (Polis polis : polisService.allePolissenBijBedrijf(bedrijfId)) {
+            polissen.add(polis);
+        }
+        //
         return polisMapper.mapAllNaarJson(polisService.allePolissenBijBedrijf(bedrijfId));
+
+        //        return polisClient.lijstBijBedrijf(bedrijfId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
@@ -120,6 +151,16 @@ public class PolisController extends AbstractController {
             throw new IllegalStateException(e.getLocalizedMessage());
         }
         return polis.getId();
+        //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));
+        //
+        //        zetSessieWaarden(httpServletRequest);
+        //
+        //        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polis.getParentIdentificatie());
+        //        polis.setEntiteitId(identificatie.getEntiteitId());
+        //        polis.setSoortEntiteit(identificatie.getSoortEntiteit());
+        //
+        //        polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
+        //        polisOpslaanRequestSender.send(polis);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
@@ -127,7 +168,15 @@ public class PolisController extends AbstractController {
     public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
         LOGGER.debug("verwijderen Polis met id " + id);
 
-        zetSessieWaarden(httpServletRequest);
+        //        zetSessieWaarden(httpServletRequest);
+        //
+        //        try {
+        //            polisService.verwijder(id);
+        //        } catch (IllegalArgumentException e) {
+        //            LOGGER.error("Fout bij verwijderen Polis", e);
+        //            return Response.status(500).entity(new JsonFoutmelding(e.getMessage())).build();
+        //        }
+        //        return Response.status(202).entity(new JsonFoutmelding()).build();
 
         try {
             polisService.verwijder(id);
@@ -136,5 +185,6 @@ public class PolisController extends AbstractController {
             return Response.status(500).entity(new JsonFoutmelding(e.getMessage())).build();
         }
         return Response.status(202).entity(new JsonFoutmelding("")).build();
+        //        polisVerwijderenRequestSender.send(newArrayList(id));
     }
 }
