@@ -27,8 +27,8 @@ define(["commons/3rdparty/log2",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null, trackAndTraceId);
             },
 
-            leesRelatie: function(id) {
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_RELATIE_NW') + '/' + id);
+            leesRelatie: function(id, foutmeldingOnderdrukken) {
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_RELATIE_NW') + '/' + id, null, foutmeldingOnderdrukken);
             },
 
             leesMedewerker: function(id) {

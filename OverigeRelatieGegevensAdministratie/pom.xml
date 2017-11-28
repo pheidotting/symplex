@@ -38,7 +38,7 @@
         <dependency>
             <groupId>nl.lakedigital.as</groupId>
             <artifactId>messaging</artifactId>
-            <version>5.30</version>
+            <version>6.00</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>nl.lakedigital.djfc.commons</groupId>-->
