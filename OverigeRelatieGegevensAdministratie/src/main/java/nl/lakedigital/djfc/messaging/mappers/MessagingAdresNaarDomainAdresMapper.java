@@ -6,13 +6,10 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AdresService;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.function.Function;
 
 public class MessagingAdresNaarDomainAdresMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.Adres> {
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
     private IdentificatieClient identificatieClient;
     private AdresService adresService;
 
@@ -27,7 +24,7 @@ public class MessagingAdresNaarDomainAdresMapper implements Function<AbstracteEn
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(adr.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.Adres adres = null;
+        nl.lakedigital.djfc.domain.Adres adres;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             adres = adresService.lees(identificatie.getEntiteitId());
         } else {
