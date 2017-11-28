@@ -34,7 +34,7 @@ define(["commons/3rdparty/log2",
 
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
-                        return deferred.resolve(id);
+                        return deferred.resolve(response);
                     });
                 });
 

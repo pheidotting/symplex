@@ -6,10 +6,12 @@ import nl.lakedigital.djfc.domain.response.Telefoonnummer;
 import java.util.function.Function;
 
 public class DomainTelefoonnummerNaarMessagingTelefoonnummerMapper implements Function<Telefoonnummer, nl.lakedigital.as.messaging.domain.Telefoonnummer> {
-    private Long bedrijfId;
+    private Long entiteitId;
+    private SoortEntiteit soortEntiteit;
 
-    public DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(Long bedrijfId) {
-        this.bedrijfId = bedrijfId;
+    public DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(Long entiteitId, SoortEntiteit soortEntiteit) {
+        this.entiteitId = entiteitId;
+        this.soortEntiteit = soortEntiteit;
     }
 
     @Override
@@ -19,8 +21,8 @@ public class DomainTelefoonnummerNaarMessagingTelefoonnummerMapper implements Fu
         jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
         jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
         jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
-        jsonTelefoonnummer.setEntiteitId(bedrijfId);
-        jsonTelefoonnummer.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+        jsonTelefoonnummer.setEntiteitId(entiteitId);
+        jsonTelefoonnummer.setSoortEntiteit(soortEntiteit);
         jsonTelefoonnummer.setIdentificatie(telefoonnummer.getIdentificatie());
 
         return jsonTelefoonnummer;

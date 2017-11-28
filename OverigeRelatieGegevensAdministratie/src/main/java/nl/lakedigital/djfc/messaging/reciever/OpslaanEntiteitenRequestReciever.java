@@ -2,14 +2,17 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.as.messaging.domain.Opmerking;
+import nl.lakedigital.as.messaging.domain.RekeningNummer;
 import nl.lakedigital.as.messaging.domain.Telefoonnummer;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.messaging.mappers.MessagingAdresNaarDomainAdresMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingOpmerkingNaarDomainOpmerkingMapper;
+import nl.lakedigital.djfc.messaging.mappers.MessagingRekeningNummerNaarDomainRekeningNummerMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingTelefoonnummerNaarDomainTelefoonnummerMapper;
 import nl.lakedigital.djfc.service.AdresService;
 import nl.lakedigital.djfc.service.OpmerkingService;
+import nl.lakedigital.djfc.service.RekeningNummerService;
 import nl.lakedigital.djfc.service.TelefoonnummerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,8 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
     private OpmerkingService opmerkingService;
     @Inject
     private TelefoonnummerService telefoonnummerService;
+    @Inject
+    private RekeningNummerService rekeningNummerService;
     @Inject
     private AdresService adresService;
     @Inject
@@ -48,6 +53,11 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
         telefoonnummerService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Telefoonnummer)//
                 .map(new MessagingTelefoonnummerNaarDomainTelefoonnummerMapper(identificatieClient, telefoonnummerService))//
+                .collect(Collectors.toList()));
+
+        rekeningNummerService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
+                .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof RekeningNummer)//
+                .map(new MessagingRekeningNummerNaarDomainRekeningNummerMapper(identificatieClient, rekeningNummerService))//
                 .collect(Collectors.toList()));
     }
 }

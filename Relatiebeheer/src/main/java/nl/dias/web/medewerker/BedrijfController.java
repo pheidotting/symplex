@@ -8,6 +8,7 @@ import nl.dias.web.mapper.*;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
@@ -103,9 +104,9 @@ public class BedrijfController extends AbstractController {
         LOGGER.debug("Return {}", jsonBedrijf.getIdentificatie());
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(bedrijf.getId())).collect(Collectors.toList()));
-        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(bedrijf.getId())).collect(Collectors.toList()));
-        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(bedrijf.getId())).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(bedrijf.getId(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(bedrijf.getId(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(bedrijf.getId(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 

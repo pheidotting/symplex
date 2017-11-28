@@ -7,17 +7,20 @@ import nl.dias.domein.Relatie;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
 import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.mapper.RelatieMapper;
+import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
+import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
+import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
-import nl.lakedigital.djfc.domain.response.Adres;
-import nl.lakedigital.djfc.domain.response.Opmerking;
-import nl.lakedigital.djfc.domain.response.RekeningNummer;
-import nl.lakedigital.djfc.domain.response.Telefoonnummer;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequestMapping("/gebruiker")
@@ -60,15 +62,17 @@ public class GebruikerController extends AbstractController {
     private JsonMedewerkerNaarMedewerkerMapper jsonMedewerkerNaarMedewerkerMapper;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
-    @Inject
-    private AdresController adresController;
-    @Inject
-    private TelefoonnummerController telefoonnummerController;
-    @Inject
-    private RekeningNummerController rekeningNummerController;
-    @Inject
-    private OpmerkingController opmerkingController;
+    //    @Inject
+    //    private AdresController adresController;
+    //    @Inject
+    //    private TelefoonnummerController telefoonnummerController;
+    //    @Inject
+    //    private RekeningNummerController rekeningNummerController;
+    //    @Inject
+    //    private OpmerkingController opmerkingController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -202,70 +206,13 @@ public class GebruikerController extends AbstractController {
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
 
-        adresController.opslaan(jsonRelatie.getAdressen().stream().map(new Function<Adres, JsonAdres>() {
-            @Override
-            public JsonAdres apply(Adres adres) {
-                JsonAdres jsonAdres = new JsonAdres();
-                jsonAdres.setHuisnummer(adres.getHuisnummer());
-                //                jsonAdres.setId(adres.geti);
-                jsonAdres.setPlaats(adres.getPlaats());
-                jsonAdres.setPostcode(adres.getPostcode());
-                jsonAdres.setSoortAdres(adres.getSoortAdres());
-                jsonAdres.setStraat(adres.getStraat());
-                jsonAdres.setToevoeging(adres.getToevoeging());
-                jsonAdres.setEntiteitId(relatie.getId());
-                jsonAdres.setIdentificatie(adres.getIdentificatie());
-                jsonAdres.setParentIdentificatie(relatie.getIdentificatie());
-                jsonAdres.setSoortEntiteit("RELATIE");
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getRekeningNummers().stream().map(new DomainRekeningNummerNaarMessagingRekeningNummerMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
 
-                return jsonAdres;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
-        telefoonnummerController.opslaan(jsonRelatie.getTelefoonnummers().stream().map(new Function<Telefoonnummer, JsonTelefoonnummer>() {
-            @Override
-            public JsonTelefoonnummer apply(Telefoonnummer telefoonnummer) {
-                JsonTelefoonnummer jsonTelefoonnummer = new JsonTelefoonnummer();
-
-                jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
-                jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
-                jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
-                jsonTelefoonnummer.setEntiteitId(relatie.getId());
-                jsonTelefoonnummer.setSoortEntiteit("RELATIE");
-                jsonTelefoonnummer.setParentIdentificatie(relatie.getIdentificatie());
-
-                return jsonTelefoonnummer;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
-        rekeningNummerController.opslaan(jsonRelatie.getRekeningNummers().stream().map(new Function<RekeningNummer, JsonRekeningNummer>() {
-            @Override
-            public JsonRekeningNummer apply(RekeningNummer rekeningNummer) {
-                JsonRekeningNummer jsonRekeningNummer = new JsonRekeningNummer();
-
-                jsonRekeningNummer.setBic(rekeningNummer.getBic());
-                jsonRekeningNummer.setRekeningnummer(rekeningNummer.getRekeningnummer());
-                jsonRekeningNummer.setEntiteitId(relatie.getId());
-                jsonRekeningNummer.setSoortEntiteit("RELATIE");
-                jsonRekeningNummer.setParentIdentificatie(relatie.getIdentificatie());
-
-                return jsonRekeningNummer;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
-        opmerkingController.opslaan(jsonRelatie.getOpmerkingen().stream().map(new Function<Opmerking, JsonOpmerking>() {
-            @Override
-            public JsonOpmerking apply(Opmerking opmerking) {
-                JsonOpmerking jsonOpmerking = new JsonOpmerking();
-
-                jsonOpmerking.setMedewerker(opmerking.getMedewerker());
-                jsonOpmerking.setOpmerking(opmerking.getOpmerking());
-                jsonOpmerking.setTijd(opmerking.getTijd());
-                jsonOpmerking.setEntiteitId(relatie.getId());
-                jsonOpmerking.setSoortEntiteit("RELATIE");
-                jsonOpmerking.setParentIdentificatie(relatie.getIdentificatie());
-                jsonOpmerking.setMedewerkerId(opmerking.getMedewerkerId());
-
-                return jsonOpmerking;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         return relatie.getIdentificatie();
     }

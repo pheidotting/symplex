@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({//
         Adres.class,//
         Opmerking.class,//
+        RekeningNummer.class,//
         Telefoonnummer.class
 })
 public abstract class AbstracteEntiteitMetSoortEnId {
