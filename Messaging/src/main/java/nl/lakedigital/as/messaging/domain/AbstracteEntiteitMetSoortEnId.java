@@ -5,12 +5,23 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement
 @XmlSeeAlso({//
-        Opmerking.class//
+        Adres.class,//
+        Opmerking.class,//
+        Telefoonnummer.class
 })
 public abstract class AbstracteEntiteitMetSoortEnId {
     private SoortEntiteit soortEntiteit;
     private Long entiteitId;
     private String identificatie;
+
+    public AbstracteEntiteitMetSoortEnId() {
+    }
+
+    public AbstracteEntiteitMetSoortEnId(SoortEntiteit soortEntiteit, Long entiteitId, String identificatie) {
+        this.soortEntiteit = soortEntiteit;
+        this.entiteitId = entiteitId;
+        this.identificatie = identificatie;
+    }
 
     public SoortEntiteit getSoortEntiteit() {
         return soortEntiteit;

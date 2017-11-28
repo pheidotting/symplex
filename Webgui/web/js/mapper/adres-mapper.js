@@ -32,6 +32,7 @@ define(['jquery',
                 adres.plaats(data.plaats.toUpperCase());
                 adres.soortEntiteit(data.soortEntiteit);
                 adres.entiteitId(data.entiteitId);
+                adres.identificatie(data.identificatie);
 
                 return adres;
             }

@@ -2,13 +2,22 @@ package nl.dias.web.medewerker;
 
 import nl.dias.domein.Bedrijf;
 import nl.dias.mapper.Mapper;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.*;
 import nl.dias.web.mapper.*;
+import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
+import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
-import nl.lakedigital.djfc.commons.json.*;
-import nl.lakedigital.djfc.domain.response.*;
+import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonBedrijf;
+import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
+import nl.lakedigital.djfc.domain.response.Telefoongesprek;
+import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -70,15 +79,8 @@ public class BedrijfController extends AbstractController {
     private SchadeService schadeService;
     @Inject
     private SchadeMapper schadeMapper;
-
     @Inject
-    private AdresController adresController;
-    @Inject
-    private TelefoonnummerController telefoonnummerController;
-    @Inject
-    private RekeningNummerController rekeningNummerController;
-    @Inject
-    private OpmerkingController opmerkingController;
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -100,56 +102,13 @@ public class BedrijfController extends AbstractController {
 
         LOGGER.debug("Return {}", jsonBedrijf.getIdentificatie());
 
-        adresController.opslaan(jsonBedrijf.getAdressen().stream().map(new Function<Adres, JsonAdres>() {
-            @Override
-            public JsonAdres apply(Adres adres) {
-                JsonAdres jsonAdres = new JsonAdres();
-                jsonAdres.setHuisnummer(adres.getHuisnummer());
-                //                jsonAdres.setId(adres.geti);
-                jsonAdres.setPlaats(adres.getPlaats());
-                jsonAdres.setPostcode(adres.getPostcode());
-                jsonAdres.setSoortAdres(adres.getSoortAdres());
-                jsonAdres.setStraat(adres.getStraat());
-                jsonAdres.setToevoeging(adres.getToevoeging());
-                jsonAdres.setEntiteitId(bedrijf.getId());
-                jsonAdres.setIdentificatie(adres.getIdentificatie());
-                jsonAdres.setParentIdentificatie(identificatie.getIdentificatie());
-                jsonAdres.setSoortEntiteit("BEDRIJF");
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(bedrijf.getId())).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(bedrijf.getId())).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(bedrijf.getId())).collect(Collectors.toList()));
 
-                return jsonAdres;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
-        telefoonnummerController.opslaan(jsonBedrijf.getTelefoonnummers().stream().map(new Function<Telefoonnummer, JsonTelefoonnummer>() {
-            @Override
-            public JsonTelefoonnummer apply(Telefoonnummer telefoonnummer) {
-                JsonTelefoonnummer jsonTelefoonnummer = new JsonTelefoonnummer();
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-                jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
-                jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
-                jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
-                jsonTelefoonnummer.setEntiteitId(bedrijf.getId());
-                jsonTelefoonnummer.setSoortEntiteit("BEDRIJF");
-                jsonTelefoonnummer.setParentIdentificatie(identificatie.getIdentificatie());
-
-                return jsonTelefoonnummer;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
-        opmerkingController.opslaan(jsonBedrijf.getOpmerkingen().stream().map(new Function<Opmerking, JsonOpmerking>() {
-            @Override
-            public JsonOpmerking apply(Opmerking opmerking) {
-                JsonOpmerking jsonOpmerking = new JsonOpmerking();
-
-                jsonOpmerking.setMedewerker(opmerking.getMedewerker());
-                jsonOpmerking.setOpmerking(opmerking.getOpmerking());
-                jsonOpmerking.setTijd(opmerking.getTijd());
-                jsonOpmerking.setEntiteitId(bedrijf.getId());
-                jsonOpmerking.setSoortEntiteit("BEDRIJF");
-                jsonOpmerking.setParentIdentificatie(identificatie.getIdentificatie());
-                jsonOpmerking.setMedewerkerId(opmerking.getMedewerkerId());
-
-                return jsonOpmerking;
-            }
-        }).collect(Collectors.toList()), httpServletRequest);
         return jsonBedrijf.getIdentificatie();
     }
 
