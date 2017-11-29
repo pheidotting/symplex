@@ -212,6 +212,9 @@ public class GebruikerController extends AbstractController {
         opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
         opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getRekeningNummers().stream().map(new DomainRekeningNummerNaarMessagingRekeningNummerMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
 
+        opslaanEntiteitenRequest.setEntiteitId(relatie.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
+
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         return relatie.getIdentificatie();

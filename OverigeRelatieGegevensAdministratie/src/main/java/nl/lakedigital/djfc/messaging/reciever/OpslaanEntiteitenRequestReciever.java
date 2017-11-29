@@ -6,6 +6,7 @@ import nl.lakedigital.as.messaging.domain.RekeningNummer;
 import nl.lakedigital.as.messaging.domain.Telefoonnummer;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.messaging.mappers.MessagingAdresNaarDomainAdresMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingOpmerkingNaarDomainOpmerkingMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingRekeningNummerNaarDomainRekeningNummerMapper;
@@ -43,21 +44,21 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
         opmerkingService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Opmerking)//
                 .map(new MessagingOpmerkingNaarDomainOpmerkingMapper(identificatieClient, opmerkingService))//
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
 
         adresService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Adres)//
                 .map(new MessagingAdresNaarDomainAdresMapper(identificatieClient, adresService))//
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
 
         telefoonnummerService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Telefoonnummer)//
                 .map(new MessagingTelefoonnummerNaarDomainTelefoonnummerMapper(identificatieClient, telefoonnummerService))//
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
 
         rekeningNummerService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof RekeningNummer)//
                 .map(new MessagingRekeningNummerNaarDomainRekeningNummerMapper(identificatieClient, rekeningNummerService))//
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
     }
 }

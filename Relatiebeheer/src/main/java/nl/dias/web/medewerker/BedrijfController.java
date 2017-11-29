@@ -108,6 +108,9 @@ public class BedrijfController extends AbstractController {
         opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(bedrijf.getId(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
         opslaanEntiteitenRequest.getLijst().addAll(jsonBedrijf.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(bedrijf.getId(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
 
+        opslaanEntiteitenRequest.setEntiteitId(bedrijf.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         return jsonBedrijf.getIdentificatie();
