@@ -16,6 +16,7 @@ define(["commons/3rdparty/log",
 
                 $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
                     schade.opmerkingen = opmerkingen;
+                    schade.parentIdentificatie = schade.polis;
 
                     $.when(schadeRepository.opslaan(schade, trackAndTraceId)).then(function(response) {
 //                        var id = response.entity.foutmelding;
