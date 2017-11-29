@@ -25,10 +25,10 @@ define(["commons/3rdparty/log",
                         if(id != null && id != '') {
                             var soortEntiteit = 'POLIS';
 
-                            $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-                            .then(function(opmerkingResponse){
+//                            $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
+//                            .then(function(opmerkingResponse){
                                 return deferred.resolve(id);
-                            });
+//                            });
                         }
                     });
                 });
