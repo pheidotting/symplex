@@ -7,13 +7,10 @@ import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.TelefoonnummerSoort;
 import nl.lakedigital.djfc.service.TelefoonnummerService;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.function.Function;
 
 public class MessagingTelefoonnummerNaarDomainTelefoonnummerMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.Telefoonnummer> {
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
     private IdentificatieClient identificatieClient;
     private TelefoonnummerService telefoonnummerService;
 
@@ -28,7 +25,7 @@ public class MessagingTelefoonnummerNaarDomainTelefoonnummerMapper implements Fu
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(tel.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.Telefoonnummer telefoonnummer = null;
+        nl.lakedigital.djfc.domain.Telefoonnummer telefoonnummer;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             telefoonnummer = telefoonnummerService.lees(identificatie.getEntiteitId());
         } else {

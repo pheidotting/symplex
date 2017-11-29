@@ -6,13 +6,10 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.RekeningNummerService;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.util.function.Function;
 
 public class MessagingRekeningNummerNaarDomainRekeningNummerMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.RekeningNummer> {
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
     private IdentificatieClient identificatieClient;
     private RekeningNummerService rekeningNummerService;
 
@@ -27,7 +24,7 @@ public class MessagingRekeningNummerNaarDomainRekeningNummerMapper implements Fu
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(rek.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.RekeningNummer rekeningNummer = null;
+        nl.lakedigital.djfc.domain.RekeningNummer rekeningNummer;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             rekeningNummer = rekeningNummerService.lees(identificatie.getEntiteitId());
         } else {

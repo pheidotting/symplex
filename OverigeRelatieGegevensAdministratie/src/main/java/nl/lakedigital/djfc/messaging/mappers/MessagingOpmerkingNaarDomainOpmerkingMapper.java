@@ -28,7 +28,7 @@ public class MessagingOpmerkingNaarDomainOpmerkingMapper implements Function<Abs
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(opm.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.Opmerking opmerking = null;
+        nl.lakedigital.djfc.domain.Opmerking opmerking;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             opmerking = opmerkingService.lees(identificatie.getEntiteitId());
         } else {
