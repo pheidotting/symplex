@@ -27,6 +27,7 @@ public class Polis {
     private String omschrijvingVerzekering;
     private String soortEntiteit;
     private Long entiteitId;
+    private String parentIdentificatie;
 
     private List<Schade> schades;
 
@@ -200,6 +201,14 @@ public class Polis {
 
     public void setEntiteitId(Long entiteitId) {
         this.entiteitId = entiteitId;
+    }
+
+    public String getParentIdentificatie() {
+        return parentIdentificatie;
+    }
+
+    public void setParentIdentificatie(String parentIdentificatie) {
+        this.parentIdentificatie = parentIdentificatie;
     }
 
     public List<Schade> getSchades() {

@@ -3,14 +3,20 @@ package nl.dias.web.medewerker;
 import com.google.common.collect.Lists;
 import nl.dias.domein.Bedrijf;
 import nl.dias.domein.polis.Polis;
+import nl.dias.domein.polis.SoortVerzekering;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.sender.BeindigenPolisRequestSender;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.messaging.sender.PolisOpslaanRequestSender;
 import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
 import nl.dias.web.mapper.PolisMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
+import nl.dias.web.medewerker.mappers.JsonPolisNaarDomainPolisMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
@@ -30,6 +36,7 @@ import javax.ws.rs.core.Response;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequestMapping("/polis")
 @Controller
@@ -60,20 +67,22 @@ public class PolisController extends AbstractController {
     private BeindigenPolisRequestSender beindigenPolisRequestSender;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleParticulierePolisSoorten() {
-        return polisClient.alleParticulierePolisSoorten();
-
-        //        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
+        //        return polisClient.alleParticulierePolisSoorten();
+        //
+        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleZakelijkePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleZakelijkePolisSoorten() {
-        return polisClient.alleZakelijkePolisSoorten();
-        //        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
+        //        return polisClient.alleZakelijkePolisSoorten();
+        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
@@ -138,18 +147,28 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Long opslaan(@RequestBody JsonPolis jsonPolis, HttpServletRequest httpServletRequest) {
+    public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
         LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
 
         zetSessieWaarden(httpServletRequest);
 
-        Polis polis = polisMapper.mapVanJson(jsonPolis);
+        //        Polis polis = polisMapper.mapVanJson(jsonPolis);
+        Polis polis = new JsonPolisNaarDomainPolisMapper(polisService, identificatieClient).map(jsonPolis);
         try {
             polisService.opslaan(polis);
         } catch (IllegalArgumentException e) {
             LOGGER.debug("Fout opgetreden bij opslaan Polis", e);
             throw new IllegalStateException(e.getLocalizedMessage());
         }
+
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(jsonPolis.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(polis.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
+
+        opslaanEntiteitenRequest.setEntiteitId(polis.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
         return polis.getId();
         //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));
         //

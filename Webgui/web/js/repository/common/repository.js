@@ -7,7 +7,7 @@ define(["commons/3rdparty/log2",
         var logger = log.getLogger('repository');
 
         return {
-            voerUitGet: function(url, data){
+            voerUitGet: function(url, data, foutmeldingOnderdrukken) {
                 var deferred = $.Deferred();
 
                 if(data == null) {
@@ -43,7 +43,7 @@ define(["commons/3rdparty/log2",
                                 if( request.getResponseHeader('Authorization') != null ) {
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
                                 }
-                            } else {
+                            } else if(!foutmeldingOnderdrukken) {
                                 foutpagina = new foutpaginaViewmodel(response.responseText);
                             }
 
