@@ -112,6 +112,11 @@ body {
     font-size: 16px;
 }
 
+.inloggen-main-form meter {
+    width: 233px;
+    height: 30px;
+}
+
 .inloggen-main-form button {
     margin-top: 20px;
     margin-left: 185px;

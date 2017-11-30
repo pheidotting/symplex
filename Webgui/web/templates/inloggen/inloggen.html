@@ -10,24 +10,47 @@
         </div>
         <div class="inloggen-main-form">
             <form>
-                <div class="getbruikersnaam-wachtwoord">
-                    Gebruikernaam
+                <div data-bind="ifnot: moetWachtwoordUpdaten">
+                    <div class="getbruikersnaam-wachtwoord">
+                        Gebruikernaam
+                    </div>
+                    <input type="text" onClick="this.select();" autocomplete="off" id="identificatie"
+                           data-bind="value: identificatie, attr: {class: onjuisteGebruikersnaam}, event: {change: resetfoutmeldingGebruikersnaam}"/>
+                    <div id="foutmeldingOnjuisteGebruikersnaam" class="validationMessage"
+                         data-bind="visible: onjuisteGebruikersnaam">
+                        De gebruikersnaam is onjuist
+                    </div>
+                    <div class="getbruikersnaam-wachtwoord">
+                        Wachtwoord
+                    </div>
+                    <input type="password" id="wachtwoord"
+                           data-bind="value: wachtwoord, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
+                    <div id="foutmeldingOnjuistWachtwoord" class="validationMessage"
+                         data-bind="visible: onjuistWachtwoord">
+                        Het wachtwoord is onjuist
+                    </div>
+                    <button id="inlogButton" data-bind="click: inloggen">Inloggen</button>
                 </div>
-                <input type="text" onClick="this.select();" autocomplete="off" id="identificatie"
-                       data-bind="value: identificatie, attr: {class: onjuisteGebruikersnaam}, event: {change: resetfoutmeldingGebruikersnaam}"/>
-                <div id="foutmeldingOnjuisteGebruikersnaam" class="validationMessage"
-                     data-bind="visible: onjuisteGebruikersnaam">
-                    De gebruikersnaam is onjuist
+                <div data-bind="if: moetWachtwoordUpdaten">
+                    <!--Wachtwoord wijzigen-->
+                    <div class="getbruikersnaam-wachtwoord">
+                        Nieuw wachtwoord
+                    </div>
+                    <input type="password" id="nieuwWachtwoord"
+                           data-bind="value: nieuwWachtwoord, event: {keyup: checkWachtwoordSterkte}"/><br/>
+                    <meter value="0" id="PassValue" max="100"></meter>
+                    <span id="sterktePercentage" data-bind="text:sterktePercentage">0</span> %
+                    <div class="getbruikersnaam-wachtwoord">
+                        Nieuw wachtwoord (nogmaals)
+                    </div>
+                    <input type="password" id="nieuwWachtwoordNotmaals"
+                           data-bind="value: nieuwWachtwoordNogmaals, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
+                    <div id="foutmeldingWachtwoordenKomenNietOvereen" class="validationMessage"
+                         data-bind="visible: wachtwoordenKomenNietOvereen">
+                        De ingevulde wachtwoorden komen niet overeen.
+                    </div>
+                    <button id="wijzigWachtwoordButton" data-bind="click: wijzigWachtwoord">Wijzig</button>
                 </div>
-                <div class="getbruikersnaam-wachtwoord">
-                    Wachtwoord
-                </div>
-                <input type="password" id="wachtwoord"
-                       data-bind="value: wachtwoord, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
-                <div id="foutmeldingOnjuistWachtwoord" class="validationMessage" data-bind="visible: onjuistWachtwoord">
-                    Het wachtwoord is onjuist
-                </div>
-                <button id="inlogButton" data-bind="click: inloggen">Inloggen</button>
             </form>
         </div>
     </div>

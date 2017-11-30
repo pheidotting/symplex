@@ -5,8 +5,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
+import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Audited
 @Entity
@@ -32,6 +34,11 @@ public abstract class Gebruiker extends Onderwerp {
     private String achternaam;
     @Column(name = "EMAILADRES")
     private String emailadres;
+    @Column(name = "MOETWACHTWOORDUPDATEN")
+    private boolean moetWachtwoordUpdaten;
+    @Column(name = "WACHTWOORDLAATSTGEWIJZIGD")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date wachtwoordLaatstGewijzigd;
 
     @Transient
     private String wachtwoordString;
@@ -75,6 +82,22 @@ public abstract class Gebruiker extends Onderwerp {
 
     public void setWachtwoordString(String wachtwoordString) {
         this.wachtwoordString = wachtwoordString;
+    }
+
+    public boolean isMoetWachtwoordUpdaten() {
+        return moetWachtwoordUpdaten;
+    }
+
+    public void setMoetWachtwoordUpdaten(boolean moetWachtwoordUpdaten) {
+        this.moetWachtwoordUpdaten = moetWachtwoordUpdaten;
+    }
+
+    public LocalDateTime getWachtwoordLaatstGewijzigd() {
+        return new LocalDateTime(wachtwoordLaatstGewijzigd);
+    }
+
+    public void setWachtwoordLaatstGewijzigd(LocalDateTime wachtwoordLaatstGewijzigd) {
+        this.wachtwoordLaatstGewijzigd = wachtwoordLaatstGewijzigd.toDate();
     }
 
     /**
