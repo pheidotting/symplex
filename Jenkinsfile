@@ -43,22 +43,6 @@ pipeline {
             }
         }
 
-        stage ('Undeploy Live') {
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'master'
-                }
-            }
-            steps {
-                sh '''
-                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
-                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
-                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
-                '''
-            }
-        }
-
         stage ('Install Commons') {
             steps {
                 sh '''
@@ -311,6 +295,22 @@ pipeline {
                 failure {
                     slackSend (color: '#FF0000', message: "Verify PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
+            }
+        }
+
+        stage ('Undeploy Live') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
+                '''
             }
         }
 
