@@ -23,8 +23,6 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
-
-                    /etc/init.d/jetty restart
                 '''
             }
         }
@@ -41,8 +39,6 @@ pipeline {
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
-
-                    /etc/init.d/jetty restart
                 '''
             }
         }
@@ -59,8 +55,6 @@ pipeline {
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
-
-                    /etc/init.d/jetty restart
                 '''
             }
         }
