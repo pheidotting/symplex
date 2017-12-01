@@ -11,6 +11,54 @@ pipeline {
             }
         }
 
+        stage ('Undeploy Testbak') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
+        stage ('Undeploy Test') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'development'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
+        stage ('Undeploy Live') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
         stage ('Install Commons') {
             steps {
                 sh '''
