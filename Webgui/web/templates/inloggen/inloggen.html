@@ -37,9 +37,9 @@
                         Nieuw wachtwoord
                     </div>
                     <input type="password" id="nieuwWachtwoord"
-                           data-bind="value: nieuwWachtwoord, event: {keyup: checkWachtwoordSterkte}"/><br/>
-                    <meter value="0" id="PassValue" max="100"></meter>
-                    <span id="sterktePercentage" data-bind="text:sterktePercentage">0</span> %
+                           data-bind="value: nieuwWachtwoord, attr: {class: wachtwoordSterkgenoegStyling}, event: {keyup: checkWachtwoordSterkte}"/><br/>
+                    <meter min="0" max="100" low="40" value="0" id="PassValue"></meter>
+                    <span id="sterktePercentage" data-bind="text:sterktePercentage">0</span>%
                     <div class="getbruikersnaam-wachtwoord">
                         Nieuw wachtwoord (nogmaals)
                     </div>
@@ -49,7 +49,9 @@
                          data-bind="visible: wachtwoordenKomenNietOvereen">
                         De ingevulde wachtwoorden komen niet overeen.
                     </div>
-                    <button id="wijzigWachtwoordButton" data-bind="click: wijzigWachtwoord">Wijzig</button>
+                    <button id="wijzigWachtwoordButton" data-bind="click: wijzigWachtwoord, enable: sterkgenoeg"
+                            disabled>Wijzig
+                    </button>
                 </div>
             </form>
         </div>

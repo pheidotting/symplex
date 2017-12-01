@@ -26,6 +26,8 @@ define(['jquery',
 		this.nieuwWachtwoordNogmaals = ko.observable();
 		this.sterktePercentage = ko.observable('0');
 		this.wachtwoordenKomenNietOvereen = ko.observable(false);
+		this.sterkgenoeg = ko.observable(false);
+		this.wachtwoordSterkgenoegStyling = ko.observable();
 
 		this.inloggen = function() {
             commonFunctions.verbergMeldingen();
@@ -67,11 +69,19 @@ define(['jquery',
             $("#nieuwWachtwoord").complexify({}, function(valid, complexity){
                 _this.sterktePercentage(Math.round(complexity));
                 $("#PassValue").val(complexity);
+                if(complexity > 40) {
+                    _this.sterkgenoeg(true);
+                    _this.wachtwoordSterkgenoegStyling(false);
+                }else{
+                    _this.wachtwoordSterkgenoegStyling('onjuiste-waarde');
+                }
             });
         };
 
         this.wijzigWachtwoord = function() {
-          if(_this.nieuwWachtwoord() == _this.nieuwWachtwoordNogmaals()) {
+            //minimum treshold = 40%
+
+          if(_this.sterkgenoeg() && (_this.nieuwWachtwoord() == _this.nieuwWachtwoordNogmaals())) {
                 _this.wachtwoordenKomenNietOvereen(false);
                 $.when(gebruikerService.wijzigWachtwoord(_this.nieuwWachtwoord())).then(function(result){
                     window.location = 'zoeken.html';
