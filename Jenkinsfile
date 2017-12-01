@@ -19,10 +19,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/identificatie.war
-                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/pa.war
-                    ssh jetty@192.168.91.230 rm /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
 
                     /etc/init.d/jetty restart
                 '''
@@ -37,10 +37,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/identificatie.war
-                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/pa.war
-                    ssh jetty@192.168.91.215 rm /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
 
                     /etc/init.d/jetty restart
                 '''
@@ -55,10 +55,10 @@ pipeline {
             }
             steps {
                 sh '''
-                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/identificatie.war
-                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/pa.war
-                    ssh jetty@192.168.91.220 rm /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
 
                     /etc/init.d/jetty restart
                 '''
