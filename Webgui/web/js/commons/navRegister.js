@@ -20,6 +20,7 @@ define([ ],
                             {naam: 'OPSLAAN_ADRES_BIJ_RELATIE',         url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaanAdresBijRelatie'},
                             {naam: 'OPSLAAN_OAUTH_CODE',                url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaanoauthcode'},
                             {naam: 'LEES_OAUTH_CODE',                   url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/leesoauthcode'},
+                            {naam: 'WIJZIG_WACHTWOORD',                 url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/wijzigWachtwoord'},
 
                             {naam: 'LEES_MEDEWERKER',                   url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/leesMedewerker'},
                             {naam: 'OPSLAAN_MEDEWERKER',                url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaanMedewerker'},

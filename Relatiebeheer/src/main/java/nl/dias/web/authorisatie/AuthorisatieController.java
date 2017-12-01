@@ -10,6 +10,8 @@ import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.lakedigital.djfc.commons.json.IngelogdeGebruiker;
 import nl.lakedigital.djfc.commons.json.Inloggen;
+import nl.lakedigital.djfc.domain.response.InloggenResponse;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
 import org.joda.time.LocalDateTime;
@@ -41,10 +43,11 @@ public class AuthorisatieController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/inloggen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Long inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    public InloggenResponse inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+        Gebruiker gebruiker;
         try {
             LOGGER.debug("Inloggen");
-            Gebruiker gebruiker = authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
+            gebruiker = authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
             String token = issueToken(gebruiker, httpServletRequest);
 
@@ -53,12 +56,13 @@ public class AuthorisatieController {
 
         } catch (NietGevondenException e) {
             LOGGER.trace("gebruiker niet gevonden", e);
-            return 1L;
+            return new InloggenResponse(1L, false);
         } catch (OnjuistWachtwoordException e) {
             LOGGER.trace("Onjuist wachtwoord", e);
-            return 2L;
+            return new InloggenResponse(2L, false);
         }
-        return 0L;
+        LOGGER.debug(ReflectionToStringBuilder.toString(new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten())));
+        return new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ingelogdeGebruiker", produces = MediaType.APPLICATION_JSON)

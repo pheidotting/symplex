@@ -45,6 +45,10 @@ define(["commons/3rdparty/log2",
 
             leesOAuthCode: function() {
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_OAUTH_CODE'));
+            },
+
+            wijzigWachtwoord: function(nieuwWachtwoord) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), nieuwWachtwoord);
             }
         }
     }

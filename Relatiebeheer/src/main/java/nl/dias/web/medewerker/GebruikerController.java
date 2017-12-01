@@ -1,9 +1,6 @@
 package nl.dias.web.medewerker;
 
-import nl.dias.domein.ContactPersoon;
-import nl.dias.domein.Kantoor;
-import nl.dias.domein.Medewerker;
-import nl.dias.domein.Relatie;
+import nl.dias.domein.*;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
@@ -22,6 +19,7 @@ import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -255,12 +253,24 @@ public class GebruikerController extends AbstractController {
         return gebruikerService.leesOAuthCodeTodoist(getIngelogdeGebruiker(httpServletRequest).getId());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/wijzig-wachtwoord", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.POST, value = "/wijzigWachtwoord", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void wijzigWachtwoord(@RequestBody WachtwoordWijzigen wachtwoordWijzigen, HttpServletRequest httpServletRequest) {
+    public void wijzigWachtwoord(@RequestBody String nieuwWactwoord, HttpServletRequest httpServletRequest) {
+        LOGGER.info("Wachtwoord wijzigen");
+
         zetSessieWaarden(httpServletRequest);
 
-        LOGGER.debug(wachtwoordWijzigen.getIdentificatie());
-        LOGGER.debug(wachtwoordWijzigen.getWachtwoord());
+        Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
+        try {
+            gebruiker.setHashWachtwoord(nieuwWactwoord);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        gebruiker.setWachtwoordLaatstGewijzigd(new LocalDateTime());
+        gebruiker.setMoetWachtwoordUpdaten(false);
+
+        gebruikerService.opslaan(gebruiker);
     }
 }
