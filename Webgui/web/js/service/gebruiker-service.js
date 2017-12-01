@@ -99,6 +99,10 @@ define(["commons/3rdparty/log2",
                 return deferred.promise();
             },
 
+            wijzigWachtwoord: function(nieuwWachtwoord) {
+                return gebruikerRepository.wijzigWachtwoord(nieuwWachtwoord);
+            },
+
             leesOAuthCode: function() {
                 return gebruikerRepository.leesOAuthCode();
             },
