@@ -9,7 +9,6 @@ import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
 import nl.dias.web.mapper.JsonRelatieMapper;
-import nl.dias.web.mapper.RelatieMapper;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
@@ -17,7 +16,10 @@ import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonn
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
+import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
+import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
@@ -47,8 +49,6 @@ public class GebruikerController extends AbstractController {
     @Inject
     private KantoorRepository kantoorRepository;
     @Inject
-    private RelatieMapper relatieMapper;
-    @Inject
     private JsonRelatieMapper jsonRelatieMapper;
     @Inject
     private Mapper mapper;
@@ -63,15 +63,6 @@ public class GebruikerController extends AbstractController {
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
-    //    @Inject
-    //    private AdresController adresController;
-    //    @Inject
-    //    private TelefoonnummerController telefoonnummerController;
-    //    @Inject
-    //    private RekeningNummerController rekeningNummerController;
-    //    @Inject
-    //    private OpmerkingController opmerkingController;
-
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<JsonContactPersoon> alleContactPersonen(@QueryParam("bedrijfsId") Long bedrijfsId) {
@@ -82,25 +73,6 @@ public class GebruikerController extends AbstractController {
         }
 
         return result;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonRelatie lees(@QueryParam("id") String id) {
-        LOGGER.debug("Ophalen Relatie met id : " + id);
-
-        JsonRelatie jsonRelatie;
-        if (id != null && !"0".equals(id.trim())) {
-            Relatie relatie = (Relatie) gebruikerService.lees(Long.parseLong(id));
-
-            jsonRelatie = relatieMapper.mapNaarJson(relatie);
-        } else {
-            jsonRelatie = new JsonRelatie();
-        }
-
-        LOGGER.debug("Naar de front-end : " + jsonRelatie);
-
-        return jsonRelatie;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker", produces = MediaType.APPLICATION_JSON)

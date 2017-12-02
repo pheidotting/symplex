@@ -11,7 +11,6 @@ define([ ],
                             {naam: 'UITLOGGEN',                         url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/uitloggen'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
-                            {naam: 'LEES_RELATIE',                      url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/lees'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},
                             {naam: 'OPSLAAN_RELATIE',                   url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaan'},
                             {naam: 'OPSLAAN_CONTACTPERSOON',            url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaanContactPersoon'},
