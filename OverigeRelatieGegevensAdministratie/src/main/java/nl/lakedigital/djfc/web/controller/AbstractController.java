@@ -69,7 +69,9 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
-        MDC.put("trackAndTraceId", trackAndTraceId);
+        if (trackAndTraceId != null) {
+            MDC.put("trackAndTraceId", trackAndTraceId);
+        }
         Sessie.setIngelogdeGebruiker(ingelogdeGebruiker);
         Sessie.setTrackAndTraceId(trackAndTraceId);
     }

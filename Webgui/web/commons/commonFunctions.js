@@ -120,6 +120,11 @@ define(['commons/3rdparty/log2',
 				cache: false,
 				contentType: false,
 				processData: false,
+                beforeSend: function(request) {
+                    if(localStorage.getItem('symplexAccessToken')!=null){
+                        request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                    }
+                },
 				success: function (response) {
 					$('uploadprogress').hide();
 					return deferred.resolve(response);
