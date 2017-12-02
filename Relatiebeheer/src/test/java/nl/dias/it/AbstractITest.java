@@ -108,6 +108,10 @@ public class AbstractITest {
         return new Stub("/rest/bijlage/alles/RELATIE/([0-9]*)", response, false);
     }
 
+    protected Stub stubGroepenBijlage(String response) {
+        return new Stub("/rest/bijlage/alleGroepen/RELATIE/([0-9]*)", response, false);
+    }
+
     protected Stub stubRekeningnummer(String response) {
         return new Stub("/rest/rekeningnummer/alles%2FRELATIE%2F([0-9]*)", response, false);
     }
