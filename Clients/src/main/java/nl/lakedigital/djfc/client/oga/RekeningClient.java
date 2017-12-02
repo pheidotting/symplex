@@ -67,14 +67,6 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
     }
 
     @Override
-    public String opslaan(List<JsonRekeningNummer> jsonAdressen, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_OPSLAAN);
-
-        return aanroepenUrlPost(URL_OPSLAAN, jsonAdressen, ingelogdeGebruiker, trackAndTraceId, LOGGER);
-    }
-
-    @Override
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
 
         System.out.println("Aanroepen " + URL_VERWIJDEREN);
