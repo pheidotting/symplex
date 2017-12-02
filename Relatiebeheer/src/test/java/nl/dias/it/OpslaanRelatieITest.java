@@ -127,7 +127,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         Stub stubIdentificatieZoekenOpCode = stubIdentificatieZoekenOpCode(id, zoekIdentificatieResponse(uuid, relatieId));
         Stub stubZoekAlleAdressen = stubZoekAlleAdressen(adressenResponse());
         Stub stubZoekAlleBijlages = stubZoekAlleBijlages(bijlageResponse());
-        Stub stubGroepenBijlage = stubGroepenBijlage(groepenBijlageResponse());
         Stub stubRekeningnummer = stubRekeningnummer(rekeningnummerResponse());
         Stub stubTelefoonnummer = stubTelefoonnummer(telefoonnummerResponse());
         Stub stubOpmerking = stubOpmerking(opmerkingResponse());
@@ -140,7 +139,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         stubIdentificatieZoekenOpCode.verifyStub(relatieId);
         stubZoekAlleAdressen.verifyStub(relatieId);
         stubZoekAlleBijlages.verifyStub(relatieId);
-        stubGroepenBijlage.verifyStub(relatieId);
         stubRekeningnummer.verifyStub(relatieId);
         stubTelefoonnummer.verifyStub(relatieId);
         stubOpmerking.verifyStub(relatieId);

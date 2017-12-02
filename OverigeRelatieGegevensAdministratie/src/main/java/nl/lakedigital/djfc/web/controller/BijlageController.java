@@ -5,6 +5,7 @@ import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.json.JsonGroepBijlages;
 import nl.lakedigital.djfc.commons.json.WijzigenOmschrijvingBijlage;
 import nl.lakedigital.djfc.commons.xml.OpvragenBijlagesResponse;
+import nl.lakedigital.djfc.commons.xml.OpvragenGroepBijlagesResponse;
 import nl.lakedigital.djfc.domain.Bijlage;
 import nl.lakedigital.djfc.domain.GroepBijlages;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -153,4 +155,31 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
         return groepBijlages.getId();
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/alleGroepen/{soortentiteit}/{parentid}")
+    @ResponseBody
+    public OpvragenGroepBijlagesResponse alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+        logger.debug("alles JsonGroepBijlages voor soortEntiteit {} parentId {}", soortentiteit, parentid);
+
+        List<GroepBijlages> domainEntiteiten = bijlageService.alleGroepenBijlages(SoortEntiteit.valueOf(soortentiteit), parentid);
+
+        logger.debug("Opgehaald {} entiteiten", domainEntiteiten.size());
+
+        List<JsonGroepBijlages> jsonEntiteiten = new ArrayList<>();
+
+        for (GroepBijlages entiteit : domainEntiteiten) {
+            logger.debug("map map {}", ReflectionToStringBuilder.toString(entiteit, ToStringStyle.SHORT_PREFIX_STYLE));
+            JsonGroepBijlages jsonGroepBijlages = mapper.map(entiteit, JsonGroepBijlages.class);
+
+            ReflectionToStringBuilder.toString(jsonEntiteiten, ToStringStyle.SHORT_PREFIX_STYLE);
+
+            jsonEntiteiten.add(jsonGroepBijlages);
+        }
+
+        OpvragenGroepBijlagesResponse opvragenGroepBijlagesResponse = new OpvragenGroepBijlagesResponse();
+        opvragenGroepBijlagesResponse.setBijlages(jsonEntiteiten);
+
+        return opvragenGroepBijlagesResponse;
+    }
+
 }
