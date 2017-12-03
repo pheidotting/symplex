@@ -64,8 +64,4 @@ public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, Opvragen
         return null;
     }
 
-    @Override
-    public String opslaan(List jsonAdressen, Long ingelogdeGebruiker, String trackAndTraceId) {
-        return null;
-    }
 }

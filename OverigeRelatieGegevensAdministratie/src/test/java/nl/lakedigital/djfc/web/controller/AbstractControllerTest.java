@@ -9,13 +9,11 @@ import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 
@@ -42,49 +40,6 @@ public abstract class AbstractControllerTest<T extends AbstracteEntiteitMetSoort
     public void init() {
         jsonType = setJsonType();
         type = setType();
-    }
-
-    //    @Test
-    //    public void testAlles() {
-    //        SoortEntiteit soortEntiteit = SoortEntiteit.POLIS;
-    //        Long entiteitId = 4L;
-    //
-    //        T entiteit = getEntiteit();
-    //        U jsonEntiteit = getJsonEntiteit();
-    //
-    //        expect(getService().alles(soortEntiteit, entiteitId)).andReturn(newArrayList(entiteit));
-    //        expect(mapper.map(entiteit, jsonType)).andReturn(jsonEntiteit);
-    //
-    //        replayAll();
-    //
-    //        assertEquals(newArrayList(jsonEntiteit), getController().alles(soortEntiteit.name(), entiteitId));
-    //
-    //        verifyAll();
-    //    }
-
-    @Test
-    @Ignore
-    public void opslaan() {
-        SoortEntiteit soortEntiteit = SoortEntiteit.POLIS;
-        Long entiteitId = 4L;
-        HttpServletRequest httpServletRequest = createMock(HttpServletRequest.class);
-        expect(httpServletRequest.getHeader("ingelogdeGebruiker")).andReturn("46").times(2);
-        expect(httpServletRequest.getHeader("trackAndTraceId")).andReturn("trackAndTraceId").times(2);
-
-        T entiteit = getEntiteit();
-        U jsonEntiteit = getJsonEntiteit();
-        jsonEntiteit.setSoortEntiteit(soortEntiteit.name());
-        jsonEntiteit.setEntiteitId(entiteitId);
-
-        expect(mapper.map(jsonEntiteit, type)).andReturn(entiteit);
-        //        getService().opslaan(newArrayList(entiteit));
-        expectLastCall();
-
-        replayAll();
-
-        getController().opslaan(newArrayList(jsonEntiteit), httpServletRequest);
-
-        verifyAll();
     }
 
     @Test

@@ -8,10 +8,12 @@ import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.RekeningNummerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -59,12 +61,4 @@ public class RekeningNummerController extends AbstractController<RekeningNummer,
         return opvragenRekeningNummersResponse;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
-    @ResponseBody
-    @Override
-    public void opslaan(@RequestBody List<JsonRekeningNummer> jsonEntiteiten, HttpServletRequest httpServletRequest) {
-        zetSessieWaarden(httpServletRequest);
-
-        goOpslaan(jsonEntiteiten);
-    }
 }

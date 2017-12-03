@@ -2,12 +2,10 @@ package nl.lakedigital.djfc.service.verzenden;
 
 import nl.lakedigital.djfc.client.dejonge.KantoorClient;
 import nl.lakedigital.djfc.client.dejonge.MedewerkerClient;
-import nl.lakedigital.djfc.client.dejonge.RelatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.json.JsonKantoor;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
-import nl.lakedigital.djfc.commons.json.JsonRelatie;
 import nl.lakedigital.djfc.domain.CommunicatieProduct;
 import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
@@ -41,8 +39,8 @@ public class EmailVerzendService extends AbstractVerzendService {
     private MedewerkerClient medewerkerClient;
     @Inject
     private KantoorClient kantoorClient;
-    @Inject
-    private RelatieClient relatieClient;
+    //    @Inject
+    //    private RelatieClient relatieClient;
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
     @Inject
@@ -79,15 +77,15 @@ public class EmailVerzendService extends AbstractVerzendService {
 
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress(afzender.toString()));
-
-            JsonRelatie relatie = relatieClient.lees(uitgaandeEmail.getEntiteitId());
-
-            StringBuilder ontvanger = maakNaam(relatie.getVoornaam(), relatie.getTussenvoegsel(), relatie.getAchternaam());
-            ontvanger.append(" <");
-            ontvanger.append(relatie.getEmailadres());
-            ontvanger.append(">");
-
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(ontvanger.toString(), false));
+            //
+            //            JsonRelatie relatie = relatieClient.lees(uitgaandeEmail.getEntiteitId());
+            //
+            //            StringBuilder ontvanger = maakNaam(relatie.getVoornaam(), relatie.getTussenvoegsel(), relatie.getAchternaam());
+            //            ontvanger.append(" <");
+            //            ontvanger.append(relatie.getEmailadres());
+            //            ontvanger.append(">");
+            //
+            //            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(ontvanger.toString(), false));
             msg.setSubject(uitgaandeEmail.getOnderwerp());
             msg.setSentDate(new Date());
 

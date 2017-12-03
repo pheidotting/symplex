@@ -163,22 +163,6 @@ public class BijlageController extends AbstractController {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/alleGroepen/{soortentiteit}/{parentid}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public List<JsonGroepBijlages> alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
-        LOGGER.debug("alleGroepen voor soortentiteit {} en {}", soortentiteit, parentid);
-
-        List<JsonGroepBijlages> result = groepBijlagesClient.lijstGroepen(soortentiteit, parentid);
-        LOGGER.debug(ReflectionToStringBuilder.toString(result, ToStringStyle.SHORT_PREFIX_STYLE));
-        LOGGER.debug("{}", result);
-
-        for (Object jsonGroepBijlages : result) {
-            LOGGER.debug(ReflectionToStringBuilder.toString(jsonGroepBijlages, ToStringStyle.SHORT_PREFIX_STYLE));
-        }
-
-        return result;
-    }
-
     private List<JsonBijlage> uploaden(MultipartFile fileDetail, String soortEntiteit, Long entiteitId, HttpServletRequest httpServletRequest) {
 
         List<Bijlage> bijlages;

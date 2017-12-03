@@ -72,21 +72,6 @@ public class AdresTest extends AbstractTest<JsonAdres> {
     }
 
     @Test
-    public void testLees() {
-        JsonAdres jsonAdres = maakEntiteit(10, 99L, SoortEntiteit.RELATIE);
-
-        getClient().opslaan(Lists.newArrayList(jsonAdres), 46L, trackAndTraceId);
-
-        Long id = adresRepository.alles(SoortEntiteit.RELATIE, 99L).get(0).getId();
-
-        jsonAdres.setId(id);
-
-        assertThat(adresClient.lees(id), is(jsonAdres));
-
-        getClient().verwijder(SoortEntiteit.RELATIE.name(), 99L, 46L, trackAndTraceId);
-    }
-
-    @Test
     @Ignore("om onnodige api calls te voorkomen")
     public void testOphalenAdresOpPostcode() {
         String postcode = "7894AB";

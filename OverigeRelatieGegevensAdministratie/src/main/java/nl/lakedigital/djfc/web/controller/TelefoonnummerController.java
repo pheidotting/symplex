@@ -8,10 +8,12 @@ import nl.lakedigital.djfc.domain.Telefoonnummer;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.TelefoonnummerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -59,12 +61,4 @@ public class TelefoonnummerController extends AbstractController<Telefoonnummer,
         return opvragenTelefoonnummersResponse;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
-    @ResponseBody
-    @Override
-    public void opslaan(@RequestBody List<JsonTelefoonnummer> jsonEntiteiten, HttpServletRequest httpServletRequest) {
-        zetSessieWaarden(httpServletRequest);
-
-        goOpslaan(jsonEntiteiten);
-    }
 }
