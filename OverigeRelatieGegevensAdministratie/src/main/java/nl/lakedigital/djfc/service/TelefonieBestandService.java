@@ -94,7 +94,6 @@ public class TelefonieBestandService {
                     }
                 }
             } else if ("external".equals(parts[0]) || "rg".equals(parts[0])) {
-                //                String file = "rg-8001-0561451395-20170113-161919-1484320759.1426.wav";
                 String telefoonnummer = parts[2];
                 String dag = parts[3];
                 String tijd = parts[4];
@@ -112,9 +111,6 @@ public class TelefonieBestandService {
         }
         }
 
-        //        if (telefonieBestand == null) {
-        //            LOGGER.error("Niet kunnen parsen : {}", file);
-        //        }
         return telefonieBestand;
     }
 

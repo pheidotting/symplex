@@ -11,12 +11,12 @@ import java.util.List;
 
 @Service
 public class TelefoonnummerService extends AbstractService<Telefoonnummer> {
+    @Inject
+    private TelefoonnummerRepository telefoonnummerRepository;
+
     public TelefoonnummerService() {
         super(nl.lakedigital.as.messaging.domain.SoortEntiteit.TELEFOONNUMMER);
     }
-
-    @Inject
-    private TelefoonnummerRepository telefoonnummerRepository;
 
     @Override
     public AbstractRepository getRepository() {

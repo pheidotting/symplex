@@ -1,7 +1,6 @@
 package nl.lakedigital.djfc.mapper;
 
 
-import com.google.common.base.Predicate;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
@@ -29,12 +28,7 @@ public class Mapper {
 
         LOGGER.debug("Mappen van {}", ReflectionToStringBuilder.toString(objectIn, ToStringStyle.SHORT_PREFIX_STYLE));
 
-        JsonMapper mapper = getOnlyElement(filter(mappers, new Predicate<JsonMapper>() {
-            @Override
-            public boolean apply(JsonMapper jsonMapper) {
-                return jsonMapper.isVoorMij(objectIn);
-            }
-        }));
+        JsonMapper mapper = getOnlyElement(filter(mappers, jsonMapper -> jsonMapper.isVoorMij(objectIn)));
 
         objectUit = ((AbstractMapper) mapper).map(objectIn);
 

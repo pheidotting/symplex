@@ -34,15 +34,6 @@ public class AdresService extends AbstractService<Adres> {
     }
 
     @Override
-    public void opslaan(Adres adres) {
-        super.opslaan(adres);
-    }
-
-    @Override
-    public void opslaan(final List<Adres> adressen, SoortEntiteit soortEntiteit, Long entiteitId) {
-        super.opslaan(adressen, soortEntiteit, entiteitId);
-    }
-
     public void opslaan(final List<Adres> adressen) {
         List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds = new ArrayList<>();
 
