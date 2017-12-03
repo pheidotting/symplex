@@ -34,7 +34,7 @@ define(["commons/3rdparty/log2",
 
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
-                        return deferred.resolve(id);
+                        return deferred.resolve(response);
                     });
                 });
 
@@ -60,32 +60,6 @@ define(["commons/3rdparty/log2",
 
                 $.when(gebruikerRepository.leesMedewerker(id)).then(function(medewerker) {
                     return deferred.resolve(medewerker);
-                });
-
-                return deferred.promise();
-            },
-
-            lijstRelaties: function(zoekTerm, weglaten) {
-                logger.debug('ophalen lijst relaties met zoekTerm '+ zoekTerm);
-                var deferred = $.Deferred();
-                var relatieRelaties;
-
-                gebruikerRepository.lijstRelaties(zoekTerm, weglaten).done(function(relatie) {
-                    relatieRelaties = relatie;
-
-                    var ids = _.map(relatie.jsonRelaties, function(relatie){
-                        return relatie.id;
-                    });
-
-                    $.when(repository.voerUitGet(navRegister.bepaalUrl('ALLE_ADRESSEN_BIJ_ENTITEIT') + '?soortEntiteit=RELATIE&lijst=' + ids.join('&lijst='))).then(function(lijstAdressen){
-                        $.each(relatie.jsonRelaties, function(i, item) {
-                            item.adressen = _.filter(lijstAdressen, function(adres){
-                                return adres.entiteitId == item.id;
-                            });
-                        });
-
-                        return deferred.resolve(relatieRelaties);
-                    });
                 });
 
                 return deferred.promise();
@@ -123,6 +97,10 @@ define(["commons/3rdparty/log2",
                 });
 
                 return deferred.promise();
+            },
+
+            wijzigWachtwoord: function(nieuwWachtwoord) {
+                return gebruikerRepository.wijzigWachtwoord(nieuwWachtwoord);
             },
 
             leesOAuthCode: function() {

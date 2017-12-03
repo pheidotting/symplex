@@ -27,17 +27,12 @@ define(["commons/3rdparty/log2",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null, trackAndTraceId);
             },
 
-            leesRelatie: function(id) {
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_RELATIE_NW') + '/' + id);
+            leesRelatie: function(id, foutmeldingOnderdrukken) {
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_RELATIE_NW') + '/' + id, null, foutmeldingOnderdrukken);
             },
 
             leesMedewerker: function(id) {
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER'), {id : id});
-            },
-
-            lijstRelaties: function(zoekTerm, weglaten){
-                logger.debug('ophalen lijst relaties met zoekTerm '+ zoekTerm);
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_RELATIES'), {"zoekTerm" : zoekTerm, "weglaten" : weglaten});
             },
 
             opslaanOAuthCode: function(code, trackAndTraceId) {
@@ -50,6 +45,10 @@ define(["commons/3rdparty/log2",
 
             leesOAuthCode: function() {
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_OAUTH_CODE'));
+            },
+
+            wijzigWachtwoord: function(nieuwWachtwoord) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), nieuwWachtwoord);
             }
         }
     }

@@ -38,7 +38,6 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
     public abstract AbstractService getService();
 
-    public abstract void opslaan(List<J> jsonEntiteiten, HttpServletRequest httpServletRequest);
 
     public void goOpslaan(List<J> jsonEntiteiten) {
         if (jsonEntiteiten != null && !jsonEntiteiten.isEmpty()) {
@@ -69,7 +68,9 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
-        MDC.put("trackAndTraceId", trackAndTraceId);
+        if (trackAndTraceId != null) {
+            MDC.put("trackAndTraceId", trackAndTraceId);
+        }
         Sessie.setIngelogdeGebruiker(ingelogdeGebruiker);
         Sessie.setTrackAndTraceId(trackAndTraceId);
     }

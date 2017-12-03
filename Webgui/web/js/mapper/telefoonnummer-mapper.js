@@ -29,6 +29,7 @@ define(['jquery',
                 telefoonnummer.omschrijving(data.omschrijving);
                 telefoonnummer.soortEntiteit(data.soortEntiteit);
                 telefoonnummer.entiteitId(data.entiteitId);
+                telefoonnummer.identificatie(data.identificatie);
 
                 return telefoonnummer;
             }

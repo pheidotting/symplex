@@ -87,13 +87,6 @@ public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenRe
         return result;
     }
 
-    public String opslaan(List<JsonAdres> jsonAdressen, Long ingelogdeGebruiker, String trackAndTraceId) {
-        LOGGER.debug("Aanroepen {}", URL_OPSLAAN);
-
-        return aanroepenUrlPost(URL_OPSLAAN, jsonAdressen, ingelogdeGebruiker, trackAndTraceId, LOGGER);
-    }
-
-
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
         LOGGER.debug("Aanroepen {}", URL_VERWIJDEREN);
 
