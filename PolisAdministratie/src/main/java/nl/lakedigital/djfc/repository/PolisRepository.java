@@ -54,19 +54,20 @@ public class PolisRepository {
         opslaan(polissen);
     }
 
-    //    @Transactional
+    @Transactional
     public void opslaan(List<Polis> polissen) {
         //        if(        getSession().getTransaction().isTransactionInProgress){
-        getSession().getTransaction().begin();
+        //        getSession().getTransaction().begin();
         //            getSession().beginTransaction();
         //        }
         for (Polis t : polissen) {
             LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
-            if (t.getId() == null) {
-                getSession().save(t);
-            } else {
-                getSession().merge(t);
-            }
+            //            if (t.getId() == null) {
+            getSession().saveOrUpdate(t);
+            getSession().flush();
+            //            } else {
+            //                getSession().merge(t);
+            //            }
         }
     }
 

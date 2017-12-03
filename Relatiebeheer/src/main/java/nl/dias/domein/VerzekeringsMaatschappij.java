@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import javax.persistence.*;
@@ -9,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "VERZEKERINGSMAATSCHAPPIJ")
 @NamedQueries({@NamedQuery(name = "VerzekeringsMaatschappij.zoekAlles", query = "select v from VerzekeringsMaatschappij v where v.tonen = '1'"), @NamedQuery(name = "VerzekeringsMaatschappij.zoekOpNaam", query = "select v from VerzekeringsMaatschappij v where v.naam = :naam")})
-public class VerzekeringsMaatschappij implements PersistenceObject, Serializable, Comparable<VerzekeringsMaatschappij> {
+public class VerzekeringsMaatschappij implements Serializable, Comparable<VerzekeringsMaatschappij> {
     private static final long serialVersionUID = 1721464750949552535L;
 
     @Id
@@ -23,12 +22,10 @@ public class VerzekeringsMaatschappij implements PersistenceObject, Serializable
     @Column(name = "TONEN")
     private boolean tonen;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

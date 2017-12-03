@@ -30,59 +30,63 @@ public class JWTFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        // Get the HTTP Authorization header from the request
-        String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
+        String url = getFullURL((HttpServletRequest) request);
 
-        // Extract the token from the HTTP Authorization header
-        if (authorizationHeader != null) {
-            String token = null;
-            try {
-                token = authorizationHeader.substring("Bearer".length()).trim();
-            } catch (StringIndexOutOfBoundsException e) {
-                LOGGER.trace("Niks aan de hand", e);
-            }
+        if (!url.contains("/bijlage/download")) {
+            // Get the HTTP Authorization header from the request
+            String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
 
-            if (token != null) {
+            // Extract the token from the HTTP Authorization header
+            if (authorizationHeader != null) {
+                String token = null;
                 try {
-                    LOGGER.debug("Evaluating token {}", token);
-                    // Validate the token
+                    token = authorizationHeader.substring("Bearer".length()).trim();
+                } catch (StringIndexOutOfBoundsException e) {
+                    LOGGER.trace("Niks aan de hand", e);
+                }
+
+                if (token != null) {
                     try {
-                        DecodedJWT decodedJWT = JWT.decode(token);
+                        LOGGER.debug("Evaluating token {}", token);
+                        // Validate the token
+                        try {
+                            DecodedJWT decodedJWT = JWT.decode(token);
 
-                        Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
+                            Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
 
-                        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
-                        JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getRemoteUser()).build();
-                        verifier.verify(token);
+                            Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
+                            JWTVerifier verifier = JWT.require(algorithm).withIssuer(((HttpServletRequest) request).getRemoteUser()).build();
+                            verifier.verify(token);
 
-                        LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
-                        token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(((HttpServletRequest) request).getContextPath()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
+                            LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
+                            token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(((HttpServletRequest) request).getContextPath()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
 
-                    } catch (UnsupportedEncodingException exception) {
-                        LOGGER.trace("UTF8 fout", exception);
-                        //UTF-8 encoding not supported
-                        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    } catch (JWTVerificationException exception) {
-                        LOGGER.trace("", exception);
-                        //Invalid signature/claims
+                        } catch (UnsupportedEncodingException exception) {
+                            LOGGER.trace("UTF8 fout", exception);
+                            //UTF-8 encoding not supported
+                            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        } catch (JWTVerificationException exception) {
+                            LOGGER.trace("", exception);
+                            //Invalid signature/claims
+                            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        }
+
+                        LOGGER.info("#### valid token : " + token);
+
+                        ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+                    } catch (Exception e) {
+                        LOGGER.trace("#### invalid token : " + token);
+                        LOGGER.trace("Oorspronkelijke fout : {}", e);
                         ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     }
-
-                    LOGGER.info("#### valid token : " + token);
-
-                    ((HttpServletResponse) response).setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-                } catch (Exception e) {
-                    LOGGER.trace("#### invalid token : " + token);
-                    LOGGER.trace("Oorspronkelijke fout : {}", e);
+                } else {
+                    LOGGER.debug("#### geen token 1");
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             } else {
-                LOGGER.debug("#### geen token 1");
+                LOGGER.debug("#### geen token 2");
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
-        } else {
-            LOGGER.debug("#### geen token 2");
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);
@@ -100,4 +104,17 @@ public class JWTFilter implements Filter {
                 getRequiredWebApplicationContext(filterConfig.getServletContext()).
                 getBean(GebruikerRepository.class);
     }
+
+
+    private String getFullURL(HttpServletRequest request) {
+        StringBuilder requestURL = new StringBuilder().append(request.getRequestURL().toString());
+        String queryString = request.getQueryString();
+
+        if (queryString == null) {
+            return requestURL.toString();
+        } else {
+            return requestURL.append('?').append(queryString).toString();
+        }
+    }
+
 }

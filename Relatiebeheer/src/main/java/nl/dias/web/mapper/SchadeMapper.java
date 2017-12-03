@@ -20,6 +20,8 @@ import javax.inject.Inject;
 @Component
 public class SchadeMapper extends Mapper<Schade, JsonSchade> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchadeMapper.class);
+    private String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
+    private String patternDatum = "yyyy-MM-dd";
 
     @Inject
     private SchadeService schadeService;
@@ -30,9 +32,6 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
 
     @Override
     public Schade mapVanJson(JsonSchade json) {
-        String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
-        String patternDatum = "yyyy-MM-dd";
-
         LocalDate datumAfgehandeld = null;
         if (json.getDatumAfgehandeld() != null) {
             datumAfgehandeld = LocalDate.parse(json.getDatumAfgehandeld(), DateTimeFormat.forPattern(patternDatum));
@@ -77,10 +76,10 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
 
         //        jsonSchade.setBijlages(bijlageMapper.mapAllNaarJson(schade.getBijlages()));
         if (schade.getDatumAfgehandeld() != null) {
-            jsonSchade.setDatumAfgehandeld(schade.getDatumAfgehandeld().toString("dd-MM-yyyy"));
+            jsonSchade.setDatumAfgehandeld(schade.getDatumAfgehandeld().toString(patternDatum));
         }
-        jsonSchade.setDatumTijdMelding(schade.getDatumTijdMelding().toString("dd-MM-yyyy HH:mm"));
-        jsonSchade.setDatumTijdSchade(schade.getDatumTijdSchade().toString("dd-MM-yyyy HH:mm"));
+        jsonSchade.setDatumTijdMelding(schade.getDatumTijdMelding().toString(patternDatumTijd));
+        jsonSchade.setDatumTijdSchade(schade.getDatumTijdSchade().toString(patternDatumTijd));
         if (schade.getEigenRisico() != null) {
             jsonSchade.setEigenRisico(schade.getEigenRisico().getBedrag().toString());
         }

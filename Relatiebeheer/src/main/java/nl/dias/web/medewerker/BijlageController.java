@@ -1,6 +1,7 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Bijlage;
+import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
 import nl.dias.web.SoortEntiteit;
@@ -162,22 +163,6 @@ public class BijlageController extends AbstractController {
         return response;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/alleGroepen/{soortentiteit}/{parentid}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public List<JsonGroepBijlages> alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
-        LOGGER.debug("alleGroepen voor soortentiteit {} en {}", soortentiteit, parentid);
-
-        List<JsonGroepBijlages> result = groepBijlagesClient.lijstGroepen(soortentiteit, parentid);
-        LOGGER.debug(ReflectionToStringBuilder.toString(result, ToStringStyle.SHORT_PREFIX_STYLE));
-        LOGGER.debug("{}", result);
-
-        for (Object jsonGroepBijlages : result) {
-            LOGGER.debug(ReflectionToStringBuilder.toString(jsonGroepBijlages, ToStringStyle.SHORT_PREFIX_STYLE));
-        }
-
-        return result;
-    }
-
     private List<JsonBijlage> uploaden(MultipartFile fileDetail, String soortEntiteit, Long entiteitId, HttpServletRequest httpServletRequest) {
 
         List<Bijlage> bijlages;
@@ -188,12 +173,19 @@ public class BijlageController extends AbstractController {
             LOGGER.debug("Naar BijlageService");
             bijlages = bijlageService.uploaden(fileDetail, getUploadPad());
 
+            LOGGER.debug("request {}", httpServletRequest);
+            Gebruiker ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
+            LOGGER.debug("Ingelogde Gebruiker {}", ReflectionToStringBuilder.toString(ingelogdeGebruiker));
+            String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
+            LOGGER.debug("trackAndTraceId {}", trackAndTraceId);
+
             for (Bijlage bijlage : bijlages) {
                 bijlage.setSoortBijlage(SoortEntiteit.valueOf(soortEntiteit.toUpperCase()));
                 bijlage.setEntiteitId(entiteitId);
                 LOGGER.debug(ReflectionToStringBuilder.toString(bijlage, ToStringStyle.SHORT_PREFIX_STYLE));
                 JsonBijlage jsonBijlage = bijlageNaarJsonBijlageMapper.map(bijlage, null, null);
-                String id = bijlageClient.opslaan(jsonBijlage, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
+
+                String id = bijlageClient.opslaan(jsonBijlage, ingelogdeGebruiker.getId(), trackAndTraceId);
 
                 EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest = new EntiteitenOpgeslagenRequest();
                 SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();

@@ -6,7 +6,6 @@ import nl.dias.domein.OnderlingeRelatie;
 import nl.dias.domein.Relatie;
 import nl.dias.service.GebruikerService;
 import nl.lakedigital.djfc.commons.json.JsonOnderlingeRelatie;
-import nl.lakedigital.djfc.commons.json.JsonRelatie;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -19,14 +18,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 @Component
-public class RelatieMapper extends Mapper<Relatie, JsonRelatie> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RelatieMapper.class);
+public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domain.response.Relatie> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonRelatieMapper.class);
 
     @Inject
     private GebruikerService gebruikerService;
 
     @Override
-    public Relatie mapVanJson(JsonRelatie jsonRelatie) {
+    public Relatie mapVanJson(nl.lakedigital.djfc.domain.response.Relatie jsonRelatie) {
         String patternDatum = "yyyy-MM-dd";
 
         Relatie relatie = new Relatie();
@@ -62,15 +61,16 @@ public class RelatieMapper extends Mapper<Relatie, JsonRelatie> {
                 relatie.setBurgerlijkeStaat(bs);
             }
         }
+        relatie.setEmailadres(jsonRelatie.getEmailadres());
 
         return relatie;
     }
 
     @Override
-    public JsonRelatie mapNaarJson(Relatie relatie) {
+    public nl.lakedigital.djfc.domain.response.Relatie mapNaarJson(Relatie relatie) {
         LOGGER.debug("Map naar JSON : {}", ReflectionToStringBuilder.toString(relatie));
 
-        JsonRelatie jsonRelatie = new JsonRelatie();
+        nl.lakedigital.djfc.domain.response.Relatie jsonRelatie = new nl.lakedigital.djfc.domain.response.Relatie();
 
         jsonRelatie.setId(relatie.getId());
         jsonRelatie.setRoepnaam(relatie.getRoepnaam());

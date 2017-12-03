@@ -2,7 +2,6 @@ package nl.dias.domein.polis;
 
 import nl.dias.domein.Bedrag;
 import nl.dias.domein.StatusPolis;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
@@ -23,7 +22,7 @@ import java.util.Date;
         @NamedQuery(name = "Polis.allesVanRelatie", query = "select p from Polis p where p.relatie = :relatie"),//
         @NamedQuery(name = "Polis.allesVanBedrijf", query = "select p from Polis p where p.bedrijf = :bedrijf")//
 })
-public abstract class Polis implements PersistenceObject, Serializable, Cloneable {
+public abstract class Polis implements Serializable, Cloneable {
     private static final long serialVersionUID = 1011438129295546984L;
 
     @Id
@@ -93,12 +92,10 @@ public abstract class Polis implements PersistenceObject, Serializable, Cloneabl
 
     public abstract Polis nieuweInstantie();
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

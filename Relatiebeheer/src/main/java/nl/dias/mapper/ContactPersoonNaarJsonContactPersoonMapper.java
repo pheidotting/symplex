@@ -16,8 +16,8 @@ import javax.inject.Inject;
 public class ContactPersoonNaarJsonContactPersoonMapper extends AbstractMapper<ContactPersoon, JsonContactPersoon> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContactPersoonNaarJsonContactPersoonMapper.class);
 
-@Inject
-private IdentificatieClient identificatieClient;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @Override
     public JsonContactPersoon map(ContactPersoon object, Object parent, Object bestaandObject) {
@@ -25,8 +25,8 @@ private IdentificatieClient identificatieClient;
 
         JsonContactPersoon jsonContactPersoon = new JsonContactPersoon();
 
-        Identificatie identificatie=identificatieClient.zoekIdentificatie("CONTACTPERSOON",object.getId());
-        Identificatie bedrijfIdentificatie=identificatieClient.zoekIdentificatie("Bedrijf",object.getBedrijf());
+        Identificatie identificatie = identificatieClient.zoekIdentificatie("CONTACTPERSOON", object.getId());
+        Identificatie bedrijfIdentificatie = identificatieClient.zoekIdentificatie("Bedrijf", object.getBedrijf());
 
         jsonContactPersoon.setIdentificatie(identificatie.getIdentificatie());
         jsonContactPersoon.setBedrijf(String.valueOf(bedrijfIdentificatie.getEntiteitId()));

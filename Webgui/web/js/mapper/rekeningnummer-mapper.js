@@ -28,6 +28,7 @@ define(['jquery',
                 rekeningnummer.bic(data.bic);
                 rekeningnummer.soortEntiteit(data.soortEntiteit);
                 rekeningnummer.entiteitId(data.entiteitId);
+                rekeningnummer.identificatie(data.identificatie);
 
                 return rekeningnummer;
             }

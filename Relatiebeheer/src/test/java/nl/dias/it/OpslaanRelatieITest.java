@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
-import nl.lakedigital.djfc.commons.json.JsonRelatie;
+import nl.lakedigital.djfc.domain.response.Relatie;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -24,11 +24,10 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class OpslaanRelatieITest extends AbstractITest {
@@ -58,7 +57,7 @@ public class OpslaanRelatieITest extends AbstractITest {
     public void testOpslaanNieuweRelatieMetAlleenVoorEnAchternaam() throws JAXBException, JMSException {
         String uuid = UUID.randomUUID().toString();
 
-        JsonRelatie relatie = new JsonRelatie();
+        Relatie relatie = new Relatie();
 
         relatie.setAchternaam("Parker");
         relatie.setVoornaam("Peter");
@@ -67,10 +66,11 @@ public class OpslaanRelatieITest extends AbstractITest {
     }
 
     @Test
+    @Ignore
     public void testOpslaanNieuweRelatieVolledigGevuld() throws JMSException, JAXBException {
         String uuid = UUID.randomUUID().toString();
 
-        JsonRelatie relatie = new JsonRelatie();
+        Relatie relatie = new Relatie();
 
         relatie.setAchternaam("Wayne");
         relatie.setVoornaam("Bruce");
@@ -82,7 +82,7 @@ public class OpslaanRelatieITest extends AbstractITest {
         relatie.setGeslacht("Man");
         relatie.setBurgerlijkeStaat("Ongehuwd");
 
-        JsonRelatie result = test(relatie, uuid);
+        Relatie result = test(relatie, uuid);
 
         assertThat(result.getTussenvoegsel(), is(relatie.getTussenvoegsel()));
         assertThat(result.getGeboorteDatum(), is(relatie.getGeboorteDatum()));
@@ -95,7 +95,7 @@ public class OpslaanRelatieITest extends AbstractITest {
 
         result.setOverlijdensdatum("2017-07-02");
 
-        JsonRelatie result2 = test(result, uuid);
+        Relatie result2 = test(result, uuid);
 
         assertThat(result2.getTussenvoegsel(), is(result.getTussenvoegsel()));
         assertThat(result2.getGeboorteDatum(), is(result.getGeboorteDatum()));
@@ -107,10 +107,10 @@ public class OpslaanRelatieITest extends AbstractITest {
         assertThat(result2.getBurgerlijkeStaat(), is(result.getBurgerlijkeStaat()));
     }
 
-    private JsonRelatie test(JsonRelatie relatie, String uuid) throws JAXBException, JMSException {
+    private Relatie test(Relatie relatie, String uuid) throws JAXBException, JMSException {
         Stub stubIdentificatieZoekOpSoortEnId = stubIdentificatieZoekOpSoortEnId(zoekIdentificatieResponse(uuid, null));
 
-        String id = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString(), this.sessie);
+        String id = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
 
         assertThat(id, is(uuid));
 
@@ -131,11 +131,10 @@ public class OpslaanRelatieITest extends AbstractITest {
         Stub stubRekeningnummer = stubRekeningnummer(rekeningnummerResponse());
         Stub stubTelefoonnummer = stubTelefoonnummer(telefoonnummerResponse());
         Stub stubOpmerking = stubOpmerking(opmerkingResponse());
-        Stub stubPolis = stubPolis(polisResponse());
 
-        String rel = doeGet(RELATIE_LEZEN + "/" + id, this.sessie);
+        String rel = doeGet(RELATIE_LEZEN + "/" + id);
 
-        JsonRelatie result = new Gson().fromJson(rel, JsonRelatie.class);
+        Relatie result = new Gson().fromJson(rel, Relatie.class);
 
         stubIdentificatieZoekOpSoortEnId.verifyStub(relatieId);
         stubIdentificatieZoekenOpCode.verifyStub(relatieId);
@@ -145,7 +144,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         stubRekeningnummer.verifyStub(relatieId);
         stubTelefoonnummer.verifyStub(relatieId);
         stubOpmerking.verifyStub(relatieId);
-        stubPolis.verifyStub(relatieId);
 
         assertThat(result.getIdentificatie(), is(uuid));
         assertThat(result.getAchternaam(), is(relatie.getAchternaam()));
@@ -154,6 +152,7 @@ public class OpslaanRelatieITest extends AbstractITest {
         return result;
     }
 
+    //
     private String zoekIdentificatieResponse(String identificatieS, String id) {
         return "<ZoekIdentificatieResponse><identificaties><identificaties><id>63</id><identificatie>" + identificatieS + "</identificatie><soortEntiteit>RELATIE</soortEntiteit><entiteitId>" + id + "</entiteitId></identificaties></identificaties></ZoekIdentificatieResponse>";
     }

@@ -19,19 +19,6 @@
         <developerConnection>scm:git:https://github.com/pheidotting/messaging.git</developerConnection>
     </scm>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>central-release</id>
-            <name>jenkins-releases</name>
-            <url>http://jenkins.djfc.local:8081/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
-        <repository>
-            <id>central-release</id>
-            <name>jenkins-releases</name>
-            <url>http://jenkins.djfc.local:8081/artifactory/libs-release-local</url>
-        </repository>
-    </distributionManagement>
-
     <dependencies>
         <dependency>
             <groupId>joda-time</groupId>

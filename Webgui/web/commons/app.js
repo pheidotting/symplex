@@ -59,9 +59,8 @@ requirejs(['jquery',
            'js/taak/taken',
            'js/taak/afhandelenTaak',
            'js/view/dashboard-view',
-           'js/view/lijst-relaties-view',
            'js/lijstBedrijven'],
-function ($, Sammy, commonFunctions, inloggen, lijstBedrijven, beherenRelatie, beherenBedrijf, taken, afhandelenTaak, dashboard, lijstRelatiesView) {
+function ($, Sammy, commonFunctions, inloggen, lijstBedrijven, beherenRelatie, beherenBedrijf, taken, afhandelenTaak, dashboard) {
 	commonFunctions.haalIngelogdeGebruiker();
 	window.setInterval(commonFunctions.haalIngelogdeGebruiker, 300000);
 
@@ -86,24 +85,6 @@ function ($, Sammy, commonFunctions, inloggen, lijstBedrijven, beherenRelatie, b
 
 	app.route('GET', '#inloggen', function() {
 		new inloggen();
-	});
-
-	app.route('GET', '#lijstRelaties', function() {
-	    lijstRelatiesView.init();
-	});
-
-	app.route('GET', '#lijstRelaties/:zoekTerm', function() {
-		var zoekTerm = this.params['zoekTerm'];
-	    lijstRelatiesView.init(zoekTerm);
-	});
-
-	app.route('GET', '#lijstBedrijven', function() {
-		lijstBedrijven.init();
-	});
-
-	app.route('GET', '#lijstBedrijven/:zoekTerm', function() {
-		var zoekTerm = this.params['zoekTerm'];
-		lijstBedrijven.init(zoekTerm);
 	});
 
 	app.route('GET', '#beherenBedrijf/:id/:actie/:subId', function() {
@@ -148,10 +129,6 @@ function ($, Sammy, commonFunctions, inloggen, lijstBedrijven, beherenRelatie, b
 
 	app.route('GET', '#beherenRelatie', function() {
 		new beherenRelatie(null);
-	});
-
-	app.route('GET', '', function() {
-		new lijstRelaties();
 	});
 
 	app.raise_errors = true;

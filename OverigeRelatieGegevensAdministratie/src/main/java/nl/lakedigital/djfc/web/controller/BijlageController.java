@@ -84,7 +84,6 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     }
 
 
-    @Override
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanBijlages")
     @ResponseBody
     public void opslaan(@RequestBody List<JsonBijlage> jsonEntiteiten, HttpServletRequest httpServletRequest) {

@@ -1,6 +1,5 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -11,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "JAARCIJFERS")
 @NamedQueries({@NamedQuery(name = "JaarCijfers.allesJaarCijfersBijBedrijf", query = "select jc from JaarCijfers jc where jc.bedrijf = :bedrijf")})
-public class JaarCijfers implements Serializable, PersistenceObject {
+public class JaarCijfers implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -24,12 +23,10 @@ public class JaarCijfers implements Serializable, PersistenceObject {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Bedrijf.class)
     private Bedrijf bedrijf;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

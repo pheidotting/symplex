@@ -14,8 +14,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
-import java.util.Date;
-import java.util.UUID;
 
 public abstract class AbstractController {
     private final static Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
@@ -31,7 +29,6 @@ public abstract class AbstractController {
     }
 
     protected Gebruiker getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        Long ingelogdeGebruiker = null;
         String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
         // Extract the token from the HTTP Authorization header
@@ -43,16 +40,20 @@ public abstract class AbstractController {
                 LOGGER.trace("Niks aan de hand", e);
             }
         }
-        DecodedJWT decodedJWT=JWT.decode(token);
+        if (token != null) {
+            DecodedJWT decodedJWT = JWT.decode(token);
 
-        try {
-            return gebruikerService.zoekOpIdentificatie(decodedJWT.getSubject());
-        }catch (NietGevondenException nge){
-            LOGGER.error("Net gevonden : {}",decodedJWT.getSubject());
-            Gebruiker gebruiker=new Relatie();
-            gebruiker.setId(0L);
-            return gebruiker;
+            try {
+                return gebruikerService.zoekOpIdentificatie(decodedJWT.getSubject());
+            } catch (NietGevondenException nge) {
+                LOGGER.error("Net gevonden : {}", decodedJWT.getSubject());
+                LOGGER.trace("Bijbehorende error {}", nge);
+                Gebruiker gebruiker = new Relatie();
+                gebruiker.setId(0L);
+                return gebruiker;
+            }
         }
+        return null;
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {

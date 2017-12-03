@@ -11,6 +11,38 @@ pipeline {
             }
         }
 
+        stage ('Undeploy Testbak') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'master'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
+        stage ('Undeploy Test') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'development'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
         stage ('Install Commons') {
             steps {
                 sh '''
@@ -262,6 +294,39 @@ pipeline {
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Verify PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Undeploy Live') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'master'
+                }
+            }
+            steps {
+                sh '''
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
+                '''
+            }
+        }
+
+        stage ('Verify Relatiebeheer') {
+            steps {
+                sh '''
+                    cd Relatiebeheer
+                    mvn clean verify
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Verify Relatiebeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Verify Relatiebeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }

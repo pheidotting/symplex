@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
+import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.djfc.service.envers.SessieHolder;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 

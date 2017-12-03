@@ -57,6 +57,7 @@ public class RelatieService {
     }
 
     private Long pakRelatieBijPolis(Long polisId) {
+        LOGGER.debug("polisId {}", polisId);
         //        JsonPolis polis = polisClient.lees(String.valueOf(polisId));
         Polis polis = polisService.lees(polisId);
 
@@ -65,6 +66,8 @@ public class RelatieService {
         Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
 
         return polis.getRelatie();
+        //
+        //        return polis.getEntiteitId();
     }
 
     private Long pakRelatieBijAdres(Long adresId) {

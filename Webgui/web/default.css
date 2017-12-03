@@ -112,6 +112,29 @@ body {
     font-size: 16px;
 }
 
+.inloggen-main-form meter {
+    margin-top:10px;
+    width: 233px;
+    height: 30px;
+    background: #ffffff;
+}
+
+meter::-webkit-meter-bar {
+    background: #EEE;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+    border-radius: 3px;
+}
+
+meter::-webkit-meter-optimum-value {
+    background: #86CC00; /* Green */
+    border-radius: 3px;
+}
+
+meter::-webkit-meter-suboptimum-value {
+    background: #FF0000; /* Yellow */
+    border-radius: 3px;
+}
+
 .inloggen-main-form button {
     margin-top: 20px;
     margin-left: 185px;
