@@ -15,12 +15,10 @@ public class BeindigenPolisRequestSender extends AbstractSender<BeindigenPolisRe
 
     public BeindigenPolisRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public BeindigenPolisRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = BeindigenPolisRequest.class;
     }
 

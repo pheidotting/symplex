@@ -15,15 +15,15 @@ import javax.inject.Inject;
 public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanResponseReciever.class);
 
-    public PolisOpslaanResponseReciever() {
-        super(PolisOpslaanResponse.class, LOGGER);
-    }
-
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
     @Inject
     private IdentificatieClient identificatieClient;
+
+    public PolisOpslaanResponseReciever() {
+        super(PolisOpslaanResponse.class);
+    }
 
     @Override
     public void verwerkMessage(PolisOpslaanResponse polisOpslaanResponse) {
@@ -46,7 +46,7 @@ public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanR
         });
 
         if (!opslaanEntiteitenRequest.getLijst().isEmpty()) {
-            opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+            opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest, LOGGER);
         }
     }
 }

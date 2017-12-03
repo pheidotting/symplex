@@ -33,8 +33,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RequestMapping("/bedrijf")
@@ -171,20 +169,12 @@ public class BedrijfController extends AbstractController {
         List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
 
         List<nl.dias.domein.Schade> schades = schadeService.alleSchadesBijRelatie(bedrijfDomain.getId());
-        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
-            @Override
-            public JsonPolis apply(JsonPolis jsonPolis) {
-                List<nl.dias.domein.Schade> schadesBijPolis = schades.stream().filter(new Predicate<nl.dias.domein.Schade>() {
-                    @Override
-                    public boolean test(nl.dias.domein.Schade schade) {
-                        return schade.getPolis() == jsonPolis.getId();
-                    }
-                }).collect(Collectors.toList());
+        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(jsonPolis -> {
+            List<nl.dias.domein.Schade> schadesBijPolis = schades.stream().filter(schade -> schade.getPolis() == jsonPolis.getId()).collect(Collectors.toList());
 
-                jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
+            jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
 
-                return jsonPolis;
-            }
+            return jsonPolis;
         }).collect(Collectors.toList());
 
         bedrijf.setPolissen(jsonPolisList.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));

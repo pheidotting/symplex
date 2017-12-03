@@ -3,12 +3,13 @@ package nl.dias.domein;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Audited
 @Entity
 @Table(name = "STATUSSCHADE")
 @NamedQueries({@NamedQuery(name = "StatusSchade.zoekOpSoort", query = "select s from StatusSchade s where s.status =:status and s.ingebruik = '1'")})
-public class StatusSchade {
+public class StatusSchade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

@@ -13,9 +13,7 @@ public class BedrijfDozerMapper extends DozerConverter<Bedrijf, nl.lakedigital.d
     public nl.lakedigital.djfc.domain.response.Bedrijf convertTo(Bedrijf bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf) {
         DozerBeanMapper mapper = new DozerBeanMapper();
 
-        nl.lakedigital.djfc.domain.response.Bedrijf result = mapper.map(bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf.class);
-
-        return result;
+        return mapper.map(bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf.class);
     }
 
     @Override

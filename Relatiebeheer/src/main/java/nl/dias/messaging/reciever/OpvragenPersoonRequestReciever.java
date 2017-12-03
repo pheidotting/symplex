@@ -21,12 +21,12 @@ import java.io.StringWriter;
 public class OpvragenPersoonRequestReciever extends AbstractReciever<OpvragenPersoonSOfBedrijfsGegevensRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(OpvragenPersoonRequestReciever.class);
 
-    public OpvragenPersoonRequestReciever() {
-        super(OpvragenPersoonSOfBedrijfsGegevensRequest.class, LOGGER);
-    }
-
     @Inject
     private OpvragenPersoonsOfBedrijfsGegevensService opvragenPersoonsOfBedrijfsGegevensService;
+
+    public OpvragenPersoonRequestReciever() {
+        super(OpvragenPersoonSOfBedrijfsGegevensRequest.class);
+    }
 
     @Override
     public void verwerkMessage(OpvragenPersoonSOfBedrijfsGegevensRequest opvragenPersoonRequest) {
