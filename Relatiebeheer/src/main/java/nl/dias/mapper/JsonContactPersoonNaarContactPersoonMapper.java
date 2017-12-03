@@ -27,20 +27,6 @@ public class JsonContactPersoonNaarContactPersoonMapper extends AbstractMapper<J
         if (jsonContactPersoon == null) {
             return null;
         }
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
-        LOGGER.debug("##################");
         LOGGER.debug("Mappen {}", ReflectionToStringBuilder.toString(jsonContactPersoon, ToStringStyle.SHORT_PREFIX_STYLE));
 
         Long cpId = null;

@@ -27,8 +27,6 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
@@ -88,20 +86,12 @@ public class RelatieController {
         List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
 
         List<Schade> schades = schadeService.alleSchadesBijRelatie(relatieDomain.getId());
-        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
-            @Override
-            public JsonPolis apply(JsonPolis jsonPolis) {
-                List<Schade> schadesBijPolis = schades.stream().filter(new Predicate<Schade>() {
-                    @Override
-                    public boolean test(Schade schade) {
-                        return schade.getPolis() == jsonPolis.getId();
-                    }
-                }).collect(Collectors.toList());
+        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(jsonPolis -> {
+            List<Schade> schadesBijPolis = schades.stream().filter(schade -> schade.getPolis() == jsonPolis.getId()).collect(Collectors.toList());
 
-                jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
+            jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
 
-                return jsonPolis;
-            }
+            return jsonPolis;
         }).collect(Collectors.toList());
 
         relatie.setPolissen(jsonPolisList.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));

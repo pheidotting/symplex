@@ -1,11 +1,12 @@
 package nl.dias.domein;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "SOORTSCHADE")
 @NamedQueries({@NamedQuery(name = "SoortSchade.alles", query = "select s from SoortSchade s where s.ingebruik = '1'"), @NamedQuery(name = "SoortSchade.zoekOpOmschrijving", query = "select s from SoortSchade s where s.omschrijving like :omschrijving and s.ingebruik = '1'")})
-public class SoortSchade {
+public class SoortSchade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

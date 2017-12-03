@@ -1,6 +1,5 @@
 package nl.lakedigital.djfc.service;
 
-import com.google.common.base.Predicate;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
@@ -29,11 +28,11 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
 
-    public abstract AbstractRepository getRepository();
-
     public AbstractService(nl.lakedigital.as.messaging.domain.SoortEntiteit soortEntiteit) {
         this.soortEntiteit = soortEntiteit;
     }
+
+    public abstract AbstractRepository getRepository();
 
     public List<T> alles(SoortEntiteit soortEntiteit, Long parentId) {
         LOGGER.debug("alles soortEntiteit {} parentId {}", soortEntiteit, parentId);
@@ -80,17 +79,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         }
 
         //Verwijderen wat niet (meer) voorkomt
-        Iterable<T> teVerwijderen = filter(lijstBestaandeNummer, new Predicate<T>() {
-            @Override
-            public boolean apply(final T adres) {
-                return newArrayList(filter(entiteiten, new Predicate<T>() {
-                    @Override
-                    public boolean apply(T t) {
-                        return adres.getId().equals(t.getId());
-                    }
-                })).isEmpty();
-            }
-        });
+        Iterable<T> teVerwijderen = filter(lijstBestaandeNummer, adres -> newArrayList(filter(entiteiten, t -> adres.getId().equals(t.getId()))).isEmpty());
 
         LOGGER.debug("Te verwijderen entiteiten");
         for (T t : teVerwijderen) {

@@ -46,7 +46,7 @@ public class TrackAndTraceFilter implements Filter {
                 //Wachtwoord filteren uit inloggen request, niet zo netjes om dit plain text op te slaan
                 if (url.endsWith("inloggen")) {
                     int i = json.indexOf("wachtwoord\":") + 13;
-                    int j = json.indexOf("\"", i);
+                    int j = json.indexOf('\"', i);
 
                     json = json.substring(0, i) + "XXXX" + json.substring(j);
                 }

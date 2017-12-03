@@ -235,11 +235,11 @@ public class GebruikerController extends AbstractController {
         Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
         try {
             gebruiker.setHashWachtwoord(nieuwWactwoord);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            LOGGER.error("Fout opgetreden bij het wijzigen van het wachtwoord van {} : {}", gebruiker.getIdentificatie(), e);
+            throw new RuntimeException("Onbekende fout opgetreden");
         }
+
         gebruiker.setWachtwoordLaatstGewijzigd(new LocalDateTime());
         gebruiker.setMoetWachtwoordUpdaten(false);
 
