@@ -1,7 +1,7 @@
 FROM niaquinto/jetty
 MAINTAINER Patrick Heidotting <patrick@symplexict.nl>
 
-#ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/myservice/myservice.jar"]
+ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/myservice/myservice.jar"]
 
 # Add Maven dependencies (not shaded into the artifact; Docker-cached)
 #ADD target/lib           /usr/share/myservice/lib

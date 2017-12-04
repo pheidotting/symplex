@@ -46,10 +46,10 @@
                 <executions>
                     <execution>
                         <id>default</id>
-                        <!--<goals>-->
-                        <!--<goal>build</goal>-->
-                        <!--<goal>push</goal>-->
-                        <!--</goals>-->
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
                     </execution>
                 </executions>
                 <configuration>
