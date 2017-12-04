@@ -39,26 +39,57 @@
     </dependencies>
     <build>
         <plugins>
+            <!--<plugin>-->
+            <!--<groupId>com.spotify</groupId>-->
+            <!--<artifactId>dockerfile-maven-plugin</artifactId>-->
+            <!--<version>1.3.6</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>default</id>-->
+            <!--<goals>-->
+            <!--<goal>build</goal>-->
+            <!--<goal>push</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<repository>symplex/integratietest</repository>-->
+            <!--<tag>${project.version}</tag>-->
+            <!--<buildArgs>-->
+            <!--<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>-->
+            <!--</buildArgs>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.3.6</version>
+                <groupId>net.ju-n.maven.plugins</groupId>
+                <artifactId>vagrant-maven-plugin</artifactId>
+                <version>1.0.2</version>
                 <executions>
+
+                    <!-- Before tests: import box, start VM -->
                     <execution>
-                        <id>default</id>
+                        <id>setup-and-start-vagrant-vm</id>
+                        <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
+                            <goal>box-add</goal>
+                            <goal>up</goal>
+                        </goals>
+                        <configuration>
+                            <box>mytestbox</box>
+                            <url>${project.basedir}/src/test/resources/VagrantFile</url>
+                        </configuration>
+                    </execution>
+
+                    <!-- After tests: shut down, destroy VM -->
+                    <execution>
+                        <id>destroy-vagrant-vm</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>destroy</goal>
                         </goals>
                     </execution>
+
                 </executions>
-                <configuration>
-                    <repository>symplex/integratietest</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
