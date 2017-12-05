@@ -20,6 +20,7 @@ public class VerwijderEntiteitenRequestReciever extends AbstractReciever<Verwijd
 
     @Override
     public void verwerkMessage(VerwijderEntiteitenRequest verwijderEntiteitenRequest) {
+        LOGGER.debug("Verwijder entiteiten bij soortEntiteit {} en entiteitId {}", verwijderEntiteitenRequest.getSoortEntiteit(), verwijderEntiteitenRequest.getEntiteitId());
         verwijderEntiteitenService.verwijderen(SoortEntiteit.valueOf(verwijderEntiteitenRequest.getSoortEntiteit().name()), verwijderEntiteitenRequest.getEntiteitId());
     }
 }
