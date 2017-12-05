@@ -7,6 +7,10 @@
     <version>5.0</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <spring-framework.version>4.2.5.RELEASE</spring-framework.version>
+    </properties>
+
     <name>testsysteem</name>
     <url>http://maven.apache.org</url>
     <repositories>
@@ -26,6 +30,11 @@
         <!--<version>3.0.14</version>-->
         <!--</dependency>-->
         <dependency>
+            <groupId>nl.lakedigital.djfc</groupId>
+            <artifactId>clients</artifactId>
+            <version>6.00</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -35,6 +44,11 @@
             <groupId>com.spotify</groupId>
             <artifactId>docker-client</artifactId>
             <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring-framework.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -60,37 +74,37 @@
             <!--</buildArgs>-->
             <!--</configuration>-->
             <!--</plugin>-->
-            <plugin>
-                <groupId>net.ju-n.maven.plugins</groupId>
-                <artifactId>vagrant-maven-plugin</artifactId>
-                <version>1.0.2</version>
-                <executions>
+            <!--<plugin>-->
+            <!--<groupId>net.ju-n.maven.plugins</groupId>-->
+            <!--<artifactId>vagrant-maven-plugin</artifactId>-->
+            <!--<version>1.0.2</version>-->
+            <!--<executions>-->
 
-                    <!-- Before tests: import box, start VM -->
-                    <execution>
-                        <id>setup-and-start-vagrant-vm</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>box-add</goal>
-                            <goal>up</goal>
-                        </goals>
-                        <configuration>
-                            <box>mytestbox</box>
-                            <url>${project.basedir}/src/test/resources/VagrantFile</url>
-                        </configuration>
-                    </execution>
+            <!--&lt;!&ndash; Before tests: import box, start VM &ndash;&gt;-->
+            <!--<execution>-->
+            <!--<id>setup-and-start-vagrant-vm</id>-->
+            <!--<phase>pre-integration-test</phase>-->
+            <!--<goals>-->
+            <!--<goal>box-add</goal>-->
+            <!--<goal>up</goal>-->
+            <!--</goals>-->
+            <!--<configuration>-->
+            <!--<box>mytestbox</box>-->
+            <!--<url>${project.basedir}/src/test/resources/VagrantFile</url>-->
+            <!--</configuration>-->
+            <!--</execution>-->
 
-                    <!-- After tests: shut down, destroy VM -->
-                    <execution>
-                        <id>destroy-vagrant-vm</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>destroy</goal>
-                        </goals>
-                    </execution>
+            <!--&lt;!&ndash; After tests: shut down, destroy VM &ndash;&gt;-->
+            <!--<execution>-->
+            <!--<id>destroy-vagrant-vm</id>-->
+            <!--<phase>post-integration-test</phase>-->
+            <!--<goals>-->
+            <!--<goal>destroy</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
 
-                </executions>
-            </plugin>
+            <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

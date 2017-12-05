@@ -192,12 +192,14 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void verwijderen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Verwijderen Relatie met id " + id);
+    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
+        LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
 
         zetSessieWaarden(httpServletRequest);
 
-        gebruikerService.verwijder(id);
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+
+        gebruikerService.verwijder(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)
