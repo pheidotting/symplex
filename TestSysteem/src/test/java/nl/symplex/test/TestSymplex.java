@@ -21,8 +21,8 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 public class TestSymplex {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSymplex.class);
 
-    private String host = "localhost";
-    //    private String host = "tst-diasii";
+    //    private String host = "localhost";
+    private String host = "tst-diasii";
 
     protected final String GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
     protected final String GEBRUIKER_VERWIJDEREN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
