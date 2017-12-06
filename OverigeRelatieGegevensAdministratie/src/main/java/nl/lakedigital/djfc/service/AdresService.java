@@ -34,6 +34,11 @@ public class AdresService extends AbstractService<Adres> {
     }
 
     @Override
+    public Logger getLogger() {
+        return LOGGER;
+    }
+
+    @Override
     public void opslaan(Adres adres) {
         super.opslaan(adres);
     }

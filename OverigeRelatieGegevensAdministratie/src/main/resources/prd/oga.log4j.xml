@@ -6,7 +6,7 @@
     <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId} %d{ABSOLUTE} %5p %c{1}:%L - %m%n"/>
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 
@@ -15,7 +15,7 @@
         <!--<param name="threshold" value="debug" />-->
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId} %d{ISO8601} %-5p [%c{1}] - %m%n"/>
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 
@@ -26,7 +26,7 @@
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId} [%p] %d %c %M - %m%n"/>
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 
@@ -37,7 +37,7 @@
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId} [%p] %d %c %M - %m%n"/>
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 
@@ -47,7 +47,7 @@
         <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                   value="ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId} %d{ISO8601} %-5p [%c{1}] - %m%n"/>
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 

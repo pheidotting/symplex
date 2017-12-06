@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.lakedigital.djfc.commons.json.Inloggen;
 import nl.lakedigital.djfc.domain.response.Adres;
 import nl.lakedigital.djfc.domain.response.Relatie;
+import nl.symplex.test.builders.AdresBuilder;
+import nl.symplex.test.builders.RelatieBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -19,10 +21,13 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 public class TestSymplex {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSymplex.class);
 
-    protected final String GEBRUIKER_OPSLAAN = "http://tst-diasii:8080/dejonge/rest/medewerker/gebruiker/opslaan";
-    protected final String GEBRUIKER_VERWIJDEREN = "http://tst-diasii:8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
-    protected final String RELATIE_LEZEN = "http://tst-diasii:8080/dejonge/rest/medewerker/relatie/lees";
-    protected final String INLOGGEN = "http://tst-diasii:8080/dejonge/rest/authorisatie/authorisatie/inloggen";
+    private String host = "localhost";
+    //    private String host = "tst-diasii";
+
+    protected final String GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
+    protected final String GEBRUIKER_VERWIJDEREN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
+    protected final String RELATIE_LEZEN = "http://" + host + ":8080/dejonge/rest/medewerker/relatie/lees";
+    protected final String INLOGGEN = "http://" + host + ":8080/dejonge/rest/authorisatie/authorisatie/inloggen";
 
     private String jwt;
 
@@ -33,37 +38,18 @@ public class TestSymplex {
     }
 
     @Test
-    public void testSymplex() {
-        Relatie relatie = new Relatie();
-        relatie.setAchternaam("Achternaam");
-        relatie.setTussenvoegsel("Tussenvoegsel");
-        relatie.setVoornaam("Voornaam");
-        relatie.setBsn("bsn");
-        relatie.setBurgerlijkeStaat("Ongehuwd");
-        relatie.setEmailadres("info@symplex.nl");
-        relatie.setGeboorteDatum("1979-09-06");
-        relatie.setGeslacht("M");
-        relatie.setRoepnaam("Henk");
+    public void testSymplex() throws InterruptedException {
+        Relatie relatie = new RelatieBuilder().defaultRelatie().build();
 
-        Adres adres = maakAdres("Boogschutter", 26L, "7891TN", "Klazienaveen", "WOONADRES");
+        Adres adres = new AdresBuilder().defaultAdres().build();
         relatie.getAdressen().add(adres);
 
         String result = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
 
+        Thread.sleep(10000);
         System.out.println(result);
 
         doePost(null, GEBRUIKER_VERWIJDEREN + result, UUID.randomUUID().toString());
-    }
-
-    public Adres maakAdres(String straatnaam, Long huisnummer, String postcode, String plaats, String soortAdres) {
-        Adres adres = new Adres();
-        adres.setHuisnummer(huisnummer);
-        adres.setStraat(straatnaam);
-        adres.setPostcode(postcode);
-        adres.setPlaats(plaats);
-        adres.setSoortAdres(soortAdres);
-
-        return adres;
     }
 
     protected String doePost(Object entiteit, String url, String trackAndTraceId) {
@@ -77,10 +63,8 @@ public class TestSymplex {
         LOGGER.debug("Aanroepen {}", url);
         HttpEntity<String> entity = null;
         if (entiteit != null) {
-            System.out.println("Met entiteit");
             entity = new HttpEntity<>(toJson(entiteit), headers);
         } else {
-            System.out.println("Zonder entiteit");
             entity = new HttpEntity<>(headers);
         }
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);

@@ -10,7 +10,6 @@ import nl.lakedigital.djfc.repository.AbstractRepository;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -27,16 +26,16 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
     @Inject
     private EntiteitenVerwijderdRequestSender entiteitenVerwijderdRequestSender;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractService.class);
-
     public abstract AbstractRepository getRepository();
+
+    public abstract Logger getLogger();
 
     public AbstractService(nl.lakedigital.as.messaging.domain.SoortEntiteit soortEntiteit) {
         this.soortEntiteit = soortEntiteit;
     }
 
     public List<T> alles(SoortEntiteit soortEntiteit, Long parentId) {
-        LOGGER.debug("alles soortEntiteit {} parentId {}", soortEntiteit, parentId);
+        getLogger().debug("alles soortEntiteit {} parentId {}", soortEntiteit, parentId);
 
         return getRepository().alles(soortEntiteit, parentId);
     }
@@ -63,20 +62,20 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
             soortEntiteitEnEntiteitIds.add(soortEntiteitEnEntiteitId);
         }
 
-        LOGGER.debug("Versturen {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitIds));
+        getLogger().debug("Versturen {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitIds));
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
     }
 
     public void opslaan(final List<T> entiteiten, SoortEntiteit soortEntiteit, Long entiteitId) {
-        LOGGER.debug("Op te slaan entiteiten");
+        getLogger().debug("Op te slaan entiteiten");
         for (T t : entiteiten) {
-            LOGGER.debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
+            getLogger().debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
         }
 
-        LOGGER.debug("bestaande entiteiten");
+        getLogger().debug("bestaande entiteiten");
         List<T> lijstBestaandeNummer = getRepository().alles(soortEntiteit, entiteitId);
         for (T t : lijstBestaandeNummer) {
-            LOGGER.debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
+            getLogger().debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
         }
 
         //Verwijderen wat niet (meer) voorkomt
@@ -92,9 +91,9 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
             }
         });
 
-        LOGGER.debug("Te verwijderen entiteiten");
+        getLogger().debug("Te verwijderen entiteiten");
         for (T t : teVerwijderen) {
-            LOGGER.debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
+            getLogger().debug("Verwijderen {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
         }
         getRepository().verwijder(newArrayList(teVerwijderen));
         getRepository().opslaan(entiteiten);
@@ -119,7 +118,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
             entiteitenVerwijderdRequestSender.send(soortEntiteitEnEntiteitId);
         }
 
-        LOGGER.debug("Versturen {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitIds));
+        getLogger().debug("Versturen {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitIds));
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
     }
 
