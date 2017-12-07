@@ -457,7 +457,7 @@ define puppi::project::maven (
       priority  => '30',
       command   => 'archive.sh',
       arguments => "-b ${zip_root} -t ziproot -d predeploydir_zipfile -o '${backup_rsync_options}' -n ${backup_retention
-        }",
+      }",
       user      => 'root',
       project   => $name,
       enable    => $enable,

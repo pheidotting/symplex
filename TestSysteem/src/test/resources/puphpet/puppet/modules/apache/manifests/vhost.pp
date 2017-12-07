@@ -346,8 +346,8 @@ define apache::vhost (
   }
 
   if $passenger_app_root or $passenger_app_env or $passenger_ruby or $passenger_min_instances or $
-    passenger_start_timeout or $passenger_pre_start or $passenger_user or $passenger_high_performance or $
-    passenger_nodejs or $passenger_sticky_sessions or $passenger_startup_file {
+  passenger_start_timeout or $passenger_pre_start or $passenger_user or $passenger_high_performance or $
+  passenger_nodejs or $passenger_sticky_sessions or $passenger_startup_file {
     include ::apache::mod::passenger
   }
 
@@ -1039,142 +1039,142 @@ define apache::vhost (
   # - $wsgi_script_aliases
   # - $wsgi_pass_authorization
   if $wsgi_application_group or $wsgi_daemon_process or ($wsgi_import_script and $wsgi_import_script_options) or $
-    wsgi_process_group or ($wsgi_script_aliases and !empty($wsgi_script_aliases)) or $wsgi_pass_authorization {
+  wsgi_process_group or ($wsgi_script_aliases and !empty($wsgi_script_aliases)) or $wsgi_pass_authorization {
     concat::fragment { "${name}-wsgi":
-      target  => "${priority_real}${filename}.conf",
-      order   => 260,
-      content => template('apache/vhost/_wsgi.erb'),
-    }
+    target => "${priority_real}${filename}.conf",
+    order => 260,
+    content => template('apache/vhost/_wsgi.erb'),
   }
+}
 
-  # Template uses:
-  # - $custom_fragment
-  if $custom_fragment {
-    concat::fragment { "${name}-custom_fragment":
-      target  => "${priority_real}${filename}.conf",
-      order   => 270,
-      content => template('apache/vhost/_custom_fragment.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $fastcgi_server
-  # - $fastcgi_socket
-  # - $fastcgi_dir
-  # - $fastcgi_idle_timeout
-  # - $apache_version
-  if $fastcgi_server or $fastcgi_dir {
-    concat::fragment { "${name}-fastcgi":
-      target  => "${priority_real}${filename}.conf",
-      order   => 280,
-      content => template('apache/vhost/_fastcgi.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $suexec_user_group
-  if $suexec_user_group {
-    concat::fragment { "${name}-suexec":
-      target  => "${priority_real}${filename}.conf",
-      order   => 290,
-      content => template('apache/vhost/_suexec.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $passenger_app_root
-  # - $passenger_app_env
-  # - $passenger_ruby
-  # - $passenger_min_instances
-  # - $passenger_start_timeout
-  # - $passenger_pre_start
-  # - $passenger_user
-  # - $passenger_nodejs
-  # - $passenger_sticky_sessions
-  # - $passenger_startup_file
-  if $passenger_app_root or $passenger_app_env or $passenger_ruby or $passenger_min_instances or $
-    passenger_start_timeout or $passenger_pre_start or $passenger_user or $passenger_nodejs or $
-    passenger_sticky_sessions or $passenger_startup_file {
-    concat::fragment { "${name}-passenger":
-      target  => "${priority_real}${filename}.conf",
-      order   => 300,
-      content => template('apache/vhost/_passenger.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $add_default_charset
-  if $add_default_charset {
-    concat::fragment { "${name}-charsets":
-      target  => "${priority_real}${filename}.conf",
-      order   => 310,
-      content => template('apache/vhost/_charsets.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $modsec_disable_vhost
-  # - $modsec_disable_ids
-  # - $modsec_disable_ips
-  # - $modsec_disable_msgs
-  # - $modsec_disable_tags
-  # - $modsec_body_limit
-  # - $modsec_audit_log_destination
-  if $modsec_disable_vhost or $modsec_disable_ids or $modsec_disable_ips or $modsec_disable_msgs or $modsec_disable_tags
-    or $modsec_audit_log_destination {
-    concat::fragment { "${name}-security":
-      target  => "${priority_real}${filename}.conf",
-      order   => 320,
-      content => template('apache/vhost/_security.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $filters
-  if $filters and !empty($filters) {
-    concat::fragment { "${name}-filters":
-      target  => "${priority_real}${filename}.conf",
-      order   => 330,
-      content => template('apache/vhost/_filters.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $jk_mounts
-  if $jk_mounts and !empty($jk_mounts) {
-    concat::fragment { "${name}-jk_mounts":
-      target  => "${priority_real}${filename}.conf",
-      order   => 340,
-      content => template('apache/vhost/_jk_mounts.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $keepalive
-  # - $keepalive_timeout
-  # - $max_keepalive_requests
-  if $keepalive or $keepalive_timeout or $max_keepalive_requests {
-    concat::fragment { "${name}-keepalive_options":
-      target  => "${priority_real}${filename}.conf",
-      order   => 350,
-      content => template('apache/vhost/_keepalive_options.erb'),
-    }
-  }
-
-  # Template uses:
-  # - $cas_*
-  if $cas_enabled {
-    concat::fragment { "${name}-auth_cas":
-      target  => "${priority_real}${filename}.conf",
-      order   => 350,
-      content => template('apache/vhost/_auth_cas.erb'),
-    }
-  }
-
-  # Template uses no variables
-  concat::fragment { "${name}-file_footer":
+# Template uses:
+# - $custom_fragment
+if $custom_fragment {
+  concat::fragment { "${name}-custom_fragment":
     target  => "${priority_real}${filename}.conf",
-    order   => 999,
-    content => template('apache/vhost/_file_footer.erb'),
+    order   => 270,
+    content => template('apache/vhost/_custom_fragment.erb'),
   }
+}
+
+# Template uses:
+# - $fastcgi_server
+# - $fastcgi_socket
+# - $fastcgi_dir
+# - $fastcgi_idle_timeout
+# - $apache_version
+if $fastcgi_server or $fastcgi_dir {
+  concat::fragment { "${name}-fastcgi":
+    target  => "${priority_real}${filename}.conf",
+    order   => 280,
+    content => template('apache/vhost/_fastcgi.erb'),
+  }
+}
+
+# Template uses:
+# - $suexec_user_group
+if $suexec_user_group {
+  concat::fragment { "${name}-suexec":
+    target  => "${priority_real}${filename}.conf",
+    order   => 290,
+    content => template('apache/vhost/_suexec.erb'),
+  }
+}
+
+# Template uses:
+# - $passenger_app_root
+# - $passenger_app_env
+# - $passenger_ruby
+# - $passenger_min_instances
+# - $passenger_start_timeout
+# - $passenger_pre_start
+# - $passenger_user
+# - $passenger_nodejs
+# - $passenger_sticky_sessions
+# - $passenger_startup_file
+if $passenger_app_root or $passenger_app_env or $passenger_ruby or $passenger_min_instances or $
+passenger_start_timeout or $passenger_pre_start or $passenger_user or $passenger_nodejs or $
+passenger_sticky_sessions or $passenger_startup_file {
+  concat::fragment { "${name}-passenger":
+  target => "${priority_real}${filename}.conf",
+  order => 300,
+  content => template('apache/vhost/_passenger.erb'),
+}
+}
+
+# Template uses:
+# - $add_default_charset
+if $add_default_charset {
+  concat::fragment { "${name}-charsets":
+    target  => "${priority_real}${filename}.conf",
+    order   => 310,
+    content => template('apache/vhost/_charsets.erb'),
+  }
+}
+
+# Template uses:
+# - $modsec_disable_vhost
+# - $modsec_disable_ids
+# - $modsec_disable_ips
+# - $modsec_disable_msgs
+# - $modsec_disable_tags
+# - $modsec_body_limit
+# - $modsec_audit_log_destination
+if $modsec_disable_vhost or $modsec_disable_ids or $modsec_disable_ips or $modsec_disable_msgs or $modsec_disable_tags
+  or $modsec_audit_log_destination {
+  concat::fragment { "${name}-security":
+    target  => "${priority_real}${filename}.conf",
+    order   => 320,
+    content => template('apache/vhost/_security.erb'),
+  }
+}
+
+# Template uses:
+# - $filters
+if $filters and !empty($filters) {
+  concat::fragment { "${name}-filters":
+    target  => "${priority_real}${filename}.conf",
+    order   => 330,
+    content => template('apache/vhost/_filters.erb'),
+  }
+}
+
+# Template uses:
+# - $jk_mounts
+if $jk_mounts and !empty($jk_mounts) {
+  concat::fragment { "${name}-jk_mounts":
+    target  => "${priority_real}${filename}.conf",
+    order   => 340,
+    content => template('apache/vhost/_jk_mounts.erb'),
+  }
+}
+
+# Template uses:
+# - $keepalive
+# - $keepalive_timeout
+# - $max_keepalive_requests
+if $keepalive or $keepalive_timeout or $max_keepalive_requests {
+  concat::fragment { "${name}-keepalive_options":
+    target  => "${priority_real}${filename}.conf",
+    order   => 350,
+    content => template('apache/vhost/_keepalive_options.erb'),
+  }
+}
+
+# Template uses:
+# - $cas_*
+if $cas_enabled {
+  concat::fragment { "${name}-auth_cas":
+    target  => "${priority_real}${filename}.conf",
+    order   => 350,
+    content => template('apache/vhost/_auth_cas.erb'),
+  }
+}
+
+# Template uses no variables
+concat::fragment { "${name}-file_footer":
+  target  => "${priority_real}${filename}.conf",
+  order   => 999,
+  content => template('apache/vhost/_file_footer.erb'),
+}
 }

@@ -49,7 +49,7 @@ define puphpet::letsencrypt::generate_certs (
     $cmd_combine = "/bin/cat ${privkey_pem} ${fullchain_pem} | /usr/bin/tee ${combined_pem}
        > /dev/null && /bin/chmod 700 ${combined_pem}"
     $cmd_final = "${cmd_base} --pre-hook '${pre_hook}' --post-hook '${cmd_combined_dir} && ${cmd_combine} && ${post_hook
-      }' -d ${hosts}"
+    }' -d ${hosts}"
 
     $hour = seeded_rand(23, $::fqdn)
     $minute = seeded_rand(59, $::fqdn)
