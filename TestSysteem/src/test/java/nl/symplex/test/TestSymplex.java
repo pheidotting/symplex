@@ -21,7 +21,6 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 public class TestSymplex {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSymplex.class);
 
-    //    private String host = "localhost";
     private String host = "tst-diasii";
 
     protected final String GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
@@ -33,6 +32,10 @@ public class TestSymplex {
 
     @Before
     public void init() {
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            host = "localhost";
+        }
+
         inloggen();
         System.out.println("Ingelogd, opgehaalde JWT : {}" + jwt);
     }
