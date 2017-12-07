@@ -23,10 +23,10 @@ public class TestSymplex {
 
     private String host = "tst-diasii";
 
-    protected final String GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
-    protected final String GEBRUIKER_VERWIJDEREN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
-    protected final String RELATIE_LEZEN = "http://" + host + ":8080/dejonge/rest/medewerker/relatie/lees";
-    protected final String INLOGGEN = "http://" + host + ":8080/dejonge/rest/authorisatie/authorisatie/inloggen";
+    protected String GEBRUIKER_OPSLAAN = null;
+    protected String GEBRUIKER_VERWIJDEREN = null;
+    protected String RELATIE_LEZEN = null;
+    protected String INLOGGEN = null;
 
     private String jwt;
 
@@ -35,6 +35,11 @@ public class TestSymplex {
         if (System.getProperty("os.name").equals("Mac OS X")) {
             host = "localhost";
         }
+
+        GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
+        GEBRUIKER_VERWIJDEREN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
+        RELATIE_LEZEN = "http://" + host + ":8080/dejonge/rest/medewerker/relatie/lees";
+        INLOGGEN = "http://" + host + ":8080/dejonge/rest/authorisatie/authorisatie/inloggen";
 
         inloggen();
         System.out.println("Ingelogd, opgehaalde JWT : {}" + jwt);
@@ -64,6 +69,7 @@ public class TestSymplex {
         RestTemplate restTemplate = new RestTemplate();
 
         LOGGER.debug("Aanroepen {}", url);
+        System.out.println("Aanroepen {}" + url);
         HttpEntity<String> entity = null;
         if (entiteit != null) {
             entity = new HttpEntity<>(toJson(entiteit), headers);
