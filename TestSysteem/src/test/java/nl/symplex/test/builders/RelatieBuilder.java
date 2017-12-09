@@ -17,7 +17,7 @@ public class RelatieBuilder {
         relatie.setBurgerlijkeStaat("Ongehuwd");
         relatie.setEmailadres("info@symplex.nl");
         relatie.setGeboorteDatum("1979-09-06");
-        relatie.setGeslacht("M");
+        relatie.setGeslacht("Man");
         relatie.setRoepnaam("Henk");
 
         return this;

@@ -7,10 +7,9 @@ import nl.dias.service.HypotheekService;
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
-import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
-import nl.lakedigital.djfc.commons.json.JsonHypotheek;
-import nl.lakedigital.djfc.commons.json.JsonHypotheekPakket;
-import nl.lakedigital.djfc.commons.json.JsonSoortHypotheek;
+import nl.dias.web.medewerker.mappers.HypotheekNaarJsonHypotheekMapper;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.json.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,8 @@ public class HypotheekController extends AbstractController {
     private HypotheekMapper hypotheekMapper;
     @Inject
     private HypotheekPakketMapper hypotheekPakketMapper;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -115,10 +116,12 @@ public class HypotheekController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Response opslaan(@RequestBody JsonHypotheek jsonHypotheek, HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Opslaan Hypotheek " + jsonHypotheek);
+    public Response opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
+        LOGGER.debug("Opslaan Hypotheek " + hypotheekIn);
 
         zetSessieWaarden(httpServletRequest);
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(hypotheekIn.getParentIdentificatie());
 
         // Hypotheek hypotheek = new Hypotheek();
         // if (jsonHypotheek.getId() != null && jsonHypotheek.getId() != 0) {
@@ -128,8 +131,10 @@ public class HypotheekController extends AbstractController {
         // hypotheek = hypotheekMapper.mapVanJson(jsonHypotheek, hypotheek);
         // LOGGER.info("Uit de mapper");
         // LOGGER.info(hypotheek);
+        JsonHypotheek jsonHypotheek = new HypotheekNaarJsonHypotheekMapper(identificatieClient).mapNaarJson(hypotheekIn);
 
-        Hypotheek hypotheek = hypotheekService.opslaan(jsonHypotheek, jsonHypotheek.getHypotheekVorm(), jsonHypotheek.getRelatie(), jsonHypotheek.getGekoppeldeHypotheek());
+
+        Hypotheek hypotheek = hypotheekService.opslaan(jsonHypotheek, jsonHypotheek.getHypotheekVorm(), identificatie.getEntiteitId(), jsonHypotheek.getGekoppeldeHypotheek());
 
         LOGGER.debug("Opgeslagen");
 

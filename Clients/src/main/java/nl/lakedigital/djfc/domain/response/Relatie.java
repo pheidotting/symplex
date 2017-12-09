@@ -1,7 +1,10 @@
 package nl.lakedigital.djfc.domain.response;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Relatie {
     private Long id;
@@ -217,5 +220,27 @@ public class Relatie {
 
     public void setPolissen(List<Polis> polissen) {
         this.polissen = polissen;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Relatie)) {
+            return false;
+        }
+        Relatie relatie = (Relatie) o;
+        return Objects.equals(getId(), relatie.getId()) && Objects.equals(getIdentificatie(), relatie.getIdentificatie()) && Objects.equals(getRoepnaam(), relatie.getRoepnaam()) && Objects.equals(getVoornaam(), relatie.getVoornaam()) && Objects.equals(getTussenvoegsel(), relatie.getTussenvoegsel()) && Objects.equals(getAchternaam(), relatie.getAchternaam()) && Objects.equals(getBsn(), relatie.getBsn()) && Objects.equals(getKantoor(), relatie.getKantoor()) && Objects.equals(getGeboorteDatum(), relatie.getGeboorteDatum()) && Objects.equals(getOverlijdensdatum(), relatie.getOverlijdensdatum()) && Objects.equals(getGeslacht(), relatie.getGeslacht()) && Objects.equals(getBurgerlijkeStaat(), relatie.getBurgerlijkeStaat()) && Objects.equals(getEmailadres(), relatie.getEmailadres());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getIdentificatie(), getRoepnaam(), getVoornaam(), getTussenvoegsel(), getAchternaam(), getBsn(), getKantoor(), getGeboorteDatum(), getOverlijdensdatum(), getGeslacht(), getBurgerlijkeStaat(), getEmailadres());
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("roepnaam", roepnaam).append("voornaam", voornaam).append("tussenvoegsel", tussenvoegsel).append("achternaam", achternaam).append("bsn", bsn).append("kantoor", kantoor).append("geboorteDatum", geboorteDatum).append("overlijdensdatum", overlijdensdatum).append("geslacht", geslacht).append("burgerlijkeStaat", burgerlijkeStaat).append("emailadres", emailadres).append("adressen", adressen).append("bijlages", bijlages).append("groepBijlages", groepBijlages).append("rekeningNummers", rekeningNummers).append("telefoonnummers", telefoonnummers).append("opmerkingen", opmerkingen).append("telefoonnummerMetGesprekkens", telefoonnummerMetGesprekkens).append("polissen", polissen).toString();
     }
 }
