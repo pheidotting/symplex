@@ -24,6 +24,7 @@ define(['jquery',
                 var hypotheek = new Hypotheek();
 
                 hypotheek.id(data.id);
+                hypotheek.identificatie(data.identificatie);
                 hypotheek.soortEntiteit(data.soortEntiteit);
                 hypotheek.bank(data.bank);
                 hypotheek.boxI(data.boxI);

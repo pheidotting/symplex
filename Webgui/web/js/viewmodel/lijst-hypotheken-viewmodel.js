@@ -53,11 +53,11 @@ define(['jquery',
             return opmaak.maakBedragOp(bedrag());
 		};
 
-		this.bewerkHypotheek = function(hypotheek) {
-            redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.id(), 'hypotheek', hypotheek.id());
+		this.bewerk = function(hypotheek) {
+			redirect.redirect('BEHEER_HYPOTHEEK', hypotheek.identificatie());
         };
 
-		this.verwijderHypotheek = function(hypotheek) {
+		this.verwijder = function(hypotheek) {
             var r=confirm("Weet je zeker dat je deze hypotheek wilt verwijderen?");
             if (r==true) {
                 _this.hypotheken.remove(hypotheek);

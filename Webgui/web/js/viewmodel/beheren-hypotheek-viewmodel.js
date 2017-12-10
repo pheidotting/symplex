@@ -8,15 +8,17 @@ define(['jquery',
         'service/hypotheek-service',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
+        'viewmodel/common/menubalk-viewmodel',
         'moment',
         'service/toggle-service',
         'viewmodel/common/taak-viewmodel'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, moment, toggleService, taakViewModel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
         var soortEntiteit = 'HYPOTHEEK';
+		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;
         this.basisId = null;
@@ -39,28 +41,38 @@ define(['jquery',
             _this.basisEntiteit = basisEntiteit;
             _this.basisId = basisId;
             _this.id(hypotheekId);
-            $.when(hypotheekService.leesHypotheek(hypotheekId), hypotheekService.lijstSoortenHypotheek(), hypotheekService.lijstHypothekenInclDePakketten(basisId)).then(function(hypotheek, lijstSoortenHypotheek, alleHypotheken) {
+            $.when(hypotheekService.lees(hypotheekId, basisEntiteit), hypotheekService.lijstSoortenHypotheek()).then(function(data, lijstSoortenHypotheek) {
+                var hypotheek = _.find(data.hypotheken, function(hypotheek) {return hypotheek.identificatie === hypotheekId.identificatie;});
+                if(hypotheek == null){
+                    hypotheek = {
+                        'opmerkingen' : [],
+                        'bijlages' : [],
+                        'groepBijlages' : []
+                    }
+                }
+
                 _this.hypotheek = hypotheekMapper.mapHypotheek(hypotheek, lijstSoortenHypotheek);
 
-                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
+                _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
+                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, _this.hypotheek.opmerkingen);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, _this.hypotheek.bijlages, _this.hypotheek.groepenBijlages);
 
-				if(alleHypotheken.length > 0){
-					var $koppelHypotheekSelect = $('#koppelHypotheek');
-					$('<option>', { value : '' }).text('Kies evt. een hypotheek om mee te koppelen...').appendTo($koppelHypotheekSelect);
-					$.each(alleHypotheken, function(key, value) {
-						if(value.id != hypotheekId){
-						    var hypo = hypotheekMapper.mapHypotheek(value, lijstSoortenHypotheek);
-						    var selected = '';
-						    if(hypotheek.hypotheekPakket == value.hypotheekPakket) {
-						        selected = ' selected="selected"';
-						    }
-							$('<option' + selected + ' value="' + parseInt(value.id) + '">').text(hypo.titel()).appendTo($koppelHypotheekSelect);
-						}
-					});
-				}else{
+//				if(alleHypotheken.length > 0){
+//					var $koppelHypotheekSelect = $('#koppelHypotheek');
+//					$('<option>', { value : '' }).text('Kies evt. een hypotheek om mee te koppelen...').appendTo($koppelHypotheekSelect);
+//					$.each(alleHypotheken, function(key, value) {
+//						if(value.id != hypotheekId){
+//						    var hypo = hypotheekMapper.mapHypotheek(value, lijstSoortenHypotheek);
+//						    var selected = '';
+//						    if(hypotheek.hypotheekPakket == value.hypotheekPakket) {
+//						        selected = ' selected="selected"';
+//						    }
+//							$('<option' + selected + ' value="' + parseInt(value.id) + '">').text(hypo.titel()).appendTo($koppelHypotheekSelect);
+//						}
+//					});
+//				}else{
 					$('#gekoppeldeHypotheekGroep').hide();
-				}
+//				}
 
                 var $hypotheekVormSelect = $('#hypotheekVorm');
                 $('<option>', { value : '' }).text('Kies een soort hypotheek uit de lijst...').appendTo($hypotheekVormSelect);

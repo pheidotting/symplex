@@ -17,6 +17,17 @@ define(["commons/3rdparty/log",
                 return hypotheekRepository.lijstHypothekenInclDePakketten(relatieId);
             },
 
+            lees: function(id){
+                var identificatie = id.identificatie;
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
+            },
+
             leesHypotheek: function(id) {
                 var deferred = $.Deferred();
 

@@ -16,7 +16,8 @@ define([ "commons/3rdparty/log2"],
                             {naam: 'BEHEER_POLIS',      url: '#polis'},
                             {naam: 'LIJST_SCHADES',     url: '#schades'},
                             {naam: 'BEHEER_SCHADE',     url: '#schade'},
-                            {naam: 'LIJST_HYPOTHEKEN',  url: '#hypotheken'}
+                            {naam: 'LIJST_HYPOTHEKEN',  url: '#hypotheken'},
+                            {naam: 'BEHEER_HYPOTHEEK',  url: '#hypotheek'}
                             ];
 
                 var url = '';
