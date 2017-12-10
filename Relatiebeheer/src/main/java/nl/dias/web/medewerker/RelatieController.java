@@ -1,11 +1,9 @@
 package nl.dias.web.medewerker;
 
+import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Schade;
 import nl.dias.domein.polis.Polis;
-import nl.dias.service.GebruikerService;
-import nl.dias.service.PolisService;
-import nl.dias.service.RelatieService;
-import nl.dias.service.SchadeService;
+import nl.dias.service.*;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
@@ -27,6 +25,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -64,6 +63,8 @@ public class RelatieController {
     private SchadeService schadeService;
     @Inject
     private SchadeMapper schadeMapper;
+    @Inject
+    private HypotheekService hypotheekService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -116,6 +117,77 @@ public class RelatieController {
                 relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
             }
         }
+
+        List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
+        relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
+            @Override
+            public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
+                final String DATUM_FORMAAT = "dd-MM-yyyy";
+
+                nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
+
+                jsonHypotheek.setDuur(hypotheek.getDuur());
+                jsonHypotheek.setDuurRenteVastePeriode(hypotheek.getDuurRenteVastePeriode());
+                jsonHypotheek.setHypotheekPakket(hypotheek.getHypotheekPakket().getId());
+                if (hypotheek.getEindDatum() != null) {
+                    jsonHypotheek.setEindDatum(hypotheek.getEindDatum().toString(DATUM_FORMAAT));
+                }
+                if (hypotheek.getEindDatumRenteVastePeriode() != null) {
+                    jsonHypotheek.setEindDatumRenteVastePeriode(hypotheek.getEindDatumRenteVastePeriode().toString(DATUM_FORMAAT));
+                }
+                if (hypotheek.getHypotheekBedrag() != null) {
+                    jsonHypotheek.setHypotheekBedrag(hypotheek.getHypotheekBedrag().getBedrag().toString());
+                }
+                if (hypotheek.getHypotheekVorm() != null) {
+                    jsonHypotheek.setHypotheekVorm(hypotheek.getHypotheekVorm().getId());
+                }
+                if (hypotheek.getIngangsDatum() != null) {
+                    jsonHypotheek.setIngangsDatum(hypotheek.getIngangsDatum().toString(DATUM_FORMAAT));
+                }
+                if (hypotheek.getIngangsDatumRenteVastePeriode() != null) {
+                    jsonHypotheek.setIngangsDatumRenteVastePeriode(hypotheek.getIngangsDatumRenteVastePeriode().toString(DATUM_FORMAAT));
+                }
+                if (hypotheek.getKoopsom() != null) {
+                    jsonHypotheek.setKoopsom(hypotheek.getKoopsom().getBedrag().toString());
+                }
+                if (hypotheek.getMarktWaarde() != null) {
+                    jsonHypotheek.setMarktWaarde(hypotheek.getMarktWaarde().getBedrag().toString());
+                }
+                jsonHypotheek.setOmschrijving(hypotheek.getOmschrijving());
+                if (hypotheek.getOnderpand() != null) {
+                    jsonHypotheek.setOnderpand(hypotheek.getOnderpand());
+                }
+                if (hypotheek.getRente() != null) {
+                    jsonHypotheek.setRente(hypotheek.getRente().toString());
+                }
+                if (hypotheek.getTaxatieDatum() != null) {
+                    jsonHypotheek.setTaxatieDatum(hypotheek.getTaxatieDatum().toString(DATUM_FORMAAT));
+                }
+                if (hypotheek.getVrijeVerkoopWaarde() != null) {
+                    jsonHypotheek.setVrijeVerkoopWaarde(hypotheek.getVrijeVerkoopWaarde().getBedrag().toString());
+                }
+                if (hypotheek.getWaardeNaVerbouwing() != null) {
+                    jsonHypotheek.setWaardeNaVerbouwing(hypotheek.getWaardeNaVerbouwing().getBedrag().toString());
+                }
+                if (hypotheek.getWaardeVoorVerbouwing() != null) {
+                    jsonHypotheek.setWaardeVoorVerbouwing(hypotheek.getWaardeVoorVerbouwing().getBedrag().toString());
+                }
+                if (hypotheek.getWozWaarde() != null) {
+                    jsonHypotheek.setWozWaarde(hypotheek.getWozWaarde().getBedrag().toString());
+                }
+
+                jsonHypotheek.setLeningNummer(hypotheek.getLeningNummer());
+                jsonHypotheek.setBank(hypotheek.getBank());
+                if (hypotheek.getBoxI() != null) {
+                    jsonHypotheek.setBoxI(hypotheek.getBoxI().getBedrag().toString());
+                }
+                if (hypotheek.getBoxIII() != null) {
+                    jsonHypotheek.setBoxIII(hypotheek.getBoxIII().getBedrag().toString());
+                }
+
+                return jsonHypotheek;
+            }
+        }).collect(Collectors.toList()));
 
         return relatie;
     }

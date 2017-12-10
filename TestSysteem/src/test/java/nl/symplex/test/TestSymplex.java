@@ -12,6 +12,7 @@ import nl.symplex.test.builders.AdresBuilder;
 import nl.symplex.test.builders.HypotheekBuilder;
 import nl.symplex.test.builders.OpmerkingBuilder;
 import nl.symplex.test.builders.RelatieBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 public class TestSymplex {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSymplex.class);
@@ -36,6 +40,7 @@ public class TestSymplex {
     protected String INLOGGEN = null;
 
     private String jwt;
+    private String relatieId;
 
     @Before
     public void init() {
@@ -60,22 +65,31 @@ public class TestSymplex {
         Adres adres = new AdresBuilder().defaultAdres().build();
         relatie.getAdressen().add(adres);
 
-        String result = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
+        relatieId = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
 
         Thread.sleep(10000);
-        System.out.println(result);
+        System.out.println(relatieId);
 
-        relatie.setIdentificatie(result);
-        Relatie relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + result), Relatie.class);
+        relatie.setIdentificatie(relatieId);
+        Relatie relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + relatieId), Relatie.class);
         System.out.println(ReflectionToStringBuilder.toString(relatieOpgeslagen));
         System.out.println(ReflectionToStringBuilder.toString(relatie));
-        //        assertThat(relatieOpgeslagen, equalTo(relatie));
+
+        assertThat(relatieOpgeslagen, equalTo(relatie));
 
         Opmerking opmerking = new OpmerkingBuilder().metTekst().build();
-        Hypotheek hypotheek = new HypotheekBuilder().defaultHypotheek().metRelatie(result).metOpmerking(opmerking).build();
+        Hypotheek hypotheek = new HypotheekBuilder().defaultHypotheek().metRelatie(relatieId).metOpmerking(opmerking).build();
         doePost(hypotheek, HYPOTHEEK_OPSLAAN, UUID.randomUUID().toString());
 
-        doePost(null, GEBRUIKER_VERWIJDEREN + result, UUID.randomUUID().toString());
+        Thread.sleep(10000);
+
+        relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + relatieId), Relatie.class);
+        assertThat(relatieOpgeslagen.getHypotheken().size(), is(1));
+    }
+
+    @After
+    public void opruimen() {
+        doePost(null, GEBRUIKER_VERWIJDEREN + relatieId, UUID.randomUUID().toString());
     }
 
     protected String doePost(Object entiteit, String url, String trackAndTraceId) {

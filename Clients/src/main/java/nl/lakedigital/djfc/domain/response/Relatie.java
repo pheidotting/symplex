@@ -29,6 +29,7 @@ public class Relatie {
     private List<Opmerking> opmerkingen;
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens;
     private List<Polis> polissen;
+    private List<Hypotheek> hypotheken;
 
     public Long getId() {
         return id;
@@ -220,6 +221,17 @@ public class Relatie {
 
     public void setPolissen(List<Polis> polissen) {
         this.polissen = polissen;
+    }
+
+    public List<Hypotheek> getHypotheken() {
+        if (hypotheken == null) {
+            hypotheken = new ArrayList<>();
+        }
+        return hypotheken;
+    }
+
+    public void setHypotheken(List<Hypotheek> hypotheken) {
+        this.hypotheken = hypotheken;
     }
 
     @Override
