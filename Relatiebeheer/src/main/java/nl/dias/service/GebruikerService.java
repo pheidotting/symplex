@@ -9,9 +9,7 @@ import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
-import nl.dias.repository.HypotheekRepository;
 import nl.dias.repository.KantoorRepository;
-import nl.dias.repository.PolisRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
@@ -46,13 +44,13 @@ public class GebruikerService {
     @Inject
     private GebruikerRepository gebruikerRepository;
     @Inject
-    private PolisRepository polisRepository;
+    private PolisService polisRepository;
     @Inject
     private SchadeService schadeService;
     @Inject
     private KantoorRepository kantoorRepository;
     @Inject
-    private HypotheekRepository hypotheekRepository;
+    private HypotheekService hypotheekService;
     @Inject
     private Mapper mapper;
     @Inject
@@ -180,12 +178,13 @@ public class GebruikerService {
             if (gebruiker instanceof Relatie) {
                 Relatie relatie = (Relatie) gebruiker;
 
-                List<Hypotheek> hypotheeks = hypotheekRepository.allesVanRelatie(relatie);
-                hypotheekRepository.verwijder(hypotheeks);
+                List<Hypotheek> hypotheeks = hypotheekService.allesVanRelatie(relatie.getId());
+                hypotheekService.verwijder(hypotheeks);
 
                 List<Schade> schades = schadeService.alleSchadesBijRelatie(relatie.getId());
                 schadeService.verwijder(schades);
 
+                //TODO verwijderen via Service en daar Bericht opsturen
                 List<Polis> polises = polisRepository.allePolissenBijRelatie(relatie.getId());
                 polisRepository.verwijder(polises);
             }
@@ -193,11 +192,7 @@ public class GebruikerService {
             gebruikerRepository.verwijder(gebruiker);
 
             LOGGER.debug("Verwijderbericht versturen");
-            SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
-            soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.RELATIE);
-            soortEntiteitEnEntiteitId.setEntiteitId(id);
-
-            verwijderEntiteitRequestSender.send(soortEntiteitEnEntiteitId);
+            verwijderEntiteitRequestSender.send(new SoortEntiteitEnEntiteitId(SoortEntiteit.RELATIE, id));
         }
     }
 
@@ -248,7 +243,7 @@ public class GebruikerService {
         LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
         Polis polis = null;
         try {
-            polis = polisRepository.zoekOpPolisNummer(zoekTerm, null);
+            polis = polisRepository.zoekOpPolisNummer(zoekTerm);
         } catch (NoResultException e) {
             LOGGER.trace("Niks gevonden ", e);
         }

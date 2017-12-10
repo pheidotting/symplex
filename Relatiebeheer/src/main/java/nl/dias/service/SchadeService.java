@@ -4,7 +4,10 @@ import nl.dias.domein.Schade;
 import nl.dias.domein.SoortSchade;
 import nl.dias.domein.StatusSchade;
 import nl.dias.domein.polis.Polis;
+import nl.dias.messaging.SoortEntiteitEnEntiteitId;
+import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.SchadeRepository;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +30,8 @@ public class SchadeService {
     private PolisService polisService;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public List<SoortSchade> soortenSchade() {
         return schadeRepository.soortenSchade();
@@ -116,6 +121,10 @@ public class SchadeService {
     }
 
     public void verwijder(List<Schade> schades) {
+        for (Schade schade : schades) {
+            verwijderEntiteitRequestSender.send(new SoortEntiteitEnEntiteitId(SoortEntiteit.SCHADE, schade.getId()));
+        }
+
         schadeRepository.verwijder(schades);
     }
 
