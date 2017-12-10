@@ -33,13 +33,13 @@ pipeline {
         }
 
         stage ('Deployment Testbak') {
+                BUILDNUMBER = 'ABC'
             when {
                 expression {
                     return env.BRANCH_NAME != 'master'
                 }
             }
             steps {
-                BUILDNUMBER = 'ABC'
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
