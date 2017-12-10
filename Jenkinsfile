@@ -1,6 +1,5 @@
 pipeline {
     agent any
-                def buildNumber = ${env.BUILD_NUMBER}
     stages {
         stage ('Initialize') {
             steps {
@@ -60,7 +59,7 @@ pipeline {
 
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
-                    ssh jetty@192.168.91.230 sed 's/{VERSION}/${buildNumber}/' /data/web/gui/js/commons/app.js
+                    ssh jetty@192.168.91.230 sed 's/{VERSION}/commitMessage()/' /data/web/gui/js/commons/app.js
                 '''
             }
             post {
