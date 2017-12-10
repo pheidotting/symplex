@@ -43,5 +43,5 @@ requirejs.config({
             noGlobal: true
         }
     },
-    urlArgs: "bust=VERSION"
+    urlArgs: "bust={VERSION}"
 });

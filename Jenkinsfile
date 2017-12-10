@@ -217,7 +217,7 @@ pipeline {
 
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
-                    ssh jetty@192.168.91.230 sed -i 's/VERSION/env.BRANCH_NAME-${env.BUILD_NUMBER}/g' /data/web/gui/js/commons/app.js
+                    ssh jetty@192.168.91.230 sed -i 's/{VERSION}/prob/' /data/web/gui/js/commons/app.js
                 '''
             }
             post {
