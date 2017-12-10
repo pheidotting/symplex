@@ -1,5 +1,6 @@
 pipeline {
     agent any
+                def buildNumber = ${env.BUILD_NUMBER}
     stages {
         stage ('Initialize') {
             steps {
@@ -40,7 +41,6 @@ pipeline {
             }
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                def buildNumber = ${env.BUILD_NUMBER}
                 sh '''
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/opt/jetty
