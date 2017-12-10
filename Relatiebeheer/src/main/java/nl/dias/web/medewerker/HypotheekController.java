@@ -3,11 +3,15 @@ package nl.dias.web.medewerker;
 import nl.dias.domein.Hypotheek;
 import nl.dias.domein.HypotheekPakket;
 import nl.dias.domein.SoortHypotheek;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.HypotheekService;
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.HypotheekNaarJsonHypotheekMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
 import org.slf4j.Logger;
@@ -27,6 +31,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequestMapping("/hypotheek")
 @Controller
@@ -43,6 +48,8 @@ public class HypotheekController extends AbstractController {
     private HypotheekPakketMapper hypotheekPakketMapper;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -132,9 +139,15 @@ public class HypotheekController extends AbstractController {
         // LOGGER.info("Uit de mapper");
         // LOGGER.info(hypotheek);
         JsonHypotheek jsonHypotheek = new HypotheekNaarJsonHypotheekMapper(identificatieClient).mapNaarJson(hypotheekIn);
-
-
         Hypotheek hypotheek = hypotheekService.opslaan(jsonHypotheek, jsonHypotheek.getHypotheekVorm(), identificatie.getEntiteitId(), jsonHypotheek.getGekoppeldeHypotheek());
+
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(hypotheekIn.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(hypotheek.getId(), SoortEntiteit.HYPOTHEEK)).collect(Collectors.toList()));
+
+        opslaanEntiteitenRequest.setEntiteitId(hypotheek.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.HYPOTHEEK);
+
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         LOGGER.debug("Opgeslagen");
 

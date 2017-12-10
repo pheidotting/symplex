@@ -1,6 +1,7 @@
 package nl.symplex.test.builders;
 
 import nl.lakedigital.djfc.domain.response.Hypotheek;
+import nl.lakedigital.djfc.domain.response.Opmerking;
 
 public class HypotheekBuilder {
     private Hypotheek hypotheek;
@@ -44,6 +45,12 @@ public class HypotheekBuilder {
     public HypotheekBuilder metRelatie(String identificatie) {
         hypotheek.setParentIdentificatie(identificatie);
         hypotheek.setSoortEntiteit("RELATIE");
+
+        return this;
+    }
+
+    public HypotheekBuilder metOpmerking(Opmerking opmerking) {
+        this.hypotheek.getOpmerkingen().add(opmerking);
 
         return this;
     }
