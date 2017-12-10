@@ -44,7 +44,7 @@ public class GebruikerService {
     @Inject
     private GebruikerRepository gebruikerRepository;
     @Inject
-    private PolisService polisRepository;
+    private PolisService polisService;
     @Inject
     private SchadeService schadeService;
     @Inject
@@ -185,8 +185,8 @@ public class GebruikerService {
                 schadeService.verwijder(schades);
 
                 //TODO verwijderen via Service en daar Bericht opsturen
-                List<Polis> polises = polisRepository.allePolissenBijRelatie(relatie.getId());
-                polisRepository.verwijder(polises);
+                List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
+                polisService.verwijder(polises);
             }
             // en dan verwijderen
             gebruikerRepository.verwijder(gebruiker);
@@ -243,7 +243,7 @@ public class GebruikerService {
         LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
         Polis polis = null;
         try {
-            polis = polisRepository.zoekOpPolisNummer(zoekTerm);
+            polis = polisService.zoekOpPolisNummer(zoekTerm);
         } catch (NoResultException e) {
             LOGGER.trace("Niks gevonden ", e);
         }
