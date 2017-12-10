@@ -26,6 +26,7 @@ import java.util.UUID;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 public class TestSymplex {
@@ -85,6 +86,7 @@ public class TestSymplex {
 
         relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + relatieId), Relatie.class);
         assertThat(relatieOpgeslagen.getHypotheken().size(), is(1));
+        assertThat(relatieOpgeslagen.getHypotheken().get(0).getIdentificatie(), is(notNullValue()));
     }
 
     @After

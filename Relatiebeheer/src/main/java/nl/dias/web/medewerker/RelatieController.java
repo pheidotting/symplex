@@ -126,6 +126,7 @@ public class RelatieController {
 
                 nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
 
+                jsonHypotheek.setIdentificatie(identificatieClient.zoekIdentificatie("HYPOTHEEK", hypotheek.getId()).getIdentificatie());
                 jsonHypotheek.setDuur(hypotheek.getDuur());
                 jsonHypotheek.setDuurRenteVastePeriode(hypotheek.getDuurRenteVastePeriode());
                 jsonHypotheek.setHypotheekPakket(hypotheek.getHypotheekPakket().getId());
