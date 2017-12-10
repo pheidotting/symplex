@@ -32,8 +32,8 @@ pipeline {
             }
         }
 
-        stage ('Deployment Testbak') {
                 BUILDNUMBER = 'ABC'
+        stage ('Deployment Testbak') {
             when {
                 expression {
                     return env.BRANCH_NAME != 'master'
