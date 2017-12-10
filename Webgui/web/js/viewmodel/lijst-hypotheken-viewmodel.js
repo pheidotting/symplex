@@ -9,13 +9,15 @@ define(['jquery',
         'mapper/hypotheek-mapper',
         'mapper/hypotheekPakket-mapper',
         'moment',
+        'viewmodel/common/menubalk-viewmodel',
          'commons/opmaak'],
-    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, opmaak) {
+    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, opmaak) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('lijst-hypotheken-viewmodel');
         var soortEntiteit = 'HYPOTHEEK';
+		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;
         this.id = ko.observable();
@@ -23,15 +25,17 @@ define(['jquery',
         this.hypotheekPakketten = ko.observableArray();
 
         this.init = function(id, basisEntiteit) {
+            _this.identificatie = id.identificatie;
+
             var deferred = $.Deferred();
 
             _this.id(id);
             _this.basisEntiteit = basisEntiteit;
-            $.when(hypotheekService.lijstHypotheken(id), hypotheekService.lijstHypotheekPakketten(id), hypotheekService.lijstSoortenHypotheek()).then(function(hypotheken, pakketten, lijstSoortenHypotheek) {
-                _this.hypotheken = hypotheekMapper.mapHypotheken(hypotheken, lijstSoortenHypotheek);
-                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
+            $.when(hypotheekService.lijstHypotheken(_this.identificatie), hypotheekService.lijstSoortenHypotheek()).then(function(data, lijstSoortenHypotheek) {
+                _this.hypotheken = hypotheekMapper.mapHypotheken(data.hypotheken, lijstSoortenHypotheek);
+//                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
 
-
+                _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
 
                 return deferred.resolve();
             });

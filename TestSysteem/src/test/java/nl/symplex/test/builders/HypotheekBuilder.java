@@ -11,7 +11,7 @@ public class HypotheekBuilder {
     }
 
     public HypotheekBuilder defaultHypotheek() {
-        hypotheek.setHypotheekVorm(1L);
+        hypotheek.setHypotheekVorm(2L);
         hypotheek.setOmschrijving("omschrijving");
         hypotheek.setHypotheekBedrag("123456");
         hypotheek.setRente("2");

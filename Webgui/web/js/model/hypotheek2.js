@@ -1,8 +1,8 @@
 define(['jquery',
         'knockout',
-         "commons/validation",
-         'moment',
-         'opmaak'],
+        'commons/validation',
+        'moment',
+        'commons/opmaak'],
 	function($, ko, validation, moment, opmaak) {
 
 	return function hypotheek() {

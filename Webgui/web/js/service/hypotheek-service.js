@@ -3,9 +3,10 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/hypotheek-repository',
+        'repository/gebruiker-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service'],
-    function(log, navRegister, ko, repository, hypotheekRepository, opmerkingService, bijlageService) {
+    function(log, navRegister, ko, repository, hypotheekRepository, gebruikerRepository, opmerkingService, bijlageService) {
 
         return {
             lijstSoortenHypotheek: function(id) {
@@ -36,11 +37,23 @@ define(["commons/3rdparty/log",
             },
 
             lijstHypotheken: function(relatieId) {
-                return hypotheekRepository.lijstHypotheken(relatieId);
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
             },
 
             lijstHypotheekPakketten: function(relatieId) {
-                return hypotheekRepository.lijstHypotheekPakketten(relatieId);
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
             },
 
             opslaanHypotheek: function(hypotheek, opmerkingen) {
