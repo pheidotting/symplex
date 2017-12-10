@@ -32,7 +32,6 @@ pipeline {
             }
         }
 
-                BUILDNUMBER = 'ABC'
         stage ('Deployment Testbak') {
             when {
                 expression {
