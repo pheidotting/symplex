@@ -56,8 +56,8 @@ define(['jquery',
                 _this.hypotheek = hypotheekMapper.mapHypotheek(hypotheek, lijstSoortenHypotheek);
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
-                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, _this.hypotheek.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, _this.hypotheek.bijlages, _this.hypotheek.groepenBijlages);
+                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
 
 //				if(alleHypotheken.length > 0){
 //					var $koppelHypotheekSelect = $('#koppelHypotheek');

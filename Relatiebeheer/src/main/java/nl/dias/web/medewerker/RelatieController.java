@@ -186,6 +186,9 @@ public class RelatieController {
                     jsonHypotheek.setBoxIII(hypotheek.getBoxIII().getBedrag().toString());
                 }
 
+                jsonHypotheek.setOpmerkingen(opmerkingClient.lijst("HYPOTHEEK", hypotheek.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+
+
                 return jsonHypotheek;
             }
         }).collect(Collectors.toList()));
