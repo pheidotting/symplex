@@ -9,6 +9,7 @@ define(['jquery',
 		_this = this;
 
 		_this.id = ko.observable();
+		_this.parentIdentificatie = ko.observable();
 		_this.identificatie = ko.observable();
 		_this.soortEntiteit = ko.observable();
 		_this.bank = ko.observable();

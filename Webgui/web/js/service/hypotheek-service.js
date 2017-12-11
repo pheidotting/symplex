@@ -71,15 +71,16 @@ define(["commons/3rdparty/log",
                 var deferred = $.Deferred();
 
                 hypotheek.hypotheekVorm = ko.observable(hypotheek.hypotheekVorm.id);
+                hypotheek.opmerkingen = opmerkingen;
 
                 $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
                     hypotheekRepository.opslaanHypotheek(hypotheek, trackAndTraceId).done(function(response) {
                         var id = response.entity.foutmelding;
                         var soortEntiteit = 'HYPOTHEEK';
 
-                        opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id).done(function() {
+//                        opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id).done(function() {
                             return deferred.resolve(response);
-                        });
+//                        });
                     });
                 });
 

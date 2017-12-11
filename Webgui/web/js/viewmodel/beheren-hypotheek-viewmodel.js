@@ -11,7 +11,9 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'moment',
         'service/toggle-service',
-        'viewmodel/common/taak-viewmodel'],
+        'viewmodel/common/taak-viewmodel',
+        'knockout.validation',
+        'knockoutValidationLocal'],
     function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel) {
 
     return function() {
@@ -39,9 +41,9 @@ define(['jquery',
             _this.readOnly(readOnly);
             _this.notReadOnly(!readOnly);
             _this.basisEntiteit = basisEntiteit;
-            _this.basisId = basisId;
             _this.id(hypotheekId);
             $.when(hypotheekService.lees(hypotheekId, basisEntiteit), hypotheekService.lijstSoortenHypotheek()).then(function(data, lijstSoortenHypotheek) {
+            _this.basisId = data.identificatie;
                 var hypotheek = _.find(data.hypotheken, function(hypotheek) {return hypotheek.identificatie === hypotheekId.identificatie;});
                 if(hypotheek == null){
                     hypotheek = {
@@ -150,15 +152,15 @@ define(['jquery',
 
 		this.opslaan = function() {
 	    	var result = ko.validation.group(_this.hypotheek, {deep: true});
-	    	if(!_this.hypotheek.isValid()){
+	    	if(result().length > 0) {
 	    		result.showAllMessages(true);
 	    	}else{
-	    	    _this.hypotheek.relatie(_this.basisId);
+	    	    _this.hypotheek.parentIdentificatie(_this.basisId);
 	    		logger.debug("Versturen : " + ko.toJSON(_this.hypotheek));
 
                 hypotheekService.opslaanHypotheek(_this.hypotheek, _this.opmerkingenModel.opmerkingen).done(function(){
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-                    redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'hypotheken');
+                    redirect.redirect('LIJST_HYPOTHEKEN', _this.basisId);
 	    		}).fail(function(data){
 					commonFunctions.plaatsFoutmelding(data);
 	    		});

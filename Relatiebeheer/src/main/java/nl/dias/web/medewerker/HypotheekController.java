@@ -129,6 +129,7 @@ public class HypotheekController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(hypotheekIn.getParentIdentificatie());
+        LOGGER.debug("Identificatie : {}", identificatie);
 
         // Hypotheek hypotheek = new Hypotheek();
         // if (jsonHypotheek.getId() != null && jsonHypotheek.getId() != 0) {
