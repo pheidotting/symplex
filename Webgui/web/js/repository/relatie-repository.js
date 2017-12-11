@@ -7,16 +7,16 @@ define(["commons/3rdparty/log2",
 
         return {
 
-            opslaan: function(data, trackAndTraceId) {
+            opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_RELATIE');
                 logger.debug("Versturen naar " + url + " : ");
                 logger.debug(ko.toJSON(data));
 
-                return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
+                return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },
 
-            verwijder: function(id, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null, trackAndTraceId);
+            verwijder: function(id) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null);
             },
 
             lees: function(id) {

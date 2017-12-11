@@ -6,16 +6,16 @@ define(["commons/3rdparty/log2",
         var logger = log.getLogger('adres-repository');
 
         return {
-            opslaan: function(adressen, trackAndTraceId) {
+            opslaan: function(adressen) {
                 var request = ko.toJSON(adressen());
 
                 logger.debug('verzend request : ' + request);
 
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_ADRESSEN'), request, trackAndTraceId);
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_ADRESSEN'), request);
             },
 
             verwijder: function(trackAndTraceId, soortEntiteit, id) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_ADRESSEN') + '/' + soortEntiteit + '/' + id, null, trackAndTraceId);
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_ADRESSEN') + '/' + soortEntiteit + '/' + id, null);
             },
 
             lijst: function(soortEntiteit, parentid){

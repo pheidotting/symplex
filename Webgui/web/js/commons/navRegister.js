@@ -109,7 +109,6 @@ define([ ],
                             {naam: 'VERSTUREN_COMMUNICATIEPRODUCT',     url: BASISURL_RELATIEBEHEER + '/medewerker/communicatieproduct/versturen'},
                             {naam: 'OPSLAAN_COMMUNICATIEPRODUCT',       url: BASISURL_RELATIEBEHEER + '/medewerker/communicatieproduct/nieuw'},
 
-                            {naam: 'TRACKANDTRACEID',                   url: BASISURL_RELATIEBEHEER + '/medewerker/overig/getTrackAndTraceId'},
                             {naam: 'TOGGLZ',                            url: BASISURL_RELATIEBEHEER + '/authorisatie/togglz/toggles'},
 
                             {naam: 'TODOIST_OAUTHTOKEN',                url: BASISURL_RELATIEBEHEER + '/medewerker/todoist/oauthToken'},

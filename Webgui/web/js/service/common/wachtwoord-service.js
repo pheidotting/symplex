@@ -12,7 +12,6 @@ define(['commons/3rdparty/log2',
                 logger.debug('Versturen wachtwoord');
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
                     var url = navRegister.bepaalUrl('INLOGGEN');
                     if(!inloggen) {
                         url = navRegister.bepaalUrl('WIJZIG_WACHTWOORD');
@@ -26,8 +25,7 @@ define(['commons/3rdparty/log2',
                     logger.debug(request);
                     logger.debug(JSON.stringify(request));
 
-                    repository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), JSON.stringify(request), trackAndTraceId);
-                });
+                    repository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), JSON.stringify(request));
 
                 return deferred.promise();
             }

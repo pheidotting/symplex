@@ -7,7 +7,7 @@ define(['commons/3rdparty/log2',
         var logger = log.getLogger('opmerking-service');
 
         return {
-            opslaan: function(opmerkingen, trackAndTraceId, soortEntiteit, id) {
+            opslaan: function(opmerkingen, soortEntiteit, id) {
                 logger.debug('opslaan opmerkingen ' + ko.toJSON(opmerkingen));
 
                 if(opmerkingen != null && opmerkingen() != null && opmerkingen().length > 0) {
@@ -16,7 +16,7 @@ define(['commons/3rdparty/log2',
                         opmerking.soortEntiteit(soortEntiteit);
                     });
 
-                    return opmerkingRepository.opslaan(opmerkingen, trackAndTraceId);
+                    return opmerkingRepository.opslaan(opmerkingen);
                 } else {
                     return opmerkingRepository.verwijder(trackAndTraceId, soortEntiteit, id);
                 }

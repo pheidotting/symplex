@@ -55,7 +55,7 @@ define(["commons/3rdparty/log2",
                 return deferred.promise();
             },
 
-            voerUitPost: function(url, data, trackAndTraceId){
+            voerUitPost: function(url, data){
                 var deferred = $.Deferred();
 
                 $.ajax({
@@ -66,7 +66,7 @@ define(["commons/3rdparty/log2",
                     ataType: "json",
                     async: false,
                     beforeSend: function(request){
-                        request.setRequestHeader('trackAndTraceId', trackAndTraceId);
+                        request.setRequestHeader('trackAndTraceId');
                         if(localStorage.getItem('symplexAccessToken')!=null){
                             request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
                         }
@@ -86,21 +86,6 @@ define(["commons/3rdparty/log2",
                         }
                     }
                 });
-
-                return deferred.promise();
-            },
-
-            leesTrackAndTraceId: function() {
-                var deferred = $.Deferred();
-
-                $.get(navRegister.bepaalUrl('TRACKANDTRACEID'))
-                .done(function(response) {
-                    return deferred.resolve(response);
-                })
-                .fail(function(response){
-                    return deferred.resolve(guid());
-                });
-
 
                 return deferred.promise();
             }
