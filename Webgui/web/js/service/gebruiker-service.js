@@ -28,7 +28,9 @@ define(["commons/3rdparty/log2",
                 $.each(relatie.rekeningNummers(), function(i, rekeningnummer){
                     rekeningnummer.parentIdentificatie(relatie.id());
                     rekeningnummer.soortEntiteit('RELATIE');
-                    rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
+                    if(rekeningnummer.rekeningnummer()!=null && rekeningnummer.rekeningnummer()!= ''){
+                        rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
+                    }
                 });
                 relatie.opmerkingen = opmerkingen;
 
