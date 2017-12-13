@@ -48,6 +48,7 @@ public class ZoekServiceTest extends EasyMockSupport {
         List<Gebruiker> relaties = newArrayList();
         relaties.add(new Relatie());
         expect(gebruikerService.zoekOpNaam(naam)).andReturn(relaties);
+        expect(gebruikerService.zoekRelatieOpRoepnaam(naam)).andReturn(newArrayList());
 
         List<Bedrijf> bedrijven = newArrayList();
         bedrijven.add(new Bedrijf());

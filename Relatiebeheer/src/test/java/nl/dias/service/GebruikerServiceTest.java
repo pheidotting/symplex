@@ -18,7 +18,6 @@ import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonTelefoonnummer;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.easymock.*;
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +25,13 @@ import org.junit.runner.RunWith;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(EasyMockRunner.class)
 public class GebruikerServiceTest extends EasyMockSupport {
@@ -349,6 +347,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         polis.setRelatie(8L);
 
         expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(repository.lees(8L)).andReturn(relatiePolis);
         expect(polisRepository.zoekOpPolisNummer(zoekterm, null)).andReturn(polis);
@@ -375,6 +374,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         jsonTelefoonnummer.setEntiteitId(888L);
         jsonTelefoonnummer.setSoortEntiteit("RELATIE");
 
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(telefoonnummerClient.zoeken(zoekterm)).andReturn(newArrayList(jsonTelefoonnummer));
         expect(repository.lees(888L)).andReturn(relatieTelefoonnummer).times(2);
@@ -402,6 +402,10 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatieZoekOpNaam.setIdentificatie("relatieZoekOpNaamId");
         relatiesZoekOpNaam.add(relatieZoekOpNaam);
 
+        List<Relatie> relatiesZoekOpRoepnaam = new ArrayList<>();
+        Relatie relatieZoekOpRoppnaam = new Relatie();
+        relatiesZoekOpRoepnaam.add(relatieZoekOpRoppnaam);
+
         Relatie relatieZoekOpAdres = new Relatie();
         relatieZoekOpAdres.setAchternaam("relatieZoekOpAdres");
         relatieZoekOpAdres.setId(23L);
@@ -418,6 +422,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         adres.setSoortEntiteit("RELATIE");
 
         expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(relatiesZoekOpRoepnaam);
         expect(adresClient.zoeken(zoekterm)).andReturn(newArrayList(adres));
         expect(repository.lees(23L)).andReturn(relatieZoekOpAdres).times(2);
         expect(polisRepository.zoekOpPolisNummer(zoekterm, null)).andReturn(null);

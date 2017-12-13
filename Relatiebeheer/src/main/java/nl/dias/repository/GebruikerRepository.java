@@ -218,6 +218,20 @@ public class GebruikerRepository {
         return result;
     }
 
+    public List<Relatie> zoekRelatieOpRoepnaam(String naam) {
+        getTransaction();
+
+        Query query = getEm().getNamedQuery("Relatie.roepnaam");
+        query.setMaxResults(MAX_RESULTS);
+        query.setParameter("roepnaam", "%" + naam + "%");
+
+        List<Relatie> result = query.list();
+
+        getTransaction().commit();
+
+        return result;
+    }
+
     public Gebruiker zoekOpSessieEnIpadres(String sessie, String ipadres) throws NietGevondenException {
         LOGGER.debug("zoekOpSessieEnIpadres(" + sessie + " , " + ipadres + ")");
 
