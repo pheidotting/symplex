@@ -35,4 +35,9 @@ public class TelefoonnummerService extends AbstractService<Telefoonnummer> {
     public List<Telefoonnummer> alles() {
         return telefoonnummerRepository.alles();
     }
+
+    @Override
+    public boolean isGevuld(Telefoonnummer telefoonnummer) {
+        return telefoonnummer != null && telefoonnummer.getTelefoonnummer() != null && !"".equals(telefoonnummer.getTelefoonnummer());
+    }
 }

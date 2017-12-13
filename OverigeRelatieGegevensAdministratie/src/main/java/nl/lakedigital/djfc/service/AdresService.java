@@ -86,4 +86,8 @@ public class AdresService extends AbstractService<Adres> {
         return adresRepository.zoekOpPlaats(zoekterm);
     }
 
+    @Override
+    public boolean isGevuld(Adres adres) {
+        return adres != null && adres.getPostcode() != null && !"".equals(adres.getPostcode()) && adres.getHuisnummer() != null && !"".equals(adres.getHuisnummer());
+    }
 }

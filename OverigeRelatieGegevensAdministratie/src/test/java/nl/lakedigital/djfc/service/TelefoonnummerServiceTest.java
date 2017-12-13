@@ -23,8 +23,11 @@ public class TelefoonnummerServiceTest extends AbstractServicetTest<Telefoonnumm
     }
 
     @Override
-    public Telefoonnummer getLegeEntiteit() {
-        return new Telefoonnummer();
+    public Telefoonnummer getMinimaalGevuldeEntiteit() {
+        Telefoonnummer telefoonnummer = new Telefoonnummer();
+        telefoonnummer.setTelefoonnummer("0612345678");
+
+        return telefoonnummer;
     }
 
     @Override

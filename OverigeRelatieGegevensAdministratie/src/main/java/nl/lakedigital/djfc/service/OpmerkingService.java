@@ -38,4 +38,9 @@ public class OpmerkingService extends AbstractService<Opmerking> {
     public void verwijder(Long id) {
         opmerkingRepository.verwijder(opmerkingRepository.lees(id));
     }
+
+    @Override
+    public boolean isGevuld(Opmerking opmerking) {
+        return opmerking != null && opmerking.getOpmerking() != null && !"".equals(opmerking.getOpmerking());
+    }
 }
