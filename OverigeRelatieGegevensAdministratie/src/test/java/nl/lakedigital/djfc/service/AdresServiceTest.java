@@ -30,14 +30,18 @@ public class AdresServiceTest extends AbstractServicetTest<Adres> {
     }
 
     @Override
-    public Adres getLegeEntiteit() {
-        return new Adres();
+    public Adres getMinimaalGevuldeEntiteit() {
+        Adres adres = new Adres();
+        adres.setPostcode("1234AA");
+        adres.setHuisnummer(2L);
+        return adres;
     }
 
     @Override
     public Adres getGevuldeEntiteit() {
         Adres adres = new Adres();
         adres.setPostcode("1234AA");
+        adres.setHuisnummer(2L);
 
         return adres;
     }
@@ -47,6 +51,7 @@ public class AdresServiceTest extends AbstractServicetTest<Adres> {
         Adres bestaand = new Adres();
         bestaand.setId(1L);
         bestaand.setPostcode("1234AA");
+        bestaand.setHuisnummer(2L);
 
         return bestaand;
     }
@@ -56,6 +61,7 @@ public class AdresServiceTest extends AbstractServicetTest<Adres> {
         Adres teVerwijderen = new Adres();
         teVerwijderen.setId(2L);
         teVerwijderen.setPostcode("2345BB");
+        teVerwijderen.setHuisnummer(2L);
 
         return teVerwijderen;
     }

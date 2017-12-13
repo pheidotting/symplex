@@ -27,8 +27,11 @@ public class OpmerkingServiceTest extends AbstractServicetTest<Opmerking> {
     }
 
     @Override
-    public Opmerking getLegeEntiteit() {
-        return new Opmerking();
+    public Opmerking getMinimaalGevuldeEntiteit() {
+        Opmerking opmerking = new Opmerking();
+        opmerking.setOpmerking("ABC");
+
+        return opmerking;
     }
 
     @Override
