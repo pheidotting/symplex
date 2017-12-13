@@ -60,4 +60,8 @@ public class BijlageService extends AbstractService<Bijlage> {
         return bijlageRepository.alles();
     }
 
+    @Override
+    public boolean isGevuld(Bijlage bijlage) {
+        return true;
+    }
 }

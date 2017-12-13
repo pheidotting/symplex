@@ -34,7 +34,7 @@ public abstract class AbstractServicetTest<T extends AbstracteEntiteitMetSoortEn
 
     public abstract AbstractRepository getRepository();
 
-    public abstract T getLegeEntiteit();
+    public abstract T getMinimaalGevuldeEntiteit();
 
     public abstract T getGevuldeEntiteit();
 
@@ -57,7 +57,7 @@ public abstract class AbstractServicetTest<T extends AbstracteEntiteitMetSoortEn
 
     @Test
     public void testLees() throws Exception {
-        T entiteit = getLegeEntiteit();
+        T entiteit = getMinimaalGevuldeEntiteit();
         Long id = 33L;
 
         expect(getRepository().lees(id)).andReturn(entiteit);
@@ -71,7 +71,7 @@ public abstract class AbstractServicetTest<T extends AbstracteEntiteitMetSoortEn
 
     @Test
     public void testOpslaan() throws Exception {
-        T entiteit = getLegeEntiteit();
+        T entiteit = getMinimaalGevuldeEntiteit();
 
         getRepository().opslaan(Lists.newArrayList(entiteit));
             expectLastCall();
@@ -121,7 +121,7 @@ public abstract class AbstractServicetTest<T extends AbstracteEntiteitMetSoortEn
         SoortEntiteit soortEntiteit = SoortEntiteit.POLIS;
         Long entiteitId = 55L;
 
-        T entiteit = getLegeEntiteit();
+        T entiteit = getMinimaalGevuldeEntiteit();
         List<T> entiteiten = Lists.newArrayList(entiteit);
 
         expect(getRepository().alles(soortEntiteit, entiteitId)).andReturn(entiteiten);

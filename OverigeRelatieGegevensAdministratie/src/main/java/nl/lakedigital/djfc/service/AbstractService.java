@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
@@ -46,10 +47,20 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
     }
 
     public void opslaan(T adres) {
-        getRepository().opslaan(newArrayList(adres));
+        if (isGevuld(adres)) {
+
+            getRepository().opslaan(newArrayList(adres));
+        }
     }
 
-    public void opslaan(List<T> entiteiten) {
+    public void opslaan(List<T> entiteitenIn) {
+        List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
+            @Override
+            public boolean test(T t) {
+                return isGevuld(t);
+            }
+        }).collect(Collectors.toList());
+
         getRepository().opslaan(entiteiten);
 
         List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds = new ArrayList<>();
@@ -67,7 +78,14 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
     }
 
-    public void opslaan(final List<T> entiteiten, SoortEntiteit soortEntiteit, Long entiteitId) {
+    public void opslaan(final List<T> entiteitenIn, SoortEntiteit soortEntiteit, Long entiteitId) {
+        List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
+            @Override
+            public boolean test(T t) {
+                return isGevuld(t);
+            }
+        }).collect(Collectors.toList());
+
         LOGGER.debug("Op te slaan entiteiten");
         for (T t : entiteiten) {
             LOGGER.debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -131,4 +149,5 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         return getRepository().zoek(zoekTerm);
     }
 
+    public abstract boolean isGevuld(T t);
 }

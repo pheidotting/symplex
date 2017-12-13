@@ -23,8 +23,10 @@ public class RekeningNummerServiceTest extends AbstractServicetTest<RekeningNumm
     }
 
     @Override
-    public RekeningNummer getLegeEntiteit() {
-        return new RekeningNummer();
+    public RekeningNummer getMinimaalGevuldeEntiteit() {
+        RekeningNummer rekeningNummer = new RekeningNummer();
+        rekeningNummer.setRekeningnummer("NL12");
+        return rekeningNummer;
     }
 
     @Override
