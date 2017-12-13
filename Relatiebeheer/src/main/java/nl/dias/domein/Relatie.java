@@ -23,7 +23,7 @@ import java.util.Set;
         @NamedQuery(name = "Relatie.zoekOpBsn", query = "select r from Relatie r where r.bsn = :bsn"), //
         @NamedQuery(name = "Relatie.zoekOpBedrijfsnaam", query = "select r from Relatie r inner join r.bedrijven b where b.naam LIKE :bedrijfsnaam"),//
         @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Gebruiker g where g.geboorteDatum = :geboorteDatum"),//
-        @NamedQuery(name = "Relatie.roepnaam", query = "select g from Gebruiker g where g.roepnaam = :roepnaam")//
+        @NamedQuery(name = "Relatie.roepnaam", query = "select g from Gebruiker g where g.roepnaam LIKE :roepnaam")//
 })
 public class Relatie extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -1920949633670770763L;

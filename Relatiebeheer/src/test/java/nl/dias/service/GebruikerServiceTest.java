@@ -329,6 +329,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         polis.setRelatie(8L);
 
         expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(repository.lees(8L)).andReturn(relatiePolis);
         expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(polis);
@@ -355,6 +356,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         jsonTelefoonnummer.setEntiteitId(888L);
         jsonTelefoonnummer.setSoortEntiteit("RELATIE");
 
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(telefoonnummerClient.zoeken(zoekterm)).andReturn(newArrayList(jsonTelefoonnummer));
         expect(repository.lees(888L)).andReturn(relatieTelefoonnummer).times(2);
@@ -382,6 +384,10 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatieZoekOpNaam.setIdentificatie("relatieZoekOpNaamId");
         relatiesZoekOpNaam.add(relatieZoekOpNaam);
 
+        List<Relatie> relatiesZoekOpRoepnaam = new ArrayList<>();
+        Relatie relatieZoekOpRoppnaam = new Relatie();
+        relatiesZoekOpRoepnaam.add(relatieZoekOpRoppnaam);
+
         Relatie relatieZoekOpAdres = new Relatie();
         relatieZoekOpAdres.setAchternaam("relatieZoekOpAdres");
         relatieZoekOpAdres.setId(23L);
@@ -398,6 +404,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         adres.setSoortEntiteit("RELATIE");
 
         expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(relatiesZoekOpRoepnaam);
         expect(adresClient.zoeken(zoekterm)).andReturn(newArrayList(adres));
         expect(repository.lees(23L)).andReturn(relatieZoekOpAdres).times(2);
         expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(null);
