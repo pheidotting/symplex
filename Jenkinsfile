@@ -1,12 +1,17 @@
 pipeline {
     agent any
     stages {
-        stage ('Initialize') {
+        stage ('mailtje') {
             steps {
                 mail to: 'patrick@heidotting.nl',
                      subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                      body: "Something is wrong with ${env.BUILD_URL}"
 
+            }
+        }
+
+        stage ('Initialize') {
+            steps {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
