@@ -69,7 +69,7 @@ define(['jquery',
             $("#nieuwWachtwoord").complexify({}, function(valid, complexity){
                 _this.sterktePercentage(Math.round(complexity));
                 $("#PassValue").val(complexity);
-                if(complexity > 40) {
+                if(complexity > 32) {
                     _this.sterkgenoeg(true);
                     _this.wachtwoordSterkgenoegStyling(false);
                 }else{
@@ -79,7 +79,7 @@ define(['jquery',
         };
 
         this.wijzigWachtwoord = function() {
-            //minimum treshold = 40%
+            //minimum treshold = 32%
 
           if(_this.sterkgenoeg() && (_this.nieuwWachtwoord() == _this.nieuwWachtwoordNogmaals())) {
                 _this.wachtwoordenKomenNietOvereen(false);
