@@ -8,14 +8,18 @@ define(['commons/3rdparty/log2',
         'mapper/groepbijlage-mapper'],
     function(log, Adres, bijlageService, ko, fileUpload, commonFunctions, bijlageMapper, groepbijlageMapper) {
 
-    return function(readOnly, soortEntiteit, entiteitId, bijlages, groepBijlages) {
+    return function(readOnly, soortEntiteit, entiteitId, bijlages, groepBijlages, nieuweEntiteit) {
         var _this = this;
         var logger = log.getLogger('bijlage-viewmodel');
+
+        console.log('entiteitId !! '+ entiteitId);
+        console.log(entiteitId);
 
         this.readOnly = readOnly;
         fileUpload.init();
 		this.bijlages = ko.observableArray();
 		this.groepBijlages = ko.observableArray();
+		this.schermTonen = ko.observable(!nieuweEntiteit);
 
         $.each(bijlageMapper.mapBijlages(bijlages)(), function(i, bijlage){
             _this.bijlages.push(bijlage);

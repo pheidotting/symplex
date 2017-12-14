@@ -55,6 +55,7 @@ define(['jquery',
 
             $.when(schadeService.lees(_this.id()), schadeService.lijstStatusSchade()).then(function(data, statussenSchade) {
                 _this.basisId = data.identificatie;
+
                 if(data.naam != null) {
                     _this.basisEntiteit = "BEDRIJF";
                 } else {
@@ -85,7 +86,7 @@ define(['jquery',
                 _this.schade = schadeMapper.mapSchade(schade);
 
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, schadeId, schade.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
 
                 var $selectPolis = $('#polisVoorSchademelding');

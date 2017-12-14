@@ -218,6 +218,10 @@ public class GebruikerService {
         return gebruikerRepository.zoekOpNaam(naam);
     }
 
+    public List<Relatie> zoekRelatieOpRoepnaam(String naam) {
+        return gebruikerRepository.zoekRelatieOpRoepnaam(naam);
+    }
+
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {
         LOGGER.debug("zoekOpNaamAdresOfPolisNummer met zoekTerm " + zoekTerm);
@@ -228,6 +232,8 @@ public class GebruikerService {
             }
         }
         LOGGER.debug("Op naam {}", relaties.size());
+        relaties.addAll(gebruikerRepository.zoekRelatieOpRoepnaam(zoekTerm));
+        LOGGER.debug("Op roepnaam {}", relaties.size());
         relaties.addAll(destilleerRelatie(adresClient.zoeken(zoekTerm)));
         LOGGER.debug("Zoeken op telefoonnummer");
         String zoekTermNumeriek = zoekTerm.replace(" ", "").replace("-", "");

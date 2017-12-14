@@ -27,7 +27,7 @@ public class BijlageServiceTest extends AbstractServicetTest<Bijlage> {
     }
 
     @Override
-    public Bijlage getLegeEntiteit() {
+    public Bijlage getMinimaalGevuldeEntiteit() {
         return new Bijlage();
     }
 
