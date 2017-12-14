@@ -35,7 +35,7 @@ define(['jquery',
                 _this.hypotheken = hypotheekMapper.mapHypotheken(data.hypotheken, lijstSoortenHypotheek);
 //                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
 
-                _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
+                _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, "RELATIE");
 
                 return deferred.resolve();
             });
