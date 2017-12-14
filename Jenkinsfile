@@ -3,7 +3,6 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```" + commitMessage() + "```")
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
@@ -364,6 +363,9 @@ pipeline {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar test gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
+                    mail to: 'bene@dejongefinancieelconsult.nl',
+                         subject: "Nieuwe versie op de TESTomgeving",
+                         body: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -404,6 +406,9 @@ pipeline {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar PRD gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
+                    mail to: 'bene@dejongefinancieelconsult.nl',
+                         subject: "Nieuwe versie op de PRODUCTIEomgeving",
+                         body: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
