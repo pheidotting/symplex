@@ -68,8 +68,13 @@
                     </li>
                     <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
                     </li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
+                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
+                            style="cursor: pointer;"
+                            data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
+                    </li>
+                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
+                            style="cursor: pointer;"
+                            data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
                     </li>
                 </ul>
             </div>

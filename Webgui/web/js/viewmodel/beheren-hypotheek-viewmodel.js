@@ -55,7 +55,7 @@ define(['jquery',
 
                 _this.hypotheek = hypotheekMapper.mapHypotheek(hypotheek, lijstSoortenHypotheek);
 
-                _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
+                _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
 
