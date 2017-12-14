@@ -66,7 +66,7 @@ define(['jquery',
                 _this.rekeningnummerModel   = new rekeningnummerViewModel(false, soortEntiteit, id, relatie.rekeningNummers);
                 _this.adressenModel         = new adresViewModel(false, soortEntiteit, id, relatie.adressen);
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, id, relatie.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, relatie.bijlages, relatie.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, relatie.bijlages, relatie.groepBijlages, _this.identificatie == null);
                 _this.taakModel             = new taakViewModel(false, soortEntiteit, id, id);
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, 'Relatie');

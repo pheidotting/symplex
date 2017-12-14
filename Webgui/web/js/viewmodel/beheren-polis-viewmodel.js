@@ -60,7 +60,7 @@ define(['jquery',
                 _this.polis = polisMapper.mapPolis(polis, maatschappijen);
 
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, polisId, polis.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, polisId, polis.bijlages, polis.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, polisId, polis.bijlages, polis.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
 
                 var $verzekeringsMaatschappijenSelect = $('#verzekeringsMaatschappijen');

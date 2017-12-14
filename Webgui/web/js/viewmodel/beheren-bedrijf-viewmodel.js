@@ -62,7 +62,7 @@ define(['jquery',
                 _this.telefoonnummersModel  = new telefoonnummerViewModel(false, soortEntiteit, id, bedrijf.telefoonnummers);
                 _this.adressenModel         = new adresViewModel(false, soortEntiteit, id, bedrijf.adressen);
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, id, bedrijf.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages, id.identificatie == null);
                 _this.telefonie             = new telefonieViewModel(bedrijf.telefoonnummerMetGesprekkens);
 
                 _this.contactpersonen = contactpersoonMapper.mapContactpersonen(bedrijf.contactPersoons);
