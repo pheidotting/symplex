@@ -1,14 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage ('Initialize2') {
-            steps {
-                    mail to: 'patrick@heidotting.nl',
-                         subject: "Nieuwe versie op de TESTomgeving",
-                         body: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
-        }
-        }
-
         stage ('Initialize') {
             steps {
                 sh '''
@@ -390,6 +382,9 @@ pipeline {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar test gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
+                    mail to: 'bene@dejongefinancieelconsult.nl',
+                         subject: "Nieuwe versie op de TESTomgeving",
+                         body: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -431,6 +426,9 @@ pipeline {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar PRD gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
+                    mail to: 'bene@dejongefinancieelconsult.nl',
+                         subject: "Nieuwe versie op de PRODUCTIEomgeving",
+                         body: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
