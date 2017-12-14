@@ -2,9 +2,11 @@ pipeline {
     agent any
     stages {
         stage ('Initialize2') {
+            steps {
                     mail to: 'patrick@heidotting.nl',
                          subject: "Nieuwe versie op de TESTomgeving",
                          body: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
+        }
         }
 
         stage ('Initialize') {
