@@ -1,13 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage ('mailtje') {
-            steps {
-                mail to: 'patrick@heidotting.nl',
-                     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-                     body: "Something is wrong with ${env.BUILD_URL}"
-
-            }
+        stage ('Initialize2') {
+                    mail to: 'patrick@heidotting.nl',
+                         subject: "Nieuwe versie op de TESTomgeving",
+                         body: "Ik heb zojuist een nieuwe versie op de TESTomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
         }
 
         stage ('Initialize') {
