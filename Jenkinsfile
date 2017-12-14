@@ -3,7 +3,10 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                slackSend (color: '#4245f4', message: "Job gestart :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}), message :\n```" + commitMessage() + "```")
+                mail to: 'patrick@heidotting.nl',
+                     subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                     body: "Something is wrong with ${env.BUILD_URL}"
+
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
