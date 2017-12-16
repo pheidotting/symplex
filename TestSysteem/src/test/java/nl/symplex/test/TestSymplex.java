@@ -66,32 +66,34 @@ public class TestSymplex {
         Adres adres = new AdresBuilder().defaultAdres().build();
         relatie.getAdressen().add(adres);
 
-        relatieId = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
+        System.out.println("Doe post met : ");
+        System.out.println(ReflectionToStringBuilder.toString(relatie));
+        this.relatieId = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
 
         Thread.sleep(10000);
-        System.out.println(relatieId);
+        System.out.println(this.relatieId);
 
-        relatie.setIdentificatie(relatieId);
-        Relatie relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + relatieId), Relatie.class);
+        relatie.setIdentificatie(this.relatieId);
+        Relatie relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + this.relatieId), Relatie.class);
         System.out.println(ReflectionToStringBuilder.toString(relatieOpgeslagen));
         System.out.println(ReflectionToStringBuilder.toString(relatie));
 
         assertThat(relatieOpgeslagen, equalTo(relatie));
 
         Opmerking opmerking = new OpmerkingBuilder().metTekst().build();
-        Hypotheek hypotheek = new HypotheekBuilder().defaultHypotheek().metRelatie(relatieId).metOpmerking(opmerking).build();
+        Hypotheek hypotheek = new HypotheekBuilder().defaultHypotheek().metRelatie(this.relatieId).metOpmerking(opmerking).build();
         doePost(hypotheek, HYPOTHEEK_OPSLAAN, UUID.randomUUID().toString());
 
         Thread.sleep(10000);
 
-        relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + relatieId), Relatie.class);
+        relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + this.relatieId), Relatie.class);
         assertThat(relatieOpgeslagen.getHypotheken().size(), is(1));
         assertThat(relatieOpgeslagen.getHypotheken().get(0).getIdentificatie(), is(notNullValue()));
     }
 
     @After
     public void opruimen() {
-        doePost(null, GEBRUIKER_VERWIJDEREN + relatieId, UUID.randomUUID().toString());
+        doePost(null, GEBRUIKER_VERWIJDEREN + this.relatieId, UUID.randomUUID().toString());
     }
 
     protected String doePost(Object entiteit, String url, String trackAndTraceId) {
