@@ -71,6 +71,7 @@ public class TestSymplex {
         this.relatieId = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
 
         Thread.sleep(10000);
+        System.out.println("RelatieId ontvangen : ");
         System.out.println(this.relatieId);
 
         relatie.setIdentificatie(this.relatieId);
