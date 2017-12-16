@@ -409,10 +409,6 @@ pipeline {
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/prd/oga.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.220:/opt/jetty/webapps
 
-                    scp PolisAdministratie/src/main/resources/prd/pa.app.properties jetty@192.168.91.220:/opt/jetty
-                    scp PolisAdministratie/src/main/resources/prd/pa.log4j.xml jetty@192.168.91.220:/opt/jetty
-                    scp PolisAdministratie/target/pa.war jetty@192.168.91.220:/opt/jetty/webapps
-
                     scp Relatiebeheer/src/main/resources/prd/djfc.app.properties jetty@192.168.91.220:/opt/jetty
                     scp Relatiebeheer/src/main/resources/prd/djfc.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.220:/opt/jetty/webapps
