@@ -35,8 +35,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @RequestMapping("/gebruiker")
@@ -148,14 +146,8 @@ public class GebruikerController extends AbstractController {
         LOGGER.debug("Relatie met id " + relatie.getId() + " opgeslagen");
 
         if (jsonRelatie.getIdentificatie() == null) {
-            Future<Identificatie> identificatieFuture = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
 
-            Identificatie identificatie = null;
-            try {
-                identificatie = identificatieFuture.get();
-            } catch (InterruptedException | ExecutionException e) {
-                LOGGER.error("Fout bij ophalen identificatie", e);
-            }
+            Identificatie identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
 
             if (identificatie != null) {
                 relatie.setIdentificatie(identificatie.getIdentificatie());
