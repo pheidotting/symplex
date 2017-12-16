@@ -162,10 +162,8 @@ public class GebruikerController extends AbstractController {
             } else {
                 try {
                     Thread.sleep(3000);
-                    Future<Identificatie> identificatieFuture1 = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
-
-                    identificatie = identificatieFuture1.get();
-                } catch (InterruptedException | ExecutionException e) {
+                    identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
+                } catch (InterruptedException e) {
                     LOGGER.error("Fout bij ophalen identificatie", e);
                 }
                 if (identificatie != null) {
