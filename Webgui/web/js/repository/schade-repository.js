@@ -5,12 +5,12 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(data, trackAndTraceId) {
+            opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_SCHADE');
                 log.debug("Versturen naar " + url + " : ");
                 log.debug(ko.toJSON(data));
 
-                return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
+                return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },
 
             lees: function(id) {
@@ -32,11 +32,9 @@ define(["commons/3rdparty/log",
             verwijderSchade: function(id) {
                 var deferred = $.Deferred();
 
-                $.when(abstractRepository.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId) {
-                    abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_SCHADE') + '/' + id, null, trackAndTraceId).done(function(response) {
+                    abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_SCHADE') + '/' + id, null).done(function(response) {
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             }

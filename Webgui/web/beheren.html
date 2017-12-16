@@ -32,6 +32,9 @@
             app.addView('schade/:identificatie', 'view/beheren-schade-view');
             app.addView('schade/:identificatie/:readonly', 'view/beheren-schade-view');
 
+            app.addView('hypotheken/:identificatie', 'view/lijst-hypotheken-view');
+            app.addView('hypotheek/:identificatie', 'view/beheren-hypotheek-view');
+
             app.run('#relatie');
         });
 
@@ -64,6 +67,14 @@
                         schade</a>
                     </li>
                     <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
+                    </li>
+                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
+                            style="cursor: pointer;"
+                            data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
+                    </li>
+                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
+                            style="cursor: pointer;"
+                            data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
                     </li>
                 </ul>
             </div>

@@ -165,7 +165,7 @@ public class PolisController extends AbstractController {
         opslaanEntiteitenRequest.getLijst().addAll(jsonPolis.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(polis.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
 
         opslaanEntiteitenRequest.setEntiteitId(polis.getId());
-        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 

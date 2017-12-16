@@ -5,12 +5,12 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(rekeningnummers, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_REKENINGNUMMERS'), ko.toJSON(rekeningnummers()), trackAndTraceId);
+            opslaan: function(rekeningnummers) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_REKENINGNUMMERS'), ko.toJSON(rekeningnummers()));
             },
 
             verwijder: function(trackAndTraceId, soortEntiteit, id) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_REKENINGNUMMERS') + '/' + soortEntiteit + '/' + id, null, trackAndTraceId);
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_REKENINGNUMMERS') + '/' + soortEntiteit + '/' + id, null);
             },
 
             lijst: function(soortEntiteit, parentid){

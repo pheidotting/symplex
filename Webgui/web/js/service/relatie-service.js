@@ -10,20 +10,18 @@ define(["commons/3rdparty/log2",
             opslaan: function(relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    $.when(gebruikerRepository.opslaan(relatie, trackAndTraceId)).then(function(response) {
+                    $.when(gebruikerRepository.opslaan(relatie)).then(function(response) {
                         var id = response.entity.foutmelding;
                         var soortEntiteit = 'RELATIE';
 
-                        $.when(adresService.opslaan(adressen, trackAndTraceId, soortEntiteit, id),
-                            telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, soortEntiteit, id),
-                            rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
-                            opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
+                        $.when(adresService.opslaan(adressen, soortEntiteit, id),
+                            telefoonnummerService.opslaan(telefoonnummers, soortEntiteit, id),
+                            rekeningnummerService.opslaan(rekeningnummers, soortEntiteit, id),
+                            opmerkingService.opslaan(opmerkingen, soortEntiteit, id))
                         .then(function(adresResponse, telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
                             return deferred.resolve(id);
                         });
                     });
-                });
 
                 return deferred.promise();
             },
@@ -46,15 +44,7 @@ define(["commons/3rdparty/log2",
             },
 
             verwijder: function(id) {
-                var deferred = $.Deferred();
-
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    gebruikerRepository.verwijderRelatie(id, trackAndTraceId);
-
-                    return deferred.resolve();
-                });
-
-                return deferred.promise();
+                gebruikerRepository.verwijderRelatie(id);
             }
         }
     }

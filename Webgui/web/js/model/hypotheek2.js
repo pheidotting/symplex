@@ -1,14 +1,16 @@
 define(['jquery',
         'knockout',
-         "commons/validation",
-         'moment',
-         'opmaak'],
+        'commons/validation',
+        'moment',
+        'commons/opmaak'],
 	function($, ko, validation, moment, opmaak) {
 
 	return function hypotheek() {
 		_this = this;
 
 		_this.id = ko.observable();
+		_this.parentIdentificatie = ko.observable();
+		_this.identificatie = ko.observable();
 		_this.soortEntiteit = ko.observable();
 		_this.bank = ko.observable();
 		_this.boxI = ko.observable().extend({number: true});
@@ -69,44 +71,44 @@ define(['jquery',
 		_this.duurRenteVastePeriode = ko.observable().extend({number: true});
 		_this.leningNummer = ko.observable();
 		_this.omschrijving = ko.observable();
-		_this.idDiv = ko.computed(function() {
-	        return "collapsable" + _this.id();
-		}, this);
-		_this.idDivLink = ko.computed(function() {
-	        return "#collapsable" + _this.id();
-		}, this);
-		_this.className = ko.computed(function() {
-		    if(_this.ingangsDatum != null) {
-                var datum = moment(_this.ingangsDatum());
-                var tijd = moment(datum).fromNow();
-                if(tijd.substr(tijd.length - 3) == "ago"){
-                    return "panel-title";
-                }else{
-                    return "polisNietActief panel-title";
-    			}
-			}
-		}, this);
-		_this.titel = ko.computed(function() {
-			var hypVorm;
-			if (_this.hypotheekVorm != null) {
-    			hypVorm = _this.hypotheekVorm.hypotheekVorm;
-             }
-
-			var omschrijving = "";
-			if(_this.leningNummer() != null){
-				omschrijving += _this.leningNummer() + " - ";
-			}
-			omschrijving += hypVorm + " - ";
-			if(_this.bank != null){
-				omschrijving += _this.bank() + " - ";
-			}
-			omschrijving += _this.rente() + "% - ";
-			if(_this.hypotheekBedrag() != null && _this.hypotheekBedrag() != '') {
-		    	omschrijving += opmaak.maakBedragOp(_this.hypotheekBedrag());
-            }
-
-			return omschrijving;
-		}, this);
+//		_this.idDiv = ko.computed(function() {
+//	        return "collapsable" + _this.id();
+//		}, this);
+//		_this.idDivLink = ko.computed(function() {
+//	        return "#collapsable" + _this.id();
+//		}, this);
+//		_this.className = ko.computed(function() {
+//		    if(_this.ingangsDatum != null) {
+//                var datum = moment(_this.ingangsDatum());
+//                var tijd = moment(datum).fromNow();
+//                if(tijd.substr(tijd.length - 3) == "ago"){
+//                    return "panel-title";
+//                }else{
+//                    return "polisNietActief panel-title";
+//    			}
+//			}
+//		}, this);
+//		_this.titel = ko.computed(function() {
+//			var hypVorm;
+//			if (_this.hypotheekVorm != null) {
+//    			hypVorm = _this.hypotheekVorm.hypotheekVorm;
+//             }
+//
+//			var omschrijving = "";
+//			if(_this.leningNummer() != null){
+//				omschrijving += _this.leningNummer() + " - ";
+//			}
+//			omschrijving += hypVorm + " - ";
+//			if(_this.bank != null){
+//				omschrijving += _this.bank() + " - ";
+//			}
+//			omschrijving += _this.rente() + "% - ";
+//			if(_this.hypotheekBedrag() != null && _this.hypotheekBedrag() != '') {
+//		    	omschrijving += opmaak.maakBedragOp(_this.hypotheekBedrag());
+//            }
+//
+//			return omschrijving;
+//		}, this);
 		_this.gekoppeldeHypotheek = ko.observable();
 	};
 

@@ -126,7 +126,8 @@ define(['jquery',
 		this.verwijderenRelatie = function(relatie) {
 			logger.debug("verwijderen Relatie met id " + _this.relatie.id());
 
-			gebruikerService.verwijderRelatie(_this.relatie.id()).done(function() {
+			gebruikerService.verwijderRelatie(_this.identificatie).done(function() {
+
     			redirect.redirect('LIJST_RELATIES');
 			});
 		};

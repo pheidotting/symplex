@@ -5,8 +5,11 @@ import nl.dias.domein.polis.SoortVerzekering;
 import nl.dias.domein.predicates.PolisOpSchermNaamPredicate;
 import nl.dias.domein.predicates.PolissenOpSoortPredicate;
 import nl.dias.domein.transformers.PolisToSchermNaamTransformer;
+import nl.dias.messaging.SoortEntiteitEnEntiteitId;
+import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.repository.PolisRepository;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -40,6 +43,8 @@ public class PolisService {
     private List<Polis> polissen;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public List<String> allePolisSoorten(final SoortVerzekering soortVerzekering) {
         Iterable<Polis> poli = filter(polissen, new PolissenOpSoortPredicate(soortVerzekering));
@@ -76,6 +81,14 @@ public class PolisService {
             LOGGER.debug("Niks gevonden ", e);
             return null;
         }
+    }
+
+    public void verwijder(List<Polis> polissen) {
+        for (Polis polis : polissen) {
+            verwijderEntiteitRequestSender.send(new SoortEntiteitEnEntiteitId(SoortEntiteit.POLIS, polis.getId()));
+        }
+
+        polisRepository.verwijder(polissen);
     }
 
     public void verwijder(String id) {

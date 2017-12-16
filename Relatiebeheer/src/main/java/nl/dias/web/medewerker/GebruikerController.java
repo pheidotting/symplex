@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.google.common.base.Stopwatch;
 import nl.dias.domein.*;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
@@ -35,9 +36,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Stopwatch.createStarted;
 
 @RequestMapping("/gebruiker")
 @Controller
@@ -145,33 +147,18 @@ public class GebruikerController extends AbstractController {
 
         gebruikerService.opslaan(relatie);
 
+        //Wachten tot alles opgeslagen is
+        Identificatie identificatie = null;
+        Stopwatch stopwatch = createStarted();
+        while (identificatie == null && stopwatch.elapsed(TimeUnit.MINUTES) < 2) {
+            identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
+        }
+
         LOGGER.debug("Relatie met id " + relatie.getId() + " opgeslagen");
 
         if (jsonRelatie.getIdentificatie() == null) {
-            Future<Identificatie> identificatieFuture = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
 
-            Identificatie identificatie = null;
-            try {
-                identificatie = identificatieFuture.get();
-            } catch (InterruptedException | ExecutionException e) {
-                LOGGER.error("Fout bij ophalen identificatie", e);
-            }
-
-            if (identificatie != null) {
-                relatie.setIdentificatie(identificatie.getIdentificatie());
-            } else {
-                try {
-                    Thread.sleep(3000);
-                    Future<Identificatie> identificatieFuture1 = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
-
-                    identificatie = identificatieFuture1.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    LOGGER.error("Fout bij ophalen identificatie", e);
-                }
-                if (identificatie != null) {
                     relatie.setIdentificatie(identificatie.getIdentificatie());
-                }
-            }
         }
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
