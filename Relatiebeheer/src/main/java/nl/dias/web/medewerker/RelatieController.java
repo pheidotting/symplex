@@ -85,18 +85,19 @@ public class RelatieController {
         relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
-        List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
+        //        List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
 
         List<Schade> schades = schadeService.alleSchadesBijRelatie(relatieDomain.getId());
         LOGGER.debug("Schade gevonden :");
         schades.stream().forEach(ss -> LOGGER.debug("Schade : {} - {} - {}", ss.getId(), ss.getSchadeNummerMaatschappij(), ss.getOmschrijving()));
-        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
+        List<JsonPolis> jsonPolisList = polissen.stream().map(new Function<Polis, JsonPolis>() {
             @Override
-            public JsonPolis apply(JsonPolis jsonPolis) {
+            public JsonPolis apply(Polis polisIn) {
+                JsonPolis jsonPolis = polisMapper.mapNaarJson(polisIn);
                 List<Schade> schadesBijPolis = schades.stream().filter(new Predicate<Schade>() {
                     @Override
                     public boolean test(Schade schade) {
-                        return schade.getPolis() == jsonPolis.getId();
+                        return schade.getPolis() == polisIn.getId();
                     }
                 }).collect(Collectors.toList());
 
