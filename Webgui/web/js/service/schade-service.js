@@ -7,8 +7,9 @@ define(["commons/3rdparty/log",
         'repository/bedrijf-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service',
-        'underscore'],
-    function(log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _) {
+        'underscore',
+        'moment'],
+    function(log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
 
         return {
             opslaan: function(schade, opmerkingen) {
@@ -17,7 +18,12 @@ define(["commons/3rdparty/log",
                     schade.opmerkingen = opmerkingen;
                     schade.parentIdentificatie = schade.polis;
 
-                    $.when(schadeRepository.opslaan(schade)).then(function(response) {
+                    if(schade.datumTijdSchade().indexOf('-') == 2){
+                        schade.datumTijdSchade(moment(schade.datumTijdSchade(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                        schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                    }
+
+                    $.when(schadeRepository.opslaan(schade, trackAndTraceId)).then(function(response) {
 //                        var id = response.entity.foutmelding;
 //                        var soortEntiteit = 'SCHADE';
 //
