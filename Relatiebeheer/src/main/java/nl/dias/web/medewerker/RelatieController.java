@@ -88,6 +88,8 @@ public class RelatieController {
         List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
 
         List<Schade> schades = schadeService.alleSchadesBijRelatie(relatieDomain.getId());
+        LOGGER.debug("Schade gevonden :");
+        schades.stream().forEach(ss -> LOGGER.debug("Schade : {} - {} - {}", ss.getId(), ss.getSchadeNummerMaatschappij(), ss.getOmschrijving()));
         List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
             @Override
             public JsonPolis apply(JsonPolis jsonPolis) {
