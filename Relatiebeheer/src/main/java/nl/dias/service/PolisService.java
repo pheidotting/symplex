@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.*;
 import static com.google.common.collect.Lists.newArrayList;
@@ -43,6 +45,8 @@ public class PolisService {
     private List<Polis> polissen;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private SchadeService schadeService;
     @Inject
     private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
@@ -114,7 +118,15 @@ public class PolisService {
     }
 
     public List<Polis> allePolissenBijRelatie(Long relatie) {
-        return polisRepository.allePolissenBijRelatie(relatie);
+        List<Polis> polissen = polisRepository.allePolissenBijRelatie(relatie);
+
+        return polissen.stream().map(new Function<Polis, Polis>() {
+            @Override
+            public Polis apply(Polis polis) {
+                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+                return polis;
+            }
+        }).collect(Collectors.toList());
     }
 
     public List<Polis> allePolissenBijBedrijf(Long bedrijf) {

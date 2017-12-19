@@ -113,6 +113,10 @@ public class SchadeService {
         return schades;
     }
 
+    public List<Schade> alleSchadesBijPolis(Long polis) {
+        return schadeRepository.alleSchadesBijPolis(polis);
+    }
+
     public List<Schade> alleSchadesBijBedrijf(Long bedrijf) {
         List<Schade> schades = new ArrayList<>();
 
