@@ -94,13 +94,22 @@ public class SchadeService {
     public List<Schade> alleSchadesBijRelatie(Long relatie) {
         List<Schade> schades = new ArrayList<>();
 
+        LOGGER.debug("Schades zoeken bij relatie met id {}", relatie);
         List<Polis> polissen = polisService.allePolissenBijRelatie(relatie);
 
+        LOGGER.debug("Gevonden Polissen : ");
         for (Polis polis : polissen) {
-            schades.addAll(schadeRepository.allesBijPolis(polis.getId()));
+            LOGGER.debug("Polis : {} - {} - {}", polis.getId(), polis.getPolisNummer(), polis.getKenmerk());
+            List<Schade> s = schadeRepository.allesBijPolis(polis.getId());
+            schades.addAll(s);
+            s.stream().forEach(ss -> LOGGER.debug("Schade : {} - {} - {}", ss.getId(), ss.getSchadeNummerMaatschappij(), ss.getOmschrijving()));
         }
 
         return schades;
+    }
+
+    public List<Schade> alleSchadesBijPolis(Long polis) {
+        return schadeRepository.alleSchadesBijPolis(polis);
     }
 
     public List<Schade> alleSchadesBijBedrijf(Long bedrijf) {

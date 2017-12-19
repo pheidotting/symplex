@@ -1,6 +1,7 @@
 package nl.dias.domein.polis;
 
 import nl.dias.domein.Bedrag;
+import nl.dias.domein.Schade;
 import nl.dias.domein.StatusPolis;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Audited
 @Component
@@ -80,6 +83,9 @@ public abstract class Polis implements Serializable, Cloneable {
 
     @Column(name = "OMSCHRIJVING", columnDefinition = "varchar(2500)")
     private String omschrijvingVerzekering;
+
+    @Transient
+    private List<Schade> schades;
 
     public abstract SoortVerzekering getSoortVerzekering();
 
@@ -247,6 +253,17 @@ public abstract class Polis implements Serializable, Cloneable {
 
     public void setOmschrijvingVerzekering(String omschrijvingVerzekering) {
         this.omschrijvingVerzekering = omschrijvingVerzekering;
+    }
+
+    public List<Schade> getSchades() {
+        if (schades == null) {
+            schades = new ArrayList<>();
+        }
+        return schades;
+    }
+
+    public void setSchades(List<Schade> schades) {
+        this.schades = schades;
     }
 
     @Override
