@@ -11,6 +11,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.Relatie;
 import nl.lakedigital.djfc.domain.response.Telefoongesprek;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -89,7 +91,7 @@ public class RelatieController {
 
         List<Schade> schades = schadeService.alleSchadesBijRelatie(relatieDomain.getId());
         LOGGER.debug("Schade gevonden :");
-        schades.stream().forEach(ss -> LOGGER.debug("Schade : {} - {} - {}", ss.getId(), ss.getSchadeNummerMaatschappij(), ss.getOmschrijving()));
+        schades.stream().forEach(ss -> LOGGER.debug("Schade : {} - {} - {} - {}", ss.getId(), ss.getSchadeNummerMaatschappij(), ss.getOmschrijving(), ss.getPolis()));
         List<JsonPolis> jsonPolisList = polissen.stream().map(new Function<Polis, JsonPolis>() {
             @Override
             public JsonPolis apply(Polis polisIn) {
@@ -106,6 +108,19 @@ public class RelatieController {
                 return jsonPolis;
             }
         }).collect(Collectors.toList());
+        jsonPolisList.stream().forEach(new Consumer<JsonPolis>() {
+            @Override
+            public void accept(JsonPolis jsonPolis) {
+                LOGGER.debug("Polis : {} - {} - {}", jsonPolis.getId(), jsonPolis.getPolisNummer(), jsonPolis.getKenmerk());
+
+                jsonPolis.getSchades().stream().forEach(new Consumer<JsonSchade>() {
+                    @Override
+                    public void accept(JsonSchade jsonSchade) {
+                        LOGGER.debug("Schade : {} - {} - {} - {}", jsonSchade.getId(), jsonSchade.getSchadeNummerMaatschappij(), jsonSchade.getOmschrijving(), jsonSchade.getPolis());
+                    }
+                });
+            }
+        });
 
         relatie.setPolissen(jsonPolisList.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
         //        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
