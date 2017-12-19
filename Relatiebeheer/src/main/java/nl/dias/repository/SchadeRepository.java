@@ -184,4 +184,17 @@ public class SchadeRepository {
 
         return schades;
     }
+
+    public List<Schade> alleSchadesBijPolis(Long polis) {
+        getTransaction();
+
+        Query query = getSession().getNamedQuery("Schade.allesBijPolis");
+        query.setParameter("polis", polis);
+
+        List<Schade> schades = query.list();
+
+        getTransaction().commit();
+
+        return schades;
+    }
 }

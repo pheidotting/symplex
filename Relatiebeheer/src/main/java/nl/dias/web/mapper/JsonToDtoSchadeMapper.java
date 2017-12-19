@@ -6,18 +6,19 @@ import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.domain.response.Schade;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class JsonToDtoSchadeMapper implements Function<JsonSchade, Schade> {
+public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Schade> {
     private BijlageClient bijlageClient;
     private GroepBijlagesClient groepBijlagesClient;
     private OpmerkingClient opmerkingClient;
     private IdentificatieClient identificatieClient;
     private GebruikerService gebruikerService;
+    private String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
+    private String patternDatum = "yyyy-MM-dd";
 
     public JsonToDtoSchadeMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService) {
         this.bijlageClient = bijlageClient;
@@ -28,26 +29,36 @@ public class JsonToDtoSchadeMapper implements Function<JsonSchade, Schade> {
     }
 
     @Override
-    public Schade apply(JsonSchade jsonSchade) {
+    public Schade apply(nl.dias.domein.Schade domein) {
         Schade schade = new Schade();
 
-        Identificatie identificatie = identificatieClient.zoekIdentificatie("SCHADE", jsonSchade.getId());
+        Identificatie identificatie = identificatieClient.zoekIdentificatie("SCHADE", domein.getId());
 
         schade.setIdentificatie(identificatie.getIdentificatie());
-        schade.setDatumAfgehandeld(jsonSchade.getDatumAfgehandeld());
-        schade.setDatumTijdMelding(jsonSchade.getDatumTijdMelding());
-        schade.setDatumTijdSchade(jsonSchade.getDatumTijdSchade());
-        schade.setEigenRisico(jsonSchade.getEigenRisico());
-        schade.setLocatie(jsonSchade.getLocatie());
-        schade.setSchadeNummerMaatschappij(jsonSchade.getSchadeNummerMaatschappij());
-        schade.setSchadeNummerTussenPersoon(jsonSchade.getSchadeNummerTussenPersoon());
-        schade.setSoortSchade(jsonSchade.getSoortSchade());
-        schade.setStatusSchade(jsonSchade.getStatusSchade());
-        schade.setOmschrijving(jsonSchade.getOmschrijving());
+        if (domein.getDatumAfgehandeld() != null) {
+            schade.setDatumAfgehandeld(domein.getDatumAfgehandeld().toString(patternDatum));
+        }
+        schade.setDatumTijdMelding(domein.getDatumTijdMelding().toString(patternDatumTijd));
+        schade.setDatumTijdSchade(domein.getDatumTijdSchade().toString(patternDatumTijd));
+        if (domein.getEigenRisico() != null) {
+            schade.setEigenRisico(domein.getEigenRisico().getBedrag().toString());
+        }
+        schade.setLocatie(domein.getLocatie());
+        schade.setOmschrijving(domein.getOmschrijving());
+        schade.setSchadeNummerMaatschappij(domein.getSchadeNummerMaatschappij());
+        schade.setSchadeNummerTussenPersoon(domein.getSchadeNummerTussenPersoon());
+        if (domein.getSoortSchade() != null) {
+            schade.setSoortSchade(domein.getSoortSchade().getOmschrijving());
+        } else {
+            schade.setSoortSchade(domein.getSoortSchadeOngedefinieerd());
+        }
+        if (domein.getStatusSchade() != null) {
+            schade.setStatusSchade(domein.getStatusSchade().getStatus());
+        }
 
-        schade.setBijlages(bijlageClient.lijst("SCHADE", jsonSchade.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        schade.setGroepBijlages(groepBijlagesClient.lijstGroepen("SCHADE", jsonSchade.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        schade.setOpmerkingen(opmerkingClient.lijst("SCHADE", jsonSchade.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+        schade.setBijlages(bijlageClient.lijst("SCHADE", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        schade.setGroepBijlages(groepBijlagesClient.lijstGroepen("SCHADE", domein.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        schade.setOpmerkingen(opmerkingClient.lijst("SCHADE", domein.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         return schade;
     }
