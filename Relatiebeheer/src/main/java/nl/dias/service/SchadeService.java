@@ -87,9 +87,14 @@ public class SchadeService {
         }
 
         if (polisId != null && !"Kies een polis uit de lijst..".equals(polisId)) {
-            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisId);
+            try {
+                Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisId);
 
-            schade.setPolis(identificatie.getEntiteitId());
+                schade.setPolis(identificatie.getEntiteitId());
+            } catch (Exception e) {
+                LOGGER.error("Fout bij ophalen Identificatie {}", e);
+                throw e;
+            }
         }
 
         LOGGER.debug("Schade opslaan");
