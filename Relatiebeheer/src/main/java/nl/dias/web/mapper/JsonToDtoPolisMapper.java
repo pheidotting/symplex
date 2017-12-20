@@ -39,7 +39,7 @@ public class JsonToDtoPolisMapper implements Function<nl.dias.domein.polis.Polis
         Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", domein.getId());
 
         Polis polis = new Polis();
-
+        polis.setIdentificatie(identificatie.getIdentificatie());
         if (domein.getStatus() != null) {
             polis.setStatus(domein.getStatus().getOmschrijving());
         }
