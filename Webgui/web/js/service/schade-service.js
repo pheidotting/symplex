@@ -15,7 +15,7 @@ define(["commons/3rdparty/log",
             opslaan: function(schade, opmerkingen) {
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
+//                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
                     schade.opmerkingen = opmerkingen;
                     schade.parentIdentificatie = schade.polis;
 
@@ -33,7 +33,7 @@ define(["commons/3rdparty/log",
                             return deferred.resolve();
 //                        });
                     });
-                });
+//                });
 
                 return deferred.promise();
             },
