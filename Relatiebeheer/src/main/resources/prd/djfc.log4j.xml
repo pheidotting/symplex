@@ -77,6 +77,6 @@
         <priority value="trace"/>
         <appender-ref ref="Slack"/>
         <appender-ref ref="loggly"/>
-        <appender-ref ref="debugFileAppender"/>
+        <appender-ref ref="fileAppender"/>
     </root>
 </log4j:configuration>

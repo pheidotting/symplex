@@ -17,7 +17,7 @@
         </layout>
     </appender>
 
-    <appender name="debugFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <appender name="fileAppender" class="org.apache.log4j.FileAppender">
         <param name="file" value="/Users/patrickheidotting/Documents/DEV/Java/logs/id.log"/>
         <param name="immediateFlush" value="true"/>
         <!--<param name="threshold" value="debug"/>-->
@@ -61,7 +61,7 @@
     <root>
         <priority value="debug"/>
         <appender-ref ref="console"/>
-        <appender-ref ref="debugFileAppender"/>
+        <appender-ref ref="fileAppender"/>
         <appender-ref ref="loggly"/>
     </root>
 </log4j:configuration>
