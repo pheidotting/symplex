@@ -40,6 +40,7 @@ define(["commons/3rdparty/log2",
                             location.href = 'inloggen.html';
                         }else{
                             if(request != 'Server Error' && request != 'Service Unavailable') {
+                            //TODO 'Not found' afvangen
                                 if( request.getResponseHeader('Authorization') != null ) {
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
                                 }
