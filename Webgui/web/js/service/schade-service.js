@@ -40,7 +40,7 @@ define(["commons/3rdparty/log",
                 var identificatie = id;
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
                     return deferred.resolve(data);
                 }).fail(function() {
                     $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
@@ -58,7 +58,7 @@ define(["commons/3rdparty/log",
             lijstSchades: function(identificatie) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
                     return deferred.resolve(data);
                 }).fail(function() {
                     $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
