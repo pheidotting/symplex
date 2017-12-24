@@ -130,7 +130,15 @@ public class PolisService {
     }
 
     public List<Polis> allePolissenBijBedrijf(Long bedrijf) {
-        return polisRepository.allePolissenBijBedrijf(bedrijf);
+        List<Polis> polissen = polisRepository.allePolissenBijBedrijf(bedrijf);
+
+        return polissen.stream().map(new Function<Polis, Polis>() {
+            @Override
+            public Polis apply(Polis polis) {
+                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+                return polis;
+            }
+        }).collect(Collectors.toList());
     }
 
     public Polis definieerPolisSoort(String soort) {
