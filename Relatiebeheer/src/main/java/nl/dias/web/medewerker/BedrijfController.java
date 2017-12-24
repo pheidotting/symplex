@@ -15,7 +15,6 @@ import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
-import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.Telefoongesprek;
 import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
@@ -33,8 +32,6 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @RequestMapping("/bedrijf")
@@ -168,26 +165,26 @@ public class BedrijfController extends AbstractController {
         bedrijf.setOpmerkingen(opmerkingClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
-        List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
+        //        List<JsonPolis> jsonPolissen = polisMapper.mapAllNaarJson(polissen);
+        //
+        //        List<nl.dias.domein.Schade> schades = schadeService.alleSchadesBijRelatie(bedrijfDomain.getId());
+        //        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
+        //            @Override
+        //            public JsonPolis apply(JsonPolis jsonPolis) {
+        //                List<nl.dias.domein.Schade> schadesBijPolis = schades.stream().filter(new Predicate<nl.dias.domein.Schade>() {
+        //                    @Override
+        //                    public boolean test(nl.dias.domein.Schade schade) {
+        //                        return schade.getPolis() == jsonPolis.getId();
+        //                    }
+        //                }).collect(Collectors.toList());
+        //
+        //                jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
+        //
+        //                return jsonPolis;
+        //            }
+        //        }).collect(Collectors.toList());
 
-        List<nl.dias.domein.Schade> schades = schadeService.alleSchadesBijRelatie(bedrijfDomain.getId());
-        List<JsonPolis> jsonPolisList = jsonPolissen.stream().map(new Function<JsonPolis, JsonPolis>() {
-            @Override
-            public JsonPolis apply(JsonPolis jsonPolis) {
-                List<nl.dias.domein.Schade> schadesBijPolis = schades.stream().filter(new Predicate<nl.dias.domein.Schade>() {
-                    @Override
-                    public boolean test(nl.dias.domein.Schade schade) {
-                        return schade.getPolis() == jsonPolis.getId();
-                    }
-                }).collect(Collectors.toList());
-
-                jsonPolis.setSchades(schadeMapper.mapAllNaarJson(schadesBijPolis));
-
-                return jsonPolis;
-            }
-        }).collect(Collectors.toList());
-
-        //        bedrijf.setPolissen(jsonPolisList.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+        bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
         //        bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
