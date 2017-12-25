@@ -3,15 +3,9 @@ package nl.symplex.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.lakedigital.djfc.commons.json.Inloggen;
-import nl.lakedigital.djfc.domain.response.Adres;
-import nl.lakedigital.djfc.domain.response.Hypotheek;
-import nl.lakedigital.djfc.domain.response.Opmerking;
-import nl.lakedigital.djfc.domain.response.Relatie;
+import nl.lakedigital.djfc.domain.response.*;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
-import nl.symplex.test.builders.AdresBuilder;
-import nl.symplex.test.builders.HypotheekBuilder;
-import nl.symplex.test.builders.OpmerkingBuilder;
-import nl.symplex.test.builders.RelatieBuilder;
+import nl.symplex.test.builders.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +30,8 @@ public class TestSymplex {
 
     protected String GEBRUIKER_OPSLAAN = null;
     protected String HYPOTHEEK_OPSLAAN = null;
+    protected String POLIS_OPSLAAN = null;
+    protected String SCHADE_OPSLAAN = null;
     protected String GEBRUIKER_VERWIJDEREN = null;
     protected String RELATIE_LEZEN = null;
     protected String INLOGGEN = null;
@@ -51,6 +47,8 @@ public class TestSymplex {
 
         GEBRUIKER_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/opslaan";
         HYPOTHEEK_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/hypotheek/opslaan";
+        POLIS_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/polis/opslaan";
+        SCHADE_OPSLAAN = "http://" + host + ":8080/dejonge/rest/medewerker/schade/opslaan";
         GEBRUIKER_VERWIJDEREN = "http://" + host + ":8080/dejonge/rest/medewerker/gebruiker/verwijderen/";
         RELATIE_LEZEN = "http://" + host + ":8080/dejonge/rest/medewerker/relatie/lees";
         INLOGGEN = "http://" + host + ":8080/dejonge/rest/authorisatie/authorisatie/inloggen";
@@ -68,7 +66,7 @@ public class TestSymplex {
 
         System.out.println("Doe post met : ");
         System.out.println(ReflectionToStringBuilder.toString(relatie));
-        this.relatieId = doePost(relatie, GEBRUIKER_OPSLAAN, UUID.randomUUID().toString());
+        this.relatieId = doePost(relatie, GEBRUIKER_OPSLAAN);
 
         Thread.sleep(10000);
         System.out.println("RelatieId ontvangen : ");
@@ -83,30 +81,59 @@ public class TestSymplex {
 
         Opmerking opmerking = new OpmerkingBuilder().metTekst().build();
         Hypotheek hypotheek = new HypotheekBuilder().defaultHypotheek().metRelatie(this.relatieId).metOpmerking(opmerking).build();
-        doePost(hypotheek, HYPOTHEEK_OPSLAAN, UUID.randomUUID().toString());
+        doePost(hypotheek, HYPOTHEEK_OPSLAAN);
 
         Thread.sleep(10000);
 
         relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + this.relatieId), Relatie.class);
         assertThat(relatieOpgeslagen.getHypotheken().size(), is(1));
         assertThat(relatieOpgeslagen.getHypotheken().get(0).getIdentificatie(), is(notNullValue()));
+
+        Opmerking opmerkingVoorPolis = new OpmerkingBuilder().metTekst().build();
+        Polis polis = new PolisBuilder().defaultPolis().metRelatie(this.relatieId).metOpmerking(opmerkingVoorPolis).build();
+
+        doePost(polis, POLIS_OPSLAAN);
+
+        Thread.sleep(10000);
+
+        relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + this.relatieId), Relatie.class);
+        assertThat(relatieOpgeslagen.getPolissen().size(), is(1));
+        assertThat(relatieOpgeslagen.getPolissen().get(0).getIdentificatie(), is(notNullValue()));
+        polis.setIdentificatie(relatieOpgeslagen.getPolissen().get(0).getIdentificatie());
+
+        System.out.println(ReflectionToStringBuilder.toString(relatieOpgeslagen.getPolissen().get(0)));
+
+        Opmerking opmerkingVoorSchade = new OpmerkingBuilder().metTekst().build();
+        Schade schade = new SchadeBuilder().defaultSchade().metPolis(polis).metOpmerking(opmerkingVoorSchade).build();
+
+        doePost(schade, SCHADE_OPSLAAN);
+
+        Thread.sleep(10000);
+
+        relatieOpgeslagen = (Relatie) fromJson(doeGet(RELATIE_LEZEN + "/" + this.relatieId), Relatie.class);
+        assertThat(relatieOpgeslagen.getPolissen().size(), is(1));
+        assertThat(relatieOpgeslagen.getPolissen().get(0).getSchades().size(), is(1));
+        assertThat(relatieOpgeslagen.getPolissen().get(0).getSchades().get(0), is(notNullValue()));
+        assertThat(relatieOpgeslagen.getPolissen().get(0).getIdentificatie(), is(notNullValue()));
+
+        System.out.println(ReflectionToStringBuilder.toString(relatieOpgeslagen.getPolissen().get(0).getSchades().get(0)));
     }
 
     @After
     public void opruimen() {
-        doePost(null, GEBRUIKER_VERWIJDEREN + this.relatieId, UUID.randomUUID().toString());
+        doePost(null, GEBRUIKER_VERWIJDEREN + this.relatieId);
     }
 
-    protected String doePost(Object entiteit, String url, String trackAndTraceId) {
+    protected String doePost(Object entiteit, String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("trackAndTraceId", trackAndTraceId);
         headers.set(AUTHORIZATION, jwt);
 
         RestTemplate restTemplate = new RestTemplate();
 
         LOGGER.debug("Aanroepen {}", url);
         System.out.println("Aanroepen {}" + url);
+        System.out.println("Met : {}" + ReflectionToStringBuilder.toString(entiteit));
         HttpEntity<String> entity = null;
         if (entiteit != null) {
             entity = new HttpEntity<>(toJson(entiteit), headers);
@@ -122,7 +149,7 @@ public class TestSymplex {
 
     protected void inloggen() {
         String trackAndTraceId = UUID.randomUUID().toString();
-        doePost(new Inloggen("djfc.bene", "bene"), INLOGGEN, trackAndTraceId);
+        doePost(new Inloggen("djfc.bene", "bene"), INLOGGEN);
     }
 
     protected String toJson(Object in) {
@@ -154,7 +181,7 @@ public class TestSymplex {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        LOGGER.debug("Aanroepen {}", url);
+        System.out.println("Aanroepen {}" + url);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
