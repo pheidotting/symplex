@@ -71,9 +71,11 @@ public class RelatieController {
     public Relatie leesRelatie(@PathVariable("id") String identificatie) {
         LOGGER.debug("Ophalen Relatie met ID {}", identificatie);
 
+        Relatie relatie = null;
+        //        try{
         nl.dias.domein.Relatie relatieDomain = relatieService.zoekRelatie(identificatie);
 
-        Relatie relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
+        relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
         relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
 
         relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
@@ -117,6 +119,10 @@ public class RelatieController {
                 relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
             }
         }
+        //        }catch (Exception e){
+        //            LOGGER.error("{}",e);
+        //            throw  e;
+        //        }
 
         List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
         relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
