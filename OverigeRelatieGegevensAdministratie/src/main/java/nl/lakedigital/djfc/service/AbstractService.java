@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
@@ -45,10 +46,20 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
     }
 
     public void opslaan(T adres) {
-        getRepository().opslaan(newArrayList(adres));
+        if (isGevuld(adres)) {
+
+            getRepository().opslaan(newArrayList(adres));
+        }
     }
 
-    public void opslaan(List<T> entiteiten) {
+    public void opslaan(List<T> entiteitenIn) {
+        List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
+            @Override
+            public boolean test(T t) {
+                return isGevuld(t);
+            }
+        }).collect(Collectors.toList());
+
         getRepository().opslaan(entiteiten);
 
         List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds = new ArrayList<>();
@@ -93,7 +104,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
 
         getLogger().debug("Te verwijderen entiteiten");
         for (T t : teVerwijderen) {
-            getLogger().debug("Verwijderen {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
+            getLogger().debug(ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
         }
         getRepository().verwijder(newArrayList(teVerwijderen));
         getRepository().opslaan(entiteiten);
@@ -130,4 +141,5 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         return getRepository().zoek(zoekTerm);
     }
 
+    public abstract boolean isGevuld(T t);
 }
