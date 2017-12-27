@@ -30,7 +30,7 @@ define(["commons/3rdparty/log",
 //
 //                        $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
 //                        .then(function(opmerkingResponse) {
-                            return deferred.resolve();
+                            return deferred.resolve(response);
 //                        });
                     });
 //                });
