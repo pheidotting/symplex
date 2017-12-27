@@ -153,9 +153,9 @@ public class BedrijfController extends AbstractController {
         nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = null;
 
         try {
-            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
 
             nl.dias.domein.Bedrijf bedrijfDomain = bedrijfService.zoekBedrijf(identificatieCode);
+            Identificatie identificatie = identificatieClient.zoekIdentificatie("BEDRIJF", bedrijf.getId());
 
 
             bedrijf = new BedrijfToDtoBedrijfMapper().apply(bedrijfDomain);
