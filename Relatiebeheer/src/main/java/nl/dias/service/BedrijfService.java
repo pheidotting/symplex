@@ -61,7 +61,7 @@ public class BedrijfService {
         Long bedrijfId = null;
 
         switch (identificatie.getSoortEntiteit()) {
-            case "RELATIE":
+            case "BEDRIJF":
                 bedrijfId = identificatie.getEntiteitId();
                 break;
             case "POLIS":
