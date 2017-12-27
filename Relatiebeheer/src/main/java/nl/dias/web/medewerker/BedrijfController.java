@@ -153,13 +153,13 @@ public class BedrijfController extends AbstractController {
         nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = null;
 
         try {
-            //            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
 
             nl.dias.domein.Bedrijf bedrijfDomain = bedrijfService.zoekBedrijf(identificatieCode);
 
 
             bedrijf = new BedrijfToDtoBedrijfMapper().apply(bedrijfDomain);
-            bedrijf.setIdentificatie(identificatieCode);
+            bedrijf.setIdentificatie(identificatie.getIdentificatie());
 
             bedrijf.setAdressen(adresClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
             bedrijf.setBijlages(bijlageClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
