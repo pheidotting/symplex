@@ -146,6 +146,26 @@ define(['jquery',
 			}
 		};
 
+		this.opslaanOpPaginaBlijven = function() {
+		    logger.debug('opslaan');
+	    	var result = ko.validation.group(_this.schade, {deep: true});
+	    	if(result().length > 0) {
+	    		result.showAllMessages(true);
+	    	}else{
+	    		logger.debug("Versturen : " + ko.toJSON(_this.schade));
+
+                schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function(data){
+                    _this.id(data);
+                    _this.bijlageModel.setId(data);
+                    _this.bijlageModel.setSchermTonen(true);
+                    _this.schade.identificatie(data);
+					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
+	    		}).fail(function(data){
+					commonFunctions.plaatsFoutmelding(data);
+	    		});
+	    	}
+        };
+
 		this.opslaan = function() {
 		    logger.debug('opslaan');
 	    	var result = ko.validation.group(_this.schade, {deep: true});
