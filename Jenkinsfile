@@ -218,7 +218,7 @@ pipeline {
                     scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty/webapps
 
-                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/dejonge/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
@@ -366,7 +366,7 @@ pipeline {
                     scp Relatiebeheer/src/main/resources/tst/djfc.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.215:/opt/jetty/webapps
 
-                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/dejonge/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     ssh jetty@192.168.91.215 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.215:/data/web/gui
@@ -412,7 +412,7 @@ pipeline {
                     scp Relatiebeheer/src/main/resources/prd/djfc.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.220:/opt/jetty/webapps
 
-                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/dejonge/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     ssh jetty@192.168.91.220 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.220:/data/web/gui
