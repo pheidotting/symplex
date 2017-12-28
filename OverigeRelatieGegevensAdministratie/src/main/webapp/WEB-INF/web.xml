@@ -31,9 +31,9 @@
 		<!--<listener-class>nl.lakedigital.servlet.StartupServlet</listener-class>-->
 	<!--</listener>-->
 
-	<listener>
-		<listener-class>nl.lakedigital.djfc.web.servlet.VerwijderDuplicaatAdressen</listener-class>
-	</listener>
+	<!--<listener>-->
+	<!--<listener-class>nl.lakedigital.djfc.web.servlet.VerwijderDuplicaatAdressen</listener-class>-->
+	<!--</listener>-->
     <listener>
         <listener-class>nl.lakedigital.djfc.web.servlet.InlezenTelefonieBestandenServlet</listener-class>
     </listener>
