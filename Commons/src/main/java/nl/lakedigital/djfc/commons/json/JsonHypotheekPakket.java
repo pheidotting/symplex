@@ -22,7 +22,7 @@ public class JsonHypotheekPakket {
 
     public List<JsonHypotheek> getHypotheken() {
         if (hypotheken == null) {
-            hypotheken = new ArrayList<JsonHypotheek>();
+            hypotheken = new ArrayList<>();
         }
         return hypotheken;
     }

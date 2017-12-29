@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import nl.dias.domein.features.MyFeatures;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
@@ -30,7 +31,7 @@ public class AdresController extends AbstractController {
     public void opslaan(@RequestBody List<JsonAdres> jsonEntiteiten, HttpServletRequest httpServletRequest) {
         List<JsonAdres> lijst = jsonEntiteiten.stream().map(adres -> {
             Long entiteitId;
-            if (adres.getParentIdentificatie() != null&&!"".equals(adres.getParentIdentificatie())) {
+            if (adres.getParentIdentificatie() != null && !"".equals(adres.getParentIdentificatie())) {
                 try {
                     entiteitId = identificatieClient.zoekIdentificatieCode(adres.getParentIdentificatie()).getEntiteitId();
                 } catch (Exception e) {
@@ -38,6 +39,7 @@ public class AdresController extends AbstractController {
                         Thread.sleep(2000);
                     } catch (InterruptedException e1) {
                         LOGGER.trace("Fout, eerste keer bij ophalen identificatie {}", e);
+                        Thread.interrupted();
                     }
                     try {
                         entiteitId = identificatieClient.zoekIdentificatieCode(adres.getParentIdentificatie()).getEntiteitId();
@@ -81,7 +83,7 @@ public class AdresController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode/{postcode}/{huisnummer}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public JsonAdres ophalenAdresOpPostcode(@PathVariable("postcode") String postcode, @PathVariable("huisnummer") String huisnummer) {
-        return null;//adresClient.ophalenAdresOpPostcode(postcode, huisnummer, MyFeatures.ADRES_NIET_VIA_API.isActive());
+        return adresClient.ophalenAdresOpPostcode(postcode, huisnummer, MyFeatures.ADRES_NIET_VIA_API.isActive());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleAdressenBijLijstMetEntiteiten", produces = MediaType.APPLICATION_JSON)

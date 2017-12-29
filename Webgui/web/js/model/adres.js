@@ -15,5 +15,6 @@ define(['jquery',
 		_this.soortEntiteit = ko.observable();
 		_this.entiteitId = ko.observable();
 		_this.parentIdentificatie = ko.observable();
+		_this.identificatie = ko.observable();
     };
 });

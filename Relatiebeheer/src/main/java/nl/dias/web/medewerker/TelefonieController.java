@@ -56,7 +56,7 @@ public class TelefonieController extends AbstractController {
     public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bestandsnaam) throws IOException {
         File file = new File(recordingspad + File.separator + bestandsnaam);
 
-        if (file != null && file.exists()) {
+        if (file != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);

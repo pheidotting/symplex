@@ -7,26 +7,33 @@ define(["commons/3rdparty/log",
         'repository/bedrijf-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service',
-        'underscore'],
-    function(log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _) {
+        'underscore',
+        'moment'],
+    function(log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
 
         return {
             opslaan: function(schade, opmerkingen) {
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
+//                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
                     schade.opmerkingen = opmerkingen;
+                    schade.parentIdentificatie = schade.polis;
 
-                    $.when(schadeRepository.opslaan(schade, trackAndTraceId)).then(function(response) {
+                    if(schade.datumTijdSchade().indexOf('-') == 2){
+                        schade.datumTijdSchade(moment(schade.datumTijdSchade(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                        schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                    }
+
+                    $.when(schadeRepository.opslaan(schade, 'trackAndTraceId')).then(function(response) {
 //                        var id = response.entity.foutmelding;
 //                        var soortEntiteit = 'SCHADE';
 //
 //                        $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
 //                        .then(function(opmerkingResponse) {
-                            return deferred.resolve();
+                            return deferred.resolve(response);
 //                        });
                     });
-                });
+//                });
 
                 return deferred.promise();
             },
@@ -35,7 +42,7 @@ define(["commons/3rdparty/log",
                 var identificatie = id;
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
                     return deferred.resolve(data);
                 }).fail(function() {
                     $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
@@ -53,7 +60,7 @@ define(["commons/3rdparty/log",
             lijstSchades: function(identificatie) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
                     return deferred.resolve(data);
                 }).fail(function() {
                     $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {

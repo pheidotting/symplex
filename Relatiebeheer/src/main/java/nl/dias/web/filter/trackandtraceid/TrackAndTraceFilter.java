@@ -12,8 +12,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.*;
 
 @Component
 public class TrackAndTraceFilter implements Filter {
@@ -33,29 +35,33 @@ public class TrackAndTraceFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String json = null;
 
-        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
-        MultiReadHttpServletRequest multiReadHttpServletRequest = new MultiReadHttpServletRequest(httpRequest);
-        String url = getFullURL(httpRequest);
+        MultiReadHttpServletRequest multiReadHttpServletRequest = new MultiReadHttpServletRequest(httpServletRequest);
+        String url = getFullURL(httpServletRequest);
 
         if (!url.endsWith("/log4j/log4javascript")) {
 
-            if ("POST".equalsIgnoreCase(httpRequest.getMethod()) && !url.endsWith("bijlage/uploadBijlage")) {
+            if ("POST".equalsIgnoreCase(httpServletRequest.getMethod()) && !url.endsWith("bijlage/uploadBijlage")) {
                 json = getJson(multiReadHttpServletRequest.getReader());
 
                 //Wachtwoord filteren uit inloggen request, niet zo netjes om dit plain text op te slaan
                 if (url.endsWith("inloggen")) {
                     int i = json.indexOf("wachtwoord\":") + 13;
-                    int j = json.indexOf("\",", i);
+                    int j = json.indexOf('\"', i);
 
                     json = json.substring(0, i) + "XXXX" + json.substring(j);
                 }
             }
-            inkomendRequestService.opslaan(getIngelogdeGebruiker(httpRequest), json, httpRequest, url);
+            inkomendRequestService.opslaan(getIngelogdeGebruiker(httpServletRequest), json, httpServletRequest, url);
         }
 
+        HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(multiReadHttpServletRequest);
+        if (!"get".equalsIgnoreCase(httpServletRequest.getMethod())) {
+            requestWrapper.addHeader("trackAndTraceId", UUID.randomUUID().toString());
+        }
 
-        filterChain.doFilter(multiReadHttpServletRequest, servletResponse);
+        filterChain.doFilter(requestWrapper, servletResponse);
     }
 
     @Override
@@ -64,7 +70,7 @@ public class TrackAndTraceFilter implements Filter {
     }
 
     private String getFullURL(HttpServletRequest request) {
-        StringBuffer requestURL = request.getRequestURL();
+        StringBuilder requestURL = new StringBuilder().append(request.getRequestURL().toString());
         String queryString = request.getQueryString();
 
         if (queryString == null) {
@@ -103,4 +109,59 @@ public class TrackAndTraceFilter implements Filter {
         }
         return null;
     }
+
+    public class HeaderMapRequestWrapper extends HttpServletRequestWrapper {
+        /**
+         * construct a wrapper for this request
+         *
+         * @param request
+         */
+        public HeaderMapRequestWrapper(HttpServletRequest request) {
+            super(request);
+        }
+
+        private Map<String, String> headerMap = new HashMap<String, String>();
+
+        /**
+         * add a header with given name and value
+         *
+         * @param name
+         * @param value
+         */
+        public void addHeader(String name, String value) {
+            headerMap.put(name, value);
+        }
+
+        @Override
+        public String getHeader(String name) {
+            String headerValue = super.getHeader(name);
+            if (headerMap.containsKey(name)) {
+                headerValue = headerMap.get(name);
+            }
+            return headerValue;
+        }
+
+        /**
+         * get the Header names
+         */
+        @Override
+        public Enumeration<String> getHeaderNames() {
+            List<String> names = Collections.list(super.getHeaderNames());
+            for (String name : headerMap.keySet()) {
+                names.add(name);
+            }
+            return Collections.enumeration(names);
+        }
+
+        @Override
+        public Enumeration<String> getHeaders(String name) {
+            List<String> values = Collections.list(super.getHeaders(name));
+            if (headerMap.containsKey(name)) {
+                values.add(headerMap.get(name));
+            }
+            return Collections.enumeration(values);
+        }
+
+    }
+
 }

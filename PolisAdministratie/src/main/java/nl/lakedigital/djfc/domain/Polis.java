@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.domain;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.envers.Audited;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-//@Audited
+@Audited
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorColumn(name = "SOORT", length = 2)

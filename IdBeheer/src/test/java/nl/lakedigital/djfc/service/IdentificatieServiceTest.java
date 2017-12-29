@@ -53,8 +53,6 @@ public class IdentificatieServiceTest extends EasyMockSupport {
         String soortEntiteit = "BEDRIJF";
         Long entiteitid = 1L;
 
-        //        Identificatie identificatie=new Identificatie(soortEntiteit,entiteitid);
-
         expect(identificatieRepository.zoek(soortEntiteit, entiteitid)).andReturn(null);
 
         Capture<Identificatie> identificatieCapture = newCapture();

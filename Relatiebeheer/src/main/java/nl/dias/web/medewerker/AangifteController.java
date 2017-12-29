@@ -1,7 +1,6 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Aangifte;
-import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Relatie;
 import nl.dias.service.AangifteService;
 import nl.dias.service.GebruikerService;

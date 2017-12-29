@@ -4,12 +4,22 @@ import nl.dias.domein.*;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.mapper.RelatieMapper;
+import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
+import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
+import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @RequestMapping("/gebruiker")
 @Controller
@@ -38,6 +49,8 @@ public class GebruikerController extends AbstractController {
     @Inject
     private RelatieMapper relatieMapper;
     @Inject
+    private JsonRelatieMapper jsonRelatieMapper;
+    @Inject
     private Mapper mapper;
     @Inject
     private AuthorisatieService authorisatieService;
@@ -47,6 +60,17 @@ public class GebruikerController extends AbstractController {
     private JsonMedewerkerNaarMedewerkerMapper jsonMedewerkerNaarMedewerkerMapper;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+
+    //    @Inject
+    //    private AdresController adresController;
+    //    @Inject
+    //    private TelefoonnummerController telefoonnummerController;
+    //    @Inject
+    //    private RekeningNummerController rekeningNummerController;
+    //    @Inject
+    //    private OpmerkingController opmerkingController;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -65,7 +89,7 @@ public class GebruikerController extends AbstractController {
     public JsonRelatie lees(@QueryParam("id") String id) {
         LOGGER.debug("Ophalen Relatie met id : " + id);
 
-        JsonRelatie jsonRelatie = null;
+        JsonRelatie jsonRelatie;
         if (id != null && !"0".equals(id.trim())) {
             Relatie relatie = (Relatie) gebruikerService.lees(Long.parseLong(id));
 
@@ -108,29 +132,6 @@ public class GebruikerController extends AbstractController {
         gebruikerService.opslaan(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/lijstRelaties", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonLijstRelaties lijstRelaties(@QueryParam("weglaten") String weglaten) {
-        LOGGER.debug("Ophalen lijst met alle Relaties");
-
-        Long idWeglaten = null;
-        if (weglaten != null) {
-            LOGGER.debug("id " + weglaten + " moet worden weggelaten");
-            idWeglaten = Long.parseLong(weglaten);
-        }
-
-        JsonLijstRelaties lijst = new JsonLijstRelaties();
-
-        for (Gebruiker r : gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor())) {
-            if (idWeglaten == null || !idWeglaten.equals(r.getId())) {
-                lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-            }
-        }
-        LOGGER.debug("Opgehaald, lijst met " + lijst.getJsonRelaties().size() + " relaties");
-
-        return lijst;
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
     //, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -148,8 +149,8 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaan(@RequestBody JsonRelatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        LOGGER.info("Opslaan " + jsonRelatie);
+    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonRelatie));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -160,16 +161,11 @@ public class GebruikerController extends AbstractController {
             }
         }
 
-        String sessie = null;
-        if (httpServletRequest.getSession().getAttribute("sessie") != null && !"".equals(httpServletRequest.getSession().getAttribute("sessie"))) {
-            sessie = httpServletRequest.getSession().getAttribute("sessie").toString();
-        }
-
         Medewerker medewerker = (Medewerker) getIngelogdeGebruiker(httpServletRequest);
 
         Kantoor kantoor = kantoorRepository.lees(medewerker.getKantoor().getId());
 
-        Relatie relatie = relatieMapper.mapVanJson(jsonRelatie);
+        Relatie relatie = jsonRelatieMapper.mapVanJson(jsonRelatie);
         relatie.setKantoor(kantoor);
         LOGGER.debug("Uit mapper " + relatie);
 
@@ -191,7 +187,7 @@ public class GebruikerController extends AbstractController {
 
             if (identificatie != null) {
                 relatie.setIdentificatie(identificatie.getIdentificatie());
-            }else{
+            } else {
                 try {
                     Thread.sleep(3000);
                     Future<Identificatie> identificatieFuture1 = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
@@ -208,6 +204,17 @@ public class GebruikerController extends AbstractController {
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
 
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getTelefoonnummers().stream().map(new DomainTelefoonnummerNaarMessagingTelefoonnummerMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getRekeningNummers().stream().map(new DomainRekeningNummerNaarMessagingRekeningNummerMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
+
+        opslaanEntiteitenRequest.setEntiteitId(relatie.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
+
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
         return relatie.getIdentificatie();
     }
 
@@ -219,33 +226,6 @@ public class GebruikerController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         gebruikerService.verwijder(id);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/zoekOpNaamAdresOfPolisNummer", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonLijstRelaties zoekOpNaamAdresOfPolisNummer(@QueryParam("zoekTerm") String zoekTerm, @QueryParam("weglaten") String weglaten) {
-        LOGGER.info("zoekOpNaamAdresOfPolisNummer met zoekterm " + zoekTerm);
-
-        JsonLijstRelaties lijst = new JsonLijstRelaties();
-
-        if (zoekTerm == null || "".equals(zoekTerm)) {
-            for (Gebruiker r : gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor())) {
-                lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-            }
-        } else {
-            Long idWeglaten = null;
-            if (weglaten != null) {
-                LOGGER.debug("id " + weglaten + " moet worden weggelaten");
-                idWeglaten = Long.parseLong(weglaten);
-            }
-
-            for (Gebruiker r : gebruikerService.zoekOpNaamAdresOfPolisNummer(zoekTerm)) {
-                if (idWeglaten == null || !idWeglaten.equals(r.getId())) {
-                    lijst.getJsonRelaties().add(relatieMapper.mapNaarJson((Relatie) r));
-                }
-            }
-        }
-        return lijst;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)
@@ -273,12 +253,24 @@ public class GebruikerController extends AbstractController {
         return gebruikerService.leesOAuthCodeTodoist(getIngelogdeGebruiker(httpServletRequest).getId());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/wijzig-wachtwoord", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.POST, value = "/wijzigWachtwoord", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void wijzigWachtwoord(@RequestBody WachtwoordWijzigen wachtwoordWijzigen, HttpServletRequest httpServletRequest) {
+    public void wijzigWachtwoord(@RequestBody String nieuwWactwoord, HttpServletRequest httpServletRequest) {
+        LOGGER.info("Wachtwoord wijzigen");
+
         zetSessieWaarden(httpServletRequest);
 
-        LOGGER.debug(wachtwoordWijzigen.getIdentificatie());
-        LOGGER.debug(wachtwoordWijzigen.getWachtwoord());
+        Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
+        try {
+            gebruiker.setHashWachtwoord(nieuwWactwoord);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        gebruiker.setWachtwoordLaatstGewijzigd(new LocalDateTime());
+        gebruiker.setMoetWachtwoordUpdaten(false);
+
+        gebruikerService.opslaan(gebruiker);
     }
 }

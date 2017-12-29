@@ -8,7 +8,7 @@ define(['commons/3rdparty/log2',
         'mapper/groepbijlage-mapper'],
     function(log, Adres, bijlageService, ko, fileUpload, commonFunctions, bijlageMapper, groepbijlageMapper) {
 
-    return function(readOnly, soortEntiteit, entiteitId, bijlages, groepBijlages) {
+    return function(readOnly, soortEntiteit, entiteitId, bijlages, groepBijlages, nieuweEntiteit) {
         var _this = this;
         var logger = log.getLogger('bijlage-viewmodel');
 
@@ -16,6 +16,8 @@ define(['commons/3rdparty/log2',
         fileUpload.init();
 		this.bijlages = ko.observableArray();
 		this.groepBijlages = ko.observableArray();
+		this.schermTonen = ko.observable(!nieuweEntiteit);
+		this.override = false;
 
         $.each(bijlageMapper.mapBijlages(bijlages)(), function(i, bijlage){
             _this.bijlages.push(bijlage);
@@ -28,8 +30,25 @@ define(['commons/3rdparty/log2',
 		this.id = ko.observable(entiteitId.identificatie);
 		this.soortEntiteit = ko.observable(soortEntiteit);
 
+        this.setId = function(id){
+            $('#identificatie').val(id);
+            _this.override = true;
+            _this.readOnly = false;
+            _this.id(id);
+        };
+
+        this.setSchermTonen = function(schermTonen) {
+            _this.override = true;
+            _this.readOnly = false;
+            _this.schermTonen(schermTonen);
+        };
+
         this.tonenUploadVeld = ko.computed(function(){
+          if(_this.override){
+            return true;
+          }else{
             return !_this.readOnly && _this.id() != null && parseInt(_this.id()) != 0;
+            }
         });
 
         this.notReadOnly = ko.computed(function() {

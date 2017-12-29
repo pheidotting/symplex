@@ -1,6 +1,8 @@
 package nl.dias.it;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.lakedigital.djfc.commons.json.Inloggen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -16,13 +18,16 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.util.UUID;
 
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+
 public class AbstractITest {
     private final static Logger LOGGER = LoggerFactory.getLogger(AbstractITest.class);
-    protected String sessie = null;
 
     protected final String GEBRUIKER_OPSLAAN = "http://localhost:7075/dejonge/rest/medewerker/gebruiker/opslaan";
     protected final String RELATIE_LEZEN = "http://localhost:7075/dejonge/rest/medewerker/relatie/lees";
     protected final String INLOGGEN = "http://localhost:7075/dejonge/rest/authorisatie/authorisatie/inloggen";
+
+    private String jwt;
 
     protected <T> T getMessageFromTemplate(JmsTemplate jmsTemplate, Class<T> clazz) throws JAXBException, JMSException {
         Message m = jmsTemplate.receive();
@@ -37,52 +42,44 @@ public class AbstractITest {
         return ontvangenObject;
     }
 
-    protected String doePost(Object entiteit, String url, String trackAndTraceId, String sessie) {
+    protected String doePost(Object entiteit, String url, String trackAndTraceId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("trackAndTraceId", trackAndTraceId);
-        if (sessie != null) {
-            headers.set("sessie", sessie);
-        }
+        headers.set(AUTHORIZATION, jwt);
 
-        HttpEntity<String> entity = new HttpEntity<>(new Gson().toJson(entiteit), headers);
+        HttpEntity<String> entity = new HttpEntity<>(toJson(entiteit), headers);
 
         RestTemplate restTemplate = new RestTemplate();
 
         LOGGER.debug("Aanroepen {}", url);
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+        jwt = response.getHeaders().get(AUTHORIZATION).get(0);
 
         return response.getBody();
     }
 
     protected void inloggen() {
         String trackAndTraceId = UUID.randomUUID().toString();
-        String url = INLOGGEN;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("trackAndTraceId", trackAndTraceId);
-
-        HttpEntity<String> entity = new HttpEntity<>("{\"identificatie\":\"djfc.bene\",\"wachtwoord\":\"bene\",\"onthouden\":false,\"onjuisteGebruikersnaam\":false,\"onjuistWachtwoord\":false}", headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        LOGGER.debug("Aanroepen {}", url);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
-
-        String sessie = response.getHeaders().get("sessie").get(0);
-        if (sessie != null) {
-            this.sessie = sessie;
-        }
+        doePost(new Inloggen("djfc.bene", "bene"), INLOGGEN, trackAndTraceId);
     }
 
-    protected String doeGet(String url, String sessie) {
+    protected String toJson(Object in) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(in);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected String doeGet(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if (sessie != null) {
-            headers.set("sessie", sessie);
-        }
+        headers.set(AUTHORIZATION, jwt);
 
         HttpEntity entity = new HttpEntity(headers);
 

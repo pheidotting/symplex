@@ -8,7 +8,6 @@ import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.domain.particulier.AanhangerParticulierVerzekering;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import static nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class PolisTest extends AbstractITest {
@@ -54,12 +52,12 @@ public class PolisTest extends AbstractITest {
 
     @Test
     public void voertestenuit() throws JAXBException, JMSException {
-        //        for (nl.lakedigital.djfc.domain.Polis p : polissen) {
-        //            if (!p.getSchermNaam().equals("ArbeidsongeschiktheidParticulier")) {
-        //                test(p.getSchermNaam());
-        //                wachtff(10000);
-        //            }
-        //        }
+        //                for (nl.lakedigital.djfc.domain.Polis p : polissen) {
+        //                    if (!p.getSchermNaam().equals("ArbeidsongeschiktheidParticulier")) {
+        //                        test(p.getSchermNaam());
+        //                        wachtff(10000);
+        //                    }
+        //                }
         test(new AanhangerParticulierVerzekering().getSchermNaam());
     }
 

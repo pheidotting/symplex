@@ -1,8 +1,8 @@
 package nl.dias.domein.polis;
 
 import nl.dias.domein.Bedrag;
+import nl.dias.domein.Schade;
 import nl.dias.domein.StatusPolis;
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.envers.Audited;
@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Audited
 @Component
@@ -23,7 +25,7 @@ import java.util.Date;
         @NamedQuery(name = "Polis.allesVanRelatie", query = "select p from Polis p where p.relatie = :relatie"),//
         @NamedQuery(name = "Polis.allesVanBedrijf", query = "select p from Polis p where p.bedrijf = :bedrijf")//
 })
-public abstract class Polis implements PersistenceObject, Serializable, Cloneable {
+public abstract class Polis implements Serializable, Cloneable {
     private static final long serialVersionUID = 1011438129295546984L;
 
     @Id
@@ -82,6 +84,9 @@ public abstract class Polis implements PersistenceObject, Serializable, Cloneabl
     @Column(name = "OMSCHRIJVING", columnDefinition = "varchar(2500)")
     private String omschrijvingVerzekering;
 
+    @Transient
+    private List<Schade> schades;
+
     public abstract SoortVerzekering getSoortVerzekering();
 
     public abstract String getSchermNaam();
@@ -93,12 +98,10 @@ public abstract class Polis implements PersistenceObject, Serializable, Cloneabl
 
     public abstract Polis nieuweInstantie();
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -250,6 +253,17 @@ public abstract class Polis implements PersistenceObject, Serializable, Cloneabl
 
     public void setOmschrijvingVerzekering(String omschrijvingVerzekering) {
         this.omschrijvingVerzekering = omschrijvingVerzekering;
+    }
+
+    public List<Schade> getSchades() {
+        if (schades == null) {
+            schades = new ArrayList<>();
+        }
+        return schades;
+    }
+
+    public void setSchades(List<Schade> schades) {
+        this.schades = schades;
     }
 
     @Override

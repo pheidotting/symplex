@@ -3,8 +3,9 @@ define(['commons/3rdparty/log2',
         'knockout',
         'dataServices',
         'moment',
-        'mapper/opmerking-mapper'],
-    function(log, Opmerking, ko, dataServices, moment, opmerkingMapper) {
+        'mapper/opmerking-mapper',
+        'repository/gebruiker-repository'],
+    function(log, Opmerking, ko, dataServices, moment, opmerkingMapper, gebruikerRepository) {
 
     return function(readOnly, soortEntiteit, entiteitId, opmerkingen) {
         var _this = this;
@@ -32,7 +33,11 @@ define(['commons/3rdparty/log2',
         };
 
         this.voegOpmerkingToe = function() {
-            $.when(dataServices.haalIngelogdeGebruiker()).then(function(response){
+            var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            var token = JSON.parse(window.atob(base64));
+
+            $.when(gebruikerRepository.haalIngelogdeGebruiker(token.sub)).then(function(response){
                 var opmerking = new Opmerking('');
                 opmerking.medewerker(response.gebruikersnaam);
                 opmerking.medewerkerId(response.id);

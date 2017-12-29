@@ -8,7 +8,7 @@ public class PolisComperator implements Comparator<Polis>, Serializable {
 
     @Override
     public int compare(Polis o1, Polis o2) {
-            return o1.getClass().toString().compareTo(o2.getClass().toString());
+        return o1.getClass().toString().compareTo(o2.getClass().toString());
     }
 
 }

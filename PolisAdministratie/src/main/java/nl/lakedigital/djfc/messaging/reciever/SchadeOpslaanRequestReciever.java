@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
+import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -7,7 +8,6 @@ import nl.lakedigital.djfc.domain.Schade;
 import nl.lakedigital.djfc.messaging.mapper.DomainSchadeNaarMessagingSchadeMapper;
 import nl.lakedigital.djfc.messaging.mapper.MessagingSchadeNaarDomainSchadeMapper;
 import nl.lakedigital.djfc.service.SchadeService;
-import nl.lakedigital.djfc.service.envers.SessieHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

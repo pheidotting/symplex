@@ -9,6 +9,7 @@ requirejs.config({
         knockoutValidationLocal: 'node_modules/knockout.validation/localization/nl-NL',
         blockUI: 'node_modules/block-ui/jquery.blockUI',
         jqueryUI: 'node_modules/jquery-ui/jquery-ui',
+        complexify: 'node_modules/jquery.complexify/jquery.complexify.min',
         text: 'node_modules/requirejs-text/text',
         underscore: 'node_modules/underscore/underscore-min',
         lodash: 'node_modules/lodash/lodash.min',
@@ -41,6 +42,6 @@ requirejs.config({
         moment: {
             noGlobal: true
         }
-    }//,
-//    urlArgs: "bust=" + (new Date()).getTime()
+    },
+    urlArgs: "bust={VERSION}"
 });

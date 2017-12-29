@@ -1,13 +1,11 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "ONDERLINGERELATIES")
-public class OnderlingeRelatie implements PersistenceObject, Serializable {
+public class OnderlingeRelatie implements Serializable {
     private static final long serialVersionUID = -8731485363183283190L;
 
     @Id
@@ -42,12 +40,10 @@ public class OnderlingeRelatie implements PersistenceObject, Serializable {
         setRelatieMet(relatieMet, terug);
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

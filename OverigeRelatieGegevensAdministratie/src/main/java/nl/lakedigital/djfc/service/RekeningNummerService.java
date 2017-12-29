@@ -26,4 +26,9 @@ public class RekeningNummerService extends AbstractService<RekeningNummer> {
     public List<RekeningNummer> alles() {
         return rekeningNummerRepository.alles();
     }
+
+    @Override
+    public boolean isGevuld(RekeningNummer rekeningNummer) {
+        return rekeningNummer != null && rekeningNummer.getRekeningnummer() != null && !"".equals(rekeningNummer.getRekeningnummer());
+    }
 }

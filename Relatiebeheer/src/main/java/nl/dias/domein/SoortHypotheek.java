@@ -1,13 +1,12 @@
 package nl.dias.domein;
 
-import nl.lakedigital.hulpmiddelen.domein.PersistenceObject;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "SOORTHYPOTHEEK")
-@NamedQueries({ @NamedQuery(name = "SoortHypotheek.allesInGebruik", query = "select s from SoortHypotheek s where s.ingebruik = '1'") })
-public class SoortHypotheek implements PersistenceObject {
+@NamedQueries({@NamedQuery(name = "SoortHypotheek.allesInGebruik", query = "select s from SoortHypotheek s where s.ingebruik = '1'")})
+public class SoortHypotheek implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -23,12 +22,10 @@ public class SoortHypotheek implements PersistenceObject {
         ingebruik = true;
     }
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

@@ -55,6 +55,7 @@ define(['jquery',
 
             $.when(schadeService.lees(_this.id()), schadeService.lijstStatusSchade()).then(function(data, statussenSchade) {
                 _this.basisId = data.identificatie;
+
                 if(data.naam != null) {
                     _this.basisEntiteit = "BEDRIJF";
                 } else {
@@ -85,7 +86,7 @@ define(['jquery',
                 _this.schade = schadeMapper.mapSchade(schade);
 
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, schadeId, schade.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
 
                 var $selectPolis = $('#polisVoorSchademelding');
@@ -144,6 +145,26 @@ define(['jquery',
 				_this.polis.prolongatieDatum(moment(_this.polis.ingangsDatum(), "DD-MM-YYYY").add(1, 'y').format("DD-MM-YYYY"));
 			}
 		};
+
+		this.opslaanOpPaginaBlijven = function() {
+		    logger.debug('opslaan');
+	    	var result = ko.validation.group(_this.schade, {deep: true});
+	    	if(result().length > 0) {
+	    		result.showAllMessages(true);
+	    	}else{
+	    		logger.debug("Versturen : " + ko.toJSON(_this.schade));
+
+                schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function(data){
+                    _this.id(data);
+                    _this.bijlageModel.setId(data);
+                    _this.bijlageModel.setSchermTonen(true);
+                    _this.schade.identificatie(data);
+					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
+	    		}).fail(function(data){
+					commonFunctions.plaatsFoutmelding(data);
+	    		});
+	    	}
+        };
 
 		this.opslaan = function() {
 		    logger.debug('opslaan');

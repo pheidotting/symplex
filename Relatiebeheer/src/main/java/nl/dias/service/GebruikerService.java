@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.getFirst;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
@@ -207,7 +206,6 @@ public class GebruikerService {
     }
 
 
-
     public Gebruiker zoek(String emailadres) throws NietGevondenException {
         return gebruikerRepository.zoek(emailadres);
     }
@@ -220,7 +218,9 @@ public class GebruikerService {
         return gebruikerRepository.zoekOpNaam(naam);
     }
 
-
+    public List<Relatie> zoekRelatieOpRoepnaam(String naam) {
+        return gebruikerRepository.zoekRelatieOpRoepnaam(naam);
+    }
 
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {
@@ -232,6 +232,8 @@ public class GebruikerService {
             }
         }
         LOGGER.debug("Op naam {}", relaties.size());
+        relaties.addAll(gebruikerRepository.zoekRelatieOpRoepnaam(zoekTerm));
+        LOGGER.debug("Op roepnaam {}", relaties.size());
         relaties.addAll(destilleerRelatie(adresClient.zoeken(zoekTerm)));
         LOGGER.debug("Zoeken op telefoonnummer");
         String zoekTermNumeriek = zoekTerm.replace(" ", "").replace("-", "");

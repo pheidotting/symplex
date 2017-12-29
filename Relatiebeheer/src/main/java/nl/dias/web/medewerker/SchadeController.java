@@ -1,13 +1,18 @@
 package nl.dias.web.medewerker;
 
+import com.google.common.base.Stopwatch;
 import nl.dias.domein.Schade;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.SchadeService;
 import nl.dias.web.mapper.SchadeMapper;
+import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
+import nl.dias.web.medewerker.mappers.JsonSchadeNaarDomeinSchadeMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +23,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Stopwatch.createStarted;
 
 @RequestMapping("/schade")
 @Controller
@@ -36,18 +44,34 @@ public class SchadeController extends AbstractController {
     private BedrijfService bedrijfService;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Response opslaan(@RequestBody JsonSchade jsonSchade, HttpServletRequest httpServletRequest) {
+    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
         LOGGER.debug("{}", jsonSchade);
 
         zetSessieWaarden(httpServletRequest);
 
-        Schade schade = schadeMapper.mapVanJson(jsonSchade);
-        schadeService.opslaan(schade, jsonSchade.getSoortSchade(), jsonSchade.getPolis(), jsonSchade.getStatusSchade());
+        Schade schade = new JsonSchadeNaarDomeinSchadeMapper(schadeService, identificatieClient).map(jsonSchade);
+        schadeService.opslaan(schade, jsonSchade.getSoortSchade(), jsonSchade.getParentIdentificatie(), jsonSchade.getStatusSchade());
 
-        return Response.status(202).entity(new JsonFoutmelding(schade.getId().toString())).build();
+        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        opslaanEntiteitenRequest.getLijst().addAll(jsonSchade.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(schade.getId(), SoortEntiteit.SCHADE)).collect(Collectors.toList()));
+
+        opslaanEntiteitenRequest.setEntiteitId(schade.getId());
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+
+        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        Identificatie identificatie = null;
+        Stopwatch stopwatch = createStarted();
+        while (identificatie == null && stopwatch.elapsed(TimeUnit.SECONDS) < 60) {
+            identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
+        }
+
+        return identificatie.getIdentificatie();// Response.status(202).entity(new JsonFoutmelding(schade.getId().toString())).build();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijst", produces = MediaType.APPLICATION_JSON)

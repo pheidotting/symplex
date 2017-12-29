@@ -15,19 +15,28 @@ define(["commons/3rdparty/log2",
             opslaan: function(relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
                 var deferred = $.Deferred();
 
+                relatie.adressen = adressen;
+                relatie.telefoonnummers = telefoonnummers;
+                $.each(relatie.telefoonnummers(), function(i, telefoonnummer){
+                    telefoonnummer.parentIdentificatie(relatie.id());
+                    telefoonnummer.soortEntiteit('RELATIE');
+                    if(telefoonnummer.telefoonnummer() != null && telefoonnummer.telefoonnummer() != '') {
+                        telefoonnummer.telefoonnummer(telefoonnummer.telefoonnummer().replace(/ /g, "").replace("-", ""));
+                    }
+                });
+                relatie.rekeningNummers = rekeningnummers;
+                $.each(relatie.rekeningNummers(), function(i, rekeningnummer){
+                    rekeningnummer.parentIdentificatie(relatie.id());
+                    rekeningnummer.soortEntiteit('RELATIE');
+                    if(rekeningnummer.rekeningnummer()!=null && rekeningnummer.rekeningnummer()!= ''){
+                        rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
+                    }
+                });
+                relatie.opmerkingen = opmerkingen;
+
                 repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
                     gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
-                        var id = response;
-                        logger.debug(id);
-                        var soortEntiteit = 'RELATIE';
-
-                        $.when(adresService.opslaan(adressen, trackAndTraceId, soortEntiteit, id),
-                            telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, soortEntiteit, id),
-                            rekeningnummerService.opslaan(rekeningnummers, trackAndTraceId, soortEntiteit, id),
-                            opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-                        .then(function(adresResponse, telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
-                            return deferred.resolve(id);
-                        });
+                        return deferred.resolve(response);
                     });
                 });
 
@@ -53,32 +62,6 @@ define(["commons/3rdparty/log2",
 
                 $.when(gebruikerRepository.leesMedewerker(id)).then(function(medewerker) {
                     return deferred.resolve(medewerker);
-                });
-
-                return deferred.promise();
-            },
-
-            lijstRelaties: function(zoekTerm, weglaten) {
-                logger.debug('ophalen lijst relaties met zoekTerm '+ zoekTerm);
-                var deferred = $.Deferred();
-                var relatieRelaties;
-
-                gebruikerRepository.lijstRelaties(zoekTerm, weglaten).done(function(relatie) {
-                    relatieRelaties = relatie;
-
-                    var ids = _.map(relatie.jsonRelaties, function(relatie){
-                        return relatie.id;
-                    });
-
-                    $.when(repository.voerUitGet(navRegister.bepaalUrl('ALLE_ADRESSEN_BIJ_ENTITEIT') + '?soortEntiteit=RELATIE&lijst=' + ids.join('&lijst='))).then(function(lijstAdressen){
-                        $.each(relatie.jsonRelaties, function(i, item) {
-                            item.adressen = _.filter(lijstAdressen, function(adres){
-                                return adres.entiteitId == item.id;
-                            });
-                        });
-
-                        return deferred.resolve(relatieRelaties);
-                    });
                 });
 
                 return deferred.promise();
@@ -116,6 +99,10 @@ define(["commons/3rdparty/log2",
                 });
 
                 return deferred.promise();
+            },
+
+            wijzigWachtwoord: function(nieuwWachtwoord) {
+                return gebruikerRepository.wijzigWachtwoord(nieuwWachtwoord);
             },
 
             leesOAuthCode: function() {

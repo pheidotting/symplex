@@ -31,4 +31,5 @@ public class Opmerking extends AbstracteEntiteitMetSoortEnId {
     public void setTekst(String tekst) {
         this.tekst = tekst;
     }
+
 }

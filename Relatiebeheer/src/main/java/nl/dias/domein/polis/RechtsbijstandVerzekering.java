@@ -14,10 +14,10 @@ import javax.persistence.Table;
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "RB")
 public class RechtsbijstandVerzekering extends Polis {
-	@Override
-	public SoortVerzekering getSoortVerzekering() {
-		return SoortVerzekering.PARTICULIER;
-	}
+    @Override
+    public SoortVerzekering getSoortVerzekering() {
+        return SoortVerzekering.PARTICULIER;
+    }
 
     @Override
     public String getSchermNaam() {

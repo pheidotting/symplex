@@ -62,7 +62,7 @@ define(['jquery',
                 _this.telefoonnummersModel  = new telefoonnummerViewModel(false, soortEntiteit, id, bedrijf.telefoonnummers);
                 _this.adressenModel         = new adresViewModel(false, soortEntiteit, id, bedrijf.adressen);
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, id, bedrijf.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages);
+                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages, id.identificatie == null);
                 _this.telefonie             = new telefonieViewModel(bedrijf.telefoonnummerMetGesprekkens);
 
                 _this.contactpersonen = contactpersoonMapper.mapContactpersonen(bedrijf.contactPersoons);
@@ -117,7 +117,7 @@ define(['jquery',
 	    		result.showAllMessages(true);
 	    	}else{
 				var foutmelding;
-				bedrijfService.opslaan(_this.bedrijf).done(function(){
+				bedrijfService.opslaan(_this.bedrijf, _this.telefoonnummersModel.telefoonnummers).done(function(){
                     document.location.href = 'zoeken.html';
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 				}).fail(function(response){
