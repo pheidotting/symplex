@@ -25,7 +25,7 @@
 
     <appender name="loggly" class="nl.lakedigital.djfc.appender.LogglyAppender">
         <param name="tag" value="prd,djfc"/>
-        <param name="interval" value="1"/>
+        <param name="interval" value="300"/>
         <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n"/>
