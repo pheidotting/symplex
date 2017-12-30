@@ -32,7 +32,7 @@
                data-bind="value: schade.datumAfgehandeld"/>
         <label for="eigenRisico">Eigen risico</label>
         <input class="form-control" type="text" id="eigenRisico" name="eigenRisico"
-               data-bind="value: schade.eigenRisico"/>
+               data-bind="value: schade.eigenRisico, event: {input: startBewerkenEigenRisico, blur: stopBewerkenEigenRisico}"/>
         <label for="omschrijving">Omschrijving</label>
 		<textarea class="form-control" id="omschrijving" name="omschrijving"
                   data-bind="value: schade.omschrijving"></textarea>
