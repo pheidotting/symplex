@@ -35,6 +35,7 @@ define(['redirect'],
 
         this.uitloggen = function() {
             localStorage.removeItem("symplexAccessToken");
+            location.reload();
         }
 	};
 });
