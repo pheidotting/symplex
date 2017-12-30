@@ -22,12 +22,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Properties;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
@@ -89,6 +95,62 @@ public class AuthorisatieController {
 
         //        return Response.status(401).entity(null).build();
         throw new UnauthorizesdAccessException();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "wachtwoordvergeten/{identificatie}")
+    @ResponseBody
+    public String wachtwoordvergeten(@PathVariable("identificatie") String identificatie) throws MessagingException {
+
+        String mailHost = "localhost";
+        Integer smtpPort = 2170;
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", mailHost);
+        properties.put("mail.smtp.port", smtpPort);
+        LOGGER.debug("smtp port {}", smtpPort);
+        Session emailSession = Session.getDefaultInstance(properties, null);
+
+        Message msg = new MimeMessage(emailSession);
+
+        // -- Set the FROM and TO fields --
+        msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
+
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("patrick@heidotting.nl", false));
+        msg.setSubject("Test");
+        msg.setSentDate(new Date());
+
+        BodyPart messageBodyPart = new MimeBodyPart();
+
+        //evt bijlages bijzoeken
+
+        // Create a multipar message
+        Multipart multipart = new MimeMultipart();
+        //                 Now set the actual message
+        messageBodyPart.setText("Testmail" + "\n");
+        // Set text message part
+        multipart.addBodyPart(messageBodyPart);
+
+        //        for (JsonBijlage bijlage : bijlages) {
+        //            // Part two is attachment
+        //            messageBodyPart = new MimeBodyPart();
+        //            String filename = bijlage.getBestandsNaam();
+        //            DataSource source = new FileDataSource(bijlageClient.getUploadPad() + File.separator + bijlage.getS3Identificatie());
+        //            messageBodyPart.setDataHandler(new DataHandler(source));
+        //            messageBodyPart.setFileName(bijlage.getBestandsNaam());
+        //            multipart.addBodyPart(messageBodyPart);
+        //        }
+
+        // Send the complete message parts
+        msg.setContent(multipart);
+
+        Transport transport = emailSession.getTransport("smtp");
+        transport.connect(mailHost, smtpPort, null, null);
+        //Zeker weten dat de mail niet al verstuurd is door een andere Thread
+        transport.sendMessage(msg, msg.getAllRecipients());
+        transport.close();
+
+
+        return "";
     }
 
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
