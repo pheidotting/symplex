@@ -6,6 +6,7 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.spi.LoggingEvent;
 import org.apache.xbean.spring.context.ClassPathXmlApplicationContext;
+import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 
 public class LogglyAppender extends AppenderSkeleton {
@@ -36,7 +37,13 @@ public class LogglyAppender extends AppenderSkeleton {
         Layout klasse = new PatternLayout("%c{1}");
 
         String tagOutput = tag + "," + klasse.format(event);
-        if (SessieHolder.get().getTrackAndTraceId() != null && !"".equals(SessieHolder.get().getTrackAndTraceId())) {
+        String trackAndTraceId = MDC.get("trackAndTraceId");
+        if (trackAndTraceId == null || "".equals(trackAndTraceId)) {
+            if (SessieHolder.get().getTrackAndTraceId() != null && !"".equals(SessieHolder.get().getTrackAndTraceId())) {
+                trackAndTraceId = SessieHolder.get().getTrackAndTraceId();
+            }
+        }
+        if (trackAndTraceId != null && !"".equals(trackAndTraceId)) {
             tagOutput = tag + "," + SessieHolder.get().getTrackAndTraceId();
         }
         logglyEventsBuffer.add(output, event.getLevel(), token, tagOutput, Integer.parseInt(interval));
