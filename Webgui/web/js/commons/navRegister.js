@@ -9,6 +9,7 @@ define([ ],
                 var vars = [{naam: 'INLOGGEN',                          url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/inloggen'},
                             {naam: 'INGELOGDE_GEBRUIKER',               url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/ingelogdeGebruiker'},
                             {naam: 'UITLOGGEN',                         url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/uitloggen'},
+                            {naam: 'STUUR_NIEUW_WACHTWOORD',            url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/wachtwoordvergeten'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
                             {naam: 'LEES_RELATIE',                      url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/lees'},

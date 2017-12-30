@@ -236,3 +236,8 @@ meter::-webkit-meter-suboptimum-value {
     padding-left:10px;
     padding-right:10px;
 }
+
+.wachtwoordVergeten {
+    font-size: 13px;
+    color: #0e71b8;
+}

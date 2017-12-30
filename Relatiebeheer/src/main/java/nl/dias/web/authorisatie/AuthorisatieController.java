@@ -34,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
@@ -97,12 +98,28 @@ public class AuthorisatieController {
         throw new UnauthorizesdAccessException();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "wachtwoordvergeten/{identificatie}")
+    @RequestMapping(method = RequestMethod.POST, value = "wachtwoordvergeten")
     @ResponseBody
-    public String wachtwoordvergeten(@PathVariable("identificatie") String identificatie) throws MessagingException {
+    public void wachtwoordvergeten(@RequestBody String identificatie) throws MessagingException, NietGevondenException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        LOGGER.info("Wachtwoord vergeten");
+        Gebruiker gebruiker=        gebruikerRepository.zoekOpIdentificatie(identificatie);
 
-        String mailHost = "localhost";
-        Integer smtpPort = 2170;
+        LOGGER.info("Nieuw wachtwoord voor {}",identificatie);
+        if(gebruiker!=null){
+            LOGGER.info("Gebruikerid hierbij gevonden {}, met mailadres {}",gebruiker.getId(),gebruiker.getEmailadres());
+        }
+
+        String nieuwWachtwoord = UUID.randomUUID().toString().replace("-","");
+        String tekst = "Je nieuwe wachtwoord is : "+nieuwWachtwoord;
+
+        if(gebruiker!=null){
+
+            gebruiker.setHashWachtwoord(nieuwWachtwoord);
+            gebruiker.setMoetWachtwoordUpdaten(true);
+            gebruikerRepository.opslaan(gebruiker);
+
+        String mailHost = "smtp.ziggo.nl";
+        Integer smtpPort = 25;
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", mailHost);
@@ -115,8 +132,8 @@ public class AuthorisatieController {
         // -- Set the FROM and TO fields --
         msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
 
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("patrick@heidotting.nl", false));
-        msg.setSubject("Test");
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(gebruiker.getEmailadres(), false));
+        msg.setSubject("Wachtwoord reset");
         msg.setSentDate(new Date());
 
         BodyPart messageBodyPart = new MimeBodyPart();
@@ -126,19 +143,9 @@ public class AuthorisatieController {
         // Create a multipar message
         Multipart multipart = new MimeMultipart();
         //                 Now set the actual message
-        messageBodyPart.setText("Testmail" + "\n");
+        messageBodyPart.setText(tekst);
         // Set text message part
         multipart.addBodyPart(messageBodyPart);
-
-        //        for (JsonBijlage bijlage : bijlages) {
-        //            // Part two is attachment
-        //            messageBodyPart = new MimeBodyPart();
-        //            String filename = bijlage.getBestandsNaam();
-        //            DataSource source = new FileDataSource(bijlageClient.getUploadPad() + File.separator + bijlage.getS3Identificatie());
-        //            messageBodyPart.setDataHandler(new DataHandler(source));
-        //            messageBodyPart.setFileName(bijlage.getBestandsNaam());
-        //            multipart.addBodyPart(messageBodyPart);
-        //        }
 
         // Send the complete message parts
         msg.setContent(multipart);
@@ -148,9 +155,7 @@ public class AuthorisatieController {
         //Zeker weten dat de mail niet al verstuurd is door een andere Thread
         transport.sendMessage(msg, msg.getAllRecipients());
         transport.close();
-
-
-        return "";
+    }
     }
 
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)

@@ -140,6 +140,10 @@ define(["commons/3rdparty/log2",
                 });
 
                 return deferred.promise();
+            },
+
+            stuurNieuwWachtwoord: function(identificatie) {
+                gebruikerRepository.stuurNieuwWachtwoord(identificatie);
             }
         }
     }
