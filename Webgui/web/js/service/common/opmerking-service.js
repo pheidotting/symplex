@@ -18,7 +18,7 @@ define(['commons/3rdparty/log2',
 
                     return opmerkingRepository.opslaan(opmerkingen);
                 } else {
-                    return opmerkingRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return opmerkingRepository.verwijder(soortEntiteit, id);
                 }
             },
 

@@ -19,7 +19,7 @@ define(['commons/3rdparty/log2',
 
                     return adresRepository.opslaan(adressen);
                 } else {
-                    return adresRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return adresRepository.verwijder(soortEntiteit, id);
                 }
             },
 

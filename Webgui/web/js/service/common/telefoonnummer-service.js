@@ -22,7 +22,7 @@ define(['commons/3rdparty/log2',
 
                     return telefoonnummerRepository.opslaan(telefoonnummers);
                 } else {
-                    return telefoonnummerRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return telefoonnummerRepository.verwijder(soortEntiteit, id);
                 }
             },
 

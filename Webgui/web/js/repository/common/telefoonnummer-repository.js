@@ -9,7 +9,7 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_TELEFOONNUMMERS'), ko.toJSON(telefoonnummers()));
             },
 
-            verwijder: function(trackAndTraceId, soortEntiteit, id) {
+            verwijder: function(soortEntiteit, id) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_TELEFOONNUMMERS') + '/' + soortEntiteit + '/' + id, null);
             },
 

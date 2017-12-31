@@ -23,14 +23,8 @@ define(["commons/3rdparty/log",
                         schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
                     }
 
-                    $.when(schadeRepository.opslaan(schade, 'trackAndTraceId')).then(function(response) {
-//                        var id = response.entity.foutmelding;
-//                        var soortEntiteit = 'SCHADE';
-//
-//                        $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-//                        .then(function(opmerkingResponse) {
-                            return deferred.resolve(response);
-//                        });
+                    $.when(schadeRepository.opslaan(schade)).then(function(response) {
+                        return deferred.resolve(response);
                     });
 
                 return deferred.promise();

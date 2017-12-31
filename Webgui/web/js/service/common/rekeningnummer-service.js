@@ -19,7 +19,7 @@ define(['commons/3rdparty/log2',
 
                     return rekeningnummerRepository.opslaan(rekeningnummers);
                 } else {
-                    return rekeningnummerRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return rekeningnummerRepository.verwijder(soortEntiteit, id);
                 }
             },
 

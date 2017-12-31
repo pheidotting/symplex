@@ -16,7 +16,7 @@ define(["commons/3rdparty/log",
 
                     return bijlageRepository.opslaan(bijlages);
                 } else {
-                    return bijlageRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return bijlageRepository.verwijder(soortEntiteit, id);
                 }
             },
 

@@ -9,7 +9,7 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OPMERKINGEN'), ko.toJSON(opmerkingen));
             },
 
-            verwijder: function(trackAndTraceId, soortEntiteit, id) {
+            verwijder: function(soortEntiteit, id) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKINGEN') + '/' + soortEntiteit + '/' + id, null);
             },
 

@@ -14,7 +14,7 @@ define(["commons/3rdparty/log2",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_ADRESSEN'), request);
             },
 
-            verwijder: function(trackAndTraceId, soortEntiteit, id) {
+            verwijder: function(soortEntiteit, id) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_ADRESSEN') + '/' + soortEntiteit + '/' + id, null);
             },
 

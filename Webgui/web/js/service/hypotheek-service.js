@@ -73,13 +73,11 @@ define(["commons/3rdparty/log",
                 hypotheek.hypotheekVorm = ko.observable(hypotheek.hypotheekVorm.id);
                 hypotheek.opmerkingen = opmerkingen;
 
-                    hypotheekRepository.opslaanHypotheek(hypotheek).done(function(response) {
-                        var id = response.entity.foutmelding;
-                        var soortEntiteit = 'HYPOTHEEK';
+                hypotheekRepository.opslaanHypotheek(hypotheek).done(function(response) {
+                    var id = response.entity.foutmelding;
+                    var soortEntiteit = 'HYPOTHEEK';
 
-//                        opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id).done(function() {
-                            return deferred.resolve(response);
-//                        });
+                    return deferred.resolve(response);
                 });
 
                 return deferred.promise();

@@ -15,20 +15,17 @@ define(["commons/3rdparty/log",
 
                 polis.maatschappij = ko.observable(polis.maatschappij.id);
 
-                    polis.opmerkingen = opmerkingen;
-                    polis.parentIdentificatie = basisId;
+                polis.opmerkingen = opmerkingen;
+                polis.parentIdentificatie = basisId;
 
-                    console.log(polis);
+                console.log(polis);
 
-                    $.when(polisRepository.opslaan(polis)).then(function(id){
-                        if(id != null && id != '') {
-                            var soortEntiteit = 'POLIS';
+                $.when(polisRepository.opslaan(polis)).then(function(id){
+                    if(id != null && id != '') {
+                        var soortEntiteit = 'POLIS';
 
-//                            $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-//                            .then(function(opmerkingResponse){
-                                return deferred.resolve(id);
-//                            });
-                        }
+                        return deferred.resolve(id);
+                    }
                 });
 
                 return deferred.promise();
