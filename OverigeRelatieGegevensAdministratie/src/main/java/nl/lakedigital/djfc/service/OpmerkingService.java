@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class OpmerkingService extends AbstractService<Opmerking> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpmerkingService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpmerkingService.class);
     @Inject
     private OpmerkingRepository opmerkingRepository;
 

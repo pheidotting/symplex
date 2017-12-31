@@ -25,19 +25,16 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     protected static Logger logger;
 
     private final Class<D> domainType;
-    private final Class<J> jsonType;
-
-    public AbstractController(Class<D> domainType, Class<J> jsonType) {
-        this.domainType = domainType;
-        this.jsonType = jsonType;
-        logger = LoggerFactory.getLogger(AbstractController.class);
-    }
 
     @Inject
     protected Mapper mapper;
 
-    public abstract AbstractService getService();
+    public AbstractController(Class<D> domainType) {
+        this.domainType = domainType;
+        logger = LoggerFactory.getLogger(AbstractController.class);
+    }
 
+    public abstract AbstractService getService();
 
     public void goOpslaan(List<J> jsonEntiteiten) {
         if (jsonEntiteiten != null && !jsonEntiteiten.isEmpty()) {
