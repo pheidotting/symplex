@@ -31,10 +31,6 @@ define(['jquery',
         this.readOnly = ko.observable();
         this.notReadOnly = ko.observable();
 
-		this.veranderDatum = function(datum){
-			datum(commonFunctions.zetDatumOm(datum()));
-		};
-
         this.init = function(hypotheekId, basisId, readOnly, basisEntiteit) {
             var deferred = $.Deferred();
 
@@ -94,6 +90,17 @@ define(['jquery',
 
                         _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
                     }
+
+                    _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
+                    _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
+                    _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
+                    _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
+                    _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
+                    _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
+                    _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
+                    _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
+                    _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
+
                     return deferred.resolve();
                 });
             });
@@ -101,44 +108,13 @@ define(['jquery',
             return deferred.promise();
         };
 
-        zetDatumOm = function(d) {
-            var datum = moment(d, 'DDMMYYYY').format('DD-MM-YYYY');
-
-            if(datum == 'Invalid date') {
-                return null;
-            }
-
-            return datum;
-        };
-
-        zetDatumTijdOm = function(d) {
-            return commonFunctions.zetDatumTijdOm(d);
-        };
-
-        this.exitTaxatieDatum = function() {
-		    _this.hypotheek.taxatieDatum(zetDatumTijdOm(_this.hypotheek.taxatieDatum()));
-        };
-
         this.berekenEinddatumLening = function() {
-        }
+            _this.hypotheek.eindDatum(moment(_this.hypotheek.ingangsDatum()).add(_this.hypotheek.duur(), 'years').format('YYYY-MM-DD'));
+        };
+
         this.berekenEinddatumRenteVastePeriode = function() {
-        }
-
-		this.exitIngangsDatum = function() {
-		    _this.hypotheek.ingangsDatum(zetDatumOm(_this.hypotheek.ingangsDatum()));
-		}
-
-		this.exitEindDatum = function() {
-		    _this.hypotheek.eindDatum(zetDatumOm(_this.hypotheek.eindDatum()));
-		};
-
-		this.exitIngangsDatumRenteVastePeriode = function() {
-		    _this.hypotheek.ingangsDatumRenteVastePeriode(zetDatumOm(_this.hypotheek.ingangsDatumRenteVastePeriode()));
-		};
-
-		this.exitEindDatumRenteVastePeriode = function() {
-		    _this.hypotheek.eindDatumRenteVastePeriode(zetDatumOm(_this.hypotheek.eindDatumRenteVastePeriode()));
-		};
+            _this.hypotheek.eindDatumRenteVastePeriode(moment(_this.hypotheek.ingangsDatumRenteVastePeriode()).add(_this.hypotheek.duurRenteVastePeriode(), 'years').format('YYYY-MM-DD'));
+        };
 
 		this.formatBedrag = function(datum) {
             return opmaak.maakBedragOp(bedrag());
@@ -156,6 +132,17 @@ define(['jquery',
 	    		result.showAllMessages(true);
 	    	}else{
 	    	    _this.hypotheek.parentIdentificatie(_this.basisId);
+
+                _this.hypotheek.hypotheekBedrag(commonFunctions.stripBedrag(_this.hypotheek.hypotheekBedrag()));
+                _this.hypotheek.boxI(commonFunctions.stripBedrag(_this.hypotheek.boxI()));
+                _this.hypotheek.boxIII(commonFunctions.stripBedrag(_this.hypotheek.boxIII()));
+                _this.hypotheek.marktWaarde(commonFunctions.stripBedrag(_this.hypotheek.marktWaarde()));
+                _this.hypotheek.koopsom(commonFunctions.stripBedrag(_this.hypotheek.koopsom()));
+                _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.stripBedrag(_this.hypotheek.vrijeVerkoopWaarde()));
+                _this.hypotheek.wozWaarde(commonFunctions.stripBedrag(_this.hypotheek.wozWaarde()));
+                _this.hypotheek.waardeVoorVerbouwing(commonFunctions.stripBedrag(_this.hypotheek.waardeVoorVerbouwing()));
+                _this.hypotheek.waardeNaVerbouwing(commonFunctions.stripBedrag(_this.hypotheek.waardeNaVerbouwing()));
+
 	    		logger.debug("Versturen : " + ko.toJSON(_this.hypotheek));
 
                 hypotheekService.opslaanHypotheek(_this.hypotheek, _this.opmerkingenModel.opmerkingen).done(function(){
@@ -170,5 +157,77 @@ define(['jquery',
         this.annuleren = function() {
 			redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'hypotheeks');
         };
-	};
+
+        this.startBewerkenHypotheekBedrag = function(data, b) {
+            _this.hypotheek.hypotheekBedrag(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenHypotheekBedrag = function() {
+            _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
+        };
+
+        this.startBewerkenBoxI = function(data, b) {
+            _this.hypotheek.boxI(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenBoxI = function() {
+            _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
+        };
+
+        this.startBewerkenBoxIII = function(data, b) {
+            _this.hypotheek.boxIII(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenBoxIII = function() {
+            _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
+        };
+
+        this.startBewerkenMarktwaarde = function(data, b) {
+            _this.hypotheek.marktWaarde(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenMarktwaarde = function() {
+            _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
+        };
+
+        this.startBewerkenKoopsom = function(data, b) {
+            _this.hypotheek.koopsom(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenKoopsom = function() {
+            _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
+        };
+
+        this.startBewerkenVrijeVerkoopWaarde = function(data, b) {
+            _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenVrijeVerkoopWaarde = function() {
+            _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
+        };
+
+        this.startBewerkenWozWaarde = function(data, b) {
+            _this.hypotheek.wozWaarde(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenWozWaarde = function() {
+            _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
+        };
+
+        this.startBewerkenWaardeVoorVerbouwing = function(data, b) {
+            _this.hypotheek.waardeVoorVerbouwing(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenWaardeVoorVerbouwing = function() {
+            _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
+        };
+
+        this.startBewerkenWaardeNaVerbouwing = function(data, b) {
+            _this.hypotheek.waardeNaVerbouwing(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenWaardeNaVerbouwing = function() {
+            _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
+        };
+    };
 });

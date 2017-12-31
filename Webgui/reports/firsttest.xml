@@ -3,32 +3,36 @@
             failures="0"
             tests="1">
 
-  <testsuite name="firsttest"
-    errors="1" failures="0" hostname="" id="" package="firsttest" skipped="0"
-    tests="1" time="0.01600" timestamp="Fri, 29 Dec 2017 05:57:40 GMT">
-  
-    <testcase name="Demo test Google" classname="firsttest" time="0.01600" assertions="0">
-    </testcase>
-  
+    <testsuite name="firsttest"
+               errors="1" failures="0" hostname="" id="" package="firsttest" skipped="0"
+               tests="1" time="0.01600" timestamp="Fri, 29 Dec 2017 05:57:40 GMT">
 
-  
-    <system-err>
-        Error while running [Firsttest / Demo test Google]:
+        <testcase name="Demo test Google" classname="firsttest" time="0.01600" assertions="0">
+        </testcase>
 
-  Error: Cannot find module &#39;mock-servers-js&#39;
-    at Function.Module._resolveFilename (module.js:325:15)
-    at Function.Module._load (module.js:276:25)
-    at Module.require (module.js:353:17)
-    at require (internal/module.js:12:17)
-    at Object.module.exports.Demo test Google (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/tests/firsttest.js:3:20)
-    at Module.call (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/nightwatch/lib/runner/module.js:62:34)
-    at /Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/nightwatch/lib/runner/testcase.js:70:29
-    at _fulfilled (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:834:54)
-    at self.promiseDispatch.done (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:863:30)
-    at Promise.promise.promiseDispatch (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:796:13)
-    </system-err>
-  
 
-  
-  </testsuite>
+        <system-err>
+            Error while running [Firsttest / Demo test Google]:
+
+            Error: Cannot find module &#39;mock-servers-js&#39;
+            at Function.Module._resolveFilename (module.js:325:15)
+            at Function.Module._load (module.js:276:25)
+            at Module.require (module.js:353:17)
+            at require (internal/module.js:12:17)
+            at Object.module.exports.Demo test Google
+            (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/tests/firsttest.js:3:20)
+            at Module.call
+            (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/nightwatch/lib/runner/module.js:62:34)
+            at
+            /Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/nightwatch/lib/runner/testcase.js:70:29
+            at _fulfilled
+            (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:834:54)
+            at self.promiseDispatch.done
+            (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:863:30)
+            at Promise.promise.promiseDispatch
+            (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/web/node_modules/q/q.js:796:13)
+        </system-err>
+
+
+    </testsuite>
 </testsuites>

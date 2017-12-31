@@ -3,20 +3,19 @@
             failures="1"
             tests="1">
 
-  <testsuite name="firsttest"
-    errors="0" failures="1" hostname="" id="" package="firsttest" skipped="0"
-    tests="1" time="6.794" timestamp="Fri, 29 Dec 2017 18:22:22 GMT">
-  
-    <testcase name="Demo test Google" classname="firsttest" time="6.794" assertions="2">
+    <testsuite name="firsttest"
+               errors="0" failures="1" hostname="" id="" package="firsttest" skipped="0"
+               tests="1" time="6.794" timestamp="Fri, 29 Dec 2017 18:22:22 GMT">
 
-      <failure message="Testing if the page title equals &#34;Google&#34;.">    at Object.module.exports.Demo test Google (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/tests/firsttest.js:36:15)</failure>
+        <testcase name="Demo test Google" classname="firsttest" time="6.794" assertions="2">
 
-    
-    </testcase>
-  
+            <failure message="Testing if the page title equals &#34;Google&#34;.">at Object.module.exports.Demo test
+                Google (/Users/patrickheidotting/Documents/DEV/Java/Symplex/symplex/Webgui/tests/firsttest.js:36:15)
+            </failure>
 
-  
 
-  
-  </testsuite>
+        </testcase>
+
+
+    </testsuite>
 </testsuites>

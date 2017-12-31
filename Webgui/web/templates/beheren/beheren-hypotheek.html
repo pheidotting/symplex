@@ -19,13 +19,16 @@
 
         <label for="hypotheekBedrag">Hypotheek bedrag</label>
         <input class="form-control" type="text" id="hypotheekBedrag" placeholder="Hypotheek bedrag..."
-               data-bind="value: hypotheek.hypotheekBedrag"/>
+               data-bind="value: hypotheek.hypotheekBedrag, event: {input: startBewerkenHypotheekBedrag, blur: stopBewerkenHypotheekBedrag}"/>
 
         <label for="boxI">Box I</label>
-        <input class="form-control" id="boxI" name="boxI" data-bind="value: hypotheek.boxI" placeholder="BOX I"/>
+        <input class="form-control" id="boxI" name="boxI"
+               data-bind="value: hypotheek.boxI, event: {input: startBewerkenBoxI, blur: stopBewerkenBoxI}"
+               placeholder="BOX I"/>
 
         <label for="boxIII">Box III</label>
-        <input class="form-control" id="boxIII" name="boxIII" data-bind="value: hypotheek.boxIII"
+        <input class="form-control" id="boxIII" name="boxIII"
+               data-bind="value: hypotheek.boxIII, event: {input: startBewerkenBoxIII, blur: stopBewerkenBoxIII}"
                placeholder="BOX III"/>
 
         <label for="rente">Rente</label>
@@ -33,7 +36,7 @@
 
         <label for="marktWaarde">Marktwaarde</label>
         <input class="form-control" type="text" id="marktWaarde" placeholder="Marktwaarde..."
-               data-bind="value: hypotheek.marktWaarde"/>
+               data-bind="value: hypotheek.marktWaarde, event: {input: startBewerkenMarktwaarde, blur: stopBewerkenMarktwaarde}"/>
 
         <label for="onderpand">Onderpand</label>
         <input class="form-control" type="text" id="onderpand" placeholder="Onderpand..."
@@ -41,53 +44,53 @@
 
         <label for="koopsom">Koopsom</label>
         <input class="form-control" type="text" id="koopsom" placeholder="Koopsom..."
-               data-bind="value: hypotheek.koopsom"/>
+               data-bind="value: hypotheek.koopsom, event: {input: startBewerkenKoopsom, blur: stopBewerkenKoopsom}"/>
 
         <label for="vrijeVerkoopWaarde">Vrije verkoop waarde</label>
         <input class="form-control" type="text" id="vrijeVerkoopWaarde" placeholder="Vrije verkoop waarde..."
-               data-bind="value: hypotheek.vrijeVerkoopWaarde"/>
+               data-bind="value: hypotheek.vrijeVerkoopWaarde, event: {input: startBewerkenVrijeVerkoopWaarde, blur: stopBewerkenVrijeVerkoopWaarde}"/>
 
         <label for="taxatieDatum">Taxatie datum</label>
-        <input class="form-control" type="text" id="taxatieDatum" placeholder="Taxatie datum..."
-               data-bind="value: hypotheek.taxatieDatum, event: {blur: exitTaxatieDatum}"/>
+        <input class="form-control" type="date" id="taxatieDatum" placeholder="Taxatie datum..."
+               data-bind="value: hypotheek.taxatieDatum"/>
 
         <label for="wozWaarde">WOZ Waarde</label>
         <input class="form-control" type="text" id="wozWaarde" placeholder="WOZ Waarde..."
-               data-bind="value: hypotheek.wozWaarde"/>
+               data-bind="value: hypotheek.wozWaarde, event: {input: startBewerkenWozWaarde, blur: stopBewerkenWozWaarde}"/>
 
         <label for="waardeVoorVerbouwing">Waarde voor verbouwing</label>
         <input class="form-control" type="text" id="waardeVoorVerbouwing" placeholder="Waarde voor verbouwing..."
-               data-bind="value: hypotheek.waardeVoorVerbouwing"/>
+               data-bind="value: hypotheek.waardeVoorVerbouwing, event: {input: startBewerkenWaardeVoorVerbouwing, blur: stopBewerkenWaardeVoorVerbouwing}"/>
 
         <label for="waardeNaVerbouwing">Waarde na verbouwing</label>
         <input class="form-control" type="text" id="waardeNaVerbouwing" placeholder="Waarde na verbouwing..."
-               data-bind="value: hypotheek.waardeNaVerbouwing"/>
+               data-bind="value: hypotheek.waardeNaVerbouwing, event: {input: startBewerkenWaardeNaVerbouwing, blur: stopBewerkenWaardeNaVerbouwing}"/>
 
         <label for="ingangsDatum">Ingangs datum</label>
-        <input class="form-control" type="text" id="ingangsDatum" placeholder="Ingangs datum..."
-               data-bind="value: hypotheek.ingangsDatum, event: { blur: berekenEinddatumLening, blur: exitIngangsDatum }"/>
+        <input class="form-control" type="date" id="ingangsDatum" placeholder="Ingangs datum..."
+               data-bind="value: hypotheek.ingangsDatum, event: { blur: berekenEinddatumLening }"/>
 
         <label for="duur">Duur</label>
         <input class="form-control" type="text" id="duur" placeholder="Duur..."
                data-bind="value: hypotheek.duur, event: { change: berekenEinddatumLening}"/>
 
         <label for="eindDatum">Eind datum</label>
-        <input class="form-control" type="text" id="eindDatum" placeholder="Eind datum..."
-               data-bind="value: hypotheek.eindDatum, event: {blur: exitEindDatum}"/>
+        <input class="form-control" type="date" id="eindDatum" placeholder="Eind datum..."
+               data-bind="value: hypotheek.eindDatum"/>
 
         <label for="ingangsDatumRenteVastePeriode">Ingangsdatum Rentevaste Periode</label>
-        <input class="form-control" type="text" id="ingangsDatumRenteVastePeriode"
+        <input class="form-control" type="date" id="ingangsDatumRenteVastePeriode"
                placeholder="Ingangsdatum Rentevaste Periode..."
-               data-bind="value: hypotheek.ingangsDatumRenteVastePeriode, event: { change: berekenEinddatumRenteVastePeriode, blur: exitIngangsDatumRenteVastePeriode}"/>
+               data-bind="value: hypotheek.ingangsDatumRenteVastePeriode, event: { change: berekenEinddatumRenteVastePeriode}"/>
 
         <label for="duurRenteVastePeriode">Duur Rentevaste Periode</label>
         <input class="form-control" type="text" id="duurRenteVastePeriode" placeholder="Duur Rentevaste Periode..."
                data-bind="value: hypotheek.duurRenteVastePeriode, event: { change: berekenEinddatumRenteVastePeriode }"/>
 
         <label for="eindDatumRenteVastePeriode">Einddatum Rentevaste Periode</label>
-        <input class="form-control" type="text" id="eindDatumRenteVastePeriode"
+        <input class="form-control" type="date" id="eindDatumRenteVastePeriode"
                placeholder="Einddatum Rentevaste Periode..."
-               data-bind="value: hypotheek.eindDatumRenteVastePeriode, event: {blur: exitEindDatumRenteVastePeriode}"/>
+               data-bind="value: hypotheek.eindDatumRenteVastePeriode"/>
 
         <label for="omschrijving">Omschrijving</label>
         <textarea class="form-control" id="omschrijving" placeholder="Omschrijving..."

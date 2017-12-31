@@ -161,7 +161,7 @@ public class RelatieController {
         relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
             @Override
             public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
-                final String DATUM_FORMAAT = "dd-MM-yyyy";
+                final String DATUM_FORMAAT = "yyyy-MM-dd";
 
                 nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
 
