@@ -10,7 +10,7 @@
         </div>
         <div class="inloggen-main-form">
             <form>
-                <div data-bind="ifnot: moetWachtwoordUpdaten">
+                <div data-bind="if: wilInloggen()">
                     <div class="getbruikersnaam-wachtwoord">
                         Gebruikernaam
                     </div>
@@ -29,6 +29,10 @@
                          data-bind="visible: onjuistWachtwoord">
                         Het wachtwoord is onjuist
                     </div>
+
+                    <br />
+                    <a href="" data-bind="click: wachtwoordVergeten" class="wachtwoordVergeten">Wachtwoord vergeten?</a>
+
                     <button id="inlogButton" data-bind="click: inloggen">Inloggen</button>
                 </div>
                 <div data-bind="if: moetWachtwoordUpdaten">
@@ -52,6 +56,15 @@
                     <button id="wijzigWachtwoordButton" data-bind="click: wijzigWachtwoord, enable: sterkgenoeg"
                             disabled>Wijzig
                     </button>
+                </div>
+                <div data-bind="if: isWachtwoordVergeten">
+                    <div class="getbruikersnaam-wachtwoord">
+                        Gebruikernaam
+                    </div>
+                    <input type="text" onClick="this.select();" autocomplete="off" id="identificatieWachtwoordVergeten"
+                           data-bind="value: identificatie"/>
+
+                    <button id="inlogButtonWachtwoordVergeten" data-bind="click: stuurNieuwWachtwoord">Stuur</button>
                 </div>
             </form>
         </div>

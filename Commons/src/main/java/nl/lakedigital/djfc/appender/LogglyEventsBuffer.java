@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.appender;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.log4j.Level;
@@ -13,6 +14,8 @@ public class LogglyEventsBuffer {
     private List<LogglyEvent> events;
     private Timer timer;
     private boolean flushing = false;
+    private RateLimiter rateLimiter = RateLimiter.create(1);
+    ;
 
     public void add(String event, Level level, final String token, final String tag, int interval) {
         if (events == null) {
@@ -49,6 +52,7 @@ public class LogglyEventsBuffer {
             events = null;
 
             for (LogglyEvent event : eventsToFlush) {
+                rateLimiter.acquire();
 
                 try {
                     Unirest.post("http://logs-01.loggly.com/inputs/" + token + "/tag/" + event.getTag() + "," + event.getLevel().toString()).header("accept", "application/json").body(event.getEvent()).asString();

@@ -29,6 +29,8 @@ define(['jquery',
 		this.sterkgenoeg = ko.observable(false);
 		this.wachtwoordSterkgenoegStyling = ko.observable();
 
+		this.isWachtwoordVergeten = ko.observable(false);
+
 		this.inloggen = function() {
             commonFunctions.verbergMeldingen();
 
@@ -97,6 +99,20 @@ define(['jquery',
 
         this.resetfoutmeldingWachtwoord = function() {
             _this.onjuistWachtwoord(false);
+        };
+
+        this.wachtwoordVergeten = function(){
+            _this.isWachtwoordVergeten(true);
+        };
+
+        this.stuurNieuwWachtwoord = function(){
+            gebruikerService.stuurNieuwWachtwoord(_this.identificatie());
+            _this.identificatie('');
+            location.reload();
+        };
+
+        this.wilInloggen = function() {
+            return !_this.isWachtwoordVergeten() && !_this.moetWachtwoordUpdaten();
         };
 	};
 });

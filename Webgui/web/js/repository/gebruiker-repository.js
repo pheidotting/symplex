@@ -49,6 +49,10 @@ define(["commons/3rdparty/log2",
 
             wijzigWachtwoord: function(nieuwWachtwoord) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), nieuwWachtwoord);
+            },
+
+            stuurNieuwWachtwoord: function(identificatie) {
+                abstractRepository.voerUitPost(navRegister.bepaalUrl('STUUR_NIEUW_WACHTWOORD'), identificatie);
             }
         }
     }

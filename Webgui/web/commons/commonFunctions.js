@@ -28,6 +28,35 @@ define(['commons/3rdparty/log2',
 			return datumMetStreepjes;
 		},
 
+		maakBedragOp: function(bedrag){
+            if(bedrag !== undefined && bedrag !== null){
+    		    var strBedrag = String(bedrag).replace('.', ',');
+
+                var parts = strBedrag.split(',');
+                var naDeKomma = '00';
+                if(parts.length > 1) {
+                    naDeKomma = parts[1];
+                    if(naDeKomma.length == 1) {
+                        naDeKomma = naDeKomma + '0';
+                    } else if(naDeKomma.length == 0) {
+                        naDeKomma = '00';
+                    }
+                }
+
+                var opgemaaktBedrag = parts[0] + ',' + naDeKomma;
+
+                return '\u20AC ' + opgemaaktBedrag.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+        },
+
+        stripBedrag: function(bedrag) {
+            if(bedrag != null){
+                return bedrag.replace('\u20AC', '').trim();
+            }
+
+            return null;
+        },
+
 		isNumeric: function(num) {
 		     return (num >=0 || num < 0);
 		},
