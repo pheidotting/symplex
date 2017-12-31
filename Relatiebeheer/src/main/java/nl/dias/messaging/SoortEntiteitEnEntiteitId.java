@@ -7,6 +7,7 @@ public class SoortEntiteitEnEntiteitId {
     private Long entiteitId;
 
     public SoortEntiteitEnEntiteitId() {
+        //lege constructor
     }
 
     public SoortEntiteitEnEntiteitId(SoortEntiteit soortEntiteit, Long entiteitId) {

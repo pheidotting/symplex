@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 public class HypotheekNaarJsonHypotheekMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(HypotheekMapper.class);
-    private static final String DATUM_FORMAAT = "dd-MM-yyyy";
 
     private IdentificatieClient identificatieClient;
 

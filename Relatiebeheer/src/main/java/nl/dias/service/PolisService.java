@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.*;
@@ -105,39 +104,20 @@ public class PolisService {
         }
         LOGGER.debug("Polis gevonden : " + polis);
 
-        //        LOGGER.debug("Ophalen Relatie");
-        //        Relatie relatie = (Relatie) gebruikerService.lees(polis.getRelatie().getId());
-        //
-        //        LOGGER.debug("Verwijderen Polis bij Relatie");
-        //        relatie.getPolissen().remove(polis);
-        //        LOGGER.debug("Kijken of de Polis nog bij een bedrijf zit");
-        //
-        //        gebruikerService.opslaan(relatie);
-
         polisRepository.verwijder(polis);
     }
 
     public List<Polis> allePolissenBijRelatie(Long relatie) {
-        List<Polis> polissen = polisRepository.allePolissenBijRelatie(relatie);
-
-        return polissen.stream().map(new Function<Polis, Polis>() {
-            @Override
-            public Polis apply(Polis polis) {
-                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
-                return polis;
-            }
+        return polisRepository.allePolissenBijRelatie(relatie).stream().map(polis -> {
+            polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+            return polis;
         }).collect(Collectors.toList());
     }
 
     public List<Polis> allePolissenBijBedrijf(Long bedrijf) {
-        List<Polis> polissen = polisRepository.allePolissenBijBedrijf(bedrijf);
-
-        return polissen.stream().map(new Function<Polis, Polis>() {
-            @Override
-            public Polis apply(Polis polis) {
-                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
-                return polis;
-            }
+        return polisRepository.allePolissenBijBedrijf(bedrijf).stream().map(polis -> {
+            polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+            return polis;
         }).collect(Collectors.toList());
     }
 

@@ -4,8 +4,6 @@ import nl.lakedigital.as.messaging.domain.Opmerking;
 import nl.lakedigital.as.messaging.domain.Schade;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +14,6 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Component
 public class SchadeOpslaanRequestSender extends AbstractSender<SchadeOpslaanRequest, JsonSchade> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchadeOpslaanRequestSender.class);
-
     public SchadeOpslaanRequestSender() {
         this.jmsTemplates = new ArrayList<>();
     }
