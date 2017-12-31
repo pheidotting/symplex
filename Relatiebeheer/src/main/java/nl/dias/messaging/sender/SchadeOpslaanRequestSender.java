@@ -20,12 +20,10 @@ public class SchadeOpslaanRequestSender extends AbstractSender<SchadeOpslaanRequ
 
     public SchadeOpslaanRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public SchadeOpslaanRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = SchadeOpslaanRequest.class;
     }
 

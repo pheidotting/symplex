@@ -38,7 +38,6 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
     public abstract AbstractService getService();
 
-    public abstract void opslaan(List<J> jsonEntiteiten, HttpServletRequest httpServletRequest);
 
     public void goOpslaan(List<J> jsonEntiteiten) {
         if (jsonEntiteiten != null && !jsonEntiteiten.isEmpty()) {

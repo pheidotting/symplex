@@ -7,7 +7,7 @@ define(['commons/3rdparty/log2',
         var logger = log.getLogger('opmerking-service');
 
         return {
-            opslaan: function(adressen, trackAndTraceId, soortEntiteit, id) {
+            opslaan: function(adressen, soortEntiteit, id) {
                 logger.debug('opslaan adressen ' + adressen);
 
                 if(adressen() != null && adressen().length > 0) {
@@ -17,7 +17,7 @@ define(['commons/3rdparty/log2',
                         adres.plaats(adres.plaats().toUpperCase());
                     });
 
-                    return adresRepository.opslaan(adressen, trackAndTraceId);
+                    return adresRepository.opslaan(adressen);
                 } else {
                     return adresRepository.verwijder(trackAndTraceId, soortEntiteit, id);
                 }

@@ -21,12 +21,10 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
 
     public PolisOpslaanRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public PolisOpslaanRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = PolisOpslaanRequest.class;
     }
 
@@ -96,4 +94,7 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
         return waarde;
     }
 
+    public void send(JsonPolis jsonPolis) {
+        super.send(jsonPolis, LOGGER);
+    }
 }

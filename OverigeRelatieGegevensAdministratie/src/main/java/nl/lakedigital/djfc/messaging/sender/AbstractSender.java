@@ -10,13 +10,11 @@ import javax.jms.TextMessage;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSender<M extends AbstractMessage, T extends Object> {
-    protected static Logger LOGGER_;
     protected List<JmsTemplate> jmsTemplates = new ArrayList<>();
     protected Class<M> clazz;
     private Destination replyTo;
@@ -32,10 +30,10 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public abstract M maakMessage(T t);
 
-    public void send(T t) {
+    public void send(T t, Logger LOGGER) {
         M m = maakMessage(t);
 
-        send(m);
+        send(m, LOGGER);
     }
 
     public void setReplyTo(Destination replyTo) {
@@ -50,7 +48,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
         this.clazz = clazz;
     }
 
-    public void send(final AbstractMessage abstractMessage) {
+    public void send(final AbstractMessage abstractMessage, Logger LOGGER) {
         for (JmsTemplate jmsTemplate : jmsTemplates) {
             jmsTemplate.send(session -> {
                 try {
@@ -72,14 +70,11 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
                         message.setJMSReplyTo(replyTo);
                     }
 
-                    LOGGER_.debug("Verzenden message {}", message.getText());
-                    LOGGER_.debug("Naar {}", jmsTemplate.getDefaultDestination());
+                    LOGGER.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
 
                     return message;
-                } catch (PropertyException e) {
-                    LOGGER_.error("{}", e);
                 } catch (JAXBException e) {
-                    LOGGER_.error("{}", e);
+                    LOGGER.error("{}", e);
                 }
                 return null;
             });
