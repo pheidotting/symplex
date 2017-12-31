@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.google.common.base.Stopwatch;
 import nl.dias.domein.*;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
@@ -9,7 +10,6 @@ import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
 import nl.dias.web.mapper.JsonRelatieMapper;
-import nl.dias.web.mapper.RelatieMapper;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
@@ -17,7 +17,10 @@ import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonn
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
+import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
+import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
@@ -33,9 +36,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.google.common.base.Stopwatch.createStarted;
 
 @RequestMapping("/gebruiker")
 @Controller
@@ -46,8 +50,6 @@ public class GebruikerController extends AbstractController {
     private GebruikerService gebruikerService;
     @Inject
     private KantoorRepository kantoorRepository;
-    @Inject
-    private RelatieMapper relatieMapper;
     @Inject
     private JsonRelatieMapper jsonRelatieMapper;
     @Inject
@@ -63,15 +65,6 @@ public class GebruikerController extends AbstractController {
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
-    //    @Inject
-    //    private AdresController adresController;
-    //    @Inject
-    //    private TelefoonnummerController telefoonnummerController;
-    //    @Inject
-    //    private RekeningNummerController rekeningNummerController;
-    //    @Inject
-    //    private OpmerkingController opmerkingController;
-
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<JsonContactPersoon> alleContactPersonen(@QueryParam("bedrijfsId") Long bedrijfsId) {
@@ -82,25 +75,6 @@ public class GebruikerController extends AbstractController {
         }
 
         return result;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public JsonRelatie lees(@QueryParam("id") String id) {
-        LOGGER.debug("Ophalen Relatie met id : " + id);
-
-        JsonRelatie jsonRelatie;
-        if (id != null && !"0".equals(id.trim())) {
-            Relatie relatie = (Relatie) gebruikerService.lees(Long.parseLong(id));
-
-            jsonRelatie = relatieMapper.mapNaarJson(relatie);
-        } else {
-            jsonRelatie = new JsonRelatie();
-        }
-
-        LOGGER.debug("Naar de front-end : " + jsonRelatie);
-
-        return jsonRelatie;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker", produces = MediaType.APPLICATION_JSON)
@@ -173,33 +147,18 @@ public class GebruikerController extends AbstractController {
 
         gebruikerService.opslaan(relatie);
 
+        //Wachten tot alles opgeslagen is
+        Identificatie identificatie = null;
+        Stopwatch stopwatch = createStarted();
+        while (identificatie == null && stopwatch.elapsed(TimeUnit.MINUTES) < 2) {
+            identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
+        }
+
         LOGGER.debug("Relatie met id " + relatie.getId() + " opgeslagen");
 
         if (jsonRelatie.getIdentificatie() == null) {
-            Future<Identificatie> identificatieFuture = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
 
-            Identificatie identificatie = null;
-            try {
-                identificatie = identificatieFuture.get();
-            } catch (InterruptedException | ExecutionException e) {
-                LOGGER.error("Fout bij ophalen identificatie", e);
-            }
-
-            if (identificatie != null) {
-                relatie.setIdentificatie(identificatie.getIdentificatie());
-            } else {
-                try {
-                    Thread.sleep(3000);
-                    Future<Identificatie> identificatieFuture1 = identificatieClient.zoekIdentificatieMetFuture("RELATIE", relatie.getId());
-
-                    identificatie = identificatieFuture1.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    LOGGER.error("Fout bij ophalen identificatie", e);
-                }
-                if (identificatie != null) {
                     relatie.setIdentificatie(identificatie.getIdentificatie());
-                }
-            }
         }
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
@@ -220,12 +179,14 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void verwijderen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Verwijderen Relatie met id " + id);
+    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
+        LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
 
         zetSessieWaarden(httpServletRequest);
 
-        gebruikerService.verwijder(id);
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+
+        gebruikerService.verwijder(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)
@@ -263,11 +224,11 @@ public class GebruikerController extends AbstractController {
         Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
         try {
             gebruiker.setHashWachtwoord(nieuwWactwoord);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            LOGGER.error("Fout opgetreden bij het wijzigen van het wachtwoord van {} : {}", gebruiker.getIdentificatie(), e);
+            throw new RuntimeException("Onbekende fout opgetreden");
         }
+
         gebruiker.setWachtwoordLaatstGewijzigd(new LocalDateTime());
         gebruiker.setMoetWachtwoordUpdaten(false);
 

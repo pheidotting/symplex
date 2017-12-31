@@ -2,13 +2,11 @@ package nl.lakedigital.djfc.web.controller;
 
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.TelefonieBestand;
-import nl.lakedigital.djfc.service.InlezenTelefonieBestandenService;
 import nl.lakedigital.djfc.service.TelefonieBestandService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,11 +25,6 @@ public class TelefonieController {
 
     @Inject
     private TelefonieBestandService telefonieBestandService;
-
-    @RequestMapping(method = RequestMethod.GET, value = "/go")
-    public void gogo() {
-        new InlezenTelefonieBestandenService(telefonieBestandService);
-    }
 
     @RequestMapping("/recordings")
     @ResponseBody

@@ -337,6 +337,23 @@ pipeline {
             }
         }
 
+        stage ('Integratietest') {
+            steps {
+                sh '''
+                    cd TestSysteem
+                    mvn clean verify
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Integratietest gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Integratietest mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Deployment Test') {
             when {
                 expression {
@@ -394,7 +411,7 @@ pipeline {
                 }
             }
             steps {
-                slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                slackSend (color: '#4245f4', message: "Deploy naar productie :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
                     scp IdBeheer/src/main/resources/prd/id.app.properties jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/src/main/resources/prd/id.log4j.xml jetty@192.168.91.220:/opt/jetty

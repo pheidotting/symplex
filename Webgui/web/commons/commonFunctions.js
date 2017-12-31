@@ -40,6 +40,8 @@ define(['commons/3rdparty/log2',
                         naDeKomma = naDeKomma + '0';
                     } else if(naDeKomma.length == 0) {
                         naDeKomma = '00';
+                    } else if(naDeKomma.length > 2) {
+                        naDeKomma = naDeKomma.substring(0, 2);
                     }
                 }
 
@@ -51,7 +53,7 @@ define(['commons/3rdparty/log2',
 
         stripBedrag: function(bedrag) {
             if(bedrag != null){
-                return bedrag.replace('\u20AC', '').trim();
+                return bedrag.replace('\u20AC', '').replace(',00', '').replace('.', '').trim();
             }
 
             return null;

@@ -20,7 +20,7 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            voerUitPost: function(url, data, trackAndTraceId){
+            voerUitPost: function(url, data){
                 var deferred = $.Deferred();
 
                 $.ajax({
@@ -28,7 +28,6 @@ define(["commons/3rdparty/log",
                     url: url,
                     contentType: "application/json",
                     data: data,
-                    beforeSend: function(xhr){xhr.setRequestHeader('trackAndTraceId', trackAndTraceId);},
                     success: function (response) {
                         return deferred.resolve(response);
                     },
@@ -281,11 +280,9 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_POLIS'), data, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_POLIS'), data).done(function(response){
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             },
@@ -294,10 +291,8 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id, null, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id, null).done(function(response){
                         return deferred.resolve(response);
-                    });
                 });
 
                 return deferred.promise();
@@ -307,11 +302,9 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_SCHADE'), data, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_SCHADE'), data).done(function(response){
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             },
@@ -320,11 +313,9 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_SCHADE') + '/' + id, null, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_SCHADE') + '/' + id, null).done(function(response){
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             },
@@ -445,11 +436,9 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('AFRONDEN_AANGIFTE') + '/' + id, null, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('AFRONDEN_AANGIFTE') + '/' + id, null).done(function(response){
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             },
@@ -458,11 +447,9 @@ define(["commons/3rdparty/log",
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_AANGIFTE'), data, trackAndTraceId).done(function(response){
+                    _this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_AANGIFTE'), data).done(function(response){
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             },
@@ -491,18 +478,15 @@ define(["commons/3rdparty/log",
                 return this.voerUitGet(navRegister.bepaalUrl('VRIJGEVEN_TAAK'), {"id" : id});
             },
 
-            opslaanOpmerking: function(opmerking, trackAndTraceId){
-                return this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OPMERKING'), opmerking, trackAndTraceId);
+            opslaanOpmerking: function(opmerking){
+                return this.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OPMERKING'), opmerking);
             },
 
             verwijderOpmerking: function(id){
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(_this.voerUitGet(navRegister.bepaalUrl('TRACKANDTRACEID'))).then(function(trackAndTraceId){
-                    _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKING') + '/' + id, null, trackAndTraceId);
-                    return deferred.resolve();
-                });
+                _this.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKING') + '/' + id, null);
 
                 return deferred.promise();
             },

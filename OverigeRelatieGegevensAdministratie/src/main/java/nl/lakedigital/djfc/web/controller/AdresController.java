@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -109,17 +108,6 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
         }
 
         return opvragenAdressenResponse;
-    }
-
-    @Override
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
-    @ResponseBody
-    public void opslaan(@RequestBody List<JsonAdres> jsonEntiteiten, HttpServletRequest httpServletRequest) {
-        logger.info("Opslaan lijst met {} entiteiten", jsonEntiteiten.size());
-
-        zetSessieWaarden(httpServletRequest);
-
-        goOpslaan(jsonEntiteiten);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")

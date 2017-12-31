@@ -7,7 +7,7 @@ define(['commons/3rdparty/log2',
         var logger = log.getLogger('rekeningnummer-service');
 
         return {
-            opslaan: function(rekeningnummers, trackAndTraceId, soortEntiteit, id) {
+            opslaan: function(rekeningnummers, soortEntiteit, id) {
                 logger.debug('opslaan rekeningnummers ' + rekeningnummers);
 
                 if(rekeningnummers() != null && rekeningnummers().length > 0) {
@@ -17,9 +17,9 @@ define(['commons/3rdparty/log2',
         			    rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
                     });
 
-                    return rekeningnummerRepository.opslaan(rekeningnummers, trackAndTraceId);
+                    return rekeningnummerRepository.opslaan(rekeningnummers);
                 } else {
-                    return rekeningnummerRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return rekeningnummerRepository.verwijder(soortEntiteit, id);
                 }
             },
 

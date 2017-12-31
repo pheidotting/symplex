@@ -16,9 +16,6 @@ import org.joda.time.format.DateTimeFormat;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getFirst;
 
-/**
- * Created by patrickheidotting on 29-11-17.
- */
 public class JsonPolisNaarDomainPolisMapper {
     private PolisService polisService;
     private IdentificatieClient identificatieClient;
@@ -54,16 +51,6 @@ public class JsonPolisNaarDomainPolisMapper {
         } else {
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
             polis = polisService.lees(identificatie.getEntiteitId());
-
-            Polis p = polisService.definieerPolisSoort(polisIn.getSoort());
-
-            //        if (!polis.getSchermNaam().equals(p.getSchermNaam())) {
-            //            DiscriminatorValue discriminatorValue = p.getClass().getAnnotation(DiscriminatorValue.class);
-            //
-            //            polisService.setDiscriminatorValue(discriminatorValue.value(), polis);
-            //
-            //            polis = polisService.lees(polisIn.getId());
-            //        }
         }
 
         if (polisIn.getStatus() != null) {

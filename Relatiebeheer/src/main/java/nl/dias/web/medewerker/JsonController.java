@@ -40,12 +40,6 @@ public class JsonController {
     @Inject
     private PostcodeService postcodeService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getTrackAndTraceId", produces = MediaType.TEXT_PLAIN)
-    @ResponseBody
-    public String getTrackAndTraceId() {
-        return UUID.randomUUID().toString();
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/lijstVerzekeringsMaatschappijen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Map<Long, String> lijstVerzekeringsMaatschappijen() {

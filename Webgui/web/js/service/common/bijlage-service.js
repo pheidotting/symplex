@@ -6,7 +6,7 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, repository, bijlageRepository) {
 
         return {
-            opslaan: function(bijlages, trackAndTraceId, soortEntiteit, id) {
+            opslaan: function(bijlages, soortEntiteit, id) {
 
                 if(bijlages != null && bijlages() != null && bijlages().length > 0) {
                     $.each(bijlages(), function(i, bijlage) {
@@ -14,9 +14,9 @@ define(["commons/3rdparty/log",
                         bijlage.soortEntiteit(soortEntiteit);
                     });
 
-                    return bijlageRepository.opslaan(bijlages, trackAndTraceId);
+                    return bijlageRepository.opslaan(bijlages);
                 } else {
-                    return bijlageRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return bijlageRepository.verwijder(soortEntiteit, id);
                 }
             },
 

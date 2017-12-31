@@ -10,6 +10,7 @@ import nl.dias.service.GebruikerService;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,12 @@ public abstract class AbstractController {
     protected GebruikerService gebruikerService;
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
+        String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
+        MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+        if (trackAndTraceId != null) {
+            MDC.put("trackAndTraceId", trackAndTraceId);
+        }
+
         SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest).getId());
         SessieHolder.get().setTrackAndTraceId(getTrackAndTraceId(httpServletRequest));
     }

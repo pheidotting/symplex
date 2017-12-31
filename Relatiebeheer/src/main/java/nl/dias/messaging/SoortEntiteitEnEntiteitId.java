@@ -6,6 +6,14 @@ public class SoortEntiteitEnEntiteitId {
     private SoortEntiteit soortEntiteit;
     private Long entiteitId;
 
+    public SoortEntiteitEnEntiteitId() {
+    }
+
+    public SoortEntiteitEnEntiteitId(SoortEntiteit soortEntiteit, Long entiteitId) {
+        this.soortEntiteit = soortEntiteit;
+        this.entiteitId = entiteitId;
+    }
+
     public SoortEntiteit getSoortEntiteit() {
         return soortEntiteit;
     }

@@ -15,12 +15,10 @@ public class TaakOpslaanSender extends AbstractSender<TaakOpslaan, Taak> {
 
     public TaakOpslaanSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public TaakOpslaanSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = TaakOpslaan.class;
     }
 
@@ -31,5 +29,9 @@ public class TaakOpslaanSender extends AbstractSender<TaakOpslaan, Taak> {
         taakOpslaan.setTaak(taak);
 
         return taakOpslaan;
+    }
+
+    public void send(Taak taak) {
+        super.send(taak, LOGGER);
     }
 }

@@ -43,7 +43,7 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
     public void verwerkMessage(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {
         opmerkingService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Opmerking)//
-                .map(new MessagingOpmerkingNaarDomainOpmerkingMapper(identificatieClient, opmerkingService))//
+                .map(new MessagingOpmerkingNaarDomainOpmerkingMapper(identificatieClient, opmerkingService, opslaanEntiteitenRequest.getIngelogdeGebruiker()))//
                 .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
 
         adresService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//

@@ -10,6 +10,7 @@ import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import org.easymock.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class PolisOpslaanResponseRecieverTest extends EasyMockSupport {
         polisOpslaanResponse.setAntwoordOp(polisOpslaanRequest);
 
         Capture<OpslaanEntiteitenRequest> opslaanEntiteitenRequestCapture = newCapture();
-        opslaanEntiteitenRequestSender.send(capture(opslaanEntiteitenRequestCapture));
+        opslaanEntiteitenRequestSender.send(capture(opslaanEntiteitenRequestCapture), isA(Logger.class));
         expectLastCall();
 
         replayAll();

@@ -15,12 +15,10 @@ public class PolisVerwijderenRequestSender extends AbstractSender<PolisVerwijder
 
     public PolisVerwijderenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public PolisVerwijderenRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = PolisVerwijderenRequest.class;
     }
 
