@@ -112,8 +112,7 @@ public class AuthorisatieController {
         String nieuwWachtwoord = UUID.randomUUID().toString().replace("-","");
         String tekst = "Je nieuwe wachtwoord is : "+nieuwWachtwoord;
 
-        if(gebruiker!=null){
-
+        if (gebruiker != null && gebruiker.getEmailadres() != null && !"".equals(gebruiker.getEmailadres())) {
             gebruiker.setHashWachtwoord(nieuwWachtwoord);
             gebruiker.setMoetWachtwoordUpdaten(true);
             gebruikerRepository.opslaan(gebruiker);
