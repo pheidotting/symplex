@@ -69,7 +69,7 @@ public class RelatieController {
     public Relatie leesRelatie(@PathVariable("id") String identificatie) {
         LOGGER.debug("Ophalen Relatie met ID {}", identificatie);
 
-        Relatie relatie = null;
+        Relatie relatie;
         //        try{
         nl.dias.domein.Relatie relatieDomain = relatieService.zoekRelatie(identificatie);
 
