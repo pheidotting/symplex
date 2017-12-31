@@ -76,7 +76,7 @@ define(['knockout',
 	        },
 	        message: 'Juiste invoerformaat is : dd-mm-eejj'
 	    }});
-	    _this.eigenRisico = ko.observable().extend({number: true});
+	    _this.eigenRisico = ko.observable();
 	    _this.omschrijving = ko.observable();
 
 //	    _this.titel = ko.computed(function() {

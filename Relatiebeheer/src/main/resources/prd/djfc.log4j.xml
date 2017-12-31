@@ -4,7 +4,7 @@
     <!-- APPENDERS LIST -->
     <!-- show log entries on console -->
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
-        <param name="file" value="/var/log/djfc/dfjc.log"/>
+        <param name="file" value="/var/log/djfc/djfc.log"/>
         <param name="immediateFlush" value="true"/>
         <!--<param name="threshold" value="debug"/>-->
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
@@ -25,7 +25,7 @@
 
     <appender name="loggly" class="nl.lakedigital.djfc.appender.LogglyAppender">
         <param name="tag" value="prd,djfc"/>
-        <param name="interval" value="300"/>
+        <param name="interval" value="10"/>
         <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n"/>

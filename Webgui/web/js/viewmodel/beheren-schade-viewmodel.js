@@ -104,6 +104,8 @@ define(['jquery',
                 });
 
                 _this.taakModel             = new taakViewModel(false, soortEntiteit, schadeId, relatieId, bedrijfId);
+                _this.schade.eigenRisico(commonFunctions.maakBedragOp(_this.schade.eigenRisico()));
+
                 return deferred.resolve();
             });
 
@@ -154,6 +156,7 @@ define(['jquery',
 	    	}else{
 	    		logger.debug("Versturen : " + ko.toJSON(_this.schade));
 
+                _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
                 schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function(data){
                     _this.id(data);
                     _this.bijlageModel.setId(data);
@@ -166,6 +169,14 @@ define(['jquery',
 	    	}
         };
 
+        this.startBewerkenEigenRisico = function(data, b){
+            _this.schade.eigenRisico(commonFunctions.stripBedrag(b.currentTarget.value));
+        };
+
+        this.stopBewerkenEigenRisico = function(){
+            _this.schade.eigenRisico(commonFunctions.maakBedragOp(_this.schade.eigenRisico()));
+        };
+
 		this.opslaan = function() {
 		    logger.debug('opslaan');
 	    	var result = ko.validation.group(_this.schade, {deep: true});
@@ -175,6 +186,7 @@ define(['jquery',
 	    		logger.debug("Versturen : " + ko.toJSON(_this.schade));
 	    		var allOk = true;
 
+                _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
                 schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function(){
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 //                    redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'schades');
