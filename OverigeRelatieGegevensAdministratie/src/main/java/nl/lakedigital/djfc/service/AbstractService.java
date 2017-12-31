@@ -77,8 +77,6 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
     }
 
-    public void opslaan(final List<T> entiteiten, SoortEntiteit soortEntiteit, Long entiteitId) {
-        getLogger().debug("Op te slaan entiteiten");
     public void opslaan(final List<T> entiteitenIn, SoortEntiteit soortEntiteit, Long entiteitId) {
         List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
             @Override
