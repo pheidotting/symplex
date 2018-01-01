@@ -52,12 +52,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
     }
 
     public void opslaan(List<T> entiteitenIn) {
-        List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
-            @Override
-            public boolean test(T t) {
-                return isGevuld(t);
-            }
-        }).collect(Collectors.toList());
+        List<T> entiteiten = entiteitenIn.stream().filter(t -> isGevuld(t)).collect(Collectors.toList());
 
         getRepository().opslaan(entiteiten);
 
@@ -77,12 +72,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
     }
 
     public void opslaan(final List<T> entiteitenIn, SoortEntiteit soortEntiteit, Long entiteitId) {
-        List<T> entiteiten = entiteitenIn.stream().filter(new java.util.function.Predicate<T>() {
-            @Override
-            public boolean test(T t) {
-                return isGevuld(t);
-            }
-        }).collect(Collectors.toList());
+        List<T> entiteiten = entiteitenIn.stream().filter(t -> isGevuld(t)).collect(Collectors.toList());
 
         getLogger().debug("Op te slaan entiteiten");
         for (T t : entiteiten) {
