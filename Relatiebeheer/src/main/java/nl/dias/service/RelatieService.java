@@ -69,7 +69,7 @@ public class RelatieService {
 
         LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(polis));
 
-        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
+        //        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
 
         return polis.getRelatie();
         //

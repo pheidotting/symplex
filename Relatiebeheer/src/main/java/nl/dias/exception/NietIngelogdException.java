@@ -5,6 +5,7 @@ public class NietIngelogdException extends Exception {
 
     private final String message = "Helaas, je bent niet ingelogd, of je sessie is verlopen.";
 
+    @Override
     public String getMessage() {
         return message;
     }

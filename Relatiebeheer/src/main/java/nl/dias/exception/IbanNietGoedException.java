@@ -5,6 +5,7 @@ public class IbanNietGoedException extends Exception {
 
     private final String message = "Het ingevoerde rekeningnummer is niet correct";
 
+    @Override
     public String getMessage() {
         return message;
     }

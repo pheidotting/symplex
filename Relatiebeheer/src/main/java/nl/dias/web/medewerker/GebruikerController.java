@@ -107,7 +107,6 @@ public class GebruikerController extends AbstractController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
-    //, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaanContactPersoon(@RequestBody JsonContactPersoon jsonContactPersoon, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
@@ -158,7 +157,11 @@ public class GebruikerController extends AbstractController {
 
         if (jsonRelatie.getIdentificatie() == null) {
 
-                    relatie.setIdentificatie(identificatie.getIdentificatie());
+            if (identificatie != null) {
+                relatie.setIdentificatie(identificatie.getIdentificatie());
+            } else {
+                LOGGER.error("Relatie met id {} opgeslagen, maar er werd geen identificatie bij opgeslagen", relatie.getId());
+            }
         }
 
         LOGGER.debug("Return {}", relatie.getIdentificatie());
@@ -226,7 +229,7 @@ public class GebruikerController extends AbstractController {
             gebruiker.setHashWachtwoord(nieuwWactwoord);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             LOGGER.error("Fout opgetreden bij het wijzigen van het wachtwoord van {} : {}", gebruiker.getIdentificatie(), e);
-            throw new RuntimeException("Onbekende fout opgetreden");
+            throw new RuntimeException("Onbekende fout opgetreden");//NOSONAR
         }
 
         gebruiker.setWachtwoordLaatstGewijzigd(new LocalDateTime());
