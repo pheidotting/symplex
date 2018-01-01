@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 public class HypotheekNaarJsonHypotheekMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(HypotheekMapper.class);
-    private static final String DATUM_FORMAAT = "dd-MM-yyyy";
 
     private IdentificatieClient identificatieClient;
 
@@ -36,7 +35,7 @@ public class HypotheekNaarJsonHypotheekMapper {
             jsonHypotheek.setEindDatumRenteVastePeriode(hypotheek.getEindDatumRenteVastePeriode());
         }
         if (hypotheek.getHypotheekBedrag() != null) {
-            jsonHypotheek.setHypotheekBedrag(hypotheek.getHypotheekBedrag().toString());
+            jsonHypotheek.setHypotheekBedrag(hypotheek.getHypotheekBedrag());
         }
         if (hypotheek.getHypotheekVorm() != null) {
             jsonHypotheek.setHypotheekVorm(hypotheek.getHypotheekVorm().toString());
@@ -48,42 +47,41 @@ public class HypotheekNaarJsonHypotheekMapper {
             jsonHypotheek.setIngangsDatumRenteVastePeriode(hypotheek.getIngangsDatumRenteVastePeriode());
         }
         if (hypotheek.getKoopsom() != null) {
-            jsonHypotheek.setKoopsom(hypotheek.getKoopsom().toString());
+            jsonHypotheek.setKoopsom(hypotheek.getKoopsom());
         }
         if (hypotheek.getMarktWaarde() != null) {
-            jsonHypotheek.setMarktWaarde(hypotheek.getMarktWaarde().toString());
+            jsonHypotheek.setMarktWaarde(hypotheek.getMarktWaarde());
         }
         jsonHypotheek.setOmschrijving(hypotheek.getOmschrijving());
         if (hypotheek.getOnderpand() != null) {
             jsonHypotheek.setOnderpand(hypotheek.getOnderpand());
         }
-        //        jsonHypotheek.setRelatie(hypotheek.getRelatie().getId());
         if (hypotheek.getRente() != null) {
-            jsonHypotheek.setRente(hypotheek.getRente().toString());
+            jsonHypotheek.setRente(hypotheek.getRente());
         }
         if (hypotheek.getTaxatieDatum() != null) {
             jsonHypotheek.setTaxatieDatum(hypotheek.getTaxatieDatum());
         }
         if (hypotheek.getVrijeVerkoopWaarde() != null) {
-            jsonHypotheek.setVrijeVerkoopWaarde(hypotheek.getVrijeVerkoopWaarde().toString());
+            jsonHypotheek.setVrijeVerkoopWaarde(hypotheek.getVrijeVerkoopWaarde());
         }
         if (hypotheek.getWaardeNaVerbouwing() != null) {
-            jsonHypotheek.setWaardeNaVerbouwing(hypotheek.getWaardeNaVerbouwing().toString());
+            jsonHypotheek.setWaardeNaVerbouwing(hypotheek.getWaardeNaVerbouwing());
         }
         if (hypotheek.getWaardeVoorVerbouwing() != null) {
-            jsonHypotheek.setWaardeVoorVerbouwing(hypotheek.getWaardeVoorVerbouwing().toString());
+            jsonHypotheek.setWaardeVoorVerbouwing(hypotheek.getWaardeVoorVerbouwing());
         }
         if (hypotheek.getWozWaarde() != null) {
-            jsonHypotheek.setWozWaarde(hypotheek.getWozWaarde().toString());
+            jsonHypotheek.setWozWaarde(hypotheek.getWozWaarde());
         }
 
         jsonHypotheek.setLeningNummer(hypotheek.getLeningNummer());
         jsonHypotheek.setBank(hypotheek.getBank());
         if (hypotheek.getBoxI() != null) {
-            jsonHypotheek.setBoxI(hypotheek.getBoxI().toString());
+            jsonHypotheek.setBoxI(hypotheek.getBoxI());
         }
         if (hypotheek.getBoxIII() != null) {
-            jsonHypotheek.setBoxIII(hypotheek.getBoxIII().toString());
+            jsonHypotheek.setBoxIII(hypotheek.getBoxIII());
         }
 
         LOGGER.debug("In  : " + ReflectionToStringBuilder.toString(hypotheek));

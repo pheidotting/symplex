@@ -30,10 +30,10 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public abstract M maakMessage(T t);
 
-    public void send(T t, Logger LOGGER) {
+    public void send(T t, Logger logger) {
         M m = maakMessage(t);
 
-        send(m, LOGGER);
+        send(m, logger);
     }
 
     public void setReplyTo(Destination replyTo) {
@@ -48,7 +48,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
         this.clazz = clazz;
     }
 
-    public void send(final AbstractMessage abstractMessage, Logger LOGGER) {
+    public void send(final AbstractMessage abstractMessage, Logger logger) {
         for (JmsTemplate jmsTemplate : jmsTemplates) {
             jmsTemplate.send(session -> {
                 try {
@@ -70,11 +70,11 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
                         message.setJMSReplyTo(replyTo);
                     }
 
-                    LOGGER.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
+                    logger.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
 
                     return message;
                 } catch (JAXBException e) {
-                    LOGGER.error("{}", e);
+                    logger.error("{}", e);
                 }
                 return null;
             });

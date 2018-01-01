@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @Component
 public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntiteitenRequest, OpslaanEntiteitenRequest> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanEntiteitenRequestSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpslaanEntiteitenRequestSender.class);
 
     public OpslaanEntiteitenRequestSender() {
         this.jmsTemplates = new ArrayList<>();

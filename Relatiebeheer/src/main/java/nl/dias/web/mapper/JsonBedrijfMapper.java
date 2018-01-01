@@ -15,7 +15,6 @@ public class JsonBedrijfMapper extends Mapper<Bedrijf, nl.lakedigital.djfc.domai
 
     @Override
     public nl.lakedigital.djfc.domain.response.Bedrijf mapNaarJson(Bedrijf object) {
-        nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf = new BedrijfDozerMapper().convertTo(object, null);
-        return jsonBedrijf;
+        return new BedrijfDozerMapper().convertTo(object, null);
     }
 }

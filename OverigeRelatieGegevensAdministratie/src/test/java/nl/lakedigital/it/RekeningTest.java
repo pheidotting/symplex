@@ -5,12 +5,10 @@ import nl.lakedigital.djfc.client.oga.AbstractOgaClient;
 import nl.lakedigital.djfc.client.oga.RekeningClient;
 import nl.lakedigital.djfc.commons.json.JsonRekeningNummer;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
-import org.junit.Ignore;
 
 import java.util.List;
 import java.util.UUID;
 
-@Ignore
 public class RekeningTest extends AbstractTest<JsonRekeningNummer> {
     private RekeningClient rekeningClient = new RekeningClient("http://localhost:7072/oga");
 

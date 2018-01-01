@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class RekeningNummerService extends AbstractService<RekeningNummer> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RekeningNummerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RekeningNummerService.class);
 
     @Inject
     private RekeningNummerRepository rekeningNummerRepository;

@@ -31,7 +31,7 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     private PostcodeService postcodeService;
 
     public AdresController() {
-        super(Adres.class, JsonAdres.class);
+        super(Adres.class);
     }
 
     @Override

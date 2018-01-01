@@ -13,14 +13,13 @@ import java.util.List;
 
 @Service
 public class TelefoonnummerService extends AbstractService<Telefoonnummer> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerService.class);
+    @Inject
+    private TelefoonnummerRepository telefoonnummerRepository;
 
     public TelefoonnummerService() {
         super(nl.lakedigital.as.messaging.domain.SoortEntiteit.TELEFOONNUMMER);
     }
-
-    @Inject
-    private TelefoonnummerRepository telefoonnummerRepository;
 
     @Override
     public AbstractRepository getRepository() {

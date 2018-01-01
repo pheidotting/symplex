@@ -40,7 +40,7 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     private String uploadpad;
 
     public BijlageController() {
-        super(Bijlage.class, JsonBijlage.class);
+        super(Bijlage.class);
     }
 
     @Bean

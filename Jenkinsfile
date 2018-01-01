@@ -22,6 +22,7 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.230 /etc/init.d/jetty restart
                 '''
             }
         }
@@ -29,7 +30,7 @@ pipeline {
         stage ('Undeploy Test') {
             when {
                 expression {
-                    return env.BRANCH_NAME == 'development'
+                    return env.BRANCH_NAME == 'acceptatie'
                 }
             }
             steps {
@@ -357,7 +358,7 @@ pipeline {
         stage ('Deployment Test') {
             when {
                 expression {
-                    return env.BRANCH_NAME == 'development'
+                    return env.BRANCH_NAME == 'acceptatie'
                 }
             }
             steps {

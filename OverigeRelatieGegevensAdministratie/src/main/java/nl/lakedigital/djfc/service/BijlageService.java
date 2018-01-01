@@ -16,7 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class BijlageService extends AbstractService<Bijlage> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(BijlageService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BijlageService.class);
 
     @Inject
     private BijlageRepository bijlageRepository;
