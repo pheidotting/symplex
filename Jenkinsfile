@@ -30,7 +30,7 @@ pipeline {
         stage ('Undeploy Test') {
             when {
                 expression {
-                    return env.BRANCH_NAME == 'development'
+                    return env.BRANCH_NAME == 'acceptatie'
                 }
             }
             steps {
@@ -358,7 +358,7 @@ pipeline {
         stage ('Deployment Test') {
             when {
                 expression {
-                    return env.BRANCH_NAME == 'development'
+                    return env.BRANCH_NAME == 'acceptatie'
                 }
             }
             steps {
