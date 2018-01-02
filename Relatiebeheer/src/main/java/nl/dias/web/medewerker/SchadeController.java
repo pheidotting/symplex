@@ -47,7 +47,7 @@ public class SchadeController extends AbstractController {
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
         LOGGER.debug("{}", jsonSchade);
@@ -71,7 +71,7 @@ public class SchadeController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
         }
 
-        return identificatie.getIdentificatie();// Response.status(202).entity(new JsonFoutmelding(schade.getId().toString())).build();
+        return identificatie == null ? "" : identificatie.getIdentificatie();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijst", produces = MediaType.APPLICATION_JSON)

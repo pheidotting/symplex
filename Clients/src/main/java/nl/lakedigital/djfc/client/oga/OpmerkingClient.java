@@ -4,8 +4,6 @@ import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.commons.xml.OpvragenOpmerkingenResponse;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,18 +65,6 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         }
 
         return result;
-    }
-
-    @Override
-    public String opslaan(List<JsonOpmerking> jsonAdressen, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_OPSLAAN);
-        for (JsonOpmerking jsonOpmerking : jsonAdressen) {
-            System.out.println(ReflectionToStringBuilder.toString(jsonOpmerking, ToStringStyle.SHORT_PREFIX_STYLE));
-        }
-        System.out.println("# Aanroepen " + URL_OPSLAAN);
-
-        return aanroepenUrlPost(URL_OPSLAAN, jsonAdressen, ingelogdeGebruiker, trackAndTraceId, LOGGER);
     }
 
     @Override

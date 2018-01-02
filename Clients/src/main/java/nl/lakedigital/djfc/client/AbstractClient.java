@@ -36,7 +36,7 @@ public abstract class AbstractClient<D> {
         this.basisUrl = basisUrl;
     }
 
-    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, String... args) {
+    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, String... args) {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -63,8 +63,13 @@ public abstract class AbstractClient<D> {
 
             return response;
         } catch (IOException e) {
-            LOGGER.error("Fout bij omzetten xml {}", e);
-            throw new LeesFoutException("Fout bij omzetten xml", e);
+            if (!retry) {
+                LOGGER.debug("Error opgetreden, retry");
+                return getXML(uri, clazz, urlEncoden, LOGGER, true, args);
+            } else {
+                LOGGER.error("Fout bij omzetten xml {}", e);
+                throw new LeesFoutException("Fout bij omzetten xml", e);
+            }
         }
     }
 

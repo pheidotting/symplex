@@ -111,6 +111,8 @@ public class TrackAndTraceFilter implements Filter {
     }
 
     public class HeaderMapRequestWrapper extends HttpServletRequestWrapper {
+        private Map<String, String> headerMap = new HashMap<>();
+
         /**
          * construct a wrapper for this request
          *
@@ -119,8 +121,6 @@ public class TrackAndTraceFilter implements Filter {
         public HeaderMapRequestWrapper(HttpServletRequest request) {
             super(request);
         }
-
-        private Map<String, String> headerMap = new HashMap<String, String>();
 
         /**
          * add a header with given name and value

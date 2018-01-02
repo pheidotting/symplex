@@ -1,5 +1,6 @@
 package nl.dias.service;
 
+import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Relatie;
 import nl.dias.domein.Schade;
 import nl.dias.domein.polis.Polis;
@@ -26,6 +27,8 @@ public class RelatieService {
     //    private PolisClient polisClient;
     private PolisService polisService;
     @Inject
+    private HypotheekService hypotheekService;
+    @Inject
     private AdresClient adresClient;
     @Inject
     //    private SchadeClient schadeClient;
@@ -51,6 +54,9 @@ public class RelatieService {
             case "SCHADE":
                 relatieId = pakRelatieBijSchade(identificatie.getEntiteitId());
                 break;
+            case "HYPOTHEEK":
+                relatieId = pakRelatieBijHypotheek(identificatie.getEntiteitId());
+                break;
         }
 
         return (Relatie) gebruikerService.lees(relatieId);
@@ -63,11 +69,20 @@ public class RelatieService {
 
         LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(polis));
 
-        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
+        //        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
 
         return polis.getRelatie();
         //
         //        return polis.getEntiteitId();
+    }
+
+    private Long pakRelatieBijHypotheek(Long hypotheekId) {
+        LOGGER.debug("hypotheekId {}", hypotheekId);
+        Hypotheek hypotheek = hypotheekService.leesHypotheek(hypotheekId);
+
+        LOGGER.debug("Polis ({}) gevonden : {}", hypotheekId, ReflectionToStringBuilder.toString(hypotheek));
+
+        return hypotheek.getRelatie().getId();
     }
 
     private Long pakRelatieBijAdres(Long adresId) {

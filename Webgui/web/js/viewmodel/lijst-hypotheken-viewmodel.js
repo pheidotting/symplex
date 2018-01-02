@@ -9,13 +9,15 @@ define(['jquery',
         'mapper/hypotheek-mapper',
         'mapper/hypotheekPakket-mapper',
         'moment',
+        'viewmodel/common/menubalk-viewmodel',
          'commons/opmaak'],
-    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, opmaak) {
+    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, opmaak) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('lijst-hypotheken-viewmodel');
         var soortEntiteit = 'HYPOTHEEK';
+		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;
         this.id = ko.observable();
@@ -23,15 +25,17 @@ define(['jquery',
         this.hypotheekPakketten = ko.observableArray();
 
         this.init = function(id, basisEntiteit) {
+            _this.identificatie = id.identificatie;
+
             var deferred = $.Deferred();
 
             _this.id(id);
             _this.basisEntiteit = basisEntiteit;
-            $.when(hypotheekService.lijstHypotheken(id), hypotheekService.lijstHypotheekPakketten(id), hypotheekService.lijstSoortenHypotheek()).then(function(hypotheken, pakketten, lijstSoortenHypotheek) {
-                _this.hypotheken = hypotheekMapper.mapHypotheken(hypotheken, lijstSoortenHypotheek);
-                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
+            $.when(hypotheekService.lijstHypotheken(_this.identificatie), hypotheekService.lijstSoortenHypotheek()).then(function(data, lijstSoortenHypotheek) {
+                _this.hypotheken = hypotheekMapper.mapHypotheken(data.hypotheken, lijstSoortenHypotheek);
+//                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
 
-
+                _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, "RELATIE");
 
                 return deferred.resolve();
             });
@@ -49,11 +53,11 @@ define(['jquery',
             return opmaak.maakBedragOp(bedrag());
 		};
 
-		this.bewerkHypotheek = function(hypotheek) {
-            redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.id(), 'hypotheek', hypotheek.id());
+		this.bewerk = function(hypotheek) {
+			redirect.redirect('BEHEER_HYPOTHEEK', hypotheek.identificatie());
         };
 
-		this.verwijderHypotheek = function(hypotheek) {
+		this.verwijder = function(hypotheek) {
             var r=confirm("Weet je zeker dat je deze hypotheek wilt verwijderen?");
             if (r==true) {
                 _this.hypotheken.remove(hypotheek);

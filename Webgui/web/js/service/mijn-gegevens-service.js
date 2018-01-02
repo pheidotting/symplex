@@ -9,13 +9,11 @@ define(["commons/3rdparty/log2",
             opslaan: function(medewerker){
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId){
-                    $.when(gebruikerRepository.opslaanMedewerker(medewerker, trackAndTraceId)).then(function(response){
+                    $.when(gebruikerRepository.opslaanMedewerker(medewerker)).then(function(response){
                         logger.debug('opslaan medewerker');
 
                         return deferred.resolve();
                     });
-                });
 
                 return deferred.promise();
             }

@@ -10,21 +10,23 @@ import java.util.ArrayList;
 
 @Component
 public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntiteitenRequest, OpslaanEntiteitenRequest> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanRequestSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpslaanEntiteitenRequestSender.class);
 
     public OpslaanEntiteitenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public OpslaanEntiteitenRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = OpslaanEntiteitenRequest.class;
     }
 
     @Override
     public OpslaanEntiteitenRequest maakMessage(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {
         return opslaanEntiteitenRequest;
+    }
+
+    public void send(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {
+        super.send(opslaanEntiteitenRequest, LOGGER);
     }
 }

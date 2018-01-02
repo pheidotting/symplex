@@ -1,6 +1,6 @@
 define(['jquery',
         'commons/3rdparty/log2',
-        'text!../../../templates/beherenRelatiehypotheek.html',
+        'text!../../../templates/beheren/beheren-hypotheek.html',
         'viewmodel/beheren-hypotheek-viewmodel',
         'knockout',
         'view/common/opmerking-view',
@@ -11,7 +11,7 @@ define(['jquery',
 
         return {
             init: function(hypotheekId, basisId, readOnly, basisEntiteit) {
-				$('#details').html(html);
+				$('#content').html(html);
 
                 opmerkingView.init(hypotheekId);
                 bijlageView.init(hypotheekId);

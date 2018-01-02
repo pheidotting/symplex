@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 @RequestMapping("/medewerker")
 @Controller
 public class MedewerkerController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RelatieController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MedewerkerController.class);
 
     @Inject
     private GebruikerService gebruikerService;

@@ -20,7 +20,6 @@ import java.util.UUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class AdresTest extends AbstractTest<JsonAdres> {
@@ -69,21 +68,6 @@ public class AdresTest extends AbstractTest<JsonAdres> {
     @Override
     public void wijzig(JsonAdres entiteit) {
         entiteit.setStraat("nieuweStraat");
-    }
-
-    @Test
-    public void testLees() {
-        JsonAdres jsonAdres = maakEntiteit(10, 99L, SoortEntiteit.RELATIE);
-
-        getClient().opslaan(Lists.newArrayList(jsonAdres), 46L, trackAndTraceId);
-
-        Long id = adresRepository.alles(SoortEntiteit.RELATIE, 99L).get(0).getId();
-
-        jsonAdres.setId(id);
-
-        assertThat(adresClient.lees(id), is(jsonAdres));
-
-        getClient().verwijder(SoortEntiteit.RELATIE.name(), 99L, 46L, trackAndTraceId);
     }
 
     @Test

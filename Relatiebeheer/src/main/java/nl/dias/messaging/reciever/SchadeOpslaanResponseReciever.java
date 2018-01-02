@@ -5,20 +5,16 @@ import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
 public class SchadeOpslaanResponseReciever extends AbstractReciever<SchadeOpslaanResponse> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchadeOpslaanResponseReciever.class);
-
-    public SchadeOpslaanResponseReciever() {
-        super(SchadeOpslaanResponse.class, LOGGER);
-    }
-
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+
+    public SchadeOpslaanResponseReciever() {
+        super(SchadeOpslaanResponse.class);
+    }
 
     @Override
     public void verwerkMessage(SchadeOpslaanResponse schadeOpslaanResponse) {
@@ -41,4 +37,5 @@ public class SchadeOpslaanResponseReciever extends AbstractReciever<SchadeOpslaa
             opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
         }
     }
+
 }

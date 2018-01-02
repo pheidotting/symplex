@@ -5,12 +5,12 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(telefoonnummers, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_TELEFOONNUMMERS'), ko.toJSON(telefoonnummers()), trackAndTraceId);
+            opslaan: function(telefoonnummers) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_TELEFOONNUMMERS'), ko.toJSON(telefoonnummers()));
             },
 
-            verwijder: function(trackAndTraceId, soortEntiteit, id) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_TELEFOONNUMMERS') + '/' + soortEntiteit + '/' + id, null, trackAndTraceId);
+            verwijder: function(soortEntiteit, id) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_TELEFOONNUMMERS') + '/' + soortEntiteit + '/' + id, null);
             },
 
                 lijst: function(soortEntiteit, parentid){

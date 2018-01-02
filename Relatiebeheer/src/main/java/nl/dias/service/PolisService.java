@@ -5,8 +5,11 @@ import nl.dias.domein.polis.SoortVerzekering;
 import nl.dias.domein.predicates.PolisOpSchermNaamPredicate;
 import nl.dias.domein.predicates.PolissenOpSoortPredicate;
 import nl.dias.domein.transformers.PolisToSchermNaamTransformer;
+import nl.dias.messaging.SoortEntiteitEnEntiteitId;
+import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.repository.PolisRepository;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -18,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.*;
@@ -44,6 +46,8 @@ public class PolisService {
     private IdentificatieClient identificatieClient;
     @Inject
     private SchadeService schadeService;
+    @Inject
+    private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public List<String> allePolisSoorten(final SoortVerzekering soortVerzekering) {
         Iterable<Polis> poli = filter(polissen, new PolissenOpSoortPredicate(soortVerzekering));
@@ -82,6 +86,14 @@ public class PolisService {
         }
     }
 
+    public void verwijder(List<Polis> polissen) {
+        for (Polis polis : polissen) {
+            verwijderEntiteitRequestSender.send(new SoortEntiteitEnEntiteitId(SoortEntiteit.POLIS, polis.getId()));
+        }
+
+        polisRepository.verwijder(polissen);
+    }
+
     public void verwijder(String id) {
         LOGGER.debug("Ophalen Polis");
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
@@ -92,39 +104,20 @@ public class PolisService {
         }
         LOGGER.debug("Polis gevonden : " + polis);
 
-        //        LOGGER.debug("Ophalen Relatie");
-        //        Relatie relatie = (Relatie) gebruikerService.lees(polis.getRelatie().getId());
-        //
-        //        LOGGER.debug("Verwijderen Polis bij Relatie");
-        //        relatie.getPolissen().remove(polis);
-        //        LOGGER.debug("Kijken of de Polis nog bij een bedrijf zit");
-        //
-        //        gebruikerService.opslaan(relatie);
-
         polisRepository.verwijder(polis);
     }
 
     public List<Polis> allePolissenBijRelatie(Long relatie) {
-        List<Polis> polissen = polisRepository.allePolissenBijRelatie(relatie);
-
-        return polissen.stream().map(new Function<Polis, Polis>() {
-            @Override
-            public Polis apply(Polis polis) {
-                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
-                return polis;
-            }
+        return polisRepository.allePolissenBijRelatie(relatie).stream().map(polis -> {
+            polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+            return polis;
         }).collect(Collectors.toList());
     }
 
     public List<Polis> allePolissenBijBedrijf(Long bedrijf) {
-        List<Polis> polissen = polisRepository.allePolissenBijBedrijf(bedrijf);
-
-        return polissen.stream().map(new Function<Polis, Polis>() {
-            @Override
-            public Polis apply(Polis polis) {
-                polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
-                return polis;
-            }
+        return polisRepository.allePolissenBijBedrijf(bedrijf).stream().map(polis -> {
+            polis.setSchades(schadeService.alleSchadesBijPolis(polis.getId()));
+            return polis;
         }).collect(Collectors.toList());
     }
 

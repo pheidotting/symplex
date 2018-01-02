@@ -7,24 +7,24 @@ define(["commons/3rdparty/log2",
 
         return {
 
-            opslaan: function(data, trackAndTraceId) {
+            opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_RELATIE');
                 logger.debug("Versturen naar " + url + " : ");
                 logger.debug(ko.toJSON(data));
 
-                return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
+                return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },
 
-            opslaanMedewerker: function(data, trackAndTraceId) {
+            opslaanMedewerker: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_MEDEWERKER');
                 logger.debug("Versturen naar " + url + " : ");
                 logger.debug(ko.toJSON(data));
 
-                return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
+                return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },
 
-            verwijderRelatie: function(id, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null, trackAndTraceId);
+            verwijderRelatie: function(id) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_RELATIE') + '/' + id, null);
             },
 
             leesRelatie: function(id, foutmeldingOnderdrukken) {
@@ -35,8 +35,8 @@ define(["commons/3rdparty/log2",
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER'), {id : id});
             },
 
-            opslaanOAuthCode: function(code, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OAUTH_CODE'), code, trackAndTraceId);
+            opslaanOAuthCode: function(code) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OAUTH_CODE'), code);
             },
 
             haalIngelogdeGebruiker: function(token){

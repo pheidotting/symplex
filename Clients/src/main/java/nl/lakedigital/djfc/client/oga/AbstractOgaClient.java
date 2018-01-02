@@ -37,7 +37,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
 
     public abstract List<T> lijst(String soortEntiteit, Long entiteitId);
 
-    public abstract String opslaan(List<T> jsonAdressen, Long ingelogdeGebruiker, String trackAndTraceId);
 
     public abstract void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId);
 

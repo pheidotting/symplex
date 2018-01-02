@@ -36,9 +36,7 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
         relatie.setRoepnaam(jsonRelatie.getRoepnaam());
         try {
             relatie.setIdentificatie(jsonRelatie.getIdentificatie());
-        } catch (UnsupportedEncodingException e) {
-            LOGGER.error("fout", e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             LOGGER.error("fout", e);
         }
         relatie.setVoornaam(jsonRelatie.getVoornaam());

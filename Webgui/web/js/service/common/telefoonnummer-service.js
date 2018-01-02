@@ -7,7 +7,7 @@ define(['commons/3rdparty/log2',
         var logger = log.getLogger('telefoonnummer-service');
 
         return {
-            opslaan: function(telefoonnummers, trackAndTraceId, soortEntiteit, id) {
+            opslaan: function(telefoonnummers, soortEntiteit, id) {
                 logger.debug('opslaan telefoonnummers ' + telefoonnummers);
 
 
@@ -20,9 +20,9 @@ define(['commons/3rdparty/log2',
                         }
                     });
 
-                    return telefoonnummerRepository.opslaan(telefoonnummers, trackAndTraceId);
+                    return telefoonnummerRepository.opslaan(telefoonnummers);
                 } else {
-                    return telefoonnummerRepository.verwijder(trackAndTraceId, soortEntiteit, id);
+                    return telefoonnummerRepository.verwijder(soortEntiteit, id);
                 }
             },
 

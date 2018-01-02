@@ -48,9 +48,7 @@ define(['jquery',
                         return t;
                     }).value();
 
-                    $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId){
-                        repository.voerUitPost('../dejonge/rest/medewerker/taak/opslaanAfgerondeTaken', JSON.stringify(opslaan), trackAndTraceId);
-                    });
+                    repository.voerUitPost('../dejonge/rest/medewerker/taak/opslaanAfgerondeTaken', JSON.stringify(opslaan));
 
                     logger.debug(JSON.stringify(opslaan));
                 });

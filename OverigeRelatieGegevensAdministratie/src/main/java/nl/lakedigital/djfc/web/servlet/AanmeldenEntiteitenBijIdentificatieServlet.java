@@ -5,8 +5,6 @@ import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.inject.Inject;
@@ -17,7 +15,6 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class AanmeldenEntiteitenBijIdentificatieServlet implements ServletContextListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AanmeldenEntiteitenBijIdentificatieServlet.class);
 
     @Inject
     private AdresService adresService;
@@ -66,6 +63,6 @@ public class AanmeldenEntiteitenBijIdentificatieServlet implements ServletContex
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+        //Gebruiken we niet
     }
 }
