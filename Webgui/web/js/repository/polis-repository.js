@@ -5,12 +5,12 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(data, trackAndTraceId) {
+            opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_POLIS');
                 log.debug("Versturen naar " + url + " : ");
                 log.debug(ko.toJSON(data));
 
-                return abstractRepository.voerUitPost(url, ko.toJSON(data), trackAndTraceId);
+                return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },
 
             verwijder: function(id) {
@@ -41,12 +41,12 @@ define(["commons/3rdparty/log",
                 }
             },
 
-            beindigPolis: function(id, trackAndTraceId){
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('BEEINDIG_POLIS') + '/' + id, trackAndTraceId);
+            beindigPolis: function(id){
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('BEEINDIG_POLIS') + '/' + id);
             },
 
-            verwijderPolis: function(id, trackAndTraceId){
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id, trackAndTraceId);
+            verwijderPolis: function(id){
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_POLIS') + '/' + id);
             }
         }
     }

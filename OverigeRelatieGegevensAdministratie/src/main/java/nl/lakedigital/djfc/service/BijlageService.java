@@ -5,6 +5,8 @@ import nl.lakedigital.djfc.domain.GroepBijlages;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.BijlageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -14,6 +16,8 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class BijlageService extends AbstractService<Bijlage> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BijlageService.class);
+
     @Inject
     private BijlageRepository bijlageRepository;
 
@@ -24,6 +28,11 @@ public class BijlageService extends AbstractService<Bijlage> {
     @Override
     public AbstractRepository getRepository() {
         return bijlageRepository;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     public void verwijder(Long id) {

@@ -4,6 +4,8 @@ import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Opmerking;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.OpmerkingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Service
 public class OpmerkingService extends AbstractService<Opmerking> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpmerkingService.class);
     @Inject
     private OpmerkingRepository opmerkingRepository;
 
@@ -21,6 +24,11 @@ public class OpmerkingService extends AbstractService<Opmerking> {
     @Override
     public AbstractRepository getRepository() {
         return opmerkingRepository;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     public List<Opmerking> alles() {

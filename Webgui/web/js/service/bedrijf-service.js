@@ -33,8 +33,7 @@ define(["commons/3rdparty/log",
                     }
                 });
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    bedrijfRepository.opslaan(bedrijf, trackAndTraceId).done(function(response) {
+                    bedrijfRepository.opslaan(bedrijf).done(function(response) {
                             if(contactpersonen().length > 0) {
                                 _.each(contactpersonen(), function(cp) {
 //                                    cp.telefoonnummers = cp.telefoonnummersModel;
@@ -45,7 +44,7 @@ define(["commons/3rdparty/log",
                                     contactpersoon.bedrijf(id);
                                     var telefoonnummers = contactpersoon.telefoonnummers;
                                     contactpersoon.telefoonnummers = null;
-                                    repository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_CONTACTPERSOON'), ko.toJSON(contactpersoon), trackAndTraceId).done(function(cpId){
+                                    repository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_CONTACTPERSOON'), ko.toJSON(contactpersoon)).done(function(cpId){
 
                                         _.each(telefoonnummers(), function(telefoonnummer) {
                                             telefoonnummer.parentIdentificatie(id);
@@ -53,14 +52,13 @@ define(["commons/3rdparty/log",
                                         });
 
 
-                                        telefoonnummerService.opslaan(telefoonnummers, trackAndTraceId, 'CONTACTPERSOON', cpId);
+                                        telefoonnummerService.opslaan(telefoonnummers, 'CONTACTPERSOON', cpId);
                                     });
                                 });
                             }
 
                             return deferred.resolve(id);
                         });
-                    });
 
                 return deferred.promise();
             },

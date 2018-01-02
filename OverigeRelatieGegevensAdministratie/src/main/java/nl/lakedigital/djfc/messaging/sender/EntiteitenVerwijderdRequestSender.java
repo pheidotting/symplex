@@ -11,16 +11,13 @@ import java.util.ArrayList;
 public class EntiteitenVerwijderdRequestSender extends AbstractSender<VerwijderEntiteitenRequest, SoortEntiteitEnEntiteitId> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntiteitenVerwijderdRequestSender.class);
 
-
     public EntiteitenVerwijderdRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
         this.clazz = VerwijderEntiteitenRequest.class;
     }
 
     public EntiteitenVerwijderdRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = VerwijderEntiteitenRequest.class;
     }
 
@@ -32,5 +29,9 @@ public class EntiteitenVerwijderdRequestSender extends AbstractSender<VerwijderE
         verwijderEntiteitenRequest.setSoortEntiteit(soortEntiteitEnEntiteitId.getSoortEntiteit());
 
         return verwijderEntiteitenRequest;
+    }
+
+    public void send(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId) {
+        super.send(soortEntiteitEnEntiteitId, LOGGER);
     }
 }

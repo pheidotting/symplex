@@ -15,14 +15,12 @@ public class VerwijderEntiteitenRequestSender extends AbstractSender<VerwijderEn
 
     public VerwijderEntiteitenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public VerwijderEntiteitenRequestSender(final JmsTemplate jmsTemplateId, final JmsTemplate jmsTemplateOga, final JmsTemplate jmsTemplatePa) {
         this.jmsTemplates.add(jmsTemplateId);
         this.jmsTemplates.add(jmsTemplateOga);
         this.jmsTemplates.add(jmsTemplatePa);
-        this.LOGGER_ = LOGGER;
         this.clazz = VerwijderEntiteitenRequest.class;
     }
 
@@ -34,5 +32,9 @@ public class VerwijderEntiteitenRequestSender extends AbstractSender<VerwijderEn
         verwijderEntiteitenRequest.setEntiteitId(soortEntiteitEnEntiteitId.getEntiteitId());
 
         return verwijderEntiteitenRequest;
+    }
+
+    public void send(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId) {
+        super.send(soortEntiteitEnEntiteitId, LOGGER);
     }
 }

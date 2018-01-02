@@ -16,12 +16,10 @@ public class EntiteitenOpgeslagenRequestSender extends AbstractSender<Entiteiten
 
     public EntiteitenOpgeslagenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
     }
 
     public EntiteitenOpgeslagenRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = EntiteitenOpgeslagenRequest.class;
     }
 
@@ -32,5 +30,9 @@ public class EntiteitenOpgeslagenRequestSender extends AbstractSender<Entiteiten
         entiteitenOpgeslagenRequest.setSoortEntiteitEnEntiteitIds(ids);
 
         return entiteitenOpgeslagenRequest;
+    }
+
+    public void send(List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds) {
+        super.send(soortEntiteitEnEntiteitIds, LOGGER);
     }
 }

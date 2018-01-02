@@ -33,6 +33,14 @@ define(['redirect'],
             redirect.redirect('LIJST_SCHADES', _this.identificatie);
         };
 
+        this.naarHypotheken = function() {
+            redirect.redirect('LIJST_HYPOTHEKEN', _this.identificatie);
+        };
+
+        this.nieuweHypotheek = function() {
+            redirect.redirect('BEHEER_HYPOTHEEK', _this.identificatie);
+        };
+
         this.uitloggen = function() {
             localStorage.removeItem("symplexAccessToken");
             location.reload();

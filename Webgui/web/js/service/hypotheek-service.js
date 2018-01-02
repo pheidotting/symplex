@@ -3,9 +3,10 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/hypotheek-repository',
+        'repository/gebruiker-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service'],
-    function(log, navRegister, ko, repository, hypotheekRepository, opmerkingService, bijlageService) {
+    function(log, navRegister, ko, repository, hypotheekRepository, gebruikerRepository, opmerkingService, bijlageService) {
 
         return {
             lijstSoortenHypotheek: function(id) {
@@ -14,6 +15,17 @@ define(["commons/3rdparty/log",
 
             lijstHypothekenInclDePakketten: function(relatieId) {
                 return hypotheekRepository.lijstHypothekenInclDePakketten(relatieId);
+            },
+
+            lees: function(id){
+                var identificatie = id.identificatie;
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
             },
 
             leesHypotheek: function(id) {
@@ -36,27 +48,36 @@ define(["commons/3rdparty/log",
             },
 
             lijstHypotheken: function(relatieId) {
-                return hypotheekRepository.lijstHypotheken(relatieId);
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
             },
 
             lijstHypotheekPakketten: function(relatieId) {
-                return hypotheekRepository.lijstHypotheekPakketten(relatieId);
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
             },
 
             opslaanHypotheek: function(hypotheek, opmerkingen) {
                 var deferred = $.Deferred();
 
                 hypotheek.hypotheekVorm = ko.observable(hypotheek.hypotheekVorm.id);
+                hypotheek.opmerkingen = opmerkingen;
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    hypotheekRepository.opslaanHypotheek(hypotheek, trackAndTraceId).done(function(response) {
-                        var id = response.entity.foutmelding;
-                        var soortEntiteit = 'HYPOTHEEK';
+                hypotheekRepository.opslaanHypotheek(hypotheek).done(function(response) {
+                    var id = response.entity.foutmelding;
+                    var soortEntiteit = 'HYPOTHEEK';
 
-                        opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id).done(function() {
-                            return deferred.resolve(response);
-                        });
-                    });
+                    return deferred.resolve(response);
                 });
 
                 return deferred.promise();
@@ -65,11 +86,9 @@ define(["commons/3rdparty/log",
             verwijderHypotheek: function(id) {
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    hypotheekRepository.verwijderHypotheek(id, trackAndTraceId).done(function(response) {
+                    hypotheekRepository.verwijderHypotheek(id).done(function(response) {
                         return deferred.resolve(response);
                     });
-                });
 
                 return deferred.promise();
             }

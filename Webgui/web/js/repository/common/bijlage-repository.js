@@ -5,12 +5,12 @@ define(["commons/3rdparty/log",
     function(log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(bijlages, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_BIJLAGES'), ko.toJSON(bijlages()), trackAndTraceId);
+            opslaan: function(bijlages) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_BIJLAGES'), ko.toJSON(bijlages()));
             },
 
-            verwijder: function(trackAndTraceId, soortEntiteit, id) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_BIJLAGES') + '/' + soortEntiteit + '/' + id, null, trackAndTraceId);
+            verwijder: function(soortEntiteit, id) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_BIJLAGES') + '/' + soortEntiteit + '/' + id, null);
             },
 
             lijst: function(soortEntiteit, parentid){

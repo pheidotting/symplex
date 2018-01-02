@@ -15,22 +15,17 @@ define(["commons/3rdparty/log",
 
                 polis.maatschappij = ko.observable(polis.maatschappij.id);
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId){
-                    polis.opmerkingen = opmerkingen;
-                    polis.parentIdentificatie = basisId;
+                polis.opmerkingen = opmerkingen;
+                polis.parentIdentificatie = basisId;
 
-                    console.log(polis);
+                console.log(polis);
 
-                    $.when(polisRepository.opslaan(polis, trackAndTraceId)).then(function(id){
-                        if(id != null && id != '') {
-                            var soortEntiteit = 'POLIS';
+                $.when(polisRepository.opslaan(polis)).then(function(id){
+                    if(id != null && id != '') {
+                        var soortEntiteit = 'POLIS';
 
-//                            $.when(opmerkingService.opslaan(opmerkingen, trackAndTraceId, soortEntiteit, id))
-//                            .then(function(opmerkingResponse){
-                                return deferred.resolve(id);
-//                            });
-                        }
-                    });
+                        return deferred.resolve(id);
+                    }
                 });
 
                 return deferred.promise();
@@ -78,15 +73,11 @@ define(["commons/3rdparty/log",
             },
 
             beindigPolis: function(id){
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId){
-                    polisRepository.beindigPolis(id, trackAndTraceId);
-                });
+                polisRepository.beindigPolis(id);
             },
 
             verwijderPolis: function(id){
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId){
-                    polisRepository.verwijderPolis(id, trackAndTraceId);
-                });
+                polisRepository.verwijderPolis(id);
             }
         }
     }

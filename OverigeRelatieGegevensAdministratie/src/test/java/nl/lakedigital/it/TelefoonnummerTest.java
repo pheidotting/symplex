@@ -5,11 +5,9 @@ import nl.lakedigital.djfc.client.oga.AbstractOgaClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
 import nl.lakedigital.djfc.commons.json.JsonTelefoonnummer;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
-import org.junit.Ignore;
 
 import java.util.List;
 import java.util.UUID;
-@Ignore
 public class TelefoonnummerTest extends AbstractTest<JsonTelefoonnummer> {
     private TelefoonnummerClient telefoonnummerClient = new TelefoonnummerClient("http://localhost:7072/oga");
 

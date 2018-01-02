@@ -6,7 +6,8 @@
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
         <param name="file" value="/var/log/djfc/oga.log"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="[%p] %d %c %M - %m%n"/>
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 
@@ -15,7 +16,8 @@
         <param name="tag" value="tst2,oga"/>
         <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c{1}] - %m%n"/>
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
 

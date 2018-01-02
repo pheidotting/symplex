@@ -94,70 +94,74 @@ public class AuthorisatieController {
             return ingelogdeGebruiker;
         }
 
-        //        return Response.status(401).entity(null).build();
         throw new UnauthorizesdAccessException();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "wachtwoordvergeten")
     @ResponseBody
-    public void wachtwoordvergeten(@RequestBody String identificatie) throws MessagingException, NietGevondenException, UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void wachtwoordvergeten(@RequestBody String identificatie) {
         LOGGER.info("Wachtwoord vergeten");
-        Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(identificatie);
+        try {
+            Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(identificatie);
 
-        LOGGER.info("Nieuw wachtwoord voor {}", identificatie);
-        if (gebruiker != null) {
-            LOGGER.info("Gebruikerid hierbij gevonden {}, met mailadres {}", gebruiker.getId(), gebruiker.getEmailadres());
-        }
+            LOGGER.info("Nieuw wachtwoord voor {}", identificatie);
+            if (gebruiker != null) {
+                LOGGER.info("Gebruikerid hierbij gevonden {}, met mailadres {}", gebruiker.getId(), gebruiker.getEmailadres());
+            }
 
-        String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
-        String tekst = "Je nieuwe wachtwoord is : " + nieuwWachtwoord;
+            String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
+            String tekst = "Je nieuwe wachtwoord is : " + nieuwWachtwoord;
 
-        if (gebruiker != null && gebruiker.getEmailadres() != null && !"".equals(gebruiker.getEmailadres())) {
-            gebruiker.setHashWachtwoord(nieuwWachtwoord);
-            gebruiker.setMoetWachtwoordUpdaten(true);
-            gebruikerRepository.opslaan(gebruiker);
+            if (gebruiker != null && gebruiker.getEmailadres() != null && !"".equals(gebruiker.getEmailadres())) {
+                gebruiker.setHashWachtwoord(nieuwWachtwoord);
+                gebruiker.setMoetWachtwoordUpdaten(true);
+                gebruikerRepository.opslaan(gebruiker);
 
-            String mailHost = "smtp.gmail.com";
-            Integer smtpPort = 587;
+                String mailHost = "smtp.gmail.com";
+                Integer smtpPort = 587;
 
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", mailHost);
-            properties.put("mail.smtp.port", smtpPort);
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-            properties.setProperty("mail.smtp.auth", "true");
-            Authenticator auth = new SMTPAuthenticator();
-            Session emailSession = Session.getDefaultInstance(properties, auth);
+                Properties properties = new Properties();
+                properties.put("mail.smtp.host", mailHost);
+                properties.put("mail.smtp.port", smtpPort);
+                properties.put("mail.smtp.starttls.enable", "true");
+                properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
+                properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
+                properties.setProperty("mail.smtp.auth", "true");
+                Authenticator auth = new SMTPAuthenticator();
+                Session emailSession = Session.getDefaultInstance(properties, auth);
 
-            Message msg = new MimeMessage(emailSession);
+                Message msg = new MimeMessage(emailSession);
 
-            // -- Set the FROM and TO fields --
-            msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
+                // -- Set the FROM and TO fields --
+                msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
 
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(gebruiker.getEmailadres(), false));
-            msg.setSubject("Wachtwoord reset");
-            msg.setSentDate(new Date());
+                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(gebruiker.getEmailadres(), false));
+                msg.setSubject("Wachtwoord reset");
+                msg.setSentDate(new Date());
 
-            BodyPart messageBodyPart = new MimeBodyPart();
+                BodyPart messageBodyPart = new MimeBodyPart();
 
-            //evt bijlages bijzoeken
+                //evt bijlages bijzoeken
 
-            // Create a multipar message
-            Multipart multipart = new MimeMultipart();
-            //                 Now set the actual message
-            messageBodyPart.setText(tekst);
-            // Set text message part
-            multipart.addBodyPart(messageBodyPart);
+                // Create a multipar message
+                Multipart multipart = new MimeMultipart();
+                //                 Now set the actual message
+                messageBodyPart.setText(tekst);
+                // Set text message part
+                multipart.addBodyPart(messageBodyPart);
 
-            // Send the complete message parts
-            msg.setContent(multipart);
+                // Send the complete message parts
+                msg.setContent(multipart);
 
-            Transport transport = emailSession.getTransport("smtp");
-            transport.connect(mailHost, smtpPort, null, null);
-            //Zeker weten dat de mail niet al verstuurd is door een andere Thread
-            transport.sendMessage(msg, msg.getAllRecipients());
-            transport.close();
+                Transport transport = emailSession.getTransport("smtp");
+                transport.connect(mailHost, smtpPort, null, null);
+                //Zeker weten dat de mail niet al verstuurd is door een andere Thread
+                transport.sendMessage(msg, msg.getAllRecipients());
+                transport.close();
+            }
+
+        } catch (MessagingException | NietGevondenException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            LOGGER.error("Fout opgetreden bij het aanmaken van een nieuw wachtwoord voor {} : {}", identificatie, e);
         }
     }
 

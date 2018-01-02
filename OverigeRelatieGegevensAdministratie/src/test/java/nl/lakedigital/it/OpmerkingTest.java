@@ -5,12 +5,10 @@ import nl.lakedigital.djfc.client.oga.AbstractOgaClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
-import org.junit.Ignore;
 
 import java.util.List;
 import java.util.UUID;
 
-@Ignore
 public class OpmerkingTest extends AbstractTest<JsonOpmerking> {
     private OpmerkingClient opmerkingClient = new OpmerkingClient("http://localhost:7072/oga");
 

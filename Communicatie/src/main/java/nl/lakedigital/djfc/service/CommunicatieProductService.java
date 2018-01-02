@@ -1,9 +1,6 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.djfc.client.dejonge.RelatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
-import nl.lakedigital.djfc.commons.json.JsonAdres;
-import nl.lakedigital.djfc.commons.json.JsonRelatie;
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -27,8 +24,8 @@ public class CommunicatieProductService {
     @Inject
     private MaakBriefService maakBriefService;
 
-    @Inject
-    private RelatieClient relatieClient;
+    //    @Inject
+    //    private RelatieClient relatieClient;
     @Inject
     private AdresClient adresClient;
 
@@ -69,25 +66,25 @@ public class CommunicatieProductService {
     }
 
     public Long maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, Long relatieId, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
-        JsonRelatie relatie = relatieClient.lees(relatieId);
-
-        if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && relatie.getEmailadres() == null) {
-            throw new IllegalStateException();
-        }
-
-        List<JsonAdres> adressen = adresClient.lijst(SoortEntiteit.RELATIE.name(), relatieId);
-        if (soortCommunicatieProduct == SoortCommunicatieProduct.BRIEF && adressen.isEmpty()) {
-            throw new IllegalStateException();
-        }
-        if (soortCommunicatieProduct == null) {
-            if (relatie.getIdentificatie() != null) {
-                soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
-            } else if (!adressen.isEmpty()) {
-                soortCommunicatieProduct = SoortCommunicatieProduct.BRIEF;
-            } else {
-                throw new IllegalStateException();
-            }
-        }
+        //        JsonRelatie relatie = relatieClient.lees(relatieId);
+        //
+        //        if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && relatie.getEmailadres() == null) {
+        //            throw new IllegalStateException();
+        //        }
+        //
+        //        List<JsonAdres> adressen = adresClient.lijst(SoortEntiteit.RELATIE.name(), relatieId);
+        //        if (soortCommunicatieProduct == SoortCommunicatieProduct.BRIEF && adressen.isEmpty()) {
+        //            throw new IllegalStateException();
+        //        }
+        //        if (soortCommunicatieProduct == null) {
+        //            if (relatie.getIdentificatie() != null) {
+        //                soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
+        //            } else if (!adressen.isEmpty()) {
+        //                soortCommunicatieProduct = SoortCommunicatieProduct.BRIEF;
+        //            } else {
+        //                throw new IllegalStateException();
+        //            }
+        //        }
 
         CommunicatieProduct communicatieProduct = maakCommunicatieProduct(soortCommunicatieProduct, id);
         communicatieProduct.setSoortEntiteit(SoortEntiteit.RELATIE);
@@ -132,11 +129,11 @@ maakBriefService.verzend((UitgaandeBrief)communicatieProduct);
             onverzondenIndicatie.setUitgaandeEmail((UitgaandeEmail)communicatieProduct);
             ((UitgaandeEmail)communicatieProduct).setOnverzondenIndicatie(onverzondenIndicatie);
 
-            JsonRelatie relatie = relatieClient.lees(communicatieProduct.getEntiteitId());
+            //            JsonRelatie relatie = relatieClient.lees(communicatieProduct.getEntiteitId());
 
             Emailadres emailadres=new Emailadres();
             emailadres.setUitgaandeEmail((UitgaandeEmail)communicatieProduct);
-            emailadres.setEmailadres(relatie.getEmailadres());
+            //            emailadres.setEmailadres(relatie.getEmailadres());
             ((UitgaandeEmail)communicatieProduct).setEmailadres(emailadres);
         }
 

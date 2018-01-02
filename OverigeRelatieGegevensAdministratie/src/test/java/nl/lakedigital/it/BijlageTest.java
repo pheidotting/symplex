@@ -18,8 +18,6 @@ import java.util.UUID;
 
 import static nl.lakedigital.assertion.Assert.assertEquals;
 
-
-@Ignore
 public class BijlageTest extends AbstractTest<JsonBijlage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(BijlageTest.class);
 
@@ -63,7 +61,6 @@ public class BijlageTest extends AbstractTest<JsonBijlage> {
         entiteit.setOmschrijving(UUID.randomUUID().toString());
     }
 
-    @Override
     @Test
     public void testZoek() {
         String trackAndTraceId = UUID.randomUUID().toString();
@@ -91,7 +88,6 @@ public class BijlageTest extends AbstractTest<JsonBijlage> {
         getClient().verwijder(soortEntiteit.name(), entiteitId, 46L, trackAndTraceId);
     }
 
-    @Override
     @Test
     public void allesOpslaanTest() {
         List<Long> ids = Lists.newArrayList(3L, 6L, 9L);
@@ -125,7 +121,6 @@ public class BijlageTest extends AbstractTest<JsonBijlage> {
         }
     }
 
-    @Override
     @Test
     @Ignore
     public void opslaanEnVerwijder() {

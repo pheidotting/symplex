@@ -16,10 +16,12 @@ public class MessagingOpmerkingNaarDomainOpmerkingMapper implements Function<Abs
     private DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
     private IdentificatieClient identificatieClient;
     private OpmerkingService opmerkingService;
+    private Long ingelogdeGebruiker;
 
-    public MessagingOpmerkingNaarDomainOpmerkingMapper(IdentificatieClient identificatieClient, OpmerkingService opmerkingService) {
+    public MessagingOpmerkingNaarDomainOpmerkingMapper(IdentificatieClient identificatieClient, OpmerkingService opmerkingService, Long ingelogdeGebruiker) {
         this.identificatieClient = identificatieClient;
         this.opmerkingService = opmerkingService;
+        this.ingelogdeGebruiker = ingelogdeGebruiker;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class MessagingOpmerkingNaarDomainOpmerkingMapper implements Function<Abs
         }
 
         opmerking.setOpmerking(opm.getTekst());
-        opmerking.setMedewerker(opm.getMedewerker());
+        opmerking.setMedewerker(ingelogdeGebruiker);
         opmerking.setSoortEntiteit(SoortEntiteit.valueOf(opm.getSoortEntiteit().name()));
         opmerking.setEntiteitId(opm.getEntiteitId());
         if (opm.getTijdstip() != null) {

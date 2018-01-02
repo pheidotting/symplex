@@ -5,6 +5,7 @@ public class TelefoonnummerNietGoedException extends Exception {
 
     private final String message = "Het ingevoerde telefoonnummer is niet correct";
 
+    @Override
     public String getMessage() {
         return message;
     }

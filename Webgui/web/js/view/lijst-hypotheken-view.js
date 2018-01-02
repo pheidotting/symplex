@@ -1,6 +1,6 @@
 define(['jquery',
         'commons/3rdparty/log2',
-        'text!../../../templates/beherenRelatiehypotheken.html',
+        'text!../../../templates/beheren/lijst-hypotheken.html',
         'viewmodel/lijst-hypotheken-viewmodel',
         'knockout'],
     function($, log, html, viewmodel, ko) {
@@ -8,7 +8,7 @@ define(['jquery',
 
         return {
             init: function(id, basisEntiteit) {
-				$('#details').html(html);
+				$('#content').html(html);
 
                 logger.debug('content geladen, viewmodel init');
 

@@ -4,6 +4,7 @@ import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.djfc.service.envers.SessieHolder;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 
 import javax.jms.*;
 import javax.xml.bind.JAXBContext;
@@ -33,6 +34,12 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
 
             T ontvangenObject = (T) jaxbUnmarshaller.unmarshal(new StringReader(((TextMessage) message).getText()));
 
+            if (ontvangenObject.getIngelogdeGebruiker() != null) {
+                MDC.put("ingelogdeGebruiker", ontvangenObject.getIngelogdeGebruiker() + "");
+            }
+            if (ontvangenObject.getTrackAndTraceId() != null) {
+                MDC.put("trackAndTraceId", ontvangenObject.getTrackAndTraceId());
+            }
 
             SessieHolder.get().setIngelogdeGebruiker(ontvangenObject.getIngelogdeGebruiker());
             SessieHolder.get().setTrackAndTraceId(ontvangenObject.getTrackAndTraceId());

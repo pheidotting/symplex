@@ -7,7 +7,6 @@ import nl.lakedigital.djfc.domain.Opmerking;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.OpmerkingService;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ import java.util.List;
 @Controller
 public class OpmerkingController extends AbstractController<Opmerking, JsonOpmerking> {
     public OpmerkingController() {
-        super(Opmerking.class, JsonOpmerking.class);
+        super(Opmerking.class);
     }
 
     @Inject
@@ -58,21 +57,6 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
         }
 
         return opvragenOpmerkingenResponse;
-    }
-
-    @Override
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
-    @ResponseBody
-    public void opslaan(@RequestBody List<JsonOpmerking> jsonEntiteiten, HttpServletRequest httpServletRequest) {
-        logger.debug("{} opmerkingen opslaan", jsonEntiteiten.size());
-
-        for (JsonOpmerking adres : jsonEntiteiten) {
-            logger.debug(ReflectionToStringBuilder.toString(adres));
-        }
-
-        zetSessieWaarden(httpServletRequest);
-
-        goOpslaan(jsonEntiteiten);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanOpmerking")

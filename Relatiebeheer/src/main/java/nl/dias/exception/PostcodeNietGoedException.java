@@ -9,6 +9,7 @@ public class PostcodeNietGoedException extends Exception {
         this.postcode = postcode;
     }
 
+    @Override
     public String getMessage() {
         return "De ingevoerde postcode '" + postcode + "' is niet correct";
     }
