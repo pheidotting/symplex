@@ -13,7 +13,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -42,19 +41,6 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
             return lijst.get(0);
         }
         return null;
-    }
-
-    @Deprecated
-    public Future<Identificatie> zoekIdentificatieMetFuture(String soortEntiteit, Long entiteitId) {
-        return executor.submit(() -> {
-            List<Identificatie> lijst = getXML("/rest/identificatie/zoeken", ZoekIdentificatieResponse.class, false, LOGGER, false, soortEntiteit, String.valueOf(entiteitId)).getIdentificaties();
-
-            if (!lijst.isEmpty()) {
-                return lijst.get(0);
-            } else {
-                return null;
-            }
-        });
     }
 
     public Identificatie zoekIdentificatieCode(String identificatieCode) {

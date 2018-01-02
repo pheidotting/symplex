@@ -1,6 +1,5 @@
 package nl.dias.messaging.reciever;
 
-import com.google.gson.Gson;
 import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.AbstractMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -16,18 +15,16 @@ import java.io.StringReader;
 public abstract class AbstractReciever<T extends AbstractMessage> implements MessageListener {
     private static Logger LOGGER = LoggerFactory.getLogger(AbstractReciever.class);
 
-    protected final Gson gson = new Gson();
     private Class<T> clazz;
-
-    public AbstractReciever(Class<T> clazz, Logger LOGGER) {
-        this.clazz = clazz;
-        //        this.LOGGER = LOGGER;
-    }
 
     protected MessageProducer replyProducer;
     protected Session session;
 
     protected Destination replyTo;
+
+    public AbstractReciever(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 
     @Override
     public void onMessage(Message message) {

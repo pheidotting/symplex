@@ -118,3 +118,15 @@ td.soort-schade {
 td.schadenummer-maatschappij {
     width: 300px;
 }
+td.leningNummer {
+    width: 200px;
+}
+td.bank {
+    width: 325px;
+}
+td.rente{
+    width: 100px;
+}
+td.hypotheekBedrag{
+    width: 185px;
+}

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Component
 public class HypotheekMapper extends Mapper<Hypotheek, JsonHypotheek> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HypotheekMapper.class);
-    private static final String DATUM_FORMAAT = "dd-MM-yyyy";
+    private static final String DATUM_FORMAAT = "yyyy-MM-dd";
 
     @Override
     public Hypotheek mapVanJson(JsonHypotheek jsonHypotheek) {
@@ -24,27 +24,26 @@ public class HypotheekMapper extends Mapper<Hypotheek, JsonHypotheek> {
     }
 
     public Hypotheek mapVanJson(JsonHypotheek jsonHypotheek, Hypotheek hypotheek) {
-        String patternDatum = "dd-MM-yyyy";
 
         LocalDate eindDatum = null;
         if (jsonHypotheek.getEindDatum() != null && !"".equals(jsonHypotheek.getEindDatum())) {
-            eindDatum = LocalDate.parse(jsonHypotheek.getEindDatum(), DateTimeFormat.forPattern(patternDatum));
+            eindDatum = LocalDate.parse(jsonHypotheek.getEindDatum(), DateTimeFormat.forPattern(DATUM_FORMAAT));
         }
         LocalDate eindDatumRenteVastePeriode = null;
         if (jsonHypotheek.getEindDatumRenteVastePeriode() != null && !"".equals(jsonHypotheek.getEindDatumRenteVastePeriode())) {
-            eindDatumRenteVastePeriode = LocalDate.parse(jsonHypotheek.getEindDatumRenteVastePeriode(), DateTimeFormat.forPattern(patternDatum));
+            eindDatumRenteVastePeriode = LocalDate.parse(jsonHypotheek.getEindDatumRenteVastePeriode(), DateTimeFormat.forPattern(DATUM_FORMAAT));
         }
         LocalDate ingangsDatum = null;
         if (jsonHypotheek.getIngangsDatum() != null && !"".equals(jsonHypotheek.getIngangsDatum())) {
-            ingangsDatum = LocalDate.parse(jsonHypotheek.getIngangsDatum(), DateTimeFormat.forPattern(patternDatum));
+            ingangsDatum = LocalDate.parse(jsonHypotheek.getIngangsDatum(), DateTimeFormat.forPattern(DATUM_FORMAAT));
         }
         LocalDate ingangsDatumRenteVastePeriode = null;
         if (jsonHypotheek.getIngangsDatumRenteVastePeriode() != null && !"".equals(jsonHypotheek.getIngangsDatumRenteVastePeriode())) {
-            ingangsDatumRenteVastePeriode = LocalDate.parse(jsonHypotheek.getIngangsDatumRenteVastePeriode(), DateTimeFormat.forPattern(patternDatum));
+            ingangsDatumRenteVastePeriode = LocalDate.parse(jsonHypotheek.getIngangsDatumRenteVastePeriode(), DateTimeFormat.forPattern(DATUM_FORMAAT));
         }
         LocalDate taxatieDatum = null;
         if (jsonHypotheek.getTaxatieDatum() != null && !"".equals(jsonHypotheek.getTaxatieDatum())) {
-            taxatieDatum = LocalDate.parse(jsonHypotheek.getTaxatieDatum(), DateTimeFormat.forPattern(patternDatum));
+            taxatieDatum = LocalDate.parse(jsonHypotheek.getTaxatieDatum(), DateTimeFormat.forPattern(DATUM_FORMAAT));
         }
 
         // Hypotheek hypotheek = new Hypotheek();

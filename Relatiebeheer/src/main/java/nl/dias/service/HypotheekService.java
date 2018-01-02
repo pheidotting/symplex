@@ -4,9 +4,12 @@ import nl.dias.domein.Hypotheek;
 import nl.dias.domein.HypotheekPakket;
 import nl.dias.domein.Relatie;
 import nl.dias.domein.SoortHypotheek;
+import nl.dias.messaging.SoortEntiteitEnEntiteitId;
+import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.HypotheekPakketRepository;
 import nl.dias.repository.HypotheekRepository;
 import nl.dias.web.mapper.HypotheekMapper;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonHypotheek;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
@@ -30,6 +33,8 @@ public class HypotheekService {
     private GebruikerService gebruikerService;
     @Inject
     private HypotheekMapper hypotheekMapper;
+    @Inject
+    private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public void opslaan(Hypotheek hypotheek) {
         hypotheekRepository.opslaan(hypotheek);
@@ -145,4 +150,10 @@ public class HypotheekService {
         return hypotheekPakketRepository.allesVanRelatie(relatie);
     }
 
+    public void verwijder(List<Hypotheek> hypotheeks) {
+        for (Hypotheek hypotheek : hypotheeks) {
+            verwijderEntiteitRequestSender.send(new SoortEntiteitEnEntiteitId(SoortEntiteit.HYPOTHEEK, hypotheek.getId()));
+        }
+        hypotheekRepository.verwijder(hypotheeks);
+    }
 }

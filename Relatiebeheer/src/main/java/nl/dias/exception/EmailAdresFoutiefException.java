@@ -5,6 +5,7 @@ public class EmailAdresFoutiefException extends Exception {
 
     private final String message = "Het ingevoerde e-mailadres is onjuist.";
 
+    @Override
     public String getMessage() {
         return message;
     }

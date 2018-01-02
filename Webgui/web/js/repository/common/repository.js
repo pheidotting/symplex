@@ -56,7 +56,7 @@ define(["commons/3rdparty/log2",
                 return deferred.promise();
             },
 
-            voerUitPost: function(url, data, trackAndTraceId){
+            voerUitPost: function(url, data){
                 var deferred = $.Deferred();
 
                 $.ajax({
@@ -67,7 +67,6 @@ define(["commons/3rdparty/log2",
                     ataType: "json",
                     async: false,
                     beforeSend: function(request){
-                        request.setRequestHeader('trackAndTraceId', trackAndTraceId);
                         if(localStorage.getItem('symplexAccessToken')!=null){
                             request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
                         }
@@ -92,6 +91,7 @@ define(["commons/3rdparty/log2",
             },
 
             leesTrackAndTraceId: function() {
+            //wordt nog voor todoist gebruikt, al wordt dat ook niet gebruikt..
                 var deferred = $.Deferred();
 
 //                $.get(navRegister.bepaalUrl('TRACKANDTRACEID'))

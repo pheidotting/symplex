@@ -12,7 +12,6 @@ define([ ],
                             {naam: 'STUUR_NIEUW_WACHTWOORD',            url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/wachtwoordvergeten'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
-                            {naam: 'LEES_RELATIE',                      url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/lees'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},
                             {naam: 'OPSLAAN_RELATIE',                   url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaan'},
                             {naam: 'OPSLAAN_CONTACTPERSOON',            url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/opslaanContactPersoon'},
@@ -111,7 +110,6 @@ define([ ],
                             {naam: 'VERSTUREN_COMMUNICATIEPRODUCT',     url: BASISURL_RELATIEBEHEER + '/medewerker/communicatieproduct/versturen'},
                             {naam: 'OPSLAAN_COMMUNICATIEPRODUCT',       url: BASISURL_RELATIEBEHEER + '/medewerker/communicatieproduct/nieuw'},
 
-                            {naam: 'TRACKANDTRACEID',                   url: BASISURL_RELATIEBEHEER + '/medewerker/overig/getTrackAndTraceId'},
                             {naam: 'TOGGLZ',                            url: BASISURL_RELATIEBEHEER + '/authorisatie/togglz/toggles'},
 
                             {naam: 'TODOIST_OAUTHTOKEN',                url: BASISURL_RELATIEBEHEER + '/medewerker/todoist/oauthToken'},

@@ -34,10 +34,8 @@ define(["commons/3rdparty/log2",
                 });
                 relatie.opmerkingen = opmerkingen;
 
-                repository.leesTrackAndTraceId().done(function(trackAndTraceId) {
-                    gebruikerRepository.opslaan(relatie, trackAndTraceId).done(function(response) {
-                        return deferred.resolve(response);
-                    });
+                gebruikerRepository.opslaan(relatie).done(function(response) {
+                    return deferred.resolve(response);
                 });
 
                 return deferred.promise();
@@ -68,25 +66,15 @@ define(["commons/3rdparty/log2",
             },
 
             verwijderRelatie: function(id) {
-                var deferred = $.Deferred();
-
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    gebruikerRepository.verwijderRelatie(id, trackAndTraceId);
-
-                    return deferred.resolve();
-                });
-
-                return deferred.promise();
+                gebruikerRepository.verwijderRelatie(id);
             },
 
             opslaanOAuthCode: function(code) {
                 var deferred = $.Deferred();
 
-                $.when(repository.leesTrackAndTraceId()).then(function(trackAndTraceId) {
-                    $.when(gebruikerRepository.opslaanOAuthCode(code, trackAndTraceId)).then(function(){
+                    $.when(gebruikerRepository.opslaanOAuthCode(code)).then(function(){
                         return deferred.resolve();
                     });
-                });
 
                 return deferred.promise();
             },

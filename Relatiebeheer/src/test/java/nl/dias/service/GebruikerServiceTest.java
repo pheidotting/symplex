@@ -8,9 +8,7 @@ import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
-import nl.dias.repository.HypotheekRepository;
 import nl.dias.repository.KantoorRepository;
-import nl.dias.repository.PolisRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
@@ -41,7 +39,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
     @Mock
     private GebruikerRepository repository;
     @Mock
-    private PolisRepository polisRepository;
+    private PolisService polisService;
     @Mock
     private KantoorRepository kantoorRepository;
     @Mock
@@ -49,7 +47,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
     @Mock
     private TelefoonnummerClient telefoonnummerClient;
     @Mock
-    private HypotheekRepository hypotheekRepository;
+    private HypotheekService hypotheekService;
     @Mock
     private SchadeService schadeService;
     @Mock
@@ -259,16 +257,16 @@ public class GebruikerServiceTest extends EasyMockSupport {
         expectLastCall();
 
         List<Hypotheek> hypotheeks = newArrayList();
-        expect(hypotheekRepository.allesVanRelatie(relatie)).andReturn(hypotheeks);
-        hypotheekRepository.verwijder(hypotheeks);
+        expect(hypotheekService.allesVanRelatie(relatie.getId())).andReturn(hypotheeks);
+        hypotheekService.verwijder(hypotheeks);
         expectLastCall();
         List<Schade> schades = newArrayList();
         expect(schadeService.alleSchadesBijRelatie(1L)).andReturn(schades);
         schadeService.verwijder(schades);
         expectLastCall();
         List<Polis> polises = newArrayList();
-        expect(polisRepository.allePolissenBijRelatie(1L)).andReturn(polises);
-        polisRepository.verwijder(polises);
+        expect(polisService.allePolissenBijRelatie(1L)).andReturn(polises);
+        polisService.verwijder(polises);
         expectLastCall();
 
         Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -309,22 +307,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
         assertEquals(medewerker, service.zoekOpSessieEnIpAdres(sessie, ipadres));
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Test
     public void testZoekOpNaamAdresOfPolisNummer() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String zoekterm = "a";
@@ -350,7 +332,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(repository.lees(8L)).andReturn(relatiePolis);
-        expect(polisRepository.zoekOpPolisNummer(zoekterm, null)).andReturn(polis);
+        expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(polis);
         expect(repository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
 
         replayAll();
@@ -380,7 +362,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         expect(repository.lees(888L)).andReturn(relatieTelefoonnummer).times(2);
 
         expect(repository.zoekOpNaam(zoekterm)).andReturn(new ArrayList<Gebruiker>());
-        expect(polisRepository.zoekOpPolisNummer(zoekterm, null)).andReturn(null);
+        expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(null);
         expect(repository.zoekRelatiesOpBedrijfsnaam(zoekterm)).andReturn(new ArrayList<Relatie>());
 
         replayAll();
@@ -425,7 +407,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(relatiesZoekOpRoepnaam);
         expect(adresClient.zoeken(zoekterm)).andReturn(newArrayList(adres));
         expect(repository.lees(23L)).andReturn(relatieZoekOpAdres).times(2);
-        expect(polisRepository.zoekOpPolisNummer(zoekterm, null)).andReturn(null);
+        expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(null);
         expect(repository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
 
         replayAll();

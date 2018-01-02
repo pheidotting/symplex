@@ -85,7 +85,6 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         return result;
     }
 
-    @Override
     public String opslaan(List<JsonBijlage> bijlages, Long ingelogdeGebruiker, String trackAndTraceId) {
 
         System.out.println("Aanroepen " + URL_OPSLAAN);

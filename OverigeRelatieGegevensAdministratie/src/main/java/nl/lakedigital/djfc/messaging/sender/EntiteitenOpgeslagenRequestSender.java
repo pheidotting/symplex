@@ -12,16 +12,13 @@ import java.util.List;
 public class EntiteitenOpgeslagenRequestSender extends AbstractSender<EntiteitenOpgeslagenRequest, List<SoortEntiteitEnEntiteitId>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntiteitenOpgeslagenRequestSender.class);
 
-
     public EntiteitenOpgeslagenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
-        this.LOGGER_ = LOGGER;
         this.clazz = EntiteitenOpgeslagenRequest.class;
     }
 
     public EntiteitenOpgeslagenRequestSender(final JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
-        this.LOGGER_ = LOGGER;
         this.clazz = EntiteitenOpgeslagenRequest.class;
     }
 
@@ -32,5 +29,9 @@ public class EntiteitenOpgeslagenRequestSender extends AbstractSender<Entiteiten
         entiteitenOpgeslagenRequest.setSoortEntiteitEnEntiteitIds(ids);
 
         return entiteitenOpgeslagenRequest;
+    }
+
+    public void send(List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds) {
+        super.send(soortEntiteitEnEntiteitIds, LOGGER);
     }
 }

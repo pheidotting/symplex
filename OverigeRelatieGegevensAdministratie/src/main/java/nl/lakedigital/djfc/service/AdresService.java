@@ -34,15 +34,11 @@ public class AdresService extends AbstractService<Adres> {
     }
 
     @Override
-    public void opslaan(Adres adres) {
-        super.opslaan(adres);
+    public Logger getLogger() {
+        return LOGGER;
     }
 
     @Override
-    public void opslaan(final List<Adres> adressen, SoortEntiteit soortEntiteit, Long entiteitId) {
-        super.opslaan(adressen, soortEntiteit, entiteitId);
-    }
-
     public void opslaan(final List<Adres> adressen) {
         List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds = new ArrayList<>();
 
@@ -92,6 +88,6 @@ public class AdresService extends AbstractService<Adres> {
 
     @Override
     public boolean isGevuld(Adres adres) {
-        return adres != null && adres.getPostcode() != null && !"".equals(adres.getPostcode()) && adres.getHuisnummer() != null && !"".equals(adres.getHuisnummer());
+        return adres != null && adres.getPostcode() != null && !"".equals(adres.getPostcode()) && adres.getHuisnummer() != null;
     }
 }

@@ -25,12 +25,12 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_HYPOTHEEKPAKKETTEN'), {relatieId : relatieId});
             },
 
-            opslaanHypotheek: function(data, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_HYPOTHEEK'), ko.toJSON(data), trackAndTraceId);
+            opslaanHypotheek: function(data) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_HYPOTHEEK'), ko.toJSON(data));
             },
 
-            verwijderHypotheek: function(id, trackAndTraceId) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_HYPOTHEEK') + '/' + id, null, trackAndTraceId);
+            verwijderHypotheek: function(id) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_HYPOTHEEK') + '/' + id, null);
             }
         }
     }

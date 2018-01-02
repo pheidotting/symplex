@@ -38,9 +38,7 @@ public class InlezenTelefonieBestandenService implements Runnable {
             }
 
             return !telefonieBestanden.contains(telefonieBestand);
-        }).map(file -> {
-            return telefonieBestandService.maakTelefonieBestand(file);
-        }).collect(Collectors.toList());
+        }).map(file -> telefonieBestandService.maakTelefonieBestand(file)).collect(Collectors.toList());
 
         LOGGER.debug("{} nieuwe bestanden", nieuweBestanden.size());
 
