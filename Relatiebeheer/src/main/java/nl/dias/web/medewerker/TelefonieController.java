@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,9 +29,7 @@ import java.nio.file.Paths;
 @RequestMapping("/telefonie")
 @Controller
 @Configuration
-//@PropertySources({@PropertySource(value = "file:djfc.app.properties", ignoreResourceNotFound = true),
-//        @PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true),
-//        @PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)})
+@PropertySources({@PropertySource(value = "file:djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)})
 public class TelefonieController extends AbstractController {
     private final static Logger LOGGER = LoggerFactory.getLogger(TelefonieController.class);
 
