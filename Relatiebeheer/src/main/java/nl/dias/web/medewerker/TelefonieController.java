@@ -3,6 +3,7 @@ package nl.dias.web.medewerker;
 import nl.lakedigital.djfc.client.oga.TelefonieBestandClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -37,9 +38,9 @@ public class TelefonieController extends AbstractController {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    //    @Value("${voicemailspad}")
+    @Value("${voicemailspad}")
     private String voicemailspad;
-    //    @Value("${recordingspad}")
+    @Value("${recordingspad}")
     private String recordingspad;
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
@@ -58,11 +59,12 @@ public class TelefonieController extends AbstractController {
             ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
             return response;
         } else {
+            LOGGER.error("Bestand niet gevonden : {}", bestandsnaam);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(null, headers, HttpStatus.OK);
+            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(null, headers, HttpStatus.NOT_FOUND);
             return response;
         }
     }
