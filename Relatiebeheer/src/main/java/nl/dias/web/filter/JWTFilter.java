@@ -32,7 +32,7 @@ public class JWTFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String url = getFullURL((HttpServletRequest) request);
 
-        if (!url.contains("/bijlage/download")) {
+        if (!url.contains("/bijlage/download") && !url.endsWith(".mp3.a")) {
             // Get the HTTP Authorization header from the request
             String authorizationHeader = ((HttpServletRequest) request).getHeader(HttpHeaders.AUTHORIZATION);
 
