@@ -69,7 +69,7 @@ define(['jquery',
                 });
 
                 var lijst = lijstParticulierePolissen;
-                if(basisEntiteit == 'BEDRIJF') {
+                if(_this.basisEntiteit == 'BEDRIJF') {
                     lijst = lijstZakelijkePolissen;
                 }
 
