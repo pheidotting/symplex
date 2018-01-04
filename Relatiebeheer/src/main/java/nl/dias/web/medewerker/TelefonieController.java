@@ -49,6 +49,7 @@ public class TelefonieController extends AbstractController {
     @ResponseBody
     @Produces("application/wav")
     public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bestandsnaam) throws IOException {
+        bestandsnaam = bestandsnaam.replace(".a", "");
         File file = new File(recordingspad + File.separator + bestandsnaam);
 
         LOGGER.debug("Telefoniebestand downloaden");
