@@ -22,7 +22,6 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
-                    ssh jetty@192.168.91.230 /etc/init.d/jetty restart
                 '''
             }
         }
