@@ -41,7 +41,7 @@ public class TelefonieController extends AbstractController {
     @Value("${voicemailspad}")
     private String voicemailspad;
     //    @Value("${recordingspad}")
-    private String recordingspad = "/data/recording";
+    private String recordingspad = "/data/recordings";
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
 
