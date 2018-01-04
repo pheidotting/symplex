@@ -51,7 +51,12 @@ public class TelefonieController extends AbstractController {
     public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bestandsnaam) throws IOException {
         File file = new File(recordingspad + File.separator + bestandsnaam);
 
+        LOGGER.debug("Telefoniebestand downloaden");
+        LOGGER.debug(recordingspad + File.separator + bestandsnaam);
+        LOGGER.debug("{}", file.exists());
+
         if (file != null && file.exists()) {
+            LOGGER.debug("GO");
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
@@ -59,6 +64,7 @@ public class TelefonieController extends AbstractController {
             ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
             return response;
         } else {
+            LOGGER.debug("NOGO");
             LOGGER.error("Bestand niet gevonden : {}", bestandsnaam);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
