@@ -1146,3 +1146,12 @@ ALTER TABLE  `GEBRUIKER_AUD` CHANGE  `MOETWACHTWOORDUPDATEN`  `MOETWACHTWOORDUPD
 --changeset Patrick Heidotting:111
 UPDATE `GEBRUIKER` SET `EMAILADRES` = 'lisa@dejongefinancieelconsult.nl' WHERE `ACHTERNAAM` = 'Wolken' AND `VOORNAAM` = 'Lisa';
 UPDATE `GEBRUIKER` SET `EMAILADRES` = 'rianne@dejongefinancieelconsult.nl' WHERE `ACHTERNAAM` = 'Sollie' AND `VOORNAAM` = 'Rianne';
+
+--changeset Patrick Heidotting:112
+CREATE TABLE `INLOGPOGING` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `GEBRUIKERID` bigint(20) NOT NULL,
+  `TIJDSTIP` datetime NOT NULL,
+  `GELUKT` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
