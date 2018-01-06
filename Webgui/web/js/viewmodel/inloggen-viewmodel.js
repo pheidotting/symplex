@@ -20,6 +20,7 @@ define(['jquery',
 
 		this.onjuisteGebruikersnaam = ko.observable(false);
 		this.onjuistWachtwoord = ko.observable(false);
+		this.teveelFoutieveInlogpogingen = ko.observable(false);
 
 		this.moetWachtwoordUpdaten = ko.observable(false);
 		this.nieuwWachtwoord = ko.observable();
@@ -54,12 +55,20 @@ define(['jquery',
                         $.unblockUI();
                         _this.onjuisteGebruikersnaam('onjuiste-waarde');
                         _this.onjuistWachtwoord(false);
+                        _this.teveelFoutieveInlogpogingen(false);
                         commonFunctions.plaatsFoutmeldingString('De ingevoerde gebruikersnaam werd niet gevonden');
-                    } else {
+                    } else if (result.returnCode == 2) {
                         $.unblockUI();
                         _this.onjuisteGebruikersnaam(false);
                         _this.onjuistWachtwoord('onjuiste-waarde');
+                        _this.teveelFoutieveInlogpogingen(false);
                         commonFunctions.plaatsFoutmeldingString('Het ingevoerde wachtwoord is onjuist');
+                    } else {
+                        $.unblockUI();
+                        _this.onjuisteGebruikersnaam(false);
+                        _this.onjuistWachtwoord(false);
+                        _this.teveelFoutieveInlogpogingen('teveel');
+                        commonFunctions.plaatsFoutmeldingString('Teveel foutieve inlogpogingen binnen 5 minuten');
                     }
                 });
             } else {

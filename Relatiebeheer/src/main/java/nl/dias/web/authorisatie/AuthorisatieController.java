@@ -14,6 +14,7 @@ import nl.lakedigital.djfc.domain.response.InloggenResponse;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
+import nl.lakedigital.loginsystem.exception.TeveelFouteInlogPogingenException;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +68,9 @@ public class AuthorisatieController {
         } catch (OnjuistWachtwoordException e) {
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(2L, false);
+        } catch (TeveelFouteInlogPogingenException e) {
+            LOGGER.trace("Onjuist wachtwoord", e);
+            return new InloggenResponse(3L, false);
         }
         LOGGER.debug(ReflectionToStringBuilder.toString(new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten())));
         return new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten());
