@@ -9,6 +9,7 @@ import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
+import nl.dias.repository.InlogPogingRepository;
 import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -63,6 +64,12 @@ public class GebruikerService {
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private InlogPogingRepository inlogPogingRepository;
+
+    public boolean magInloggen(Gebruiker gebruiker) {
+        return inlogPogingRepository.magInloggen(gebruiker.getId());
+    }
 
     public List<ContactPersoon> alleContactPersonen(Long bedrijfsId) {
         return gebruikerRepository.alleContactPersonen(bedrijfsId);

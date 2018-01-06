@@ -216,6 +216,7 @@ pipeline {
 
                     scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.230:/opt/jetty
                     scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/GeoLite2-City.mmdb jetty@192.168.91.230:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
@@ -381,6 +382,7 @@ pipeline {
 
                     scp Relatiebeheer/src/main/resources/tst/djfc.app.properties jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/src/main/resources/tst/djfc.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/GeoLite2-City.mmdb jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
@@ -427,6 +429,7 @@ pipeline {
 
                     scp Relatiebeheer/src/main/resources/prd/djfc.app.properties jetty@192.168.91.220:/opt/jetty
                     scp Relatiebeheer/src/main/resources/prd/djfc.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp Relatiebeheer/src/main/resources/GeoLite2-City.mmdb jetty@192.168.91.220:/opt/jetty
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.220:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
