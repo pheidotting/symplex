@@ -4,8 +4,10 @@ import nl.dias.domein.Beheerder;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
+import nl.dias.repository.InlogPogingRepository;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
+import nl.lakedigital.loginsystem.exception.TeveelFouteInlogPogingenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,15 +26,23 @@ public class AuthorisatieService {
 
     @Inject
     private GebruikerService gebruikerService;
+    @Inject
+    private InlogPogingRepository inlogPogingRepository;
 
-    public Gebruiker inloggen(String identificatie, String wachtwoord, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException {
+    public Gebruiker inloggen(String identificatie, String wachtwoord, HttpServletRequest request, HttpServletResponse response) throws OnjuistWachtwoordException, NietGevondenException, TeveelFouteInlogPogingenException {
         boolean uitZabbix = "true".equals(request.getHeader("Zabbix"));
 
         if (!uitZabbix) {
             LOGGER.debug("Inloggen met {}", identificatie);
         }
         Gebruiker gebruikerUitDatabase = gebruikerService.zoekOpIdentificatie(identificatie);
+        //Checken of inloggen wel mag ivm mogelijk teveel inlogpogingen
+
+        if (!gebruikerService.magInloggen(gebruikerUitDatabase)) {
+            throw new TeveelFouteInlogPogingenException();
+        }
         Gebruiker inloggendeGebruiker = null;
+        LOGGER.debug("Gebruik met id {} gevonden", gebruikerUitDatabase.getId());
         if (gebruikerUitDatabase instanceof Medewerker) {
             if (!uitZabbix) {
                 LOGGER.debug("Gebruiker is een Medewerker");
@@ -64,9 +74,12 @@ public class AuthorisatieService {
         }
 
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
+            LOGGER.debug("Onjuist wachtwoord");
+            inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), false, null);
             throw new OnjuistWachtwoordException();
         }
 
+        inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), true, request.getRemoteAddr());
         return gebruikerUitDatabase;
     }
 
