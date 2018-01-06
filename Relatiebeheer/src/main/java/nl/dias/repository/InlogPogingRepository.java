@@ -64,13 +64,15 @@ public class InlogPogingRepository {
         if (gelukt) {
             try (DatabaseReader dbReader = new DatabaseReader.Builder(database).build()) {
                 LOGGER.debug("Ipadres uit request : {}", ipadres);
-                if (ipadres == null || "".equals(ipadres) || "127.0.0.1".equals(ipadres) || "0.0.0.0".equals(ipadres) || "0:0:0:0:0:0:0:1".equals(ipadres)) {
+                if (ipadres == null || "".equals(ipadres) || "127.0.0.1".equals(ipadres) || "0.0.0.0".equals(ipadres) || "0:0:0:0:0:0:0:1".equals(ipadres) || ipadres.startsWith("172") || ipadres.startsWith("192")) {
                     LOGGER.debug("Extern ipadres ophalen");
                     URL whatismyip = new URL("http://checkip.amazonaws.com");
                     BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
                     ip = in.readLine();
                     LOGGER.debug("Extern ipadres {}", ip);
+                } else {
+                    ip = ipadres;
                 }
                 InetAddress ipAddress = InetAddress.getByName(ip);
                 CityResponse response = dbReader.city(ipAddress);
