@@ -22,13 +22,29 @@ public class InlogPoging {
     @Column(name = "GELUKT")
     private Boolean gelukt;
 
+    @Column(name = "IPADRES")
+    private String ipAdres;
+
+    @Column(name = "ADRES")
+    private String adres;
+
+    @Column(name = "LATITUDE")
+    private Double latitude;
+
+    @Column(name = "LONGITUDE")
+    private Double longitude;
+
     public InlogPoging() {
     }
 
-    public InlogPoging(Long gebruikerId, Boolean gelukt) {
+    public InlogPoging(Long gebruikerId, Boolean gelukt, String ipAdres, String adres, Double latitude, Double longitude) {
         this.gebruikerId = gebruikerId;
         this.tijdstip = new Date();
         this.gelukt = gelukt;
+        this.ipAdres = ipAdres;
+        this.adres = adres;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Long getId() {
@@ -61,5 +77,37 @@ public class InlogPoging {
 
     public void setGelukt(Boolean gelukt) {
         this.gelukt = gelukt;
+    }
+
+    public String getIpAdres() {
+        return ipAdres;
+    }
+
+    public void setIpAdres(String ipAdres) {
+        this.ipAdres = ipAdres;
+    }
+
+    public String getAdres() {
+        return adres;
+    }
+
+    public void setAdres(String adres) {
+        this.adres = adres;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

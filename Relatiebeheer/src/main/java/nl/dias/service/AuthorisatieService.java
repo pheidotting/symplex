@@ -75,11 +75,11 @@ public class AuthorisatieService {
 
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
             LOGGER.debug("Onjuist wachtwoord");
-            inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), false);
+            inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), false, null);
             throw new OnjuistWachtwoordException();
         }
 
-        inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), true);
+        inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), true, request.getRemoteAddr());
         return gebruikerUitDatabase;
     }
 
