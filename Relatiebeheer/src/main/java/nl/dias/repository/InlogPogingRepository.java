@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 @Repository
 public class InlogPogingRepository {
@@ -64,11 +63,14 @@ public class InlogPogingRepository {
         Double longitude = null;
         if (gelukt) {
             try (DatabaseReader dbReader = new DatabaseReader.Builder(database).build()) {
+                LOGGER.debug("Ipadres uit request : {}", ipadres);
                 if (ipadres == null || "".equals(ipadres) || "127.0.0.1".equals(ipadres) || "0.0.0.0".equals(ipadres) || "0:0:0:0:0:0:0:1".equals(ipadres)) {
+                    LOGGER.debug("Extern ipadres ophalen");
                     URL whatismyip = new URL("http://checkip.amazonaws.com");
                     BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
                     ip = in.readLine();
+                    LOGGER.debug("Extern ipadres {}", ip);
                 }
                 InetAddress ipAddress = InetAddress.getByName(ip);
                 CityResponse response = dbReader.city(ipAddress);
@@ -86,12 +88,8 @@ public class InlogPogingRepository {
                 latitude = response.getLocation().getLatitude();
                 longitude = response.getLocation().getLongitude();
 
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (GeoIp2Exception e) {
-                e.printStackTrace();
+            } catch (IOException | GeoIp2Exception e) {
+                LOGGER.trace("Fout opgetreden bij bepalen locatie {}", e);
             }
         }
 
