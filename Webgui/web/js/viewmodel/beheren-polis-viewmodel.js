@@ -34,6 +34,13 @@ define(['jquery',
         this.readOnly = ko.observable();
         this.notReadOnly = ko.observable();
 
+        this.voertuiginfo = ko.observable(false);
+        this.merk = ko.observable();
+        this.type = ko.observable();
+        this.bouwjaar = ko.observable();
+        this.voertuigImage1 = ko.observable();
+        this.voertuigImage2 = ko.observable();
+
         this.init = function(polisId, basisId, readOnly, basisEntiteit) {
             var deferred = $.Deferred();
 
@@ -89,15 +96,21 @@ define(['jquery',
                 _this.taakModel             = new taakViewModel(false, soortEntiteit, polisId, relatieId, bedrijfId);
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
+                zoekVoertuigGegevens(_this);
+
                 return deferred.resolve();
             });
 
             return deferred.promise();
         };
 
+        this.wijzigKenmerk = function() {
+            zoekVoertuigGegevens(_this);
+        };
+
 		this.exitIngangsDatum = function() {
             _this.berekenProlongatieDatum();
-		}
+		};
 
 		this.formatBedrag = function(datum) {
             return opmaak.maakBedragOp(bedrag());
@@ -144,4 +157,95 @@ define(['jquery',
             _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
         };
 	};
+
+    function zoekVoertuigGegevens(_this){
+        //proberen het kenteken op te zoeken in het geval van een autoverzekering
+        if(_this.polis.soort() === 'Auto') {
+            var kenmerk = _this.polis.kenmerk();
+
+            var kenteken = FormatLicenseplate(kenmerk, GetSidecodeLicenseplate(kenmerk));
+
+            $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+kenteken.replace(/-/g, ''), function(data){
+                if(data.length >0){
+                    _this.voertuiginfo(true);
+                    _this.merk(data[0].merk);
+                    _this.type(data[0].handelsbenaming);
+                    _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+
+                    var kleur = '';
+                    if(data[0].eerste_kleur != 'N.v.t.') {
+                        kleur = data[0].eerste_kleur;
+                    }
+
+                    $.get('https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar() + ' ' ), function(dataImages){
+                        _this.voertuigImage1(dataImages.value[0].contentUrl);
+                        _this.voertuigImage2(dataImages.value[1].contentUrl);
+                    });
+                }else {
+                    _this.voertuiginfo(false);
+                }
+            });
+        }
+    }
+
+	function GetSidecodeLicenseplate(Licenseplate){
+
+        var arrSC = new Array;
+        var scUitz = '';
+
+        Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
+
+        arrSC[0] = /^[a-zA-Z]{2}[d]{2}[d]{2}$/ // 1 XX-99-99
+        arrSC[1] = /^[d]{2}[d]{2}[a-zA-Z]{2}$/ // 2 99-99-XX
+        arrSC[2] = /^[d]{2}[a-zA-Z]{2}[d]{2}$/ // 3 99-XX-99
+        arrSC[3] = /^[a-zA-Z]{2}[d]{2}[a-zA-Z]{2}$/ // 4 XX-99-XX
+        arrSC[4] = /^[a-zA-Z]{2}[a-zA-Z]{2}[d]{2}$/ // 5 XX-XX-99
+        arrSC[5] = /^[d]{2}[a-zA-Z]{2}[a-zA-Z]{2}$/ // 6 99-XX-XX
+        arrSC[6] = /^[d]{2}[a-zA-Z]{3}[d]{1}$/ // 7 99-XXX-9
+        arrSC[7] = /^[d]{1}[a-zA-Z]{3}[d]{2}$/ // 8 9-XXX-99
+        arrSC[8] = /^[a-zA-Z]{2}[d]{3}[a-zA-Z]{1}$/ // 9 XX-999-X
+        arrSC[9] = /^[a-zA-Z]{1}[d]{3}[a-zA-Z]{2}$/ // 10 X-999-XX
+        arrSC[10] = /^[a-zA-Z]{3}[d]{2}[a-zA-Z]{1}$/ // 11 XXX-99-X
+        arrSC[11] = /^[a-zA-Z]{1}[d]{2}[a-zA-Z]{3}$/ // 12 X-99-XXX
+        arrSC[12] = /^[d]{1}[a-zA-Z]{2}[d]{3}$/ // 13 9-XX-999
+        arrSC[13] = /^[d]{3}[a-zA-Z]{2}[d]{1}$/ // 14 999-XX-9
+
+        //except licenseplates for diplomats
+        scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
+
+        for(i=0;i<arrSC.length;i++){
+            if (Licenseplate.match(arrSC[i])) {
+                return i+1;
+            }
+        }
+        if (Licenseplate.match(scUitz)) {
+            return 'CD';
+        }
+        return false;
+    }
+
+    function FormatLicenseplate(Licenseplate,Sidecode) {
+
+        Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
+
+        if (Sidecode <= 6) {
+            return Licenseplate.substr(0, 2) + '-' + Licenseplate.substr(2, 2) + '-' + Licenseplate.substr(4, 2)
+         }
+        if (Sidecode == 7 || Sidecode == 9) {
+            return Licenseplate.substr(0, 2) + '-' + Licenseplate.substr(2, 3) + '-' + Licenseplate.substr(5, 1)
+        }
+        if (Sidecode == 8 || Sidecode == 10) {
+           return Licenseplate.substr(0, 1) + '-' + Licenseplate.substr(1, 3) + '-' + Licenseplate.substr(4, 2)
+        }
+        if (Sidecode == 11 || Sidecode == 14) {
+            return Licenseplate.substr(0, 3) + '-' + Licenseplate.substr(3, 2) + '-' + Licenseplate.substr(5, 1)
+        }
+        if (Sidecode == 12 || Sidecode == 13) {
+            return Licenseplate.substr(0, 1) + '-' + Licenseplate.substr(1, 2) + '-' + Licenseplate.substr(3, 3)
+        }
+        return Licenseplate
+    }
+
+
+
 });

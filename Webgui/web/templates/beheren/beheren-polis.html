@@ -24,7 +24,17 @@
 
         <label for="kenmerk">Kenmerk</label>
         <input class="form-control" type="text" id="kenmerk" name="kenmerk" placeholder="Kenmerk..." maxlength="100"
-               data-bind="value: polis.kenmerk, disable: readOnly"/>
+               data-bind="value: polis.kenmerk, disable: readOnly, event: {blur: wijzigKenmerk} "/>
+
+        <div id="voertuiginfo" data-bind="visible: voertuiginfo">
+            <hr/>
+
+            Merk : <span id="merk" data-bind="text: merk"></span><br/>
+            Handelsbenaming : <span id="type" data-bind="text: type"></span><br/>
+            Bouwjaar : <span id="type" data-bind="text: bouwjaar"></span><br/>
+            <img data-bind="attr: {src: voertuigImage1}" style="width: 49%;"/>
+            <img data-bind="attr: {src: voertuigImage2}" style="width: 49%;"/>
+        </div>
 
         <label for="dekking">Dekking</label>
         <input class="form-control" type="text" id="dekking" name="dekking" placeholder="Dekking..." maxlength="250"
