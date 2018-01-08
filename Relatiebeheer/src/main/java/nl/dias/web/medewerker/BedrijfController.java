@@ -147,7 +147,8 @@ public class BedrijfController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{identificatieCode}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public nl.lakedigital.djfc.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode) {
+    public nl.lakedigital.djfc.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
         LOGGER.debug("Zoeken met identificatiecode {}", identificatieCode);
 
         nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = null;
@@ -189,10 +190,11 @@ public class BedrijfController extends AbstractController {
                     return telefoongesprek;
                 }).collect(Collectors.toList()));
 
+
                 bedrijf.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
             }
         } catch (Exception e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("Fout bij lezen Bedrijf {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
         }
 
