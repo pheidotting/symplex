@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("relatie")
-public class RelatieController {
+public class RelatieController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(RelatieController.class);
 
     @Inject
@@ -66,7 +67,8 @@ public class RelatieController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Relatie leesRelatie(@PathVariable("id") String identificatie) {
+    public Relatie leesRelatie(@PathVariable("id") String identificatie, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
         LOGGER.debug("Ophalen Relatie met ID {}", identificatie);
 
         Relatie relatie;
@@ -183,7 +185,7 @@ public class RelatieController {
                 }
             }).collect(Collectors.toList()));
         } catch (Exception e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
         }
 
