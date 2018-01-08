@@ -160,7 +160,7 @@ define(['jquery',
 
     function zoekVoertuigGegevens(_this){
         //proberen het kenteken op te zoeken in het geval van een autoverzekering
-        if(_this.polis.soort() === 'Auto') {
+        if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen') {
             var kenmerk = _this.polis.kenmerk();
 
             var kenteken = FormatLicenseplate(kenmerk, GetSidecodeLicenseplate(kenmerk));
