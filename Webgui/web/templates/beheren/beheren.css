@@ -27,6 +27,12 @@ input {
     height: 20px;
     font-size: 16px;
     margin-bottom: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+input[type="date"] {
+    font-family: system-ui !important;
 }
 
 label {
@@ -44,11 +50,14 @@ select {
 }
 
 textarea {
+    font-family: system-ui !important;
     background-color: #ececec;
     border: 0px;
     width: 65%;
     height: 100px;
     font-size: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .rechts-icon {
