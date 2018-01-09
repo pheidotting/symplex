@@ -40,6 +40,7 @@ define(['jquery',
         this.bouwjaar = ko.observable();
         this.voertuigImage1 = ko.observable();
         this.voertuigImage2 = ko.observable();
+        this.voertuigImage3 = ko.observable();
 
         this.init = function(polisId, basisId, readOnly, basisEntiteit) {
             var deferred = $.Deferred();
@@ -180,6 +181,7 @@ define(['jquery',
                     $.get('https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar() + ' ' ), function(dataImages){
                         _this.voertuigImage1(dataImages.value[0].contentUrl);
                         _this.voertuigImage2(dataImages.value[1].contentUrl);
+                        _this.voertuigImage3(dataImages.value[2].contentUrl);
                     });
                 }else {
                     _this.voertuiginfo(false);
