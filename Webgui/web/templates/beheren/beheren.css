@@ -4,6 +4,12 @@
     padding: 1em;
 }
 
+.kolom-2 {
+    width: 47%;
+    float: left;
+    padding: 1em;
+}
+
 .kolom h3 {
     padding-bottom: 5px;
     border-bottom: 4px solid #4a95ca;
