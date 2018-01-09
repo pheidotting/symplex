@@ -164,29 +164,37 @@ define(['jquery',
         if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen') {
             var kenmerk = _this.polis.kenmerk();
 
-            var kenteken = FormatLicenseplate(GetSidecodeLicenseplate(kenmerk));
+            _this.voertuigImage1('');
+            _this.voertuigImage2('');
+            _this.voertuigImage3('');
+            var plate = GetSidecodeLicenseplate(kenmerk);
+            if(plate){
+                var kenteken = FormatLicenseplate(plate);
 
-            $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+kenteken.replace(/-/g, ''), function(data){
-                if(data.length >0){
-                    _this.voertuiginfo(true);
-                    _this.merk(data[0].merk);
-                    _this.type(data[0].handelsbenaming);
-                    _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+                $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+kenteken.replace(/-/g, ''), function(data){
+                    if(data.length >0){
+                        _this.voertuiginfo(true);
+                        _this.merk(data[0].merk);
+                        _this.type(data[0].handelsbenaming);
+                        _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
-                    var kleur = '';
-                    if(data[0].eerste_kleur != 'N.v.t.') {
-                        kleur = data[0].eerste_kleur;
+                        var kleur = '';
+                        if(data[0].eerste_kleur != 'N.v.t.') {
+                            kleur = data[0].eerste_kleur;
+                        }
+
+                        $.get('https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar() + ' ' ), function(dataImages){
+                            _this.voertuigImage1(dataImages.value[0].contentUrl);
+                            _this.voertuigImage2(dataImages.value[1].contentUrl);
+                            _this.voertuigImage3(dataImages.value[2].contentUrl);
+                        });
+                    }else {
+                        _this.voertuiginfo(false);
                     }
-
-                    $.get('https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar() + ' ' ), function(dataImages){
-                        _this.voertuigImage1(dataImages.value[0].contentUrl);
-                        _this.voertuigImage2(dataImages.value[1].contentUrl);
-                        _this.voertuigImage3(dataImages.value[2].contentUrl);
-                    });
-                }else {
-                    _this.voertuiginfo(false);
-                }
-            });
+                });
+            } else {
+                _this.voertuiginfo(false);
+            }
         }
     }
 
