@@ -163,8 +163,7 @@ define(['jquery',
         if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen') {
             var kenmerk = _this.polis.kenmerk();
 
-            zoekKenteken(kenmerk);
-            var kenteken = FormatLicenseplate(kenmerk, GetSidecodeLicenseplate(kenmerk));
+            var kenteken = FormatLicenseplate(GetSidecodeLicenseplate(kenmerk));
 
             $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken='+kenteken.replace(/-/g, ''), function(data){
                 if(data.length >0){
@@ -189,15 +188,6 @@ define(['jquery',
         }
     }
 
-    function zoekKenteken(tekst){
-        var e = tekst.split(' ');
-        for(i=0;i<e.length;i++){
-            var plate = e[i];
-            console.log(plate);
-            console.log(FormatLicenseplate(plate, GetSidecodeLicenseplate(plate)));
-        }
-    }
-
 	function GetSidecodeLicenseplate(Licenseplate){
 
         var arrSC = new Array;
@@ -205,31 +195,27 @@ define(['jquery',
 
         Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
 
-        arrSC[0] = [a-zA-Z]{2}[\d]{2}[\d]{2} // 1 XX-99-99
-        arrSC[1] = [\d]{2}[\d]{2}[a-zA-Z]{2} // 2 99-99-XX
-        arrSC[2] = [\d]{2}[a-zA-Z]{2}[\d]{2} // 3 99-XX-99
-        arrSC[3] = [a-zA-Z]{2}[\d]{2}[a-zA-Z]{2} // 4 XX-99-XX
-        arrSC[4] = [a-zA-Z]{2}[a-zA-Z]{2}[\d]{2} // 5 XX-XX-99
-        arrSC[5] = [\d]{2}[a-zA-Z]{2}[a-zA-Z]{2} // 6 99-XX-XX
-        arrSC[6] = [\d]{2}[a-zA-Z]{3}[\d]{1} // 7 99-XXX-9
-        arrSC[7] = [\d]{1}[a-zA-Z]{3}[\d]{2} // 8 9-XXX-99
-        arrSC[8] = [a-zA-Z]{2}[\d]{3}[a-zA-Z]{1} // 9 XX-999-X
-        arrSC[9] = [a-zA-Z]{1}[\d]{3}[a-zA-Z]{2} // 10 X-999-XX
-        arrSC[10] = [a-zA-Z]{3}[\d]{2}[a-zA-Z]{1} // 11 XXX-99-X
-        arrSC[11] = [a-zA-Z]{1}[\d]{2}[a-zA-Z]{3} // 12 X-99-XXX
-        arrSC[12] = [\d]{1}[a-zA-Z]{2}[\d]{3} // 13 9-XX-999
-        arrSC[13] = [\d]{3}[a-zA-Z]{2}[\d]{1} // 14 999-XX-9
-        arrSC[14] = [\d]{1}[a-zA-Z]{3}[\d]{2} // 15 9-XXX-99
+        arrSC[0] = /[a-zA-Z]{2}[\d]{2}[\d]{2}/ // 1 XX-99-99
+        arrSC[1] = /[\d]{2}[\d]{2}[a-zA-Z]{2}/ // 2 99-99-XX
+        arrSC[2] = /[\d]{2}[a-zA-Z]{2}[\d]{2}/ // 3 99-XX-99
+        arrSC[3] = /[a-zA-Z]{2}[\d]{2}[a-zA-Z]{2}/ // 4 XX-99-XX
+        arrSC[4] = /[a-zA-Z]{2}[a-zA-Z]{2}[\d]{2}/ // 5 XX-XX-99
+        arrSC[5] = /[\d]{2}[a-zA-Z]{2}[a-zA-Z]{2}/ // 6 99-XX-XX
+        arrSC[6] = /[\d]{2}[a-zA-Z]{3}[\d]{1}/ // 7 99-XXX-9
+        arrSC[7] = /[\d]{1}[a-zA-Z]{3}[\d]{2}/ // 8 9-XXX-99
+        arrSC[8] = /[a-zA-Z]{2}[\d]{3}[a-zA-Z]{1}/ // 9 XX-999-X
+        arrSC[9] = /[a-zA-Z]{1}[\d]{3}[a-zA-Z]{2}/ // 10 X-999-XX
+        arrSC[10] = /[a-zA-Z]{3}[\d]{2}[a-zA-Z]{1}/ // 11 XXX-99-X
+        arrSC[11] = /[a-zA-Z]{1}[\d]{2}[a-zA-Z]{3}/ // 12 X-99-XXX
+        arrSC[12] = /[\d]{1}[a-zA-Z]{2}[\d]{3}/ // 13 9-XX-999
+        arrSC[13] = /[\d]{3}[a-zA-Z]{2}[\d]{1}/ // 14 999-XX-9
 
         //except licenseplates for diplomats
         scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
 
         for(i=0;i<arrSC.length;i++){
-            if (Licenseplate.match(arrSC[i])) {
-                console.log(i);
-                return i+1;
-            }else{
-                console.log('nee' + i);
+            if (arrSC[i].test(Licenseplate)) {
+                return {'i':i+1,'r':arrSC[i].exec(Licenseplate)};
             }
         }
         if (Licenseplate.match(scUitz)) {
@@ -238,7 +224,9 @@ define(['jquery',
         return false;
     }
 
-    function FormatLicenseplate(Licenseplate,Sidecode) {
+    function FormatLicenseplate(reg) {
+        var Sidecode = reg.i;
+        var Licenseplate = reg.r[0];
 
         Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
 
