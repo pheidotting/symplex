@@ -38,7 +38,7 @@ public class AuthorisatieService {
         Gebruiker gebruikerUitDatabase = gebruikerService.zoekOpIdentificatie(identificatie);
         //Checken of inloggen wel mag ivm mogelijk teveel inlogpogingen
 
-        if (!gebruikerService.magInloggen(gebruikerUitDatabase)) {
+        if (gebruikerUitDatabase.isGelocked()) {
             throw new TeveelFouteInlogPogingenException();
         }
         Gebruiker inloggendeGebruiker = null;
@@ -76,6 +76,10 @@ public class AuthorisatieService {
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {
             LOGGER.debug("Onjuist wachtwoord");
             inlogPogingRepository.opslaanNieuwePoging(gebruikerUitDatabase.getId(), false, null);
+            if (!gebruikerService.magInloggen(gebruikerUitDatabase)) {
+                gebruikerUitDatabase.lock();
+                gebruikerService.opslaan(gebruikerUitDatabase);
+            }
             throw new OnjuistWachtwoordException();
         }
 
