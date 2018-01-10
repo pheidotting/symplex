@@ -39,6 +39,9 @@ public abstract class Gebruiker extends Onderwerp {
     @Column(name = "WACHTWOORDLAATSTGEWIJZIGD")
     @Temporal(TemporalType.TIMESTAMP)
     private Date wachtwoordLaatstGewijzigd;
+    @Column(name = "GELOCKEDTOT")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date gelockedTot;
 
     @Transient
     private String wachtwoordString;
@@ -98,6 +101,14 @@ public abstract class Gebruiker extends Onderwerp {
 
     public void setWachtwoordLaatstGewijzigd(LocalDateTime wachtwoordLaatstGewijzigd) {
         this.wachtwoordLaatstGewijzigd = wachtwoordLaatstGewijzigd.toDate();
+    }
+
+    public void lock() {
+        this.gelockedTot = LocalDateTime.now().plusMinutes(5).toDate();
+    }
+
+    public boolean isGelocked() {
+        return new LocalDateTime(gelockedTot).isAfter(LocalDateTime.now());
     }
 
     /**
