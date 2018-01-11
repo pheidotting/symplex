@@ -35,30 +35,39 @@ public class RelatieService {
     private SchadeService schadeService;
 
     public Relatie zoekRelatie(String identificatieCode) {
+        LOGGER.trace("Opzoeken identificatieCode {}", identificatieCode);
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
 
-        LOGGER.debug("Opgehaalde Identificatie : {}", ReflectionToStringBuilder.toString(identificatie));
+        LOGGER.debug("Opgehaalde Identificatie voor soortEntiteit {} en entiteitId {}", identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
         Long relatieId = null;
 
         switch (identificatie.getSoortEntiteit()) {
             case "RELATIE":
                 relatieId = identificatie.getEntiteitId();
+                LOGGER.trace("relatieId {} opgehaald uit RELATIE", relatieId);
                 break;
             case "POLIS":
                 relatieId = pakRelatieBijPolis(identificatie.getEntiteitId());
+                LOGGER.trace("relatieId {} opgehaald uit POLIS", relatieId);
                 break;
             case "ADRES":
                 relatieId = pakRelatieBijAdres(identificatie.getEntiteitId());
+                LOGGER.trace("relatieId {} opgehaald uit ADRES", relatieId);
                 break;
             case "SCHADE":
                 relatieId = pakRelatieBijSchade(identificatie.getEntiteitId());
+                LOGGER.trace("relatieId {} opgehaald uit SCHADE", relatieId);
                 break;
             case "HYPOTHEEK":
                 relatieId = pakRelatieBijHypotheek(identificatie.getEntiteitId());
+                LOGGER.trace("relatieId {} opgehaald uit HYPOTHEEK", relatieId);
                 break;
         }
 
+        if (relatieId == null) {
+            LOGGER.error("RelatieId kon niet worden bepaald");
+        }
         return (Relatie) gebruikerService.lees(relatieId);
     }
 
@@ -80,7 +89,7 @@ public class RelatieService {
         LOGGER.debug("hypotheekId {}", hypotheekId);
         Hypotheek hypotheek = hypotheekService.leesHypotheek(hypotheekId);
 
-        LOGGER.debug("Polis ({}) gevonden : {}", hypotheekId, ReflectionToStringBuilder.toString(hypotheek));
+        LOGGER.debug("Hypotheek ({}) gevonden : {}", hypotheekId, ReflectionToStringBuilder.toString(hypotheek));
 
         return hypotheek.getRelatie().getId();
     }
