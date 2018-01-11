@@ -8,9 +8,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.response.Relatie;
-import nl.lakedigital.djfc.domain.response.Telefoongesprek;
-import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
+import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -184,11 +182,58 @@ public class RelatieController extends AbstractController {
                     return jsonHypotheek;
                 }
             }).collect(Collectors.toList()));
+
+            relatie.setBelastingzaken(maakBelastingzaken());
         } catch (Exception e) {
             LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
         }
 
         return relatie;
+    }
+
+    private Belastingzaken maakBelastingzaken() {
+        Belastingzaken belastingzaken = new Belastingzaken();
+
+        Contracten contracten = new Contracten();
+        contracten.getBijlages().add(maakBijlage("Voorbeeld Contract"));
+        belastingzaken.setContracten(contracten);
+
+        Btw btw = new Btw();
+        btw.getBijlages().add(maakBijlage("btw"));
+        btw.setJaartal(2017);
+        belastingzaken.getBtws().add(btw);
+
+        Jaarrekening jaarrekening = new Jaarrekening();
+        jaarrekening.getBijlages().add(maakBijlage("btw"));
+        jaarrekening.setJaartal(2017);
+        belastingzaken.getJaarrekeningen().add(jaarrekening);
+
+        IB ib = new IB();
+        ib.getBijlages().add(maakBijlage("btw"));
+        ib.setJaartal(2017);
+        belastingzaken.getIbs().add(ib);
+
+        Loonbelasting loonbelasting = new Loonbelasting();
+        loonbelasting.getBijlages().add(maakBijlage("btw"));
+        loonbelasting.setJaartal(2017);
+        belastingzaken.getLoonbelastingen().add(loonbelasting);
+
+        Overig overig = new Overig();
+        overig.getBijlages().add(maakBijlage("btw"));
+        overig.setJaartal(2017);
+        belastingzaken.getOverigen().add(overig);
+
+        return belastingzaken;
+    }
+
+    private Bijlage maakBijlage(String naam) {
+        Bijlage bijlage = new Bijlage();
+
+        bijlage.setBestandsNaam(naam);
+        bijlage.setOmschrijving(naam);
+        bijlage.setDatumUpload("2017-07-31T17:21:00");
+
+        return bijlage;
     }
 }

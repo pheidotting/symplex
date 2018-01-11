@@ -1,0 +1,79 @@
+<div>
+    <div class="kolom-2">
+        <h3>Contracten</h3>
+        <form enctype="multipart/form-data" id="fileUploadForm">
+            <!--<input type="hidden" id="identificatie" name="identificatie" data-bind="value: bijlageModel.id"/>-->
+            <!--<input type="hidden" id="soortEntiteit" name="soortEntiteit" data-bind="value: bijlageModel.soortEntiteit"/>-->
+
+            <div class="form-group" data-bind="foreach: contracten.groepBijlages">
+                <h3 data-bind="text: naam"/>
+                <table class="table">
+                    <tr>
+                        <th>Bijlage</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tbody data-bind="foreach: bijlages">
+                    <tr>
+                        <td>
+                            <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                            </div>
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                               target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /ko -->​
+
+            <div class="form-group">
+                <table class="table">
+                    <tr>
+                        <th>Bijlage</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tbody data-bind="foreach: bijlageModel.bijlages">
+                    <tr>
+                        <td>
+                            <span name="omschrijvingOfBestandsNaam"
+                                  data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+                            <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                <input name="omschrijvingOfBestandsNaamEdit" type="text"
+                                       data-bind="value: omschrijvingOfBestandsNaam"/>
+                            </div>
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                               target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <h3>Jaarrekening</h3>
+
+        <h3>IB</h3>
+
+        <h3>Btw</h3>
+
+        <h3>Loonbelasting</h3>
+
+        <h3>Overig</h3>
+    </div>
+    <div class="kolom-2">
+        <!--<div id="bijlages"></div>-->
+    </div>
+</div>
