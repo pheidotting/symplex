@@ -71,124 +71,130 @@ public class RelatieController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
         LOGGER.debug("Ophalen Relatie met ID {}", identificatie);
 
-        Relatie relatie;
+        Relatie relatie = null;
         try {
             nl.dias.domein.Relatie relatieDomain = relatieService.zoekRelatie(identificatie);
 
-            relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
-            relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
+            if (relatieDomain != null) {
 
-            relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
-            relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-            relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-            relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
-            relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
-            relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
+                relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
 
-            List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
-            relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
-            //        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
-            List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
+                List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
+                relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                //        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
-            if (!telefoonnummers.isEmpty()) {
-                Map<String, List<JsonTelefonieBestand>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
-                for (String nummer : telefonieResult.keySet()) {
-                    TelefoonnummerMetGesprekken telefoonnummerMetGesprekken = new TelefoonnummerMetGesprekken();
-                    telefoonnummerMetGesprekken.setTelefoonnummer(nummer);
-                    telefoonnummerMetGesprekken.setTelefoongesprekken(telefonieResult.get(nummer).stream().map(s -> {
-                        Telefoongesprek telefoongesprek = new Telefoongesprek();
-                        telefoongesprek.setBestandsnaam(s.getBestandsnaam());
-                        telefoongesprek.setTijdstip(s.getTijdstip());
-                        telefoongesprek.setTelefoonnummer(s.getTelefoonnummer());
+                List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 
-                        return telefoongesprek;
-                    }).collect(Collectors.toList()));
+                if (!telefoonnummers.isEmpty()) {
+                    Map<String, List<JsonTelefonieBestand>> telefonieResult = telefonieBestandClient.getRecordingsAndVoicemails(telefoonnummers);
+                    for (String nummer : telefonieResult.keySet()) {
+                        TelefoonnummerMetGesprekken telefoonnummerMetGesprekken = new TelefoonnummerMetGesprekken();
+                        telefoonnummerMetGesprekken.setTelefoonnummer(nummer);
+                        telefoonnummerMetGesprekken.setTelefoongesprekken(telefonieResult.get(nummer).stream().map(s -> {
+                            Telefoongesprek telefoongesprek = new Telefoongesprek();
+                            telefoongesprek.setBestandsnaam(s.getBestandsnaam());
+                            telefoongesprek.setTijdstip(s.getTijdstip());
+                            telefoongesprek.setTelefoonnummer(s.getTelefoonnummer());
 
-                    relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
+                            return telefoongesprek;
+                        }).collect(Collectors.toList()));
+
+                        relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
+                    }
                 }
+
+
+                List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
+                relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
+                    @Override
+                    public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
+                        final String DATUM_FORMAAT = "yyyy-MM-dd";
+
+                        nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
+
+                        jsonHypotheek.setIdentificatie(identificatieClient.zoekIdentificatie("HYPOTHEEK", hypotheek.getId()).getIdentificatie());
+                        jsonHypotheek.setDuur(hypotheek.getDuur());
+                        jsonHypotheek.setDuurRenteVastePeriode(hypotheek.getDuurRenteVastePeriode());
+                        jsonHypotheek.setHypotheekPakket(hypotheek.getHypotheekPakket().getId());
+                        if (hypotheek.getEindDatum() != null) {
+                            jsonHypotheek.setEindDatum(hypotheek.getEindDatum().toString(DATUM_FORMAAT));
+                        }
+                        if (hypotheek.getEindDatumRenteVastePeriode() != null) {
+                            jsonHypotheek.setEindDatumRenteVastePeriode(hypotheek.getEindDatumRenteVastePeriode().toString(DATUM_FORMAAT));
+                        }
+                        if (hypotheek.getHypotheekBedrag() != null) {
+                            jsonHypotheek.setHypotheekBedrag(hypotheek.getHypotheekBedrag().getBedrag().toString());
+                        }
+                        if (hypotheek.getHypotheekVorm() != null) {
+                            jsonHypotheek.setHypotheekVorm(hypotheek.getHypotheekVorm().getId());
+                        }
+                        if (hypotheek.getIngangsDatum() != null) {
+                            jsonHypotheek.setIngangsDatum(hypotheek.getIngangsDatum().toString(DATUM_FORMAAT));
+                        }
+                        if (hypotheek.getIngangsDatumRenteVastePeriode() != null) {
+                            jsonHypotheek.setIngangsDatumRenteVastePeriode(hypotheek.getIngangsDatumRenteVastePeriode().toString(DATUM_FORMAAT));
+                        }
+                        if (hypotheek.getKoopsom() != null) {
+                            jsonHypotheek.setKoopsom(hypotheek.getKoopsom().getBedrag().toString());
+                        }
+                        if (hypotheek.getMarktWaarde() != null) {
+                            jsonHypotheek.setMarktWaarde(hypotheek.getMarktWaarde().getBedrag().toString());
+                        }
+                        jsonHypotheek.setOmschrijving(hypotheek.getOmschrijving());
+                        if (hypotheek.getOnderpand() != null) {
+                            jsonHypotheek.setOnderpand(hypotheek.getOnderpand());
+                        }
+                        if (hypotheek.getRente() != null) {
+                            jsonHypotheek.setRente(hypotheek.getRente().toString());
+                        }
+                        if (hypotheek.getTaxatieDatum() != null) {
+                            jsonHypotheek.setTaxatieDatum(hypotheek.getTaxatieDatum().toString(DATUM_FORMAAT));
+                        }
+                        if (hypotheek.getVrijeVerkoopWaarde() != null) {
+                            jsonHypotheek.setVrijeVerkoopWaarde(hypotheek.getVrijeVerkoopWaarde().getBedrag().toString());
+                        }
+                        if (hypotheek.getWaardeNaVerbouwing() != null) {
+                            jsonHypotheek.setWaardeNaVerbouwing(hypotheek.getWaardeNaVerbouwing().getBedrag().toString());
+                        }
+                        if (hypotheek.getWaardeVoorVerbouwing() != null) {
+                            jsonHypotheek.setWaardeVoorVerbouwing(hypotheek.getWaardeVoorVerbouwing().getBedrag().toString());
+                        }
+                        if (hypotheek.getWozWaarde() != null) {
+                            jsonHypotheek.setWozWaarde(hypotheek.getWozWaarde().getBedrag().toString());
+                        }
+
+                        jsonHypotheek.setLeningNummer(hypotheek.getLeningNummer());
+                        jsonHypotheek.setBank(hypotheek.getBank());
+                        if (hypotheek.getBoxI() != null) {
+                            jsonHypotheek.setBoxI(hypotheek.getBoxI().getBedrag().toString());
+                        }
+                        if (hypotheek.getBoxIII() != null) {
+                            jsonHypotheek.setBoxIII(hypotheek.getBoxIII().getBedrag().toString());
+                        }
+
+                        jsonHypotheek.setOpmerkingen(opmerkingClient.lijst("HYPOTHEEK", hypotheek.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+
+
+                        return jsonHypotheek;
+                    }
+                }).collect(Collectors.toList()));
             }
-
-
-            List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
-            relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
-                @Override
-                public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
-                    final String DATUM_FORMAAT = "yyyy-MM-dd";
-
-                    nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
-
-                    jsonHypotheek.setIdentificatie(identificatieClient.zoekIdentificatie("HYPOTHEEK", hypotheek.getId()).getIdentificatie());
-                    jsonHypotheek.setDuur(hypotheek.getDuur());
-                    jsonHypotheek.setDuurRenteVastePeriode(hypotheek.getDuurRenteVastePeriode());
-                    jsonHypotheek.setHypotheekPakket(hypotheek.getHypotheekPakket().getId());
-                    if (hypotheek.getEindDatum() != null) {
-                        jsonHypotheek.setEindDatum(hypotheek.getEindDatum().toString(DATUM_FORMAAT));
-                    }
-                    if (hypotheek.getEindDatumRenteVastePeriode() != null) {
-                        jsonHypotheek.setEindDatumRenteVastePeriode(hypotheek.getEindDatumRenteVastePeriode().toString(DATUM_FORMAAT));
-                    }
-                    if (hypotheek.getHypotheekBedrag() != null) {
-                        jsonHypotheek.setHypotheekBedrag(hypotheek.getHypotheekBedrag().getBedrag().toString());
-                    }
-                    if (hypotheek.getHypotheekVorm() != null) {
-                        jsonHypotheek.setHypotheekVorm(hypotheek.getHypotheekVorm().getId());
-                    }
-                    if (hypotheek.getIngangsDatum() != null) {
-                        jsonHypotheek.setIngangsDatum(hypotheek.getIngangsDatum().toString(DATUM_FORMAAT));
-                    }
-                    if (hypotheek.getIngangsDatumRenteVastePeriode() != null) {
-                        jsonHypotheek.setIngangsDatumRenteVastePeriode(hypotheek.getIngangsDatumRenteVastePeriode().toString(DATUM_FORMAAT));
-                    }
-                    if (hypotheek.getKoopsom() != null) {
-                        jsonHypotheek.setKoopsom(hypotheek.getKoopsom().getBedrag().toString());
-                    }
-                    if (hypotheek.getMarktWaarde() != null) {
-                        jsonHypotheek.setMarktWaarde(hypotheek.getMarktWaarde().getBedrag().toString());
-                    }
-                    jsonHypotheek.setOmschrijving(hypotheek.getOmschrijving());
-                    if (hypotheek.getOnderpand() != null) {
-                        jsonHypotheek.setOnderpand(hypotheek.getOnderpand());
-                    }
-                    if (hypotheek.getRente() != null) {
-                        jsonHypotheek.setRente(hypotheek.getRente().toString());
-                    }
-                    if (hypotheek.getTaxatieDatum() != null) {
-                        jsonHypotheek.setTaxatieDatum(hypotheek.getTaxatieDatum().toString(DATUM_FORMAAT));
-                    }
-                    if (hypotheek.getVrijeVerkoopWaarde() != null) {
-                        jsonHypotheek.setVrijeVerkoopWaarde(hypotheek.getVrijeVerkoopWaarde().getBedrag().toString());
-                    }
-                    if (hypotheek.getWaardeNaVerbouwing() != null) {
-                        jsonHypotheek.setWaardeNaVerbouwing(hypotheek.getWaardeNaVerbouwing().getBedrag().toString());
-                    }
-                    if (hypotheek.getWaardeVoorVerbouwing() != null) {
-                        jsonHypotheek.setWaardeVoorVerbouwing(hypotheek.getWaardeVoorVerbouwing().getBedrag().toString());
-                    }
-                    if (hypotheek.getWozWaarde() != null) {
-                        jsonHypotheek.setWozWaarde(hypotheek.getWozWaarde().getBedrag().toString());
-                    }
-
-                    jsonHypotheek.setLeningNummer(hypotheek.getLeningNummer());
-                    jsonHypotheek.setBank(hypotheek.getBank());
-                    if (hypotheek.getBoxI() != null) {
-                        jsonHypotheek.setBoxI(hypotheek.getBoxI().getBedrag().toString());
-                    }
-                    if (hypotheek.getBoxIII() != null) {
-                        jsonHypotheek.setBoxIII(hypotheek.getBoxIII().getBedrag().toString());
-                    }
-
-                    jsonHypotheek.setOpmerkingen(opmerkingClient.lijst("HYPOTHEEK", hypotheek.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
-
-
-                    return jsonHypotheek;
-                }
-            }).collect(Collectors.toList()));
         } catch (Exception e) {
             LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
         }
 
+        if (relatie == null) {
+            throw new RuntimeException();
+        }
         return relatie;
     }
 }

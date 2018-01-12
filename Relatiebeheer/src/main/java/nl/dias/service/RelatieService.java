@@ -38,6 +38,10 @@ public class RelatieService {
         LOGGER.trace("Opzoeken identificatieCode {}", identificatieCode);
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
 
+        if ("BEDRIJF".equals(identificatie.getSoortEntiteit())) {
+            return null;
+        }
+
         LOGGER.debug("Opgehaalde Identificatie voor soortEntiteit {} en entiteitId {}", identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
         Long relatieId = null;
