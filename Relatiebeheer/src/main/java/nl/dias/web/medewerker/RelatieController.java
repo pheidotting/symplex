@@ -205,22 +205,22 @@ public class RelatieController extends AbstractController {
         belastingzaken.getBtws().add(btw);
 
         Jaarrekening jaarrekening = new Jaarrekening();
-        jaarrekening.getBijlages().add(maakBijlage("btw"));
+        jaarrekening.getBijlages().add(maakBijlage("jaarrekening"));
         jaarrekening.setJaartal(2017);
         belastingzaken.getJaarrekeningen().add(jaarrekening);
 
         IB ib = new IB();
-        ib.getBijlages().add(maakBijlage("btw"));
+        ib.getBijlages().add(maakBijlage("ib"));
         ib.setJaartal(2017);
         belastingzaken.getIbs().add(ib);
 
         Loonbelasting loonbelasting = new Loonbelasting();
-        loonbelasting.getBijlages().add(maakBijlage("btw"));
+        loonbelasting.getBijlages().add(maakBijlage("loonbelasting"));
         loonbelasting.setJaartal(2017);
         belastingzaken.getLoonbelastingen().add(loonbelasting);
 
         Overig overig = new Overig();
-        overig.getBijlages().add(maakBijlage("btw"));
+        overig.getBijlages().add(maakBijlage("overig"));
         overig.setJaartal(2017);
         belastingzaken.getOverigen().add(overig);
 
@@ -233,6 +233,7 @@ public class RelatieController extends AbstractController {
         bijlage.setBestandsNaam(naam);
         bijlage.setOmschrijving(naam);
         bijlage.setDatumUpload("2017-07-31T17:21:00");
+        bijlage.setIdentificatie("4f744219-75d1-47d4-bcb6-28dfae662c39");
 
         return bijlage;
     }
