@@ -184,7 +184,6 @@ public class RelatieController extends AbstractController {
                     }
                 }).collect(Collectors.toList()));
             }
-            }).collect(Collectors.toList()));
 
             relatie.setBelastingzaken(maakBelastingzaken());
         } catch (Exception e) {

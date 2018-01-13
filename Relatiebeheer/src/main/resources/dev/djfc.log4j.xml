@@ -40,11 +40,6 @@
         </layout>
     </appender>
 
-    <appender name="loggly" class="io.logz.log4j2.LogzioAppender">
-        <logzioToken>iwMsdwcjptofrGsLWvNBhpHahcSELSMp</logzioToken>
-        <logzioType>myAwesomeType</logzioType>
-    </appender>
-
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
@@ -72,6 +67,5 @@
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
         <appender-ref ref="loggly"/>
-        <appender-ref ref="Logzio"/>
     </root>
 </log4j:configuration>
