@@ -60,8 +60,10 @@ define(['jquery',
                     _this.contracten.groepBijlages.push(groepbijlage);
                 });
 
-                var jaarrekeningen = {};
                 $.each(data.belastingzaken.jaarrekeningen, function(i, b){
+                    var jaarrekeningen = {};
+                    jaarrekeningen.type = 'jaarrekeningen';
+
                     jaarrekeningen.jaartal = ko.observable(b.jaartal);
                     jaarrekeningen.bijlages = ko.observableArray();
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
@@ -76,8 +78,10 @@ define(['jquery',
                     _this.jaarrekeningen.push(jaarrekeningen);
                 });
 
-                var ibs = {};
                 $.each(data.belastingzaken.ibs, function(i, b){
+                    var ibs = {};
+                    ibs.type = 'ibs';
+
                     ibs.jaartal = ko.observable(b.jaartal);
                     ibs.bijlages = ko.observableArray();
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
@@ -92,8 +96,10 @@ define(['jquery',
                     _this.ibs.push(ibs);
                 });
 
-                var btw = {};
                 $.each(data.belastingzaken.btws, function(i, b){
+                    var btw = {};
+                    btw.type = 'btw';
+
                     btw.jaartal = ko.observable(b.jaartal);
                     btw.bijlages = ko.observableArray();
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
@@ -108,8 +114,10 @@ define(['jquery',
                     _this.btw.push(btw);
                 });
 
-                var loonbelastingen = {};
                 $.each(data.belastingzaken.loonbelastingen, function(i, b){
+                    var loonbelastingen = {};
+                    loonbelastingen.type = 'loonbelastingen';
+
                     loonbelastingen.jaartal = ko.observable(b.jaartal);
                     loonbelastingen.bijlages = ko.observableArray();
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
@@ -124,8 +132,10 @@ define(['jquery',
                     _this.loonbelastingen.push(loonbelastingen);
                 });
 
-                var overigen = {};
                 $.each(data.belastingzaken.overigen, function(i, b){
+                    var overigen = {};
+                    overigen.type = 'overigen';
+
                     overigen.jaartal = ko.observable(b.jaartal);
                     overigen.bijlages = ko.observableArray();
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
@@ -227,16 +237,16 @@ define(['jquery',
             });
 
             this.toonOfVerberg = function(a) {
-                if($('#groepBijlagesJaarrekeningen'+a.jaartal()).is(':visible')) {
-                    $('#groepBijlagesJaarrekeningen'+a.jaartal()).hide();
-                    $('#bijlagesJaarrekeningen'+a.jaartal()).hide();
-                    $('#jaarrekeningen'+a.jaartal()+'dicht').hide();
-                    $('#jaarrekeningen'+a.jaartal()+'open').show();
+                if($('#groepBijlages'+a.type+a.jaartal()).is(':visible')) {
+                    $('#groepBijlages'+a.type+a.jaartal()).hide();
+                    $('#bijlages'+a.type+a.jaartal()).hide();
+                    $('#'+a.type+a.jaartal()+'dicht').hide();
+                    $('#'+a.type+a.jaartal()+'open').show();
                 } else {
-                    $('#groepBijlagesJaarrekeningen'+a.jaartal()).show();
-                    $('#bijlagesJaarrekeningen'+a.jaartal()).show();
-                    $('#jaarrekeningen'+a.jaartal()+'dicht').show();
-                    $('#jaarrekeningen'+a.jaartal()+'open').hide();
+                    $('#groepBijlages'+a.type+a.jaartal()).show();
+                    $('#bijlages'+a.type+a.jaartal()).show();
+                    $('#'+a.type+a.jaartal()+'dicht').show();
+                    $('#'+a.type+a.jaartal()+'open').hide();
                 }
             };
 
