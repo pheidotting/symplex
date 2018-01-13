@@ -35,6 +35,8 @@
             app.addView('hypotheken/:identificatie', 'view/lijst-hypotheken-view');
             app.addView('hypotheek/:identificatie', 'view/beheren-hypotheek-view');
 
+            app.addView('belastingzaken/:identificatie', 'view/beheren-belastingzaken-view');
+
             app.run('#relatie');
         });
 
@@ -75,6 +77,10 @@
                     <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
                             style="cursor: pointer;"
                             data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
+                    </li>
+                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
+                            style="cursor: pointer;"
+                            data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
                     </li>
                 </ul>
             </div>
