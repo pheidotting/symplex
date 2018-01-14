@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
@@ -53,19 +54,20 @@ public class ZoekController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public ZoekResultaatResponse zoeken() {
-        return zoeken("", 0L);
+    public ZoekResultaatResponse zoeken(HttpServletRequest httpServletRequest) {
+        return zoeken("", 0L, httpServletRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekterm}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm) {
-        return zoeken(zoekTerm, 0L);
+    public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        return zoeken(zoekTerm, 0L, httpServletRequest);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekterm}/{weglaten}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm, @QueryParam("weglaten") Long weglaten) {
+    public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm, @QueryParam("weglaten") Long weglaten, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
         String decoded = new String(Base64.getDecoder().decode(zoekTerm));
         LOGGER.debug("Decoded zoekstring {}", decoded);
         ZoekVelden zoekVelden = new Gson().fromJson(decoded, ZoekVelden.class);
