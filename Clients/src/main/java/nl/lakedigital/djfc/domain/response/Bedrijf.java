@@ -13,6 +13,7 @@ public class Bedrijf {
     private String internetadres;
     private String hoedanigheid;
     private String cAoVerplichtingen;
+    private Long kantoor;
 
     private List<Adres> adressen = new ArrayList<>();
     private List<Bijlage> bijlages = new ArrayList<>();
@@ -93,6 +94,14 @@ public class Bedrijf {
 
     public void setcAoVerplichtingen(String cAoVerplichtingen) {
         this.cAoVerplichtingen = cAoVerplichtingen;
+    }
+
+    public Long getKantoor() {
+        return kantoor;
+    }
+
+    public void setKantoor(Long kantoor) {
+        this.kantoor = kantoor;
     }
 
     public List<Adres> getAdressen() {

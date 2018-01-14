@@ -39,14 +39,11 @@
                    value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
-    <!--<appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">-->
-    <!--<logzioToken>iwMsdwcjptofrGsLWvNBhpHahcSELSMp</logzioToken>-->
-    <!--<logzioUrl>https://listener.logz.io:8071</logzioUrl>-->
-    <!--<logzioType>myType</logzioType>-->
-    <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
-    <!--<level>INFO</level>-->
-    <!--</filter>-->
-    <!--</appender>-->
+    <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
+        <param name="logzioToken" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
+        <param name="logzioUrl" value="https://listener.logz.io:8071"/>
+        <param name="logzioType" value="myType"/>
+    </appender>
 
     <logger name="javax.enterprise.system">
         <level value="error"/>
