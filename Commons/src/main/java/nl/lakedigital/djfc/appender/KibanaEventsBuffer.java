@@ -93,6 +93,7 @@ public class KibanaEventsBuffer {
         private String logLevel;
         private String timestamp;
         private String javaClass;
+        private String lineNumber;
         private Long ingelogdeGebruiker;
         private String trackAndTraceId;
         private String applicatie;
@@ -108,9 +109,11 @@ public class KibanaEventsBuffer {
 
             Layout timestampLayout = new PatternLayout("%d{ISO8601}");
             Layout javaClassLayout = new PatternLayout("%c{1}");
+            Layout lineNumberLayout = new PatternLayout("%L");
 
             this.timestamp = timestampLayout.format(event);
             this.javaClass = javaClassLayout.format(event);
+            this.lineNumber = lineNumberLayout.format(event);
             this.applicatie = applicatie;
             this.omgeving = omgeving;
         }
