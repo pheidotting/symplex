@@ -9,6 +9,7 @@ public class KibanaAppender extends AppenderSkeleton {
     private String applicatie = "";
     private String token = "";
     private String interval = "1";
+    private String omgeving;
     private KibanaEventsBuffer kibanaEventsBuffer;
 
     public KibanaAppender() {
@@ -30,7 +31,7 @@ public class KibanaAppender extends AppenderSkeleton {
 
         String output = this.layout.format(event);
 
-        kibanaEventsBuffer.add(output, event, Integer.parseInt(interval), token, applicatie);
+        kibanaEventsBuffer.add(output, event, Integer.parseInt(interval), token, applicatie, omgeving);
     }
 
     public String getToken() {
@@ -51,6 +52,14 @@ public class KibanaAppender extends AppenderSkeleton {
 
     public void setApplicatie(String applicatie) {
         this.applicatie = applicatie;
+    }
+
+    public String getOmgeving() {
+        return omgeving;
+    }
+
+    public void setOmgeving(String omgeving) {
+        this.omgeving = omgeving;
     }
 
     @Override

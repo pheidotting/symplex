@@ -22,14 +22,14 @@ public class KibanaEventsBuffer {
     private boolean flushing = false;
     private RateLimiter rateLimiter = RateLimiter.create(1);
 
-    public void add(String event, LoggingEvent loggingEvent, int interval, final String token, String applicatie) {
+    public void add(String event, LoggingEvent loggingEvent, int interval, final String token, String applicatie, String omgeving) {
         if (events == null) {
             events = new ArrayList<>();
         }
 
         String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
 
-        events.add(new KibanaEvent(event, loggingEvent, ingelogdeGebruiker == null ? null : Long.valueOf(ingelogdeGebruiker), MDC.get("trackAndTraceId"), applicatie));
+        events.add(new KibanaEvent(event, loggingEvent, ingelogdeGebruiker == null ? null : Long.valueOf(ingelogdeGebruiker), MDC.get("trackAndTraceId"), applicatie, omgeving));
 
         if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
             flush(token);
@@ -96,8 +96,9 @@ public class KibanaEventsBuffer {
         private Long ingelogdeGebruiker;
         private String trackAndTraceId;
         private String applicatie;
+        private String omgeving;
 
-        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String applicatie) {
+        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String applicatie, String omgeving) {
             this.message = message;
             if (event.getLevel() != null) {
                 this.logLevel = event.getLevel().toString();
@@ -111,6 +112,7 @@ public class KibanaEventsBuffer {
             this.timestamp = timestampLayout.format(event);
             this.javaClass = javaClassLayout.format(event);
             this.applicatie = applicatie;
+            this.omgeving = omgeving;
         }
 
         public String getMessage() {
@@ -167,6 +169,14 @@ public class KibanaEventsBuffer {
 
         public void setApplicatie(String applicatie) {
             this.applicatie = applicatie;
+        }
+
+        public String getOmgeving() {
+            return omgeving;
+        }
+
+        public void setOmgeving(String omgeving) {
+            this.omgeving = omgeving;
         }
     }
 }
