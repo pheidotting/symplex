@@ -29,7 +29,7 @@ public class KibanaEventsBuffer {
 
         String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
 
-        events.add(new KibanaEvent(event, loggingEvent, ingelogdeGebruiker == null ? null : Long.valueOf(ingelogdeGebruiker), MDC.get("trackAndTraceId"), applicatie, omgeving));
+        events.add(new KibanaEvent(event, loggingEvent, ingelogdeGebruiker == null ? null : Long.valueOf(ingelogdeGebruiker), MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), applicatie, omgeving));
 
         if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
             flush(token);
@@ -95,11 +95,12 @@ public class KibanaEventsBuffer {
         private String javaClass;
         private String lineNumber;
         private Long ingelogdeGebruiker;
+        private String ingelogdeGebruikerOpgemaakt;
         private String trackAndTraceId;
         private String applicatie;
         private String omgeving;
 
-        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String applicatie, String omgeving) {
+        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String ingelogdeGebruikerOpgemaakt, String applicatie, String omgeving) {
             this.message = message;
             if (event.getLevel() != null) {
                 this.logLevel = event.getLevel().toString();
@@ -150,12 +151,28 @@ public class KibanaEventsBuffer {
             this.javaClass = javaClass;
         }
 
+        public String getLineNumber() {
+            return lineNumber;
+        }
+
+        public void setLineNumber(String lineNumber) {
+            this.lineNumber = lineNumber;
+        }
+
         public Long getIngelogdeGebruiker() {
             return ingelogdeGebruiker;
         }
 
         public void setIngelogdeGebruiker(Long ingelogdeGebruiker) {
             this.ingelogdeGebruiker = ingelogdeGebruiker;
+        }
+
+        public String getIngelogdeGebruikerOpgemaakt() {
+            return ingelogdeGebruikerOpgemaakt;
+        }
+
+        public void setIngelogdeGebruikerOpgemaakt(String ingelogdeGebruikerOpgemaakt) {
+            this.ingelogdeGebruikerOpgemaakt = ingelogdeGebruikerOpgemaakt;
         }
 
         public String getTrackAndTraceId() {
