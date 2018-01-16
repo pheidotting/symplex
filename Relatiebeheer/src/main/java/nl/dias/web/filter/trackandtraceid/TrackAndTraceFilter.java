@@ -46,6 +46,9 @@ public class TrackAndTraceFilter implements Filter {
         MultiReadHttpServletRequest multiReadHttpServletRequest = new MultiReadHttpServletRequest(httpServletRequest);
         String url = getFullURL(httpServletRequest);
 
+        Gebruiker ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
+        Long id = getIngelogdeGebruiker(httpServletRequest) == null ? null : getIngelogdeGebruiker(httpServletRequest).getId();
+
         if (!url.endsWith("/log4j/log4javascript")) {
 
             if ("POST".equalsIgnoreCase(httpServletRequest.getMethod()) && !url.endsWith("bijlage/uploadBijlage")) {
@@ -59,14 +62,17 @@ public class TrackAndTraceFilter implements Filter {
                     json = json.substring(0, i) + "XXXX" + json.substring(j);
                 }
             }
-            inkomendRequestService.opslaan(getIngelogdeGebruiker(httpServletRequest).getId(), json, httpServletRequest, url);
+
+            inkomendRequestService.opslaan(id, json, httpServletRequest, url);
         }
 
         HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(multiReadHttpServletRequest);
         String trackAndTraceId = UUID.randomUUID().toString();
         requestWrapper.addHeader("trackAndTraceId", trackAndTraceId);
-        MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
-        MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
+        if (ingelogdeGebruiker != null) {
+            MDC.put("ingelogdeGebruiker", id + "");
+            MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(ingelogdeGebruiker));
+        }
         MDC.put("trackAndTraceId", trackAndTraceId);
 
         filterChain.doFilter(requestWrapper, servletResponse);
