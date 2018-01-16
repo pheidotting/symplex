@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import inloggen.SessieHolder;
 import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
@@ -27,6 +28,7 @@ public abstract class AbstractController {
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+        MDC.put("ingelogdeGebruikerOpgemaakt", getIngelogdeGebruiker(httpServletRequest).getId() + "");
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -61,6 +63,30 @@ public abstract class AbstractController {
             }
         }
         return null;
+    }
+
+    private String maakOp(Gebruiker gebruiker) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(gebruiker.getVoornaam());
+        stringBuffer.append(" ");
+        if (gebruiker.getTussenvoegsel() != null && !"".equals(gebruiker.getTussenvoegsel())) {
+            stringBuffer.append(gebruiker.getTussenvoegsel());
+            stringBuffer.append(" ");
+        }
+        stringBuffer.append(gebruiker.getAchternaam());
+        stringBuffer.append(" (");
+        stringBuffer.append(gebruiker.getId());
+        stringBuffer.append(")");
+
+        if (gebruiker instanceof Medewerker) {
+            stringBuffer.append(", ");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getNaam());
+            stringBuffer.append(" (");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getId());
+            stringBuffer.append(")");
+        }
+
+        return stringBuffer.toString();
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
