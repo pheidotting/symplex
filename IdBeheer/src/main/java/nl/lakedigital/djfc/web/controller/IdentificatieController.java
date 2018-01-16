@@ -123,20 +123,19 @@ public class IdentificatieController {
 
 
     protected Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        Long ingelogdeGebruiker = Long.valueOf(httpServletRequest.getHeader("ingelogdeGebruiker"));
-
-        return ingelogdeGebruiker;
+        String ig = httpServletRequest.getHeader("ingelogdeGebruiker");
+        if (ig != null) {
+            return Long.valueOf(ig);
+        } else {
+            return null;
+        }
     }
 
     protected String getIngelogdeGebruikerOpgemaakt(HttpServletRequest httpServletRequest) {
-        String ingelogdeGebruikerOpgemaakt = httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
-
-        return ingelogdeGebruikerOpgemaakt;
+        return httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
-
-        return tati;
+        return httpServletRequest.getHeader("trackAndTraceId");
     }
 }
