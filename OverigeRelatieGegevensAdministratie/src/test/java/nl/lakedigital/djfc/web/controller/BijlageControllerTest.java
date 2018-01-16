@@ -144,7 +144,7 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
 
         replayAll();
 
-        OpvragenBijlagesResponse real = bijlageController.lees(id);
+        OpvragenBijlagesResponse real = bijlageController.lees(id, null);
 
         assertThat(real.getBijlages(), is(response.getBijlages()));
 
