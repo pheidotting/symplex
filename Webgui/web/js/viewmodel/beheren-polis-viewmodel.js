@@ -11,11 +11,10 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
-        'viewmodel/common/taak-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, taakViewModel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
 
     return function() {
         var _this = this;
@@ -94,7 +93,6 @@ define(['jquery',
                 } else {
                     bedrijfId = _this.basisId;
                 }
-                _this.taakModel             = new taakViewModel(false, soortEntiteit, polisId, relatieId, bedrijfId);
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
                 zoekVoertuigGegevens(_this);
