@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -34,7 +35,9 @@ public class TelefoonnummerController extends AbstractController<Telefoonnummer,
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenTelefoonnummersResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+    public OpvragenTelefoonnummersResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
 
         List<Telefoonnummer> domainEntiteiten = getService().alles(SoortEntiteit.valueOf(soortentiteit), parentid);
@@ -49,7 +52,9 @@ public class TelefoonnummerController extends AbstractController<Telefoonnummer,
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenTelefoonnummersResponse zoeken(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenTelefoonnummersResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
 
         OpvragenTelefoonnummersResponse opvragenTelefoonnummersResponse = new OpvragenTelefoonnummersResponse();

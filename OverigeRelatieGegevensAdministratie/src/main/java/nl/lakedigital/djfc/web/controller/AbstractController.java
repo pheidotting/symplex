@@ -53,9 +53,9 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{soortentiteit}/{parentid}")
     @ResponseBody
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
-        logger.debug("Verwijderen entiteiten {} bij {} en {}", domainType, soortentiteit, parentid);
-
         zetSessieWaarden(httpServletRequest);
+
+        logger.debug("Verwijderen entiteiten {} bij {} en {}", domainType, soortentiteit, parentid);
 
         getService().verwijderen(SoortEntiteit.valueOf(soortentiteit), parentid);
     }
