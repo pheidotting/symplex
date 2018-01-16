@@ -63,8 +63,10 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         Long ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
+        String ingelogdeGebruikerOpgemaakt = getIngelogdeGebruikerOpgemaakt(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
+        MDC.put("ingelogdeGebruikerOpgemaakt", ingelogdeGebruikerOpgemaakt + "");
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -78,6 +80,12 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
         logger.debug("Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
 
         return ingelogdeGebruiker;
+    }
+
+    protected String getIngelogdeGebruikerOpgemaakt(HttpServletRequest httpServletRequest) {
+        String ingelogdeGebruikerOpgemaakt = httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
+
+        return ingelogdeGebruikerOpgemaakt;
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
