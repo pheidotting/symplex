@@ -11,10 +11,11 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
+        'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
 
     return function() {
         var _this = this;
