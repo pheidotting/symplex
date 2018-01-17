@@ -76,20 +76,24 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
 
     protected Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        Long ingelogdeGebruiker = Long.valueOf(httpServletRequest.getHeader("ingelogdeGebruiker"));
-        logger.debug("Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
+        String ig = httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruiker");
+        Long ingelogdeGebruiker = null;
+        if (ig != null) {
+            ingelogdeGebruiker = Long.valueOf(ig);
+            logger.debug("Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
 
+        }
         return ingelogdeGebruiker;
     }
 
     protected String getIngelogdeGebruikerOpgemaakt(HttpServletRequest httpServletRequest) {
-        String ingelogdeGebruikerOpgemaakt = httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
+        String ingelogdeGebruikerOpgemaakt = httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
 
         return ingelogdeGebruikerOpgemaakt;
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
+        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("trackAndTraceId");
         logger.debug("Track And Trace Id : {}", tati);
 
         return tati;
