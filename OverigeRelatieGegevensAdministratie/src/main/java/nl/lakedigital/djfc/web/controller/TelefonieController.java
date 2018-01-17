@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class TelefonieController {
 
     @RequestMapping("/recordings")
     @ResponseBody
-    public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers) {
+    public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers, HttpServletRequest httpServletRequest) {
         LOGGER.debug("Ophalen gesprekken met telefoonnummers {}", telefoonnummers);
 
         Map<String, List<JsonTelefonieBestand>> ret = new HashMap<>();

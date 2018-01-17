@@ -40,6 +40,7 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
             if (ontvangenObject.getTrackAndTraceId() != null) {
                 MDC.put("trackAndTraceId", ontvangenObject.getTrackAndTraceId());
             }
+            MDC.put("ingelogdeGebruikerOpgemaakt", ontvangenObject.getIngelogdeGebruikerOpgemaakt());
 
             SessieHolder.get().setIngelogdeGebruiker(ontvangenObject.getIngelogdeGebruiker());
             SessieHolder.get().setTrackAndTraceId(ontvangenObject.getTrackAndTraceId());

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -41,7 +42,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenAdressenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+    public OpvragenAdressenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
 
         List<Adres> domainEntiteiten = getService().alles(SoortEntiteit.valueOf(soortentiteit), parentid);
@@ -56,7 +59,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenAdressenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenAdressenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoeken met zoekterm {}", zoekTerm, Adres.class);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -70,7 +75,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpAdres/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenAdressenResponse zoekOpAdres(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenAdressenResponse zoekOpAdres(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoek op adres {}, {}", zoekTerm);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -84,7 +91,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpPostcode/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenAdressenResponse zoekOpPostcode(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenAdressenResponse zoekOpPostcode(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoek op adres {}", zoekTerm);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -98,7 +107,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpPlaats/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenAdressenResponse zoekOpPlaats(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenAdressenResponse zoekOpPlaats(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoek op adres {}", zoekTerm);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -112,7 +123,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
-    public OpvragenAdressenResponse lees(@PathVariable Long id) {
+    public OpvragenAdressenResponse lees(@PathVariable Long id, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
 
         opvragenAdressenResponse.setAdressen(newArrayList(mapper.map(adresService.lees(id), JsonAdres.class)));
@@ -122,7 +135,9 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleAdressenBijLijstMetEntiteiten")
     @ResponseBody
-    public OpvragenAdressenResponse alleAdressenBijLijstMetEntiteiten(@RequestParam("soortEntiteit") String soortEntiteit, @RequestParam("lijst") List<Long> ids) {
+    public OpvragenAdressenResponse alleAdressenBijLijstMetEntiteiten(@RequestParam("soortEntiteit") String soortEntiteit, @RequestParam("lijst") List<Long> ids, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
 
         List<Adres> adressen = adresService.alleAdressenBijLijstMetEntiteiten(ids, SoortEntiteit.valueOf(soortEntiteit));
@@ -139,8 +154,11 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode/{postcode}/{huisnummer}/{toggle}")
     @ResponseBody
-    public OpvragenAdressenResponse ophalenAdresOpPostcode(@PathVariable("postcode") String postcode, @PathVariable("huisnummer") String huisnummer, @PathVariable("toggle") boolean toggle) {
+    public OpvragenAdressenResponse ophalenAdresOpPostcode(@PathVariable("postcode") String postcode, @PathVariable("huisnummer") String huisnummer, @PathVariable("toggle") boolean toggle, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Toggle is {}", toggle);
+
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
         if (!toggle) {
             String adres = "https://postcode-api.apiwise.nl/v2/addresses/?postcode=" + postcode + "&number=" + huisnummer;

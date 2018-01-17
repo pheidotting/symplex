@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 public abstract class AbstractMessage {
     private String trackAndTraceId;
     private Long ingelogdeGebruiker;
+    private String ingelogdeGebruikerOpgemaakt;
     private AbstractMessage antwoordOp;
 
     public String getTrackAndTraceId() {
@@ -44,6 +45,14 @@ public abstract class AbstractMessage {
 
     public void setIngelogdeGebruiker(Long ingelogdeGebruiker) {
         this.ingelogdeGebruiker = ingelogdeGebruiker;
+    }
+
+    public String getIngelogdeGebruikerOpgemaakt() {
+        return ingelogdeGebruikerOpgemaakt;
+    }
+
+    public void setIngelogdeGebruikerOpgemaakt(String ingelogdeGebruikerOpgemaakt) {
+        this.ingelogdeGebruikerOpgemaakt = ingelogdeGebruikerOpgemaakt;
     }
 
     public AbstractMessage getAntwoordOp() {

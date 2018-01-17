@@ -106,6 +106,7 @@ public class KibanaEventsBuffer {
                 this.logLevel = event.getLevel().toString();
             }
             this.ingelogdeGebruiker = ingelogdeGebruiker;
+            this.ingelogdeGebruikerOpgemaakt = ingelogdeGebruikerOpgemaakt;
             this.trackAndTraceId = trackAndTraceId;
 
             Layout timestampLayout = new PatternLayout("%d{ISO8601}");

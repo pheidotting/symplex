@@ -47,7 +47,7 @@ public class JWTFilter implements Filter {
 
                 if (token != null) {
                     try {
-                        LOGGER.debug("Evaluating token {}", token);
+                        LOGGER.trace("Evaluating token {}", token);
                         // Validate the token
                         try {
                             DecodedJWT decodedJWT = JWT.decode(token);
