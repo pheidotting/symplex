@@ -28,8 +28,12 @@ public class KibanaEventsBuffer {
         }
 
         String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
+        Long ig = null;
+        if (ingelogdeGebruiker != null) {
+            ig = Long.valueOf(ingelogdeGebruiker);
+        }
 
-        events.add(new KibanaEvent(event, loggingEvent, ingelogdeGebruiker == null ? null : Long.valueOf(ingelogdeGebruiker), MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), applicatie, omgeving));
+        events.add(new KibanaEvent(event, loggingEvent, ig, MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), applicatie, omgeving));
 
         if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
             flush(token);
