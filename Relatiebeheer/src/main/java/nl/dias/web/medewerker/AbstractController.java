@@ -29,7 +29,10 @@ public abstract class AbstractController {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
         MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
-        MDC.put("url", getUrl(httpServletRequest));
+        String url = getUrl(httpServletRequest);
+        if (url != null) {
+            MDC.put("url", url);
+        }
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
