@@ -29,7 +29,7 @@ public class KibanaEventsBuffer {
 
         String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
         Long ig = null;
-        if (ingelogdeGebruiker != null) {
+        if (ingelogdeGebruiker != null && !"null".equals(ingelogdeGebruiker)) {
             ig = Long.valueOf(ingelogdeGebruiker);
         }
 
