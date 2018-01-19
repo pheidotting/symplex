@@ -113,9 +113,11 @@ public class IdentificatieController {
         Long ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         String ingelogdeGebruikerOpgemaakt = getIngelogdeGebruikerOpgemaakt(httpServletRequest);
+        String url = getUrl(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
         MDC.put("ingelogdeGebruikerOpgemaakt", ingelogdeGebruikerOpgemaakt + "");
+        MDC.put("url", url + "");
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -137,5 +139,9 @@ public class IdentificatieController {
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
         return httpServletRequest.getHeader("trackAndTraceId");
+    }
+
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("url");
     }
 }

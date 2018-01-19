@@ -29,6 +29,7 @@ public abstract class AbstractController {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
         MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
+        MDC.put("url", getUrl(httpServletRequest));
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -90,9 +91,10 @@ public abstract class AbstractController {
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
-        LOGGER.debug("DJFC Track And Trace Id : {}", tati);
+        return httpServletRequest.getHeader("trackAndTraceId");
+    }
 
-        return tati;
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("url");
     }
 }
