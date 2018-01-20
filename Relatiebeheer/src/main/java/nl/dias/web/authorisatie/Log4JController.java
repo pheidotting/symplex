@@ -12,11 +12,10 @@ import javax.ws.rs.FormParam;
 @RequestMapping("/log4j")
 @Controller
 public class Log4JController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Log4JController.class);
-
     @RequestMapping(method = RequestMethod.POST, value = "/log4javascript")
     @ResponseBody
     public void log4javascript(@FormParam("logger") String logger, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout) {
+        final Logger LOGGER = LoggerFactory.getLogger(logger);
 
         if ("debug".equalsIgnoreCase(level)) {
             LOGGER.debug("URL {}, Message {}", url, message);
