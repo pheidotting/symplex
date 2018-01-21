@@ -77,6 +77,9 @@ define(['jquery',
 
                     _this.jaarrekeningen.push(jaarrekeningen);
                 });
+                _this.jaarrekeningen = _.sortBy(_this.jaarrekeningen, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.ibs, function(i, b){
                     var ibs = {};
@@ -94,6 +97,9 @@ define(['jquery',
                     });
 
                     _this.ibs.push(ibs);
+                });
+                _this.ibs = _.sortBy(_this.ibs, function(i){
+                    return i.jaartal();
                 });
 
                 $.each(data.belastingzaken.btws, function(i, b){
@@ -113,6 +119,9 @@ define(['jquery',
 
                     _this.btw.push(btw);
                 });
+                _this.btw = _.sortBy(_this.btw, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.loonbelastingen, function(i, b){
                     var loonbelastingen = {};
@@ -130,6 +139,9 @@ define(['jquery',
                     });
 
                     _this.loonbelastingen.push(loonbelastingen);
+                });
+                _this.loonbelastingen = _.sortBy(_this.loonbelastingen, function(i){
+                    return i.jaartal();
                 });
 
                 $.each(data.belastingzaken.overigen, function(i, b){
@@ -149,91 +161,13 @@ define(['jquery',
 
                     _this.overigen.push(overigen);
                 });
+                _this.overigen = _.sortBy(_this.overigen, function(i){
+                    return i.jaartal();
+                });
 
-
-//                var bijlages
-//                var groepenBijlages
-//                Jaarrekening
-//
-//                var bijlages
-//                var groepenBijlages
-//                IB
-//
-//                var bijlages
-//                var groepenBijlages
-//                Btw
-//
-//                var bijlages
-//                var groepenBijlages
-//                Loonbelasting
-//
-//                var bijlages
-//                var groepenBijlages
-//                Overig
-
-//                var hypotheek = _.find(data.hypotheken, function(hypotheek) {return hypotheek.identificatie === hypotheekId.identificatie;});
-//                if(hypotheek == null){
-//                    hypotheek = {
-//                        'opmerkingen' : [],
-//                        'bijlages' : [],
-//                        'groepBijlages' : []
-//                    }
-//                }
-//
-//                _this.hypotheek = hypotheekMapper.mapHypotheek(hypotheek, lijstSoortenHypotheek);
-//
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
-//                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
-//                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
 
-//				if(alleHypotheken.length > 0){
-//					var $koppelHypotheekSelect = $('#koppelHypotheek');
-//					$('<option>', { value : '' }).text('Kies evt. een hypotheek om mee te koppelen...').appendTo($koppelHypotheekSelect);
-//					$.each(alleHypotheken, function(key, value) {
-//						if(value.id != hypotheekId){
-//						    var hypo = hypotheekMapper.mapHypotheek(value, lijstSoortenHypotheek);
-//						    var selected = '';
-//						    if(hypotheek.hypotheekPakket == value.hypotheekPakket) {
-//						        selected = ' selected="selected"';
-//						    }
-//							$('<option' + selected + ' value="' + parseInt(value.id) + '">').text(hypo.titel()).appendTo($koppelHypotheekSelect);
-//						}
-//					});
-//				}else{
-//					$('#gekoppeldeHypotheekGroep').hide();
-//				}
-
-//                var $hypotheekVormSelect = $('#hypotheekVorm');
-//                $('<option>', { value : '' }).text('Kies een soort hypotheek uit de lijst...').appendTo($hypotheekVormSelect);
-//                $.each(lijstSoortenHypotheek, function(key, value) {
-//                    $('<option>', { value : value.id }).text(value.omschrijving).appendTo($hypotheekVormSelect);
-//                });
-//
-//                toggleService.isFeatureBeschikbaar('TODOIST').done(function(toggleBeschikbaar){
-//                    if(toggleBeschikbaar) {
-//                        var relatieId;
-//                        var bedrijfId;
-//                        if(_this.basisEntiteit == 'RELATIE'){
-//                            relatieId = _this.basisId;
-//                        } else {
-//                            bedrijfId = _this.basisId;
-//                        }
-//
-//                        _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
-//                    }
-//
-//                    _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
-//                    _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
-//                    _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
-//                    _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
-//                    _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
-//                    _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
-//                    _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
-//                    _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
-//                    _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
-//
-                    return deferred.resolve();
-//                });
+                return deferred.resolve();
             });
 
             this.toonOfVerberg = function(a) {
@@ -250,6 +184,13 @@ define(['jquery',
                 }
             };
 
+            this.toonOfVerbergHoofd = function(a) {
+                if($('#' + a).is(':visible')) {
+                    $('#' + a).hide();
+                } else {
+                    $('#' + a).show();
+                }
+            };
 
             return deferred.promise();
         };

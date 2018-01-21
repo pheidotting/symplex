@@ -216,6 +216,14 @@ public class RelatieController extends AbstractController {
         btw3.getBijlages().add(maakBijlage("btw"));
         btw3.setJaartal(2017);
         belastingzaken.getBtws().add(btw3);
+        Btw btw4 = new Btw();
+        btw4.getBijlages().add(maakBijlage("btw"));
+        btw4.setJaartal(2014);
+        belastingzaken.getBtws().add(btw4);
+        Btw btw5 = new Btw();
+        btw5.getBijlages().add(maakBijlage("btw"));
+        btw5.setJaartal(2013);
+        belastingzaken.getBtws().add(btw5);
 
         Jaarrekening jaarrekening1 = new Jaarrekening();
         jaarrekening1.getBijlages().add(maakBijlage("jaarrekening"));
@@ -242,6 +250,14 @@ public class RelatieController extends AbstractController {
         ib3.getBijlages().add(maakBijlage("ib"));
         ib3.setJaartal(2017);
         belastingzaken.getIbs().add(ib3);
+        IB ib4 = new IB();
+        ib4.getBijlages().add(maakBijlage("ib"));
+        ib4.setJaartal(2014);
+        belastingzaken.getIbs().add(ib4);
+        IB ib5 = new IB();
+        ib5.getBijlages().add(maakBijlage("ib"));
+        ib5.setJaartal(2013);
+        belastingzaken.getIbs().add(ib5);
 
         Loonbelasting loonbelasting1 = new Loonbelasting();
         loonbelasting1.getBijlages().add(maakBijlage("loonbelasting"));
