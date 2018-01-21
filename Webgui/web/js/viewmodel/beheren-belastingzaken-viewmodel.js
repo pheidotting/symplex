@@ -6,6 +6,7 @@ define(['jquery',
         'opmerkingenModel',
         'mapper/hypotheek-mapper',
         'service/gebruiker-service',
+        'service/belastingzaken-service',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
@@ -16,7 +17,7 @@ define(['jquery',
         'mapper/groepbijlage-mapper',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel, bijlageMapper, groepbijlageMapper) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel, bijlageMapper, groepbijlageMapper) {
 
     return function() {
         var _this = this;
@@ -47,7 +48,10 @@ define(['jquery',
             _this.notReadOnly(!readOnly);
             _this.basisEntiteit = basisEntiteit;
             _this.id(id.identificatie);
-            $.when(gebruikerService.leesRelatie(_this.id(), basisEntiteit)).then(function(data) {
+            console.log(_this.id());
+            $.when(belastingzakenService.lees(_this.id())).then(function(result) {
+                var data = result.data;
+                _this.basisEntiteit = data.soort;
                 _this.basisId = data.identificatie;
 
                 _this.contracten.bijlages = ko.observableArray();
