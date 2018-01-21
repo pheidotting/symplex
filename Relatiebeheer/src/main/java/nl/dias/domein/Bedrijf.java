@@ -1,16 +1,12 @@
 package nl.dias.domein;
 
-import com.google.common.collect.Sets;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.envers.Audited;
-import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Audited
 @Entity
@@ -51,14 +47,6 @@ public class Bedrijf implements Serializable {
     @Column(name = "CAOVERPLICHTINGEN")
     private String cAoVerplichtingen;
 
-    @NotAudited
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "bedrijf")
-    private Set<JaarCijfers> jaarCijfers;
-
-    @NotAudited
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "bedrijf")
-    private Set<RisicoAnalyse> risicoAnalyses;
-
     public Long getId() {
         return id;
     }
@@ -89,28 +77,6 @@ public class Bedrijf implements Serializable {
 
     public void setKvk(String kvk) {
         this.kvk = kvk;
-    }
-
-    public Set<JaarCijfers> getJaarCijfers() {
-        if (jaarCijfers == null) {
-            jaarCijfers = Sets.newHashSet();
-        }
-        return jaarCijfers;
-    }
-
-    public void setJaarCijfers(Set<JaarCijfers> jaarCijfers) {
-        this.jaarCijfers = jaarCijfers;
-    }
-
-    public Set<RisicoAnalyse> getRisicoAnalyses() {
-        if (risicoAnalyses == null) {
-            risicoAnalyses = new HashSet<>();
-        }
-        return risicoAnalyses;
-    }
-
-    public void setRisicoAnalyses(Set<RisicoAnalyse> risicoAnalyses) {
-        this.risicoAnalyses = risicoAnalyses;
     }
 
     public String getRechtsvorm() {
