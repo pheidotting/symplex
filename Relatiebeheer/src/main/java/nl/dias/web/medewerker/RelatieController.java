@@ -8,6 +8,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +63,8 @@ public class RelatieController extends AbstractController {
     private SchadeMapper schadeMapper;
     @Inject
     private HypotheekService hypotheekService;
+    @Inject
+    private BelastingzakenService belastingzakenService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -185,7 +188,19 @@ public class RelatieController extends AbstractController {
                 }).collect(Collectors.toList()));
             }
 
-            relatie.setBelastingzaken(maakBelastingzaken());
+            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.RELATIE, relatieDomain.getId());
+
+            Belastingzaken belastingzaken = new Belastingzaken();
+
+            for (nl.dias.domein.Belastingzaken bz : bzLijst) {
+                if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.IB) {
+                    belastingzaken.getIbs().add(mapIb(bz));
+                } else if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.OVERIG) {
+                    belastingzaken.getOverigen().add(mapOverig(bz));
+                }
+            }
+
+            relatie.setBelastingzaken(belastingzaken);
         } catch (Exception e) {
             LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
@@ -197,105 +212,24 @@ public class RelatieController extends AbstractController {
         return relatie;
     }
 
-    private Belastingzaken maakBelastingzaken() {
-        Belastingzaken belastingzaken = new Belastingzaken();
+    private IB mapIb(nl.dias.domein.Belastingzaken belastingzaken) {
+        IB ib = new IB();
 
-        Contracten contracten = new Contracten();
-        contracten.getBijlages().add(maakBijlage("Voorbeeld Contract"));
-        belastingzaken.setContracten(contracten);
+        ib.setJaartal(belastingzaken.getJaar());
+        ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
 
-        Btw btw1 = new Btw();
-        btw1.getBijlages().add(maakBijlage("btw"));
-        btw1.setJaartal(2015);
-        belastingzaken.getBtws().add(btw1);
-        Btw btw2 = new Btw();
-        btw2.getBijlages().add(maakBijlage("btw"));
-        btw2.setJaartal(2016);
-        belastingzaken.getBtws().add(btw2);
-        Btw btw3 = new Btw();
-        btw3.getBijlages().add(maakBijlage("btw"));
-        btw3.setJaartal(2017);
-        belastingzaken.getBtws().add(btw3);
-        Btw btw4 = new Btw();
-        btw4.getBijlages().add(maakBijlage("btw"));
-        btw4.setJaartal(2014);
-        belastingzaken.getBtws().add(btw4);
-        Btw btw5 = new Btw();
-        btw5.getBijlages().add(maakBijlage("btw"));
-        btw5.setJaartal(2013);
-        belastingzaken.getBtws().add(btw5);
-
-        Jaarrekening jaarrekening1 = new Jaarrekening();
-        jaarrekening1.getBijlages().add(maakBijlage("jaarrekening"));
-        jaarrekening1.setJaartal(2015);
-        belastingzaken.getJaarrekeningen().add(jaarrekening1);
-        Jaarrekening jaarrekening2 = new Jaarrekening();
-        jaarrekening2.getBijlages().add(maakBijlage("jaarrekening"));
-        jaarrekening2.setJaartal(2016);
-        belastingzaken.getJaarrekeningen().add(jaarrekening2);
-        Jaarrekening jaarrekening3 = new Jaarrekening();
-        jaarrekening3.getBijlages().add(maakBijlage("jaarrekening"));
-        jaarrekening3.setJaartal(2017);
-        belastingzaken.getJaarrekeningen().add(jaarrekening3);
-
-        IB ib1 = new IB();
-        ib1.getBijlages().add(maakBijlage("ib"));
-        ib1.setJaartal(2015);
-        belastingzaken.getIbs().add(ib1);
-        IB ib2 = new IB();
-        ib2.getBijlages().add(maakBijlage("ib"));
-        ib2.setJaartal(2016);
-        belastingzaken.getIbs().add(ib2);
-        IB ib3 = new IB();
-        ib3.getBijlages().add(maakBijlage("ib"));
-        ib3.setJaartal(2017);
-        belastingzaken.getIbs().add(ib3);
-        IB ib4 = new IB();
-        ib4.getBijlages().add(maakBijlage("ib"));
-        ib4.setJaartal(2014);
-        belastingzaken.getIbs().add(ib4);
-        IB ib5 = new IB();
-        ib5.getBijlages().add(maakBijlage("ib"));
-        ib5.setJaartal(2013);
-        belastingzaken.getIbs().add(ib5);
-
-        Loonbelasting loonbelasting1 = new Loonbelasting();
-        loonbelasting1.getBijlages().add(maakBijlage("loonbelasting"));
-        loonbelasting1.setJaartal(2015);
-        belastingzaken.getLoonbelastingen().add(loonbelasting1);
-        Loonbelasting loonbelasting2 = new Loonbelasting();
-        loonbelasting2.getBijlages().add(maakBijlage("loonbelasting"));
-        loonbelasting2.setJaartal(2016);
-        belastingzaken.getLoonbelastingen().add(loonbelasting2);
-        Loonbelasting loonbelasting3 = new Loonbelasting();
-        loonbelasting3.getBijlages().add(maakBijlage("loonbelasting"));
-        loonbelasting3.setJaartal(2017);
-        belastingzaken.getLoonbelastingen().add(loonbelasting3);
-
-        Overig overig1 = new Overig();
-        overig1.getBijlages().add(maakBijlage("overig"));
-        overig1.setJaartal(2015);
-        belastingzaken.getOverigen().add(overig1);
-        Overig overig2 = new Overig();
-        overig2.getBijlages().add(maakBijlage("overig"));
-        overig2.setJaartal(2016);
-        belastingzaken.getOverigen().add(overig2);
-        Overig overig3 = new Overig();
-        overig3.getBijlages().add(maakBijlage("overig"));
-        overig3.setJaartal(2017);
-        belastingzaken.getOverigen().add(overig3);
-
-        return belastingzaken;
+        return ib;
     }
 
-    private Bijlage maakBijlage(String naam) {
-        Bijlage bijlage = new Bijlage();
+    private Overig mapOverig(nl.dias.domein.Belastingzaken belastingzaken) {
+        Overig overig = new Overig();
 
-        bijlage.setBestandsNaam(naam);
-        bijlage.setOmschrijving(naam);
-        bijlage.setDatumUpload("2017-07-31T17:21:00");
-        bijlage.setIdentificatie("4f744219-75d1-47d4-bcb6-28dfae662c39");
+        overig.setJaartal(belastingzaken.getJaar());
+        overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
 
-        return bijlage;
+        return overig;
     }
+
 }

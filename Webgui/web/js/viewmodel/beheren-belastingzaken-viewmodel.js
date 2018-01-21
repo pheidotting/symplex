@@ -55,14 +55,16 @@ define(['jquery',
                 _this.basisId = data.identificatie;
 
                 _this.contracten.bijlages = ko.observableArray();
-                $.each(bijlageMapper.mapBijlages(data.belastingzaken.contracten.bijlages)(), function(i, bijlage){
-                    _this.contracten.bijlages.push(bijlage);
-                });
+                if(data.belastingzaken.contracten != null){
+                    $.each(bijlageMapper.mapBijlages(data.belastingzaken.contracten.bijlages)(), function(i, bijlage){
+                        _this.contracten.bijlages.push(bijlage);
+                    });
 
-                _this.contracten.groepBijlages = ko.observableArray();
-                $.each(groepbijlageMapper.mapGroepbijlages(data.belastingzaken.contracten.groepBijlages)(), function(i, groepbijlage){
-                    _this.contracten.groepBijlages.push(groepbijlage);
-                });
+                    _this.contracten.groepBijlages = ko.observableArray();
+                    $.each(groepbijlageMapper.mapGroepbijlages(data.belastingzaken.contracten.groepBijlages)(), function(i, groepbijlage){
+                        _this.contracten.groepBijlages.push(groepbijlage);
+                    });
+                }
 
                 $.each(data.belastingzaken.jaarrekeningen, function(i, b){
                     var jaarrekeningen = {};
