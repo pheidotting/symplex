@@ -214,6 +214,8 @@ public class BedrijfController extends AbstractController {
                     belastingzaken.getJaarrekeningen().add(mapJaarrekeningen(bz));
                 }
             }
+
+            bedrijf.setBelastingzaken(belastingzaken);
         } catch (Exception e) {
             LOGGER.error("Fout bij lezen Bedrijf {} - {}", e.getMessage(), e.getStackTrace());
             throw e;
@@ -227,6 +229,7 @@ public class BedrijfController extends AbstractController {
 
         contracten.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         contracten.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        contracten.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return contracten;
     }
@@ -237,6 +240,7 @@ public class BedrijfController extends AbstractController {
         ib.setJaartal(belastingzaken.getJaar());
         ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return ib;
     }
@@ -247,6 +251,7 @@ public class BedrijfController extends AbstractController {
         overig.setJaartal(belastingzaken.getJaar());
         overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return overig;
     }
@@ -257,6 +262,7 @@ public class BedrijfController extends AbstractController {
         btw.setJaartal(belastingzaken.getJaar());
         btw.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         btw.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        btw.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return btw;
     }
@@ -267,6 +273,7 @@ public class BedrijfController extends AbstractController {
         loonbelasting.setJaartal(belastingzaken.getJaar());
         loonbelasting.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         loonbelasting.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        loonbelasting.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return loonbelasting;
     }
@@ -277,6 +284,7 @@ public class BedrijfController extends AbstractController {
         jaarrekening.setJaartal(belastingzaken.getJaar());
         jaarrekening.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         jaarrekening.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        jaarrekening.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return jaarrekening;
     }

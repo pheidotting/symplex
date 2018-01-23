@@ -9,6 +9,7 @@ public class Btw {
     private int jaartal;
     private List<Bijlage> bijlages;
     private List<GroepBijlages> groepBijlages = newArrayList();
+    private String identificatie;
 
     public int getJaartal() {
         return jaartal;
@@ -35,5 +36,13 @@ public class Btw {
 
     public void setGroepBijlages(List<GroepBijlages> groepBijlages) {
         this.groepBijlages = groepBijlages;
+    }
+
+    public String getIdentificatie() {
+        return identificatie;
+    }
+
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
     }
 }

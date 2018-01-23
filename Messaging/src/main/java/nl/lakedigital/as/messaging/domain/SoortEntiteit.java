@@ -4,6 +4,7 @@ public enum SoortEntiteit {
     AANGIFTE, //
     ADRES, //
     BEDRIJF, //
+    BELASTINGZAKEN, //
     BIJLAGE, //
     COMMUNICATIEPRODUCT, //
     CONTACTPERSOON, //

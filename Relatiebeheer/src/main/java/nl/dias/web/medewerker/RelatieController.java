@@ -218,6 +218,7 @@ public class RelatieController extends AbstractController {
         ib.setJaartal(belastingzaken.getJaar());
         ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return ib;
     }
@@ -228,6 +229,7 @@ public class RelatieController extends AbstractController {
         overig.setJaartal(belastingzaken.getJaar());
         overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
 
         return overig;
     }

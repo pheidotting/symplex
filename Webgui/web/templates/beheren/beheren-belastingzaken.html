@@ -2,7 +2,13 @@
     <div class="kolom-2">
         <span data-bind="visible: basisEntiteit == 'BEDRIJF'">
             <h3 class="belastingzaken">Contracten</h3>
-                <div class="form-group" data-bind="foreach: contracten.groepBijlages">
+                <span data-bind="attr: {id: 'contractenopen'}, event: {click: $root.toonOfVerberg}"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+                <span data-bind="attr: {id: 'contractendicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+                <div class="form-group"
+                     data-bind="foreach: contracten.groepBijlages, visible: true, attr: {id: 'groepBijlagescontracten'">
                     <h3 data-bind="text: naam"/>
                     <table class="table">
                         <tr>
@@ -31,7 +37,7 @@
 
                 <div class="form-group">
                     <table class="table">
-                        <tbody data-bind="foreach: contracten.bijlages">
+                        <tbody data-bind="foreach: contracten.bijlages, visible: true, attr: {id: 'bijlagescontracten'">
                         <tr>
                             <td>
                                 <span name="omschrijvingOfBestandsNaam"
@@ -354,19 +360,21 @@
         </div>
     </div>
     <div class="kolom-2">
-        <select>
-            <option>Contracten</option>
-            <option>Jaarrekening</option>
-            <option>IB</option>
-            <option>Btw</option>
-            <option>Loonbelasting</option>
-            <option>Overig</option>
-        </select>
-        <select>
-            <option>2015</option>
-            <option>2016</option>
-            <option>2017</option>
-        </select>
-        <input type="file" id="bijlageFile" name="bijlageFile"/>
+        <form enctype="multipart/form-data" id="fileUploadForm">
+            <input type="hidden" id="identificatie" name="identificatie"/>
+            <input type="hidden" id="soortEntiteit" name="soortEntiteit" value="BELASTINGZAKEN"/>
+            <select id="soort" data-bind="event: {change: bepaalJaren()}">
+                <option></option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Contracten</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Jaarrekening</option>
+                <option>IB</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Btw</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Loonbelasting</option>
+                <option>Overig</option>
+            </select>
+            <select id="jaren" data-bind="visible: toonJaren, event: {change: selecteerJaar()}">
+            </select>
+            <input type="file" id="bijlageFile" name="bijlageFile" data-bind="event: {change: nieuweUpload}"/>
+        </form>
     </div>
 </div>

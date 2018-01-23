@@ -55,19 +55,12 @@ public class BelastingzakenService {
                 List<Integer> benodigdeJaren2 = newArrayList(LocalDate.now().getYear() - 1, LocalDate.now().getYear());
 
                 for (Integer jaar : benodigdeJaren2) {
-                    LOGGER.debug("jaar {}", jaar);
-                    LOGGER.debug("bz.getJaar() {}", bz.getJaar());
-                    LOGGER.debug("bz.getJaar().equals(jaar) {}", bz.getJaar().equals(jaar));
-
                     if (bz2.getJaar().equals(jaar)) {
-                        LOGGER.debug("Remove dus");
                         benodigdeJaren.remove(jaar);
 
-                        LOGGER.debug("-benodigdeJaren {}", benodigdeJaren.size());
                     }
                 }
             }
-            LOGGER.debug("benodigdeJaren {}", benodigdeJaren.size());
 
             for (Integer jaar : benodigdeJaren) {
                 Belastingzaken belastingzakenNieuw = new Belastingzaken();

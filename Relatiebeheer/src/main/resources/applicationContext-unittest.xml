@@ -7,6 +7,7 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <context:component-scan base-package="nl.dias.repository"/>
+    <context:component-scan base-package="nl.dias.messaging"/>
     <context:annotation-config/>
 
     <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init">
