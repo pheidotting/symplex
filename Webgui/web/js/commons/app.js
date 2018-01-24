@@ -13,6 +13,7 @@ requirejs.config({
         text: 'node_modules/requirejs-text/text',
         underscore: 'node_modules/underscore/underscore-min',
         lodash: 'node_modules/lodash/lodash.min',
+        push: 'node_modules/push.js/bin/push.min',
         commons: 'commons',
     	js: 'js',
     	pages: 'pages',

@@ -12,10 +12,20 @@ define(['jquery',
         'service/gebruiker-service',
         'mapper/zoekresultaat-mapper',
         'viewmodel/common/menubalk-viewmodel',
-        'moment'],
-    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, moment) {
+        'moment',
+        'push'],
+    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, moment, Push) {
 
     return function() {
+Push.create("Hello world!", {
+    body: "How's it hangin'?",
+    icon: 'images/logo-djfc-vierkant.jpg',
+    timeout: 10000,
+    onClick: function () {
+        window.focus();
+        this.close();
+    }
+});
         var _this = this;
         var logger = log.getLogger('zoeken-viewmodel');
         var soortEntiteit = '';
