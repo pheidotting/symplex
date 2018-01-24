@@ -139,6 +139,8 @@ public class BijlageController extends AbstractController {
 
         Long id = identificatieClient.zoekIdentificatieCode(identificatie).getEntiteitId();
 
+        LOGGER.debug("Opgehaalde identificatie {}", ReflectionToStringBuilder.toString(id));
+
         List<JsonBijlage> bijlages = uploaden(fileDetail, soortEntiteit, id, httpServletRequest);
 
         if (bijlages.size() > 1) {
