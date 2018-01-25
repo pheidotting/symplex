@@ -26,6 +26,13 @@ Push.create("Hello world!", {
         this.close();
     }
 });
+
+var ws = new WebSocket('ws://localhost:8080/dejonge/rest/authorisatie/versies/pushNieuweVersie' );
+
+ws.onmessage = function (data){
+  console.log(data);
+};
+
         var _this = this;
         var logger = log.getLogger('zoeken-viewmodel');
         var soortEntiteit = '';

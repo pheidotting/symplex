@@ -14,6 +14,7 @@ requirejs.config({
         underscore: 'node_modules/underscore/underscore-min',
         lodash: 'node_modules/lodash/lodash.min',
         push: 'node_modules/push.js/bin/push.min',
+//        websocket: 'node_modules/ws/lib/websocket',
         commons: 'commons',
     	js: 'js',
     	pages: 'pages',

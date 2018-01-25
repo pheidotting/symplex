@@ -22,6 +22,7 @@
     "font-awesome": "4.7.0",
     "lodash": "4.17.4",
     "jquery.complexify": "0.5.2",
-    "push.js": "1.0.5"
+    "push.js": "1.0.5",
+    "ws": "4.0.0"
   }
 }
