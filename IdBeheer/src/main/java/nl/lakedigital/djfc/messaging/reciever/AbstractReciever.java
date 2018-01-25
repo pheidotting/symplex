@@ -3,6 +3,7 @@ package nl.lakedigital.djfc.messaging.reciever;
 import nl.lakedigital.as.messaging.AbstractMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 
 import javax.jms.*;
 import javax.xml.bind.JAXBContext;
@@ -32,6 +33,10 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
 
             T ontvangenObject = (T) jaxbUnmarshaller.unmarshal(new StringReader(((TextMessage) message).getText()));
 
+            MDC.put("trackAndTraceId", ontvangenObject.getTrackAndTraceId());
+            MDC.put("ingelogdeGebruiker", String.valueOf(ontvangenObject.getIngelogdeGebruiker()));
+            MDC.put("ingelogdeGebruikerOpgemaakt", ontvangenObject.getIngelogdeGebruikerOpgemaakt());
+            MDC.put("url", ontvangenObject.getUrl());
 
             replyTo = message.getJMSReplyTo();
 

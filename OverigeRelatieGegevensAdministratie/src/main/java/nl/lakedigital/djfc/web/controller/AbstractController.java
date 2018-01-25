@@ -53,9 +53,9 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{soortentiteit}/{parentid}")
     @ResponseBody
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
-        logger.debug("Verwijderen entiteiten {} bij {} en {}", domainType, soortentiteit, parentid);
-
         zetSessieWaarden(httpServletRequest);
+
+        logger.debug("Verwijderen entiteiten {} bij {} en {}", domainType, soortentiteit, parentid);
 
         getService().verwijderen(SoortEntiteit.valueOf(soortentiteit), parentid);
     }
@@ -63,8 +63,12 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         Long ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
+        String ingelogdeGebruikerOpgemaakt = getIngelogdeGebruikerOpgemaakt(httpServletRequest);
+        String url = getUrl(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
+        MDC.put("ingelogdeGebruikerOpgemaakt", ingelogdeGebruikerOpgemaakt + "");
+        MDC.put("url", url + "");
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -74,15 +78,30 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
 
     protected Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        Long ingelogdeGebruiker = Long.valueOf(httpServletRequest.getHeader("ingelogdeGebruiker"));
-        logger.debug("Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
+        String ig = httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruiker");
+        Long ingelogdeGebruiker = null;
+        if (ig != null) {
+            ingelogdeGebruiker = Long.valueOf(ig);
+            logger.debug("Ingelogde Gebruiker opgehaald : {}", ingelogdeGebruiker);
 
+        }
         return ingelogdeGebruiker;
     }
 
+    protected String getIngelogdeGebruikerOpgemaakt(HttpServletRequest httpServletRequest) {
+        String ingelogdeGebruikerOpgemaakt = httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
+
+        return ingelogdeGebruikerOpgemaakt;
+    }
+
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
-        logger.debug("Track And Trace Id : {}", tati);
+        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("trackAndTraceId");
+
+        return tati;
+    }
+
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("url");
 
         return tati;
     }

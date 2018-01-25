@@ -8,6 +8,7 @@ import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.symplex.test.builders.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class TestSymplex {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSymplex.class);
 

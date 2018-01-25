@@ -90,14 +90,17 @@ td.overzicht {
     border-right: 2px solid #ffffff;
 }
 
-td.polisNummer {
+td.maatschappij {
     width: 300px;
+}
+td.polisNummer {
+    width: 225px;
 }
 td.status {
     width: 150px;
 }
 td.soort {
-    width: 200px;
+    width: 175px;
 }
 td.kenmerk {
     width: 300px;
