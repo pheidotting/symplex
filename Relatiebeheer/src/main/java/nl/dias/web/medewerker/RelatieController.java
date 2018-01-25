@@ -213,12 +213,12 @@ public class RelatieController extends AbstractController {
                 }).collect(Collectors.toList()));
             }
         } catch (Exception e) {
-            LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
-            throw e;
+            LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
+            return new Relatie();
         }
 
         if (relatie == null) {
-            throw new RuntimeException();
+            return new Relatie();
         }
         return relatie;
     }
