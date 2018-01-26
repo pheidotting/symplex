@@ -96,7 +96,7 @@ public class KibanaEventsBuffer {
         private String message;
         private String logLevel;
         private String timestamp;
-        private String javaClass;
+        private String filename;
         private String lineNumber;
         private Long ingelogdeGebruiker;
         private String ingelogdeGebruikerOpgemaakt;
@@ -119,10 +119,11 @@ public class KibanaEventsBuffer {
             Layout lineNumberLayout = new PatternLayout("%L");
 
             this.timestamp = timestampLayout.format(event);
-            this.javaClass = javaClassLayout.format(event);
+            this.filename = javaClassLayout.format(event);
             this.lineNumber = lineNumberLayout.format(event);
             this.applicatie = applicatie;
             this.omgeving = omgeving;
+            this.url = url;
         }
 
         public String getMessage() {
@@ -149,13 +150,6 @@ public class KibanaEventsBuffer {
             this.timestamp = timestamp;
         }
 
-        public String getJavaClass() {
-            return javaClass;
-        }
-
-        public void setJavaClass(String javaClass) {
-            this.javaClass = javaClass;
-        }
 
         public String getLineNumber() {
             return lineNumber;
