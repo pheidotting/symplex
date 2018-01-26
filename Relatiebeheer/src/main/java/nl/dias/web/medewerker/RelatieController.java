@@ -9,9 +9,8 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.response.Relatie;
-import nl.lakedigital.djfc.domain.response.Telefoongesprek;
-import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -65,6 +64,8 @@ public class RelatieController extends AbstractController {
     private SchadeMapper schadeMapper;
     @Inject
     private HypotheekService hypotheekService;
+    @Inject
+    private BelastingzakenService belastingzakenService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -135,7 +136,6 @@ public class RelatieController extends AbstractController {
                         relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
                     }
                 }
-
 
                 List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
                 relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
@@ -212,6 +212,20 @@ public class RelatieController extends AbstractController {
                     }
                 }).collect(Collectors.toList()));
             }
+
+            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.RELATIE, relatieDomain.getId());
+
+            Belastingzaken belastingzaken = new Belastingzaken();
+
+            for (nl.dias.domein.Belastingzaken bz : bzLijst) {
+                if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.IB) {
+                    belastingzaken.getIbs().add(mapIb(bz));
+                } else if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.OVERIG) {
+                    belastingzaken.getOverigen().add(mapOverig(bz));
+                }
+            }
+
+            relatie.setBelastingzaken(belastingzaken);
         } catch (Exception e) {
             LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             return new Relatie();
@@ -222,4 +236,27 @@ public class RelatieController extends AbstractController {
         }
         return relatie;
     }
+
+    private IB mapIb(nl.dias.domein.Belastingzaken belastingzaken) {
+        IB ib = new IB();
+
+        ib.setJaartal(belastingzaken.getJaar());
+        ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+
+        return ib;
+    }
+
+    private Overig mapOverig(nl.dias.domein.Belastingzaken belastingzaken) {
+        Overig overig = new Overig();
+
+        overig.setJaartal(belastingzaken.getJaar());
+        overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+
+        return overig;
+    }
+
 }

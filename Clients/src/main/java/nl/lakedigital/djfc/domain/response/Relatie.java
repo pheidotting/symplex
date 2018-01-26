@@ -31,6 +31,8 @@ public class Relatie {
     private List<Polis> polissen;
     private List<Hypotheek> hypotheken;
 
+    private Belastingzaken belastingzaken;
+
     public Long getId() {
         return id;
     }
@@ -232,6 +234,14 @@ public class Relatie {
 
     public void setHypotheken(List<Hypotheek> hypotheken) {
         this.hypotheken = hypotheken;
+    }
+
+    public Belastingzaken getBelastingzaken() {
+        return belastingzaken;
+    }
+
+    public void setBelastingzaken(Belastingzaken belastingzaken) {
+        this.belastingzaken = belastingzaken;
     }
 
     @Override
