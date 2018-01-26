@@ -27,7 +27,10 @@ public abstract class AbstractController {
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
-        MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+        Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
+        if (gebruiker != null) {
+            MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+        }
         MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
         String url = getUrl(httpServletRequest);
         if (url != null) {
