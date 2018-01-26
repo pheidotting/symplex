@@ -29,6 +29,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@Ignore
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class OpslaanRelatieITest extends AbstractITest {
     private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanRelatieITest.class);

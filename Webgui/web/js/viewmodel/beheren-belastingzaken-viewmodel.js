@@ -15,6 +15,8 @@ define(['jquery',
         'viewmodel/common/taak-viewmodel',
         'mapper/bijlage-mapper',
         'mapper/groepbijlage-mapper',
+        'knockout.validation',
+        'knockoutValidationLocal'],
          'fileUpload',
         'knockout.validation',
         'knockoutValidationLocal'],
@@ -50,8 +52,20 @@ define(['jquery',
             _this.notReadOnly(!readOnly);
             _this.basisEntiteit = basisEntiteit;
             _this.id(id.identificatie);
-            console.log(_this.id());
-            $.when(belastingzakenService.lees(_this.id())).then(function(result) {
+            $.when(gebruikerService.leesRelatie(_this.id(), basisEntiteit)).then(function(data) {
+                _this.basisId = data.identificatie;
+
+                _this.contracten.bijlages = ko.observableArray();
+                $.each(bijlageMapper.mapBijlages(data.belastingzaken.contracten.bijlages)(), function(i, bijlage){
+                    _this.contracten.bijlages.push(bijlage);
+                });
+
+                _this.contracten.groepBijlages = ko.observableArray();
+                $.each(groepbijlageMapper.mapGroepbijlages(data.belastingzaken.contracten.groepBijlages)(), function(i, groepbijlage){
+                    _this.contracten.groepBijlages.push(groepbijlage);
+                });
+
+              $.when(belastingzakenService.lees(_this.id())).then(function(result) {
                 var data = result.data;
                 _this.basisEntiteit = result.soort;
                 _this.basisId = data.identificatie;
@@ -175,6 +189,26 @@ define(['jquery',
 
                     _this.overigen.push(overigen);
                 });
+
+                _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
+
+                return deferred.resolve();
+            });
+
+            this.toonOfVerberg = function(a) {
+                if($('#groepBijlages'+a.type+a.jaartal()).is(':visible')) {
+                    $('#groepBijlages'+a.type+a.jaartal()).hide();
+                    $('#bijlages'+a.type+a.jaartal()).hide();
+                    $('#'+a.type+a.jaartal()+'dicht').hide();
+                    $('#'+a.type+a.jaartal()+'open').show();
+                } else {
+                    $('#groepBijlages'+a.type+a.jaartal()).show();
+                    $('#bijlages'+a.type+a.jaartal()).show();
+                    $('#'+a.type+a.jaartal()+'dicht').show();
+                    $('#'+a.type+a.jaartal()+'open').hide();
+                }
+            };
+
                 _this.overigen = _.sortBy(_this.overigen, function(i){
                     return i.jaartal();
                 });
