@@ -34,7 +34,7 @@
 
     <appender name="kibana" class="nl.lakedigital.djfc.appender.KibanaAppender">
         <param name="interval" value="600"/>
-        <param name="applicatie" value="identificatiebeheer"/>
+        <param name="applicatie" value="id"/>
         <param name="omgeving" value="prd"/>
         <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
         <layout class="org.apache.log4j.PatternLayout">

@@ -12,10 +12,9 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
-        'viewmodel/common/taak-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, taakViewModel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
 
     return function() {
         var _this = this;
@@ -103,7 +102,6 @@ define(['jquery',
                     $('<option>', { value : value }).text(value).appendTo($selectStatus);
                 });
 
-                _this.taakModel             = new taakViewModel(false, soortEntiteit, schadeId, relatieId, bedrijfId);
                 _this.schade.eigenRisico(commonFunctions.maakBedragOp(_this.schade.eigenRisico()));
 
                 return deferred.resolve();

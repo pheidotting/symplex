@@ -6,6 +6,7 @@ define(['jquery',
         'opmerkingenModel',
         'mapper/hypotheek-mapper',
         'service/gebruiker-service',
+        'service/belastingzaken-service',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
@@ -16,7 +17,10 @@ define(['jquery',
         'mapper/groepbijlage-mapper',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel, bijlageMapper, groepbijlageMapper) {
+         'fileUpload',
+        'knockout.validation',
+        'knockoutValidationLocal'],
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel, bijlageMapper, groepbijlageMapper, fileUpload) {
 
     return function() {
         var _this = this;
@@ -39,6 +43,7 @@ define(['jquery',
         this.ibs = [];
         this.loonbelastingen = [];
         this.overigen = [];
+        this.toonJaren = ko.observable(false);
 
         this.init = function(id, basisId, readOnly, basisEntiteit) {
             var deferred = $.Deferred();
@@ -60,12 +65,31 @@ define(['jquery',
                     _this.contracten.groepBijlages.push(groepbijlage);
                 });
 
+              $.when(belastingzakenService.lees(_this.id())).then(function(result) {
+                var data = result.data;
+                _this.basisEntiteit = result.soort;
+                _this.basisId = data.identificatie;
+
+                _this.contracten.bijlages = ko.observableArray();
+                if(data.belastingzaken.contracten != null){
+                    _this.contracten.identificatie = data.belastingzaken.contracten.identificatie;
+                    $.each(bijlageMapper.mapBijlages(data.belastingzaken.contracten.bijlages)(), function(i, bijlage){
+                        _this.contracten.bijlages.push(bijlage);
+                    });
+
+                    _this.contracten.groepBijlages = ko.observableArray();
+                    $.each(groepbijlageMapper.mapGroepbijlages(data.belastingzaken.contracten.groepBijlages)(), function(i, groepbijlage){
+                        _this.contracten.groepBijlages.push(groepbijlage);
+                    });
+                }
+
                 $.each(data.belastingzaken.jaarrekeningen, function(i, b){
                     var jaarrekeningen = {};
                     jaarrekeningen.type = 'jaarrekeningen';
 
                     jaarrekeningen.jaartal = ko.observable(b.jaartal);
                     jaarrekeningen.bijlages = ko.observableArray();
+                    jaarrekeningen.identificatie = b.identificatie;
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
                         jaarrekeningen.bijlages.push(bijlage);
                     });
@@ -77,6 +101,9 @@ define(['jquery',
 
                     _this.jaarrekeningen.push(jaarrekeningen);
                 });
+                _this.jaarrekeningen = _.sortBy(_this.jaarrekeningen, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.ibs, function(i, b){
                     var ibs = {};
@@ -84,6 +111,7 @@ define(['jquery',
 
                     ibs.jaartal = ko.observable(b.jaartal);
                     ibs.bijlages = ko.observableArray();
+                    ibs.identificatie = b.identificatie;
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
                         ibs.bijlages.push(bijlage);
                     });
@@ -95,6 +123,9 @@ define(['jquery',
 
                     _this.ibs.push(ibs);
                 });
+                _this.ibs = _.sortBy(_this.ibs, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.btws, function(i, b){
                     var btw = {};
@@ -102,6 +133,7 @@ define(['jquery',
 
                     btw.jaartal = ko.observable(b.jaartal);
                     btw.bijlages = ko.observableArray();
+                    btw.identificatie = b.identificatie;
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
                         btw.bijlages.push(bijlage);
                     });
@@ -113,6 +145,9 @@ define(['jquery',
 
                     _this.btw.push(btw);
                 });
+                _this.btw = _.sortBy(_this.btw, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.loonbelastingen, function(i, b){
                     var loonbelastingen = {};
@@ -120,6 +155,7 @@ define(['jquery',
 
                     loonbelastingen.jaartal = ko.observable(b.jaartal);
                     loonbelastingen.bijlages = ko.observableArray();
+                    loonbelastingen.identificatie = b.identificatie;
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
                         loonbelastingen.bijlages.push(bijlage);
                     });
@@ -131,6 +167,9 @@ define(['jquery',
 
                     _this.loonbelastingen.push(loonbelastingen);
                 });
+                _this.loonbelastingen = _.sortBy(_this.loonbelastingen, function(i){
+                    return i.jaartal();
+                });
 
                 $.each(data.belastingzaken.overigen, function(i, b){
                     var overigen = {};
@@ -138,6 +177,7 @@ define(['jquery',
 
                     overigen.jaartal = ko.observable(b.jaartal);
                     overigen.bijlages = ko.observableArray();
+                    overigen.identificatie = b.identificatie;
                     $.each(bijlageMapper.mapBijlages(b.bijlages)(), function(i, bijlage){
                         overigen.bijlages.push(bijlage);
                     });
@@ -150,90 +190,9 @@ define(['jquery',
                     _this.overigen.push(overigen);
                 });
 
-
-//                var bijlages
-//                var groepenBijlages
-//                Jaarrekening
-//
-//                var bijlages
-//                var groepenBijlages
-//                IB
-//
-//                var bijlages
-//                var groepenBijlages
-//                Btw
-//
-//                var bijlages
-//                var groepenBijlages
-//                Loonbelasting
-//
-//                var bijlages
-//                var groepenBijlages
-//                Overig
-
-//                var hypotheek = _.find(data.hypotheken, function(hypotheek) {return hypotheek.identificatie === hypotheekId.identificatie;});
-//                if(hypotheek == null){
-//                    hypotheek = {
-//                        'opmerkingen' : [],
-//                        'bijlages' : [],
-//                        'groepBijlages' : []
-//                    }
-//                }
-//
-//                _this.hypotheek = hypotheekMapper.mapHypotheek(hypotheek, lijstSoortenHypotheek);
-//
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
-//                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
-//                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
 
-//				if(alleHypotheken.length > 0){
-//					var $koppelHypotheekSelect = $('#koppelHypotheek');
-//					$('<option>', { value : '' }).text('Kies evt. een hypotheek om mee te koppelen...').appendTo($koppelHypotheekSelect);
-//					$.each(alleHypotheken, function(key, value) {
-//						if(value.id != hypotheekId){
-//						    var hypo = hypotheekMapper.mapHypotheek(value, lijstSoortenHypotheek);
-//						    var selected = '';
-//						    if(hypotheek.hypotheekPakket == value.hypotheekPakket) {
-//						        selected = ' selected="selected"';
-//						    }
-//							$('<option' + selected + ' value="' + parseInt(value.id) + '">').text(hypo.titel()).appendTo($koppelHypotheekSelect);
-//						}
-//					});
-//				}else{
-//					$('#gekoppeldeHypotheekGroep').hide();
-//				}
-
-//                var $hypotheekVormSelect = $('#hypotheekVorm');
-//                $('<option>', { value : '' }).text('Kies een soort hypotheek uit de lijst...').appendTo($hypotheekVormSelect);
-//                $.each(lijstSoortenHypotheek, function(key, value) {
-//                    $('<option>', { value : value.id }).text(value.omschrijving).appendTo($hypotheekVormSelect);
-//                });
-//
-//                toggleService.isFeatureBeschikbaar('TODOIST').done(function(toggleBeschikbaar){
-//                    if(toggleBeschikbaar) {
-//                        var relatieId;
-//                        var bedrijfId;
-//                        if(_this.basisEntiteit == 'RELATIE'){
-//                            relatieId = _this.basisId;
-//                        } else {
-//                            bedrijfId = _this.basisId;
-//                        }
-//
-//                        _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
-//                    }
-//
-//                    _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
-//                    _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
-//                    _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
-//                    _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
-//                    _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
-//                    _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
-//                    _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
-//                    _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
-//                    _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
-//
-                    return deferred.resolve();
-//                });
+                return deferred.resolve();
             });
 
             this.toonOfVerberg = function(a) {
@@ -250,6 +209,143 @@ define(['jquery',
                 }
             };
 
+                _this.overigen = _.sortBy(_this.overigen, function(i){
+                    return i.jaartal();
+                });
+
+                _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
+
+                return deferred.resolve();
+            });
+
+            this.toonOfVerberg = function(a) {
+                var jaartal = '';
+                var type = 'contracten';
+                if(a.basisEntiteit == null){
+                    jaartal = a.jaartal();
+                    type = a.type;
+                }
+                if($('#groepBijlages'+type+jaartal).is(':visible')) {
+                    $('#groepBijlages'+type+jaartal).hide();
+                    $('#bijlages'+type+jaartal).hide();
+                    $('#'+type+jaartal+'dicht').hide();
+                    $('#'+type+jaartal+'open').show();
+                } else {
+                    $('#groepBijlages'+type+jaartal).show();
+                    $('#bijlages'+type+jaartal).show();
+                    $('#'+type+jaartal+'dicht').show();
+                    $('#'+type+jaartal+'open').hide();
+                }
+            };
+
+            this.toonOfVerbergHoofd = function(a) {
+                if($('#' + a).is(':visible')) {
+                    $('#' + a).hide();
+                } else {
+                    $('#' + a).show();
+                }
+            };
+
+            this.bepaalJaren = function(){
+                var soort = $('#soort').val();
+                if(soort == '' || soort == 'Contracten'){
+                    _this.toonJaren(false);
+                    if(soort == 'Contracten'){
+                        $('#identificatie').val(_this.contracten.identificatie);
+                    }else{
+                        $('#identificatie').val('');
+                    }
+                }else{
+                    _this.toonJaren(true);
+
+                    var $select = $('#jaren');
+                    $select.empty();
+                    $('<option>', { value : '' }).text('').appendTo($select);
+
+                    if(soort == "Jaarrekening"){
+                        $.each(_this.jaarrekeningen, function(key, value){
+                            $('<option>', { value : value.jaartal() }).text(value.jaartal()).appendTo($select);
+                        });
+                    }
+                    if(soort == "IB"){
+                        $.each(_this.ibs, function(key, value){
+                            $('<option>', { value : value.jaartal() }).text(value.jaartal()).appendTo($select);
+                        });
+                    }
+                    if(soort == "Btw"){
+                        $.each(_this.btws, function(key, value){
+                            $('<option>', { value : value.jaartal() }).text(value.jaartal()).appendTo($select);
+                        });
+                    }
+                    if(soort == "Loonbelasting"){
+                        $.each(_this.loonbelastingen, function(key, value){
+                            $('<option>', { value : value.jaartal() }).text(value.jaartal()).appendTo($select);
+                        });
+                    }
+                    if(soort == "Overig"){
+                        $.each(_this.overigen, function(key, value){
+                            $('<option>', { value : value.jaartal() }).text(value.jaartal()).appendTo($select);
+                        });
+                    }
+                }
+            };
+
+            this.selecteerJaar = function(){
+                var soort = $('#soort').val();
+                var $select = $('#jaren');
+
+                if(soort == "Jaarrekening"){
+                    $.each(_this.jaarrekeningen, function(key, value){
+                        if(value.jaartal = $select.val()){
+                            $('#identificatie').val(value.identificatie);
+                        }
+                    });
+                }
+                if(soort == "IB"){
+                    $.each(_this.ibs, function(key, value){
+                        if(value.jaartal = $select.val()){
+                            $('#identificatie').val(value.identificatie);
+                        }
+                    });
+                }
+                if(soort == "Btw"){
+                    $.each(_this.btws, function(key, value){
+                        if(value.jaartal = $select.val()){
+                            $('#identificatie').val(value.identificatie);
+                        }
+                    });
+                }
+                if(soort == "Loonbelasting"){
+                    $.each(_this.loonbelastingen, function(key, value){
+                        if(value.jaartal = $select.val()){
+                            $('#identificatie').val(value.identificatie);
+                        }
+                    });
+                }
+                if(soort == "Overig"){
+                    $.each(_this.overigen, function(key, value){
+                        if(value.jaartal = $select.val()){
+                            $('#identificatie').val(value.identificatie);
+                        }
+                    });
+                }
+            };
+
+            _this.nieuweUpload = function (){
+                console.log("Nieuwe bijlage upload");
+
+                fileUpload.uploaden().done(function(uploadResultaat){
+                    log.debug(ko.toJSON(uploadResultaat));
+
+                    if(uploadResultaat.bestandsNaam == null) {
+                        _bedrijf.groepBijlages().push(uploadResultaat);
+                        _bedrijf.groepBijlages.valueHasMutated();
+                    } else {
+                        _bedrijf.bijlages().push(uploadResultaat);
+                        _bedrijf.bijlages.valueHasMutated();
+                    }
+                });
+            };
 
             return deferred.promise();
         };
