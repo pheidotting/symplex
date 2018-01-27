@@ -298,18 +298,12 @@ define(['jquery',
             };
 
             _this.nieuweUpload = function (){
-                console.log("Nieuwe bijlage upload");
+                logger.debug("Nieuwe bijlage upload");
 
                 fileUpload.uploaden().done(function(uploadResultaat){
                     logger.debug(ko.toJSON(uploadResultaat));
 
-                    if(uploadResultaat.bestandsNaam == null) {
-                        _bedrijf.groepBijlages().push(uploadResultaat);
-                        _bedrijf.groepBijlages.valueHasMutated();
-                    } else {
-                        _bedrijf.bijlages().push(uploadResultaat);
-                        _bedrijf.bijlages.valueHasMutated();
-                    }
+                    location.reload();
                 });
             };
 
