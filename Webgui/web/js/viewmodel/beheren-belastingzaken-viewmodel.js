@@ -301,7 +301,7 @@ define(['jquery',
                 console.log("Nieuwe bijlage upload");
 
                 fileUpload.uploaden().done(function(uploadResultaat){
-                    log.debug(ko.toJSON(uploadResultaat));
+                    logger.debug(ko.toJSON(uploadResultaat));
 
                     if(uploadResultaat.bestandsNaam == null) {
                         _bedrijf.groepBijlages().push(uploadResultaat);
