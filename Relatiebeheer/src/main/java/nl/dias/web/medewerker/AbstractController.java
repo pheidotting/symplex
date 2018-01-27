@@ -30,8 +30,8 @@ public abstract class AbstractController {
         Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
         if (gebruiker != null) {
             MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+            MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
         }
-        MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
         String url = getUrl(httpServletRequest);
         if (url != null) {
             MDC.put("url", url);
@@ -40,7 +40,9 @@ public abstract class AbstractController {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
 
-        SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest).getId());
+        if (gebruiker != null) {
+            SessieHolder.get().setIngelogdeGebruiker(gebruiker.getId());
+        }
         SessieHolder.get().setTrackAndTraceId(getTrackAndTraceId(httpServletRequest));
     }
 
