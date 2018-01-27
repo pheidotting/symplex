@@ -124,6 +124,13 @@ public class AbstractITest {
         return new Stub("/rest/opmerking/alles%2FRELATIE%2F([0-9]*)", response, false);
     }
 
+    protected Stub stubBelastingzakenBijlage(String response) {
+        return new Stub("/rest/bijlage/alles/BELASTINGZAKEN/([0-9]*)", response, false);
+    }
+
+    protected Stub stubBelastingzakenGroepenBijlage(String response) {
+        return new Stub("/rest/bijlage/alleGroepen/BELASTINGZAKEN/([0-9]*)", response, false);
+    }
     protected Stub stubPolis(String response) {
         return new Stub("/rest/polis/lijst/([0-9]*)", response, false);
     }

@@ -41,6 +41,10 @@ define(['redirect'],
             redirect.redirect('BEHEER_HYPOTHEEK', _this.identificatie);
         };
 
+        this.belastingzaken = function() {
+            redirect.redirect('BEHEER_BELASTINGZAKEN', _this.identificatie);
+        };
+
         this.uitloggen = function() {
             localStorage.removeItem("symplexAccessToken");
             location.reload();
