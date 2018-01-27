@@ -262,35 +262,35 @@ define(['jquery',
 
                 if(soort == "Jaarrekening"){
                     $.each(_this.jaarrekeningen, function(key, value){
-                        if(value.jaartal() = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "IB"){
                     $.each(_this.ibs, function(key, value){
-                        if(value.jaartal() = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Btw"){
                     $.each(_this.btws, function(key, value){
-                        if(value.jaartal() = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Loonbelasting"){
                     $.each(_this.loonbelastingen, function(key, value){
-                        if(value.jaartal() = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Overig"){
                     $.each(_this.overigen, function(key, value){
-                        if(value.jaartal() = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
