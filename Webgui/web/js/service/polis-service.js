@@ -36,11 +36,13 @@ define(["commons/3rdparty/log",
                 var deferred = $.Deferred();
 
                 $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
-                    return deferred.resolve(data);
-                }).fail(function() {
-                    $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                    if(data.identificatie != null){
                         return deferred.resolve(data);
-                    })
+                    }else{
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                            return deferred.resolve(data);
+                        })
+                    }
                 });
 
                 return deferred.promise();
@@ -58,15 +60,17 @@ define(["commons/3rdparty/log",
                 return polisRepository.lijstZakelijkePolissen();
             },
 
-            lijstPolissen: function(relatieId, bedrijfId){
+            lijstPolissen: function(identificatie){
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
-                    return deferred.resolve(data);
-                }).fail(function() {
-                    $.when(bedrijfRepository.leesBedrijf(relatieId)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
+                    if(data.identificatie != null){
                         return deferred.resolve(data);
-                    })
+                    }else{
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                            return deferred.resolve(data);
+                        })
+                    }
                 });
 
                 return deferred.promise();

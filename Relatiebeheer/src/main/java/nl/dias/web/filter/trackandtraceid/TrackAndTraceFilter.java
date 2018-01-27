@@ -1,11 +1,16 @@
 package nl.dias.web.filter.trackandtraceid;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
+import nl.dias.domein.Relatie;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.trackandtraceid.InkomendRequestService;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -13,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.ws.rs.core.HttpHeaders;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -40,6 +46,9 @@ public class TrackAndTraceFilter implements Filter {
         MultiReadHttpServletRequest multiReadHttpServletRequest = new MultiReadHttpServletRequest(httpServletRequest);
         String url = getFullURL(httpServletRequest);
 
+        Gebruiker ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
+        Long id = getIngelogdeGebruiker(httpServletRequest) == null ? null : getIngelogdeGebruiker(httpServletRequest).getId();
+
         if (!url.endsWith("/log4j/log4javascript")) {
 
             if ("POST".equalsIgnoreCase(httpServletRequest.getMethod()) && !url.endsWith("bijlage/uploadBijlage")) {
@@ -53,13 +62,19 @@ public class TrackAndTraceFilter implements Filter {
                     json = json.substring(0, i) + "XXXX" + json.substring(j);
                 }
             }
-            inkomendRequestService.opslaan(getIngelogdeGebruiker(httpServletRequest), json, httpServletRequest, url);
+
+            inkomendRequestService.opslaan(id, json, httpServletRequest, url);
         }
 
         HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(multiReadHttpServletRequest);
-        if (!"get".equalsIgnoreCase(httpServletRequest.getMethod())) {
-            requestWrapper.addHeader("trackAndTraceId", UUID.randomUUID().toString());
+        String trackAndTraceId = UUID.randomUUID().toString();
+        requestWrapper.addHeader("trackAndTraceId", trackAndTraceId);
+        if (ingelogdeGebruiker != null) {
+            MDC.put("ingelogdeGebruiker", id + "");
+            MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(ingelogdeGebruiker));
         }
+        MDC.put("trackAndTraceId", trackAndTraceId);
+        MDC.put("url", url);
 
         filterChain.doFilter(requestWrapper, servletResponse);
     }
@@ -90,21 +105,53 @@ public class TrackAndTraceFilter implements Filter {
         return sb.toString();
     }
 
-    private Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
-        String ingelogdeGebruiker = "ingelogdeGebruiker";
-        if (httpServletRequest.getSession().getAttribute(ingelogdeGebruiker) != null && !"".equals(httpServletRequest.getSession().getAttribute(ingelogdeGebruiker))) {
-            return Long.valueOf(httpServletRequest.getSession().getAttribute(ingelogdeGebruiker).toString());
+    private String maakOp(Gebruiker gebruiker) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(gebruiker.getVoornaam());
+        stringBuffer.append(" ");
+        if (gebruiker.getTussenvoegsel() != null && !"".equals(gebruiker.getTussenvoegsel())) {
+            stringBuffer.append(gebruiker.getTussenvoegsel());
+            stringBuffer.append(" ");
+        }
+        stringBuffer.append(gebruiker.getAchternaam());
+        stringBuffer.append(" (");
+        stringBuffer.append(gebruiker.getId());
+        stringBuffer.append(")");
+
+        if (gebruiker instanceof Medewerker) {
+            stringBuffer.append(", ");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getNaam());
+            stringBuffer.append(" (");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getId());
+            stringBuffer.append(")");
         }
 
-        final String sessieId = (String) httpServletRequest.getSession().getAttribute("sessie");
-        final String ipAdres = httpServletRequest.getRemoteAddr();
+        return stringBuffer.toString();
+    }
 
-        if (sessieId != null && sessieId.length() > 0) {
+    protected Gebruiker getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
+        String authorizationHeader = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+
+        // Extract the token from the HTTP Authorization header
+        String token = null;
+        if (authorizationHeader != null) {
             try {
-                Gebruiker gebruiker = gebruikerRepository.zoekOpSessieEnIpadres(sessieId, ipAdres);
-                return gebruiker.getId();
-            } catch (NietGevondenException e) {
-                LOGGER.trace("{}", e);
+                token = authorizationHeader.substring("Bearer".length()).trim();
+            } catch (StringIndexOutOfBoundsException e) {
+                LOGGER.trace("Niks aan de hand", e);
+            }
+        }
+        if (token != null) {
+            DecodedJWT decodedJWT = JWT.decode(token);
+
+            try {
+                return gebruikerRepository.zoekOpIdentificatie(decodedJWT.getSubject());
+            } catch (NietGevondenException nge) {
+                LOGGER.error("Net gevonden : {}", decodedJWT.getSubject());
+                LOGGER.trace("Bijbehorende error {}", nge);
+                Gebruiker gebruiker = new Relatie();
+                gebruiker.setId(0L);
+                return gebruiker;
             }
         }
         return null;

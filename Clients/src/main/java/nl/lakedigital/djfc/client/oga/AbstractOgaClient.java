@@ -13,6 +13,7 @@ import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +62,11 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
+        connection.setRequestProperty("ingelogdeGebruiker", MDC.get("ingelogdeGebruiker"));
+        connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
+        connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
+        connection.setRequestProperty("url", MDC.get("url"));
+
 
         InputStream xml = connection.getInputStream();
 
@@ -85,6 +91,10 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
+        connection.setRequestProperty("ingelogdeGebruiker", MDC.get("ingelogdeGebruiker"));
+        connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
+        connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
+        connection.setRequestProperty("url", MDC.get("url"));
 
         InputStream xml = connection.getInputStream();
 

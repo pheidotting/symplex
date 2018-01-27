@@ -50,7 +50,7 @@ define(['jquery',
             _this.notReadOnly(!readOnly);
             _this.basisEntiteit = basisEntiteit;
             _this.id(id.identificatie);
-            console.log(_this.id());
+
             $.when(belastingzakenService.lees(_this.id())).then(function(result) {
                 var data = result.data;
                 _this.basisEntiteit = result.soort;
@@ -262,35 +262,35 @@ define(['jquery',
 
                 if(soort == "Jaarrekening"){
                     $.each(_this.jaarrekeningen, function(key, value){
-                        if(value.jaartal = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "IB"){
                     $.each(_this.ibs, function(key, value){
-                        if(value.jaartal = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Btw"){
                     $.each(_this.btws, function(key, value){
-                        if(value.jaartal = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Loonbelasting"){
                     $.each(_this.loonbelastingen, function(key, value){
-                        if(value.jaartal = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
                 }
                 if(soort == "Overig"){
                     $.each(_this.overigen, function(key, value){
-                        if(value.jaartal = $select.val()){
+                        if(value.jaartal() == $select.val()){
                             $('#identificatie').val(value.identificatie);
                         }
                     });
@@ -298,18 +298,12 @@ define(['jquery',
             };
 
             _this.nieuweUpload = function (){
-                console.log("Nieuwe bijlage upload");
+                logger.debug("Nieuwe bijlage upload");
 
                 fileUpload.uploaden().done(function(uploadResultaat){
-                    log.debug(ko.toJSON(uploadResultaat));
+                    logger.debug(ko.toJSON(uploadResultaat));
 
-                    if(uploadResultaat.bestandsNaam == null) {
-                        _bedrijf.groepBijlages().push(uploadResultaat);
-                        _bedrijf.groepBijlages.valueHasMutated();
-                    } else {
-                        _bedrijf.bijlages().push(uploadResultaat);
-                        _bedrijf.bijlages.valueHasMutated();
-                    }
+                    location.reload();
                 });
             };
 
