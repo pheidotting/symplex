@@ -16,6 +16,7 @@ define(['jquery',
     function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, moment) {
 
     return function() {
+        commonFunctions.checkNieuweVersie();
         var _this = this;
         var logger = log.getLogger('zoeken-viewmodel');
         var soortEntiteit = '';

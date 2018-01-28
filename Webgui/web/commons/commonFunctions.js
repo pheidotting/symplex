@@ -1,11 +1,30 @@
 define(['commons/3rdparty/log2',
         'dataServices',
-        'redirect'],
-    function(log, dataServices, redirect) {
+        'redirect',
+        'repository/common/repository',
+        'push',
+        'navRegister'],
+    function(log, dataServices, redirect, repository, Push, navRegister) {
 
     var logger = log.getLogger('commonFunctions');
 
 	return {
+	    checkNieuweVersie: function() {
+            repository.voerUitGet(navRegister.bepaalUrl('CHECK_NIEUWE_VERSIE')).done(function(result){
+                $.each(result, function(versie, releasenotes){
+                    Push.create("Nieuwe versie van Symplex : " + versie, {
+                        body: releasenotes,
+                        icon: 'images/logo-djfc-vierkant.jpg',
+                        timeout: 20000,
+                        onClick: function () {
+                            window.focus();
+                            this.close();
+                        }
+                    });
+                });
+            });
+	    },
+
 		zetDatumOm: function(datumZonderStreepjes){
 			var datumMetStreepjes = datumZonderStreepjes;
 			if(datumZonderStreepjes !== undefined && datumZonderStreepjes !== null && datumZonderStreepjes.length === 8 && this.isNumeric(datumZonderStreepjes)){

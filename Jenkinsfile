@@ -425,6 +425,8 @@ pipeline {
                     mail to: 'bene@dejongefinancieelconsult.nl',
                          subject: "Nieuwe versie op de PRODUCTIEomgeving",
                          body: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
+
+                    curl --data commitMessage() http://localhost:8080/dejonge/rest/authorisatie/versies/nieuweversie -H "Content-Type: application/json"
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
