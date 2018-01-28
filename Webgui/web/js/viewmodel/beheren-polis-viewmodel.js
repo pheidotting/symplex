@@ -160,7 +160,7 @@ define(['jquery',
 
     function zoekVoertuigGegevens(_this){
         //proberen het kenteken op te zoeken in het geval van een autoverzekering
-        if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen') {
+        if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen' || _this.polis.soort() === 'BromSnorfiets') {
             var kenmerk = _this.polis.kenmerk();
 
             _this.voertuigImage1('');

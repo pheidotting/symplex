@@ -74,6 +74,7 @@ public class TrackAndTraceFilter implements Filter {
             MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(ingelogdeGebruiker));
         }
         MDC.put("trackAndTraceId", trackAndTraceId);
+        MDC.put("url", url);
 
         filterChain.doFilter(requestWrapper, servletResponse);
     }

@@ -59,6 +59,7 @@ public class OpmerkingControllerTest extends AbstractControllerTest<Opmerking, J
         expect(httpServletRequest.getHeader("ingelogdeGebruiker")).andReturn("46");
         expect(httpServletRequest.getHeader("trackAndTraceId")).andReturn("trackAndTraceId");
         expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         opmerkingService.verwijder(id);
         expectLastCall();
@@ -79,6 +80,7 @@ public class OpmerkingControllerTest extends AbstractControllerTest<Opmerking, J
         expect(httpServletRequest.getHeader("ingelogdeGebruiker")).andReturn("46");
         expect(httpServletRequest.getHeader("trackAndTraceId")).andReturn("trackAndTraceId");
         expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         expect(mapper.map(jsonOpmerking, Opmerking.class)).andReturn(opmerking);
         opmerkingService.opslaan(opmerking);

@@ -27,13 +27,22 @@ public abstract class AbstractController {
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
-        MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
-        MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
+        Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
+        if (gebruiker != null) {
+            MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+            MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
+        }
+        String url = getUrl(httpServletRequest);
+        if (url != null) {
+            MDC.put("url", url);
+        }
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
 
-        SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest).getId());
+        if (gebruiker != null) {
+            SessieHolder.get().setIngelogdeGebruiker(gebruiker.getId());
+        }
         SessieHolder.get().setTrackAndTraceId(getTrackAndTraceId(httpServletRequest));
     }
 
@@ -90,9 +99,10 @@ public abstract class AbstractController {
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
-        LOGGER.debug("DJFC Track And Trace Id : {}", tati);
+        return httpServletRequest.getHeader("trackAndTraceId");
+    }
 
-        return tati;
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("url");
     }
 }
