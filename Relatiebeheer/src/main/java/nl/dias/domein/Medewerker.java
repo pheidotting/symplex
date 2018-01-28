@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "GEBRUIKER")
 @DiscriminatorValue(value = "M")
 @AttributeOverrides({@AttributeOverride(name = "identificatie", column = @Column(name = "GEBRUIKERSNAAM"))})
-//@NamedQueries({ @NamedQuery(name = "Medewerker.zoekOpEmail", query = "select m from Medewerker m where m.identificatie = :emailadres") })
+@NamedQueries({@NamedQuery(name = "Medewerker.alles", query = "select m from Medewerker m")})
 public class Medewerker extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -4313251874716582151L;
 
