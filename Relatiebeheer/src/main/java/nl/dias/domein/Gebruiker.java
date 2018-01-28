@@ -21,7 +21,7 @@ import java.util.Date;
         @NamedQuery(name = "Gebruiker.zoekOpIdentificatie", query = "select g from Gebruiker g where g.identificatie = :identificatie"), //
         @NamedQuery(name = "Gebruiker.zoekOpNaam", query = "select g from Relatie g where g.voornaam like :naam or g.achternaam like :naam"),//
         @NamedQuery(name = "Gebruiker.alles", query = "select g from Gebruiker g"),//
-        @NamedQuery(name = "Gebruiker.zoekOpTussenVoegsel", query = "select g from Gebruiker g where g.tussenvoegsel = :tussenvoegsel"),//
+        @NamedQuery(name = "Gebruiker.zoekOpTussenVoegsel", query = "select g from Gebruiker g where g.tussenvoegsel = :tussenvoegsel"),//LL"),//
 })
 public abstract class Gebruiker extends Onderwerp {
     private static final long serialVersionUID = -643848502264838675L;
