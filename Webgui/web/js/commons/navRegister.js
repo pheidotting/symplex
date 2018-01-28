@@ -10,6 +10,7 @@ define([ ],
                             {naam: 'INGELOGDE_GEBRUIKER',               url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/ingelogdeGebruiker'},
                             {naam: 'UITLOGGEN',                         url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/uitloggen'},
                             {naam: 'STUUR_NIEUW_WACHTWOORD',            url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/wachtwoordvergeten'},
+                            {naam: 'CHECK_NIEUWE_VERSIE',               url: BASISURL_RELATIEBEHEER + '/authorisatie/versies/checkNieuweversie'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},
