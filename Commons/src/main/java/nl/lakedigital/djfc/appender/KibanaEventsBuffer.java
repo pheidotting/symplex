@@ -29,11 +29,11 @@ public class KibanaEventsBuffer {
 
         String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
         Long ig = null;
-        if (ingelogdeGebruiker != null) {
+        if (ingelogdeGebruiker != null && !"null".equals(ingelogdeGebruiker)) {
             ig = Long.valueOf(ingelogdeGebruiker);
         }
 
-        events.add(new KibanaEvent(event, loggingEvent, ig, MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), applicatie, omgeving));
+        events.add(new KibanaEvent(event, loggingEvent, ig, MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), MDC.get("url"), applicatie, omgeving));
 
         if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
             flush(token);
@@ -96,15 +96,16 @@ public class KibanaEventsBuffer {
         private String message;
         private String logLevel;
         private String timestamp;
-        private String javaClass;
+        private String filename;
         private String lineNumber;
         private Long ingelogdeGebruiker;
         private String ingelogdeGebruikerOpgemaakt;
         private String trackAndTraceId;
         private String applicatie;
         private String omgeving;
+        private String url;
 
-        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String ingelogdeGebruikerOpgemaakt, String applicatie, String omgeving) {
+        public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String ingelogdeGebruikerOpgemaakt, String url, String applicatie, String omgeving) {
             this.message = message;
             if (event.getLevel() != null) {
                 this.logLevel = event.getLevel().toString();
@@ -118,10 +119,11 @@ public class KibanaEventsBuffer {
             Layout lineNumberLayout = new PatternLayout("%L");
 
             this.timestamp = timestampLayout.format(event);
-            this.javaClass = javaClassLayout.format(event);
+            this.filename = javaClassLayout.format(event);
             this.lineNumber = lineNumberLayout.format(event);
             this.applicatie = applicatie;
             this.omgeving = omgeving;
+            this.url = url;
         }
 
         public String getMessage() {
@@ -148,13 +150,6 @@ public class KibanaEventsBuffer {
             this.timestamp = timestamp;
         }
 
-        public String getJavaClass() {
-            return javaClass;
-        }
-
-        public void setJavaClass(String javaClass) {
-            this.javaClass = javaClass;
-        }
 
         public String getLineNumber() {
             return lineNumber;
@@ -202,6 +197,14 @@ public class KibanaEventsBuffer {
 
         public void setOmgeving(String omgeving) {
             this.omgeving = omgeving;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

@@ -50,6 +50,7 @@ public abstract class AbstractControllerTest<T extends AbstracteEntiteitMetSoort
         expect(httpServletRequest.getHeader("ingelogdeGebruiker")).andReturn("46");
         expect(httpServletRequest.getHeader("trackAndTraceId")).andReturn("trackAndTraceId");
         expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         getService().verwijderen(soortEntiteit, entiteitId);
         expectLastCall();

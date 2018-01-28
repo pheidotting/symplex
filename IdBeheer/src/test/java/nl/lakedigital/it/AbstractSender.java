@@ -58,6 +58,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
                     abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
                     abstractMessage.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
                     abstractMessage.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+                    abstractMessage.setUrl(MDC.get("url"));
 
                     JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
                     Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

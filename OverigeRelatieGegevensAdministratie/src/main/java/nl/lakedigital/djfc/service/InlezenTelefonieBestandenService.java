@@ -21,14 +21,9 @@ public class InlezenTelefonieBestandenService implements Runnable {
 
     @Override
     public void run() {
-        LOGGER.debug("Inlezen telefoniebestanden");
-
         List<String> bestanden = telefonieBestandService.inlezenBestanden();
 
         final List<TelefonieBestand> telefonieBestanden = telefonieBestandService.alleTelefonieBestanden();
-
-        LOGGER.debug("Gevonden : {} bestanden", bestanden.size());
-        LOGGER.debug("Al bestaand : {} bestanden", telefonieBestanden.size());
 
         List<TelefonieBestand> nieuweBestanden = bestanden.stream().filter(file -> {
             TelefonieBestand telefonieBestand = telefonieBestandService.maakTelefonieBestand(file);
@@ -39,8 +34,6 @@ public class InlezenTelefonieBestandenService implements Runnable {
 
             return !telefonieBestanden.contains(telefonieBestand);
         }).map(file -> telefonieBestandService.maakTelefonieBestand(file)).collect(Collectors.toList());
-
-        LOGGER.debug("{} nieuwe bestanden", nieuweBestanden.size());
 
         if (!nieuweBestanden.isEmpty()) {
             LOGGER.debug("Opslaan {} nieuwe bestanden", nieuweBestanden.size());

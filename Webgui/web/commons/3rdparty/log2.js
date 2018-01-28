@@ -12,8 +12,8 @@ define(['commons/3rdparty/log4javascript2',
                 browserAppender.setLayout(popUpLayout);
                 log.addAppender(browserAppender);
 
-//                var ajaxAppender = new log4javascript.AjaxAppender(navRegister.bepaalUrl('LOG4JAVASCRIPT'));
-//                log.addAppender(ajaxAppender);
+                var ajaxAppender = new log4javascript.AjaxAppender(navRegister.bepaalUrl('LOG4JAVASCRIPT'));
+                log.addAppender(ajaxAppender);
                 
                 // alle logfuncties 'enhancen' met een die Objecten als JSON logt
                 var oldDebug = log.debug;

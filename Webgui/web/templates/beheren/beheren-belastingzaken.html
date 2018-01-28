@@ -1,0 +1,380 @@
+<div>
+    <div class="kolom-2">
+        <span data-bind="visible: basisEntiteit == 'BEDRIJF'">
+            <h3 class="belastingzaken">Contracten</h3>
+                <span data-bind="attr: {id: 'contractenopen'}, event: {click: $root.toonOfVerberg}"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+                <span data-bind="attr: {id: 'contractendicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+                <div class="form-group"
+                     data-bind="foreach: contracten.groepBijlages, visible: true, attr: {id: 'groepBijlagescontracten'">
+                    <h3 data-bind="text: naam"/>
+                    <table class="table">
+                        <tr>
+                            <th>Bijlage</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tbody data-bind="foreach: bijlages">
+                        <tr>
+                            <td>
+                                <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                                <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                    <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                                </div>
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <table class="table">
+                        <tbody data-bind="foreach: contracten.bijlages, visible: true, attr: {id: 'bijlagescontracten'">
+                        <tr>
+                            <td>
+                                <span name="omschrijvingOfBestandsNaam"
+                                      data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </span>
+
+        <span data-bind="visible: basisEntiteit == 'BEDRIJF'">
+            <h3 class="belastingzaken">Jaarrekening</h3>
+            <span data-bind="attr: {id: 'jaarrekeningen'+'open'}, event: {click: $root.toonOfVerbergHoofd('jaarrekeningen')}"
+                  class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            <span data-bind="attr: {id: 'jaarrekeningen'+'dicht'}, event: {click: $root.toonOfVerbergHoofd('jaarrekeningen')}, visible:false"
+                  class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+            <div data-bind="foreach: jaarrekeningen, visible: false, attr: {id: 'jaarrekeningen'}">
+                <span data-bind="text: jaartal()"></span>
+
+                <span data-bind="attr: {id: 'jaarrekeningen'+jaartal()+'open'}, event: {click: $root.toonOfVerberg}"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+                <span data-bind="attr: {id: 'jaarrekeningen'+jaartal()+'dicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+                <div class="form-group"
+                     data-bind="foreach: groepBijlages, visible: false, attr: {id: 'groepBijlagesjaarrekeningen'+jaartal()}">
+                    <h3 data-bind="text: naam"/>
+                    <table class="table">
+                        <tr>
+                            <th>Bijlage</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tbody data-bind="foreach: bijlages">
+                        <tr>
+                            <td>
+                                <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                                <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                    <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                                </div>
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <table class="table">
+                        <tbody data-bind="foreach: bijlages, visible: false, attr: {id: 'bijlagesjaarrekeningen'+jaartal()}">
+                        <tr>
+                            <td>
+                                <span name="omschrijvingOfBestandsNaam"
+                                      data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/>
+        </span>
+        <h3 class="belastingzaken">IB</h3>
+        <span data-bind="attr: {id: 'ibs'+'open'}, event: {click: $root.toonOfVerbergHoofd('ibs')}"
+              class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+        <span data-bind="attr: {id: 'ibs'+'dicht'}, event: {click: $root.toonOfVerbergHoofd('ibs')}, visible:false"
+              class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+        <div data-bind="foreach: ibs, visible: false, attr: {id: 'ibs'}">
+            <span data-bind="text: jaartal()"></span>
+            <span data-bind="attr: {id: 'ibs'+jaartal()+'open'}, event: {click: $root.toonOfVerberg}"
+                  class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            <span data-bind="attr: {id: 'ibs'+jaartal()+'dicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                  class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+            <div class="form-group"
+                 data-bind="foreach: groepBijlages, visible: false, attr: {id: 'groepBijlagesibs'+jaartal()">
+                <h3 data-bind="text: naam"/>
+                <table class="table">
+                    <tr>
+                        <th>Bijlage</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tbody data-bind="foreach: bijlages">
+                    <tr>
+                        <td>
+                            <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                            </div>
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td>
+                            <a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam, attr: {id: 'bijlagesibs'+jaartal()}""
+                            target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <table class="table">
+                    <tbody data-bind="foreach: bijlages, visible: false, attr: {id: 'groepBijlagesibs'+jaartal()}"
+                    ">
+                    <tr>
+                        <td>
+                            <span name="omschrijvingOfBestandsNaam"
+                                  data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                               target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <span data-bind="visible: basisEntiteit == 'BEDRIJF'">
+            <h3 class="belastingzaken">Btw</h3>
+            <span data-bind="attr: {id: 'btw'+'open'}, event: {click: $root.toonOfVerbergHoofd('btw')}"
+                  class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            <span data-bind="attr: {id: 'btw'+'dicht'}, event: {click: $root.toonOfVerbergHoofd('btw')}, visible:false"
+                  class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+            <div data-bind="foreach: btw, visible: false, attr: {id: 'btw'}">
+                <span data-bind="text: jaartal()"></span>
+                <span data-bind="attr: {id: 'btw'+jaartal()+'open'}, event: {click: $root.toonOfVerberg}"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+                <span data-bind="attr: {id: 'btw'+jaartal()+'dicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+                <div class="form-group"
+                     data-bind="foreach: groepBijlages, visible: false, attr: {id: 'groepBijlagesbtw'+jaartal()}">
+                    <h3 data-bind="text: naam"/>
+                    <table class="table">
+                        <tr>
+                            <th>Bijlage</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tbody data-bind="foreach: bijlages">
+                        <tr>
+                            <td>
+                                <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                                <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                    <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                                </div>
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <table class="table">
+                        <tbody data-bind="foreach: bijlages, visible: false, attr: {id: 'bijlagesbtw'+jaartal()}">
+                        <tr>
+                            <td>
+                                <span name="omschrijvingOfBestandsNaam"
+                                      data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/>
+        </span>
+        <span data-bind="visible: basisEntiteit == 'BEDRIJF'">
+            <h3 class="belastingzaken">Loonbelasting</h3>
+            <span data-bind="attr: {id: 'loonbelastingen'+'open'}, event: {click: $root.toonOfVerbergHoofd('loonbelastingen')}"
+                  class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            <span data-bind="attr: {id: 'loonbelastingen'+'dicht'}, event: {click: $root.toonOfVerbergHoofd('loonbelastingen')}, visible:false"
+                  class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+            <div data-bind="foreach: loonbelastingen, visible: false, attr: {id: 'loonbelastingen'}">
+                <span data-bind="text: jaartal()"></span>
+                <span data-bind="attr: {id: 'loonbelastingen'+jaartal()+'open'}, event: {click: $root.toonOfVerberg}"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+                <span data-bind="attr: {id: 'loonbelastingen'+jaartal()+'dicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+                <div class="form-group"
+                     data-bind="foreach: groepBijlages, visible: false, attr: {id: 'groepBijlagesloonbelastingen'+jaartal()}">
+                    <h3 data-bind="text: naam"/>
+                    <table class="table">
+                        <tr>
+                            <th>Bijlage</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        <tbody data-bind="foreach: bijlages">
+                        <tr>
+                            <td>
+                                <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                                <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                    <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                                </div>
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <table class="table">
+                        <tbody data-bind="foreach: bijlages, visible: false, attr: {id: 'bijlagesloonbelastingen'+jaartal()}">
+                        <tr>
+                            <td>
+                                <span name="omschrijvingOfBestandsNaam"
+                                      data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            </td>
+                            <td data-bind="text: datumUpload"></td>
+                            <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                                   target="_blank" class="fa fa-download"></a></td>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br/>
+        </span>
+        <h3 class="belastingzaken">Overig</h3>
+        <span data-bind="attr: {id: 'overigen'+'open'}, event: {click: $root.toonOfVerbergHoofd('overigen')}"
+              class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+        <span data-bind="attr: {id: 'overigen'+'dicht'}, event: {click: $root.toonOfVerbergHoofd('overigen')}, visible:false"
+              class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+
+        <div data-bind="foreach: overigen, visible: false, attr: {id: 'overigen'}">
+            <span data-bind="text: jaartal()"></span>
+            <span data-bind="attr: {id: 'overigen'+jaartal()+'open'}, event: {click: $root.toonOfVerberg}"
+                  class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            <span data-bind="attr: {id: 'overigen'+jaartal()+'dicht'}, event: {click: $root.toonOfVerberg}, visible:false"
+                  class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+            <div class="form-group"
+                 data-bind="foreach: groepBijlages, visible: false, attr: {id: 'groepBijlagesoverigen'+jaartal()}">
+                <h3 data-bind="text: naam"/>
+                <table class="table">
+                    <tr>
+                        <th>Bijlage</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tbody data-bind="foreach: bijlages">
+                    <tr>
+                        <td>
+                            <span data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                            <div data-bind="attr:{id: 'edit' + id()}" style="display: none;">
+                                <input type="text" data-bind="value: omschrijvingOfBestandsNaam"/>
+                            </div>
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                               target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <table class="table">
+                    <tbody data-bind="foreach: bijlages, visible: false, attr: {id: 'bijlagesoverigen'+jaartal()}">
+                    <tr>
+                        <td>
+                            <span name="omschrijvingOfBestandsNaam"
+                                  data-bind="text: omschrijvingOfBestandsNaam, attr:{id: 'tekst' + id()}"></span>
+
+                        </td>
+                        <td data-bind="text: datumUpload"></td>
+                        <td><a data-bind="attr:{href: url}, title: omschrijvingOfBestandsNaam"
+                               target="_blank" class="fa fa-download"></a></td>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="kolom-2">
+        <form enctype="multipart/form-data" id="fileUploadForm">
+            <input type="hidden" id="identificatie" name="identificatie"/>
+            <input type="hidden" id="soortEntiteit" name="soortEntiteit" value="BELASTINGZAKEN"/>
+            <select id="soort" data-bind="event: {change: bepaalJaren()}">
+                <option></option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Contracten</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Jaarrekening</option>
+                <option>IB</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Btw</option>
+                <option data-bind="visible: basisEntiteit == 'BEDRIJF'">Loonbelasting</option>
+                <option>Overig</option>
+            </select>
+            <select id="jaren" data-bind="visible: toonJaren, event: {change: selecteerJaar()}">
+            </select>
+            <input type="file" id="bijlageFile" name="bijlageFile" data-bind="event: {change: nieuweUpload}"/>
+        </form>
+    </div>
+</div>

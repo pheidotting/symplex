@@ -64,9 +64,11 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
         Long ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         String ingelogdeGebruikerOpgemaakt = getIngelogdeGebruikerOpgemaakt(httpServletRequest);
+        String url = getUrl(httpServletRequest);
 
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
         MDC.put("ingelogdeGebruikerOpgemaakt", ingelogdeGebruikerOpgemaakt + "");
+        MDC.put("url", url + "");
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
@@ -94,7 +96,12 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
         String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("trackAndTraceId");
-        logger.debug("Track And Trace Id : {}", tati);
+
+        return tati;
+    }
+
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("url");
 
         return tati;
     }

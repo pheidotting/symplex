@@ -27,6 +27,7 @@ define(["commons/3rdparty/log2",
                         if(localStorage.getItem('symplexAccessToken')!=null){
                             request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
                         }
+                        request.setRequestHeader('url', window.location);
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
@@ -70,6 +71,7 @@ define(["commons/3rdparty/log2",
                         if(localStorage.getItem('symplexAccessToken')!=null){
                             request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
                         }
+                        request.setRequestHeader('url', window.location);
                     },
                     success: function (response, textStatus, request) {
                         if( request.getResponseHeader('Authorization') != null ) {
