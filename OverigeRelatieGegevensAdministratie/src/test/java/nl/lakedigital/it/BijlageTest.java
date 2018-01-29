@@ -18,6 +18,7 @@ import java.util.UUID;
 
 import static nl.lakedigital.assertion.Assert.assertEquals;
 
+@Ignore
 public class BijlageTest extends AbstractTest<JsonBijlage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(BijlageTest.class);
 

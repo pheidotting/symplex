@@ -39,10 +39,16 @@
                    value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
         </layout>
     </appender>
-    <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
-        <param name="logzioToken" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
-        <param name="logzioUrl" value="https://listener.logz.io:8071"/>
-        <param name="logzioType" value="myType"/>
+
+    <appender name="kibana" class="nl.lakedigital.djfc.appender.KibanaAppender">
+        <param name="interval" value="600"/>
+        <param name="applicatie" value="relatiebeheer"/>
+        <param name="omgeving" value="prd"/>
+        <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%m%n"/>
+        </layout>
     </appender>
 
     <logger name="javax.enterprise.system">
@@ -71,7 +77,7 @@
         <priority value="trace"/>
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
-        <appender-ref ref="loggly"/>
-        <!--<appender-ref ref="LogzioLogbackAppender"/>-->
+        <!--<appender-ref ref="loggly"/>-->
+        <appender-ref ref="kibana"/>
     </root>
 </log4j:configuration>

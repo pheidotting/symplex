@@ -4,13 +4,13 @@ import nl.dias.domein.Hypotheek;
 import nl.dias.domein.polis.Polis;
 import nl.dias.service.*;
 import nl.dias.web.mapper.*;
+import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.response.Relatie;
-import nl.lakedigital.djfc.domain.response.Telefoongesprek;
-import nl.lakedigital.djfc.domain.response.TelefoonnummerMetGesprekken;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -64,12 +64,14 @@ public class RelatieController extends AbstractController {
     private SchadeMapper schadeMapper;
     @Inject
     private HypotheekService hypotheekService;
+    @Inject
+    private BelastingzakenService belastingzakenService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Relatie leesRelatie(@PathVariable("id") String identificatie, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
-        LOGGER.debug("Ophalen Relatie met ID {}", identificatie);
+        LOGGER.debug("Ophalen Relatie met identificatie {}", identificatie);
 
         Relatie relatie = null;
         try {
@@ -80,12 +82,36 @@ public class RelatieController extends AbstractController {
                 relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
                 relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
 
-                relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
-                relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
-                relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
-                relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                try {
+                    relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen adressen bij Relatie met id {}", relatieDomain.getId());
+                }
+                try {
+                    relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen bijlages bij Relatie met id {}", relatieDomain.getId());
+                }
+                try {
+                    relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen groepBijlages bij Relatie met id {}", relatieDomain.getId());
+                }
+                try {
+                    relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen rekeningnummers bij Relatie met id {}", relatieDomain.getId());
+                }
+                try {
+                    relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen telefoonnummers bij Relatie met id {}", relatieDomain.getId());
+                }
+                try {
+                    relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                } catch (LeesFoutException lfe) {
+                    LOGGER.error("Fout opgetreden bij lezen opmerkingen bij Relatie met id {}", relatieDomain.getId());
+                }
 
                 List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
                 relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
@@ -110,7 +136,6 @@ public class RelatieController extends AbstractController {
                         relatie.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
                     }
                 }
-
 
                 List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
                 relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
@@ -187,14 +212,51 @@ public class RelatieController extends AbstractController {
                     }
                 }).collect(Collectors.toList()));
             }
+
+            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.RELATIE, relatieDomain.getId());
+
+            Belastingzaken belastingzaken = new Belastingzaken();
+
+            for (nl.dias.domein.Belastingzaken bz : bzLijst) {
+                if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.IB) {
+                    belastingzaken.getIbs().add(mapIb(bz));
+                } else if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.OVERIG) {
+                    belastingzaken.getOverigen().add(mapOverig(bz));
+                }
+            }
+
+            relatie.setBelastingzaken(belastingzaken);
         } catch (Exception e) {
-            LOGGER.error("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
-            throw e;
+            LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
+            return new Relatie();
         }
 
         if (relatie == null) {
-            throw new RuntimeException();
+            return new Relatie();
         }
         return relatie;
     }
+
+    private IB mapIb(nl.dias.domein.Belastingzaken belastingzaken) {
+        IB ib = new IB();
+
+        ib.setJaartal(belastingzaken.getJaar());
+        ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+
+        return ib;
+    }
+
+    private Overig mapOverig(nl.dias.domein.Belastingzaken belastingzaken) {
+        Overig overig = new Overig();
+
+        overig.setJaartal(belastingzaken.getJaar());
+        overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+
+        return overig;
+    }
+
 }

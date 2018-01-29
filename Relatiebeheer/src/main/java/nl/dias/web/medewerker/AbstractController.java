@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import inloggen.SessieHolder;
 import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
@@ -26,12 +27,22 @@ public abstract class AbstractController {
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
-        MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+        Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
+        if (gebruiker != null) {
+            MDC.put("ingelogdeGebruiker", getIngelogdeGebruiker(httpServletRequest).getId() + "");
+            MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(getIngelogdeGebruiker(httpServletRequest)));
+        }
+        String url = getUrl(httpServletRequest);
+        if (url != null) {
+            MDC.put("url", url);
+        }
         if (trackAndTraceId != null) {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
 
-        SessieHolder.get().setIngelogdeGebruiker(getIngelogdeGebruiker(httpServletRequest).getId());
+        if (gebruiker != null) {
+            SessieHolder.get().setIngelogdeGebruiker(gebruiker.getId());
+        }
         SessieHolder.get().setTrackAndTraceId(getTrackAndTraceId(httpServletRequest));
     }
 
@@ -63,10 +74,35 @@ public abstract class AbstractController {
         return null;
     }
 
-    protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest.getHeader("trackAndTraceId");
-        LOGGER.debug("DJFC Track And Trace Id : {}", tati);
+    private String maakOp(Gebruiker gebruiker) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(gebruiker.getVoornaam());
+        stringBuffer.append(" ");
+        if (gebruiker.getTussenvoegsel() != null && !"".equals(gebruiker.getTussenvoegsel())) {
+            stringBuffer.append(gebruiker.getTussenvoegsel());
+            stringBuffer.append(" ");
+        }
+        stringBuffer.append(gebruiker.getAchternaam());
+        stringBuffer.append(" (");
+        stringBuffer.append(gebruiker.getId());
+        stringBuffer.append(")");
 
-        return tati;
+        if (gebruiker instanceof Medewerker) {
+            stringBuffer.append(", ");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getNaam());
+            stringBuffer.append(" (");
+            stringBuffer.append(((Medewerker) gebruiker).getKantoor().getId());
+            stringBuffer.append(")");
+        }
+
+        return stringBuffer.toString();
+    }
+
+    protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("trackAndTraceId");
+    }
+
+    protected String getUrl(HttpServletRequest httpServletRequest) {
+        return httpServletRequest.getHeader("url");
     }
 }

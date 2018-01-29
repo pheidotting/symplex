@@ -288,23 +288,6 @@ pipeline {
             }
         }
 
-        stage ('Verify PolisAdministratie') {
-            steps {
-                sh '''
-                    cd PolisAdministratie
-                    mvn clean verify
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Verify PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Verify PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-
         stage ('Undeploy Live') {
             when {
                 expression {
@@ -376,10 +359,6 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/oga/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
-                    scp PolisAdministratie/src/main/resources/tst/pa.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp PolisAdministratie/src/main/resources/tst/pa.log4j.xml jetty@192.168.91.215:/opt/jetty
-                    scp PolisAdministratie/target/pa.war jetty@192.168.91.215:/opt/jetty/webapps
-
                     scp Relatiebeheer/src/main/resources/tst/djfc.app.properties jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/src/main/resources/tst/djfc.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp Relatiebeheer/src/main/resources/GeoLite2-City.mmdb jetty@192.168.91.215:/opt/jetty
@@ -446,6 +425,7 @@ pipeline {
                     mail to: 'bene@dejongefinancieelconsult.nl',
                          subject: "Nieuwe versie op de PRODUCTIEomgeving",
                          body: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
+
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
