@@ -65,7 +65,7 @@ define(["commons/3rdparty/log2",
                     url: url,
                     contentType: "application/json",
                     data: data,
-                    ataType: "json",
+                    dataType: "json",
                     async: false,
                     beforeSend: function(request){
                         if(localStorage.getItem('symplexAccessToken')!=null){
