@@ -8,15 +8,13 @@
 </head>
 <body>
 <script type="text/javascript">
-    require(['sammyconfig'], function (App) {
+    require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
         app.addView('mijn-gegevens', 'view/mijn-gegevens-view');
 
         app.run('#mijn-gegevens');
     });
-
-
 </script>
 <div id="hoofd"></div>
 <div id="content"></div>
