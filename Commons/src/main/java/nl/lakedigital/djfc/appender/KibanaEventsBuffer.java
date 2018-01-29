@@ -23,37 +23,39 @@ public class KibanaEventsBuffer {
     private RateLimiter rateLimiter = RateLimiter.create(1);
 
     public void add(String event, LoggingEvent loggingEvent, int interval, final String token, String applicatie, String omgeving) {
-        if (events == null) {
-            events = new ArrayList<>();
-        }
-
-        String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
-        Long ig = null;
-        if (ingelogdeGebruiker != null && !"null".equals(ingelogdeGebruiker)) {
-            ig = Long.valueOf(ingelogdeGebruiker);
-        }
-
-        events.add(new KibanaEvent(event, loggingEvent, ig, MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), MDC.get("url"), applicatie, omgeving));
-
-        if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
-            flush(token);
-        }
-        if (timer == null && !flushing) {
-            int delay = interval * 1000;
-            int period = 5000;
-            try {
-                this.timer = new Timer();
-            } catch (OutOfMemoryError outOfMemoryError) {
-                throw new RuntimeException(outOfMemoryError.getMessage());
+        if (loggingEvent != null) {
+            if (events == null) {
+                events = new ArrayList<>();
             }
-            timer.scheduleAtFixedRate(new TimerTask() {
 
-                public void run() {
-                    flush(token);
+            String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
+            Long ig = null;
+            if (ingelogdeGebruiker != null && !"null".equals(ingelogdeGebruiker)) {
+                ig = Long.valueOf(ingelogdeGebruiker);
+            }
 
+            events.add(new KibanaEvent(event, loggingEvent, ig, MDC.get("trackAndTraceId"), MDC.get("ingelogdeGebruikerOpgemaakt"), MDC.get("url"), applicatie, omgeving));
+
+            if (!events.isEmpty() && events.size() >= 500 || loggingEvent.getLevel() == Level.ERROR) {
+                flush(token);
+            }
+            if (timer == null && !flushing) {
+                int delay = interval * 1000;
+                int period = 5000;
+                try {
+                    this.timer = new Timer();
+                } catch (OutOfMemoryError outOfMemoryError) {
+                    throw new RuntimeException(outOfMemoryError.getMessage());
                 }
-            }, delay, period);
-            timer = null;
+                timer.scheduleAtFixedRate(new TimerTask() {
+
+                    public void run() {
+                        flush(token);
+
+                    }
+                }, delay, period);
+                timer = null;
+            }
         }
     }
 
