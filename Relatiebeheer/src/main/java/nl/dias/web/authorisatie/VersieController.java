@@ -8,7 +8,6 @@ import nl.dias.repository.VersieRepository;
 import nl.dias.web.medewerker.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,27 +36,32 @@ public class VersieController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/nieuweversie", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void nieuweversie(@RequestBody String versieinfo) {
-        int pos = versieinfo.indexOf(" ");
-        String versieNummer = versieinfo.substring(0, pos);
-        String releasenotes = versieinfo.substring(pos + 1);
+        if (versieinfo.toLowerCase().startsWith("versie")) {
+            versieinfo = versieinfo.substring(6).trim();
 
-        Versie versie = new Versie(versieNummer, releasenotes);
-        versieRepository.opslaan(versie);
+            int pos = versieinfo.indexOf(" ");
+            String versieNummer = versieinfo.substring(0, pos);
+            String releasenotes = versieinfo.substring(pos + 1);
 
-        List<Long> gebruikerIds = gebruikerRepository.alleGebruikersDieKunnenInloggen().stream().map(new Function<Gebruiker, Long>() {
-            @Override
-            public Long apply(Gebruiker gebruiker) {
-                return gebruiker.getId();
+            Versie versie = new Versie(versieNummer, releasenotes);
+            versieRepository.opslaan(versie);
+
+            List<Long> gebruikerIds = gebruikerRepository.alleGebruikersDieKunnenInloggen().stream().map(new Function<Gebruiker, Long>() {
+                @Override
+                public Long apply(Gebruiker gebruiker) {
+                    return gebruiker.getId();
+                }
+            }).collect(Collectors.toList());
+
+            for (Long gebruikerId : gebruikerIds) {
+                versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
             }
-        }).collect(Collectors.toList());
-
-        for (Long gebruikerId : gebruikerIds) {
-            versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
         }
     }
 
-    @SendTo("/pushNieuweVersie")
-    public Map<String, String> pushNieuweVersie(HttpServletRequest httpServletRequest) {
+    @RequestMapping(method = RequestMethod.GET, value = "/checkNieuweversie", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public Map<String, String> checkNieuweversie(HttpServletRequest httpServletRequest) {
         Long gebruikerId = getIngelogdeGebruiker(httpServletRequest).getId();
 
         Map<String, String> result = new HashMap<>();
@@ -66,5 +70,4 @@ public class VersieController extends AbstractController {
         }
         return result;
     }
-
 }

@@ -19,6 +19,9 @@ public class Log4JController extends AbstractController {
     public void log4javascript(@FormParam("logger") String logger, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
 
+        if (logger == null || "".equals(logger)) {
+            logger = this.getClass().toString();
+        }
         final Logger LOGGER = LoggerFactory.getLogger(logger);
 
         if ("debug".equalsIgnoreCase(level)) {
