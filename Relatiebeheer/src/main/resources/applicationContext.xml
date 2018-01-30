@@ -9,6 +9,7 @@
     <!--<import resource="applicationContext-jms.xml"/>-->
 
     <bean id="logglyEventsBuffer" class="nl.lakedigital.djfc.appender.LogglyEventsBuffer"/>
+    <bean id="metricsRegistry" class="com.codahale.metrics.MetricRegistry"/>
 
     <!--<bean id="gebruikerRepository" class="nl.dias.repository.GebruikerRepository" depends-on="sessionFactory">-->
 	<!--<property name="sessionFactory" ref="sessionFactory"/>-->
