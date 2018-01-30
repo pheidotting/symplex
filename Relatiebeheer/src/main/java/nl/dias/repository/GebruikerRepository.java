@@ -348,6 +348,18 @@ public class GebruikerRepository {
         return relaties;
     }
 
+    public List<Medewerker> alleGebruikersDieKunnenInloggen() {
+        getTransaction();
+
+        Query query = getEm().getNamedQuery("Medewerker.alles");
+
+        List<Medewerker> result = query.list();
+
+        getTransaction().commit();
+
+        return result;
+    }
+
     public List<Relatie> zoekOpVoorletters(String voorletters) {
         getTransaction();
 

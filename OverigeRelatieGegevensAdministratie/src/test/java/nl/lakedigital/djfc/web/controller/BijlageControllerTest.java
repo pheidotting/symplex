@@ -69,6 +69,8 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
         HttpServletRequest httpServletRequest = createMock(HttpServletRequest.class);
         expect(httpServletRequest.getHeader(INGELOGDE_GEBRUIKER_HEADER)).andReturn("46");
         expect(httpServletRequest.getHeader(TRACK_AND_TRACE_ID_HEADER)).andReturn(TRACK_AND_TRACE_ID);
+        expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         bijlageService.verwijder(id);
         expectLastCall();
@@ -88,6 +90,8 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
         HttpServletRequest httpServletRequest = createMock(HttpServletRequest.class);
         expect(httpServletRequest.getHeader(INGELOGDE_GEBRUIKER_HEADER)).andReturn("46");
         expect(httpServletRequest.getHeader(TRACK_AND_TRACE_ID_HEADER)).andReturn(TRACK_AND_TRACE_ID);
+        expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         expect(mapper.map(jsonBijlage, Bijlage.class)).andReturn(bijlage);
         bijlageService.opslaan(bijlage);
@@ -114,6 +118,8 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
         HttpServletRequest httpServletRequest = createMock(HttpServletRequest.class);
         expect(httpServletRequest.getHeader(INGELOGDE_GEBRUIKER_HEADER)).andReturn("46");
         expect(httpServletRequest.getHeader(TRACK_AND_TRACE_ID_HEADER)).andReturn(TRACK_AND_TRACE_ID);
+        expect(httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt")).andReturn("ingelogdeGebruikerOpgemaakt");
+        expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         expect(mapper.map(jsonBijlage, Bijlage.class)).andReturn(bijlage);
         bijlageService.opslaan(newArrayList(bijlage), SoortEntiteit.RELATIE, null);
@@ -144,7 +150,7 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
 
         replayAll();
 
-        OpvragenBijlagesResponse real = bijlageController.lees(id);
+        OpvragenBijlagesResponse real = bijlageController.lees(id, null);
 
         assertThat(real.getBijlages(), is(response.getBijlages()));
 

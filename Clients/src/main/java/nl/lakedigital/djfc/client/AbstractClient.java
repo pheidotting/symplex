@@ -9,6 +9,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.json.JSONConfiguration;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +55,10 @@ public abstract class AbstractClient<D> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/xml");
+            connection.setRequestProperty("ingelogdeGebruiker", MDC.get("ingelogdeGebruiker"));
+            connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
+            connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
+            connection.setRequestProperty("url", MDC.get("url"));
 
             InputStream xml = connection.getInputStream();
 

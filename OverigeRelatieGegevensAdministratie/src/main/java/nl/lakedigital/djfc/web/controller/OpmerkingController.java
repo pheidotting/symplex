@@ -32,7 +32,9 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenOpmerkingenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+    public OpvragenOpmerkingenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
 
         List<Opmerking> domainEntiteiten = getService().alles(SoortEntiteit.valueOf(soortentiteit), parentid);
@@ -47,7 +49,9 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenOpmerkingenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenOpmerkingenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
 
         OpvragenOpmerkingenResponse opvragenOpmerkingenResponse = new OpvragenOpmerkingenResponse();

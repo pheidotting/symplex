@@ -11,11 +11,11 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
-        'viewmodel/common/taak-viewmodel',
+        'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, taakViewModel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
 
     return function() {
         var _this = this;
@@ -94,7 +94,6 @@ define(['jquery',
                 } else {
                     bedrijfId = _this.basisId;
                 }
-                _this.taakModel             = new taakViewModel(false, soortEntiteit, polisId, relatieId, bedrijfId);
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
                 zoekVoertuigGegevens(_this);
@@ -161,7 +160,7 @@ define(['jquery',
 
     function zoekVoertuigGegevens(_this){
         //proberen het kenteken op te zoeken in het geval van een autoverzekering
-        if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen') {
+        if(_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen' || _this.polis.soort() === 'BromSnorfiets') {
             var kenmerk = _this.polis.kenmerk();
 
             _this.voertuigImage1('');
@@ -217,8 +216,9 @@ define(['jquery',
         arrSC[9] = /[a-zA-Z]{1}[\d]{3}[a-zA-Z]{2}/ // 10 X-999-XX
         arrSC[10] = /[a-zA-Z]{3}[\d]{2}[a-zA-Z]{1}/ // 11 XXX-99-X
         arrSC[11] = /[a-zA-Z]{1}[\d]{2}[a-zA-Z]{3}/ // 12 X-99-XXX
-        arrSC[12] = /[\d]{1}[a-zA-Z]{2}[\d]{3}/ // 13 9-XX-999
-        arrSC[13] = /[\d]{3}[a-zA-Z]{2}[\d]{1}/ // 14 999-XX-9
+        arrSC[12] = /[a-zA-Z]{1}[\d]{3}[a-zA-Z]{2}/ // 12 X-999-XX
+        arrSC[13] = /[\d]{1}[a-zA-Z]{2}[\d]{3}/ // 13 9-XX-999
+        arrSC[14] = /[\d]{3}[a-zA-Z]{2}[\d]{1}/ // 14 999-XX-9
 
         //except licenseplates for diplomats
         scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45

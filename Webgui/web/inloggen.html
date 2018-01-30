@@ -13,13 +13,13 @@
 </head>
 <body>
 <script type="text/javascript">
-        require(['sammyconfig'], function (App) {
-            var app = new App();
+    require(['/js/commons/sammyconfig.js'], function (App) {
+        var app = new App();
 
-            app.addView('inloggen', 'view/inloggen-view');
+        app.addView('inloggen', 'view/inloggen-view');
 
-            app.run('#inloggen');
-        });
+        app.run('#inloggen');
+    });
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>

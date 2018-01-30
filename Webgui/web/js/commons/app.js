@@ -13,6 +13,8 @@ requirejs.config({
         text: 'node_modules/requirejs-text/text',
         underscore: 'node_modules/underscore/underscore-min',
         lodash: 'node_modules/lodash/lodash.min',
+        push: 'node_modules/push.js/bin/push.min',
+//        websocket: 'node_modules/ws/lib/websocket',
         commons: 'commons',
     	js: 'js',
     	pages: 'pages',
@@ -45,3 +47,20 @@ requirejs.config({
     },
     urlArgs: "bust={VERSION}"
 });
+
+window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+    console.log('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber + ' Column: ' + column + ' StackTrace: ' +  errorObj);
+
+    var xhr = new XMLHttpRequest(),
+        fd = new FormData();
+
+    fd.append( 'logger', '' );
+    fd.append( 'timestamp', new Date().getTime() );
+    fd.append( 'level', 'ERROR' );
+    fd.append( 'url', url );
+    fd.append( 'message', errorMsg );
+    fd.append( 'layout', 'HttpPostDataLayout' );
+
+    xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
+    xhr.send( fd );
+}

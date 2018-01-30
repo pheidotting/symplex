@@ -9,19 +9,17 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <script>
 		var refreshIntervalId = 0;
-
     </script>
 </head>
 <body>
 <script type="text/javascript">
-        require(['sammyconfig'], function (App) {
-            var app = new App();
+    require(['/js/commons/sammyconfig.js'], function (App) {
+        var app = new App();
 
-            app.addView('zoeken', 'view/zoeken-view');
+        app.addView('zoeken', 'view/zoeken-view');
 
-            app.run('#zoeken');
-        });
-
+        app.run('#zoeken');
+    });
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>

@@ -15,29 +15,30 @@
 </head>
 <body>
 <script type="text/javascript">
-        require(['sammyconfig'], function (App) {
-            var app = new App();
+    require(['/js/commons/sammyconfig.js'], function (App) {
+        var app = new App();
 
-            app.addView('relatie', 'view/beheren-relatie-view');
-            app.addView('relatie/:identificatie', 'view/beheren-relatie-view');
-            app.addView('bedrijf', 'view/beheren-bedrijf-view');
-            app.addView('bedrijf/:identificatie', 'view/beheren-bedrijf-view');
+        app.addView('relatie', 'view/beheren-relatie-view');
+        app.addView('relatie/:identificatie', 'view/beheren-relatie-view');
+        app.addView('bedrijf', 'view/beheren-bedrijf-view');
+        app.addView('bedrijf/:identificatie', 'view/beheren-bedrijf-view');
 
-            app.addView('polissen/:identificatie', 'view/lijst-polissen-view');
-            app.addView('polis', 'view/beheren-polis-view');
-            app.addView('polis/:identificatie', 'view/beheren-polis-view');
-            app.addView('polis/:identificatie/:readonly', 'view/beheren-polis-view');
+        app.addView('polissen/:identificatie', 'view/lijst-polissen-view');
+        app.addView('polis', 'view/beheren-polis-view');
+        app.addView('polis/:identificatie', 'view/beheren-polis-view');
+        app.addView('polis/:identificatie/:readonly', 'view/beheren-polis-view');
 
-            app.addView('schades/:identificatie', 'view/lijst-schades-view');
-            app.addView('schade/:identificatie', 'view/beheren-schade-view');
-            app.addView('schade/:identificatie/:readonly', 'view/beheren-schade-view');
+        app.addView('schades/:identificatie', 'view/lijst-schades-view');
+        app.addView('schade/:identificatie', 'view/beheren-schade-view');
+        app.addView('schade/:identificatie/:readonly', 'view/beheren-schade-view');
 
-            app.addView('hypotheken/:identificatie', 'view/lijst-hypotheken-view');
-            app.addView('hypotheek/:identificatie', 'view/beheren-hypotheek-view');
+        app.addView('hypotheken/:identificatie', 'view/lijst-hypotheken-view');
+        app.addView('hypotheek/:identificatie', 'view/beheren-hypotheek-view');
 
-            app.run('#relatie');
-        });
+        app.addView('belastingzaken/:identificatie', 'view/beheren-belastingzaken-view');
 
+        app.run('#relatie');
+    });
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>
@@ -75,6 +76,9 @@
                     <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
                             style="cursor: pointer;"
                             data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
+                    </li>
+                    <li><a style="cursor: pointer;"
+                           data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
                     </li>
                 </ul>
             </div>

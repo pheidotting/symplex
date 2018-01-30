@@ -23,6 +23,8 @@ public class Bedrijf {
     private List<Polis> polissen = new ArrayList<>();
     private List<ContactPersoon> contactPersoons = new ArrayList<>();
 
+    private Belastingzaken belastingzaken;
+
     public Long getId() {
         return id;
     }
@@ -157,5 +159,13 @@ public class Bedrijf {
 
     public void setContactPersoons(List<ContactPersoon> contactPersoons) {
         this.contactPersoons = contactPersoons;
+    }
+
+    public Belastingzaken getBelastingzaken() {
+        return belastingzaken;
+    }
+
+    public void setBelastingzaken(Belastingzaken belastingzaken) {
+        this.belastingzaken = belastingzaken;
     }
 }

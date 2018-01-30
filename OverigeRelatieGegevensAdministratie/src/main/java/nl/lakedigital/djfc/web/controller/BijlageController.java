@@ -55,7 +55,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenBijlagesResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+    public OpvragenBijlagesResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
 
         List<Bijlage> domainEntiteiten = getService().alles(SoortEntiteit.valueOf(soortentiteit), parentid);
@@ -71,7 +73,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
-    public OpvragenBijlagesResponse zoeken(@PathVariable("zoekTerm") String zoekTerm) {
+    public OpvragenBijlagesResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
 
         OpvragenBijlagesResponse opvragenBijlagesResponse = new OpvragenBijlagesResponse();
@@ -103,9 +107,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
     public Long opslaan(@RequestBody JsonBijlage jsonBijlage, HttpServletRequest httpServletRequest) {
-        logger.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonBijlage, ToStringStyle.SHORT_PREFIX_STYLE));
-
         zetSessieWaarden(httpServletRequest);
+
+        logger.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonBijlage, ToStringStyle.SHORT_PREFIX_STYLE));
 
         Bijlage bijlage = mapper.map(jsonBijlage, Bijlage.class);
         bijlageService.opslaan(bijlage);
@@ -137,7 +141,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
-    public OpvragenBijlagesResponse lees(@PathVariable("id") Long id) {
+    public OpvragenBijlagesResponse lees(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         OpvragenBijlagesResponse response = new OpvragenBijlagesResponse();
 
         response.getBijlages().add(mapper.map(bijlageService.lees(id), JsonBijlage.class));
@@ -147,7 +153,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanGroep")
     @ResponseBody
-    public Long opslaanGroep(@RequestBody JsonGroepBijlages jsonGroepBijlages) {
+    public Long opslaanGroep(@RequestBody JsonGroepBijlages jsonGroepBijlages, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         GroepBijlages groepBijlages = mapper.map(jsonGroepBijlages, GroepBijlages.class);
 
         bijlageService.opslaanGroepBijlages(groepBijlages);
@@ -157,7 +165,9 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleGroepen/{soortentiteit}/{parentid}")
     @ResponseBody
-    public OpvragenGroepBijlagesResponse alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid) {
+    public OpvragenGroepBijlagesResponse alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
         logger.debug("alles JsonGroepBijlages voor soortEntiteit {} parentId {}", soortentiteit, parentid);
 
         List<GroepBijlages> domainEntiteiten = bijlageService.alleGroepenBijlages(SoortEntiteit.valueOf(soortentiteit), parentid);

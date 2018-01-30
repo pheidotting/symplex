@@ -12,14 +12,13 @@
 </head>
 <body>
 <script type="text/javascript">
-    require(['sammyconfig'], function (App) {
+    require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
         app.addView('dashboard', 'view/dashboard-view');
 
         app.run('#dashboard');
     });
-
 </script>
 <div id="hoofd"></div>
 <div id="content"></div>

@@ -11,10 +11,9 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'moment',
         'service/toggle-service',
-        'viewmodel/common/taak-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel) {
+    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService) {
 
     return function() {
         var _this = this;
@@ -78,18 +77,18 @@ define(['jquery',
                     $('<option>', { value : value.id }).text(value.omschrijving).appendTo($hypotheekVormSelect);
                 });
 
-                toggleService.isFeatureBeschikbaar('TODOIST').done(function(toggleBeschikbaar){
-                    if(toggleBeschikbaar) {
-                        var relatieId;
-                        var bedrijfId;
-                        if(_this.basisEntiteit == 'RELATIE'){
-                            relatieId = _this.basisId;
-                        } else {
-                            bedrijfId = _this.basisId;
-                        }
-
-                        _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
-                    }
+//                toggleService.isFeatureBeschikbaar('TODOIST').done(function(toggleBeschikbaar){
+//                    if(toggleBeschikbaar) {
+//                        var relatieId;
+//                        var bedrijfId;
+//                        if(_this.basisEntiteit == 'RELATIE'){
+//                            relatieId = _this.basisId;
+//                        } else {
+//                            bedrijfId = _this.basisId;
+//                        }
+//
+//                        _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
+//                    }
 
                     _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
                     _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
@@ -102,7 +101,7 @@ define(['jquery',
                     _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
 
                     return deferred.resolve();
-                });
+//                });
             });
 
             return deferred.promise();

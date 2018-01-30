@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.messaging.sender;
 
-import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.AbstractMessage;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Destination;
@@ -54,8 +54,10 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
         for (JmsTemplate jmsTemplate : jmsTemplates) {
             jmsTemplate.send(session -> {
                 try {
-                    abstractMessage.setTrackAndTraceId(SessieHolder.get().getTrackAndTraceId());
-                    abstractMessage.setIngelogdeGebruiker(SessieHolder.get().getIngelogdeGebruiker());
+                    abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
+                    abstractMessage.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
+                    abstractMessage.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+                    abstractMessage.setUrl(MDC.get("url"));
 
                     JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
                     Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

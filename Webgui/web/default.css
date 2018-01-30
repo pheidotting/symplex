@@ -241,3 +241,7 @@ meter::-webkit-meter-suboptimum-value {
     font-size: 13px;
     color: #0e71b8;
 }
+
+.belastingzaken {
+    display: inline;
+}
