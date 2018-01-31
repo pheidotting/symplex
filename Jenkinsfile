@@ -229,7 +229,6 @@ pipeline {
             post {
                 success {
                     slackSend (color: '#4245f4', message: "Deploy naar testbak gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                    sh "curl --data 'commitMessage()' http://192.168.91.230:8080/dejonge/rest/authorisatie/versies/nieuweversie -H 'Content-Type: application/json';"
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar testbak Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -427,7 +426,7 @@ pipeline {
                          subject: "Nieuwe versie op de PRODUCTIEomgeving",
                          body: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + commitMessage();
 
-                    sh "curl --data " + commitMessage() + " http://localhost:8080/dejonge/rest/authorisatie/versies/nieuweversie -H 'Content-Type: application/json';"
+                    sh "curl --data 'commitMessage()' http://192.168.91.220:8080/dejonge/rest/authorisatie/versies/nieuweversie -H 'Content-Type: application/json';"
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
