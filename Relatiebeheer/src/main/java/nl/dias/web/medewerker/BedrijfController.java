@@ -1,6 +1,7 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Bedrijf;
+import nl.dias.domein.Medewerker;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.*;
@@ -97,6 +98,7 @@ public class BedrijfController extends AbstractController {
         }
 
         Bedrijf bedrijf = jsonBedrijfMapper.mapVanJson(jsonBedrijf);
+        bedrijf.setKantoor(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId());
         bedrijfService.opslaan(bedrijf);
 
         LOGGER.debug("Return {}", jsonBedrijf.getIdentificatie());
