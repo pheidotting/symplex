@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.MetricRegistry;
 import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
@@ -49,6 +50,8 @@ public class BijlageController extends AbstractController {
     private BijlageNaarJsonBijlageMapper bijlageNaarJsonBijlageMapper;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private MetricRegistry metricRegistry;
 
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigOmschrijvingBijlage", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -137,7 +140,9 @@ public class BijlageController extends AbstractController {
 
         LOGGER.debug("{}", ReflectionToStringBuilder.toString(fileDetail));
 
-        Long id = identificatieClient.zoekIdentificatieCode(identificatie).getEntiteitId();
+        Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(identificatie);
+        Long id = identificatie1.getEntiteitId();
+        metricRegistry.meter(identificatie1.getSoortEntiteit() + " bijlage uploaden").mark();
 
         LOGGER.debug("Opgehaalde identificatie {}", ReflectionToStringBuilder.toString(id));
 
