@@ -101,31 +101,23 @@ define(["commons/3rdparty/log2",
                 logger.debug("Haal ingelogde gebruiker");
                 var deferred = $.Deferred();
 
-                var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
-                var base64 = base64Url.replace('-', '+').replace('_', '/');
-                var token = JSON.parse(window.atob(base64));
+                if(localStorage.getItem('symplexAccessToken') != null) {
+                    var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
+                    var base64 = base64Url.replace('-', '+').replace('_', '/');
+                    var token = JSON.parse(window.atob(base64));
 
-                gebruikerRepository.haalIngelogdeGebruiker(token.sub).done(function(response){
-                    if(response.kantoor != null){
-                        logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
-//                        $('#ingelogdeGebruiker').html("Ingelogd als : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
-                    }else{
-                        logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam);
-//                        $('#ingelogdeGebruiker').html("Ingelogd als : " + response.gebruikersnaam);
-                    }
-//                    $('#uitloggen').show();
-//                    $('#homeKnop').show();
+                    gebruikerRepository.haalIngelogdeGebruiker(token.sub).done(function(response){
+                        if(response.kantoor != null){
+                            logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
+                        }else{
+                            logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam);
+                        }
 
-                    return deferred.resolve(response);
-//                }).fail(function(response){
-//                    logger.debug("Niet ingelogd, naar de inlogpagina");
-//                    $('#ingelogdeGebruiker').html("");
-//                    $('#uitloggen').hide();
-//                    $('#homeKnop').hide();
-//                    location.href = 'inloggen.html';
-//
-//                    return deferred.resolve();
-                });
+                        return deferred.resolve(response);
+                    });
+                } else {
+                    return deferred.resolve(null);
+                }
 
                 return deferred.promise();
             },
