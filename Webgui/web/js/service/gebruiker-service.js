@@ -114,10 +114,10 @@ define(["commons/3rdparty/log2",
                         }
 
                         return deferred.resolve(response);
-                    } else {
-                        return deferred.resolve(null);
-                    }
-                });
+                    });
+                } else {
+                    return deferred.resolve(null);
+                }
 
                 return deferred.promise();
             },
