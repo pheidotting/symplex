@@ -34,7 +34,7 @@ public class InkomendRequestRepository {
 
     public void opslaan(InkomendRequest inkomendRequest) {
         getTransaction();
-        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(inkomendRequest, ToStringStyle.SHORT_PREFIX_STYLE));
+        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(inkomendRequest, ToStringStyle.SHORT_PREFIX_STYLE));
         getSession().save(inkomendRequest);
 
         getTransaction().commit();
