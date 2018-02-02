@@ -9,6 +9,7 @@ import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.MetricsService;
 import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -21,7 +22,6 @@ import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
-import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +64,8 @@ public class GebruikerController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -109,6 +111,10 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
     @ResponseBody
     public String opslaanContactPersoon(@RequestBody JsonContactPersoon jsonContactPersoon, HttpServletRequest httpServletRequest) {
+        LOGGER.info("Opslaan Relatie {} {}", jsonContactPersoon.getVoornaam(), jsonContactPersoon.getAchternaam());
+
+        metricsService.addMetric(MetricsService.SoortMetric.CONTACTPERSOON_OPSLAAN, null, jsonContactPersoon.getIdentificatie() == null);
+
         zetSessieWaarden(httpServletRequest);
 
         ContactPersoon contactPersoon = mapper.map(jsonContactPersoon, ContactPersoon.class);
@@ -123,7 +129,9 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonRelatie));
+        LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
+
+        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_OPSLAAN, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 

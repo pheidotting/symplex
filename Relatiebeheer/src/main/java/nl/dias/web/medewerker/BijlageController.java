@@ -1,10 +1,10 @@
 package nl.dias.web.medewerker;
 
-import com.codahale.metrics.MetricRegistry;
 import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
+import nl.dias.service.MetricsService;
 import nl.dias.web.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
@@ -51,7 +51,7 @@ public class BijlageController extends AbstractController {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
-    private MetricRegistry metricRegistry;
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigOmschrijvingBijlage", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -142,7 +142,7 @@ public class BijlageController extends AbstractController {
 
         Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(identificatie);
         Long id = identificatie1.getEntiteitId();
-        metricRegistry.meter(identificatie1.getSoortEntiteit() + " bijlage uploaden").mark();
+        metricsService.addMetric(MetricsService.SoortMetric.BIJLAGE_UPLOADEN, identificatie1.getSoortEntiteit(), null);
 
         LOGGER.debug("Opgehaalde identificatie {}", ReflectionToStringBuilder.toString(id));
 
@@ -182,7 +182,6 @@ public class BijlageController extends AbstractController {
 
             LOGGER.debug("request {}", httpServletRequest);
             Gebruiker ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
-            LOGGER.debug("Ingelogde Gebruiker {}", ReflectionToStringBuilder.toString(ingelogdeGebruiker));
             String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
             LOGGER.debug("trackAndTraceId {}", trackAndTraceId);
 
