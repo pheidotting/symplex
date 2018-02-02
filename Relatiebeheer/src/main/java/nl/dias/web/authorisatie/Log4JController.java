@@ -3,6 +3,7 @@ package nl.dias.web.authorisatie;
 import nl.dias.web.medewerker.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ public class Log4JController extends AbstractController {
     @ResponseBody
     public void log4javascript(@FormParam("logger") String logger, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
+        MDC.put("url", url);
 
         if (logger == null || "".equals(logger)) {
             logger = this.getClass().toString();
