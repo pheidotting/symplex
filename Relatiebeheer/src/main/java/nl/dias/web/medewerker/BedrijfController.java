@@ -81,10 +81,14 @@ public class BedrijfController extends AbstractController {
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private BelastingzakenService belastingzakenService;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.BEDRIJF_OPSLAAN, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
+
         LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
 
         zetSessieWaarden(httpServletRequest);
@@ -137,6 +141,8 @@ public class BedrijfController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijder(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.BEDRIJF_VERWIJDEREN, null, null);
+
         LOGGER.debug("verwijderen Bedrijf met id " + id);
 
         zetSessieWaarden(httpServletRequest);

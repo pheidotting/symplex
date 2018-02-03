@@ -191,6 +191,7 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_VERWIJDEREN, null, null);
         LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
 
         zetSessieWaarden(httpServletRequest);
@@ -228,6 +229,8 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigWachtwoord", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void wijzigWachtwoord(@RequestBody String nieuwWactwoord, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.WACHTWOORD_WIJZIGEN, null, null);
+
         LOGGER.info("Wachtwoord wijzigen");
 
         zetSessieWaarden(httpServletRequest);
