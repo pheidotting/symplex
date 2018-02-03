@@ -1,10 +1,12 @@
-define(['jquery', 'sammy', 'StackTrace'],
-	function($, Sammy, StackTrace) {
+define(['jquery',
+        'sammy'],
+//        'StackTrace'],
+	function($, Sammy) {//}, StackTrace) {
 		return function() {
             window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
                 console.log('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber + ' Column: ' + column + ' StackTrace: ' +  errorObj);
 
-                StackTrace.fromError(errorObj).then(function(error){
+//                StackTrace.fromError(errorObj).then(function(error){
                     var xhr = new XMLHttpRequest();
                     var fd = new FormData();
 
@@ -12,12 +14,12 @@ define(['jquery', 'sammy', 'StackTrace'],
                     fd.append( 'timestamp', new Date().getTime() );
                     fd.append( 'level', 'ERROR' );
                     fd.append( 'url', url );
-                    fd.append( 'message', error );
+                    fd.append( 'message', errorMsg );
                     fd.append( 'layout', 'HttpPostDataLayout' );
 
                     xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
                     xhr.send( fd );
-                });
+//                });
             }
 
 			var _this = this;

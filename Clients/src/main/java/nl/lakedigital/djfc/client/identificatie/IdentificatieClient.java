@@ -54,7 +54,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     }
 
     public Identificatie zoekIdentificatieCode(String identificatieCode) {
-        return zoekIdentificatieCode(identificatieCode);
+        return zoekIdentificatieCode(identificatieCode, false);
     }
 
     public Identificatie zoekIdentificatieCode(String identificatieCode, boolean retry) {
