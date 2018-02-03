@@ -67,7 +67,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
         connection.setRequestProperty("url", MDC.get("url"));
 
-
         InputStream xml = connection.getInputStream();
 
         D response = mapper.readValue(xml, clazz);
