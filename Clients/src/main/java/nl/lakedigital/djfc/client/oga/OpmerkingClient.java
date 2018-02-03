@@ -54,6 +54,10 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
 
     @Override
     public List<JsonOpmerking> lijst(String soortEntiteit, Long entiteitId) {
+        return lijst(soortEntiteit, entiteitId, false);
+    }
+
+    public List<JsonOpmerking> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
         System.out.println("Aanroepen " + URL_LIJST);
 
         List<JsonOpmerking> result = newArrayList();
@@ -61,10 +65,18 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         try {
             result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenOpmerkingenResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getOpmerkingen();
         } catch (IOException e) {
-            throw new LeesFoutException("Fout bij lezen " + URL_LIJST, e);
+            if (!retry) {
+                return lijst(soortEntiteit, entiteitId, true);
+            } else {
+                throw new LeesFoutException("Fout bij lezen " + URL_LIJST + "/" + soortEntiteit + "/" + entiteitId, e);
+            }
         }
 
-        return result;
+        if (result.isEmpty() && !retry) {
+            return lijst(soortEntiteit, entiteitId, true);
+        } else {
+            return result;
+        }
     }
 
     @Override
