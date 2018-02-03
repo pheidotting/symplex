@@ -22,10 +22,6 @@ public class Bedrijf implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @JoinColumn(name = "RELATIE")
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
-    private Relatie relatie;
-
     @Column(name = "NAAM")
     private String naam;
 
@@ -53,14 +49,6 @@ public class Bedrijf implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Relatie getRelatie() {
-        return relatie;
-    }
-
-    public void setRelatie(Relatie relatie) {
-        this.relatie = relatie;
     }
 
     public String getNaam() {
@@ -131,16 +119,16 @@ public class Bedrijf implements Serializable {
 
         Bedrijf bedrijf = (Bedrijf) o;
 
-        return new EqualsBuilder().append(getId(), bedrijf.getId()).append(getRelatie(), bedrijf.getRelatie()).append(getNaam(), bedrijf.getNaam()).append(getKvk(), bedrijf.getKvk()).isEquals();
+        return new EqualsBuilder().append(getId(), bedrijf.getId()).append(getNaam(), bedrijf.getNaam()).append(getKvk(), bedrijf.getKvk()).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(getId()).append(getRelatie()).append(getNaam()).append(getKvk()).toHashCode();
+        return new HashCodeBuilder(17, 37).append(getId()).append(getNaam()).append(getKvk()).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("relatie", relatie).append("naam", naam).append("kvk", kvk).toString();
+        return new ToStringBuilder(this).append("id", id).append("naam", naam).append("kvk", kvk).toString();
     }
 }

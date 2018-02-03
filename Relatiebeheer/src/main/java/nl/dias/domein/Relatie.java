@@ -21,7 +21,6 @@ import java.util.Set;
 @NamedQueries({@NamedQuery(name = "Relatie.zoekAllesVoorKantoor", query = "select r from Relatie r where r.kantoor = :kantoor"), //
         @NamedQuery(name = "Relatie.zoekOpEmail", query = "select r from Relatie r where r.identificatie = :emailadres"), //
         @NamedQuery(name = "Relatie.zoekOpBsn", query = "select r from Relatie r where r.bsn = :bsn"), //
-        @NamedQuery(name = "Relatie.zoekOpBedrijfsnaam", query = "select r from Relatie r inner join r.bedrijven b where b.naam LIKE :bedrijfsnaam"),//
         @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Gebruiker g where g.geboorteDatum = :geboorteDatum"),//
         @NamedQuery(name = "Relatie.roepnaam", query = "select g from Gebruiker g where g.roepnaam LIKE :roepnaam")//
 })
@@ -58,10 +57,6 @@ public class Relatie extends Gebruiker implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OnderlingeRelatie.class, mappedBy = "relatie")
     @NotAudited
     private Set<OnderlingeRelatie> onderlingeRelaties;
-
-    @NotAudited
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Bedrijf.class, mappedBy = "relatie")
-    private Set<Bedrijf> bedrijven;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Hypotheek.class, mappedBy = "relatie", orphanRemoval = true)
     @NotAudited
