@@ -17,7 +17,18 @@ public class MetricsService {
         RELATIE_OPSLAAN("opslaanRelatie"), //
         RELATIE_VERWIJDEREN("verwijderenRelatie"), //
         CONTACTPERSOON_OPSLAAN("opslaanContactPersoon"),//
-        WACHTWOORD_WIJZIGEN("wijzigenWachtwoord"), HYPOTHEEK_OPSLAAN("opslaanHypotheek"), HYPOTHEEK_VERWIJDEREN("verwijderenHypotheek"), POLIS_OPSLAAN("opslaanPolis"), POLIS_VERWIJDEREN("verwijderenPolis"), SCHADE_OPSLAAN("opslaanSchade"), SCHADE_VERWIJDEREN("verwijderenSchade"), INLOGGEN("inloggen"), INLOGGEN_ONJUIST_WACHTWOORD("inloggenOnjuistWachtwoord"), INLOGGEN_ONBEKENDE_GEBRUIKER("inloggenOnbekendeGebruiker"), INLOGGEN_TEVEEL_FOUTIEVE_POGINGEN("inloggenTeveelFoutievePogingen"), WACHTWOORD_VERGETEN("wachtwoordVergeten");
+        WACHTWOORD_WIJZIGEN("wijzigenWachtwoord"),//
+        HYPOTHEEK_OPSLAAN("opslaanHypotheek"),//
+        HYPOTHEEK_VERWIJDEREN("verwijderenHypotheek"),//
+        POLIS_OPSLAAN("opslaanPolis"),//
+        POLIS_VERWIJDEREN("verwijderenPolis"),//
+        SCHADE_OPSLAAN("opslaanSchade"),//
+        SCHADE_VERWIJDEREN("verwijderenSchade"),//
+        INLOGGEN("inloggen"),//
+        INLOGGEN_ONJUIST_WACHTWOORD("inloggenOnjuistWachtwoord"),//
+        INLOGGEN_ONBEKENDE_GEBRUIKER("inloggenOnbekendeGebruiker"),//
+        INLOGGEN_TEVEEL_FOUTIEVE_POGINGEN("inloggenTeveelFoutievePogingen"),//
+        WACHTWOORD_VERGETEN("wachtwoordVergeten");
 
         private String omschrijving;
 
