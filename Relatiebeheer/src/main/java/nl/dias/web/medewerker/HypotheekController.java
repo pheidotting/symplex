@@ -5,6 +5,7 @@ import nl.dias.domein.HypotheekPakket;
 import nl.dias.domein.SoortHypotheek;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.HypotheekService;
+import nl.dias.service.MetricsService;
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
@@ -50,6 +51,8 @@ public class HypotheekController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -124,6 +127,8 @@ public class HypotheekController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Response opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.HYPOTHEEK_OPSLAAN, null, hypotheekIn.getIdentificatie() == null);
+
         LOGGER.debug("Opslaan Hypotheek " + hypotheekIn);
 
         zetSessieWaarden(httpServletRequest);

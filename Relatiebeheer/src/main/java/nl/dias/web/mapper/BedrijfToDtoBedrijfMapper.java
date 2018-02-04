@@ -20,6 +20,7 @@ public class BedrijfToDtoBedrijfMapper implements Function<Bedrijf, nl.lakedigit
         jsonBedrijf.setHoedanigheid(bedrijf.getHoedanigheid());
         jsonBedrijf.setRechtsvorm(bedrijf.getRechtsvorm());
         jsonBedrijf.setInternetadres(bedrijf.getInternetadres());
+        jsonBedrijf.setKantoor(bedrijf.getKantoor());
 
         return jsonBedrijf;
     }

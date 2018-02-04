@@ -45,7 +45,7 @@ public class Kantoor implements Serializable {
     @Column(name = "AFKORTING", length = 10)
     private String afkorting;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "kantoor", targetEntity = Medewerker.class)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Medewerker.class)
     private List<Medewerker> medewerkers;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Relatie.class)

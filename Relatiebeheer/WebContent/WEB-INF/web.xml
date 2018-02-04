@@ -89,6 +89,15 @@
 		<url-pattern>/rest/medewerker/*</url-pattern>
 	</filter-mapping>
 
+	<!--<filter>-->
+	<!--<filter-name>Kantoor</filter-name>-->
+	<!--<filter-class>nl.dias.web.filter.KantoorFilter</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+	<!--<filter-name>Kantoor</filter-name>-->
+	<!--<url-pattern>/rest/medewerker/*</url-pattern>-->
+	<!--</filter-mapping>-->
+
 	<!--<servlet-mapping>-->
 	<!--<servlet-name>relatiebeheer-applicaties</servlet-name>-->
 	<!--<url-pattern>/rest/applicaties/*</url-pattern>-->
@@ -108,5 +117,21 @@
     <!--<listener>-->
     <!--<listener-class>nl.dias.web.servlet.AanmeldenEntiteitenBijIdentificatieServlet</listener-class>-->
     <!--</listener>-->
+
+    <listener>
+        <listener-class>nl.dias.web.servlet.MyMetricsServletContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>nl.dias.web.servlet.MyHealthCheckServletContextListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>metrics</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>metrics</servlet-name>
+        <url-pattern>/metrics/*</url-pattern>
+    </servlet-mapping>
 
 </web-app>

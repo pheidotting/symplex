@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.String.join;
 
 public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenResponse> {
@@ -74,17 +73,29 @@ public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenRe
     }
 
     public List<JsonAdres> lijst(String soortEntiteit, Long entiteitId) {
+        return lijst(soortEntiteit, entiteitId, false);
+    }
+
+    public List<JsonAdres> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
         LOGGER.debug("Aanroepen {}", URL_LIJST + "/" + soortEntiteit + "/" + entiteitId);
 
-        List<JsonAdres> result = newArrayList();
+        List<JsonAdres> result;
 
         try {
             result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenAdressenResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getAdressen();
         } catch (IOException e) {
-            throw new LeesFoutException("Fout bij lezen " + URL_LIJST + "/" + soortEntiteit + "/" + entiteitId, e);
+            if (!retry) {
+                return lijst(soortEntiteit, entiteitId, true);
+            } else {
+                throw new LeesFoutException("Fout bij lezen " + URL_LIJST + "/" + soortEntiteit + "/" + entiteitId, e);
+            }
         }
 
-        return result;
+        if (result.isEmpty() && !retry) {
+            return lijst(soortEntiteit, entiteitId, true);
+        } else {
+            return result;
+        }
     }
 
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
