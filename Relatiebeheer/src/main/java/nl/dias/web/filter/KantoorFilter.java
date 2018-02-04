@@ -56,9 +56,9 @@ public class KantoorFilter implements Filter {
                     responseString = "";
                 }
             }
-
-            response.getOutputStream().write(responseString.getBytes());
         }
+
+        response.getOutputStream().write(responseString.getBytes());
     }
 
     private Object mapVanJson(String jsonString, Class clazz) {
