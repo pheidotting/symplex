@@ -10,6 +10,7 @@ import nl.dias.messaging.sender.PolisOpslaanRequestSender;
 import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.MetricsService;
 import nl.dias.service.PolisService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -68,6 +69,8 @@ public class PolisController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -102,6 +105,8 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/beeindigen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void beeindigen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, false);
+
         LOGGER.debug("beeindigen Polis met id " + id);
 
         zetSessieWaarden(httpServletRequest);
@@ -146,6 +151,8 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, jsonPolis.getIdentificatie() == null);
+
         LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
 
         zetSessieWaarden(httpServletRequest);
@@ -183,6 +190,8 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.POLIS_VERWIJDEREN, null, null);
+
         LOGGER.debug("verwijderen Polis met id " + id);
 
         //        zetSessieWaarden(httpServletRequest);
