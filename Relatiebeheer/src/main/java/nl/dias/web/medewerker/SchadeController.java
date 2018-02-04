@@ -5,6 +5,7 @@ import nl.dias.domein.Schade;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.MetricsService;
 import nl.dias.service.SchadeService;
 import nl.dias.web.mapper.SchadeMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -46,10 +47,14 @@ public class SchadeController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.SCHADE_OPSLAAN, null, jsonSchade.getIdentificatie() == null);
+
         LOGGER.debug("{}", jsonSchade);
 
         zetSessieWaarden(httpServletRequest);
@@ -103,6 +108,8 @@ public class SchadeController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric(MetricsService.SoortMetric.SCHADE_VERWIJDEREN, null, null);
+
         LOGGER.debug("verwijderen Schade met id " + id);
 
         zetSessieWaarden(httpServletRequest);
