@@ -28,7 +28,7 @@ public class MetricsService {
         INLOGGEN_ONJUIST_WACHTWOORD("inloggenOnjuistWachtwoord"),//
         INLOGGEN_ONBEKENDE_GEBRUIKER("inloggenOnbekendeGebruiker"),//
         INLOGGEN_TEVEEL_FOUTIEVE_POGINGEN("inloggenTeveelFoutievePogingen"),//
-        WACHTWOORD_VERGETEN("wachtwoordVergeten");
+        WACHTWOORD_VERGETEN("wachtwoordVergeten"), KANTOOR_AANMELDEN("aanmeldenKantoor");
 
         private String omschrijving;
 

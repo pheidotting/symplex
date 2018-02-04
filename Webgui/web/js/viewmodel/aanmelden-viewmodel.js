@@ -3,12 +3,12 @@ define(['jquery',
         'commons/commonFunctions',
         'commons/3rdparty/log2',
 		'redirect',
-        'service/gebruiker-service',
+        'service/kantoor-service',
        'complexify',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, ko, commonFunctions, log, redirect, gebruikerService, complexify) {
+    function($, ko, commonFunctions, log, redirect, kantoorService, complexify) {
 
     return function() {
         var _this = this;
@@ -21,6 +21,7 @@ define(['jquery',
         this.achternaam = ko.observable().extend({ required: true });
         this.emailadres = ko.observable().extend({ required: true });
 		this.onjuistWachtwoord = ko.observable(false);
+		this.nieuwWachtwoord = ko.observable();
 		this.nieuwWachtwoordNogmaals = ko.observable();
 		this.sterktePercentage = ko.observable('0');
 		this.sterkgenoeg = ko.observable(false);
@@ -38,7 +39,7 @@ define(['jquery',
 
                 _this.afkorting(afkorting);
             } else {
-                _this.afkorting(_this.bedrijfsnaam());
+                _this.afkorting(_this.bedrijfsnaam().toLowerCase());
             }
         };
 
@@ -47,13 +48,14 @@ define(['jquery',
         };
 
 		this.aanmelden = function() {
-//            commonFunctions.verbergMeldingen();
-//
-//            var result = ko.validation.group(_this, {deep: true});
-//            if(_this.identificatie.isValid() && _this.wachtwoord.isValid()){
-//                $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
-//
-//                $.when(gebruikerService.aanmelden(this)).then(function(result){
+            commonFunctions.verbergMeldingen();
+
+            var result = ko.validation.group(_this, {deep: true});
+//            if(_this.isValid()){
+                $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
+
+                $.when(kantoorService.aanmelden(this)).then(function(result){
+                    window.location = 'zoeken.html';
 //                    if (result.returnCode == 0) {
 //                        _this.onjuisteGebruikersnaam(false);
 //                        _this.onjuistWachtwoord(false);
@@ -84,7 +86,7 @@ define(['jquery',
 //                        _this.teveelFoutieveInlogpogingen('teveel');
 //                        commonFunctions.plaatsFoutmeldingString('Teveel foutieve inlogpogingen binnen 5 minuten');
 //                    }
-//                });
+                });
 //            } else {
 //                result.showAllMessages(true);
 //            }
