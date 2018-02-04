@@ -9,6 +9,7 @@
     <script>
 		var refreshIntervalId = 0;
 
+
     </script>
 </head>
 <body>
@@ -16,21 +17,22 @@
     require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
-        app.addView('inloggen', 'view/inloggen-view');
+        app.addView('aanmelden', 'view/aanmelden-view');
 
-        app.run('#inloggen');
+        app.run('#aanmelden');
     });
+
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>
 </div>
-<div class="bar-inloggen"></div>
+<div class="inloggen"></div>
 
 <div class="main">
     <div id="hoofd"></div>
     <div id="content"></div>
 </div>
 
-<div class="bottom"></div>
+<!--<div class="bottom"></div>-->
 </body>
 </html>

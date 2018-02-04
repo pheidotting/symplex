@@ -53,6 +53,10 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
 
     @Override
     public List<JsonRekeningNummer> lijst(String soortEntiteit, Long entiteitId) {
+        return lijst(soortEntiteit, entiteitId, false);
+    }
+
+    public List<JsonRekeningNummer> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
         System.out.println("Aanroepen " + URL_LIJST);
 
         List<JsonRekeningNummer> result = newArrayList();
@@ -60,10 +64,18 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
         try {
             result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenRekeningNummersResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getRekeningNummers();
         } catch (IOException e) {
-            throw new LeesFoutException("Fout bij lezen " + URL_LIJST, e);
+            if (!retry) {
+                return lijst(soortEntiteit, entiteitId, true);
+            } else {
+                throw new LeesFoutException("Fout bij lezen " + URL_LIJST + "/" + soortEntiteit + "/" + entiteitId, e);
+            }
         }
 
-        return result;
+        if (result.isEmpty() && !retry) {
+            return lijst(soortEntiteit, entiteitId, true);
+        } else {
+            return result;
+        }
     }
 
     @Override

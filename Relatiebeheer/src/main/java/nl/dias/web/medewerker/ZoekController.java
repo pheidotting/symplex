@@ -12,6 +12,7 @@ import nl.dias.service.ZoekService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.djfc.request.SoortEntiteit;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.joda.time.LocalDate;
@@ -193,12 +194,15 @@ public class ZoekController extends AbstractController {
             }
         }).collect(Collectors.toList()));
 
+        LOGGER.debug("Id naar null zetten");
         zoekResultaatResponse.getBedrijfOfRelatieList().stream().forEach(new Consumer<BedrijfOfRelatie>() {
             @Override
             public void accept(BedrijfOfRelatie bedrijfOfRelatie) {
                 bedrijfOfRelatie.setId(null);
             }
         });
+        LOGGER.debug("All clear, return");
+        LOGGER.debug(ReflectionToStringBuilder.toString(zoekResultaatResponse));
 
         return zoekResultaatResponse;
     }
