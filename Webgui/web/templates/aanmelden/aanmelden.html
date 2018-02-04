@@ -1,0 +1,128 @@
+<div class="logo-background">
+    &nbsp;
+    <div class="inloggen-main">
+        <div class="inloggen-main-background">
+            <div class="inloggen-main-wit">
+                <div class="inloggen-main-header">
+                    Aanmelden bij Symplex
+                </div>
+            </div>
+        </div>
+        <div class="inloggen-main-form">
+            <form>
+                <div class="getbruikersnaam-wachtwoord">
+                    Bedrijfsnaam
+                </div>
+                <input type="text" autocomplete="off" id="bedrijfsnaam"
+                       data-bind="value: bedrijfsnaam, event: {blur: genereerAfkorting}"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Afgekorte bedrijfsnaam
+                </div>
+                <input type="text" autocomplete="off" id="afkorting" data-bind="value: afkorting"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Uw voornaam
+                </div>
+                <input type="text" autocomplete="off" id="voornaam"
+                       data-bind="value: voornaam, event: {blur: genereerInlognaam}"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Uw achternaam
+                </div>
+                <input type="text" autocomplete="off" data-bind="value: achternaam"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Uw e-mailadres
+                </div>
+                <input type="email" autocomplete="off" data-bind="value: emailadres"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Uw loginnaam wordt
+                </div>
+                <input type="text" autocomplete="off" id="loginnaam" disabled data-bind="value: inlognaam"/>
+
+                <div class="getbruikersnaam-wachtwoord">
+                    Wachtwoord
+                </div>
+                <input type="password" id="nieuwWachtwoord"
+                       data-bind="value: nieuwWachtwoord, attr: {class: wachtwoordSterkgenoegStyling}, event: {keyup: checkWachtwoordSterkte}"/><br/>
+                <meter min="0" max="100" low="32" value="0" id="PassValue"></meter>
+                <span id="sterktePercentage" data-bind="text:sterktePercentage">0</span>%
+                <div class="getbruikersnaam-wachtwoord">
+                    Nieuw wachtwoord (nogmaals)
+                </div>
+                <input type="password" id="nieuwWachtwoordNotmaals"
+                       data-bind="value: nieuwWachtwoordNogmaals, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
+                <!--<div id="foutmeldingWachtwoordenKomenNietOvereen" class="validationMessage"-->
+                <!--data-bind="visible: wachtwoordenKomenNietOvereen">-->
+                <!--De ingevulde wachtwoorden komen niet overeen.-->
+                <!--</div>-->
+
+                <button id="aanmeldButton" data-bind="click: aanmelden">Aanmelden</button>
+
+
+                <!--<div data-bind="if: wilInloggen()">-->
+                <!--<div class="getbruikersnaam-wachtwoord">-->
+                <!--Gebruikernaam-->
+                <!--</div>-->
+                <!--<input type="text" onClick="this.select();" autocomplete="off" id="identificatie"-->
+                <!--data-bind="value: identificatie, attr: {class: onjuisteGebruikersnaam}, event: {change: resetfoutmeldingGebruikersnaam}"/>-->
+                <!--<div id="foutmeldingOnjuisteGebruikersnaam" class="validationMessage"-->
+                <!--data-bind="visible: onjuisteGebruikersnaam">-->
+                <!--De gebruikersnaam is onjuist-->
+                <!--</div>-->
+                <!--<div class="getbruikersnaam-wachtwoord">-->
+                <!--Wachtwoord-->
+                <!--</div>-->
+                <!--<input type="password" id="wachtwoord"-->
+                <!--data-bind="value: wachtwoord, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>-->
+                <!--<div id="foutmeldingOnjuistWachtwoord" class="validationMessage"-->
+                <!--data-bind="visible: onjuistWachtwoord">-->
+                <!--Het wachtwoord is onjuist-->
+                <!--</div>-->
+                <!--<div id="foutmeldingTeveelFoutieveInlogpogingen" class="validationMessage"-->
+                <!--data-bind="visible: teveelFoutieveInlogpogingen">-->
+                <!--Teveel foutieve inlogpogingen binnen 5 minuten-->
+                <!--</div>-->
+
+                <!--<br />-->
+                <!--<a href="" data-bind="click: wachtwoordVergeten" class="wachtwoordVergeten">Wachtwoord vergeten?</a>-->
+
+                <!--<button id="inlogButton" data-bind="click: inloggen">Inloggen</button>-->
+                <!--</div>-->
+                <!--<div data-bind="if: moetWachtwoordUpdaten">-->
+                <!--&lt;!&ndash;Wachtwoord wijzigen&ndash;&gt;-->
+                <!--<div class="getbruikersnaam-wachtwoord">-->
+                <!--Nieuw wachtwoord-->
+                <!--</div>-->
+                <!--<input type="password" id="nieuwWachtwoord"-->
+                <!--data-bind="value: nieuwWachtwoord, attr: {class: wachtwoordSterkgenoegStyling}, event: {keyup: checkWachtwoordSterkte}"/><br/>-->
+                <!--<meter min="0" max="100" low="32" value="0" id="PassValue"></meter>-->
+                <!--<span id="sterktePercentage" data-bind="text:sterktePercentage">0</span>%-->
+                <!--<div class="getbruikersnaam-wachtwoord">-->
+                <!--Nieuw wachtwoord (nogmaals)-->
+                <!--</div>-->
+                <!--<input type="password" id="nieuwWachtwoordNotmaals"-->
+                <!--data-bind="value: nieuwWachtwoordNogmaals, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>-->
+                <!--<div id="foutmeldingWachtwoordenKomenNietOvereen" class="validationMessage"-->
+                <!--data-bind="visible: wachtwoordenKomenNietOvereen">-->
+                <!--De ingevulde wachtwoorden komen niet overeen.-->
+                <!--</div>-->
+                <!--<button id="wijzigWachtwoordButton" data-bind="click: wijzigWachtwoord, enable: sterkgenoeg"-->
+                <!--disabled>Wijzig-->
+                <!--</button>-->
+                <!--</div>-->
+                <!--<div data-bind="if: isWachtwoordVergeten">-->
+                <!--<div class="getbruikersnaam-wachtwoord">-->
+                <!--Gebruikernaam-->
+                <!--</div>-->
+                <!--<input type="text" onClick="this.select();" autocomplete="off" id="identificatieWachtwoordVergeten"-->
+                <!--data-bind="value: identificatie"/>-->
+
+                <!--<button id="inlogButtonWachtwoordVergeten" data-bind="click: stuurNieuwWachtwoord">Stuur</button>-->
+                <!--</div>-->
+            </form>
+        </div>
+    </div>
+</div>
