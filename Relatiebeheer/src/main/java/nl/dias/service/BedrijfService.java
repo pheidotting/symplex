@@ -55,6 +55,7 @@ public class BedrijfService {
 
     public Bedrijf zoekBedrijf(String identificatieCode) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+        LOGGER.debug("Identificatie opgehaald : id {} - soortEntiteit {} - entiteitId {}", identificatie.getId(), identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
         Long bedrijfId = null;
 
@@ -73,7 +74,8 @@ public class BedrijfService {
                 break;
         }
 
-        return (Bedrijf) bedrijfRepository.lees(bedrijfId);
+        LOGGER.debug("bedrijfId gevonden {}", bedrijfId);
+        return bedrijfRepository.lees(bedrijfId);
     }
 
     private Long pakBedrijfBijPolis(Long polisId) {
