@@ -43,6 +43,9 @@ public class Bedrijf implements Serializable {
     @Column(name = "CAOVERPLICHTINGEN")
     private String cAoVerplichtingen;
 
+    @Column(name = "KANTOOR")
+    private Long kantoor;
+
     public Long getId() {
         return id;
     }
@@ -65,6 +68,14 @@ public class Bedrijf implements Serializable {
 
     public void setKvk(String kvk) {
         this.kvk = kvk;
+    }
+
+    public Long getKantoor() {
+        return kantoor;
+    }
+
+    public void setKantoor(Long kantoor) {
+        this.kantoor = kantoor;
     }
 
     public String getRechtsvorm() {

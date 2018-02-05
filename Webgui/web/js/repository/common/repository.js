@@ -40,7 +40,7 @@ define(["commons/3rdparty/log2",
                         if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         }else{
-                            if(request != '500' && request != 'Server Error' && request != 'Service Unavailable') {
+                            if(request != '500' && request != 'Server Error' && request != 'Service Unavailable' && request != null && request.message != 'Unexpected end of JSON input') {
                             //TODO 'Not found' afvangen
                                 if( request.getResponseHeader('Authorization') != null ) {
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));

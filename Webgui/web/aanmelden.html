@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Symplex - Inloggen</title>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <script>
+		var refreshIntervalId = 0;
+
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+    require(['/js/commons/sammyconfig.js'], function (App) {
+        var app = new App();
+
+        app.addView('aanmelden', 'view/aanmelden-view');
+
+        app.run('#aanmelden');
+    });
+
+</script>
+<div class="top">
+    <img src="images/Symplex-logo.png"/>
+</div>
+<div class="inloggen"></div>
+
+<div class="main">
+    <div id="hoofd"></div>
+    <div id="content"></div>
+</div>
+
+<!--<div class="bottom"></div>-->
+</body>
+</html>
