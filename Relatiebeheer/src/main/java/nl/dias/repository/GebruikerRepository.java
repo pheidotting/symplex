@@ -1,7 +1,5 @@
 package nl.dias.repository;
 
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.MetricRegistry;
 import nl.dias.domein.*;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.hibernate.*;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +26,6 @@ public class GebruikerRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
-    @Inject
-    private MetricRegistry metricRegistry;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -295,23 +290,12 @@ public class GebruikerRepository {
     }
 
     public void opslaan(Gebruiker gebruiker) {
-        final Meter nieuweRelatieMeter = metricRegistry.meter("nieuweRelatie");
-        final Meter gewijzigdeRelatieMeter = metricRegistry.meter("gewijzigdeRelatie");
-
         getTransaction();
 
         if (gebruiker.getId() == null) {
             getSession().save(gebruiker);
-
-            if (gebruiker instanceof Relatie) {
-                nieuweRelatieMeter.mark();
-            }
         } else {
             getSession().merge(gebruiker);
-
-            if (gebruiker instanceof Relatie) {
-                gewijzigdeRelatieMeter.mark();
-            }
         }
 
         getTransaction().commit();
