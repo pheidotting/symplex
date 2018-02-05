@@ -41,7 +41,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     public Identificatie zoekIdentificatie(String soortEntiteit, Long entiteitId, boolean retry) {
         List<Identificatie> lijst = getXML("/rest/identificatie/zoeken", ZoekIdentificatieResponse.class, false, LOGGER, false, soortEntiteit, String.valueOf(entiteitId)).getIdentificaties();
 
-        if (!lijst.isEmpty()) {
+        if (!lijst.isEmpty() && lijst.get(0).getEntiteitId() != null) {
             return lijst.get(0);
         } else if (!retry) {
             try {
@@ -60,7 +60,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     public Identificatie zoekIdentificatieCode(String identificatieCode, boolean retry) {
         List<Identificatie> lijst = getXML("/rest/identificatie/zoekenOpCode", ZoekIdentificatieResponse.class, false, LOGGER, false, identificatieCode).getIdentificaties();
 
-        if (!lijst.isEmpty()) {
+        if (!lijst.isEmpty() && lijst.get(0).getEntiteitId() != null) {
             return lijst.get(0);
         } else if (!retry) {
             try {
