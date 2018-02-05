@@ -166,6 +166,7 @@ public class BedrijfController extends AbstractController {
 
             nl.dias.domein.Bedrijf bedrijfDomain = bedrijfService.zoekBedrijf(identificatieCode);
             Identificatie identificatie = identificatieClient.zoekIdentificatie("BEDRIJF", bedrijfDomain.getId());
+            LOGGER.debug("Identificatie opgehaald : id {} - soortEntiteit {} - entiteitId {}", identificatie.getId(), identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
             bedrijf = new BedrijfToDtoBedrijfMapper().apply(bedrijfDomain);
             bedrijf.setIdentificatie(identificatie.getIdentificatie());
