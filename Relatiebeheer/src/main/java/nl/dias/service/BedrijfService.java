@@ -55,6 +55,14 @@ public class BedrijfService {
 
     public Bedrijf zoekBedrijf(String identificatieCode) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+        if (identificatie == null) {
+            LOGGER.debug("NULL opgehaald");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+            identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+        }
         LOGGER.debug("Identificatie opgehaald : id {} - soortEntiteit {} - entiteitId {}", identificatie.getId(), identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
         Long bedrijfId = null;
