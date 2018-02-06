@@ -10,6 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "KANTOOR")
+@NamedQueries({@NamedQuery(name = "Kantoor.zoekOpAfkorting", query = "SELECT k FROM Kantoor k WHERE k.afkorting = :afkorting")})
 public class Kantoor implements Serializable {
     private static final long serialVersionUID = 3842257675777516787L;
 
