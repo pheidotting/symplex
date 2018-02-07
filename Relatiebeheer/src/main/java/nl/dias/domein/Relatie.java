@@ -34,7 +34,6 @@ public class Relatie extends Gebruiker implements Serializable {
     @NotAudited
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false, targetEntity = Kantoor.class)
     @JoinColumn(name = "KANTOOR")
-    //    @Transient
     private Kantoor kantoor;
 
     @Column(name = "GEBOORTEDATUM")
