@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Symplex - Beheren</title>
+    <script src="node_modules/stacktrace-js/dist/stacktrace.min.js" type="text/javascript"></script>
     <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
 
     <!-- Eigen CSS -->
@@ -18,27 +19,48 @@
     require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
-        app.addView('relatie', 'view/beheren-relatie-view');
-        app.addView('relatie/:identificatie', 'view/beheren-relatie-view');
-        app.addView('bedrijf', 'view/beheren-bedrijf-view');
-        app.addView('bedrijf/:identificatie', 'view/beheren-bedrijf-view');
+        app.addView('relatie', 'js/view/beheren-relatie-view');
+        app.addView('relatie/:identificatie', 'js/view/beheren-relatie-view');
+        app.addView('bedrijf', 'js/view/beheren-bedrijf-view');
+        app.addView('bedrijf/:identificatie', 'js/view/beheren-bedrijf-view');
 
-        app.addView('polissen/:identificatie', 'view/lijst-polissen-view');
-        app.addView('polis', 'view/beheren-polis-view');
-        app.addView('polis/:identificatie', 'view/beheren-polis-view');
-        app.addView('polis/:identificatie/:readonly', 'view/beheren-polis-view');
+        app.addView('polissen/:identificatie', 'js/view/lijst-polissen-view');
+        app.addView('polis', 'js/view/beheren-polis-view');
+        app.addView('polis/:identificatie', 'js/view/beheren-polis-view');
+        app.addView('polis/:identificatie/:readonly', 'js/view/beheren-polis-view');
 
-        app.addView('schades/:identificatie', 'view/lijst-schades-view');
-        app.addView('schade/:identificatie', 'view/beheren-schade-view');
-        app.addView('schade/:identificatie/:readonly', 'view/beheren-schade-view');
+        app.addView('schades/:identificatie', 'js/view/lijst-schades-view');
+        app.addView('schade/:identificatie', 'js/view/beheren-schade-view');
+        app.addView('schade/:identificatie/:readonly', 'js/view/beheren-schade-view');
 
-        app.addView('hypotheken/:identificatie', 'view/lijst-hypotheken-view');
-        app.addView('hypotheek/:identificatie', 'view/beheren-hypotheek-view');
+        app.addView('hypotheken/:identificatie', 'js/view/lijst-hypotheken-view');
+        app.addView('hypotheek/:identificatie', 'js/view/beheren-hypotheek-view');
 
-        app.addView('belastingzaken/:identificatie', 'view/beheren-belastingzaken-view');
+        app.addView('belastingzaken/:identificatie', 'js/view/beheren-belastingzaken-view');
 
         app.run('#relatie');
     });
+</script>
+
+<script type="text/javascript">
+    window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+
+        StackTrace.fromError(errorObj).then(function(error){
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+
+            fd.append( 'logger', '' );
+            fd.append( 'timestamp', new Date().getTime() );
+            fd.append( 'level', 'ERROR' );
+            fd.append( 'url', url );
+            fd.append( 'message', error );
+            fd.append( 'layout', 'HttpPostDataLayout' );
+
+            xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
+            xhr.send( fd );
+        });
+    }
+
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>

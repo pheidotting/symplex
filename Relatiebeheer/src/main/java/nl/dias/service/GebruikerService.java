@@ -87,8 +87,8 @@ public class GebruikerService {
         OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);
         OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);
 
-        relatie.getOnderlingeRelaties().add(onderlingeRelatie);
-        relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
+        //        relatie.getOnderlingeRelaties().add(onderlingeRelatie);
+        //        relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
 
         gebruikerRepository.opslaan(relatie);
         gebruikerRepository.opslaan(relatieMet);

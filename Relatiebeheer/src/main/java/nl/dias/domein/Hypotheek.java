@@ -27,9 +27,9 @@ public class Hypotheek implements Serializable {
     @Column(name = "ID")
     protected Long id;
 
-    @JoinColumn(name = "RELATIE")
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
-    protected Relatie relatie;
+    @Column(name = "RELATIE")
+    //    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
+    protected Long relatie;
 
     @JoinColumn(name = "SOORT")
     @ManyToOne
@@ -273,12 +273,12 @@ public class Hypotheek implements Serializable {
         this.duurRenteVastePeriode = duurRenteVastePeriode;
     }
 
-    public Relatie getRelatie() {
+    public Long getRelatie() {
         return relatie;
     }
 
     public void setRelatie(Relatie relatie) {
-        this.relatie = relatie;
+        this.relatie = relatie.getId();
     }
 
     public String getLeningNummer() {

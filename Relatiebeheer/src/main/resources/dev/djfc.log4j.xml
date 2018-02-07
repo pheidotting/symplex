@@ -42,7 +42,7 @@
 
     <appender name="kibana" class="nl.lakedigital.djfc.appender.KibanaAppender">
         <param name="interval" value="600"/>
-        <param name="applicatie" value="relatiebeheer"/>
+        <param name="applicatie" value="rb"/>
         <param name="omgeving" value="prd"/>
         <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -78,6 +78,6 @@
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
         <!--<appender-ref ref="loggly"/>-->
-        <appender-ref ref="kibana"/>
+        <!--<appender-ref ref="kibana"/>-->
     </root>
 </log4j:configuration>

@@ -36,6 +36,17 @@
         </layout>
     </appender>
 
+    <appender name="kibana" class="nl.lakedigital.djfc.appender.KibanaAppender">
+        <param name="interval" value="600"/>
+        <param name="applicatie" value="id"/>
+        <param name="omgeving" value="prd"/>
+        <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%m%n"/>
+        </layout>
+    </appender>
+
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
@@ -62,6 +73,7 @@
         <priority value="debug"/>
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
-        <appender-ref ref="loggly"/>
+        <!--<appender-ref ref="kibana"/>-->
+        <!--<appender-ref ref="loggly"/>-->
     </root>
 </log4j:configuration>
