@@ -19,9 +19,9 @@ public class HypotheekPakket implements Serializable {
     @Column(name = "ID")
     protected Long id;
 
-    @JoinColumn(name = "RELATIE")
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
-    protected Relatie relatie;
+    @Column(name = "RELATIE")
+    //    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE}, fetch = FetchType.EAGER, optional = true, targetEntity = Relatie.class)
+    protected Long relatie;
 
     @OneToMany(targetEntity = Hypotheek.class, mappedBy = "hypotheekPakket", fetch = FetchType.EAGER)
     private Set<Hypotheek> hypotheken;
@@ -34,12 +34,12 @@ public class HypotheekPakket implements Serializable {
         this.id = id;
     }
 
-    public Relatie getRelatie() {
+    public Long getRelatie() {
         return relatie;
     }
 
     public void setRelatie(Relatie relatie) {
-        this.relatie = relatie;
+        this.relatie = relatie.getId();
     }
 
     public Set<Hypotheek> getHypotheken() {
@@ -59,7 +59,7 @@ public class HypotheekPakket implements Serializable {
         builder.append("HypotheekPakket [id=");
         builder.append(id);
         builder.append(", relatie=");
-        builder.append(relatie.getId());
+        builder.append(relatie);
         builder.append("]");
         return builder.toString();
     }

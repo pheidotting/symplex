@@ -19,6 +19,6 @@ define(['jquery',
 
         _this.tekst(gestripteTekst);
 
-        ko.applyBindings(_this);
+//        ko.applyBindings(_this);
 	};
 });

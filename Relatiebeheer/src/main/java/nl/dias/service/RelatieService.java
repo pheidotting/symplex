@@ -95,7 +95,7 @@ public class RelatieService {
 
         LOGGER.debug("Hypotheek ({}) gevonden : {}", hypotheekId, ReflectionToStringBuilder.toString(hypotheek));
 
-        return hypotheek.getRelatie().getId();
+        return hypotheek.getRelatie();
     }
 
     private Long pakRelatieBijAdres(Long adresId) {

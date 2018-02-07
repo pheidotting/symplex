@@ -63,7 +63,7 @@ public class OnderlingeRelatie implements Serializable {
     public void setRelatieMet(Relatie relatieMet, boolean terug) {
         this.relatieMet = relatieMet;
         if (terug) {
-            this.relatieMet.getOnderlingeRelaties().add(new OnderlingeRelatie(this.relatieMet, relatie, false, OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort)));
+            //            this.relatieMet.getOnderlingeRelaties().add(new OnderlingeRelatie(this.relatieMet, relatie, false, OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort)));
         }
     }
 
