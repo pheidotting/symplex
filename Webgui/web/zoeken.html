@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Symplex - Zoeken</title>
+    <script src="node_modules/stacktrace-js/dist/stacktrace.min.js" type="text/javascript"></script>
     <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
 
     <!-- Eigen CSS -->
@@ -20,6 +21,27 @@
 
         app.run('#zoeken');
     });
+</script>
+
+<script type="text/javascript">
+    window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+
+        StackTrace.fromError(errorObj).then(function(error){
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+
+            fd.append( 'logger', '' );
+            fd.append( 'timestamp', new Date().getTime() );
+            fd.append( 'level', 'ERROR' );
+            fd.append( 'url', url );
+            fd.append( 'message', error );
+            fd.append( 'layout', 'HttpPostDataLayout' );
+
+            xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
+            xhr.send( fd );
+        });
+    }
+
 </script>
 <div class="top">
     <img src="images/Symplex-logo.png"/>
