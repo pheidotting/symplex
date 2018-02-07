@@ -66,6 +66,8 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
         connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
         connection.setRequestProperty("url", MDC.get("url"));
+        connection.setReadTimeout(10000);
+        connection.setConnectTimeout(10000);
 
         InputStream xml = connection.getInputStream();
 
@@ -94,6 +96,8 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
         connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
         connection.setRequestProperty("url", MDC.get("url"));
+        connection.setReadTimeout(10000);
+        connection.setConnectTimeout(10000);
 
         InputStream xml = connection.getInputStream();
 
