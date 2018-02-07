@@ -66,6 +66,6 @@
         <priority value="trace"/>
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
-        <appender-ref ref="loggly"/>
+        <!--<appender-ref ref="loggly"/>-->
     </root>
 </log4j:configuration>
