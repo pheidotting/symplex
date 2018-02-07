@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import nl.dias.ZoekResultaat;
 import nl.dias.domein.Bedrijf;
 import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.BedrijfService;
@@ -12,7 +13,6 @@ import nl.dias.service.ZoekService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.commons.json.*;
-import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.djfc.request.SoortEntiteit;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.joda.time.LocalDate;
@@ -107,6 +107,12 @@ public class ZoekController extends AbstractController {
         ZoekResultaatResponse zoekResultaatResponse = new ZoekResultaatResponse();
 
         zoekResultaatResponse.getBedrijfOfRelatieList().addAll(relaties.stream()//
+                .filter(relatie -> {
+                    if (getIngelogdeGebruiker(httpServletRequest) != null) {
+                        return relatie.getKantoor().getId() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
+                    }
+                    return false;
+                })
                 .map(relatie -> {
                     RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();
 
@@ -141,6 +147,12 @@ public class ZoekController extends AbstractController {
                 .collect(Collectors.toList()));
 
         zoekResultaatResponse.getBedrijfOfRelatieList().addAll(bedrijven.stream()//
+                .filter(bedrijf -> {
+                    if (getIngelogdeGebruiker(httpServletRequest) != null) {
+                        return bedrijf.getKantoor() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
+                    }
+                    return false;
+                })
                 .map(bedrijf -> {
                     BedrijfZoekResultaat bedrijfZoekResultaat = new BedrijfZoekResultaat();
 
@@ -194,15 +206,12 @@ public class ZoekController extends AbstractController {
             }
         }).collect(Collectors.toList()));
 
-        LOGGER.debug("Id naar null zetten");
         zoekResultaatResponse.getBedrijfOfRelatieList().stream().forEach(new Consumer<BedrijfOfRelatie>() {
             @Override
             public void accept(BedrijfOfRelatie bedrijfOfRelatie) {
                 bedrijfOfRelatie.setId(null);
             }
         });
-        LOGGER.debug("All clear, return");
-        LOGGER.debug(ReflectionToStringBuilder.toString(zoekResultaatResponse));
 
         return zoekResultaatResponse;
     }

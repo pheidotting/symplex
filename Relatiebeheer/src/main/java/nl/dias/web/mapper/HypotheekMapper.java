@@ -132,7 +132,7 @@ public class HypotheekMapper extends Mapper<Hypotheek, JsonHypotheek> {
         if (hypotheek.getOnderpand() != null) {
             jsonHypotheek.setOnderpand(hypotheek.getOnderpand());
         }
-        jsonHypotheek.setRelatie(hypotheek.getRelatie().getId());
+        jsonHypotheek.setRelatie(hypotheek.getRelatie());
         if (hypotheek.getRente() != null) {
             jsonHypotheek.setRente(hypotheek.getRente().toString());
         }

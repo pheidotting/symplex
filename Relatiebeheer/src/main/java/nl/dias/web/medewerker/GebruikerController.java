@@ -22,6 +22,7 @@ import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,7 +132,7 @@ public class GebruikerController extends AbstractController {
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
 
-        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_OPSLAAN, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
+        //        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_OPSLAAN, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -146,11 +147,12 @@ public class GebruikerController extends AbstractController {
 
         Kantoor kantoor = kantoorRepository.lees(medewerker.getKantoor().getId());
 
+        LOGGER.debug("In mapper {}", ReflectionToStringBuilder.toString(jsonRelatie));
         Relatie relatie = jsonRelatieMapper.mapVanJson(jsonRelatie);
         relatie.setKantoor(kantoor);
-        LOGGER.debug("Uit mapper " + relatie);
+        LOGGER.debug("Uit mapper {}", relatie);
 
-        LOGGER.debug("Opslaan Relatie met id " + relatie.getId());
+        LOGGER.debug("Opslaan Relatie met id {}", relatie.getId());
 
         gebruikerService.opslaan(relatie);
 

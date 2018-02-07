@@ -70,7 +70,7 @@ public class RelatieService {
         }
 
         if (relatieId == null) {
-            LOGGER.error("RelatieId kon niet worden bepaald");
+            LOGGER.debug("RelatieId kon niet worden bepaald");
         }
         return (Relatie) gebruikerService.lees(relatieId);
     }
@@ -95,7 +95,7 @@ public class RelatieService {
 
         LOGGER.debug("Hypotheek ({}) gevonden : {}", hypotheekId, ReflectionToStringBuilder.toString(hypotheek));
 
-        return hypotheek.getRelatie().getId();
+        return hypotheek.getRelatie();
     }
 
     private Long pakRelatieBijAdres(Long adresId) {

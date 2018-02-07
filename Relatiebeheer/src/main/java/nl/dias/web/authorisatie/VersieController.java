@@ -68,11 +68,14 @@ public class VersieController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/checkNieuweversie", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Map<String, String> checkNieuweversie(HttpServletRequest httpServletRequest) {
-        Long gebruikerId = getIngelogdeGebruiker(httpServletRequest).getId();
-
         Map<String, String> result = new HashMap<>();
-        for (Versie v : versieRepository.getOngelezenVersies(gebruikerId)) {
-            result.put(v.getVersie(), v.getReleasenotes());
+
+        if (getIngelogdeGebruiker(httpServletRequest) != null) {
+            Long gebruikerId = getIngelogdeGebruiker(httpServletRequest).getId();
+
+            for (Versie v : versieRepository.getOngelezenVersies(gebruikerId)) {
+                result.put(v.getVersie(), v.getReleasenotes());
+            }
         }
         return result;
     }

@@ -78,7 +78,7 @@ public class HypotheekRepository {
         getTransaction();
 
         Query query = getSession().getNamedQuery("Hypotheek.allesVanRelatie");
-        query.setParameter("relatie", relatie);
+        query.setParameter("relatie", relatie.getId());
 
         List<Hypotheek> hypotheeks = query.list();
 
