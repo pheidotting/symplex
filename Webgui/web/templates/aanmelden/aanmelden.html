@@ -19,7 +19,11 @@
                 <div class="getbruikersnaam-wachtwoord">
                     Afgekorte bedrijfsnaam
                 </div>
-                <input type="text" autocomplete="off" id="afkorting" data-bind="value: afkorting"/>
+                <input type="text" autocomplete="off" id="afkorting"
+                       data-bind="value: afkorting, event: {blur: komtAfkortingVoor}"/>
+                <div id="foutmeldingAfkortingKomtVoor" class="validationMessage" data-bind="visible: afkortingKomtVoor">
+                    Deze afkorting komt al voor in Symplex
+                </div>
 
                 <div class="getbruikersnaam-wachtwoord">
                     Uw voornaam
