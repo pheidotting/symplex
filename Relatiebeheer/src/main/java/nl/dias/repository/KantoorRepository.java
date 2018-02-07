@@ -90,4 +90,18 @@ public class KantoorRepository {
         return kantoors;
     }
 
+    public List<Kantoor> zoekOpAfkorting(String afkorting) {
+        getTransaction();
+
+        LOGGER.trace("zoekOpAfkorting {}", afkorting);
+        Query query = getSession().getNamedQuery("Kantoor.zoekOpAfkorting");
+        query.setParameter("afkorting", afkorting);
+
+        List<Kantoor> kantoors = query.list();
+
+        getTransaction().commit();
+
+        return kantoors;
+    }
+
 }
