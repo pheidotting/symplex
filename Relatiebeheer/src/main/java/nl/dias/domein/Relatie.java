@@ -10,8 +10,6 @@ import org.joda.time.LocalDate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Audited
 @Entity
@@ -21,8 +19,8 @@ import java.util.Set;
 @NamedQueries({@NamedQuery(name = "Relatie.zoekAllesVoorKantoor", query = "select r from Relatie r where r.kantoor = :kantoor"), //
         @NamedQuery(name = "Relatie.zoekOpEmail", query = "select r from Relatie r where r.identificatie = :emailadres"), //
         @NamedQuery(name = "Relatie.zoekOpBsn", query = "select r from Relatie r where r.bsn = :bsn"), //
-        @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Gebruiker g where g.geboorteDatum = :geboorteDatum"),//
-        @NamedQuery(name = "Relatie.roepnaam", query = "select g from Gebruiker g where g.roepnaam LIKE :roepnaam")//
+        @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Relatie g where g.geboorteDatum = :geboorteDatum"),//
+        @NamedQuery(name = "Relatie.roepnaam", query = "select g from Relatie g where g.roepnaam LIKE :roepnaam")//
 })
 public class Relatie extends Gebruiker implements Serializable {
     private static final long serialVersionUID = -1920949633670770763L;
@@ -36,6 +34,7 @@ public class Relatie extends Gebruiker implements Serializable {
     @NotAudited
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false, targetEntity = Kantoor.class)
     @JoinColumn(name = "KANTOOR")
+    //    @Transient
     private Kantoor kantoor;
 
     @Column(name = "GEBOORTEDATUM")
@@ -54,16 +53,18 @@ public class Relatie extends Gebruiker implements Serializable {
     @Enumerated(EnumType.STRING)
     private BurgerlijkeStaat burgerlijkeStaat;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OnderlingeRelatie.class, mappedBy = "relatie")
-    @NotAudited
-    private Set<OnderlingeRelatie> onderlingeRelaties;
-
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Hypotheek.class, mappedBy = "relatie", orphanRemoval = true)
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OnderlingeRelatie.class, mappedBy = "relatie")
     //    @NotAudited
-    //    private Set<Hypotheek> hypotheken;
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = HypotheekPakket.class, mappedBy = "relatie", orphanRemoval = true)
-    //    @NotAudited
-    //    private Set<HypotheekPakket> hypotheekPakketten;
+    //    private Set<OnderlingeRelatie> onderlingeRelaties;
+    //
+    //        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Hypotheek.class, mappedBy = "relatie", orphanRemoval = true)
+    //        @NotAudited
+    //    @Transient
+    //        private Set<Hypotheek> hypotheken;
+    //        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = HypotheekPakket.class, mappedBy = "relatie", orphanRemoval = true)
+    //        @NotAudited
+    //    @Transient
+    //        private Set<HypotheekPakket> hypotheekPakketten;
 
     public String getRoepnaam() {
         return roepnaam;
@@ -127,17 +128,17 @@ public class Relatie extends Gebruiker implements Serializable {
         this.burgerlijkeStaat = burgerlijkeStaat;
     }
 
-    public Set<OnderlingeRelatie> getOnderlingeRelaties() {
-        if (onderlingeRelaties == null) {
-            onderlingeRelaties = new HashSet<>();
-        }
-        return onderlingeRelaties;
-    }
-
-    public void setOnderlingeRelaties(Set<OnderlingeRelatie> onderlingeRelaties) {
-        this.onderlingeRelaties = onderlingeRelaties;
-    }
-
+    //    public Set<OnderlingeRelatie> getOnderlingeRelaties() {
+    //        if (onderlingeRelaties == null) {
+    //            onderlingeRelaties = new HashSet<>();
+    //        }
+    //        return onderlingeRelaties;
+    //    }
+    //
+    //    public void setOnderlingeRelaties(Set<OnderlingeRelatie> onderlingeRelaties) {
+    //        this.onderlingeRelaties = onderlingeRelaties;
+    //    }
+    //
     //    public Set<Hypotheek> getHypotheken() {
     //        if (hypotheken == null) {
     //            hypotheken = new HashSet<>();
@@ -185,7 +186,7 @@ public class Relatie extends Gebruiker implements Serializable {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("\ngeslacht", this.geslacht).append("burgerlijkeStaat", this.burgerlijkeStaat).append("identificatie", this.getIdentificatie()).append("voornaam", this.getVoornaam()).append("id", this.getId()).append("overlijdensdatum", this.overlijdensdatum).append("geboorteDatum", this.geboorteDatum).append("bsn", this.bsn).append("onderlingeRelaties", this.onderlingeRelaties).append("wachtwoordString", this.getWachtwoordString()).append("tussenvoegsel", this.getTussenvoegsel()).append("achternaam", this.getAchternaam()).toString();
+        return new ToStringBuilder(this).append("\ngeslacht", this.geslacht).append("burgerlijkeStaat", this.burgerlijkeStaat).append("identificatie", this.getIdentificatie()).append("voornaam", this.getVoornaam()).append("id", this.getId()).append("overlijdensdatum", this.overlijdensdatum).append("geboorteDatum", this.geboorteDatum).append("bsn", this.bsn).append("wachtwoordString", this.getWachtwoordString()).append("tussenvoegsel", this.getTussenvoegsel()).append("achternaam", this.getAchternaam()).toString();
     }
 
     public String getName() {

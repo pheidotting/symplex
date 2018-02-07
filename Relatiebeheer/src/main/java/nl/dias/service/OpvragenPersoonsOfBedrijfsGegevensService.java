@@ -63,7 +63,7 @@ public class OpvragenPersoonsOfBedrijfsGegevensService {
 
         if (hypotheekId != null) {
             Hypotheek hypotheek = hypotheekService.leesHypotheek(hypotheekId);
-            persoonsId = hypotheek.getRelatie().getId();
+            persoonsId = hypotheek.getRelatie();
         }
 
         if (persoonsId != null) {
