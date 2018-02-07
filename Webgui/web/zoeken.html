@@ -50,7 +50,8 @@
     <button class="uitloggen-button" data-bind="click: $root.menubalkViewmodel.uitloggen">Uitloggen</button>
 </div>
 
-<img class="logo-bedrijf" src="images/logo-djfc.jpg"/>
+<img class="logo-bedrijf"
+     data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
 
 <button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
 <button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
