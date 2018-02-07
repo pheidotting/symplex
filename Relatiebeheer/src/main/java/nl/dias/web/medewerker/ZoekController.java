@@ -88,7 +88,7 @@ public class ZoekController extends AbstractController {
             bedrijven = zoekResultaat.getBedrijven();
         } else {
             LOGGER.debug("We laten alles zien");
-            List<Relatie> lijst = gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor());
+            List<Relatie> lijst = gebruikerService.alleRelaties(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor());
             LOGGER.debug("Gevonden {} Relaties/Gebruikers", lijst.size());
             for (Gebruiker r : lijst) {
                 LOGGER.trace("{}", r);
