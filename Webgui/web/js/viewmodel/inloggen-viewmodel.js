@@ -47,9 +47,11 @@ define(['jquery',
                             $.unblockUI();
                             _this.moetWachtwoordUpdaten(true);
                         }else{
-    //                        commonFunctions.haalIngelogdeGebruiker();
-    //                        $.unblockUI();
-                            window.location = 'zoeken.html';
+                            if(localStorage.getItem("symplexPreviousLocation") == null) {
+                                window.location = 'zoeken.html';
+                            } else{
+                                window.location = localStorage.getItem("symplexPreviousLocation");
+                            }
                         }
                     } else if (result.returnCode == 1) {
                         $.unblockUI();
