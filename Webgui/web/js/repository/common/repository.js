@@ -38,6 +38,7 @@ define(["commons/3rdparty/log2",
                     },
                     error: function (response, textStatus, request) {
                         if (response.status.toString() == '401') {
+                            localStorage.setItem("symplexPreviousLocation", window.location);
                             location.href = 'inloggen.html';
                         }else{
                             if(request != '500' && request != 'Server Error' && request != 'Service Unavailable' && request != null && request.message != 'Unexpected end of JSON input') {
