@@ -92,7 +92,7 @@ public class SchadeService {
 
                 schade.setPolis(identificatie.getEntiteitId());
             } catch (Exception e) {
-                LOGGER.error("Fout bij ophalen Identificatie {}", e);
+                LOGGER.error("Fout bij ophalen Identificatie {}", e.getStackTrace());
                 throw e;
             }
         }
