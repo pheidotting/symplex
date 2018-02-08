@@ -74,7 +74,7 @@ public abstract class AbstractClient<D> {
                 LOGGER.debug("Error opgetreden, retry");
                 return getXML(uri, clazz, urlEncoden, LOGGER, true, args);
             } else {
-                LOGGER.error("Fout bij omzetten xml {}", e);
+                LOGGER.error("Fout bij omzetten xml {}", e.getStackTrace());
                 throw new LeesFoutException("Fout bij omzetten xml", e);
             }
         }
