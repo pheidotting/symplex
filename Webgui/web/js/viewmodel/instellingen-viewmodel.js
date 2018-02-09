@@ -15,6 +15,14 @@ define(['jquery',
         var logger = log.getLogger('instellingen-viewmodel');
 		this.menubalkViewmodel      = null;
 
+        this.bedrijfsnaam = ko.observable();
+        this.btwnummer = ko.observable();
+        this.datumoprichting = ko.observable();
+        this.emailadres = ko.observable();
+        this.kvk = ko.observable();
+        this.rechtsvorm = ko.observable();
+        this.afkorting = ko.observable();
+
         this.init = function() {
             var deferred = $.Deferred();
 
