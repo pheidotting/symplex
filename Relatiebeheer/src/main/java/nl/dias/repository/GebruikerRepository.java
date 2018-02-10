@@ -1,6 +1,8 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.*;
+import nl.dias.service.MetricsService;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,8 @@ public class GebruikerRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -54,6 +59,8 @@ public class GebruikerRepository {
     }
 
     public List<ContactPersoon> alleContactPersonen(Long bedrijfsId) {
+        Timer.Context timer = metricsService.addTimerMetric("alleContactPersonen", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("ContactPersoon.alleContactPersonen");
@@ -63,11 +70,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
 
         return result;
     }
 
     public List<Relatie> zoekRelatiesOpTelefoonnummer(String telefoonnummer) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekRelatiesOpTelefoonnummer", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekOpTelefoonnummer");
@@ -79,10 +89,15 @@ public class GebruikerRepository {
             relaties.add((Relatie) relatie);
         }
         getTransaction().commit();
+
+        metricsService.stop(timer);
+
         return relaties;
     }
 
     public List<Relatie> zoekRelatiesOpBedrijfsnaam(String bedrijfsnaam) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekRelatiesOpBedrijfsnaam", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekOpBedrijfsnaam");
@@ -96,42 +111,58 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return relaties;
     }
 
     @Transactional
     public List<Relatie> alleRelaties() {
+        Timer.Context timer = metricsService.addTimerMetric("alleRelaties", GebruikerRepository.class);
+
         getTransaction();
         Query query = getEm().createQuery("select e from Relatie e");
         List<Relatie> ret = query.list();
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return ret;
     }
 
     public List<Medewerker> alleMedewerkers() {
+        Timer.Context timer = metricsService.addTimerMetric("alleMedewerkers", GebruikerRepository.class);
+
         getTransaction();
         Query query = getEm().createQuery("select e from Medewerker e");
         List<Medewerker> ret = query.list();
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return ret;
     }
 
     public List<ContactPersoon> alleContactPersonen() {
+        Timer.Context timer = metricsService.addTimerMetric("alleContactPersonen", GebruikerRepository.class);
+
         getTransaction();
         Query query = getEm().createQuery("select e from ContactPersoon e");
         List<ContactPersoon> ret = query.list();
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return ret;
     }
 
     @Transactional
     public List<Relatie> alleRelaties(Kantoor kantoor) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekAllesVoorKantoor");
@@ -142,11 +173,15 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     @Transactional
     public Relatie zoekOpBsn(String bsn) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpBsn", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekOpBsn");
@@ -156,11 +191,15 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return relatie;
     }
 
     @Transactional
     public Gebruiker zoek(String emailadres) throws NietGevondenException {
+        Timer.Context timer = metricsService.addTimerMetric("zoek", GebruikerRepository.class);
+
         LOGGER.debug("Parameter : '{}'", emailadres);
 
         Gebruiker gebruiker = null;
@@ -178,11 +217,15 @@ public class GebruikerRepository {
         }
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return gebruiker;
     }
 
     @Transactional
     public Gebruiker zoekOpIdentificatie(String identificatie) throws NietGevondenException {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpIdentificatie", GebruikerRepository.class);
+
         LOGGER.debug("zoekOpIdentificatie Parameter : '{}'", identificatie);
 
         Gebruiker gebruiker = null;
@@ -201,10 +244,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return gebruiker;
     }
 
     public List<Gebruiker> zoekOpNaam(String naam) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpNaam", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Gebruiker.zoekOpNaam");
@@ -215,10 +262,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public List<Relatie> zoekRelatieOpRoepnaam(String naam) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekRelatieOpRoepnaam", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.roepnaam");
@@ -229,12 +280,15 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public Gebruiker zoekOpSessieEnIpadres(String sessie, String ipadres) throws NietGevondenException {
-        LOGGER.debug("zoekOpSessieEnIpadres(" + sessie + " , " + ipadres + ")");
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpSessieEnIpadres", GebruikerRepository.class);
 
+        LOGGER.debug("zoekOpSessieEnIpadres(" + sessie + " , " + ipadres + ")");
 
         Gebruiker gebruiker;
 
@@ -259,37 +313,51 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return gebruiker;
     }
 
-
     public void verwijderAdressenBijRelatie(Relatie relatie) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijderAdressenBijRelatie", GebruikerRepository.class);
+
         getEm().getTransaction();
         getEm().getNamedQuery("Adres.verwijderAdressenBijRelatie").setParameter("relatie", relatie).executeUpdate();
         getEm().getNamedQuery("Telefoonnummer.verwijderTelefoonnummersBijRelatie").setParameter("relatie", relatie).executeUpdate();
         getEm().getNamedQuery("RekeningNummer.verwijderRekeningNummersBijRelatie").setParameter("relatie", relatie).executeUpdate();
         getEm().getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
-
     public void verwijder(Gebruiker gebruiker) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", GebruikerRepository.class);
+
         getTransaction();
         getEm().delete(gebruiker);
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
 
     public Gebruiker lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", GebruikerRepository.class);
+
         getTransaction();
 
         Gebruiker g = getEm().get(Gebruiker.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return g;
     }
 
     public void opslaan(Gebruiker gebruiker) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerRepository.class);
+
         getTransaction();
 
         if (gebruiker.getId() == null) {
@@ -299,9 +367,13 @@ public class GebruikerRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<Relatie> zoekOpGeboortedatum(LocalDate geboortedatum) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpGeboortedatum", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekOpGeboortedatum");
@@ -311,10 +383,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public List<Relatie> zoekOpTussenVoegsel(String tussenvoegsel) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpTussenVoegsel", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Gebruiker.zoekOpTussenVoegsel");
@@ -329,10 +405,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return relaties;
     }
 
     public List<Medewerker> alleGebruikersDieKunnenInloggen() {
+        Timer.Context timer = metricsService.addTimerMetric("alleGebruikersDieKunnenInloggen", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Medewerker.alles");
@@ -341,10 +421,14 @@ public class GebruikerRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public List<Relatie> zoekOpVoorletters(String voorletters) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpVoorletters", GebruikerRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekOpVoorletters");
@@ -353,6 +437,8 @@ public class GebruikerRepository {
         List<Relatie> result = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return result;
     }
