@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.client.oga;
 
+import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.interfaces.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
@@ -43,7 +45,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
 
     public abstract List<T> zoeken(String zoekterm);
 
-    protected D getXMLVoorLijstOGA(String uri, Class<D> clazz, Logger LOGGER, String... args) throws IOException {
+    protected D getXMLVoorLijstOGA(String uri, Class<D> clazz, Logger LOGGER, Metrics metrics, String metricsName, Class metricsClass, String... args) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -69,7 +71,17 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setReadTimeout(10000);
         connection.setConnectTimeout(10000);
 
+        Timer.Context timer = null;
+        if (metrics != null) {
+            timer = metrics.addTimerMetric(metricsName, metricsClass);
+            metrics.addMetric(metricsName, metricsClass, null, null);
+        }
+
         InputStream xml = connection.getInputStream();
+
+        if (metrics != null) {
+            metrics.stop(timer);
+        }
 
         D response = mapper.readValue(xml, clazz);
 
@@ -78,7 +90,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         return response;
     }
 
-    protected D getXMLVoorLijstOGAZonderEncode(String uri, Class<D> clazz, Logger LOGGER, String... args) throws IOException {
+    protected D getXMLVoorLijstOGAZonderEncode(String uri, Class<D> clazz, Logger LOGGER, Metrics metrics, String metricsName, Class metricsClass, String... args) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -99,7 +111,17 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setReadTimeout(10000);
         connection.setConnectTimeout(10000);
 
+        Timer.Context timer = null;
+        if (metrics != null) {
+            timer = metrics.addTimerMetric(metricsName, metricsClass);
+            metrics.addMetric(metricsName, clazz, null, null);
+        }
+
         InputStream xml = connection.getInputStream();
+
+        if (metrics != null) {
+            metrics.stop(timer);
+        }
 
         D response = mapper.readValue(xml, clazz);
 
