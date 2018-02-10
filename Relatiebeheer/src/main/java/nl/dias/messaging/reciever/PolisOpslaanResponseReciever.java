@@ -1,6 +1,7 @@
 package nl.dias.messaging.reciever;
 
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
+import nl.dias.service.MetricsService;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
@@ -20,6 +21,9 @@ public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanR
 
     @Inject
     private IdentificatieClient identificatieClient;
+
+    @Inject
+    private MetricsService metricsService;
 
     public PolisOpslaanResponseReciever() {
         super(PolisOpslaanResponse.class);

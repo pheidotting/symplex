@@ -66,19 +66,19 @@ public class AuthorisatieController {
             httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
 
         } catch (NietGevondenException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_ONBEKENDE_GEBRUIKER, null, null);
+            metricsService.addMetric("inloggenOnbekendeGebruiker", AuthorisatieController.class, null, null);
             LOGGER.trace("gebruiker niet gevonden", e);
             return new InloggenResponse(1L, false);
         } catch (OnjuistWachtwoordException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_ONJUIST_WACHTWOORD, null, null);
+            metricsService.addMetric("inloggenOnjuistWachtwoord", AuthorisatieController.class, null, null);
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(2L, false);
         } catch (TeveelFouteInlogPogingenException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_TEVEEL_FOUTIEVE_POGINGEN, null, null);
+            metricsService.addMetric("inloggenTeveelFoutieveInlogPogingen", AuthorisatieController.class, null, null);
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(3L, false);
         }
-        metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN, null, null);
+        metricsService.addMetric("inloggen", AuthorisatieController.class, null, null);
         LOGGER.debug(ReflectionToStringBuilder.toString(new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten())));
         return new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten());
     }
@@ -115,7 +115,7 @@ public class AuthorisatieController {
     @RequestMapping(method = RequestMethod.POST, value = "wachtwoordvergeten")
     @ResponseBody
     public void wachtwoordvergeten(@RequestBody String identificatie) {
-        metricsService.addMetric(MetricsService.SoortMetric.WACHTWOORD_VERGETEN, null, null);
+        metricsService.addMetric("wachtwoordvergeten", AuthorisatieController.class, null, null);
         LOGGER.info("Wachtwoord vergeten");
         try {
             Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(identificatie);

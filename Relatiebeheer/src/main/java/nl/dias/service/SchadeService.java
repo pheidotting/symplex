@@ -31,6 +31,8 @@ public class SchadeService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
+    private MetricsService metricsService;
+    @Inject
     private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public List<SoortSchade> soortenSchade() {

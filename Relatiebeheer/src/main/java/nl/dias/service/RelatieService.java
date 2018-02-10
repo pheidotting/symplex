@@ -22,6 +22,8 @@ public class RelatieService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
+    private MetricsService metricsService;
+    @Inject
     private GebruikerService gebruikerService;
     @Inject
     //    private PolisClient polisClient;

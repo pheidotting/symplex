@@ -33,12 +33,12 @@
 
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
+            <artifactId>metrics-servlets</artifactId>
             <version>${metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-servlets</artifactId>
+            <artifactId>metrics-graphite</artifactId>
             <version>${metrics.version}</version>
         </dependency>
 

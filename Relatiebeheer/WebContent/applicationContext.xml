@@ -401,24 +401,30 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
 
 	<bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
         <constructor-arg value="${oga.url}"/>
 	</bean>
 	<bean id="groepBijlagesClient" class="nl.lakedigital.djfc.client.oga.GroepBijlagesClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="opmerkingClient" class="nl.lakedigital.djfc.client.oga.OpmerkingClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="rekeningClient" class="nl.lakedigital.djfc.client.oga.RekeningClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="telefoonnummerClient" class="nl.lakedigital.djfc.client.oga.TelefoonnummerClient">
         <constructor-arg value="${oga.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 	<bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">
         <constructor-arg value="${oga.url}"/>
@@ -428,12 +434,15 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     </bean>
     <bean id="polisClient" class="nl.lakedigital.djfc.client.polisadministratie.PolisClient">
         <constructor-arg value="${pa.url}"/>
+        <property name="metrics" ref="metricsService"/>
     </bean>
     <bean id="schadeClient" class="nl.lakedigital.djfc.client.polisadministratie.SchadeClient">
         <constructor-arg value="${pa.url}"/>
+        <property name="metrics" ref="metricsService"/>
     </bean>
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
         <constructor-arg value="${id.url}"/>
+        <property name="metrics" ref="metricsService"/>
 	</bean>
 
 </beans>

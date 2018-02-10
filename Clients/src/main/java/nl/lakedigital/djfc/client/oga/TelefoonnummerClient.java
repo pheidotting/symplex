@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonTelefoonnummer;
 import nl.lakedigital.djfc.commons.xml.OpvragenTelefoonnummersResponse;
+import nl.lakedigital.djfc.interfaces.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,11 +21,17 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
     private final String URL_VERWIJDEREN = "/rest/telefoonnummer/verwijderen";
     private final String URL_ZOEKEN = "/rest/telefoonnummer/zoeken";
 
+    private Metrics metrics;
+    
     public TelefoonnummerClient(String basisUrl) {
         super(basisUrl);
     }
 
     public TelefoonnummerClient() {
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
     }
 
     @Override
@@ -41,7 +48,7 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
         List<JsonTelefoonnummer> result;
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenTelefoonnummersResponse.class, LOGGER, zoekterm).getTelefoonnummers();
+            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenTelefoonnummersResponse.class, LOGGER, metrics, "zoeken", TelefoonnummerClient.class, zoekterm).getTelefoonnummers();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_ZOEKEN, e);
         }
@@ -60,7 +67,7 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
         List<JsonTelefoonnummer> result;
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenTelefoonnummersResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getTelefoonnummers();
+            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenTelefoonnummersResponse.class, LOGGER, metrics, "lijst", TelefoonnummerClient.class, soortEntiteit, String.valueOf(entiteitId)).getTelefoonnummers();
         } catch (IOException e) {
             if (!retry) {
                 return lijst(soortEntiteit, entiteitId, true);

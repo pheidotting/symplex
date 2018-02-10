@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.google.common.base.Stopwatch;
 import nl.dias.domein.*;
 import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
@@ -114,7 +115,7 @@ public class GebruikerController extends AbstractController {
     public String opslaanContactPersoon(@RequestBody JsonContactPersoon jsonContactPersoon, HttpServletRequest httpServletRequest) {
         LOGGER.info("Opslaan Relatie {} {}", jsonContactPersoon.getVoornaam(), jsonContactPersoon.getAchternaam());
 
-        metricsService.addMetric(MetricsService.SoortMetric.CONTACTPERSOON_OPSLAAN, null, jsonContactPersoon.getIdentificatie() == null);
+        metricsService.addMetric("contactpersoonOpslaan", GebruikerController.class, null, jsonContactPersoon.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -132,7 +133,9 @@ public class GebruikerController extends AbstractController {
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
 
-        //        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_OPSLAAN, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerController.class);
+
+        metricsService.addMetric("opslaan", null, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -187,13 +190,15 @@ public class GebruikerController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        metricsService.stop(timer);
+
         return relatie.getIdentificatie();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_VERWIJDEREN, null, null);
+        metricsService.addMetric("relatieVerwijderen", GebruikerController.class, null, null);
         LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
 
         zetSessieWaarden(httpServletRequest);
@@ -231,7 +236,7 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigWachtwoord", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void wijzigWachtwoord(@RequestBody String nieuwWactwoord, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.WACHTWOORD_WIJZIGEN, null, null);
+        metricsService.addMetric("wachtwoordWijzigen", GebruikerController.class, null, null);
 
         LOGGER.info("Wachtwoord wijzigen");
 
