@@ -55,7 +55,7 @@ public class SchadeController extends AbstractController {
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("schadeOpslaan", SchadeController.class, null, jsonSchade.getIdentificatie() == null);
-        List<Timer.Context> timers = metricsService.addTimerMetric("opslaan", SchadeController.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", SchadeController.class);
 
         LOGGER.debug("{}", jsonSchade);
 
@@ -78,7 +78,7 @@ public class SchadeController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
         }
 
-        metricsService.stop(timers);
+        metricsService.stop(timer);
         return identificatie == null ? "" : identificatie.getIdentificatie();
     }
 

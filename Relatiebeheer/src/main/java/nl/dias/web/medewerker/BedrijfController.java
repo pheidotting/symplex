@@ -89,7 +89,7 @@ public class BedrijfController extends AbstractController {
     @ResponseBody
     public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("bedrijfOpslaan", BedrijfController.class, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
-        List<Timer.Context> timers = metricsService.addTimerMetric("opslaan", BedrijfController.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfController.class);
 
         LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
 
@@ -119,7 +119,7 @@ public class BedrijfController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        metricsService.stop(timers);
+        metricsService.stop(timer);
 
         return jsonBedrijf.getIdentificatie();
     }

@@ -6,10 +6,8 @@ import nl.lakedigital.djfc.interfaces.Metrics;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.List;
 
 import static com.codahale.metrics.MetricRegistry.name;
-import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class MetricsService implements Metrics {
@@ -20,17 +18,28 @@ public class MetricsService implements Metrics {
         String extraTekst = extra == null ? "" : extra;
         String nieuwTekst = nieuw == null ? "" : nieuw ? "Nieuw" : "Bestaand";
         metricRegistry.meter("meter." + name(clazz, soortMetric) + extraTekst + nieuwTekst).mark();
+
+        push();
     }
 
-    public List<Timer.Context> addTimerMetric(String naam, Class c) {
+    public Timer.Context addTimerMetric(String naam, Class c) {
         final Timer timer = metricRegistry.timer("timer." + name(c, naam));
-        return newArrayList(timer.time());
+        return timer.time();
     }
 
-    public void stop(List<Timer.Context> timers) {
-        for (Timer.Context timer : timers) {
+    public void stop(Timer.Context timer) {
             timer.stop();
-        }
+
+        push();
     }
 
+    private void push() {
+        //        final Graphite graphite = new Graphite(new InetSocketAddress("localhost", 2003));
+        //        final GraphiteReporter reporter = GraphiteReporter.forRegistry(metricRegistry)
+        //                .convertRatesTo(TimeUnit.SECONDS)
+        //                .convertDurationsTo(TimeUnit.MILLISECONDS)
+        //                .filter(MetricFilter.ALL)
+        //                .build(graphite);
+        //        reporter.start(1, TimeUnit.MINUTES);
+    }
 }

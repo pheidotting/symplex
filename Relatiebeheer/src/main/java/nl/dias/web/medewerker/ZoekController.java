@@ -72,7 +72,7 @@ public class ZoekController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekterm}/{weglaten}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm, @QueryParam("weglaten") Long weglaten, HttpServletRequest httpServletRequest) {
-        List<Timer.Context> timers;
+        Timer.Context timer;
         zetSessieWaarden(httpServletRequest);
         String decoded = new String(Base64.getDecoder().decode(zoekTerm));
         LOGGER.debug("Decoded zoekstring {}", decoded);
@@ -82,7 +82,7 @@ public class ZoekController extends AbstractController {
         List<Bedrijf> bedrijven = new ArrayList<>();
 
         if (zoekVelden != null && !zoekVelden.isEmpty()) {
-            timers = metricsService.addTimerMetric("zoekenMetZoekwaarden", ZoekController.class);
+            timer = metricsService.addTimerMetric("zoekenMetZoekwaarden", ZoekController.class);
             LOGGER.debug("We gaan zoeken");
             LocalDate geboortedatum = null;
             if (zoekVelden.getGeboortedatum() != null && !"".equals(zoekVelden.getGeboortedatum())) {
@@ -93,7 +93,7 @@ public class ZoekController extends AbstractController {
             relaties = zoekResultaat.getRelaties();
             bedrijven = zoekResultaat.getBedrijven();
         } else {
-            timers = metricsService.addTimerMetric("zoekenZonderZoekwaarden", ZoekController.class);
+            timer = metricsService.addTimerMetric("zoekenZonderZoekwaarden", ZoekController.class);
             LOGGER.debug("We laten alles zien");
             List<Relatie> lijst = gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor());
             LOGGER.debug("Gevonden {} Relaties/Gebruikers", lijst.size());
@@ -220,7 +220,7 @@ public class ZoekController extends AbstractController {
             }
         });
 
-        metricsService.stop(timers);
+        metricsService.stop(timer);
 
         return zoekResultaatResponse;
     }

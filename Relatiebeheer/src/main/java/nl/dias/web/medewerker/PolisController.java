@@ -153,7 +153,7 @@ public class PolisController extends AbstractController {
     @ResponseBody
     public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPolis.getIdentificatie() == null);
-        List<Timer.Context> timers = metricsService.addTimerMetric("opslaan", PolisController.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", PolisController.class);
 
         LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
 
@@ -176,7 +176,7 @@ public class PolisController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        metricsService.stop(timers);
+        metricsService.stop(timer);
 
         return polis.getId();
         //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));

@@ -133,9 +133,9 @@ public class GebruikerController extends AbstractController {
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
 
-        List<Timer.Context> timers = metricsService.addTimerMetric("opslaan", GebruikerController.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerController.class);
 
-        //        metricsService.addMetric(MetricsService.SoortMetric.RELATIE_OPSLAAN, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
+        metricsService.addMetric("opslaan", null, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -190,7 +190,7 @@ public class GebruikerController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        metricsService.stop(timers);
+        metricsService.stop(timer);
 
         return relatie.getIdentificatie();
     }

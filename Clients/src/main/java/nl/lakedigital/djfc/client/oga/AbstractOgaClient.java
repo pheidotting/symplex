@@ -71,16 +71,16 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setReadTimeout(10000);
         connection.setConnectTimeout(10000);
 
-        List<Timer.Context> timers = null;
+        Timer.Context timer = null;
         if (metrics != null) {
-            timers = metrics.addTimerMetric(metricsName, metricsClass);
+            timer = metrics.addTimerMetric(metricsName, metricsClass);
             metrics.addMetric(metricsName, metricsClass, null, null);
         }
 
         InputStream xml = connection.getInputStream();
 
         if (metrics != null) {
-            metrics.stop(timers);
+            metrics.stop(timer);
         }
 
         D response = mapper.readValue(xml, clazz);
@@ -111,16 +111,16 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         connection.setReadTimeout(10000);
         connection.setConnectTimeout(10000);
 
-        List<Timer.Context> timers = null;
+        Timer.Context timer = null;
         if (metrics != null) {
-            timers = metrics.addTimerMetric(metricsName, metricsClass);
+            timer = metrics.addTimerMetric(metricsName, metricsClass);
             metrics.addMetric(metricsName, clazz, null, null);
         }
 
         InputStream xml = connection.getInputStream();
 
         if (metrics != null) {
-            metrics.stop(timers);
+            metrics.stop(timer);
         }
 
         D response = mapper.readValue(xml, clazz);
