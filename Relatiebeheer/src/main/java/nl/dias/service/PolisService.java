@@ -45,6 +45,8 @@ public class PolisService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
+    private MetricsService metricsService;
+    @Inject
     private SchadeService schadeService;
     @Inject
     private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;

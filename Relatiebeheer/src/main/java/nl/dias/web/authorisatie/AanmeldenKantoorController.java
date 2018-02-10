@@ -48,7 +48,7 @@ public class AanmeldenKantoorController extends AbstractController {
     public boolean opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Aanmelden nieuw kantoor");
 
-        metricsService.addMetric(MetricsService.SoortMetric.KANTOOR_AANMELDEN, null, null);
+        metricsService.addMetric("kantoorAanmelden", AanmeldenKantoorController.class, null, null);
 
         zetSessieWaarden(httpServletRequest);
 

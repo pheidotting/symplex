@@ -44,6 +44,8 @@ public class BedrijfService {
     private AdresClient adresClient;
     @Inject
     private SchadeClient schadeClient;
+    @Inject
+    private MetricsService metricsService;
 
     public void opslaan(Bedrijf bedrijf) {
         bedrijfRepository.opslaan(bedrijf);

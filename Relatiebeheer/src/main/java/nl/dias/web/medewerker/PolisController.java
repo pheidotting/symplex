@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
 import nl.dias.domein.polis.SoortVerzekering;
@@ -105,7 +106,7 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/beeindigen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void beeindigen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, false);
+        metricsService.addMetric("polisOpslaan", PolisController.class, null, false);
 
         LOGGER.debug("beeindigen Polis met id " + id);
 
@@ -151,7 +152,8 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, jsonPolis.getIdentificatie() == null);
+        metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPolis.getIdentificatie() == null);
+        List<Timer.Context> timers = metricsService.addTimerMetric("opslaan", PolisController.class);
 
         LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
 
@@ -174,6 +176,8 @@ public class PolisController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        metricsService.stop(timers);
+
         return polis.getId();
         //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));
         //
@@ -190,7 +194,7 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_VERWIJDEREN, null, null);
+        metricsService.addMetric("polisVerwijderen", PolisController.class, null, null);
 
         LOGGER.debug("verwijderen Polis met id " + id);
 
