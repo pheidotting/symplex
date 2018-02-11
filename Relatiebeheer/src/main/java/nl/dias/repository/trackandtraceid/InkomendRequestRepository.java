@@ -1,12 +1,12 @@
 package nl.dias.repository.trackandtraceid;
 
 import nl.dias.domein.trackandtraceid.InkomendRequest;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,12 @@ public class InkomendRequestRepository {
 
     public void opslaan(InkomendRequest inkomendRequest) {
         getTransaction();
-        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(inkomendRequest, ToStringStyle.SHORT_PREFIX_STYLE));
+
+        Query query = getSession().createQuery("delete from InkomendRequest where tijdstip < :tijdstip");
+        query.setParameter("tijdstip", LocalDateTime.now().minusMonths(1).toDateTime().toDate());
+        query.executeUpdate();
+
+        getSession().flush();
         getSession().save(inkomendRequest);
 
         getTransaction().commit();
