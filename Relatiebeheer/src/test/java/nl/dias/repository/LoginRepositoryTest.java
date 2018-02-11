@@ -31,6 +31,14 @@ public class LoginRepositoryTest {
         loginRepository.getTransaction().commit();
 
         loginRepository.opruimen();
+
+        loginRepository.getTransaction();
+        loginRepository.getSession().createQuery("delete from LogIn i").executeUpdate();
+        loginRepository.getTransaction().commit();
+
+        loginRepository.getTransaction();
+        assertThat(loginRepository.getSession().createQuery("select i from LogIn i").list().size(), is(0));
+        loginRepository.getTransaction().commit();
     }
 
     @Test
@@ -61,5 +69,9 @@ public class LoginRepositoryTest {
         loginRepository.opslaan(logIn4);
 
         assertThat(loginRepository.getIngelogdeGebruikers(), is(newArrayList(gebruikerId1, gebruikerId2, gebruikerId3)));
+
+        loginRepository.getTransaction();
+        loginRepository.getSession().createQuery("delete from LogIn i").executeUpdate();
+        loginRepository.getTransaction().commit();
     }
 }
