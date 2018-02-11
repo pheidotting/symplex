@@ -36,7 +36,7 @@ public class InkomendRequestRepository {
         getTransaction();
 
         Query query = getSession().createQuery("delete from InkomendRequest where tijdstip < :tijdstip");
-        query.setParameter("tijdstip", LocalDateTime.now().minusMonths(1).toDateTime().toDate());
+        query.setParameter("tijdstip", LocalDateTime.now().minusMonths(1));
         query.executeUpdate();
 
         getSession().flush();
