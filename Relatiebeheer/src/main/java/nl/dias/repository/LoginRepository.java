@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.List;
 
 
 @Repository
@@ -78,5 +79,21 @@ public class LoginRepository {
         getTransaction().commit();
 
         metricsService.stop(timer);
+    }
+
+    public List<Long> getIngelogdeGebruikers() {
+        Timer.Context timer = metricsService.addTimerMetric("getIngelogdeGebruikers", LoginRepository.class);
+
+        opruimen();
+
+        getTransaction();
+
+        List<Long> ids = getSession().createQuery("select gebruikerId from LogIn l where l.expireDatum < now() group by gebruikerId").list();
+
+        getTransaction().commit();
+
+        metricsService.stop(timer);
+
+        return ids;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -30,5 +31,35 @@ public class LoginRepositoryTest {
         loginRepository.getTransaction().commit();
 
         loginRepository.opruimen();
+    }
+
+    @Test
+    public void testGetIngelogdeGebruikers() {
+        Long gebruikerId1 = 1L;
+        Long gebruikerId2 = 2L;
+        Long gebruikerId3 = 3L;
+
+        LogIn logIn1 = new LogIn();
+        logIn1.setGebruikerId(gebruikerId1);
+        logIn1.setToken("ab");
+
+        LogIn logIn2 = new LogIn();
+        logIn2.setGebruikerId(gebruikerId2);
+        logIn2.setToken("abc");
+
+        LogIn logIn3 = new LogIn();
+        logIn3.setGebruikerId(gebruikerId3);
+        logIn3.setToken("abcd");
+
+        LogIn logIn4 = new LogIn();
+        logIn4.setGebruikerId(gebruikerId2);
+        logIn4.setToken("abcde");
+
+        loginRepository.opslaan(logIn1);
+        loginRepository.opslaan(logIn2);
+        loginRepository.opslaan(logIn3);
+        loginRepository.opslaan(logIn4);
+
+        assertThat(loginRepository.getIngelogdeGebruikers(), is(newArrayList(gebruikerId1, gebruikerId2, gebruikerId3)));
     }
 }
