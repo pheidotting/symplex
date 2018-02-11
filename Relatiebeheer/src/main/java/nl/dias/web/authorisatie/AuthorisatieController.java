@@ -8,6 +8,7 @@ import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.AuthorisatieService;
+import nl.dias.service.LoginService;
 import nl.dias.service.MetricsService;
 import nl.lakedigital.djfc.commons.json.IngelogdeGebruiker;
 import nl.lakedigital.djfc.commons.json.Inloggen;
@@ -51,16 +52,19 @@ public class AuthorisatieController {
     private GebruikerRepository gebruikerRepository;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/inloggen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public InloggenResponse inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         Gebruiker gebruiker;
+        String token;
         try {
             LOGGER.debug("Inloggen");
             gebruiker = authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
-            String token = issueToken(gebruiker, httpServletRequest);
+            token = issueToken(gebruiker, httpServletRequest);
 
             // Return the token on the response
             httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
@@ -78,6 +82,9 @@ public class AuthorisatieController {
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(3L, false);
         }
+
+        loginService.nieuwToken(gebruiker.getId(), token);
+
         metricsService.addMetric("inloggen", AuthorisatieController.class, null, null);
         LOGGER.debug(ReflectionToStringBuilder.toString(new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten())));
         return new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten());
