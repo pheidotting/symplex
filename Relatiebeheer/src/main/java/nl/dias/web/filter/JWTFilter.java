@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import nl.dias.domein.Gebruiker;
 import nl.dias.repository.GebruikerRepository;
+import nl.dias.service.LoginService;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class JWTFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTFilter.class);
 
     private GebruikerRepository gebruikerRepository;
+    private LoginService loginService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -61,6 +63,7 @@ public class JWTFilter implements Filter {
                             LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
                             token = JWT.create().withSubject(gebruiker.getIdentificatie()).withIssuer(((HttpServletRequest) request).getContextPath()).withIssuedAt(new Date()).withExpiresAt(expireTime.toDate()).sign(algorithm);
 
+                            loginService.nieuwToken(gebruiker.getId(), token);
                         } catch (UnsupportedEncodingException exception) {
                             LOGGER.trace("UTF8 fout", exception);
                             //UTF-8 encoding not supported
@@ -101,6 +104,9 @@ public class JWTFilter implements Filter {
         gebruikerRepository = WebApplicationContextUtils.
                 getRequiredWebApplicationContext(filterConfig.getServletContext()).
                 getBean(GebruikerRepository.class);
+        loginService = WebApplicationContextUtils.
+                getRequiredWebApplicationContext(filterConfig.getServletContext()).
+                getBean(LoginService.class);
     }
 
 

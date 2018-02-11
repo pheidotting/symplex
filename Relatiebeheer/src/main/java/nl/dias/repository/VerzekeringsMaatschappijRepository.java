@@ -1,6 +1,8 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.VerzekeringsMaatschappij;
+import nl.dias.service.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
@@ -21,6 +24,8 @@ public class VerzekeringsMaatschappijRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -40,6 +45,8 @@ public class VerzekeringsMaatschappijRepository {
     }
 
     public VerzekeringsMaatschappij zoekOpNaam(String naam) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpNaam", VerzekeringsMaatschappijRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("VerzekeringsMaatschappij.zoekOpNaam");
@@ -53,16 +60,22 @@ public class VerzekeringsMaatschappijRepository {
     }
 
     public VerzekeringsMaatschappij lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", VerzekeringsMaatschappijRepository.class);
+
         getTransaction();
 
         VerzekeringsMaatschappij verzekeringsMaatschappij = getSession().get(VerzekeringsMaatschappij.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return verzekeringsMaatschappij;
     }
 
     public void opslaan(VerzekeringsMaatschappij verzekeringsMaatschappij) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", VerzekeringsMaatschappijRepository.class);
+
         getTransaction();
 
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(verzekeringsMaatschappij, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -73,17 +86,25 @@ public class VerzekeringsMaatschappijRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public void verwijder(VerzekeringsMaatschappij verzekeringsMaatschappij) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", VerzekeringsMaatschappijRepository.class);
+
         getTransaction();
 
         getSession().delete(verzekeringsMaatschappij);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<VerzekeringsMaatschappij> alles() {
+        Timer.Context timer = metricsService.addTimerMetric("alles", VerzekeringsMaatschappijRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("VerzekeringsMaatschappij.zoekAlles");
@@ -91,6 +112,8 @@ public class VerzekeringsMaatschappijRepository {
         List<VerzekeringsMaatschappij> verzekeringsMaatschappijs = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return verzekeringsMaatschappijs;
     }

@@ -1,8 +1,10 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Relatie;
 import nl.dias.domein.SoortHypotheek;
+import nl.dias.service.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
@@ -23,6 +26,8 @@ public class HypotheekRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -42,6 +47,8 @@ public class HypotheekRepository {
     }
 
     public List<SoortHypotheek> alleSoortenHypotheekInGebruik() {
+        Timer.Context timer = metricsService.addTimerMetric("alleSoortenHypotheekInGebruik", HypotheekRepository.class);
+
         LOGGER.debug("Ophalen alleSoortenHypotheekInGebruik");
         getTransaction();
 
@@ -51,30 +58,42 @@ public class HypotheekRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return soortHypotheeks;
     }
 
     public SoortHypotheek leesSoortHypotheek(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("leesSoortHypotheek", HypotheekRepository.class);
+
         getTransaction();
 
         SoortHypotheek result = getSession().get(SoortHypotheek.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public Hypotheek lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", HypotheekRepository.class);
+
         getTransaction();
 
         Hypotheek result = (Hypotheek) getSession().get(Hypotheek.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return result;
     }
 
     public List<Hypotheek> allesVanRelatie(Relatie relatie) {
+        Timer.Context timer = metricsService.addTimerMetric("allesVanRelatie", HypotheekRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("Hypotheek.allesVanRelatie");
@@ -84,10 +103,14 @@ public class HypotheekRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return hypotheeks;
     }
 
     public List<Hypotheek> allesVanRelatieInEenPakket(Relatie relatie) {
+        Timer.Context timer = metricsService.addTimerMetric("allesVanRelatieInEenPakket", HypotheekRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("Hypotheek.allesVanRelatieInEenPakket");
@@ -97,10 +120,14 @@ public class HypotheekRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return hypotheeks;
     }
 
     public List<Hypotheek> allesVanRelatieInclDePakketten(Relatie relatie) {
+        Timer.Context timer = metricsService.addTimerMetric("allesVanRelatieInclDePakketten", HypotheekRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("Hypotheek.allesVanRelatieInclDePakketten");
@@ -110,10 +137,14 @@ public class HypotheekRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return hypotheeks;
     }
 
     public void opslaan(Hypotheek hypotheek) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", HypotheekRepository.class);
+
         getTransaction();
 
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(hypotheek, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -124,17 +155,25 @@ public class HypotheekRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public void verwijder(Hypotheek hypotheek) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", HypotheekRepository.class);
+
         getTransaction();
 
         getSession().delete(hypotheek);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public void verwijder(List<Hypotheek> hypotheken) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", HypotheekRepository.class);
+
         getTransaction();
 
         for (Hypotheek hypotheek : hypotheken) {
@@ -142,9 +181,13 @@ public class HypotheekRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<Hypotheek> alles() {
+        Timer.Context timer = metricsService.addTimerMetric("alles", HypotheekRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("Hypotheek.alles");
@@ -152,6 +195,8 @@ public class HypotheekRepository {
         List<Hypotheek> hypotheeks = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return hypotheeks;
     }

@@ -11,6 +11,7 @@ import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.LoginService;
 import nl.dias.service.MetricsService;
 import nl.dias.web.medewerker.AbstractController;
 import nl.lakedigital.djfc.domain.response.AanmeldenKantoor;
@@ -42,13 +43,15 @@ public class AanmeldenKantoorController extends AbstractController {
     private GebruikerService gebruikerService;
     @Inject
     private KantoorRepository kantoorRepository;
+    @Inject
+    private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/aanmeldenKantoor")
     @ResponseBody
     public boolean opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Aanmelden nieuw kantoor");
 
-        metricsService.addMetric(MetricsService.SoortMetric.KANTOOR_AANMELDEN, null, null);
+        metricsService.addMetric("kantoorAanmelden", AanmeldenKantoorController.class, null, null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -113,6 +116,8 @@ public class AanmeldenKantoorController extends AbstractController {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             LOGGER.error("Fout bij aanmaken JWT", e);
         }
+
+        loginService.nieuwToken(gebruiker.getId(), token);
 
         return token;
     }

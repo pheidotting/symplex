@@ -31,6 +31,8 @@ public class SchadeService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
+    private MetricsService metricsService;
+    @Inject
     private VerwijderEntiteitenRequestSender verwijderEntiteitRequestSender;
 
     public List<SoortSchade> soortenSchade() {
@@ -92,7 +94,7 @@ public class SchadeService {
 
                 schade.setPolis(identificatie.getEntiteitId());
             } catch (Exception e) {
-                LOGGER.error("Fout bij ophalen Identificatie {}", e);
+                LOGGER.error("Fout bij ophalen Identificatie {}", e.getStackTrace());
                 throw e;
             }
         }

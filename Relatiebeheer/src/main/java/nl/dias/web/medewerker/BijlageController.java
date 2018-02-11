@@ -142,7 +142,7 @@ public class BijlageController extends AbstractController {
 
         Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(identificatie);
         Long id = identificatie1.getEntiteitId();
-        metricsService.addMetric(MetricsService.SoortMetric.BIJLAGE_UPLOADEN, identificatie1.getSoortEntiteit(), null);
+        metricsService.addMetric("bijlageUploaden", BijlageController.class, identificatie1.getSoortEntiteit(), null);
 
         LOGGER.debug("Opgehaalde identificatie {}", ReflectionToStringBuilder.toString(id));
 

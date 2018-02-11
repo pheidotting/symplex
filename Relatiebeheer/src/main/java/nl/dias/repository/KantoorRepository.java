@@ -1,10 +1,12 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Kantoor;
 import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
+import nl.dias.service.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
@@ -24,7 +27,9 @@ public class KantoorRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
-
+    @Inject
+    private MetricsService metricsService;
+    
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -44,6 +49,8 @@ public class KantoorRepository {
 
     @Transactional
     public void opslaanKantoor(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
+        Timer.Context timer = metricsService.addTimerMetric("opslaanKantoor", KantoorRepository.class);
+
         getTransaction();
 
         if (kantoor.getId() == null) {
@@ -53,6 +60,8 @@ public class KantoorRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public Kantoor getIngelogdKantoor() {
@@ -60,25 +69,35 @@ public class KantoorRepository {
     }
 
     public Kantoor lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", KantoorRepository.class);
+
         getTransaction();
 
         Kantoor kantoor = getSession().get(Kantoor.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return kantoor;
     }
 
 
     public void verwijder(Kantoor kantoor) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", KantoorRepository.class);
+
         getTransaction();
 
         getSession().delete(kantoor);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<Kantoor> alles() {
+        Timer.Context timer = metricsService.addTimerMetric("alles", KantoorRepository.class);
+
         getTransaction();
 
         Query query = getSession().getNamedQuery("Kantoor.alles");
@@ -87,10 +106,14 @@ public class KantoorRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return kantoors;
     }
 
     public List<Kantoor> zoekOpAfkorting(String afkorting) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpAfkorting", KantoorRepository.class);
+
         getTransaction();
 
         LOGGER.trace("zoekOpAfkorting {}", afkorting);
@@ -100,6 +123,8 @@ public class KantoorRepository {
         List<Kantoor> kantoors = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return kantoors;
     }

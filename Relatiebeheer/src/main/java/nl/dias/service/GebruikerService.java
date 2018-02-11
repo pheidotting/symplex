@@ -65,7 +65,10 @@ public class GebruikerService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
+    private MetricsService metricsService;
+    @Inject
     private InlogPogingRepository inlogPogingRepository;
+
 
     public boolean magInloggen(Gebruiker gebruiker) {
         return inlogPogingRepository.magInloggen(gebruiker.getId());

@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.commons.xml.OpvragenOpmerkingenResponse;
+import nl.lakedigital.djfc.interfaces.Metrics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +24,17 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
     private final String URL_VERWIJDER = "/rest/opmerking/verwijder";
     private final String URL_ZOEKEN = "/rest/opmerking/zoeken";
 
+    private Metrics metrics;
+    
     public OpmerkingClient(String basisUrl) {
         super(basisUrl);
     }
 
     public OpmerkingClient() {
+    }
+
+    public void setMetrics(Metrics metrics) {
+        this.metrics = metrics;
     }
 
     @Override
@@ -44,7 +51,7 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         List<JsonOpmerking> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenOpmerkingenResponse.class, LOGGER, zoekterm).getOpmerkingen();
+            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenOpmerkingenResponse.class, LOGGER, metrics, "zoeken", OpmerkingClient.class, zoekterm).getOpmerkingen();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_ZOEKEN, e);
         }
@@ -63,7 +70,7 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         List<JsonOpmerking> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenOpmerkingenResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getOpmerkingen();
+            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenOpmerkingenResponse.class, LOGGER, metrics, "lijst", OpmerkingClient.class, soortEntiteit, String.valueOf(entiteitId)).getOpmerkingen();
         } catch (IOException e) {
             if (!retry) {
                 return lijst(soortEntiteit, entiteitId, true);
