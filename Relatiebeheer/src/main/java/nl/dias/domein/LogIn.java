@@ -1,5 +1,7 @@
 package nl.dias.domein;
 
+import org.joda.time.LocalDateTime;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,13 +24,15 @@ public class LogIn {
     private Date expireDatum;
 
     public LogIn() {
-        expireDatum = new Date();
+        this.expireDatum = LocalDateTime.now().plusHours(2).toDateTime().toDate();
+        System.out.println(this.expireDatum);
     }
 
     public LogIn(String token, Long gebruikerId) {
         this.token = token;
         this.gebruikerId = gebruikerId;
-        expireDatum = new Date();
+        this.expireDatum = LocalDateTime.now().plusHours(2).toDateTime().toDate();
+        System.out.println(this.expireDatum);
     }
 
     public Long getId() {
