@@ -3,10 +3,7 @@ package nl.dias.repository;
 import com.codahale.metrics.Timer;
 import nl.dias.domein.LogIn;
 import nl.dias.service.MetricsService;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 
@@ -74,7 +72,7 @@ public class LoginRepository {
 
         getTransaction();
 
-        getSession().createQuery("delete from LogIn l where l.expireDatum > now()").executeUpdate();
+        getSession().createQuery("delete from LogIn l where l.expireDatum < now()").executeUpdate();
 
         getTransaction().commit();
 
@@ -88,7 +86,10 @@ public class LoginRepository {
 
         getTransaction();
 
-        List<Long> ids = getSession().createQuery("select gebruikerId from LogIn l where l.expireDatum < now() group by gebruikerId").list();
+        Query query = getSession().createQuery("select gebruikerId from LogIn l where l.expireDatum > :datum group by gebruikerId");
+        query.setParameter("datum", new Date());
+
+        List<Long> ids = query.list();
 
         getTransaction().commit();
 
