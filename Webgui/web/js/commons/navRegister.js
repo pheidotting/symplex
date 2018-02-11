@@ -13,6 +13,7 @@ define([ ],
                             {naam: 'CHECK_NIEUWE_VERSIE',               url: BASISURL_RELATIEBEHEER + '/authorisatie/versies/checkNieuweversie'},
 
                             {naam: 'AANMELDEN_KANTOOR',                 url: BASISURL_RELATIEBEHEER + '/authorisatie/aanmeldenKantoor'},
+                            {naam: 'LEES_KANTOOR',                      url: BASISURL_RELATIEBEHEER + '/medewerker/kantoor/lees'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},

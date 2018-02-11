@@ -47,10 +47,6 @@ define(['redirect',
             redirect.redirect('BEHEER_BELASTINGZAKEN', _this.identificatie);
         };
 
-        this.instellingen = function() {
-            redirect.redirect('INSTELLINGEN');
-        };
-
         this.uitloggen = function() {
             localStorage.removeItem("symplexAccessToken");
             location.reload();

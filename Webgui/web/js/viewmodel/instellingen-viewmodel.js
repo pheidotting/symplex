@@ -6,8 +6,9 @@ define(['jquery',
         'commons/3rdparty/log2',
 		'redirect',
         'viewmodel/common/menubalk-viewmodel',
+        'service/kantoor-service',
         'moment'],
-    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, ) {
+    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, kantoorService, moment) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
@@ -28,17 +29,27 @@ define(['jquery',
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
 
-//            $.when(instellingenService.instellingen(), gebruikerService.haalIngelogdeGebruiker()).then(function(zoekResultaat){
-//                $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function(i, gemapt) {
-//                    _this.zoekResultaat.push(gemapt);
-//                    _this.zoekResultaat.valueHasMutated();
-//                });
-//
-//                return deferred.resolve();
-//            });
+            $.when(kantoorService.lees()).then(function(kantoor){
+                _this.bedrijfsnaam(kantoor.naam);
+                _this.btwnummer(kantoor.btwNummer);
+                _this.datumoprichting(kantoor.datumOprichting);
+                _this.emailadres(kantoor.emailadres);
+                _this.kvk(kantoor.kvk);
+                _this.rechtsvorm(kantoor.rechtsvorm);
+                _this.afkorting(kantoor.afkorting);
+
+                return deferred.resolve();
+            });
 
             return deferred.promise();
         };
 
+        this.opslaan = function(){
+            console.log("opslaan");
+        };
+
+        this.annuleren = function(){
+            console.log("annuleren");
+        };
 	};
 });

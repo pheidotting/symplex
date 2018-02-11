@@ -11,6 +11,10 @@ define(["commons/3rdparty/log",
                 log.debug(ko.toJSON(data));
 
                 return abstractRepository.voerUitPost(url, ko.toJSON(data));
+            },
+
+            lees: function() {
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_KANTOOR'));
             }
         }
     }

@@ -38,8 +38,6 @@
 
         app.addView('belastingzaken/:identificatie', 'js/view/beheren-belastingzaken-view');
 
-        app.addView('instellingen', 'js/view/instellingen-view');
-
         app.run('#relatie');
     });
 </script>
@@ -103,9 +101,6 @@
                     </li>
                     <li><a style="cursor: pointer;"
                            data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
-                    </li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.instellingen">Instellingen</a>
                     </li>
                 </ul>
             </div>

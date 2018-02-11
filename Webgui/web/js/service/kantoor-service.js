@@ -14,6 +14,10 @@ define(["commons/3rdparty/log",
                 });
 
                 return deferred.promise();
+            },
+
+            lees: function() {
+                return kantoorRepository.lees();
             }
         }
 });
