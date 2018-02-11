@@ -20,6 +20,10 @@ public class LoginRepositoryTest {
 
     @Test
     public void test() {
+        loginRepository.getTransaction();
+        loginRepository.getSession().createQuery("delete from LogIn i").executeUpdate();
+        loginRepository.getTransaction().commit();
+
         LogIn logIn = new LogIn();
         logIn.setGebruikerId(2L);
         logIn.setToken("ab");
@@ -43,6 +47,10 @@ public class LoginRepositoryTest {
 
     @Test
     public void testGetIngelogdeGebruikers() {
+        loginRepository.getTransaction();
+        loginRepository.getSession().createQuery("delete from LogIn i").executeUpdate();
+        loginRepository.getTransaction().commit();
+
         Long gebruikerId1 = 1L;
         Long gebruikerId2 = 2L;
         Long gebruikerId3 = 3L;
