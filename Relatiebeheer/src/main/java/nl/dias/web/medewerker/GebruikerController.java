@@ -135,7 +135,7 @@ public class GebruikerController extends AbstractController {
 
         Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerController.class);
 
-        metricsService.addMetric("opslaan", null, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
+        metricsService.addMetric("opslaan", GebruikerController.class, null, jsonRelatie.getId() == null && jsonRelatie.getIdentificatie() == null);
 
         zetSessieWaarden(httpServletRequest);
 
