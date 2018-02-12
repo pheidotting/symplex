@@ -14,6 +14,7 @@ define([ ],
 
                             {naam: 'AANMELDEN_KANTOOR',                 url: BASISURL_RELATIEBEHEER + '/authorisatie/aanmeldenKantoor'},
                             {naam: 'LEES_KANTOOR',                      url: BASISURL_RELATIEBEHEER + '/medewerker/kantoor/lees'},
+                            {naam: 'OPSLAAN_KANTOOR',                   url: BASISURL_RELATIEBEHEER + '/medewerker/kantoor/opslaan'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},

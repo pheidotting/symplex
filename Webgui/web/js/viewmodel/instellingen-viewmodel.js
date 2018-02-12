@@ -23,6 +23,7 @@ define(['jquery',
         this.kvk = ko.observable();
         this.rechtsvorm = ko.observable();
         this.afkorting = ko.observable();
+        this.identificatie = ko.observable();
 
         this.init = function() {
             var deferred = $.Deferred();
@@ -37,6 +38,7 @@ define(['jquery',
                 _this.kvk(kantoor.kvk);
                 _this.rechtsvorm(kantoor.rechtsvorm);
                 _this.afkorting(kantoor.afkorting);
+                _this.identificatie(kantoor.identificatie);
 
                 return deferred.resolve();
             });
@@ -45,11 +47,28 @@ define(['jquery',
         };
 
         this.opslaan = function(){
-            console.log("opslaan");
+            var deferred = $.Deferred();
+
+            var kantoor = {
+                'naam' : _this.bedrijfsnaam(),
+                'btwNummer' : _this.btwnummer(),
+                'datumOprichting' : _this.datumoprichting(),
+                'vemailadres' : _this.emailadres(),
+                'kvk' : _this.kvk(),
+                'rechtsvorm' : _this.rechtsvorm(),
+                'afkorting' : _this.afkorting(),
+                'identificatie' : _this.identificatie()
+            };
+
+            $.when(kantoorService.opslaan(kantoor)).then(function(kantoor){
+                return deferred.resolve();
+            });
+
+            return deferred.promise();
         };
 
         this.annuleren = function(){
-            console.log("annuleren");
+            window.location = 'zoeken.html';
         };
 	};
 });

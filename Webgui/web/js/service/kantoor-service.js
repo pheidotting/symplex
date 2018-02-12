@@ -18,6 +18,10 @@ define(["commons/3rdparty/log",
 
             lees: function() {
                 return kantoorRepository.lees();
+            },
+
+            opslaan: function(data) {
+                return kantoorRepository.opslaan(data);
             }
         }
 });
