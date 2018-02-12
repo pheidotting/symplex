@@ -25,14 +25,12 @@ public class LogIn {
 
     public LogIn() {
         this.expireDatum = LocalDateTime.now().plusHours(2).toDateTime().toDate();
-        System.out.println(this.expireDatum);
     }
 
     public LogIn(String token, Long gebruikerId) {
         this.token = token;
         this.gebruikerId = gebruikerId;
         this.expireDatum = LocalDateTime.now().plusHours(2).toDateTime().toDate();
-        System.out.println(this.expireDatum);
     }
 
     public Long getId() {
