@@ -6,7 +6,7 @@ import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +29,7 @@ public class KantoorRepository {
     private SessionFactory sessionFactory;
     @Inject
     private MetricsService metricsService;
-    
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

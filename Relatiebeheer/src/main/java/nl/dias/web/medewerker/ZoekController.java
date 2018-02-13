@@ -10,11 +10,11 @@ import nl.dias.domein.Relatie;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.MetricsService;
 import nl.dias.service.ZoekService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.SoortEntiteit;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.joda.time.LocalDate;
@@ -119,8 +119,7 @@ public class ZoekController extends AbstractController {
                         return relatie.getKantoor().getId() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
                     }
                     return false;
-                })
-                .map(relatie -> {
+                }).map(relatie -> {
                     RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();
 
                     Identificatie identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
@@ -159,8 +158,7 @@ public class ZoekController extends AbstractController {
                         return bedrijf.getKantoor() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
                     }
                     return false;
-                })
-                .map(bedrijf -> {
+                }).map(bedrijf -> {
                     BedrijfZoekResultaat bedrijfZoekResultaat = new BedrijfZoekResultaat();
 
                     Identificatie identificatie = identificatieClient.zoekIdentificatie("BEDRIJF", bedrijf.getId());

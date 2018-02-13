@@ -5,7 +5,7 @@ import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.json.JsonGroepBijlages;
 import nl.lakedigital.djfc.commons.xml.OpvragenGroepBijlagesResponse;
-import nl.lakedigital.djfc.interfaces.Metrics;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, Opvragen
     private final String URL_LIJST_GROEPEN = "/rest/bijlage/alleGroepen";
     private final String URL_OPSLAAN_GROEP = "/rest/bijlage/opslaanGroep";
 
-    private Metrics metrics;
+    private MetricsService metricsService;
 
     public GroepBijlagesClient(String basisUrl) {
         super(basisUrl);
@@ -29,8 +29,8 @@ public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, Opvragen
     public GroepBijlagesClient() {
     }
 
-    public void setMetrics(Metrics metrics) {
-        this.metrics = metrics;
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, Opvragen
         List<JsonGroepBijlages> result;
 
         try {
-            result = getXMLVoorLijstOGAZonderEncode(url, OpvragenGroepBijlagesResponse.class, LOGGER, metrics, "lijstGroepen", GroepBijlagesClient.class, soortEntiteit, String.valueOf(entiteitId)).getBijlages();
+            result = getXMLVoorLijstOGAZonderEncode(url, OpvragenGroepBijlagesResponse.class, LOGGER, metricsService, "lijstGroepen", GroepBijlagesClient.class, soortEntiteit, String.valueOf(entiteitId)).getBijlages();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + url, e);
         }
