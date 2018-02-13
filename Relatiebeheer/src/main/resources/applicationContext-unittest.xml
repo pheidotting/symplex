@@ -10,8 +10,10 @@
     <context:component-scan base-package="nl.dias.messaging"/>
     <context:annotation-config/>
 
-    <bean id="metricsRegistry" class="com.codahale.metrics.MetricRegistry"/>
-    <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService"/>
+    <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
+    <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
+        <property name="metricRegistry" ref="metricRegistry"/>
+    </bean>
     <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init">
         <property name="poortNummer" value="3319"/>
     </bean>
