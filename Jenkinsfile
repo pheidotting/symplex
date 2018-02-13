@@ -397,7 +397,7 @@ pipeline {
                     slackSend (color: '#4245f4', message: "Deploy naar PRD gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                     slackSend (color: '#4245f4', message: "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n```" + commitMessage() + "```", channel: "#deployments")
 
-                    sh "curl --data 'commitMessage()' http://192.168.91.220:8080/dejonge/rest/authorisatie/versies/nieuweversie -H 'Content-Type: application/json';"
+                    sh "curl --data '" + commitMessage() + "' http://192.168.91.220:8080/dejonge/rest/authorisatie/versies/nieuweversie -H 'Content-Type: application/json';"
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Deploy naar test Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")

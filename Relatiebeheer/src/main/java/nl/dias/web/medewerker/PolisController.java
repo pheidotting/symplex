@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
 import nl.dias.domein.polis.SoortVerzekering;
@@ -10,7 +11,6 @@ import nl.dias.messaging.sender.PolisOpslaanRequestSender;
 import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.MetricsService;
 import nl.dias.service.PolisService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -21,6 +21,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +106,7 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/beeindigen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void beeindigen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, false);
+        metricsService.addMetric("polisOpslaan", PolisController.class, null, false);
 
         LOGGER.debug("beeindigen Polis met id " + id);
 
@@ -151,7 +152,8 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_OPSLAAN, null, jsonPolis.getIdentificatie() == null);
+        metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPolis.getIdentificatie() == null);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", PolisController.class);
 
         LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
 
@@ -174,6 +176,8 @@ public class PolisController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        metricsService.stop(timer);
+
         return polis.getId();
         //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));
         //
@@ -190,7 +194,7 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.POLIS_VERWIJDEREN, null, null);
+        metricsService.addMetric("polisVerwijderen", PolisController.class, null, null);
 
         LOGGER.debug("verwijderen Polis met id " + id);
 

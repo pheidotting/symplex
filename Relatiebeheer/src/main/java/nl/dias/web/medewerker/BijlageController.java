@@ -4,12 +4,12 @@ import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
-import nl.dias.service.MetricsService;
 import nl.dias.web.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -142,7 +142,7 @@ public class BijlageController extends AbstractController {
 
         Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(identificatie);
         Long id = identificatie1.getEntiteitId();
-        metricsService.addMetric(MetricsService.SoortMetric.BIJLAGE_UPLOADEN, identificatie1.getSoortEntiteit(), null);
+        metricsService.addMetric("bijlageUploaden", BijlageController.class, identificatie1.getSoortEntiteit(), null);
 
         LOGGER.debug("Opgehaalde identificatie {}", ReflectionToStringBuilder.toString(id));
 

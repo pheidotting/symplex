@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Bedrijf;
 import nl.dias.domein.Medewerker;
 import nl.dias.mapper.Mapper;
@@ -18,6 +19,7 @@ import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.response.*;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -87,7 +89,8 @@ public class BedrijfController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.BEDRIJF_OPSLAAN, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
+        metricsService.addMetric("bedrijfOpslaan", BedrijfController.class, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfController.class);
 
         LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
 
@@ -117,6 +120,8 @@ public class BedrijfController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        metricsService.stop(timer);
+
         return jsonBedrijf.getIdentificatie();
     }
 
@@ -141,7 +146,7 @@ public class BedrijfController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijder(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.BEDRIJF_VERWIJDEREN, null, null);
+        metricsService.addMetric("bedrijfVerwijderen", BedrijfController.class, null, null);
 
         LOGGER.debug("verwijderen Bedrijf met id " + id);
 

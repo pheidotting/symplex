@@ -1,7 +1,9 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Versie;
 import nl.dias.domein.VersieGelezen;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -22,6 +25,8 @@ public class VersieRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -45,22 +50,32 @@ public class VersieRepository {
     }
 
     public void opslaan(Versie versie) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", VersieRepository.class);
+
         getTransaction();
 
         getSession().save(versie);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public void opslaan(VersieGelezen versieGelezen) {
+        Timer.Context timer = metricsService.addTimerMetric("alleSchadesBijPolis", VersieRepository.class);
+
         getTransaction();
 
         getSession().save(versieGelezen);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<Versie> getOngelezenVersies(Long gebruikerId) {
+        Timer.Context timer = metricsService.addTimerMetric("getOngelezenVersies", VersieRepository.class);
+
         List<Versie> result = newArrayList();
         getTransaction();
 
@@ -77,6 +92,8 @@ public class VersieRepository {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return result;
     }

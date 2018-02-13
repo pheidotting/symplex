@@ -11,24 +11,24 @@ import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.MetricsService;
+import nl.dias.service.LoginService;
 import nl.dias.web.medewerker.AbstractController;
 import nl.lakedigital.djfc.domain.response.AanmeldenKantoor;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.function.Consumer;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
@@ -43,13 +43,15 @@ public class AanmeldenKantoorController extends AbstractController {
     private GebruikerService gebruikerService;
     @Inject
     private KantoorRepository kantoorRepository;
+    @Inject
+    private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/aanmeldenKantoor")
     @ResponseBody
-    public boolean opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
+    public boolean opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Aanmelden nieuw kantoor");
 
-        metricsService.addMetric(MetricsService.SoortMetric.KANTOOR_AANMELDEN, null, null);
+        metricsService.addMetric("kantoorAanmelden", AanmeldenKantoorController.class, null, null);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -76,26 +78,32 @@ public class AanmeldenKantoorController extends AbstractController {
         medewerker.setEmailadres(aanmeldenKantoor.getEmailadres());
         try {
             medewerker.setIdentificatie(aanmeldenKantoor.getInlognaam());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        try {
             medewerker.setHashWachtwoord(aanmeldenKantoor.getNieuwWachtwoord());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+            LOGGER.error("{}", e);
+            throw e;
         }
         gebruikerService.opslaan(medewerker);
 
-        String token = issueToken(medewerker, httpServletRequest);
-
         // Return the token on the response
-        httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
+        httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + issueToken(medewerker, httpServletRequest));
 
         return true;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/komtAfkortingAlVoor/{afkorting}", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public boolean komtAfkortingAlVoor(@PathVariable("afkorting") String afkorting, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
+        kantoorRepository.zoekOpAfkorting(afkorting).stream().forEach(new Consumer<Kantoor>() {
+            @Override
+            public void accept(Kantoor kantoor) {
+                LOGGER.debug("{} {}", kantoor.getId(), kantoor.getNaam());
+            }
+        });
+
+        return !kantoorRepository.zoekOpAfkorting(afkorting).isEmpty();
     }
 
     private String issueToken(Gebruiker gebruiker, HttpServletRequest httpServletRequest) {
@@ -108,6 +116,8 @@ public class AanmeldenKantoorController extends AbstractController {
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             LOGGER.error("Fout bij aanmaken JWT", e);
         }
+
+        loginService.nieuwToken(gebruiker.getId(), token);
 
         return token;
     }

@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonRekeningNummer;
 import nl.lakedigital.djfc.commons.xml.OpvragenRekeningNummersResponse;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +23,17 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
     private final String URL_VERWIJDEREN = "/rest/rekeningnummer/verwijderen";
     private final String URL_ZOEKEN = "/rest/rekeningnummer/zoeken";
 
+    private MetricsService metricsService;
+
     public RekeningClient(String basisUrl) {
         super(basisUrl);
     }
 
     public RekeningClient() {
+    }
+
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
         List<JsonRekeningNummer> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenRekeningNummersResponse.class, LOGGER, zoekterm).getRekeningNummers();
+            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenRekeningNummersResponse.class, LOGGER, metricsService, "zoeken", RekeningClient.class, zoekterm).getRekeningNummers();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_ZOEKEN, e);
         }
@@ -62,7 +69,7 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
         List<JsonRekeningNummer> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenRekeningNummersResponse.class, LOGGER, soortEntiteit, String.valueOf(entiteitId)).getRekeningNummers();
+            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenRekeningNummersResponse.class, LOGGER, metricsService, "lijst", RekeningClient.class, soortEntiteit, String.valueOf(entiteitId)).getRekeningNummers();
         } catch (IOException e) {
             if (!retry) {
                 return lijst(soortEntiteit, entiteitId, true);

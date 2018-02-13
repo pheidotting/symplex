@@ -78,6 +78,5 @@
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
         <!--<appender-ref ref="loggly"/>-->
-        <!--<appender-ref ref="kibana"/>-->
     </root>
 </log4j:configuration>

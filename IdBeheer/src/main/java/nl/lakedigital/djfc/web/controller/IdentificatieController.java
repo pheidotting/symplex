@@ -3,6 +3,7 @@ package nl.lakedigital.djfc.web.controller;
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.commons.json.ZoekIdentificatieResponse;
 import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.IdentificatieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,14 @@ public class IdentificatieController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieController.class);
     @Inject
     private IdentificatieService identificatieService;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoekenOpCode/{identificatie}")
     @ResponseBody
     public ZoekIdentificatieResponse zoeken(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoekenOpCode", IdentificatieController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         LOGGER.debug("zoeken met {} ", identificatieCode);
@@ -45,6 +50,8 @@ public class IdentificatieController {
     @RequestMapping(method = RequestMethod.GET, value = "/zoekenMeerdere/{zoekterm}")
     @ResponseBody
     public ZoekIdentificatieResponse zoekenMeerdere(@PathVariable("zoekterm") String zoekterm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoekenMeerdere", IdentificatieController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         LOGGER.info("Zoeken meerdere identificaties met zoekterm {}", zoekterm);
@@ -74,6 +81,8 @@ public class IdentificatieController {
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{soortEntiteit}/{entiteitId}")
     @ResponseBody
     public ZoekIdentificatieResponse zoeken(@PathVariable("soortEntiteit") String soortEntiteit, @PathVariable("entiteitId") Long entiteitId, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoeken", IdentificatieController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         LOGGER.debug("zoeken met {} en {}", soortEntiteit, entiteitId);

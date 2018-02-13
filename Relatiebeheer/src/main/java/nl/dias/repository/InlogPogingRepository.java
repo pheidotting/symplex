@@ -1,9 +1,11 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import nl.dias.domein.InlogPoging;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +30,8 @@ public class InlogPogingRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -55,6 +60,8 @@ public class InlogPogingRepository {
     }
 
     public void opslaanNieuwePoging(Long gebruikerId, boolean gelukt, String ipadres) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaanNieuwePoging", InlogPogingRepository.class);
+
         InlogPoging inlogPoging;
         File database = new File("GeoLite2-City.mmdb");
         String ip = null;
@@ -105,9 +112,13 @@ public class InlogPogingRepository {
         getSession().save(inlogPoging);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public boolean magInloggen(Long gebruikerId) {
+        Timer.Context timer = metricsService.addTimerMetric("magInloggen", InlogPogingRepository.class);
+
         getTransaction();
 
         LocalDateTime tijdstip = LocalDateTime.now().minusMinutes(5);
@@ -118,6 +129,8 @@ public class InlogPogingRepository {
         boolean magInloggen = query.list().size() < 5;
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return magInloggen;
     }

@@ -11,9 +11,21 @@
     <properties>
         <jersey.version>1.19.3</jersey.version>
         <spring-framework.version>4.2.5.RELEASE</spring-framework.version>
+        <metrics.version>4.0.0</metrics.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlets</artifactId>
+            <version>${metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-graphite</artifactId>
+            <version>${metrics.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

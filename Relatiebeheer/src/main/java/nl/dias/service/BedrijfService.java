@@ -14,6 +14,7 @@ import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -44,6 +45,8 @@ public class BedrijfService {
     private AdresClient adresClient;
     @Inject
     private SchadeClient schadeClient;
+    @Inject
+    private MetricsService metricsService;
 
     public void opslaan(Bedrijf bedrijf) {
         bedrijfRepository.opslaan(bedrijf);

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.ZoekIdentificatieResponse;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
@@ -11,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -20,13 +19,17 @@ import static java.lang.String.join;
 
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
     private final static Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private MetricsService metricsService;
 
     public IdentificatieClient(String basisUrl) {
         super(basisUrl);
     }
 
     public IdentificatieClient() {
+    }
+
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -39,7 +42,10 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     }
 
     public Identificatie zoekIdentificatie(String soortEntiteit, Long entiteitId, boolean retry) {
-        List<Identificatie> lijst = getXML("/rest/identificatie/zoeken", ZoekIdentificatieResponse.class, false, LOGGER, false, soortEntiteit, String.valueOf(entiteitId)).getIdentificaties();
+        if (metricsService != null) {
+            metricsService.addMetric("zoekIdentificatie", IdentificatieClient.class, null, null);
+        }
+        List<Identificatie> lijst = getXML("/rest/identificatie/zoeken", ZoekIdentificatieResponse.class, false, LOGGER, false, metricsService, "zoekIdentificatie", IdentificatieClient.class, soortEntiteit, String.valueOf(entiteitId)).getIdentificaties();
 
         if (!lijst.isEmpty() && lijst.get(0).getEntiteitId() != null) {
             return lijst.get(0);
@@ -58,7 +64,10 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     }
 
     public Identificatie zoekIdentificatieCode(String identificatieCode, boolean retry) {
-        List<Identificatie> lijst = getXML("/rest/identificatie/zoekenOpCode", ZoekIdentificatieResponse.class, false, LOGGER, false, identificatieCode).getIdentificaties();
+        if (metricsService != null) {
+            metricsService.addMetric("zoekIdentificatieCode", IdentificatieClient.class, null, null);
+        }
+        List<Identificatie> lijst = getXML("/rest/identificatie/zoekenOpCode", ZoekIdentificatieResponse.class, false, LOGGER, false, metricsService, "zoekIdentificatieCode", IdentificatieClient.class, identificatieCode).getIdentificaties();
 
         if (!lijst.isEmpty() && lijst.get(0).getEntiteitId() != null) {
             return lijst.get(0);
@@ -73,6 +82,9 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     }
 
     public List<Identificatie> zoekIdentificatieCodes(List<SoortEntiteitEnEntiteitId> soortenEntiteitEnEntiteitId) {
+        if (metricsService != null) {
+            metricsService.addMetric("zoekIdentificatieCodes", IdentificatieClient.class, null, null);
+        }
         String idsString = join("&zoekterm=", soortenEntiteitEnEntiteitId.stream().map(new Function<SoortEntiteitEnEntiteitId, String>() {
             @Override
             public String apply(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId) {
@@ -82,7 +94,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
 
         LOGGER.debug(idsString);
 
-        List<Identificatie> lijst = getXML("/rest/identificatie/zoekenMeerdere", ZoekIdentificatieResponse.class, false, LOGGER, false, idsString).getIdentificaties();
+        List<Identificatie> lijst = getXML("/rest/identificatie/zoekenMeerdere", ZoekIdentificatieResponse.class, false, LOGGER, false, metricsService, "zoekIdentificatieCodes", IdentificatieClient.class, idsString).getIdentificaties();
 
         return lijst;
     }

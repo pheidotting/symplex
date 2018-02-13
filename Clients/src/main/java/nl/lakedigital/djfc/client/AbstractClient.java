@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.client;
 
+import com.codahale.metrics.Timer;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +9,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.json.JSONConfiguration;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
@@ -37,7 +39,7 @@ public abstract class AbstractClient<D> {
         this.basisUrl = basisUrl;
     }
 
-    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, String... args) {
+    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, MetricsService metrics, String metricsName, Class metricsClass, String... args) {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -59,9 +61,18 @@ public abstract class AbstractClient<D> {
             connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
             connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
             connection.setRequestProperty("url", MDC.get("url"));
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(10000);
 
+            Timer.Context timer = null;
+            if (metrics != null) {
+                timer = metrics.addTimerMetric(metricsName, metricsClass);
+                metrics.addMetric(metricsName, metricsClass, null, null);
+            }
             InputStream xml = connection.getInputStream();
-
+            if (metrics != null) {
+                metrics.stop(timer);
+            }
             D response = mapper.readValue(xml, clazz);
 
             connection.disconnect();
@@ -70,9 +81,9 @@ public abstract class AbstractClient<D> {
         } catch (IOException e) {
             if (!retry) {
                 LOGGER.debug("Error opgetreden, retry");
-                return getXML(uri, clazz, urlEncoden, LOGGER, true, args);
+                return getXML(uri, clazz, urlEncoden, LOGGER, true, metrics, metricsName, metricsClass, args);
             } else {
-                LOGGER.error("Fout bij omzetten xml {}", e);
+                LOGGER.error("Fout bij omzetten xml {}", e.getStackTrace());
                 throw new LeesFoutException("Fout bij omzetten xml", e);
             }
         }

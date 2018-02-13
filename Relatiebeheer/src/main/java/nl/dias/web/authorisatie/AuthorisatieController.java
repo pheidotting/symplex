@@ -8,10 +8,11 @@ import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.AuthorisatieService;
-import nl.dias.service.MetricsService;
+import nl.dias.service.LoginService;
 import nl.lakedigital.djfc.commons.json.IngelogdeGebruiker;
 import nl.lakedigital.djfc.commons.json.Inloggen;
 import nl.lakedigital.djfc.domain.response.InloggenResponse;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import nl.lakedigital.loginsystem.exception.OnjuistWachtwoordException;
@@ -51,34 +52,40 @@ public class AuthorisatieController {
     private GebruikerRepository gebruikerRepository;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/inloggen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public InloggenResponse inloggen(@RequestBody Inloggen inloggen, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) {
         Gebruiker gebruiker;
+        String token;
         try {
             LOGGER.debug("Inloggen");
             gebruiker = authorisatieService.inloggen(inloggen.getIdentificatie().trim(), inloggen.getWachtwoord(), httpServletRequest, httpServletResponse);
 
-            String token = issueToken(gebruiker, httpServletRequest);
+            token = issueToken(gebruiker, httpServletRequest);
 
             // Return the token on the response
             httpServletResponse.setHeader(AUTHORIZATION, "Bearer " + token);
 
         } catch (NietGevondenException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_ONBEKENDE_GEBRUIKER, null, null);
+            metricsService.addMetric("inloggenOnbekendeGebruiker", AuthorisatieController.class, null, null);
             LOGGER.trace("gebruiker niet gevonden", e);
             return new InloggenResponse(1L, false);
         } catch (OnjuistWachtwoordException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_ONJUIST_WACHTWOORD, null, null);
+            metricsService.addMetric("inloggenOnjuistWachtwoord", AuthorisatieController.class, null, null);
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(2L, false);
         } catch (TeveelFouteInlogPogingenException e) {
-            metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN_TEVEEL_FOUTIEVE_POGINGEN, null, null);
+            metricsService.addMetric("inloggenTeveelFoutieveInlogPogingen", AuthorisatieController.class, null, null);
             LOGGER.trace("Onjuist wachtwoord", e);
             return new InloggenResponse(3L, false);
         }
-        metricsService.addMetric(MetricsService.SoortMetric.INLOGGEN, null, null);
+
+        loginService.nieuwToken(gebruiker.getId(), token);
+
+        metricsService.addMetric("inloggen", AuthorisatieController.class, null, null);
         LOGGER.debug(ReflectionToStringBuilder.toString(new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten())));
         return new InloggenResponse(0L, gebruiker.isMoetWachtwoordUpdaten());
     }
@@ -111,7 +118,7 @@ public class AuthorisatieController {
     @RequestMapping(method = RequestMethod.POST, value = "wachtwoordvergeten")
     @ResponseBody
     public void wachtwoordvergeten(@RequestBody String identificatie) {
-        metricsService.addMetric(MetricsService.SoortMetric.WACHTWOORD_VERGETEN, null, null);
+        metricsService.addMetric("wachtwoordvergeten", AuthorisatieController.class, null, null);
         LOGGER.info("Wachtwoord vergeten");
         try {
             Gebruiker gebruiker = gebruikerRepository.zoekOpIdentificatie(identificatie);

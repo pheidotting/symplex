@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.google.gson.Gson;
 import nl.dias.ZoekResultaat;
 import nl.dias.domein.Bedrijf;
@@ -13,6 +14,7 @@ import nl.dias.service.ZoekService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.SoortEntiteit;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.joda.time.LocalDate;
@@ -52,6 +54,8 @@ public class ZoekController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private ZoekService zoekService;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -68,6 +72,7 @@ public class ZoekController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekterm}/{weglaten}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public ZoekResultaatResponse zoeken(@PathVariable("zoekterm") String zoekTerm, @QueryParam("weglaten") Long weglaten, HttpServletRequest httpServletRequest) {
+        Timer.Context timer;
         zetSessieWaarden(httpServletRequest);
         String decoded = new String(Base64.getDecoder().decode(zoekTerm));
         LOGGER.debug("Decoded zoekstring {}", decoded);
@@ -77,6 +82,7 @@ public class ZoekController extends AbstractController {
         List<Bedrijf> bedrijven = new ArrayList<>();
 
         if (zoekVelden != null && !zoekVelden.isEmpty()) {
+            timer = metricsService.addTimerMetric("zoekenMetZoekwaarden", ZoekController.class);
             LOGGER.debug("We gaan zoeken");
             LocalDate geboortedatum = null;
             if (zoekVelden.getGeboortedatum() != null && !"".equals(zoekVelden.getGeboortedatum())) {
@@ -87,6 +93,7 @@ public class ZoekController extends AbstractController {
             relaties = zoekResultaat.getRelaties();
             bedrijven = zoekResultaat.getBedrijven();
         } else {
+            timer = metricsService.addTimerMetric("zoekenZonderZoekwaarden", ZoekController.class);
             LOGGER.debug("We laten alles zien");
             List<Relatie> lijst = gebruikerService.alleRelaties(kantoorRepository.getIngelogdKantoor());
             LOGGER.debug("Gevonden {} Relaties/Gebruikers", lijst.size());
@@ -112,8 +119,7 @@ public class ZoekController extends AbstractController {
                         return relatie.getKantoor().getId() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
                     }
                     return false;
-                })
-                .map(relatie -> {
+                }).map(relatie -> {
                     RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();
 
                     Identificatie identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
@@ -152,8 +158,7 @@ public class ZoekController extends AbstractController {
                         return bedrijf.getKantoor() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
                     }
                     return false;
-                })
-                .map(bedrijf -> {
+                }).map(bedrijf -> {
                     BedrijfZoekResultaat bedrijfZoekResultaat = new BedrijfZoekResultaat();
 
                     Identificatie identificatie = identificatieClient.zoekIdentificatie("BEDRIJF", bedrijf.getId());
@@ -212,6 +217,8 @@ public class ZoekController extends AbstractController {
                 bedrijfOfRelatie.setId(null);
             }
         });
+
+        metricsService.stop(timer);
 
         return zoekResultaatResponse;
     }

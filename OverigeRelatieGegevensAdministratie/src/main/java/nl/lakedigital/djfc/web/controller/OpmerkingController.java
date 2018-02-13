@@ -33,6 +33,8 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenOpmerkingenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alles", OpmerkingController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
@@ -50,6 +52,8 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenOpmerkingenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoeken", OpmerkingController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
@@ -66,6 +70,8 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanOpmerking")
     @ResponseBody
     public Long opslaan(@RequestBody JsonOpmerking jsonOpmerking, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("opslaan", OpmerkingController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         Opmerking opmerking = mapper.map(jsonOpmerking, Opmerking.class);
@@ -77,6 +83,8 @@ public class OpmerkingController extends AbstractController<Opmerking, JsonOpmer
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}")
     @ResponseBody
     public void verwijder(@PathVariable Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("verwijder", OpmerkingController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         opmerkingService.verwijder(id);

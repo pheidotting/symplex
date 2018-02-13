@@ -1,7 +1,9 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Bedrijf;
 import nl.dias.domein.Relatie;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;
@@ -14,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
@@ -22,6 +25,8 @@ public class BedrijfRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -45,6 +50,8 @@ public class BedrijfRepository {
     }
 
     public List<Bedrijf> alleBedrijvenBijRelatie(Relatie relatie) {
+        Timer.Context timer = metricsService.addTimerMetric("alleBedrijvenBijRelatie", BedrijfRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Bedrijf.allesBijRelatie");
@@ -54,10 +61,14 @@ public class BedrijfRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return bedrijfs;
     }
 
     public List<Bedrijf> zoekOpNaam(String zoekTerm) {
+        Timer.Context timer = metricsService.addTimerMetric("zoekOpNaam", BedrijfRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Bedrijf.zoekOpNaam");
@@ -67,20 +78,28 @@ public class BedrijfRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return bedrijfs;
     }
 
     public Bedrijf lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", BedrijfRepository.class);
+
         getTransaction();
 
         Bedrijf bedrijf = getEm().get(Bedrijf.class, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return bedrijf;
     }
 
     public void opslaan(Bedrijf bedrijf) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfRepository.class);
+
         getTransaction();
 
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(bedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -90,18 +109,26 @@ public class BedrijfRepository {
             getSession().merge(bedrijf);
         }
 
+        metricsService.stop(timer);
+
         getTransaction().commit();
     }
 
     public void verwijder(Bedrijf bedrijf) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", BedrijfRepository.class);
+
         getTransaction();
 
         getEm().delete(bedrijf);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public List<Bedrijf> alles() {
+        Timer.Context timer = metricsService.addTimerMetric("alles", BedrijfRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Bedrijf.alles");
@@ -109,6 +136,8 @@ public class BedrijfRepository {
         List<Bedrijf> bedrijfs = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return bedrijfs;
     }

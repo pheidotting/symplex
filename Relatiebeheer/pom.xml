@@ -15,8 +15,8 @@
         <org.hibernate.version>5.1.0.Final</org.hibernate.version>
         <!--<jetty.version>8.1.12.v20130726</jetty.version>-->
         <jersey.version>LATEST</jersey.version>
-        <metrics.version>4.0.0</metrics.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <metrics.version>4.0.0</metrics.version>
 
         <activemq.version>5.10.0</activemq.version>
         <release>0.6</release>
@@ -30,17 +30,11 @@
     </scm>
 
     <dependencies>
-
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-            <version>${metrics.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-servlets</artifactId>
-            <version>${metrics.version}</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>io.dropwizard.metrics</groupId>-->
+        <!--<artifactId>metrics-core</artifactId>-->
+        <!--<version>${metrics.version}</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.maxmind.geoip2</groupId>

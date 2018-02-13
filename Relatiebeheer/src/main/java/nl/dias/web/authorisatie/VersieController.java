@@ -39,7 +39,8 @@ public class VersieController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/nieuweversie", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void nieuweversie(@RequestBody String versieinfo) {
-        if (versieinfo.toLowerCase().startsWith("versie")) {
+        LOGGER.debug(versieinfo);
+        if (versieinfo.trim().toLowerCase().startsWith("versie")) {
             versieinfo = versieinfo.substring(6).trim();
 
             int pos = versieinfo.indexOf(" ");

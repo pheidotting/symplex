@@ -27,6 +27,8 @@ define(['jquery',
 		this.sterkgenoeg = ko.observable(false);
 		this.wachtwoordSterkgenoegStyling = ko.observable();
 
+		this.afkortingKomtVoor = ko.observable(false);
+
         this.genereerAfkorting = function(){
             _this.bedrijfsnaam(_this.bedrijfsnaam().trim());
             var woorden = _this.bedrijfsnaam().split(' ');
@@ -41,10 +43,20 @@ define(['jquery',
             } else {
                 _this.afkorting(_this.bedrijfsnaam().toLowerCase());
             }
+            _this.komtAfkortingVoor(_this);
+        };
+
+        this.komtAfkortingVoor = function(afkorting){
+            $.get('dejonge/rest/authorisatie/komtAfkortingAlVoor/'+afkorting.afkorting()).done(function(result){
+                _this.afkortingKomtVoor(result);
+                _this.genereerInlognaam();
+            });
         };
 
         this.genereerInlognaam = function() {
-            _this.inlognaam(_this.afkorting() + '.' + _this.voornaam().trim().toLowerCase())
+            if(_this.voornaam() != null && !_this.afkortingKomtVoor()) {
+                _this.inlognaam(_this.afkorting() + '.' + _this.voornaam().trim().toLowerCase())
+            }
         };
 
 		this.aanmelden = function() {

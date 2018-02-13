@@ -1,9 +1,11 @@
 package nl.dias.repository;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Belastingzaken;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ public class BelastingzakenRepository {
     private SessionFactory sessionFactory;
     @Inject
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
+    @Inject
+    private MetricsService metricsService;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -53,6 +57,8 @@ public class BelastingzakenRepository {
     }
 
     public void opslaan(Belastingzaken belastingzaken) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", BelastingzakenRepository.class);
+
         getTransaction();
 
         getSession().save(belastingzaken);
@@ -68,9 +74,13 @@ public class BelastingzakenRepository {
         soortEntiteitEnEntiteitIds.add(soortEntiteitEnEntiteitId);
 
         entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
+
+        metricsService.stop(timer);
     }
 
     public List<Belastingzaken> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
+        Timer.Context timer = metricsService.addTimerMetric("alles", BelastingzakenRepository.class);
+
         getTransaction();
 
         Query query = getEm().getNamedQuery("Belastingzaken.zoekOpSoortEntiteitEnId");
@@ -80,6 +90,8 @@ public class BelastingzakenRepository {
         List<Belastingzaken> result = query.list();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return result;
     }

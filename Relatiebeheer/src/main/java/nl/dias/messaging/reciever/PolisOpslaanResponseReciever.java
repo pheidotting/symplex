@@ -6,6 +6,7 @@ import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,9 @@ public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanR
 
     @Inject
     private IdentificatieClient identificatieClient;
+
+    @Inject
+    private MetricsService metricsService;
 
     public PolisOpslaanResponseReciever() {
         super(PolisOpslaanResponse.class);

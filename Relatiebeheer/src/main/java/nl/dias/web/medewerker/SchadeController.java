@@ -1,11 +1,11 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.google.common.base.Stopwatch;
 import nl.dias.domein.Schade;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.MetricsService;
 import nl.dias.service.SchadeService;
 import nl.dias.web.mapper.SchadeMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -15,6 +15,7 @@ import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,8 @@ public class SchadeController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
     public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.SCHADE_OPSLAAN, null, jsonSchade.getIdentificatie() == null);
+        metricsService.addMetric("schadeOpslaan", SchadeController.class, null, jsonSchade.getIdentificatie() == null);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", SchadeController.class);
 
         LOGGER.debug("{}", jsonSchade);
 
@@ -76,6 +78,7 @@ public class SchadeController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
         }
 
+        metricsService.stop(timer);
         return identificatie == null ? "" : identificatie.getIdentificatie();
     }
 
@@ -108,7 +111,7 @@ public class SchadeController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric(MetricsService.SoortMetric.SCHADE_VERWIJDEREN, null, null);
+        metricsService.addMetric("schadeVerwijderen", SchadeController.class, null, null);
 
         LOGGER.debug("verwijderen Schade met id " + id);
 
