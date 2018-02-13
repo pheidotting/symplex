@@ -1,26 +1,25 @@
-package nl.dias.service;
+package nl.lakedigital.djfc.metrics;
 
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
-import nl.lakedigital.djfc.interfaces.Metrics;
-import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 import static com.codahale.metrics.MetricRegistry.name;
 
-@Service
-public class MetricsService implements Metrics {
-    @Inject
+public class MetricsService {
     private MetricRegistry metricRegistry;
 
     private Graphite graphite;
     private GraphiteReporter reporter;
+
+    public void setMetricRegistry(MetricRegistry metricRegistry) {
+        this.metricRegistry = metricRegistry;
+    }
 
     public void init() {
         graphite = new Graphite(new InetSocketAddress("localhost", 2003));
@@ -46,6 +45,6 @@ public class MetricsService implements Metrics {
     }
 
     public void stop(Timer.Context timer) {
-            timer.stop();
+        timer.stop();
     }
 }

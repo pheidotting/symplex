@@ -4,7 +4,7 @@ import com.codahale.metrics.Timer;
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.VerzekeringsMaatschappij;
 import nl.dias.domein.polis.Polis;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;

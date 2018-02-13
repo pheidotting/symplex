@@ -5,7 +5,7 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import nl.dias.domein.InlogPoging;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
