@@ -13,6 +13,11 @@
     <tx:annotation-driven/>
     <mvc:annotation-driven/>
 
+    <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
+    <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
+        <property name="metricRegistry" ref="metricRegistry"/>
+    </bean>
+
     <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
         <property name="targetMethod" value="initLogging"/>
