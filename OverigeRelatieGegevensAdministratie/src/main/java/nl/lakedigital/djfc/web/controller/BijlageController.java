@@ -56,6 +56,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenBijlagesResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alles", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
@@ -74,6 +76,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenBijlagesResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoeken", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
@@ -91,6 +95,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanBijlages")
     @ResponseBody
     public void opslaan(@RequestBody List<JsonBijlage> jsonEntiteiten, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("opslaan", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         goOpslaan(jsonEntiteiten);
@@ -99,6 +105,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigOmschrijvingBijlage")
     @ResponseBody
     public void wijzigOmschrijvingBijlage(@RequestBody WijzigenOmschrijvingBijlage wijzigenOmschrijvingBijlage, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("wijzigOmschrijvingBijlage", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         bijlageService.wijzigOmschrijvingBijlage(wijzigenOmschrijvingBijlage.getBijlageId(), wijzigenOmschrijvingBijlage.getNieuweOmschrijving());
@@ -107,6 +115,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
     public Long opslaan(@RequestBody JsonBijlage jsonBijlage, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("opslaan", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonBijlage, ToStringStyle.SHORT_PREFIX_STYLE));
@@ -120,6 +130,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}")
     @ResponseBody
     public void verwijder(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("verwijder", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         bijlageService.verwijder(id);
@@ -128,6 +140,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.GET, value = "/genereerBestandsnaam")
     @ResponseBody
     public String genereerBestandsnaam() {
+        metricsService.addMetric("genereerBestandsnaam", BijlageController.class, null, null);
+
         String identificatie = UUID.randomUUID().toString().replace("-", "");
 
         return new Gson().toJson(identificatie);
@@ -142,6 +156,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
     public OpvragenBijlagesResponse lees(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("lees", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         OpvragenBijlagesResponse response = new OpvragenBijlagesResponse();
@@ -154,6 +170,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanGroep")
     @ResponseBody
     public Long opslaanGroep(@RequestBody JsonGroepBijlages jsonGroepBijlages, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("opslaanGroep", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         GroepBijlages groepBijlages = mapper.map(jsonGroepBijlages, GroepBijlages.class);
@@ -166,6 +184,8 @@ public class BijlageController extends AbstractController<Bijlage, JsonBijlage> 
     @RequestMapping(method = RequestMethod.GET, value = "/alleGroepen/{soortentiteit}/{parentid}")
     @ResponseBody
     public OpvragenGroepBijlagesResponse alleGroepen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alleGroepen", BijlageController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("alles JsonGroepBijlages voor soortEntiteit {} parentId {}", soortentiteit, parentid);

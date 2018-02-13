@@ -9,7 +9,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import com.sun.jersey.api.json.JSONConfiguration;
-import nl.lakedigital.djfc.interfaces.Metrics;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
@@ -39,7 +39,7 @@ public abstract class AbstractClient<D> {
         this.basisUrl = basisUrl;
     }
 
-    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, Metrics metrics, String metricsName, Class metricsClass, String... args) {
+    protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, MetricsService metrics, String metricsName, Class metricsClass, String... args) {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
