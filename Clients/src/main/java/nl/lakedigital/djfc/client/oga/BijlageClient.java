@@ -5,7 +5,7 @@ import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.json.WijzigenOmschrijvingBijlage;
 import nl.lakedigital.djfc.commons.xml.OpvragenBijlagesResponse;
-import nl.lakedigital.djfc.interfaces.Metrics;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
     private final String URL_UPLOADPAD = "/rest/bijlage/getUploadPad";
     private final String URL_WIJZIG_OMSCHRIJVING_BIJLAGE = "/rest/bijlage/wijzigOmschrijvingBijlage";
 
-    private Metrics metrics;
+    private MetricsService metricsService;
 
     public BijlageClient(String basisUrl) {
         super(basisUrl);
@@ -37,8 +37,8 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
     public BijlageClient() {
     }
 
-    public void setMetrics(Metrics metrics) {
-        this.metrics = metrics;
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         List<JsonBijlage> result;
 
         try {
-            result = getXMLVoorLijstOGAZonderEncode(basisUrl + URL_LEES, OpvragenBijlagesResponse.class, LOGGER, metrics, "lees", BijlageClient.class, String.valueOf(id)).getBijlages();
+            result = getXMLVoorLijstOGAZonderEncode(basisUrl + URL_LEES, OpvragenBijlagesResponse.class, LOGGER, metricsService, "lees", BijlageClient.class, String.valueOf(id)).getBijlages();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + basisUrl + URL_LEES, e);
         }
@@ -69,7 +69,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         List<JsonBijlage> result;
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenBijlagesResponse.class, LOGGER, metrics, "zoeken", BijlageClient.class, zoekterm).getBijlages();
+            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenBijlagesResponse.class, LOGGER, metricsService, "zoeken", BijlageClient.class, zoekterm).getBijlages();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_ZOEKEN, e);
         }
@@ -84,7 +84,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         List<JsonBijlage> result;
 
         try {
-            result = getXMLVoorLijstOGAZonderEncode(basisUrl + URL_LIJST, OpvragenBijlagesResponse.class, LOGGER, metrics, "lijst", BijlageClient.class, soortEntiteit, String.valueOf(entiteitId)).getBijlages();
+            result = getXMLVoorLijstOGAZonderEncode(basisUrl + URL_LIJST, OpvragenBijlagesResponse.class, LOGGER, metricsService, "lijst", BijlageClient.class, soortEntiteit, String.valueOf(entiteitId)).getBijlages();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_LIJST, e);
         }

@@ -13,7 +13,7 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
-import nl.lakedigital.djfc.interfaces.Metrics;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 
@@ -45,7 +45,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
 
     public abstract List<T> zoeken(String zoekterm);
 
-    protected D getXMLVoorLijstOGA(String uri, Class<D> clazz, Logger LOGGER, Metrics metrics, String metricsName, Class metricsClass, String... args) throws IOException {
+    protected D getXMLVoorLijstOGA(String uri, Class<D> clazz, Logger LOGGER, MetricsService metrics, String metricsName, Class metricsClass, String... args) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -90,7 +90,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         return response;
     }
 
-    protected D getXMLVoorLijstOGAZonderEncode(String uri, Class<D> clazz, Logger LOGGER, Metrics metrics, String metricsName, Class metricsClass, String... args) throws IOException {
+    protected D getXMLVoorLijstOGAZonderEncode(String uri, Class<D> clazz, Logger LOGGER, MetricsService metrics, String metricsName, Class metricsClass, String... args) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
