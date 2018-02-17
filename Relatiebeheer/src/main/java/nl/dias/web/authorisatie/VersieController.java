@@ -72,8 +72,8 @@ public class VersieController extends AbstractController {
                 versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
             }
 
-            //                        verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
-            //                        verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+            verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+            verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
 
             SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
             soortEntiteitEnEntiteitId.setEntiteitId(versie.getId());
