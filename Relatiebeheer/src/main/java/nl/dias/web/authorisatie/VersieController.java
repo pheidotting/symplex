@@ -3,16 +3,18 @@ package nl.dias.web.authorisatie;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Versie;
 import nl.dias.domein.VersieGelezen;
+import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.VersieRepository;
+import nl.dias.service.MetricsService;
 import nl.dias.web.medewerker.AbstractController;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.mail.*;
@@ -26,6 +28,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 @RequestMapping("versies")
 @Controller
 public class VersieController extends AbstractController {
@@ -35,6 +39,12 @@ public class VersieController extends AbstractController {
     private VersieRepository versieRepository;
     @Inject
     private GebruikerRepository gebruikerRepository;
+    @Inject
+    private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
+    @Inject
+    private IdentificatieClient identificatieClient;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/nieuweversie", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -46,6 +56,7 @@ public class VersieController extends AbstractController {
             int pos = versieinfo.indexOf(" ");
             String versieNummer = versieinfo.substring(0, pos);
             String releasenotes = versieinfo.substring(pos + 1);
+            releasenotes = releasenotes.replace(" - ", "\n - ");
 
             Versie versie = new Versie(versieNummer, releasenotes);
             versieRepository.opslaan(versie);
@@ -61,8 +72,14 @@ public class VersieController extends AbstractController {
                 versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
             }
 
-            verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + versieNummer + " " + releasenotes);
-            verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\n" + versieNummer + " " + releasenotes);
+            //            verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+            //            verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+
+            SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
+            soortEntiteitEnEntiteitId.setEntiteitId(versie.getId());
+            soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.VERSIE);
+
+            entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
         }
     }
 
@@ -75,10 +92,24 @@ public class VersieController extends AbstractController {
             Long gebruikerId = getIngelogdeGebruiker(httpServletRequest).getId();
 
             for (Versie v : versieRepository.getOngelezenVersies(gebruikerId)) {
-                result.put(v.getVersie(), v.getReleasenotes());
+                result.put("Versie " + v.getVersie(), identificatieClient.zoekIdentificatie("VERSIE", v.getId()).getIdentificatie());
             }
         }
         return result;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/leesVersie/{identificatie}", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public nl.lakedigital.djfc.domain.response.Versie leesVersie(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("leesVersie", VersieController.class, null, null);
+
+        LOGGER.debug("{}", identificatieClient);
+        LOGGER.debug("{}", identificatieClient.zoekIdentificatieCode(identificatieCode));
+        Long id = identificatieClient.zoekIdentificatieCode(identificatieCode).getEntiteitId();
+
+        Versie versie = versieRepository.lees(id);
+
+        return new nl.lakedigital.djfc.domain.response.Versie(versie.getVersie(), versie.getReleasenotes());
     }
 
     private void verstuurMail(String naar, String onderwerp, String tekst) {

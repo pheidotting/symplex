@@ -11,6 +11,7 @@ define([ ],
                             {naam: 'UITLOGGEN',                         url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/uitloggen'},
                             {naam: 'STUUR_NIEUW_WACHTWOORD',            url: BASISURL_RELATIEBEHEER + '/authorisatie/authorisatie/wachtwoordvergeten'},
                             {naam: 'CHECK_NIEUWE_VERSIE',               url: BASISURL_RELATIEBEHEER + '/authorisatie/versies/checkNieuweversie'},
+                            {naam: 'LEES_VERSIE',                       url: BASISURL_RELATIEBEHEER + '/authorisatie/versies/leesVersie'},
 
                             {naam: 'AANMELDEN_KANTOOR',                 url: BASISURL_RELATIEBEHEER + '/authorisatie/aanmeldenKantoor'},
 
