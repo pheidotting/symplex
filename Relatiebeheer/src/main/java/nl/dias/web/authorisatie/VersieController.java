@@ -6,11 +6,11 @@ import nl.dias.domein.VersieGelezen;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.VersieRepository;
-import nl.dias.service.MetricsService;
 import nl.dias.web.medewerker.AbstractController;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -72,8 +72,8 @@ public class VersieController extends AbstractController {
                 versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
             }
 
-            //            verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
-            //            verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+            //                        verstuurMail("bene@dejongefinancieelconsult.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
+            //                        verstuurMail("patrick@heidotting.nl", "Nieuwe versie op de PRODUCTIEomgeving", "Ik heb zojuist een nieuwe versie op de PRODUCTIEomgeving geplaatst, de wijzigingen zijn:\nVersie " + versieNummer + "\n" + releasenotes);
 
             SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
             soortEntiteitEnEntiteitId.setEntiteitId(versie.getId());
