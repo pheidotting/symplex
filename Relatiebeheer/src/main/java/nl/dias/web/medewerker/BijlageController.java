@@ -1,15 +1,16 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
-import nl.dias.service.MetricsService;
 import nl.dias.web.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -27,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.Produces;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -113,8 +113,10 @@ public class BijlageController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/download")
     @ResponseBody
-    @Produces("application/pdf")
     public ResponseEntity<byte[]> getFile(@RequestParam("id") String identificatieString) throws IOException {
+        metricsService.addMetric("download", BijlageController.class, null, null);
+        Timer.Context timer = metricsService.addTimerMetric("download", BijlageController.class);
+
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
 
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
@@ -124,10 +126,29 @@ public class BijlageController extends AbstractController {
         File file = new File(bijlageClient.getUploadPad() + "/" + bijlage.getS3Identificatie());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        MediaType header;
+        String[] parts = bijlage.getBestandsNaam().split("\\.");
+        String extensie = parts[parts.length - 1];
+
+        switch (extensie) {
+            case "jpg":
+            case "jpeg":
+                header = MediaType.IMAGE_JPEG;
+                break;
+            case "png":
+                header = MediaType.IMAGE_PNG;
+                break;
+            default:
+                header = MediaType.parseMediaType("application/pdf");
+        }
+
+        headers.setContentType(header);
         headers.add("content-disposition", "inline;filename=" + bijlage.getBestandsNaam());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
+
+        metricsService.stop(timer);
+
         return response;
     }
 

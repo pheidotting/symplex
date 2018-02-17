@@ -3,7 +3,7 @@ package nl.dias.repository;
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Versie;
 import nl.dias.domein.VersieGelezen;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

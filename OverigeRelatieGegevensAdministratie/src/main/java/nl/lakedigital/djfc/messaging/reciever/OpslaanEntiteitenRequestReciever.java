@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
+import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.as.messaging.domain.Opmerking;
 import nl.lakedigital.as.messaging.domain.RekeningNummer;
@@ -11,6 +12,7 @@ import nl.lakedigital.djfc.messaging.mappers.MessagingAdresNaarDomainAdresMapper
 import nl.lakedigital.djfc.messaging.mappers.MessagingOpmerkingNaarDomainOpmerkingMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingRekeningNummerNaarDomainRekeningNummerMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingTelefoonnummerNaarDomainTelefoonnummerMapper;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.AdresService;
 import nl.lakedigital.djfc.service.OpmerkingService;
 import nl.lakedigital.djfc.service.RekeningNummerService;
@@ -34,6 +36,8 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
     private AdresService adresService;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private MetricsService metricsService;
 
     public OpslaanEntiteitenRequestReciever() {
         super(OpslaanEntiteitenRequest.class, LOGGER);
@@ -41,6 +45,8 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
 
     @Override
     public void verwerkMessage(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {
+        Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", OpslaanEntiteitenRequestReciever.class);
+
         opmerkingService.opslaan(opslaanEntiteitenRequest.getLijst().stream()//
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof Opmerking)//
                 .map(new MessagingOpmerkingNaarDomainOpmerkingMapper(identificatieClient, opmerkingService, opslaanEntiteitenRequest.getIngelogdeGebruiker()))//
@@ -60,5 +66,7 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
                 .filter(abstracteEntiteitMetSoortEnId -> abstracteEntiteitMetSoortEnId instanceof RekeningNummer)//
                 .map(new MessagingRekeningNummerNaarDomainRekeningNummerMapper(identificatieClient, rekeningNummerService))//
                 .collect(Collectors.toList()), SoortEntiteit.valueOf(opslaanEntiteitenRequest.getSoortEntiteit().name()), opslaanEntiteitenRequest.getEntiteitId());
+
+        metricsService.stop(timer);
     }
 }
