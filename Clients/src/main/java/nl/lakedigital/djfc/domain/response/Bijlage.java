@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.domain.response;
 
-public class Bijlage implements Comparable<Bijlage> {
+public class Bijlage {
     private String identificatie;
     private String bestandsNaam;
     private String url;
@@ -63,10 +63,5 @@ public class Bijlage implements Comparable<Bijlage> {
 
     public void setGroepBijlages(Long groepBijlages) {
         this.groepBijlages = groepBijlages;
-    }
-
-    @Override
-    public int compareTo(Bijlage o) {
-        return this.bestandsNaam.compareTo(o.bestandsNaam);
     }
 }

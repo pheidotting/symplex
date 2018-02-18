@@ -48,20 +48,24 @@ public class CommunicatieClient extends AbstractClient {
         return uitvoerenGetLijst(URL_ALLES, soortentiteit, parentid.toString());
     }
 
+    @Deprecated
     public Long nieuwCommunicatieProduct(OpslaanCommunicatieProduct opslaanCommunicatieProduct, Long ingelogdeGebruiker, String trackAndTraceId) {
         LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(opslaanCommunicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
 
         return Long.valueOf(aanroepenUrlPost(URL_OPSLAAN, opslaanCommunicatieProduct, ingelogdeGebruiker, trackAndTraceId, LOGGER));
     }
 
+    @Deprecated
     public void versturen(Long id, Long ingelogdeGebruiker, String trackAndTraceId) {
         aanroepenUrlPostZonderBody(URL_VERSTUREN, ingelogdeGebruiker, trackAndTraceId, id.toString());
     }
 
+    @Deprecated
     public void markeerOmTeVerzenden(Long id, Long ingelogdeGebruiker, String trackAndTraceId) {
         aanroepenUrlPostZonderBody(URL_MARKEER_OM_TE_VERZENDEN, ingelogdeGebruiker, trackAndTraceId, id.toString());
     }
 
+    @Deprecated
     public void markeerAlsGelezen(Long id, Long ingelogdeGebruiker, String trackAndTraceId) {
         aanroepenUrlPostZonderBody(URL_MARKEER_GELEZEN, ingelogdeGebruiker, trackAndTraceId, id.toString());
     }

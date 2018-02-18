@@ -26,7 +26,7 @@ define(['jquery',
             _this.menubalkViewmodel     = new menubalkViewmodel();
 
             $.when(versiesService.lees(identificatie)).then(function(result){
-                _this.versie(result.versie);
+                _this.versie(result.versienummer);
                 _this.releasenotes(result.releasenotes.replace('\n', '<br />'));
 
                 return deferred.resolve();

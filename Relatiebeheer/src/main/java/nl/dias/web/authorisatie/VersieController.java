@@ -103,8 +103,6 @@ public class VersieController extends AbstractController {
     public nl.lakedigital.djfc.domain.response.Versie leesVersie(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("leesVersie", VersieController.class, null, null);
 
-        LOGGER.debug("{}", identificatieClient);
-        LOGGER.debug("{}", identificatieClient.zoekIdentificatieCode(identificatieCode));
         Long id = identificatieClient.zoekIdentificatieCode(identificatieCode).getEntiteitId();
 
         Versie versie = versieRepository.lees(id);
