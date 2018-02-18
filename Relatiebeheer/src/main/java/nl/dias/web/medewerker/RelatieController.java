@@ -81,12 +81,12 @@ public class RelatieController extends AbstractController {
                 relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
                 relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
 
-                    relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
-                    relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                    relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                    relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
-                    relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
-                    relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
+                relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
                 List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
                 relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
@@ -186,21 +186,21 @@ public class RelatieController extends AbstractController {
                         return jsonHypotheek;
                     }
                 }).collect(Collectors.toList()));
-            }
 
-            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.RELATIE, relatieDomain.getId());
+                List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.RELATIE, relatieDomain.getId());
 
-            Belastingzaken belastingzaken = new Belastingzaken();
+                Belastingzaken belastingzaken = new Belastingzaken();
 
-            for (nl.dias.domein.Belastingzaken bz : bzLijst) {
-                if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.IB) {
-                    belastingzaken.getIbs().add(mapIb(bz));
-                } else if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.OVERIG) {
-                    belastingzaken.getOverigen().add(mapOverig(bz));
+                for (nl.dias.domein.Belastingzaken bz : bzLijst) {
+                    if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.IB) {
+                        belastingzaken.getIbs().add(mapIb(bz));
+                    } else if (bz.getSoort() == nl.dias.domein.Belastingzaken.SoortBelastingzaak.OVERIG) {
+                        belastingzaken.getOverigen().add(mapOverig(bz));
+                    }
                 }
-            }
 
-            relatie.setBelastingzaken(belastingzaken);
+                relatie.setBelastingzaken(belastingzaken);
+            }
         } catch (Exception e) {
             LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
             return new Relatie();
