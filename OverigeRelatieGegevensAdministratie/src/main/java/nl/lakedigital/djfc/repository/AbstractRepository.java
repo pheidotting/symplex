@@ -1,7 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
+import com.codahale.metrics.Timer;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.*;
@@ -10,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
@@ -17,6 +20,8 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     private final Class<T> type;
 
@@ -47,6 +52,8 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
     }
 
     public void verwijder(List<T> adressen) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", AbstractRepository.class);
+
         if (getTransaction().getStatus() != TransactionStatus.ACTIVE) {
             getTransaction().begin();
         }
@@ -56,9 +63,13 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
         }
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 
     public void opslaan(List<T> adressen) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", AbstractRepository.class);
+
         if (getTransaction().getStatus() != TransactionStatus.ACTIVE) {
             getTransaction().begin();
         }
@@ -76,19 +87,27 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
 
         getTransaction().commit();
         getSession().close();
+
+        metricsService.stop(timer);
     }
 
     public T lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", AbstractRepository.class);
+
         getTransaction().begin();
 
         T t = getSession().get(type, id);
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return t;
     }
 
     public List<T> zoek(String zoekTerm) {
+        Timer.Context timer = metricsService.addTimerMetric("zoek", AbstractRepository.class);
+
         getTransaction().begin();
 
         Query query = getSession().getNamedQuery(getMyType() + ".zoeken");
@@ -98,10 +117,14 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return lijst;
     }
 
     public List<T> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
+        Timer.Context timer = metricsService.addTimerMetric("alles", AbstractRepository.class);
+
         getTransaction().begin();
 
         Query query = getSession().getNamedQuery(getMyType() + ".zoekBijEntiteit");
@@ -112,14 +135,20 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return lijst;
     }
 
     public void verwijder(T t){
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", AbstractRepository.class);
+
         getTransaction().begin();
 
         getSession().delete(t);
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 }

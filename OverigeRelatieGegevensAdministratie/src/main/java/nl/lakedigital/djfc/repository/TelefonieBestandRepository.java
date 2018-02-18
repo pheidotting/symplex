@@ -1,6 +1,8 @@
 package nl.lakedigital.djfc.repository;
 
+import com.codahale.metrics.Timer;
 import nl.lakedigital.djfc.domain.TelefonieBestand;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Repository
@@ -19,6 +22,8 @@ public class TelefonieBestandRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+    @Inject
+    private MetricsService metricsService;
 
     protected Session getSession() {
         return sessionFactory.getCurrentSession();
@@ -34,16 +39,22 @@ public class TelefonieBestandRepository {
     }
 
     public List<TelefonieBestand> alles() {
+        Timer.Context timer = metricsService.addTimerMetric("alles", TelefonieBestandRepository.class);
+
         getTransaction().begin();
 
         List<TelefonieBestand> telefonieBestands = getSession().createQuery("select a from TelefonieBestand a").list();
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return telefonieBestands;
     }
 
     public List<TelefonieBestand> allesMetTelefoonnummer(String telefoonnummer) {
+        Timer.Context timer = metricsService.addTimerMetric("allesMetTelefoonnummer", TelefonieBestandRepository.class);
+
         getTransaction().begin();
 
         Query query = getSession().getNamedQuery("TelefonieBestand.allesMetTelefoonnummer");
@@ -53,10 +64,14 @@ public class TelefonieBestandRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return telefonieBestands;
     }
 
     public void opslaan(List<TelefonieBestand> telefonieBestands) {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", TelefonieBestandRepository.class);
+
         getTransaction().begin();
 
         LOGGER.debug("Start opslaan telefonieBestands");
@@ -73,5 +88,7 @@ public class TelefonieBestandRepository {
         LOGGER.debug("Einde opslaan telefonieBestands");
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
     }
 }

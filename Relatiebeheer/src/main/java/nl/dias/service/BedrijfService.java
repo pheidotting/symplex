@@ -14,6 +14,7 @@ import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -57,15 +58,6 @@ public class BedrijfService {
 
     public Bedrijf zoekBedrijf(String identificatieCode) {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
-        if (identificatie == null) {
-            LOGGER.debug("NULL opgehaald");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
-            identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
-        }
-        LOGGER.debug("Identificatie opgehaald : id {} - soortEntiteit {} - entiteitId {}", identificatie.getId(), identificatie.getSoortEntiteit(), identificatie.getEntiteitId());
 
         Long bedrijfId = null;
 

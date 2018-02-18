@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.commons.xml.OpvragenOpmerkingenResponse;
-import nl.lakedigital.djfc.interfaces.Metrics;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,13 +19,12 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
     private final static Logger LOGGER = LoggerFactory.getLogger(OpmerkingClient.class);
 
     private final String URL_LIJST = "/rest/opmerking/alles";
-    private final String URL_OPSLAAN = "/rest/opmerking/opslaan";
     private final String URL_VERWIJDEREN = "/rest/opmerking/verwijderen";
     private final String URL_VERWIJDER = "/rest/opmerking/verwijder";
     private final String URL_ZOEKEN = "/rest/opmerking/zoeken";
 
-    private Metrics metrics;
-    
+    private MetricsService metricsService;
+
     public OpmerkingClient(String basisUrl) {
         super(basisUrl);
     }
@@ -33,8 +32,8 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
     public OpmerkingClient() {
     }
 
-    public void setMetrics(Metrics metrics) {
-        this.metrics = metrics;
+    public void setMetricsService(MetricsService metricsService) {
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -51,7 +50,7 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         List<JsonOpmerking> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenOpmerkingenResponse.class, LOGGER, metrics, "zoeken", OpmerkingClient.class, zoekterm).getOpmerkingen();
+            result = getXMLVoorLijstOGA(basisUrl + URL_ZOEKEN, OpvragenOpmerkingenResponse.class, LOGGER, metricsService, "zoeken", OpmerkingClient.class, zoekterm).getOpmerkingen();
         } catch (IOException e) {
             throw new LeesFoutException("Fout bij lezen " + URL_ZOEKEN, e);
         }
@@ -70,7 +69,7 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
         List<JsonOpmerking> result = newArrayList();
 
         try {
-            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenOpmerkingenResponse.class, LOGGER, metrics, "lijst", OpmerkingClient.class, soortEntiteit, String.valueOf(entiteitId)).getOpmerkingen();
+            result = getXMLVoorLijstOGA(basisUrl + URL_LIJST, OpvragenOpmerkingenResponse.class, LOGGER, metricsService, "lijst", OpmerkingClient.class, soortEntiteit, String.valueOf(entiteitId)).getOpmerkingen();
         } catch (IOException e) {
             if (!retry) {
                 return lijst(soortEntiteit, entiteitId, true);

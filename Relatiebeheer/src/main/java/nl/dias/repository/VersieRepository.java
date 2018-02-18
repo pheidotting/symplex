@@ -3,7 +3,7 @@ package nl.dias.repository;
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Versie;
 import nl.dias.domein.VersieGelezen;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -82,14 +82,33 @@ public class VersieRepository {
         Query query = getSession().createQuery("select vg from VersieGelezen vg WHERE gebruiker = :gebruiker");
         query.setParameter("gebruiker", gebruikerId);
 
-        List<Long> versieIds = query.list();
+        List<VersieGelezen> versieIds = query.list();
 
-        for (Long id : versieIds) {
+        for (VersieGelezen versieGelezen : versieIds) {
             Query versiesQuery = getSession().createQuery("select v from Versie v WHERE id = :id");
-            versiesQuery.setParameter("id", id);
+            versiesQuery.setParameter("id", versieGelezen.getVersie());
 
-            result.add((Versie) versiesQuery.list().get(0));
+            List<Versie> versies = versiesQuery.list();
+            if (!versies.isEmpty()) {
+                result.add(versies.get(0));
+
+                getSession().createQuery("delete from VersieGelezen WHERE gebruiker = :gebruiker AND versie = :versie").setParameter("gebruiker", gebruikerId).setParameter("versie", versieGelezen.getVersie()).executeUpdate();
+            }
         }
+
+        getTransaction().commit();
+
+        metricsService.stop(timer);
+
+        return result;
+    }
+
+    public Versie lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", VersieRepository.class);
+
+        getTransaction();
+
+        Versie result = getSession().get(Versie.class, id);
 
         getTransaction().commit();
 

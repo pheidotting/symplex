@@ -2,7 +2,7 @@ package nl.dias.repository;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.LogIn;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
