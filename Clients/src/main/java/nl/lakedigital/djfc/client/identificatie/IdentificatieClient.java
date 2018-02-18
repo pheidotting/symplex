@@ -52,7 +52,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         } else if (!retry) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) {//NOSONAR
                 LOGGER.trace("InterruptedException ", e);
             }
             return zoekIdentificatie(soortEntiteit, entiteitId, true);
@@ -75,7 +75,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         } else if (!retry) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) {//NOSONAR
                 LOGGER.trace("InterruptedException ", e);
             }
             return zoekIdentificatieCode(identificatieCode, true);
