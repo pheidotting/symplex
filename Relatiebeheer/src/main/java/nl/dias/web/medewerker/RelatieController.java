@@ -4,7 +4,6 @@ import nl.dias.domein.Hypotheek;
 import nl.dias.domein.polis.Polis;
 import nl.dias.service.*;
 import nl.dias.web.mapper.*;
-import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
@@ -82,36 +81,12 @@ public class RelatieController extends AbstractController {
                 relatie = new DomainToDtoRelatieMapper().apply(relatieDomain);
                 relatie.setIdentificatie(identificatieClient.zoekIdentificatie("RELATIE", relatieDomain.getId()).getIdentificatie());
 
-                try {
                     relatie.setAdressen(adresClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoAdresMapper(identificatieClient)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen adressen bij Relatie met id {}", relatieDomain.getId());
-                }
-                try {
                     relatie.setBijlages(bijlageClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen bijlages bij Relatie met id {}", relatieDomain.getId());
-                }
-                try {
                     relatie.setGroepBijlages(groepBijlagesClient.lijstGroepen("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen groepBijlages bij Relatie met id {}", relatieDomain.getId());
-                }
-                try {
                     relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen rekeningnummers bij Relatie met id {}", relatieDomain.getId());
-                }
-                try {
                     relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen telefoonnummers bij Relatie met id {}", relatieDomain.getId());
-                }
-                try {
                     relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
-                } catch (LeesFoutException lfe) {
-                    LOGGER.error("Fout opgetreden bij lezen opmerkingen bij Relatie met id {}", relatieDomain.getId());
-                }
 
                 List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
                 relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
