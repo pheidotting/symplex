@@ -21,10 +21,11 @@ public class Log4JController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
         MDC.put("url", url);
 
+        String loggerName = logger;
         if (logger == null || "".equals(logger)) {
-            logger = this.getClass().toString();
+            loggerName = this.getClass().toString();
         }
-        final Logger LOGGER = LoggerFactory.getLogger(logger);
+        final Logger LOGGER = LoggerFactory.getLogger(loggerName);
 
         if ("debug".equalsIgnoreCase(level)) {
             LOGGER.debug(message);
