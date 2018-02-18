@@ -58,6 +58,7 @@ public class AanmeldenKantoorController extends AbstractController {
         Kantoor kantoor = new Kantoor();
         kantoor.setAfkorting(aanmeldenKantoor.getAfkorting());
         kantoor.setNaam(aanmeldenKantoor.getBedrijfsnaam());
+        kantoor.setIpAdres(httpServletRequest.getRemoteAddr());
 
         try {
             kantoorRepository.opslaanKantoor(kantoor);
