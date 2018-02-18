@@ -32,7 +32,6 @@ import java.util.function.Consumer;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
-//@RequestMapping("/aanmeldenKantoor")
 @Controller
 public class AanmeldenKantoorController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AanmeldenKantoorController.class);
@@ -61,14 +60,8 @@ public class AanmeldenKantoorController extends AbstractController {
 
         try {
             kantoorRepository.opslaanKantoor(kantoor);
-        } catch (PostcodeNietGoedException e) {
-            e.printStackTrace();
-        } catch (TelefoonnummerNietGoedException e) {
-            e.printStackTrace();
-        } catch (BsnNietGoedException e) {
-            e.printStackTrace();
-        } catch (IbanNietGoedException e) {
-            e.printStackTrace();
+        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
+            LOGGER.trace("Fout bij opslaan kantoor {}", e);
         }
 
         Medewerker medewerker = new Medewerker();

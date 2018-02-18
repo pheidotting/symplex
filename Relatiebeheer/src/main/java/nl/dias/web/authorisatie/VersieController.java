@@ -154,7 +154,7 @@ public class VersieController extends AbstractController {
             transport.sendMessage(msg, msg.getAllRecipients());
             transport.close();
         } catch (MessagingException e) {
-            e.printStackTrace();
+            LOGGER.error("Fout bij verzenden e-mail {}", e);
         }
     }
 

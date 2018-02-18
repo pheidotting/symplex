@@ -41,7 +41,7 @@ public class KantoorFilter implements Filter {
 
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
-            if (relatie.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
+            if (relatie == null || relatie.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 responseString = "";
             }
@@ -50,15 +50,13 @@ public class KantoorFilter implements Filter {
 
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
-            if (bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                if (bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
+            if (bedrijf != null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
                     ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     responseString = "";
-                }
             }
-
-            response.getOutputStream().write(responseString.getBytes());
         }
+
+        response.getOutputStream().write(responseString.getBytes());
     }
 
     private Object mapVanJson(String jsonString, Class clazz) {
@@ -66,7 +64,7 @@ public class KantoorFilter implements Filter {
         try {
             return objectMapper.readValue(jsonString, clazz);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Foutmelding in mapVanJson {}", e);
         }
         return null;
     }
