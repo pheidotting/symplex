@@ -6,10 +6,11 @@
 
     <!-- Eigen CSS -->
     <link rel="stylesheet" href="default.css">
-    <link rel="stylesheet" href="templates/zoeken/zoeken.css">
+    <link rel="stylesheet" href="templates/beheren/beheren.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <script>
 		var refreshIntervalId = 0;
+
     </script>
 </head>
 <body>
@@ -17,10 +18,11 @@
     require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
-        app.addView('zoeken', 'js/view/zoeken-view');
+        app.addView('instellingen', 'js/view/instellingen-view');
 
-        app.run('#zoeken');
+        app.run('#instellingen');
     });
+
 </script>
 
 <script type="text/javascript">
@@ -41,6 +43,7 @@
             xhr.send( fd );
         });
     }
+
 
 </script>
 <div class="top">
