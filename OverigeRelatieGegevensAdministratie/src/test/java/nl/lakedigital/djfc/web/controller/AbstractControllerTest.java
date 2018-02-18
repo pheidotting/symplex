@@ -4,10 +4,12 @@ import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.mapper.Mapper;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.AbstractService;
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
+import org.easymock.MockType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,8 @@ import static org.easymock.EasyMock.expectLastCall;
 public abstract class AbstractControllerTest<T extends AbstracteEntiteitMetSoortEnId, U extends AbstracteJsonEntiteitMetSoortEnId> extends EasyMockSupport {
     @Mock
     protected Mapper mapper;
+    @Mock(type = MockType.NICE)
+    protected MetricsService metricsService;
     private Class<T> type;
     private Class<U> jsonType;
 

@@ -18,6 +18,7 @@ import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -87,11 +88,11 @@ public class GebruikerService {
         OnderlingeRelatieSoort onderlingeRelatieSoort = OnderlingeRelatieSoort.valueOf(soortRelatie);
         OnderlingeRelatieSoort onderlingeRelatieSoortTegengesteld = OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort);
 
-        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);
-        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);
+        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);//NOSONAR
+        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);//NOSONAR
 
-        //        relatie.getOnderlingeRelaties().add(onderlingeRelatie);
-        //        relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
+        //                relatie.getOnderlingeRelaties().add(onderlingeRelatie);
+        //                relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
 
         gebruikerRepository.opslaan(relatie);
         gebruikerRepository.opslaan(relatieMet);

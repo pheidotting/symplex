@@ -5,6 +5,7 @@ import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.inloggen.Sessie;
 import nl.lakedigital.djfc.mapper.Mapper;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.AbstractService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -28,6 +29,8 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
 
     @Inject
     protected Mapper mapper;
+    @Inject
+    protected MetricsService metricsService;
 
     public AbstractController(Class<D> domainType) {
         this.domainType = domainType;
@@ -53,6 +56,8 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{soortentiteit}/{parentid}")
     @ResponseBody
     public void verwijderen(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("verwijderen" + soortentiteit, AbstractController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Verwijderen entiteiten {} bij {} en {}", domainType, soortentiteit, parentid);

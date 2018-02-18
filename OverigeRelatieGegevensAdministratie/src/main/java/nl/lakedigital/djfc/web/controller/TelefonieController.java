@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.web.controller;
 
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
 import nl.lakedigital.djfc.domain.TelefonieBestand;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.TelefonieBestandService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,14 @@ public class TelefonieController {
 
     @Inject
     private TelefonieBestandService telefonieBestandService;
+    @Inject
+    protected MetricsService metricsService;
 
     @RequestMapping("/recordings")
     @ResponseBody
     public Map<String, List<JsonTelefonieBestand>> getRecordingsAndVoicemails(@RequestParam List<String> telefoonnummers, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("getRecordingsAndVoicemails", TelefonieController.class, null, null);
+
         LOGGER.debug("Ophalen gesprekken met telefoonnummers {}", telefoonnummers);
 
         Map<String, List<JsonTelefonieBestand>> ret = new HashMap<>();
