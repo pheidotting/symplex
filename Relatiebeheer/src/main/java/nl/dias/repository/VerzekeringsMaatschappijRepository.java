@@ -2,7 +2,7 @@ package nl.dias.repository;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.VerzekeringsMaatschappij;
-import nl.dias.service.MetricsService;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;
@@ -55,6 +55,8 @@ public class VerzekeringsMaatschappijRepository {
         VerzekeringsMaatschappij verzekeringsMaatschappij = (VerzekeringsMaatschappij) query.uniqueResult();
 
         getTransaction().commit();
+
+        metricsService.stop(timer);
 
         return verzekeringsMaatschappij;
     }

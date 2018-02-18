@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.web.controller;
 
+import com.codahale.metrics.Timer;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -43,6 +44,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenAdressenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alles", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
@@ -60,6 +63,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenAdressenResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoeken", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoeken met zoekterm {}", zoekTerm, Adres.class);
@@ -76,6 +81,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpAdres/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenAdressenResponse zoekOpAdres(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoekOpAdres", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoek op adres {}, {}", zoekTerm);
@@ -92,6 +99,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpPostcode/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenAdressenResponse zoekOpPostcode(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoekOpPostcode", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoek op adres {}", zoekTerm);
@@ -108,6 +117,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpPlaats/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenAdressenResponse zoekOpPlaats(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoekOpPlaats", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoek op adres {}", zoekTerm);
@@ -124,6 +135,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
     public OpvragenAdressenResponse lees(@PathVariable Long id, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("lees", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -136,6 +149,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/alleAdressenBijLijstMetEntiteiten")
     @ResponseBody
     public OpvragenAdressenResponse alleAdressenBijLijstMetEntiteiten(@RequestParam("soortEntiteit") String soortEntiteit, @RequestParam("lijst") List<Long> ids, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alleAdressenBijLijstMetEntiteiten", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         OpvragenAdressenResponse opvragenAdressenResponse = new OpvragenAdressenResponse();
@@ -155,6 +170,8 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
     @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode/{postcode}/{huisnummer}/{toggle}")
     @ResponseBody
     public OpvragenAdressenResponse ophalenAdresOpPostcode(@PathVariable("postcode") String postcode, @PathVariable("huisnummer") String huisnummer, @PathVariable("toggle") boolean toggle, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("ophalenAdresOpPostcode", AdresController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Toggle is {}", toggle);
@@ -169,7 +186,12 @@ public class AdresController extends AbstractController<Adres, JsonAdres> {
             WebResource webResource = client.resource(adres);
             ClientResponse response = webResource.header("X-Api-Key", "FYEYGHHNFV3sZutux7LcX8ng8VizXWPk1HWxPPX9").accept("application/x-www-form-urlencoded; charset=UTF-8").get(ClientResponse.class);
 
+            Timer.Context timer = metricsService.addTimerMetric("ophalenAdresOpPostcode", AdresController.class);
+
             String antwoord = response.getEntity(String.class);
+
+            metricsService.stop(timer);
+
             logger.debug("Antwoord van de postcode api: {}", antwoord);
 
             JsonAdres jsonAdres = postcodeService.extraHeerAdres(antwoord);

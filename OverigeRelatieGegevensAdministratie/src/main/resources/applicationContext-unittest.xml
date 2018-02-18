@@ -9,6 +9,11 @@
     <context:component-scan base-package="nl.lakedigital.djfc.repository"/>
     <context:annotation-config/>
 
+    <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
+    <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
+        <property name="metricRegistry" ref="metricRegistry"/>
+    </bean>
+
     <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init">
         <property name="poortNummer" value="3319"/>
     </bean>

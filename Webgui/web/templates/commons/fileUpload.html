@@ -74,7 +74,7 @@
 
             <div class="form-group" id="bijlage" data-bind="visible: bijlageModel.tonenUploadVeld">
                 <input type="file" id="bijlageFile" name="bijlageFile"
-                       data-bind="event: {change: bijlageModel.nieuwePolisUpload}"/>
+                       data-bind="event: {change: bijlageModel.nieuwePolisUpload}" accept=".jpg,.jpeg,.pdf"/>
                 <progress id="uploadprogress" style="display:none;"></progress>
             </div>
         </div>

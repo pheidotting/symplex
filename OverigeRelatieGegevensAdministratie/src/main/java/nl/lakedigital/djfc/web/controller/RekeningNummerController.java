@@ -36,6 +36,8 @@ public class RekeningNummerController extends AbstractController<RekeningNummer,
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenRekeningNummersResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("alles", RekeningNummerController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("alles soortEntiteit {} parentId {}", soortentiteit, parentid);
@@ -53,6 +55,8 @@ public class RekeningNummerController extends AbstractController<RekeningNummer,
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenRekeningNummersResponse zoeken(@PathVariable("zoekTerm") String zoekTerm, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("zoeken", RekeningNummerController.class, null, null);
+
         zetSessieWaarden(httpServletRequest);
 
         logger.debug("Zoeken met zoeketerm {}, {}", zoekTerm, Bijlage.class);
