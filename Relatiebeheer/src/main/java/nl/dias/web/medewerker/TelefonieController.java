@@ -48,13 +48,13 @@ public class TelefonieController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/download/{bestandsnaam}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
     @Produces("application/wav")
-    public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bestandsnaam) throws IOException {
-        bestandsnaam = bestandsnaam.replace(".a", "");
+    public ResponseEntity<byte[]> getFile(@PathVariable("bestandsnaam") String bn) throws IOException {
+        String bestandsnaam = bn.replace(".a", "");
         File file = new File(recordingspad + File.separator + bestandsnaam);
 
         LOGGER.debug("Telefoniebestand downloaden {}", recordingspad + File.separator + bestandsnaam);
 
-        if (file != null && file.exists()) {
+        if (file.exists()) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);

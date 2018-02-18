@@ -108,7 +108,7 @@ public class VersieRepository {
 
         getTransaction();
 
-        Versie result = (Versie) getSession().get(Versie.class, id);
+        Versie result = getSession().get(Versie.class, id);
 
         getTransaction().commit();
 

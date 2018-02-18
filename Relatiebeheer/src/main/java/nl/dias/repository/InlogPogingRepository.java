@@ -65,7 +65,7 @@ public class InlogPogingRepository {
         InlogPoging inlogPoging;
         File database = new File("GeoLite2-City.mmdb");
         String ip = null;
-        StringBuffer adres = new StringBuffer();
+        StringBuilder adres = new StringBuilder();
         Double latitude = null;
         Double longitude = null;
         if (gelukt) {

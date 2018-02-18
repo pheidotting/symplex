@@ -53,6 +53,7 @@ public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, Opvragen
         return result;
     }
 
+    @Deprecated
     public String opslaan(JsonGroepBijlages groepBijlages, Long ingelogdeGebruiker, String trackAndTraceId) {
         return aanroepenUrlPost(URL_OPSLAAN_GROEP, groepBijlages, ingelogdeGebruiker, trackAndTraceId, LOGGER);
     }

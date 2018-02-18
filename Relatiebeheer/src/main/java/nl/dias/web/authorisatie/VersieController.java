@@ -48,12 +48,13 @@ public class VersieController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/nieuweversie", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void nieuweversie(@RequestBody String versieinfo) {
-        LOGGER.debug(versieinfo);
+    public void nieuweversie(@RequestBody String vi) {
+        LOGGER.debug(vi);
+        String versieinfo = vi;
         if (versieinfo.trim().toLowerCase().startsWith("versie")) {
             versieinfo = versieinfo.substring(6).trim();
 
-            int pos = versieinfo.indexOf(" ");
+            int pos = versieinfo.indexOf(' ');
             String versieNummer = versieinfo.substring(0, pos);
             String releasenotes = versieinfo.substring(pos + 1);
             releasenotes = releasenotes.replace(" - ", "\n - ");
@@ -103,8 +104,6 @@ public class VersieController extends AbstractController {
     public nl.lakedigital.djfc.domain.response.Versie leesVersie(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("leesVersie", VersieController.class, null, null);
 
-        LOGGER.debug("{}", identificatieClient);
-        LOGGER.debug("{}", identificatieClient.zoekIdentificatieCode(identificatieCode));
         Long id = identificatieClient.zoekIdentificatieCode(identificatieCode).getEntiteitId();
 
         Versie versie = versieRepository.lees(id);
@@ -156,7 +155,7 @@ public class VersieController extends AbstractController {
             transport.sendMessage(msg, msg.getAllRecipients());
             transport.close();
         } catch (MessagingException e) {
-            e.printStackTrace();
+            LOGGER.error("Fout bij verzenden e-mail {}", e);
         }
     }
 
