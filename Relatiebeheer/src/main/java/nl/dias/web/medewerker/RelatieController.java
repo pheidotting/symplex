@@ -202,7 +202,7 @@ public class RelatieController extends AbstractController {
                 relatie.setBelastingzaken(belastingzaken);
             }
         } catch (Exception e) {
-            LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace());
+            LOGGER.info("Fout bij lezen Relatie {} - {}", e.getMessage(), e.getStackTrace(), e);
             return new Relatie();
         }
 

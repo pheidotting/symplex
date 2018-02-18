@@ -33,9 +33,7 @@ public class Log4JController extends AbstractController {
             LOGGER.info(message);
         } else if ("warn".equalsIgnoreCase(level)) {
             LOGGER.warn(message);
-        } else if ("error".equalsIgnoreCase(level)) {
-            LOGGER.error(message);
-        } else if ("fatal".equalsIgnoreCase(level)) {
+        } else if ("error".equalsIgnoreCase(level) || "fatal".equalsIgnoreCase(level)) {
             LOGGER.error(message);
         } else {
             LOGGER.trace(message);

@@ -7,15 +7,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.joda.time.LocalDateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class InkomendRequestRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(InkomendRequestRepository.class);
-
     @Autowired
     private SessionFactory sessionFactory;
 
