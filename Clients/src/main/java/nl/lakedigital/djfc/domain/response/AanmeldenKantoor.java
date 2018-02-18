@@ -10,6 +10,7 @@ public class AanmeldenKantoor {
     private String nieuwWachtwoord;
 
     public AanmeldenKantoor() {
+        //Moet aanwezig zijn blijkbaar
     }
 
     public AanmeldenKantoor(String bedrijfsnaam, String afkorting, String inlognaam, String voornaam, String achternaam, String emailadres, String nieuwWachtwoord) {

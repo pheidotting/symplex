@@ -88,11 +88,11 @@ public class GebruikerService {
         OnderlingeRelatieSoort onderlingeRelatieSoort = OnderlingeRelatieSoort.valueOf(soortRelatie);
         OnderlingeRelatieSoort onderlingeRelatieSoortTegengesteld = OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort);
 
-        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);
-        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);
+        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);//NOSONAR
+        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);//NOSONAR
 
-        //        relatie.getOnderlingeRelaties().add(onderlingeRelatie);
-        //        relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
+        //                relatie.getOnderlingeRelaties().add(onderlingeRelatie);
+        //                relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
 
         gebruikerRepository.opslaan(relatie);
         gebruikerRepository.opslaan(relatieMet);

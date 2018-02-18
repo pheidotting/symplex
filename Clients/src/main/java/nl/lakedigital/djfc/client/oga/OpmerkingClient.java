@@ -19,7 +19,6 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
     private final static Logger LOGGER = LoggerFactory.getLogger(OpmerkingClient.class);
 
     private final String URL_LIJST = "/rest/opmerking/alles";
-    private final String URL_OPSLAAN = "/rest/opmerking/opslaan";
     private final String URL_VERWIJDEREN = "/rest/opmerking/verwijderen";
     private final String URL_VERWIJDER = "/rest/opmerking/verwijder";
     private final String URL_ZOEKEN = "/rest/opmerking/zoeken";

@@ -11,12 +11,14 @@ define(['commons/3rdparty/log2',
 	return {
 	    checkNieuweVersie: function() {
             repository.voerUitGet(navRegister.bepaalUrl('CHECK_NIEUWE_VERSIE')).done(function(result){
-                $.each(result, function(versie, releasenotes){
+                $.each(result, function(versie, identificatie){
                     Push.create("Nieuwe versie van Symplex : " + versie, {
-                        body: releasenotes,
+                        link: 'versie.html#versie/' + identificatie,
+                        body: 'Klik om de wijzigingen te zien',
                         icon: 'images/logo-djfc-vierkant.jpg',
                         timeout: 20000,
                         onClick: function () {
+                            window.location = "versies.html#versie/" + identificatie;
                             window.focus();
                             this.close();
                         }
