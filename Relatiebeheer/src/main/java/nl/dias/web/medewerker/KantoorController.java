@@ -7,6 +7,7 @@ import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonKantoor;
+import nl.lakedigital.djfc.domain.response.Kantoor;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import java.util.function.Consumer;
 
 @RequestMapping("/kantoor")
 @Controller("kantoorMedewerkerController")
@@ -36,7 +38,7 @@ public class KantoorController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public JsonKantoor lees(HttpServletRequest httpServletRequest) {
+    public Kantoor lees(HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
 
         metricsService.addMetric("lees", KantoorController.class, null, null);
@@ -48,13 +50,32 @@ public class KantoorController extends AbstractController {
 
         LOGGER.debug("Ophalen Kantoor met id : " + kantoorId);
 
-        JsonKantoor jsonKantoor = mapper.map(kantoorRepository.lees(kantoorId), JsonKantoor.class);
-        jsonKantoor.setIdentificatie(identificatie.getIdentificatie());
-        jsonKantoor.setId(null);
+        nl.dias.domein.Kantoor kantoor = kantoorRepository.lees(kantoorId);
+        Kantoor result = new Kantoor();
+        result.setIdentificatie(identificatie.getIdentificatie());
+
+        result.setNaam(kantoor.getNaam());
+        result.setKvk(kantoor.getKvk());
+        result.setBtwNummer(kantoor.getBtwNummer());
+        result.setDatumOprichting(kantoor.getDatumOprichting().toString("yyyy-MM-dd"));
+        result.setRechtsvorm(kantoor.getRechtsvorm().getOmschrijving());
+        result.setSoortKantoor(kantoor.getSoortKantoor().getOmschrijving());
+        result.setEmailadres(kantoor.getEmailadres());
+        result.setAfkorting(kantoor.getAfkorting());
+
+        gebruikerService.alleMedewerkers(kantoor).stream().forEach(new Consumer<Medewerker>() {
+            @Override
+            public void accept(Medewerker medewerker) {
+                Identificatie identificatie1 = identificatieClient.zoekIdentificatie("MEDEWERKER", medewerker.getId());
+                nl.lakedigital.djfc.domain.response.Medewerker mw = new nl.lakedigital.djfc.domain.response.Medewerker(identificatie1.getIdentificatie(), medewerker.getVoornaam(), medewerker.getTussenvoegsel(), medewerker.getAchternaam(), medewerker.getEmailadres());
+
+                result.addMedewerker(mw);
+            }
+        });
 
         metricsService.stop(timer);
 
-        return jsonKantoor;
+        return result;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)

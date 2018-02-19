@@ -38,6 +38,6 @@ public class JsonKantoorNaarKantoorMapper extends AbstractMapper<JsonKantoor, Ka
 
     @Override
     public boolean isVoorMij(Object object) {
-        return object instanceof Kantoor;
+        return object instanceof JsonKantoor;
     }
 }

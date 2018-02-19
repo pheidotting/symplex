@@ -18,7 +18,8 @@
     require(['/js/commons/sammyconfig.js'], function (App) {
         var app = new App();
 
-        app.addView('instellingen', 'js/view/instellingen-view');
+        app.addView('instellingen', 'js/view/instellingen/instellingen-view');
+        app.addView('instellingen/medewerkers', 'js/view/instellingen/medewerkers-view');
 
         app.run('#instellingen');
     });
@@ -56,9 +57,6 @@
 <img class="logo-bedrijf"
      data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
 
-<button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
-<button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
-
 <div class="main">
     <div id="hoofd"></div>
     <div class="menu-balk">
@@ -67,6 +65,7 @@
                 <ul>
                     <li class="first"><a href="zoeken.html">Home</a></li>
                     <li class="first"><a href="instellingen.html">Instellingen</a></li>
+                    <li class="first"><a href="instellingen.html#instellingen/medewerkers">Medewerkers</a></li>
                 </ul>
             </div>
         </div>

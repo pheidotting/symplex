@@ -324,4 +324,8 @@ public class GebruikerService {
 
         return medewerker.getoAuthCodeTodoist();
     }
+
+    public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
+        return gebruikerRepository.alleMedewerkers(kantoor);
+    }
 }

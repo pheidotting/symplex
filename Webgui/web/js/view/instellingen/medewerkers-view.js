@@ -1,10 +1,10 @@
 define(['jquery',
         'commons/3rdparty/log2',
-        'text!../../../templates/instellingen/instellingen.html',
-        'viewmodel/instellingen-viewmodel',
+        'text!../../../templates/instellingen/lijst-medewerkers.html',
+        'viewmodel/instellingen/medewerkers-viewmodel',
         'knockout'],
     function($, log, html, viewmodel, ko) {
-        var logger = log.getLogger('instellingen-view');
+        var logger = log.getLogger('medewerkers-view');
 
         return {
             init: function() {
