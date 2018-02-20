@@ -17,7 +17,6 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
     private final static Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerClient.class);
 
     private final String URL_LIJST = "/rest/telefoonnummer/alles";
-    private final String URL_OPSLAAN = "/rest/telefoonnummer/opslaan";
     private final String URL_VERWIJDEREN = "/rest/telefoonnummer/verwijderen";
     private final String URL_ZOEKEN = "/rest/telefoonnummer/zoeken";
 

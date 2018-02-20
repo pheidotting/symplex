@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.domain.response;
 
-public class Opmerking implements Comparable<Opmerking> {
+public class Opmerking {
     private String identificatie;
     private String tijd;
     private String opmerking;
@@ -45,10 +45,5 @@ public class Opmerking implements Comparable<Opmerking> {
 
     public void setMedewerkerId(Long medewerkerId) {
         this.medewerkerId = medewerkerId;
-    }
-
-    @Override
-    public int compareTo(Opmerking o) {
-        return tijd.compareTo(o.tijd) * -1;
     }
 }

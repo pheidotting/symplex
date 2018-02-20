@@ -19,7 +19,6 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
     private final static Logger LOGGER = LoggerFactory.getLogger(RekeningClient.class);
 
     private final String URL_LIJST = "/rest/rekeningnummer/alles";
-    private final String URL_OPSLAAN = "/rest/rekeningnummer/opslaan";
     private final String URL_VERWIJDEREN = "/rest/rekeningnummer/verwijderen";
     private final String URL_ZOEKEN = "/rest/rekeningnummer/zoeken";
 

@@ -56,6 +56,8 @@ public class VerzekeringsMaatschappijRepository {
 
         getTransaction().commit();
 
+        metricsService.stop(timer);
+
         return verzekeringsMaatschappij;
     }
 

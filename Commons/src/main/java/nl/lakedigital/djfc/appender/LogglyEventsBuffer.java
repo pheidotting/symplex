@@ -15,7 +15,6 @@ public class LogglyEventsBuffer {
     private Timer timer;
     private boolean flushing = false;
     private RateLimiter rateLimiter = RateLimiter.create(1);
-    ;
 
     public void add(String event, Level level, final String token, final String tag, int interval) {
         if (events == null) {
@@ -31,8 +30,8 @@ public class LogglyEventsBuffer {
             int period = 5000;
             try {
                 this.timer = new Timer();
-            } catch (OutOfMemoryError outOfMemoryError) {
-                throw new RuntimeException(outOfMemoryError.getMessage());
+            } catch (OutOfMemoryError outOfMemoryError) {//NOSONAR
+                throw new RuntimeException(outOfMemoryError.getMessage());//NOSONAR
             }
             timer.scheduleAtFixedRate(new TimerTask() {
 
@@ -40,7 +39,7 @@ public class LogglyEventsBuffer {
                     flush(token);
 
                 }
-            }, delay, period);
+            }, delay, period);//NOSONAR
             timer = null;
         }
     }
@@ -56,8 +55,8 @@ public class LogglyEventsBuffer {
 
                 try {
                     Unirest.post("http://logs-01.loggly.com/inputs/" + token + "/tag/" + event.getTag() + "," + event.getLevel().toString()).header("accept", "application/json").body(event.getEvent()).asString();
-                } catch (UnirestException e) {
-                    throw new RuntimeException(e.getMessage());
+                } catch (UnirestException e) {//NOSONAR
+                    throw new RuntimeException(e.getMessage());//NOSONAR
                 }
             }
             flushing = false;

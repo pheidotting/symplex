@@ -34,7 +34,7 @@ public class BelastingzakenService {
         for (Belastingzaken belastingzaak : belastingzaken) {
             benodigdeSoorten.remove(belastingzaak.getSoort());
         }
-        if (benodigdeSoorten.size() > 0) {
+        if (!benodigdeSoorten.isEmpty()) {
             for (Belastingzaken.SoortBelastingzaak soort : benodigdeSoorten) {
                 Belastingzaken belastingzakenNieuw = new Belastingzaken();
                 belastingzakenNieuw.setSoort(soort);
@@ -43,7 +43,6 @@ public class BelastingzakenService {
                 belastingzakenNieuw.setSoortEntiteit(soortEntiteit);
 
                 belastingzakenRepository.opslaan(belastingzakenNieuw);
-
             }
         }
 
