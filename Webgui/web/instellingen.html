@@ -19,7 +19,8 @@
         var app = new App();
 
         app.addView('instellingen', 'js/view/instellingen/instellingen-view');
-        app.addView('instellingen/medewerkers', 'js/view/instellingen/medewerkers-view');
+        app.addView('medewerkers', 'js/view/instellingen/medewerkers-view');
+        app.addView('medewerker/:identificatie', 'js/view/instellingen/medewerker-view');
 
         app.run('#instellingen');
     });
@@ -65,7 +66,7 @@
                 <ul>
                     <li class="first"><a href="zoeken.html">Home</a></li>
                     <li class="first"><a href="instellingen.html">Instellingen</a></li>
-                    <li class="first"><a href="instellingen.html#instellingen/medewerkers">Medewerkers</a></li>
+                    <li class="first"><a href="instellingen.html#medewerkers">Medewerkers</a></li>
                 </ul>
             </div>
         </div>

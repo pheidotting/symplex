@@ -13,20 +13,19 @@ define(['jquery',
     function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
 
     return function() {
-        commonFunctions.checkNieuweVersie();
         var _this = this;
         var logger = log.getLogger('medewerkers-viewmodel');
 		this.menubalkViewmodel      = null;
 
-        this.medewerkers = ko.observableArray();
+        this.medewerker = null;
 
-        this.init = function() {
+        this.init = function(identificatie) {
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
 
-            $.when(kantoorService.lees()).then(function(kantoor){
-                _this.medewerkers = medewerkerMapper.mapMedewerkers(kantoor.medewerkers);
+            $.when(gebruikerService.leesMedewerker(identificatie)).then(function(medewerker){
+                _this.medewerker = medewerkerMapper.mapMedewerker(medewerker);
 
                 return deferred.resolve();
             });
@@ -34,17 +33,15 @@ define(['jquery',
             return deferred.promise();
         };
 
-        this.bewerk = function(medewerker) {
-            window.location.hash = 'medewerker/' + medewerker.identificatie();
+        this.opslaan = function(medewerker) {
+            gebruikerService.opslaanMedewerker(medewerker.medewerker);
         };
 
-        this.verwijder = function(medewerker) {
-            var r=confirm("Weet je zeker dat je "+medewerker.volledigenaam()+" wilt verwijderen?");
-            if (r==true) {
-                _this.medewerkers.remove(medewerker);
-                gebruikerService.verwijderRelatie(medewerker.identificatie());
-            }
+        this.annuleren = function(medewerker) {
+            window.location.hash = 'instellingen/medewerkers';
         };
 
+        this.verwijderen = function() {
+        };
 	};
 });

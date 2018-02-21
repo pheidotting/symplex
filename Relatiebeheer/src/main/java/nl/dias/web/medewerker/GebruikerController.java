@@ -81,19 +81,18 @@ public class GebruikerController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker/{identificatieString}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public JsonMedewerker leesMedewerker(@QueryParam("id") String id) {
-        LOGGER.debug("Ophalen Relatie met id : " + id);
+    public JsonMedewerker leesMedewerker(@PathVariable("identificatieString") String identificatieString) {
+        Long id = identificatieClient.zoekIdentificatieCode(identificatieString).getEntiteitId();
+
+        LOGGER.debug("Ophalen Relatie met id : {}" + id);
 
         JsonMedewerker jsonMedewerker;
-        if (id != null && !"0".equals(id.trim())) {
-            Medewerker medewerker = (Medewerker) gebruikerService.lees(Long.parseLong(id));
+        Medewerker medewerker = (Medewerker) gebruikerService.lees(id);
 
             jsonMedewerker = medewerkerNaarJsonMedewerkerMapper.map(medewerker);
-        } else {
-            jsonMedewerker = new JsonMedewerker();
-        }
+        jsonMedewerker.setIdentificatie(identificatieString);
 
         LOGGER.debug("Naar de front-end : " + jsonMedewerker);
 
@@ -105,7 +104,11 @@ public class GebruikerController extends AbstractController {
     public void opslaanMedewerker(@RequestBody JsonMedewerker jsonMedewerker) {
         LOGGER.debug("opslaan medewerker");
 
-        Medewerker medewerker = (Medewerker) gebruikerService.lees(jsonMedewerker.getId());
+        Medewerker medewerker = null;
+        if (jsonMedewerker.getIdentificatie() != null) {
+            Long id = identificatieClient.zoekIdentificatieCode(jsonMedewerker.getIdentificatie()).getEntiteitId();
+            medewerker = (Medewerker) gebruikerService.lees(id);
+        }
 
         gebruikerService.opslaan(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
     }
@@ -198,8 +201,8 @@ public class GebruikerController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric("relatieVerwijderen", GebruikerController.class, null, null);
-        LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
+        metricsService.addMetric("gebruikerVerwijderen", GebruikerController.class, null, null);
+        LOGGER.debug("Verwijderen Gebruiker met id {}", identificatieString);
 
         zetSessieWaarden(httpServletRequest);
 

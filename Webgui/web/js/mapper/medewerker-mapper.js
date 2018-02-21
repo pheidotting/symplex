@@ -5,7 +5,7 @@ define(['jquery',
 	function ($, Medewerker, log, ko) {
         return {
             mapMedewerker: function(r) {
-                mappen(r);
+                return mappen(r);
             },
 
             mapMedewerkers: function(data) {
