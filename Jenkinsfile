@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
                     cd Webgui
-                    sudo /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner
+                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner
                 '''
             }
             post {
