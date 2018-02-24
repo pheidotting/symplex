@@ -126,6 +126,12 @@ public class GebruikerService {
         }
     }
 
+    public void opslaanMedewerker(Medewerker medewerker) {
+        LOGGER.debug("Opslaan {}", medewerker);
+
+        gebruikerRepository.opslaanMedewerker(medewerker);
+    }
+
     public void opslaan(final List<JsonContactPersoon> jsonContactPersonen, Long bedrijfId) {
         LOGGER.debug("Opslaan ContactPersonen, aantal {}, bedrijfId {}", jsonContactPersonen.size(), bedrijfId);
 

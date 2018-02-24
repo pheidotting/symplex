@@ -110,7 +110,7 @@ public class GebruikerController extends AbstractController {
             medewerker = (Medewerker) gebruikerService.lees(id);
         }
 
-        gebruikerService.opslaan(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
+        gebruikerService.opslaanMedewerker(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")

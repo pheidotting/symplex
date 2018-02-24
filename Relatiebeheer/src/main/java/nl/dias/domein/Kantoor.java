@@ -50,7 +50,8 @@ public class Kantoor implements Serializable {
     @Transient
     private List<Medewerker> medewerkers;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Relatie.class)
+    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Relatie.class)
+    @Transient
     private Set<Relatie> relaties;
 
     public Long getId() {
