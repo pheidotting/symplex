@@ -46,5 +46,8 @@ define(['jquery',
             }
         };
 
+        this.nieuw = function() {
+            window.location.hash = 'medewerker';
+        };
 	};
 });
