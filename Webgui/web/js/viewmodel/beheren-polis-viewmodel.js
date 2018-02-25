@@ -168,11 +168,6 @@ define(['jquery',
                         _this.type(data[0].handelsbenaming);
                         _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
-                        var kleur = '';
-                        if(data[0].eerste_kleur != 'N.v.t.') {
-                            kleur = data[0].eerste_kleur;
-                        }
-
                         $.ajax({
                             type: "GET",
                             url: 'https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),

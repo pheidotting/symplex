@@ -15,8 +15,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('lijst-hypotheken-viewmodel');
-        var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

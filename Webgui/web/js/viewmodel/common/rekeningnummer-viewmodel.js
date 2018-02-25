@@ -72,10 +72,12 @@ define(['commons/3rdparty/log',
 
                 nummer.rekeningnummer(rek);
 
-                if(rek.startsWith('NL')) {
-                    nummer.bicTonen(false);
-                } else {
-                    nummer.bicTonen(true);
+                if(rek != null){
+                    if(rek.startsWith('NL')) {
+                        nummer.bicTonen(false);
+                    } else {
+                        nummer.bicTonen(true);
+                    }
                 }
             }
         };

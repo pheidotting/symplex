@@ -14,8 +14,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('lijst-schades-viewmodel');
-        var soortEntiteit = 'SCHADE';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

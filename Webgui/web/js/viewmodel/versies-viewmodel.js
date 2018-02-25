@@ -14,7 +14,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('versies-viewmodel');
 		this.menubalkViewmodel      = null;
 
 		this.versie = ko.observable();

@@ -15,7 +15,6 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('lijst-polissen-viewmodel');
-        var soortEntiteit = 'POLIS';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;
