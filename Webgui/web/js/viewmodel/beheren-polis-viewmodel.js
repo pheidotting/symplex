@@ -3,7 +3,6 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/polis-mapper',
         'service/polis-service',
         'viewmodel/common/opmerking-viewmodel',
@@ -15,7 +14,7 @@ define(['jquery',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
+    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
 
     return function() {
         var _this = this;

@@ -20,7 +20,6 @@ requirejs.config({
     	js: 'js',
     	pages: 'pages',
     	model: 'js/model',
-        dataServices: 'js/commons/dataServices',
         navRegister: 'js/commons/navRegister',
         fileUpload: 'js/commons/fileUpload',
         opmerkingenLoader: 'js/commons/opmerkingenLoader',

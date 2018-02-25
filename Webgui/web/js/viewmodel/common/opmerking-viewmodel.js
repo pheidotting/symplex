@@ -1,11 +1,10 @@
 define(['commons/3rdparty/log',
         'model/opmerking',
         'knockout',
-        'dataServices',
         'moment',
         'mapper/opmerking-mapper',
         'repository/gebruiker-repository'],
-    function(log, Opmerking, ko, dataServices, moment, opmerkingMapper, gebruikerRepository) {
+    function(log, Opmerking, ko, moment, opmerkingMapper, gebruikerRepository) {
 
     return function(readOnly, soortEntiteit, entiteitId, opmerkingen) {
         var _this = this;
