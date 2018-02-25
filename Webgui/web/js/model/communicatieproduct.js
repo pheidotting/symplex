@@ -55,7 +55,7 @@ define(['jquery',
 				var bijlage = new Bijlage(item);
 				_cm.bijlages().push(bijlage);
 			});
-		};
+		}
 		if(data.tekst === undefined || data.tekst === '') {
 		    //default tekst maken
 
@@ -114,7 +114,7 @@ define(['jquery',
 				var groepBijlages = new GroepBijlages(item);
 				_cm.groepBijlages().push(groepBijlages);
 			});
-		};
+		}
 
 		_cm.nieuwePolisUpload = function (){
 			log.debug("Nieuwe bijlage upload");

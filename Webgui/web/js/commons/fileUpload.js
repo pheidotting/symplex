@@ -32,9 +32,9 @@ define(['commons/3rdparty/log',
                     $('#bijlageFile').val("");
 
                     if(response.bijlage != null) {
-                        var ret = new Bijlage(response.bijlage);
+                         ret = new Bijlage(response.bijlage);
                     } else {
-                        var ret = new Groepbijlages(response.groepBijlages);
+                         ret = new Groepbijlages(response.groepBijlages);
                     }
 
                     return deferred.resolve(ret);
