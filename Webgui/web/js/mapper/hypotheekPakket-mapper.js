@@ -1,5 +1,5 @@
 define(['jquery',
-        'model/hypotheekPakket2',
+        'model/hypotheekPakket',
         'commons/3rdparty/log',
         'knockout',
         'mapper/hypotheek-mapper'],

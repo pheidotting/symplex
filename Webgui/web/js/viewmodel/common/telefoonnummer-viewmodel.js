@@ -1,5 +1,5 @@
 define(['commons/3rdparty/log',
-        'model/telefoonNummer2',
+        'model/telefoonNummer',
         'knockout',
         'mapper/telefoonnummer-mapper'],
     function(log, TelefoonNummer, ko, telefoonnummerMapper) {

@@ -1,5 +1,5 @@
 define(['jquery',
-        'model/groepbijlages2',
+        'model/groepbijlages',
         'commons/3rdparty/log',
         'knockout',
         'mapper/bijlage-mapper'],

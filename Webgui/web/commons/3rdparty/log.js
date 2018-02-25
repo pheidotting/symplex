@@ -28,7 +28,7 @@ define(['commons/3rdparty/log4javascript',
                 log.init = true;
 
                 function expandedMsg() {
-                    var args = new Array();
+                    var args = [];
                     for (var i = 0; i < arguments.length; i++) {
                         try {
                             args[i] = typeof arguments[i] === "object" ? sprintf.sprintf('\n%s', ko.toJSON(arguments[i])) : arguments[i];

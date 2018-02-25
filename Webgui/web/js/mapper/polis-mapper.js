@@ -1,5 +1,5 @@
 define(['jquery',
-        'model/polis2',
+        'model/polis',
         'commons/3rdparty/log',
         'knockout',
         'moment'],

@@ -1,5 +1,5 @@
 define(['jquery',
-        'model/telefoonNummer2',
+        'model/telefoonNummer',
         'commons/3rdparty/log',
         'knockout'],
 	function ($, Telefoonnummer, log, ko) {

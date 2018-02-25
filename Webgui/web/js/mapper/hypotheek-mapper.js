@@ -1,5 +1,5 @@
 define(['jquery',
-        'model/hypotheek2',
+        'model/hypotheek',
         'commons/3rdparty/log',
         'knockout'],
 	function ($, Hypotheek, log, ko) {

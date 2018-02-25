@@ -16,7 +16,7 @@ define(["commons/3rdparty/log",
                 $.each(data, function(i, item) {
                     _adressen.adressen().push(new Adres(item));
                 });
-            };
+            }
 
             _adressen.voegAdresToe = function(){
                 log.debug("nieuwe Adres");

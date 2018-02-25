@@ -23,8 +23,6 @@ define(['commons/3rdparty/log',
             },
 
             uploaden: function(){
-//    		    block.block();
-
                 var deferred = $.Deferred();
 
                 var formData = new FormData($('#fileUploadForm')[0]);
@@ -33,12 +31,10 @@ define(['commons/3rdparty/log',
 
                     $('#bijlageFile').val("");
 
-//                    $.unblockUI();
-                    var ret = null;
                     if(response.bijlage != null) {
-                        ret = new Bijlage(response.bijlage);
+                        var ret = new Bijlage(response.bijlage);
                     } else {
-                        ret = new Groepbijlages(response.groepBijlages);
+                        var ret = new Groepbijlages(response.groepBijlages);
                     }
 
                     return deferred.resolve(ret);
