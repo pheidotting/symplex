@@ -1,7 +1,7 @@
 define(['jquery',
         'knockout',
         'commons/commonFunctions',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/gebruiker-service',
        'complexify',

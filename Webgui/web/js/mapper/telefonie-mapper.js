@@ -1,6 +1,6 @@
 define(['jquery',
         'model/gesprek',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout',
         'moment'],
 	function ($, Gesprek, log, ko, moment) {

@@ -1,6 +1,6 @@
 define(['jquery',
         'model/zoekresultaat',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'mapper/adres-mapper',
         'knockout',
         'underscore'],

@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/commons/rekeningnummers.html'],
     function($, log, html) {
         var logger = log.getLogger('rekeningnummer-view');

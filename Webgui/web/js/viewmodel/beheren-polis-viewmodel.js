@@ -1,7 +1,7 @@
 define(['jquery',
         'commons/commonFunctions',
         'knockout',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'opmerkingenModel',
         'mapper/polis-mapper',

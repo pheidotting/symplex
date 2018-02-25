@@ -1,6 +1,6 @@
 define(['jquery',
         'model/schade2',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout'],
 	function ($, Schade, log, ko) {
         return {

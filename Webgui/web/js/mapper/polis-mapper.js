@@ -1,6 +1,6 @@
 define(['jquery',
         'model/polis2',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout',
         'moment'],
 	function ($, Polis, log, ko, moment) {

@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'model/rekeningNummer2',
         'knockout',
         'mapper/rekeningnummer-mapper'],

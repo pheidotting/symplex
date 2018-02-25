@@ -1,6 +1,6 @@
 define(['jquery',
-        'model/bijlage2',
-        'commons/3rdparty/log2',
+        'model/bijlage',
+        'commons/3rdparty/log',
         'knockout'],
 	function ($, Bijlage, log, ko) {
         return {

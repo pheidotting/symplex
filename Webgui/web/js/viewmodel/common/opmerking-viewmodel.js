@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'model/opmerking',
         'knockout',
         'dataServices',

@@ -1,6 +1,6 @@
 define(['jquery',
         'model/hypotheekPakket2',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout',
         'mapper/hypotheek-mapper'],
 	function ($, HypotheekPakket, log, ko, hypotheekMapper) {

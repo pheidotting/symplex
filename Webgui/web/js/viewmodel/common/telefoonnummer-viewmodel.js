@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'model/telefoonNummer2',
         'knockout',
         'mapper/telefoonnummer-mapper'],
