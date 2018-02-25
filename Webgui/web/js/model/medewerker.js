@@ -1,15 +1,15 @@
-define(['jquery',
-         'knockout'],
-	function ($, ko) {
+define(['knockout',
+        'commons/validation'],
+	function (ko, validation) {
 
-	return function(data){
+	return function(){
 	    var _this = this;
 
         _this.identificatie = ko.observable();
-        _this.voornaam = ko.observable();
+        _this.voornaam = ko.observable().extend({required: true});
         _this.tussenvoegsel = ko.observable();
-        _this.achternaam = ko.observable();
-        _this.emailadres = ko.observable();
+        _this.achternaam = ko.observable().extend({required: true});
+        _this.emailadres = ko.observable().extend({required: true});
 
         this.volledigenaam = function() {
             var naam = _this.voornaam();

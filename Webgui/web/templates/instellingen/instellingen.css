@@ -1,0 +1,10 @@
+.licentie {
+    margin-left: 100px;
+    width: 600px;
+    background-color: #ffe2e2;
+    margin-bottom: 30px;
+}
+
+.licentie select {
+    width: 150px;
+}

@@ -112,6 +112,10 @@ public class GebruikerService {
     }
 
     public void opslaan(Gebruiker gebruiker) {
+        opslaan(gebruiker, null);
+    }
+
+    public void opslaan(Gebruiker gebruiker, String licentie) {
         LOGGER.debug("Opslaan {}", gebruiker);
 
         gebruikerRepository.opslaan(gebruiker);
@@ -124,12 +128,10 @@ public class GebruikerService {
 
             entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
         }
-    }
 
-    public void opslaanMedewerker(Medewerker medewerker) {
-        LOGGER.debug("Opslaan {}", medewerker);
+        if (licentie != null) {
 
-        gebruikerRepository.opslaanMedewerker(medewerker);
+        }
     }
 
     public void opslaan(final List<JsonContactPersoon> jsonContactPersonen, Long bedrijfId) {

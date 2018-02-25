@@ -372,22 +372,6 @@ public class GebruikerRepository {
         metricsService.stop(timer);
     }
 
-    public void opslaanMedewerker(Medewerker medewerker) {
-        Timer.Context timer = metricsService.addTimerMetric("opslaanMedewerker", GebruikerRepository.class);
-
-        getTransaction();
-
-        if (medewerker.getId() == null) {
-            getSession().save(medewerker);
-        } else {
-            getSession().merge(medewerker);
-        }
-
-        getTransaction().commit();
-
-        metricsService.stop(timer);
-    }
-
     public List<Relatie> zoekOpGeboortedatum(LocalDate geboortedatum) {
         Timer.Context timer = metricsService.addTimerMetric("zoekOpGeboortedatum", GebruikerRepository.class);
 

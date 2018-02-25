@@ -18,10 +18,7 @@ import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonn
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
-import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
-import nl.lakedigital.djfc.commons.json.JsonMedewerker;
+import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
@@ -101,7 +98,11 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanMedewerker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void opslaanMedewerker(@RequestBody JsonMedewerker jsonMedewerker) {
+    public void opslaanMedewerker(@RequestBody JsonMedewerkerMetLicentie jsonMedewerker, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
+        metricsService.addMetric("opslaanMedewerker", GebruikerController.class, null, jsonMedewerker.getIdentificatie() == null);
+
         LOGGER.debug("opslaan medewerker");
 
         Medewerker medewerker = null;
@@ -110,7 +111,15 @@ public class GebruikerController extends AbstractController {
             medewerker = (Medewerker) gebruikerService.lees(id);
         }
 
-        gebruikerService.opslaanMedewerker(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
+        Medewerker medewerkerDomain = jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker);
+        medewerkerDomain.setKantoor(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor());
+
+        String licentie = null;
+        if (medewerkerDomain.getId() == null) {
+            licentie = jsonMedewerker.getLicentieType();
+        }
+
+        gebruikerService.opslaan(medewerkerDomain, licentie);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")

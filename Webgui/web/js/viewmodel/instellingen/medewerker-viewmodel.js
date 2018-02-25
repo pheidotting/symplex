@@ -10,7 +10,9 @@ define(['jquery',
         'mapper/medewerker-mapper',
         'service/kantoor-service',
         'service/gebruiker-service',
-        'moment'],
+        'moment',
+        'knockout.validation',
+        'knockoutValidationLocal'],
     function($, commonFunctions, ko, functions, block, log, redirect, Medewerker, menubalkViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
 
     return function() {
@@ -19,6 +21,7 @@ define(['jquery',
 		this.menubalkViewmodel      = null;
 
         this.medewerker = null;
+        this.nieuweMedewerker = ko.observable(false);
 
         this.init = function(identificatie) {
             var deferred = $.Deferred();
@@ -27,11 +30,15 @@ define(['jquery',
 
             if(identificatie == null) {
                 _this.medewerker = new Medewerker();
+                _this.medewerker.licentieType = ko.observable().extend({required: true});
+                _this.nieuweMedewerker(true);
 
                 return deferred.resolve();
             }else{
                 $.when(gebruikerService.leesMedewerker(identificatie)).then(function(medewerker){
                     _this.medewerker = medewerkerMapper.mapMedewerker(medewerker);
+                    _this.medewerker.licentieType = ko.observable();
+                    _this.nieuweMedewerker(false);
 
                     return deferred.resolve();
                 });
@@ -40,12 +47,18 @@ define(['jquery',
             return deferred.promise();
         };
 
-        this.opslaan = function(medewerker) {
-            gebruikerService.opslaanMedewerker(medewerker.medewerker);
+        this.opslaan = function() {
+	    	var result = ko.validation.group(_this, {deep: true});
+	    	if(result().length > 0) {
+	    		result.showAllMessages(true);
+	    	}else{
+                gebruikerService.opslaanMedewerker(_this.medewerker);
+                window.location.hash = 'medewerkers';
+            }
         };
 
         this.annuleren = function(medewerker) {
-            window.location.hash = 'instellingen/medewerkers';
+            window.location.hash = 'medewerkers';
         };
 
         this.verwijderen = function() {
