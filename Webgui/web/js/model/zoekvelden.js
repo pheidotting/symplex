@@ -5,15 +5,15 @@ define(['jquery',
     return function() {
         var _this = this;
 
-        this.naam = ko.observable();
-        this.geboortedatum = ko.observable();
-        this.tussenvoegsel = ko.observable();
-        this.polisnummer = ko.observable();
-        this.voorletters = ko.observable();
-        this.schadenummer = ko.observable();
-        this.adres = ko.observable();
-        this.postcode = ko.observable();
-        this.woonplaats = ko.observable();
-        this.bedrijf = ko.observable();
+        _this.naam = ko.observable();
+        _this.geboortedatum = ko.observable();
+        _this.tussenvoegsel = ko.observable();
+        _this.polisnummer = ko.observable();
+        _this.voorletters = ko.observable();
+        _this.schadenummer = ko.observable();
+        _this.adres = ko.observable();
+        _this.postcode = ko.observable();
+        _this.woonplaats = ko.observable();
+        _this.bedrijf = ko.observable();
     }
 });

@@ -26,7 +26,6 @@ define(['jquery',
 
     return function(id) {
         var _this = this;
-        var logger = log.getLogger('beheren-relatie-viewmodel');
         var soortEntiteit = 'BEDRIJF';
 
         this.adressenModel          = null;

@@ -7,7 +7,6 @@ define(['commons/3rdparty/log',
 
     return function(readOnly, soortEntiteit, entiteitId, adressen) {
         var _this = this;
-        var logger = log.getLogger('adres-viewmodel');
 
 		this.id = ko.observable(entiteitId);
 		this.soortEntiteit = ko.observable(soortEntiteit);
@@ -18,13 +17,6 @@ define(['commons/3rdparty/log',
 
             _this.adressen.push(adres);
         });
-
-//        _this.adressen.subscribe(function(adressen) {
-//            logger.debug('adressen subscriber');
-//            $.each(adressen, function(i, adres){
-//                _this.zetPostcodeOm(adres);
-//            });
-//        });
 
 		this.verwijderAdres = function(adres) {
 		    logger.debug('verwijder adres');

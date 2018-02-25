@@ -12,20 +12,15 @@ define(['commons/3rdparty/log',
                 logger.debug('Versturen wachtwoord');
                 var deferred = $.Deferred();
 
-                    var url = navRegister.bepaalUrl('INLOGGEN');
-                    if(!inloggen) {
-                        url = navRegister.bepaalUrl('WIJZIG_WACHTWOORD');
-                    }
+                var request = {
+                    identificatie: gebruikersnaamEnWachtwoord.identificatie,
+                    wachtwoord: encryptWachtwoord(gebruikersnaamEnWachtwoord.wachtwoord)
+                }
 
-                    var request = {
-                        identificatie: gebruikersnaamEnWachtwoord.identificatie,
-                        wachtwoord: encryptWachtwoord(gebruikersnaamEnWachtwoord.wachtwoord)
-                    }
+                logger.debug(request);
+                logger.debug(JSON.stringify(request));
 
-                    logger.debug(request);
-                    logger.debug(JSON.stringify(request));
-
-                    repository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), JSON.stringify(request));
+                repository.voerUitPost(navRegister.bepaalUrl('WIJZIG_WACHTWOORD'), JSON.stringify(request));
 
                 return deferred.promise();
             }

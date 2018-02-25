@@ -23,7 +23,6 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
-        var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

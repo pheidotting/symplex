@@ -13,6 +13,7 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('aanmelden-viewmodel');
+
         ko.validation.locale('nl-NL');
         this.bedrijfsnaam = ko.observable().extend({ required: true });
         this.afkorting = ko.observable().extend({ required: true });
@@ -60,6 +61,7 @@ define(['jquery',
         };
 
 		this.aanmelden = function() {
+		    logger.info('aanmelden nieuw kantoor');
             commonFunctions.verbergMeldingen();
 
             var result = ko.validation.group(_this, {deep: true});

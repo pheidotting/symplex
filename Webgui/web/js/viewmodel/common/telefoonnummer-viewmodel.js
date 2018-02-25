@@ -6,7 +6,6 @@ define(['commons/3rdparty/log',
 
     return function(readOnly, soortEntiteit, entiteitId, telefoonnummers) {
         var _this = this;
-        var logger = log.getLogger('telefoonnummer-viewmodel');
     	var korteNetnummers = ['010', '013', '014', '015', '020', '023', '024', '026', '030', '033', '035', '036', '038', '040', '043', '045', '046', '050', '053', '055', '058', '070', '071', '072', '073', '074', '075', '076', '077', '078', '079'];
 
 		this.id = ko.observable(entiteitId);

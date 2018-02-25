@@ -22,8 +22,6 @@ define(["commons/3rdparty/log",
 
                 $.when(polisRepository.opslaan(polis)).then(function(id){
                     if(id != null && id != '') {
-                        var soortEntiteit = 'POLIS';
-
                         return deferred.resolve(id);
                     }
                 });

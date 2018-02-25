@@ -49,7 +49,6 @@ define(['jquery',
             _this.notReadOnly(!readOnly);
             _this.id(polisId.identificatie);
             $.when(polisService.lees(polisId, basisEntiteit), polisService.lijstVerzekeringsmaatschappijen(), polisService.lijstParticulierePolissen(), polisService.lijstZakelijkePolissen()).then(function(entiteit, maatschappijen, lijstParticulierePolissen, lijstZakelijkePolissen) {
-                _this.basisId = entiteit.identificatie;;
                 if(entiteit.naam != null) {
                     _this.basisEntiteit = "BEDRIJF";
                 } else {
@@ -87,13 +86,6 @@ define(['jquery',
                     $('<option>', { value : value }).text(value).appendTo($soortVerzekeringSelect);
                 });
 
-                var relatieId;
-                var bedrijfId;
-                if(_this.basisEntiteit == 'RELATIE'){
-                    relatieId = _this.basisId;
-                } else {
-                    bedrijfId = _this.basisId;
-                }
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
                 zoekVoertuigGegevens(_this);
