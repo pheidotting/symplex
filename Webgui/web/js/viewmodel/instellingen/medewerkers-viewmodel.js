@@ -3,14 +3,15 @@ define(['jquery',
         'knockout',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'viewmodel/common/menubalk-viewmodel',
         'mapper/medewerker-mapper',
         'service/kantoor-service',
         'service/gebruiker-service',
-        'moment'],
-    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
+        'moment',
+        'underscore'],
+    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment, _) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
@@ -27,6 +28,10 @@ define(['jquery',
 
             $.when(kantoorService.lees()).then(function(kantoor){
                 _this.medewerkers = medewerkerMapper.mapMedewerkers(kantoor.medewerkers);
+
+                _this.medewerkers = _.sortBy(_this.medewerkers(), function(m) {
+                    return m.achternaam() + m.voornaam();
+                });
 
                 return deferred.resolve();
             });
