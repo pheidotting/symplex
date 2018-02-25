@@ -1,7 +1,7 @@
 define(['jquery',
         'commons/commonFunctions',
         'knockout',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'opmerkingenModel',
         'mapper/hypotheek-mapper',
@@ -23,7 +23,6 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
-        var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

@@ -70,7 +70,6 @@ define(["commons/3rdparty/log",
             leesBedrijf: function(id) {
                 var deferred = $.Deferred();
                 var bedrijf;
-                var bedrijfsId = id;
 
                 if (id == null) {
                     return deferred.resolve({});

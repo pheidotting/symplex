@@ -3,7 +3,7 @@ define(['jquery',
         'knockout',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/hypotheek-service',
         'mapper/hypotheek-mapper',
@@ -15,8 +15,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('lijst-hypotheken-viewmodel');
-        var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

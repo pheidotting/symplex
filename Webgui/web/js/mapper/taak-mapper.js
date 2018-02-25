@@ -1,6 +1,6 @@
 define(['jquery',
         'model/taak/taak2',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout',
         'moment'],
 	function ($, Taak, log, ko, moment) {

@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/beheren/beheren-polis.html',
         'viewmodel/beheren-polis-viewmodel',
         'knockout',

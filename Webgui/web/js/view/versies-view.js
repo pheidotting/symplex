@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/versies/versies.html',
         'viewmodel/versies-viewmodel',
         'knockout'],

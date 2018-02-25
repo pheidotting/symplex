@@ -5,7 +5,7 @@ define(['jquery',
         'model/zoekvelden',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/toggle-service',
         'service/zoeken-service',
@@ -19,7 +19,6 @@ define(['jquery',
         commonFunctions.checkNieuweVersie();
         var _this = this;
         var logger = log.getLogger('zoeken-viewmodel');
-        var soortEntiteit = '';
 
 		this.lijst = ko.observableArray();
 
@@ -50,6 +49,7 @@ define(['jquery',
         };
 
         this.zoeken = function() {
+            logger.debug('we gaan zoeken');
             _this.zoekResultaat([]);
             if(_this.zoekvelden.geboortedatum() != null) {
                 if(_this.zoekvelden.geboortedatum() == '') {

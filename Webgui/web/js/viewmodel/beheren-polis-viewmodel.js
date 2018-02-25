@@ -1,9 +1,8 @@
 define(['jquery',
         'commons/commonFunctions',
         'knockout',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/polis-mapper',
         'service/polis-service',
         'viewmodel/common/opmerking-viewmodel',
@@ -15,7 +14,7 @@ define(['jquery',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
+    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
 
     return function() {
         var _this = this;
@@ -49,7 +48,6 @@ define(['jquery',
             _this.notReadOnly(!readOnly);
             _this.id(polisId.identificatie);
             $.when(polisService.lees(polisId, basisEntiteit), polisService.lijstVerzekeringsmaatschappijen(), polisService.lijstParticulierePolissen(), polisService.lijstZakelijkePolissen()).then(function(entiteit, maatschappijen, lijstParticulierePolissen, lijstZakelijkePolissen) {
-                _this.basisId = entiteit.identificatie;;
                 if(entiteit.naam != null) {
                     _this.basisEntiteit = "BEDRIJF";
                 } else {
@@ -87,13 +85,6 @@ define(['jquery',
                     $('<option>', { value : value }).text(value).appendTo($soortVerzekeringSelect);
                 });
 
-                var relatieId;
-                var bedrijfId;
-                if(_this.basisEntiteit == 'RELATIE'){
-                    relatieId = _this.basisId;
-                } else {
-                    bedrijfId = _this.basisId;
-                }
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
                 zoekVoertuigGegevens(_this);
@@ -177,11 +168,6 @@ define(['jquery',
                         _this.type(data[0].handelsbenaming);
                         _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
-                        var kleur = '';
-                        if(data[0].eerste_kleur != 'N.v.t.') {
-                            kleur = data[0].eerste_kleur;
-                        }
-
                         $.ajax({
                             type: "GET",
                             url: 'https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
@@ -214,8 +200,7 @@ define(['jquery',
 
 	function GetSidecodeLicenseplate(Licenseplate){
 
-        var arrSC = new Array;
-        var scUitz = '';
+        var arrSC = [];
 
         Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
 
@@ -236,7 +221,7 @@ define(['jquery',
         arrSC[14] = /[\d]{3}[a-zA-Z]{2}[\d]{1}/ // 14 999-XX-9
 
         //except licenseplates for diplomats
-        scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
+        var scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
 
         for(i=0;i<arrSC.length;i++){
             if (arrSC[i].test(Licenseplate)) {
