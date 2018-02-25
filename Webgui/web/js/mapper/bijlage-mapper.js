@@ -1,6 +1,6 @@
 define(['jquery',
-        'model/bijlage2',
-        'commons/3rdparty/log2',
+        'model/bijlage',
+        'commons/3rdparty/log',
         'knockout'],
 	function ($, Bijlage, log, ko) {
         return {
@@ -26,7 +26,6 @@ define(['jquery',
                 bijlage.id(data.id);
                 bijlage.identificatie(data.identificatie);
                 bijlage.bestandsNaam(data.bestandsNaam);
-//                bijlage.omschrijving(data.omschrijving);
                 bijlage.datumUpload(data.datumUpload);
                 bijlage.soortEntiteit(data.soortEntiteit);
                 bijlage.entiteitId(data.entiteitId);

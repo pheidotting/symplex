@@ -5,7 +5,7 @@ define(['jquery',
         'model/zoekvelden',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/versies-service',
         'viewmodel/common/menubalk-viewmodel',
@@ -14,7 +14,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('versies-viewmodel');
 		this.menubalkViewmodel      = null;
 
 		this.versie = ko.observable();

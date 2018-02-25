@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!/../../templates/dashboard/dashboard.html',
         'text!/../../templates/commons/header.html',
         'viewmodel/dashboard-viewmodel',
