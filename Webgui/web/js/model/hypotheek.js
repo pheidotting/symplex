@@ -1,9 +1,7 @@
 define(['jquery',
         'knockout',
-        'commons/validation',
-        'moment',
-        'commons/opmaak'],
-	function($, ko, validation, moment, opmaak) {
+        'commons/validation'],
+	function($, ko, validation) {
 
 	return function hypotheek() {
 		_this = this;
@@ -37,11 +35,4 @@ define(['jquery',
 		_this.omschrijving = ko.observable();
 		_this.gekoppeldeHypotheek = ko.observable();
 	};
-
-	function SoortHypotheek(data){
-		var _soortHypotheek = this;
-
-		_soortHypotheek.id = ko.observable(data.id);
-		_soortHypotheek.omschrijving = ko.observable(data.omschrijving);
-	}
 });

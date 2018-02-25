@@ -2,9 +2,8 @@ define(['jquery',
         'model/zoekresultaat',
         'commons/3rdparty/log',
         'mapper/adres-mapper',
-        'knockout',
-        'underscore'],
-	function ($, Zoekresultaat, log, adresMapper, ko, _) {
+        'knockout'],
+	function ($, Zoekresultaat, log, adresMapper, ko) {
         return {
             mapZoekresultaat: function(r) {
                 mappen(r);

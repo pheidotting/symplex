@@ -200,8 +200,7 @@ define(['jquery',
 
 	function GetSidecodeLicenseplate(Licenseplate){
 
-        var arrSC = new Array;
-        var scUitz = '';
+        var arrSC = [];
 
         Licenseplate = Licenseplate.replace(/-/g, '').toUpperCase();
 
@@ -222,7 +221,7 @@ define(['jquery',
         arrSC[14] = /[\d]{3}[a-zA-Z]{2}[\d]{1}/ // 14 999-XX-9
 
         //except licenseplates for diplomats
-        scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
+        var scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
 
         for(i=0;i<arrSC.length;i++){
             if (arrSC[i].test(Licenseplate)) {

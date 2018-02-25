@@ -1,7 +1,7 @@
 define(['knockout'],
 	function (ko) {
 
-	return function(data){
+	return function(){
 		var _this = this;
 
 		_this.id = ko.observable();

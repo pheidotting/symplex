@@ -26,7 +26,6 @@ define(['jquery',
                 bijlage.id(data.id);
                 bijlage.identificatie(data.identificatie);
                 bijlage.bestandsNaam(data.bestandsNaam);
-//                bijlage.omschrijving(data.omschrijving);
                 bijlage.datumUpload(data.datumUpload);
                 bijlage.soortEntiteit(data.soortEntiteit);
                 bijlage.entiteitId(data.entiteitId);

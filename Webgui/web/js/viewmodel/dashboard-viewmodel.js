@@ -25,8 +25,6 @@ define(['jquery',
 
                 _this.beheerZichtbaar(toggleBeheerBeschikbaar);
                 $.when(taakService.haalAfgerondeTaken()).then(function(taken) {
-                    console.log(taken);
-
                     var opslaan = _.chain(taken)
                     .filter(function(taak) {
                         return taak.labels.length == 2;

@@ -18,8 +18,6 @@ define(["commons/3rdparty/log",
                 polis.opmerkingen = opmerkingen;
                 polis.parentIdentificatie = basisId;
 
-                console.log(polis);
-
                 $.when(polisRepository.opslaan(polis)).then(function(id){
                     if(id != null && id != '') {
                         return deferred.resolve(id);

@@ -1,6 +1,5 @@
-define(['knockout',
-        'moment'],
-	function (ko, moment) {
+define(['knockout'],
+	function (ko) {
 
 	return function polisModel () {
 		var _this = this;
@@ -24,28 +23,6 @@ define(['knockout',
 		_this.bedrijf = ko.observable();
 		_this.bedrijfsId = ko.observable();
 		_this.omschrijvingVerzekering = ko.observable();
-//		_this.idDiv = ko.computed(function() {
-//	        return "collapsable" + _this.id();
-//		}, this);
-//		_this.idDivLink = ko.computed(function() {
-//	        return "#collapsable" + _this.id();
-//		}, this);
-//		_this.className = ko.computed(function() {
-//			var datum = moment(_this.ingangsDatum());
-//			var tijd = moment(datum).fromNow();
-//			if(tijd.substr(tijd.length - 3) !== "ago") {
-//				return "polisNietActief panel-title";
-//			}
-//			if(_this.eindDatum()) {
-//				datum = moment(_this.eindDatum());
-//				tijd = moment(datum).fromNow();
-//				if(tijd.substr(tijd.length - 3) === "ago") {
-//					return "polisBeeindigd panel-title";
-//				}else{
-//					return "panel-title";
-//				}
-//			}
-//		}, this);
 		_this.titel = ko.computed(function () {
 			return _this.soort() + " (" + _this.polisNummer() + ")";
 		}, this);
