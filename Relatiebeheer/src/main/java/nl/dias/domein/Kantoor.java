@@ -2,11 +2,13 @@ package nl.dias.domein;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KANTOOR")
@@ -25,20 +27,9 @@ public class Kantoor implements Serializable {
     @Column(name = "KVK", length = 8)
     private Long kvk;
 
-    @Column(name = "BTW_NUMMER")
-    private String btwNummer;
-
-    @Column(name = "DATUMOPRICHTING")
-    @Temporal(TemporalType.DATE)
-    private Date datumOprichting;
-
     @Column(name = "RECHTSVORM", length = 4)
     @Enumerated(EnumType.STRING)
     private Rechtsvorm rechtsvorm;
-
-    @Column(name = "SOORTKANTOOR", length = 3)
-    @Enumerated(EnumType.STRING)
-    private SoortKantoor soortKantoor;
 
     @Column(name = "EMAILADRES")
     private String emailadres;
@@ -49,11 +40,9 @@ public class Kantoor implements Serializable {
     @Column(name = "IPADRES")
     private String ipAdres;
 
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Medewerker.class)
     @Transient
     private List<Medewerker> medewerkers;
 
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Relatie.class)
     @Transient
     private Set<Relatie> relaties;
 
@@ -103,36 +92,12 @@ public class Kantoor implements Serializable {
         this.kvk = kvk;
     }
 
-    public String getBtwNummer() {
-        return btwNummer;
-    }
-
-    public void setBtwNummer(String btwNummer) {
-        this.btwNummer = btwNummer;
-    }
-
-    public LocalDate getDatumOprichting() {
-        return new LocalDate(datumOprichting);
-    }
-
-    public void setDatumOprichting(LocalDate datumOprichting) {
-        this.datumOprichting = datumOprichting.toDate();
-    }
-
     public Rechtsvorm getRechtsvorm() {
         return rechtsvorm;
     }
 
     public void setRechtsvorm(Rechtsvorm rechtsvorm) {
         this.rechtsvorm = rechtsvorm;
-    }
-
-    public SoortKantoor getSoortKantoor() {
-        return soortKantoor;
-    }
-
-    public void setSoortKantoor(SoortKantoor soortKantoor) {
-        this.soortKantoor = soortKantoor;
     }
 
     public String getEmailadres() {
@@ -162,15 +127,12 @@ public class Kantoor implements Serializable {
     @Override
     public int hashCode() {
         HashCodeBuilder builder = new HashCodeBuilder();
-        builder.append(btwNummer);
-        builder.append(datumOprichting);
         builder.append(emailadres);
         builder.append(id);
         builder.append(kvk);
         builder.append(medewerkers);
         builder.append(naam);
         builder.append(rechtsvorm);
-        builder.append(soortKantoor);
         builder.append(afkorting);
 
         return builder.toHashCode();
@@ -185,7 +147,7 @@ public class Kantoor implements Serializable {
             return false;
         }
         Kantoor other = (Kantoor) obj;
-        return new EqualsBuilder().append(btwNummer, other.btwNummer).append(datumOprichting, other.datumOprichting).append(emailadres, other.emailadres).append(id, other.id).append(kvk, other.kvk).append(naam, other.naam).append(rechtsvorm, other.rechtsvorm).append(soortKantoor, other.soortKantoor).append(medewerkers, other.medewerkers).append(relaties, other.relaties).append(afkorting, other.afkorting).isEquals();
+        return new EqualsBuilder().append(emailadres, other.emailadres).append(id, other.id).append(kvk, other.kvk).append(naam, other.naam).append(rechtsvorm, other.rechtsvorm).append(medewerkers, other.medewerkers).append(relaties, other.relaties).append(afkorting, other.afkorting).isEquals();
     }
 
     @Override
@@ -197,14 +159,8 @@ public class Kantoor implements Serializable {
         builder.append(naam);
         builder.append(", kvk=");
         builder.append(kvk);
-        builder.append(", btwNummer=");
-        builder.append(btwNummer);
-        builder.append(", datumOprichting=");
-        builder.append(datumOprichting);
         builder.append(", rechtsvorm=");
         builder.append(rechtsvorm);
-        builder.append(", soortKantoor=");
-        builder.append(soortKantoor);
         builder.append(", emailadres=");
         builder.append(emailadres);
         builder.append(", medewerkers=");

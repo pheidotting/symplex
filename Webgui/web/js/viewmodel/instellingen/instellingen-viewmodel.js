@@ -17,11 +17,8 @@ define(['jquery',
 		this.menubalkViewmodel      = null;
 
         this.bedrijfsnaam = ko.observable();
-        this.btwnummer = ko.observable();
-        this.datumoprichting = ko.observable();
         this.emailadres = ko.observable();
         this.kvk = ko.observable();
-        this.rechtsvorm = ko.observable();
         this.afkorting = ko.observable();
         this.identificatie = ko.observable();
 
@@ -32,11 +29,8 @@ define(['jquery',
 
             $.when(kantoorService.lees()).then(function(kantoor){
                 _this.bedrijfsnaam(kantoor.naam);
-                _this.btwnummer(kantoor.btwNummer);
-                _this.datumoprichting(kantoor.datumOprichting);
                 _this.emailadres(kantoor.emailadres);
                 _this.kvk(kantoor.kvk);
-                _this.rechtsvorm(kantoor.rechtsvorm);
                 _this.afkorting(kantoor.afkorting);
                 _this.identificatie(kantoor.identificatie);
 
@@ -51,11 +45,8 @@ define(['jquery',
 
             var kantoor = {
                 'naam' : _this.bedrijfsnaam(),
-                'btwNummer' : _this.btwnummer(),
-                'datumOprichting' : _this.datumoprichting(),
-                'vemailadres' : _this.emailadres(),
+                'emailadres' : _this.emailadres(),
                 'kvk' : _this.kvk(),
-                'rechtsvorm' : _this.rechtsvorm(),
                 'afkorting' : _this.afkorting(),
                 'identificatie' : _this.identificatie()
             };
