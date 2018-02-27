@@ -46,6 +46,9 @@ public class Kantoor implements Serializable {
     @Column(name = "AFKORTING", length = 10)
     private String afkorting;
 
+    @Column(name = "IPADRES")
+    private String ipAdres;
+
     //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "kantoor", targetEntity = Medewerker.class)
     @Transient
     private List<Medewerker> medewerkers;
@@ -146,6 +149,14 @@ public class Kantoor implements Serializable {
 
     public void setAfkorting(String afkorting) {
         this.afkorting = afkorting;
+    }
+
+    public String getIpAdres() {
+        return ipAdres;
+    }
+
+    public void setIpAdres(String ipAdres) {
+        this.ipAdres = ipAdres;
     }
 
     @Override
