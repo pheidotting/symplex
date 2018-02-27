@@ -105,8 +105,12 @@ public class AuthorisatieController {
                 // Nog te doen :)
             } else if (gebruiker instanceof Medewerker) {
                 ingelogdeGebruiker.setKantoor(((Medewerker) gebruiker).getKantoor().getNaam());
+                ingelogdeGebruiker.setKantoorId(((Medewerker) gebruiker).getKantoor().getId());
+                ingelogdeGebruiker.setKantoorAfkorting(((Medewerker) gebruiker).getKantoor().getAfkorting());
             } else if (gebruiker instanceof Relatie) {
                 ingelogdeGebruiker.setKantoor(((Relatie) gebruiker).getKantoor().getNaam());
+                ingelogdeGebruiker.setKantoorId(((Relatie) gebruiker).getKantoor().getId());
+                ingelogdeGebruiker.setKantoorAfkorting(((Relatie) gebruiker).getKantoor().getAfkorting());
             }
 
             return ingelogdeGebruiker;

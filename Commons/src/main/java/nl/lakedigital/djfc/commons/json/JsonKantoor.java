@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.commons.json;
 
 public class JsonKantoor {
     private Long id;
+    private String identificatie;
     private String naam;
     private Long kvk;
     private String btwNummer;
@@ -17,6 +18,14 @@ public class JsonKantoor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIdentificatie() {
+        return identificatie;
+    }
+
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
     }
 
     public String getNaam() {

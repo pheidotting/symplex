@@ -7,11 +7,15 @@ import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
+import nl.dias.messaging.sender.LicentieToegevoegdRequestSender;
+import nl.dias.messaging.sender.LicentieVerwijderdRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.InlogPogingRepository;
 import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.request.licentie.LicentieToegevoegdRequest;
+import nl.lakedigital.as.messaging.request.licentie.LicentieVerwijderdRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
@@ -69,7 +73,10 @@ public class GebruikerService {
     private MetricsService metricsService;
     @Inject
     private InlogPogingRepository inlogPogingRepository;
-
+    @Inject
+    private LicentieToegevoegdRequestSender licentieToegevoegdRequestSender;
+    @Inject
+    private LicentieVerwijderdRequestSender licentieVerwijderdRequestSender;
 
     public boolean magInloggen(Gebruiker gebruiker) {
         return inlogPogingRepository.magInloggen(gebruiker.getId());
@@ -112,6 +119,10 @@ public class GebruikerService {
     }
 
     public void opslaan(Gebruiker gebruiker) {
+        opslaan(gebruiker, null);
+    }
+
+    public void opslaan(Gebruiker gebruiker, String licentie) {
         LOGGER.debug("Opslaan {}", gebruiker);
 
         gebruikerRepository.opslaan(gebruiker);
@@ -123,6 +134,20 @@ public class GebruikerService {
             soortEntiteitEnEntiteitId.setEntiteitId(gebruiker.getId());
 
             entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
+        }
+
+        if (licentie != null) {
+            LicentieToegevoegdRequest licentieToegevoegd = new LicentieToegevoegdRequest();
+            licentieToegevoegd.setLicentieType(licentie);
+
+            Medewerker mw = (Medewerker) gebruiker;
+            nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
+            Kantoor k = mw.getKantoor();
+            nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
+
+            licentieToegevoegd.setKantoor(kantoor);
+            licentieToegevoegd.setMedwerker(medewerker);
+            licentieToegevoegdRequestSender.send(licentieToegevoegd);
         }
     }
 
@@ -198,6 +223,18 @@ public class GebruikerService {
                 //TODO verwijderen via Service en daar Bericht opsturen
                 List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
                 polisService.verwijder(polises);
+            }
+            if (gebruiker instanceof Medewerker) {
+                LicentieVerwijderdRequest licentieVerwijderdRequest = new LicentieVerwijderdRequest();
+
+                Medewerker mw = (Medewerker) gebruiker;
+                nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
+                Kantoor k = mw.getKantoor();
+                nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
+
+                licentieVerwijderdRequest.setKantoor(kantoor);
+                licentieVerwijderdRequest.setMedwerker(medewerker);
+                licentieVerwijderdRequestSender.send(licentieVerwijderdRequest);
             }
             // en dan verwijderen
             gebruikerRepository.verwijder(gebruiker);
@@ -323,5 +360,9 @@ public class GebruikerService {
         Medewerker medewerker = (Medewerker) gebruikerRepository.lees(id);
 
         return medewerker.getoAuthCodeTodoist();
+    }
+
+    public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
+        return gebruikerRepository.alleMedewerkers(kantoor);
     }
 }

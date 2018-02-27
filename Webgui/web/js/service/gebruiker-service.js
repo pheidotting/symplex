@@ -65,6 +65,10 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
+            opslaanMedewerker: function(medewerker) {
+                return gebruikerRepository.opslaanMedewerker(medewerker);
+            },
+
             verwijderRelatie: function(id) {
                 gebruikerRepository.verwijderRelatie(id);
             },

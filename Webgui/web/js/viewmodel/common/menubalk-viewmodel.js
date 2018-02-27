@@ -1,5 +1,7 @@
-define(['redirect'],
-    function(redirect) {
+define(['redirect',
+        'knockout',
+        'navRegister'],
+    function(redirect, ko, navRegister) {
 
     return function(identificatie, soortEntiteit) {
         var _this = this;
@@ -45,9 +47,36 @@ define(['redirect'],
             redirect.redirect('BEHEER_BELASTINGZAKEN', _this.identificatie);
         };
 
+        this.instellingen = function() {
+            redirect.redirect('INSTELLINGEN');
+        };
+
         this.uitloggen = function() {
             localStorage.removeItem("symplexAccessToken");
             location.reload();
+        };
+
+        this.kantoorAfkorting = ko.observable();
+
+        if(localStorage.getItem('symplexAccessToken')!=null){
+            var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            var token = JSON.parse(window.atob(base64));
+
+            $.ajax({
+                type: "GET",
+                url: navRegister.bepaalUrl('INGELOGDE_GEBRUIKER'),
+                contentType: "application/json",
+                data: {'userid' : token.sub},
+                ataType: "json",
+                async: false,
+                beforeSend: function(request) {
+                    request.setRequestHeader('url', window.location);
+                },
+                success: function (response, textStatus, request) {
+                    _this.kantoorAfkorting(response.kantoorAfkorting.toLowerCase());
+                }
+            });
         }
 	};
 });

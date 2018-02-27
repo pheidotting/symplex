@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+
+    <!--<bean id="redisConnectionFactory" class="o.s.data.redis.connection.jedis.JedisConnectionFactory">-->
+    <!--<property name="port" value="6379" />-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
+    <!--<property name="connectionFactory" ref="redisConnectionFactory"/>-->
+    <!--</bean>-->
+    <!---->
+    <!--<int-redis:publish-subscribe-channel id="redisChannel" topic-name="si.test.topic"/>-->
+
+    <!--<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"/>-->
+    <!--<bean id="jedisPool" class="redis.clients.jedis.JedisPool">-->
+    <!--<constructor-arg index="0" ref="poolConfig"/>-->
+    <!--<constructor-arg index="1" value="localhost"/>-->
+    <!--<constructor-arg index="2" value="6379"/>-->
+    <!--<constructor-arg index="3" value="0"/>-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean id="licentieToegevoegdRequestReciever" class="nl.lakedigital.djfc.messaging.reciever.LicentieToegevoegdReciever" destroy-method="unsubscribe">-->
+    <!--<constructor-arg index="0" ref="jedisPool"/>-->
+    <!--<constructor-arg index="1" value="deChannel"/>-->
+    <!--</bean>-->
+
+    <!-- Activemq connection factory -->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+          p:brokerURL="tcp://localhost:61616" p:userName="admin" p:password="secret"/>
+
+    <!-- ConnectionFactory Definition -->
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+    </bean>
+
+    <bean id="licentieToegevoegdRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.LicentieToegevoegdRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.lb.licentieToegevoegdRequestQueue" ref="licentieToegevoegdRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+    <bean id="licentieVerwijderdRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.LicentieVerwijderdRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.lb.licentieVerwijderdRequestQueue" ref="licentieVerwijderdRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
+    <!--<jms:listener-container container-type="default"-->
+    <!--connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="id.verwijderEntiteitenRequestQueue" ref="verwijderEntiteitenRequestReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
+
+</beans>

@@ -24,7 +24,7 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <property name="placeholderPrefix" value="${"/>
     </bean>
 
-    <!--<import resource="applicationContext-jms.xml"/>-->
+    <!--<import resource="applicationContext-jms-redis.xml"/>-->
 
 	<!--<bean id="gebruikerRepository" class="nl.dias.repository.GebruikerRepository" depends-on="sessionFactory">-->
     <!--<property name="sessionFactory" ref="sessionFactory" />-->
@@ -162,6 +162,28 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     </bean>
     <bean id="entiteitenOpgeslagenRequestSender" class="nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender">
         <constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>
+    </bean>
+
+    <bean id="licentieToegevoegdRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.lb.licentieToegevoegdRequestQueue"/>
+    </bean>
+    <bean id="licentieToegevoegdRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="licentieToegevoegdRequestDestination"/>
+    </bean>
+    <bean id="licentieToegevoegdRequestSender" class="nl.dias.messaging.sender.LicentieToegevoegdRequestSender">
+        <constructor-arg index="0" ref="licentieToegevoegdRequestTemplate"/>
+    </bean>
+
+    <bean id="licentieVerwijderdRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.lb.licentieVerwijderdRequestQueue"/>
+    </bean>
+    <bean id="licentieVerwijderdRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="licentieVerwijderdRequestDestination"/>
+    </bean>
+    <bean id="licentieVerwijderdRequestSender" class="nl.dias.messaging.sender.LicentieVerwijderdRequestSender">
+        <constructor-arg index="0" ref="licentieVerwijderdRequestTemplate"/>
     </bean>
 
 

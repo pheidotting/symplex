@@ -32,7 +32,7 @@ define(["commons/3rdparty/log",
             },
 
             leesMedewerker: function(id) {
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER'), {id : id});
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER')+'/'+ id);
             },
 
             opslaanOAuthCode: function(code) {
