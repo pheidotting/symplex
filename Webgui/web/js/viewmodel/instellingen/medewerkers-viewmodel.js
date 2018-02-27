@@ -46,8 +46,9 @@ define(['jquery',
         this.verwijder = function(medewerker) {
             var r=confirm("Weet je zeker dat je "+medewerker.volledigenaam()+" wilt verwijderen?");
             if (r==true) {
-                _this.medewerkers.remove(medewerker);
+//                _this.medewerkers.remove(medewerker);
                 gebruikerService.verwijderRelatie(medewerker.identificatie());
+                location.reload();
             }
         };
 

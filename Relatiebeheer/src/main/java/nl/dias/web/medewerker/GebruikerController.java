@@ -122,6 +122,19 @@ public class GebruikerController extends AbstractController {
         gebruikerService.opslaan(medewerkerDomain, licentie);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("gebruikerVerwijderen", GebruikerController.class, null, null);
+        LOGGER.debug("Verwijderen Gebruiker met id {}", identificatieString);
+
+        zetSessieWaarden(httpServletRequest);
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+
+        gebruikerService.verwijder(identificatie.getEntiteitId());
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
     @ResponseBody
     public String opslaanContactPersoon(@RequestBody JsonContactPersoon jsonContactPersoon, HttpServletRequest httpServletRequest) {
@@ -205,19 +218,6 @@ public class GebruikerController extends AbstractController {
         metricsService.stop(timer);
 
         return relatie.getIdentificatie();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric("gebruikerVerwijderen", GebruikerController.class, null, null);
-        LOGGER.debug("Verwijderen Gebruiker met id {}", identificatieString);
-
-        zetSessieWaarden(httpServletRequest);
-
-        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
-
-        gebruikerService.verwijder(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)
