@@ -13,10 +13,7 @@ public class KantoorNaarJsonKantoorMapper extends AbstractMapper<Kantoor, JsonKa
         jsonKantoor.setId(kantoor.getId());
         jsonKantoor.setNaam(kantoor.getNaam());
         jsonKantoor.setKvk(kantoor.getKvk());
-        jsonKantoor.setBtwNummer(kantoor.getBtwNummer());
-        jsonKantoor.setDatumOprichting(kantoor.getDatumOprichting().toString("yyyy-MM-dd"));
         jsonKantoor.setRechtsvorm(kantoor.getRechtsvorm().getOmschrijving());
-        jsonKantoor.setSoortKantoor(kantoor.getSoortKantoor().getOmschrijving());
         jsonKantoor.setEmailadres(kantoor.getEmailadres());
         jsonKantoor.setAfkorting(kantoor.getAfkorting());
 

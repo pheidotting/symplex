@@ -2,6 +2,10 @@ package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Medewerker;
+import nl.dias.exception.BsnNietGoedException;
+import nl.dias.exception.IbanNietGoedException;
+import nl.dias.exception.PostcodeNietGoedException;
+import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.dias.mapper.Mapper;
 import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -56,10 +60,7 @@ public class KantoorController extends AbstractController {
 
         result.setNaam(kantoor.getNaam());
         result.setKvk(kantoor.getKvk());
-        result.setBtwNummer(kantoor.getBtwNummer());
-        result.setDatumOprichting(kantoor.getDatumOprichting().toString("yyyy-MM-dd"));
         result.setRechtsvorm(kantoor.getRechtsvorm().getOmschrijving());
-        result.setSoortKantoor(kantoor.getSoortKantoor().getOmschrijving());
         result.setEmailadres(kantoor.getEmailadres());
         result.setAfkorting(kantoor.getAfkorting());
 
@@ -89,6 +90,17 @@ public class KantoorController extends AbstractController {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonKantoor.getIdentificatie());
         Long kantoorId = identificatie.getEntiteitId();
         jsonKantoor.setId(kantoorId);
+
+        nl.dias.domein.Kantoor kantoor = kantoorRepository.lees(kantoorId);
+        kantoor.setNaam(jsonKantoor.getNaam());
+        kantoor.setEmailadres(jsonKantoor.getEmailadres());
+        kantoor.setKvk(jsonKantoor.getKvk());
+
+        try {
+            kantoorRepository.opslaanKantoor(kantoor);
+        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
+            e.printStackTrace();
+        }
 
         metricsService.stop(timer);
     }
