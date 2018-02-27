@@ -1,6 +1,6 @@
 define(['jquery',
-        'model/bedrijf2',
-        'commons/3rdparty/log2',
+        'model/bedrijf',
+        'commons/3rdparty/log',
         'knockout',
         'mapper/adres-mapper'],
 	function ($, Bedrijf, log, ko, adresMapper) {

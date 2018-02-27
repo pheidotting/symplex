@@ -1,7 +1,7 @@
 define(['jquery',
         'commons/commonFunctions',
         'knockout',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'opmerkingenModel',
         'mapper/schade-mapper',
@@ -43,14 +43,6 @@ define(['jquery',
             _this.basisEntiteit = basisEntiteit;
             _this.basisId = basisId;
             _this.id(schadeId.identificatie);
-
-            var relatieId = null;
-            var bedrijfId = null;
-            if(basisEntiteit == 'RELATIE') {
-                relatieId = basisId;
-            } else {
-                bedrijfId = basisId;
-            }
 
             $.when(schadeService.lees(_this.id()), schadeService.lijstStatusSchade()).then(function(data, statussenSchade) {
                 _this.basisId = data.identificatie;

@@ -1,0 +1,41 @@
+<div>
+    <div class="kolom-2">
+        <h3>Medewerker</h3>
+
+        <label for="voornaam">Voornaam</label>
+        <input class="form-control" type="text" id="voornaam" placeholder="Voornaam..."
+               data-bind="value: medewerker.voornaam"/>
+
+        <label for="tussenvoegsel">Tussenvoegsel</label>
+        <input class="form-control" type="text" id="tussenvoegsel" placeholder="Tussenvoegsel..."
+               data-bind="value: medewerker.tussenvoegsel"/>
+
+        <label for="achternaam">Achternaam</label>
+        <input class="form-control" type="text" id="achternaam" placeholder="Achternaam..."
+               data-bind="value: medewerker.achternaam"/>
+
+        <label for="emailadres">E-mailadres</label>
+        <input class="form-control" type="text" id="emailadres" placeholder="E-mailadres..."
+               data-bind="value: medewerker.emailadres"/>
+    </div>
+
+    <div class="kolom-2">
+    </div>
+    <div style="clear: both;"></div>
+</div>
+
+<div class="licentie" data-bind="visible: nieuweMedewerker">
+    Let op, bij het toevoegen van een medewerker is een extra licentie noodzakelijk.
+    Hoe wil je deze licentie betalen?
+    <br/>
+    <select data-bind="value: medewerker.licentieType">
+        <option value="">Betalen per..</option>
+        <option value="jaar">Jaar (&euro; 50,00)</option>
+        <option value="maand">Maand (&euro; 5,00)</option>
+    </select>
+</div>
+
+<div style="clear: both;"></div>
+<button id="opslaan" class="fa fa-floppy-o fa-3x btn-awesome" data-bind="click: opslaan"></button>
+<button class="fa fa-times fa-3x btn-awesome" data-bind="click: annuleren"></button>
+<button id="verwijderen" class="fa fa-trash fa-3x btn-awesome" data-bind="click: verwijderen"></button>

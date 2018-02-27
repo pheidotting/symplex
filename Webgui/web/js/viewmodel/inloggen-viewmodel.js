@@ -1,7 +1,7 @@
 define(['jquery',
         'knockout',
         'commons/commonFunctions',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/gebruiker-service',
        'complexify',
@@ -13,6 +13,7 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('inloggen-viewmodel');
+
         ko.validation.locale('nl-NL');
         this.identificatie = ko.observable().extend({ required: true });
 		this.wachtwoord = ko.observable().extend({ required: true });
@@ -33,6 +34,7 @@ define(['jquery',
 		this.isWachtwoordVergeten = ko.observable(false);
 
 		this.inloggen = function() {
+		    logger.info('poging tot inloggen');
             commonFunctions.verbergMeldingen();
 
             var result = ko.validation.group(_this, {deep: true});

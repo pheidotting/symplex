@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'viewmodel/lijst-bedrijven-viewmodel',
         'knockout',
         'text!../../../templates/lijstBedrijven.html'],

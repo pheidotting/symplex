@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!/../../templates/inloggen/inloggen.html',
         'viewmodel/inloggen-viewmodel',
         'knockout'],

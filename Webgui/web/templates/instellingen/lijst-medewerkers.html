@@ -1,0 +1,27 @@
+<table>
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Naam</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: medewerkers">
+    <tr>
+        <td>
+            <a class="fa fa-pencil-square-o"
+               data-bind="click: $parent.bewerk, attr: {title: 'Medewerker ' + volledigenaam() + ' bewerken'}"></a>
+            <a class="fa fa-times"
+               data-bind="click: $parent.verwijder, attr: {title: 'Medewerker ' + volledigenaam() + ' verwijderen'}"></a>
+        </td>
+        <td data-bind="text: volledigenaam()" class="overzicht"></td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td>&nbsp;</td>
+        <td>
+            <button class="fa fa-plus fa-2x btn-awesome" data-bind="click: nieuw"></button>
+        </td>
+    </tr>
+    </tfoot>
+</table>

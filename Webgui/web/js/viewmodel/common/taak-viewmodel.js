@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'service/taak/taak-service',
         'service/toggle-service',
         'mapper/taak-mapper',
