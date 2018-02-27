@@ -251,7 +251,7 @@ pipeline {
                     scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp LicentieBeheer/target/licentie.war jetty@192.168.91.230:/opt/jetty/webapps
 
-                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/identificatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/opt/jetty
