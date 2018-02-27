@@ -1,4 +1,4 @@
-define(["commons/3rdparty/log2",
+define(["commons/3rdparty/log",
         "navRegister",
         'repository/taak/taak-repository',
         'repository/common/repository',

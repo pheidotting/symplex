@@ -2,10 +2,10 @@ define(['jquery',
         'commons/commonFunctions',
         'knockout',
         'model/relatie',
-        'model/contactpersoon2',
+        'model/contactpersoon',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'opmerkingenModel',
         'mapper/bedrijf-mapper',
@@ -26,7 +26,6 @@ define(['jquery',
 
     return function(id) {
         var _this = this;
-        var logger = log.getLogger('beheren-relatie-viewmodel');
         var soortEntiteit = 'BEDRIJF';
 
         this.adressenModel          = null;

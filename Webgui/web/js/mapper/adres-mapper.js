@@ -1,6 +1,6 @@
 define(['jquery',
         'model/adres',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout'],
 	function ($, Adres, log, ko) {
         return {

@@ -4,13 +4,13 @@ define(['knockout'],
 	return function(data){
 		var _this = this;
 
-		this.id = ko.observable();
-		this.naam = ko.observable();
-		this.geboortedatum = ko.observable();
-		this.adres = ko.observable();
-		this.postcode = ko.observable();
-		this.plaats = ko.observable();
-		this.identificatie = ko.observable();
-		this.soortEntiteit = ko.observable();
+		_this.id = ko.observable();
+		_this.naam = ko.observable();
+		_this.geboortedatum = ko.observable();
+		_this.adres = ko.observable();
+		_this.postcode = ko.observable();
+		_this.plaats = ko.observable();
+		_this.identificatie = ko.observable();
+		_this.soortEntiteit = ko.observable();
     };
 });

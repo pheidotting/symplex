@@ -74,9 +74,6 @@ define(["commons/3rdparty/log",
                 hypotheek.opmerkingen = opmerkingen;
 
                 hypotheekRepository.opslaanHypotheek(hypotheek).done(function(response) {
-                    var id = response.entity.foutmelding;
-                    var soortEntiteit = 'HYPOTHEEK';
-
                     return deferred.resolve(response);
                 });
 

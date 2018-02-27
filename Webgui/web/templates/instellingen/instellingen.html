@@ -21,7 +21,11 @@
         <input type="text" id="rechtsvorm" name="rechtsvorm" data-bind="value: rechtsvorm"/>
 
         <label for="afkorting">Afkorting</label>
-        <input type="text" id="afkorting" name="afkorting" data-bind="value: afkorting"/>
+        <input type="text" id="afkorting" name="afkorting" data-bind="value: afkorting" disabled/>
+
+        <label for="opslaan">&nbsp;</label>
+        <button id="opslaan" class="fa fa-floppy-o fa-3x btn-awesome" data-bind="click: opslaan"></button>
+        <button class="fa fa-times fa-3x btn-awesome" data-bind="click: annuleren"></button>
     </div>
     <div class="kolom-2">
     </div>

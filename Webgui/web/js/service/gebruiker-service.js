@@ -1,4 +1,4 @@
-define(["commons/3rdparty/log2",
+define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository',
@@ -63,6 +63,10 @@ define(["commons/3rdparty/log2",
                 });
 
                 return deferred.promise();
+            },
+
+            opslaanMedewerker: function(medewerker) {
+                return gebruikerRepository.opslaanMedewerker(medewerker);
             },
 
             verwijderRelatie: function(id) {

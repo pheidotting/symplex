@@ -1,5 +1,5 @@
-define(['commons/3rdparty/log2',
-        'model/rekeningNummer2',
+define(['commons/3rdparty/log',
+        'model/rekeningNummer',
         'knockout',
         'mapper/rekeningnummer-mapper'],
     function(log, RekeningNummer, ko, rekeningnummerMapper) {
@@ -72,10 +72,12 @@ define(['commons/3rdparty/log2',
 
                 nummer.rekeningnummer(rek);
 
-                if(rek.startsWith('NL')) {
-                    nummer.bicTonen(false);
-                } else {
-                    nummer.bicTonen(true);
+                if(rek != null){
+                    if(rek.startsWith('NL')) {
+                        nummer.bicTonen(false);
+                    } else {
+                        nummer.bicTonen(true);
+                    }
                 }
             }
         };
