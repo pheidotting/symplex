@@ -114,10 +114,10 @@ public class BijlageController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/download")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(@RequestParam("id") String identificatieString) throws IOException {
-        metricsService.addMetric("download", BijlageController.class, null, null);
         Timer.Context timer = metricsService.addTimerMetric("download", BijlageController.class);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+        metricsService.addMetric("download" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
 
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
 
