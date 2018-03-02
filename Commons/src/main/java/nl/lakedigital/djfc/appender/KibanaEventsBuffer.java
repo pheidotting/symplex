@@ -47,14 +47,16 @@ public class KibanaEventsBuffer {
                 } catch (OutOfMemoryError outOfMemoryError) {//NOSONAR
                     throw new RuntimeException(outOfMemoryError.getMessage());//NOSONAR
                 }
-                timer.scheduleAtFixedRate(new TimerTask() {
+                if (timer != null) {
+                    timer.scheduleAtFixedRate(new TimerTask() {
 
-                    public void run() {
-                        flush(token);
+                        public void run() {
+                            flush(token);
 
-                    }
-                }, delay, period);//NOSONAR
-                timer = null;
+                        }
+                    }, delay, period);//NOSONAR
+                    timer = null;
+                }
             }
         }
     }

@@ -15,7 +15,6 @@ public class MetricsService {
     private MetricRegistry metricRegistry;
 
     private Graphite graphite;
-    private GraphiteReporter reporter;
 
     public void setMetricRegistry(MetricRegistry metricRegistry) {
         this.metricRegistry = metricRegistry;
@@ -23,7 +22,7 @@ public class MetricsService {
 
     public void init() {
         graphite = new Graphite(new InetSocketAddress("localhost", 2003));
-        reporter = GraphiteReporter.forRegistry(metricRegistry).convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL).build(graphite);
+        GraphiteReporter reporter = GraphiteReporter.forRegistry(metricRegistry).convertRatesTo(TimeUnit.SECONDS).convertDurationsTo(TimeUnit.MILLISECONDS).filter(MetricFilter.ALL).build(graphite);
         reporter.start(1, TimeUnit.MINUTES);
     }
 

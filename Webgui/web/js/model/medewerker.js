@@ -1,6 +1,5 @@
-define(['knockout',
-        'commons/validation'],
-	function (ko, validation) {
+define(['knockout'],
+	function (ko) {
 
 	return function(){
 	    var _this = this;
