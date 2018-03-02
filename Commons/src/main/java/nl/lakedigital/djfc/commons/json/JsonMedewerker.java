@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.commons.json;
 
 public class JsonMedewerker {
     private Long id;
+    private String identificatie;
     private String voornaam;
     private String tussenvoegsel;
     private String achternaam;
@@ -14,6 +15,14 @@ public class JsonMedewerker {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIdentificatie() {
+        return identificatie;
+    }
+
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
     }
 
     public String getVoornaam() {

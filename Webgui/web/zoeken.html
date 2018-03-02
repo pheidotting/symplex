@@ -50,7 +50,8 @@
     <button class="uitloggen-button" data-bind="click: $root.menubalkViewmodel.uitloggen">Uitloggen</button>
 </div>
 
-<img class="logo-bedrijf" src="images/logo-djfc.jpg"/>
+<img class="logo-bedrijf"
+     data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
 
 <button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
 <button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
@@ -61,8 +62,8 @@
         <div class="menu-balk-within">
             <div class="menu-balk-holder">
                 <ul>
-                    <li class="first"><a href="#">Home</a></li>
-                    <!--<li><a href="#">Polis</a></li>-->
+                    <li class="first"><a href="zoeken.html">Home</a></li>
+                    <li class="first"><a href="instellingen.html">Instellingen</a></li>
                 </ul>
             </div>
         </div>

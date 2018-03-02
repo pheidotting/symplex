@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig"/>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="poolConfig"/>
+        <constructor-arg index="1" value="localhost"/>
+        <constructor-arg index="2" value="6379"/>
+        <constructor-arg index="3" value="0"/>
+    </bean>
+    <!--<bean id="subscriberJedis" class="redis.clients.jedis.JedisPoolConfig"/>-->
+    <!--final Jedis subscriberJedis = jedisPool.getResource();-->
+
+    <bean id="licentieToegevoegdSender" class="nl.dias.messaging.sender.LicentieToegevoegdRequestSender">
+        <constructor-arg index="0" ref="jedisPool"/>
+        <constructor-arg index="1" value="deChannel"/>
+    </bean>
+</beans>

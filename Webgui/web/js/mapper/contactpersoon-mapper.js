@@ -1,6 +1,6 @@
 define(['jquery',
-        'model/contactpersoon2',
-        'commons/3rdparty/log2',
+        'model/contactpersoon',
+        'commons/3rdparty/log',
         'knockout',
         'mapper/telefoonnummer-mapper'],
 	function ($, Contactpersoon, log, ko, telefoonnummerMapper) {

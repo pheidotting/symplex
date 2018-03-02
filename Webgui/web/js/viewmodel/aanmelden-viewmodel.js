@@ -1,7 +1,7 @@
 define(['jquery',
         'knockout',
         'commons/commonFunctions',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/kantoor-service',
        'complexify',
@@ -13,6 +13,7 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('aanmelden-viewmodel');
+
         ko.validation.locale('nl-NL');
         this.bedrijfsnaam = ko.observable().extend({ required: true });
         this.afkorting = ko.observable().extend({ required: true });
@@ -60,48 +61,19 @@ define(['jquery',
         };
 
 		this.aanmelden = function() {
+		    logger.info('aanmelden nieuw kantoor');
             commonFunctions.verbergMeldingen();
 
             var result = ko.validation.group(_this, {deep: true});
-//            if(_this.isValid()){
+	    	if(result().length > 0) {
+	    		result.showAllMessages(true);
+	    	}else{
                 $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
 
                 $.when(kantoorService.aanmelden(this)).then(function(result){
                     window.location = 'zoeken.html';
-//                    if (result.returnCode == 0) {
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord(false);
-//                        if(!!result.moetWachtwoordUpdaten){
-//                            $.unblockUI();
-//                            _this.moetWachtwoordUpdaten(true);
-//                        }else{
-//    //                        commonFunctions.haalIngelogdeGebruiker();
-//    //                        $.unblockUI();
-//                            window.location = 'zoeken.html';
-//                        }
-//                    } else if (result.returnCode == 1) {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam('onjuiste-waarde');
-//                        _this.onjuistWachtwoord(false);
-//                        _this.teveelFoutieveInlogpogingen(false);
-//                        commonFunctions.plaatsFoutmeldingString('De ingevoerde gebruikersnaam werd niet gevonden');
-//                    } else if (result.returnCode == 2) {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord('onjuiste-waarde');
-//                        _this.teveelFoutieveInlogpogingen(false);
-//                        commonFunctions.plaatsFoutmeldingString('Het ingevoerde wachtwoord is onjuist');
-//                    } else {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord(false);
-//                        _this.teveelFoutieveInlogpogingen('teveel');
-//                        commonFunctions.plaatsFoutmeldingString('Teveel foutieve inlogpogingen binnen 5 minuten');
-//                    }
                 });
-//            } else {
-//                result.showAllMessages(true);
-//            }
+            }
         };
 
         this.checkWachtwoordSterkte = function(a) {

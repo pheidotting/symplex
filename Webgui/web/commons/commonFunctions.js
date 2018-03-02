@@ -1,10 +1,9 @@
-define(['commons/3rdparty/log2',
-        'dataServices',
+define(['commons/3rdparty/log',
         'redirect',
         'repository/common/repository',
         'push',
         'navRegister'],
-    function(log, dataServices, redirect, repository, Push, navRegister) {
+    function(log, redirect, repository, Push, navRegister) {
 
     var logger = log.getLogger('commonFunctions');
 
@@ -117,43 +116,6 @@ define(['commons/3rdparty/log2',
                 $('#alertDanger').hide();
             }
  		},
-
-		uitloggen: function(){
-			dataServices.uitloggen();
-			$('#ingelogdeGebruiker').html("");
-			$('#uitloggen').hide();
-			$('#homeKnop').hide();
-			redirect.redirect('INLOGGEN');
-		},
-
-		haalIngelogdeGebruiker: function(){
-			logger.debug("Haal ingelogde gebruiker");
-			var deferred = $.Deferred();
-
-			dataServices.haalIngelogdeGebruiker().done(function(response){
-				if(response.kantoor != null){
-					logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
-					$('#ingelogdeGebruiker').html("Ingelogd als : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
-				}else{
-					logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam);
-					$('#ingelogdeGebruiker').html("Ingelogd als : " + response.gebruikersnaam);
-				}
-				$('#uitloggen').show();
-				$('#homeKnop').show();
-
-                return deferred.resolve(response);
-			}).fail(function(){
-				logger.debug("Niet ingelogd, naar de inlogpagina");
-				$('#ingelogdeGebruiker').html("");
-				$('#uitloggen').hide();
-				$('#homeKnop').hide();
-                location.href = 'index.html#inloggen';
-
-                return deferred.resolve();
-			});
-
-			return deferred.promise();
-		},
 
 		uploadBestand: function(formData, url){
 			var deferred = $.Deferred();

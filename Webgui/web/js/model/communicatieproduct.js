@@ -55,7 +55,7 @@ define(['jquery',
 				var bijlage = new Bijlage(item);
 				_cm.bijlages().push(bijlage);
 			});
-		};
+		}
 		if(data.tekst === undefined || data.tekst === '') {
 		    //default tekst maken
 
@@ -114,7 +114,7 @@ define(['jquery',
 				var groepBijlages = new GroepBijlages(item);
 				_cm.groepBijlages().push(groepBijlages);
 			});
-		};
+		}
 
 		_cm.nieuwePolisUpload = function (){
 			log.debug("Nieuwe bijlage upload");
@@ -135,23 +135,6 @@ define(['jquery',
 
         _cm.beantwoordenKnopTonen = ko.observable();
         _cm.bewerkenKnopTonen = ko.observable();
-
-
-//	    _cm.opslaan = function(aangifte){
-//			aangifte.bijlages([]);
-//    		commonFunctions.verbergMeldingen();
-//    		log.debug("versturen naar " + navRegister.bepaalUrl('OPSLAAN_cm'));
-//    		log.debug(ko.toJSON(aangifte));
-//
-//    		dataServices.opslaanAangifte(ko.toJSON(aangifte)).done(function(data){
-//				aangifte.id(data);
-//				commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-//				log.debug("aangifte id : " + aangifte.relatie());
-//                redirect.redirect('BEHEREN_RELATIE', aangifte.relatie());
-//    		}).fail(function(data){
-//				commonFunctions.plaatsFoutmelding(data);
-//    		});
-//		};
 
 		_cm.annuleren = function(){
 			redirect.redirect('BEHEREN_RELATIE', _cm.relatie(), 'communicatieproducten');

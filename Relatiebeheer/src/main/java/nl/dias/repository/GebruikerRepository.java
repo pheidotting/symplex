@@ -131,11 +131,12 @@ public class GebruikerRepository {
         return ret;
     }
 
-    public List<Medewerker> alleMedewerkers() {
+    public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
         Timer.Context timer = metricsService.addTimerMetric("alleMedewerkers", GebruikerRepository.class);
 
         getTransaction();
-        Query query = getEm().createQuery("select e from Medewerker e");
+        Query query = getEm().createQuery("select e from Medewerker e where e.kantoor = :kantoor");
+        query.setParameter("kantoor", kantoor);
         List<Medewerker> ret = query.list();
 
         getTransaction().commit();
