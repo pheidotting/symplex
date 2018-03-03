@@ -99,7 +99,9 @@ public class BijlageController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void verwijderen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+    public void verwijderen(@PathVariable("id") String identificatie, HttpServletRequest httpServletRequest) {
+        Long id = identificatieClient.zoekIdentificatieCode(identificatie).getEntiteitId();
+
         bijlageClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 

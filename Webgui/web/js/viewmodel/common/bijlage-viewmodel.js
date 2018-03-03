@@ -105,9 +105,9 @@ define(['commons/3rdparty/log',
             var r=confirm("Weet je zeker dat je deze bijlage wilt verwijderen?");
             if (r==true) {
                 _this.bijlages.remove(bijlage);
-                bijlageService.verwijderBijlage(bijlage.id());
-//                dataServices.verwijderBijlage(bijlage.id());
-//                $.get( "../dejonge/rest/medewerker/bijlage/verwijder", {"bijlageId" : bijlage.id()}, function() {});
+                bijlageService.verwijderBijlage(bijlage.identificatie());
+
+                location.reload();
             }
         };
 	};

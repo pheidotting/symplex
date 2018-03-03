@@ -5,7 +5,7 @@ define(['jquery',
 	function ($, Bijlage, log, ko) {
         return {
             mapBijlage: function(r) {
-                mappen(r);
+                return mappen(r);
             },
 
             mapBijlages: function(data) {
