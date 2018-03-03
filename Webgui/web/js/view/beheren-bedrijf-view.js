@@ -22,7 +22,6 @@ define(['jquery',
                 telefoonnummerView.init(id);
                 opmerkingView.init(id);
                 bijlageView.init(id);
-                taakView.init(id);
                 telefonieView.init();
 
                 logger.debug('content geladen, viewmodel init');
