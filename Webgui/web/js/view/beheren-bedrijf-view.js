@@ -8,9 +8,8 @@ define(['jquery',
         'view/common/telefoonnummer-view',
         'view/common/opmerking-view',
         'view/common/bijlage-view',
-        'view/common/taak-view',
         'view/common/telefonie-view'],
-    function($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, taakView, telefonieView) {
+    function($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, telefonieView) {
         var logger = log.getLogger('beheren-relatie-view');
 
         return {
