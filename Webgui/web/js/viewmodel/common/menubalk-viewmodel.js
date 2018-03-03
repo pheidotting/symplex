@@ -67,8 +67,8 @@ define(['redirect',
             ataType: "json",
             async: false,
             success: function (beschikbaar, textStatus, request) {
-                if(!!!beschikbaar){
-                    $('#instellingenLink').hide();
+                if(!beschikbaar){
+                    $('#instellingenLink').show();
                 }
             }
         });
