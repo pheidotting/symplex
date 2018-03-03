@@ -38,6 +38,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd OverigeRelatieGegevensAdministratie
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
@@ -555,6 +559,10 @@ pipeline {
                 sh '''
                     cd IdBeheer
                     mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
                     cd OverigeRelatieGegevensAdministratie
