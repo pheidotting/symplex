@@ -6,6 +6,7 @@ define(['commons/3rdparty/log',
     function(log, Adres, adresService, ko, adresMapper) {
 
     return function(readOnly, soortEntiteit, entiteitId, adressen) {
+        var logger = log.getLogger('adres-viewmodel');
         var _this = this;
 
 		this.id = ko.observable(entiteitId);

@@ -123,6 +123,7 @@ public class BijlageController extends AbstractController {
         Timer.Context timer = metricsService.addTimerMetric("download", BijlageController.class);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+        metricsService.addMetric("download" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
 
         metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
 
