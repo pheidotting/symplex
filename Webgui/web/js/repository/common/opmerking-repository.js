@@ -9,8 +9,8 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OPMERKINGEN'), ko.toJSON(opmerkingen));
             },
 
-            verwijder: function(soortEntiteit, id) {
-                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKINGEN') + '/' + soortEntiteit + '/' + id, null);
+            verwijder: function(identificatie) {
+                return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKINGEN') + '/' + identificatie, null);
             },
 
             lijst: function(soortEntiteit, parentid){
