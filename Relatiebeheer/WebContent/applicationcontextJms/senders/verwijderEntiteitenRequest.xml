@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="verwijderEntiteitenRequestDestinationId" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="id.verwijderEntiteitenRequestQueue"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestTemplateId" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="verwijderEntiteitenRequestDestinationId"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestDestinationPa" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="pa.verwijderEntiteitenRequestQueue"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestTemplatePa" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="verwijderEntiteitenRequestDestinationPa"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestDestinationOga" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="oga.verwijderEntiteitenRequestQueue"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestTemplateOga" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="verwijderEntiteitenRequestDestinationOga"/>
+    </bean>
+    <bean id="verwijderEntiteitenRequestSender" class="nl.dias.messaging.sender.VerwijderEntiteitenRequestSender">
+        <constructor-arg index="0" ref="verwijderEntiteitenRequestTemplateId"/>
+        <constructor-arg index="1" ref="verwijderEntiteitenRequestTemplateOga"/>
+        <constructor-arg index="2" ref="verwijderEntiteitenRequestTemplatePa"/>
+    </bean>
+</beans>
