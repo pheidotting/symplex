@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.domain.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.hibernate.HibernateException;
@@ -37,7 +37,7 @@ public class IdentificatieRepository {
     }
 
     @Transactional
-    public void verwijder(Identificatie identificatie) {
+    public void verwijder(Licentie identificatie) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", IdentificatieRepository.class);
 
         LOGGER.debug("Verwijder {}", ReflectionToStringBuilder.toString(identificatie));
@@ -48,10 +48,10 @@ public class IdentificatieRepository {
     }
 
     @Transactional
-    public void verwijder(List<Identificatie> identificaties) {
+    public void verwijder(List<Licentie> identificaties) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", IdentificatieRepository.class);
 
-        for (Identificatie identificatie : identificaties) {
+        for (Licentie identificatie : identificaties) {
             LOGGER.debug("Verwijder {}", identificatie);
 
             getSession().delete(identificatie);
@@ -61,16 +61,16 @@ public class IdentificatieRepository {
     }
 
     @Transactional
-    public void opslaan(Identificatie identificatie) {
+    public void opslaan(Licentie identificatie) {
         opslaan(newArrayList(identificatie));
     }
 
     @Transactional
-    public void opslaan(List<Identificatie> identificaties) {
+    public void opslaan(List<Licentie> identificaties) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", IdentificatieRepository.class);
 
         LOGGER.debug("Opslaan {} identificaties", identificaties.size());
-        for (Identificatie identificatie : identificaties) {
+        for (Licentie identificatie : identificaties) {
             LOGGER.debug("{}", identificatie);
             if (identificatie.getId() == null) {
                 identificatie.nieuweIdentificatieCode();
@@ -100,14 +100,14 @@ public class IdentificatieRepository {
     }
 
     @Transactional(readOnly = true)
-    public Identificatie zoekOpIdentificatieCode(String identificatieCode) {
+    public Licentie zoekOpIdentificatieCode(String identificatieCode) {
         Timer.Context timer = metricsService.addTimerMetric("zoekOpIdentificatieCode", IdentificatieRepository.class);
 
         LOGGER.trace("Komt {} al voor?", identificatieCode);
         Query query = getSession().getNamedQuery("Identificatie.zoekOpIdentificatieCode");
         query.setParameter("identificatie", identificatieCode);
 
-        List<Identificatie> identificaties = query.list();
+        List<Licentie> identificaties = query.list();
 
         metricsService.stop(timer);
         if (!identificaties.isEmpty()) {
@@ -120,14 +120,14 @@ public class IdentificatieRepository {
     }
 
     @Transactional(readOnly = true)
-    public Identificatie zoek(String soortEntiteit, Long entiteitId) {
+    public Licentie zoek(String soortEntiteit, Long entiteitId) {
         Timer.Context timer = metricsService.addTimerMetric("zoek", IdentificatieRepository.class);
 
         Query query = getSession().getNamedQuery("Identificatie.zoek");
         query.setParameter("soortEntiteit", soortEntiteit);
         query.setParameter("entiteitId", entiteitId);
 
-        List<Identificatie> identificaties = query.list();
+        List<Licentie> identificaties = query.list();
 
         metricsService.stop(timer);
         if (!identificaties.isEmpty()) {

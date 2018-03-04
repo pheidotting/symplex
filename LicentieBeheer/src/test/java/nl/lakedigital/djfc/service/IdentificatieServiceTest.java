@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.domain.Licentie;
 import nl.lakedigital.djfc.repository.IdentificatieRepository;
 import org.easymock.*;
 import org.junit.Test;
@@ -26,23 +26,23 @@ public class IdentificatieServiceTest extends EasyMockSupport {
         String soortEntiteit = "BEDRIJF";
         Long entiteitid = 1L;
 
-        Identificatie identificatie = new Identificatie(soortEntiteit, entiteitid);
+        Licentie identificatie = new Licentie(soortEntiteit, entiteitid);
 
         expect(identificatieRepository.zoek(soortEntiteit, entiteitid)).andReturn(identificatie);
 
-        Capture<Identificatie> identificatieCapture = newCapture();
+        Capture<Licentie> identificatieCapture = newCapture();
         identificatieRepository.opslaan(capture(identificatieCapture));
 
         replayAll();
 
-        Identificatie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
+        Licentie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
 
         verifyAll();
 
         assertThat(identificatieUit.getEntiteitId(), is(entiteitid));
         assertThat(identificatieUit.getSoortEntiteit(), is(soortEntiteit));
 
-        Identificatie identificatieUitCapture = identificatieCapture.getValue();
+        Licentie identificatieUitCapture = identificatieCapture.getValue();
 
         assertThat(identificatieUitCapture.getEntiteitId(), is(entiteitid));
         assertThat(identificatieUitCapture.getSoortEntiteit(), is(soortEntiteit));
@@ -55,12 +55,12 @@ public class IdentificatieServiceTest extends EasyMockSupport {
 
         expect(identificatieRepository.zoek(soortEntiteit, entiteitid)).andReturn(null);
 
-        Capture<Identificatie> identificatieCapture = newCapture();
+        Capture<Licentie> identificatieCapture = newCapture();
         identificatieRepository.opslaan(capture(identificatieCapture));
 
         replayAll();
 
-        Identificatie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
+        Licentie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
 
         verifyAll();
 
@@ -68,7 +68,7 @@ public class IdentificatieServiceTest extends EasyMockSupport {
         assertThat(identificatieUit.getSoortEntiteit(), is(soortEntiteit));
         assertThat(identificatieUit.getIdentificatie(), is(nullValue()));
 
-        Identificatie identificatieUitCapture = identificatieCapture.getValue();
+        Licentie identificatieUitCapture = identificatieCapture.getValue();
 
         assertThat(identificatieUitCapture.getEntiteitId(), is(entiteitid));
         assertThat(identificatieUitCapture.getSoortEntiteit(), is(soortEntiteit));
@@ -80,17 +80,17 @@ public class IdentificatieServiceTest extends EasyMockSupport {
         String soortEntiteit = "BEDRIJF";
         Long entiteitid = 1L;
 
-        Identificatie identificatie = new Identificatie(soortEntiteit, entiteitid);
+        Licentie identificatie = new Licentie(soortEntiteit, entiteitid);
         identificatie.setSoortEntiteit(UUID.randomUUID().toString());
 
         expect(identificatieRepository.zoek(soortEntiteit, entiteitid)).andReturn(identificatie);
 
-        Capture<Identificatie> identificatieCapture = newCapture();
+        Capture<Licentie> identificatieCapture = newCapture();
         identificatieRepository.opslaan(capture(identificatieCapture));
 
         replayAll();
 
-        Identificatie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
+        Licentie identificatieUit = identificatieService.zoek(soortEntiteit, entiteitid);
 
         verifyAll();
 
@@ -98,7 +98,7 @@ public class IdentificatieServiceTest extends EasyMockSupport {
         assertThat(identificatieUit.getSoortEntiteit(), is(soortEntiteit));
         assertThat(identificatieUit.getIdentificatie(), is(identificatie.getIdentificatie()));
 
-        Identificatie identificatieUitCapture = identificatieCapture.getValue();
+        Licentie identificatieUitCapture = identificatieCapture.getValue();
 
         assertThat(identificatieUitCapture.getEntiteitId(), is(entiteitid));
         assertThat(identificatieUitCapture.getSoortEntiteit(), is(soortEntiteit));

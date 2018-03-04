@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.domain.Licentie;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,17 +25,17 @@ public class IdentificatieRepositoryTest extends EasyMockSupport {
         String soortEntiteit = "POLIS";
         Long entiteitId = 4L;
 
-        Identificatie identificatie = new Identificatie(soortEntiteit, entiteitId);
+        Licentie identificatie = new Licentie(soortEntiteit, entiteitId);
 
         identificatieRepository.opslaan(identificatie);
 
-        Identificatie id = identificatieRepository.zoek(soortEntiteit, entiteitId);
+        Licentie id = identificatieRepository.zoek(soortEntiteit, entiteitId);
         assertThat(id, is(notNullValue()));
         assertThat(id.getIdentificatie(), is(notNullValue()));
 
         identificatieRepository.verwijder(id);
 
-        Identificatie id2 = identificatieRepository.zoek(soortEntiteit, entiteitId);
+        Licentie id2 = identificatieRepository.zoek(soortEntiteit, entiteitId);
         assertThat(id2, is(nullValue()));
     }
 }
