@@ -3,7 +3,6 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/hypotheek-mapper',
         'service/gebruiker-service',
         'service/belastingzaken-service',
@@ -17,7 +16,7 @@ define(['jquery',
          'fileUpload',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload) {
 
     return function() {
         var _this = this;
