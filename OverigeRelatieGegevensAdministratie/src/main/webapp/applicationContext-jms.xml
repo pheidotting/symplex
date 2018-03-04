@@ -24,6 +24,15 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       method="onMessage"/>
     </jms:listener-container>
 
+    <bean id="verwijderEntiteitRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.VerwijderEntiteitRequestReciever"/>
+
+    <jms:listener-container container-type="default"
+                            connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.oga.verwijderEntiteitRequestQueue" ref="verwijderEntiteitRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
     <bean id="opslaanEntiteitenRequestReciever"
           class="nl.lakedigital.djfc.messaging.reciever.OpslaanEntiteitenRequestReciever"/>
 

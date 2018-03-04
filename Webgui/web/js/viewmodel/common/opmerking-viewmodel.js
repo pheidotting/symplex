@@ -3,8 +3,9 @@ define(['commons/3rdparty/log',
         'knockout',
         'moment',
         'mapper/opmerking-mapper',
+        'service/common/opmerking-service',
         'repository/gebruiker-repository'],
-    function(log, Opmerking, ko, moment, opmerkingMapper, gebruikerRepository) {
+    function(log, Opmerking, ko, moment, opmerkingMapper, opmerkingService, gebruikerRepository) {
 
     return function(readOnly, soortEntiteit, entiteitId, opmerkingen) {
         var _this = this;
@@ -28,6 +29,10 @@ define(['commons/3rdparty/log',
 
                 _this.opmerkingen.remove(opmerking);
                 _this.opmerkingen.valueHasMutated();
+
+                opmerkingService.verwijder(opmerking.identificatie());
+
+                location.reload();
             }
         };
 

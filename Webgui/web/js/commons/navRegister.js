@@ -102,7 +102,7 @@ define([ ],
                             {naam: 'VERWIJDER_OPMERKING',               url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijder'},
                             {naam: 'LIJST_OPMERKINGEN',                 url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/alles'},
                             {naam: 'OPSLAAN_OPMERKINGEN',               url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/opslaan'},
-                            {naam: 'VERWIJDER_OPMERKINGEN',             url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijderen'},
+                            {naam: 'VERWIJDER_OPMERKINGEN',             url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijder'},
 
                             {naam: 'LOG4JAVASCRIPT',                    url: BASISURL_RELATIEBEHEER + '/authorisatie/log4j/log4javascript'},
 
