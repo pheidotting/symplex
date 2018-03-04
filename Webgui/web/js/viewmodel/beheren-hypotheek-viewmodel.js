@@ -3,7 +3,6 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/hypotheek-mapper',
         'service/hypotheek-service',
         'viewmodel/common/opmerking-viewmodel',
@@ -13,7 +12,7 @@ define(['jquery',
         'service/toggle-service',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService) {
 
     return function() {
         var _this = this;
