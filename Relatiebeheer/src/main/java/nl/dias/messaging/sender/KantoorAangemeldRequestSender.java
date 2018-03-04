@@ -14,4 +14,8 @@ public class KantoorAangemeldRequestSender extends AbstractSender<KantoorAangeme
     public KantoorAangemeldRequest maakMessage(Kantoor kantoor) {
         return new KantoorAangemeldRequest(kantoor.getNaam(), null, null, null, null, null);
     }
+
+    public void send(Kantoor kantoor) {
+        super.send(kantoor, LOGGER);
+    }
 }
