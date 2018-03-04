@@ -13,10 +13,11 @@ define(['jquery',
         'service/toggle-service',
         'mapper/bijlage-mapper',
         'mapper/groepbijlage-mapper',
-         'fileUpload',
+        'fileUpload',
+        'lodash',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload, _) {
 
     return function() {
         var _this = this;
