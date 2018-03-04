@@ -10,6 +10,60 @@ pipeline {
             }
         }
 
+        stage ('Sonar Sonarbranch') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'sonar'
+                }
+            }
+            steps {
+                sh '''
+                    cd Commons
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Clients
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Messaging
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Communicatie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd IdBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd OverigeRelatieGegevensAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Relatiebeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Webgui
+                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=development
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Undeploy Testbak') {
             when {
                 expression {
@@ -78,6 +132,24 @@ pipeline {
             post {
                 failure {
                     slackSend (color: '#FF0000', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Build LicentieBeheer') {
+            steps {
+                slackSend (color: '#4245f4', message: "Start building wars :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                sh '''
+                    cd LicentieBeheer
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden LicentieBeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden LicentieBeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -179,6 +251,12 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp LicentieBeheer/src/main/resources/tst2/lb.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp LicentieBeheer/target/licentie.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/opt/jetty/webapps
@@ -405,52 +483,6 @@ pipeline {
             }
         }
 
-        stage ('Sonar Branch') {
-            when {
-                expression {
-                    return env.BRANCH_NAME != 'master' && env.BRANCH_NAME != 'development'
-                }
-            }
-            steps {
-                sh '''
-                    cd Commons
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd Clients
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd Messaging
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd Communicatie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd IdBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd OverigeRelatieGegevensAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-                sh '''
-                    cd Relatiebeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Sonar gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Sonar mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-
         stage ('Sonar Development') {
             when {
                 expression {
@@ -485,6 +517,10 @@ pipeline {
                 sh '''
                     cd Relatiebeheer
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
+                    cd Webgui
+                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=development
                 '''
             }
             post {
@@ -525,12 +561,20 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd OverigeRelatieGegevensAdministratie
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
                     cd Relatiebeheer
                     mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd Webgui
+                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner
                 '''
             }
             post {

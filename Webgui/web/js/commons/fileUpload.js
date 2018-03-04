@@ -1,10 +1,12 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'commons/commonFunctions',
         'model/groepbijlages',
         'model/bijlage',
+        'mapper/bijlage-mapper',
+        'mapper/groepbijlage-mapper',
         'commons/block',
         'navRegister'],
-    function(log, commonFunctions, Groepbijlages, Bijlage, block, navRegister) {
+    function(log, commonFunctions, Groepbijlages, Bijlage, bijlageMapper, groepbijlageMapper, block, navRegister) {
         var logger = log.getLogger('fileUpload');
 
         return {
@@ -23,8 +25,6 @@ define(['commons/3rdparty/log2',
             },
 
             uploaden: function(){
-//    		    block.block();
-
                 var deferred = $.Deferred();
 
                 var formData = new FormData($('#fileUploadForm')[0]);
@@ -33,12 +33,10 @@ define(['commons/3rdparty/log2',
 
                     $('#bijlageFile').val("");
 
-//                    $.unblockUI();
-                    var ret = null;
                     if(response.bijlage != null) {
-                        ret = new Bijlage(response.bijlage);
+                         ret = bijlageMapper.mapBijlage(response.bijlage);
                     } else {
-                        ret = new Groepbijlages(response.groepBijlages);
+                         ret = groepbijlageMapper.mapGroepbijlage(response.groepBijlages);
                     }
 
                     return deferred.resolve(ret);

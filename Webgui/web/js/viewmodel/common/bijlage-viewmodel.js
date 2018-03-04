@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'model/adres',
         'service/common/bijlage-service',
         'knockout',
@@ -105,9 +105,9 @@ define(['commons/3rdparty/log2',
             var r=confirm("Weet je zeker dat je deze bijlage wilt verwijderen?");
             if (r==true) {
                 _this.bijlages.remove(bijlage);
-                bijlageService.verwijderBijlage(bijlage.id());
-//                dataServices.verwijderBijlage(bijlage.id());
-//                $.get( "../dejonge/rest/medewerker/bijlage/verwijder", {"bijlageId" : bijlage.id()}, function() {});
+                bijlageService.verwijderBijlage(bijlage.identificatie());
+
+                location.reload();
             }
         };
 	};

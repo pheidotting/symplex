@@ -42,8 +42,8 @@ public class KantoorFilter implements Filter {
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
             if (relatie == null || relatie.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                responseString = "";
+                //                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                //                responseString = "";
             }
         } else if (getFullURL((HttpServletRequest) request).contains("/bedrijf/lees/")) {
             nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = (nl.lakedigital.djfc.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Bedrijf.class);
@@ -51,8 +51,8 @@ public class KantoorFilter implements Filter {
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
             if (bedrijf != null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    responseString = "";
+                //                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                //                    responseString = "";
             }
         }
 

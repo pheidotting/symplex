@@ -1,12 +1,11 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/beheren/beheren-schade.html',
         'viewmodel/beheren-schade-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view',
-        'view/common/taak-view'],
-    function($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView) {
+        'view/common/bijlage-view'],
+    function($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
         var logger = log.getLogger('beheren-schade-view');
 
         return {
@@ -15,7 +14,6 @@ define(['jquery',
 
                 opmerkingView.init(schadeId);
                 bijlageView.init(schadeId);
-                taakView.init(schadeId);
 
                 logger.debug('content geladen, viewmodel init');
 

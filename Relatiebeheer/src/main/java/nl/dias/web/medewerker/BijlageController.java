@@ -99,8 +99,14 @@ public class BijlageController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void verwijderen(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
-        bijlageClient.verwijder(id, getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
+    public void verwijderen(@PathVariable("id") String identificatieCode, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+
+        metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
+
+        bijlageClient.verwijder(identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/zoeken/{zoekTerm}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
@@ -114,10 +120,11 @@ public class BijlageController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/download")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(@RequestParam("id") String identificatieString) throws IOException {
-        metricsService.addMetric("download", BijlageController.class, null, null);
         Timer.Context timer = metricsService.addTimerMetric("download", BijlageController.class);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+
+        metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
 
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
 

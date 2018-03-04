@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'service/toggle-service',
         'text!../../../templates/commons/taken.html'],
     function($, log, toggleService, html) {

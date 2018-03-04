@@ -1,12 +1,11 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/beheren/beheren-polis.html',
         'viewmodel/beheren-polis-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view',
-        'view/common/taak-view'],
-    function($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView) {
+        'view/common/bijlage-view'],
+    function($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
         var logger = log.getLogger('beheren-polis-view');
 
         return {
@@ -15,7 +14,6 @@ define(['jquery',
 
                 opmerkingView.init(polisId);
                 bijlageView.init(polisId);
-                taakView.init(polisId);
 
                 logger.debug('content geladen, viewmodel init');
 

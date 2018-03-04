@@ -1,9 +1,8 @@
 define(['jquery',
-        'model/polis2',
-        'commons/3rdparty/log2',
-        'knockout',
-        'moment'],
-	function ($, Polis, log, ko, moment) {
+        'model/polis',
+        'commons/3rdparty/log',
+        'knockout'],
+	function ($, Polis, log, ko) {
         return {
             mapPolis: function(r, maatschappijen) {
                 return mappen(r, maatschappijen);

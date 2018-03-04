@@ -14,6 +14,8 @@ define([ ],
                             {naam: 'LEES_VERSIE',                       url: BASISURL_RELATIEBEHEER + '/authorisatie/versies/leesVersie'},
 
                             {naam: 'AANMELDEN_KANTOOR',                 url: BASISURL_RELATIEBEHEER + '/authorisatie/aanmeldenKantoor'},
+                            {naam: 'LEES_KANTOOR',                      url: BASISURL_RELATIEBEHEER + '/medewerker/kantoor/lees'},
+                            {naam: 'OPSLAAN_KANTOOR',                   url: BASISURL_RELATIEBEHEER + '/medewerker/kantoor/opslaan'},
 
                             {naam: 'LIJST_RELATIES',                    url: BASISURL_RELATIEBEHEER + '/medewerker/gebruiker/zoekOpNaamAdresOfPolisNummer'},
                             {naam: 'LEES_RELATIE_NW',                   url: BASISURL_RELATIEBEHEER + '/medewerker/relatie/lees'},
@@ -100,7 +102,7 @@ define([ ],
                             {naam: 'VERWIJDER_OPMERKING',               url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijder'},
                             {naam: 'LIJST_OPMERKINGEN',                 url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/alles'},
                             {naam: 'OPSLAAN_OPMERKINGEN',               url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/opslaan'},
-                            {naam: 'VERWIJDER_OPMERKINGEN',             url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijderen'},
+                            {naam: 'VERWIJDER_OPMERKINGEN',             url: BASISURL_RELATIEBEHEER + '/medewerker/opmerking/verwijder'},
 
                             {naam: 'LOG4JAVASCRIPT',                    url: BASISURL_RELATIEBEHEER + '/authorisatie/log4j/log4javascript'},
 

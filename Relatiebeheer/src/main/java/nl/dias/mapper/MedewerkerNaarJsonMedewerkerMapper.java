@@ -9,7 +9,6 @@ public class MedewerkerNaarJsonMedewerkerMapper extends AbstractMapper<Medewerke
     @Override
     public JsonMedewerker map(Medewerker medewerker, Object parent, Object bestaandObject) {
         JsonMedewerker jsonMedewerker = new JsonMedewerker();
-        jsonMedewerker.setId(medewerker.getId());
         jsonMedewerker.setEmailadres(medewerker.getEmailadres());
         jsonMedewerker.setAchternaam(medewerker.getAchternaam());
         jsonMedewerker.setTussenvoegsel(medewerker.getTussenvoegsel());

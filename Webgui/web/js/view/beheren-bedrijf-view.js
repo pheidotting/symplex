@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/beheren/beheren-bedrijf.html',
         'viewmodel/beheren-bedrijf-viewmodel',
         'knockout',
@@ -8,9 +8,8 @@ define(['jquery',
         'view/common/telefoonnummer-view',
         'view/common/opmerking-view',
         'view/common/bijlage-view',
-        'view/common/taak-view',
         'view/common/telefonie-view'],
-    function($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, taakView, telefonieView) {
+    function($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, telefonieView) {
         var logger = log.getLogger('beheren-relatie-view');
 
         return {
@@ -22,7 +21,6 @@ define(['jquery',
                 telefoonnummerView.init(id);
                 opmerkingView.init(id);
                 bijlageView.init(id);
-                taakView.init(id);
                 telefonieView.init();
 
                 logger.debug('content geladen, viewmodel init');

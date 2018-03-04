@@ -3,7 +3,7 @@ define(['jquery',
         'knockout',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/schade-service',
         'mapper/schade-mapper',
@@ -14,8 +14,6 @@ define(['jquery',
 
     return function() {
         var _this = this;
-        var logger = log.getLogger('lijst-schades-viewmodel');
-        var soortEntiteit = 'SCHADE';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

@@ -18,10 +18,7 @@ import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonn
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
-import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
-import nl.lakedigital.djfc.commons.json.JsonMedewerker;
+import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
@@ -81,19 +78,18 @@ public class GebruikerController extends AbstractController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.GET, value = "/leesMedewerker/{identificatieString}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public JsonMedewerker leesMedewerker(@QueryParam("id") String id) {
-        LOGGER.debug("Ophalen Relatie met id : " + id);
+    public JsonMedewerker leesMedewerker(@PathVariable("identificatieString") String identificatieString) {
+        Long id = identificatieClient.zoekIdentificatieCode(identificatieString).getEntiteitId();
+
+        LOGGER.debug("Ophalen Relatie met id : {}" + id);
 
         JsonMedewerker jsonMedewerker;
-        if (id != null && !"0".equals(id.trim())) {
-            Medewerker medewerker = (Medewerker) gebruikerService.lees(Long.parseLong(id));
+        Medewerker medewerker = (Medewerker) gebruikerService.lees(id);
 
             jsonMedewerker = medewerkerNaarJsonMedewerkerMapper.map(medewerker);
-        } else {
-            jsonMedewerker = new JsonMedewerker();
-        }
+        jsonMedewerker.setIdentificatie(identificatieString);
 
         LOGGER.debug("Naar de front-end : " + jsonMedewerker);
 
@@ -102,12 +98,41 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanMedewerker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void opslaanMedewerker(@RequestBody JsonMedewerker jsonMedewerker) {
+    public void opslaanMedewerker(@RequestBody JsonMedewerkerMetLicentie jsonMedewerker, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
+        metricsService.addMetric("opslaanMedewerker", GebruikerController.class, null, jsonMedewerker.getIdentificatie() == null);
+
         LOGGER.debug("opslaan medewerker");
 
-        Medewerker medewerker = (Medewerker) gebruikerService.lees(jsonMedewerker.getId());
+        Medewerker medewerker = null;
+        if (jsonMedewerker.getIdentificatie() != null) {
+            Long id = identificatieClient.zoekIdentificatieCode(jsonMedewerker.getIdentificatie()).getEntiteitId();
+            medewerker = (Medewerker) gebruikerService.lees(id);
+        }
 
-        gebruikerService.opslaan(jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker));
+        Medewerker medewerkerDomain = jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker);
+        medewerkerDomain.setKantoor(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor());
+
+        String licentie = null;
+        if (medewerkerDomain.getId() == null) {
+            licentie = jsonMedewerker.getLicentieType();
+        }
+
+        gebruikerService.opslaan(medewerkerDomain, licentie);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("gebruikerVerwijderen", GebruikerController.class, null, null);
+        LOGGER.debug("Verwijderen Gebruiker met id {}", identificatieString);
+
+        zetSessieWaarden(httpServletRequest);
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
+
+        gebruikerService.verwijder(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanContactPersoon")
@@ -193,19 +218,6 @@ public class GebruikerController extends AbstractController {
         metricsService.stop(timer);
 
         return relatie.getIdentificatie();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public void verwijderen(@PathVariable("id") String identificatieString, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric("relatieVerwijderen", GebruikerController.class, null, null);
-        LOGGER.debug("Verwijderen Relatie met id {}", identificatieString);
-
-        zetSessieWaarden(httpServletRequest);
-
-        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
-
-        gebruikerService.verwijder(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/koppelenOnderlingeRelatie", produces = MediaType.APPLICATION_JSON)

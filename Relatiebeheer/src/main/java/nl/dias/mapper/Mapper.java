@@ -2,8 +2,6 @@ package nl.dias.mapper;
 
 
 import com.google.common.base.Predicate;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -27,8 +25,6 @@ public class Mapper {
 
     public <T> T map(final Object objectIn, final Class<T> clazz, Object parent, final Object bestaandObject) {
         Object objectUit;
-
-        LOGGER.debug("Mappen van {}", ReflectionToStringBuilder.toString(objectIn, ToStringStyle.SHORT_PREFIX_STYLE));
 
         AbstractMapper mapper = getOnlyElement(filter(mappers, new Predicate<AbstractMapper>() {
             @Override

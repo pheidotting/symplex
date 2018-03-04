@@ -1,4 +1,4 @@
-define(["commons/3rdparty/log2",
+define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'redirect',
@@ -94,19 +94,8 @@ define(["commons/3rdparty/log2",
             },
 
             leesTrackAndTraceId: function() {
-            //wordt nog voor todoist gebruikt, al wordt dat ook niet gebruikt..
-                var deferred = $.Deferred();
-
-//                $.get(navRegister.bepaalUrl('TRACKANDTRACEID'))
-//                .done(function(response) {
-//                    return deferred.resolve(response);
-//                })
-//                .fail(function(response){
-                    return deferred.resolve(guid());
-//                });
-
-
-                return deferred.promise();
+                //wordt nog voor todoist gebruikt, al wordt dat ook niet gebruikt..
+                return guid();
             }
         }
 

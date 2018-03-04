@@ -1,12 +1,12 @@
 define(['jquery',
-        'model/groepbijlages2',
-        'commons/3rdparty/log2',
+        'model/groepbijlages',
+        'commons/3rdparty/log',
         'knockout',
         'mapper/bijlage-mapper'],
 	function ($, Groepbijlage, log, ko, bijlageMapper) {
         return {
             mapGroepbijlage: function(r) {
-                mappen(r);
+                return mappen(r);
             },
 
             mapGroepbijlages: function(data) {

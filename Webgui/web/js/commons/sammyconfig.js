@@ -14,7 +14,7 @@ define(['jquery',
 
 						var params = {};
 						if(hashSplit.length > 1) {
-							$.each(paramSplit, function(index, item){
+							$.each(paramSplit, function(index){
 								params[hashSplit[index + 1].replace(':', '')] = paramSplit[index];
 							});
 						}
