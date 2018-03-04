@@ -6,7 +6,6 @@ define(['jquery',
         'commons/block',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/gebruiker-mapper',
         'service/gebruiker-service',
         'service/relatie-service',
@@ -21,7 +20,7 @@ define(['jquery',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, Relatie, functions, block, log, redirect, opmerkingenModel, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel) {
+    function($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel) {
 
     return function(id) {
         var _this = this;

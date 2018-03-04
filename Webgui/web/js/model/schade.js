@@ -3,7 +3,7 @@ define(['knockout',
 	function (ko, moment) {
 
 	return function schadeModel (){
-		_this = this;
+		var _this = this;
 
 	    _this.id = ko.observable();
 		_this.soortEntiteit = ko.observable();
@@ -11,13 +11,9 @@ define(['knockout',
 	    _this.relatie = ko.observable();
 	    _this.bedrijf = ko.observable();
 	    _this.polis = ko.observable().extend({validation: {
-	        validator: function (val) {
+	        validator: function () {
 	        	if(ko.utils.unwrapObservable(_this.polis) == "Kies een polis uit de lijst.."){
-					if(_this.schadeNummerMaatschappij.isValid()){
-	        			return false;
-	        		}else{
-	        			return true;
-	        		}
+					return !_this.schadeNummerMaatschappij.isValid();
 	    		}else{
 	    			return true;
 	    		}
@@ -31,11 +27,7 @@ define(['knockout',
 	    _this.statusSchade = ko.observable().extend({validation: {
 	        validator: function (val) {
 	        	if(ko.utils.unwrapObservable(_this.statusSchade) == "Kies een status uit de lijst.."){
-					if(_this.schadeNummerMaatschappij.isValid()){
-	        			return false;
-	        		}else{
-	        			return true;
-	        		}
+					return !_this.schadeNummerMaatschappij.isValid();
 	    		}else{
 	    			return true;
 	    		}

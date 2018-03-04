@@ -7,7 +7,6 @@ define(['jquery',
         'commons/block',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/bedrijf-mapper',
         'mapper/contactpersoon-mapper',
         'service/bedrijf-service',
@@ -21,7 +20,7 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, opmerkingenModel, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
+    function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
     rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel) {
 
     return function(id) {

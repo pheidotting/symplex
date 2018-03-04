@@ -24,6 +24,10 @@ define(['commons/3rdparty/log',
 
             lijst: function(soortEntiteit, parentid){
                 return opmerkingRepository.lijst(soortEntiteit, parentid);
+            },
+
+            verwijder: function(identificatie) {
+                opmerkingRepository.verwijder(identificatie);
             }
         }
     }

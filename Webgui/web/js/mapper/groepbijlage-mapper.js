@@ -6,7 +6,7 @@ define(['jquery',
 	function ($, Groepbijlage, log, ko, bijlageMapper) {
         return {
             mapGroepbijlage: function(r) {
-                mappen(r);
+                return mappen(r);
             },
 
             mapGroepbijlages: function(data) {

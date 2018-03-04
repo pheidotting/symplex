@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:jms="http://www.springframework.org/schema/jms"
-	   xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 	<context:component-scan base-package="nl.dias" />
 	<context:component-scan base-package="nl.lakedigital.as.taakbeheer.client" />
+
+    <!--<cache:annotation-driven />-->
+
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatie"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatieCode"/>
+            </set>
+        </property>
+    </bean>
+    <cache:advice id="cachingBehavior" cache-manager="cacheManager">
+        <cache:caching cache="zoekIdentificatie">
+            <cache:cacheable method="zoekIdentificatie"/>
+        </cache:caching>
+        <cache:caching cache="zoekIdentificatieCode">
+            <cache:cacheable method="zoekIdentificatieCode"/>
+        </cache:caching>
+    </cache:advice>
+
+    <!-- apply the behavior to all the implementations of CustomerDataService interface-->
+    <aop:config>
+        <aop:advisor advice-ref="cachingBehavior"
+                     pointcut="execution(* nl.lakedigital.djfc.client.identificatie.IdentificatieClient.*(..))"/>
+    </aop:config>
 
     <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
     <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
@@ -471,4 +501,5 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <property name="metricsService" ref="metricsService"/>
 	</bean>
 
+    <import resource="applicationcontextJms/senders/rb.oga.verwijderEntiteitRequestSender.xml"/>
 </beans>

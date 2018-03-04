@@ -1,7 +1,9 @@
 define(['redirect',
         'knockout',
-        'navRegister'],
-    function(redirect, ko, navRegister) {
+        'navRegister',
+        'service/toggle-service',
+        'repository/common/repository'],
+    function(redirect, ko, navRegister, toggleService, repository) {
 
     return function(identificatie, soortEntiteit) {
         var _this = this;
@@ -57,6 +59,19 @@ define(['redirect',
         };
 
         this.kantoorAfkorting = ko.observable();
+
+        $.ajax({
+            type: "GET",
+            url: navRegister.bepaalUrl('TOGGLZ') + '/INSTELLINGEN_PAGINA',
+            contentType: "application/json",
+            ataType: "json",
+            async: false,
+            success: function (beschikbaar, textStatus, request) {
+                if(!!beschikbaar){
+                    $('#instellingenLink').show();
+                }
+            }
+        });
 
         if(localStorage.getItem('symplexAccessToken')!=null){
             var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];

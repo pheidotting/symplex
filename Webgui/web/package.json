@@ -20,10 +20,10 @@
     "block-ui": "2.70.1",
     "requirejs-text": "2.0.15",
     "font-awesome": "4.7.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "jquery.complexify": "0.5.2",
     "push.js": "1.0.5",
-    "ws": "4.0.0",
+    "ws": "4.1.0",
     "stacktrace-js": "2.0"
   }
 }
