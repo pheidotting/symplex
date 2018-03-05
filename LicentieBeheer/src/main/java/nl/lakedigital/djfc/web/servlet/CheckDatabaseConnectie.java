@@ -1,11 +1,11 @@
 package nl.lakedigital.djfc.web.servlet;
 
-import nl.lakedigital.djfc.repository.IdentificatieRepository;
+import nl.lakedigital.djfc.repository.LicentieRepository;
 
 public class CheckDatabaseConnectie implements Runnable {
-    private IdentificatieRepository identificatieRepository;
+    private LicentieRepository identificatieRepository;
 
-    public CheckDatabaseConnectie(IdentificatieRepository identificatieRepository) {
+    public CheckDatabaseConnectie(LicentieRepository identificatieRepository) {
         this.identificatieRepository = identificatieRepository;
     }
 
