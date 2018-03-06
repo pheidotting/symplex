@@ -50,10 +50,9 @@ public class LicentieRepository {
         LOGGER.debug("{}", licentie);
         if (licentie.getId() == null) {
             getSession().save(licentie);
-            } else {
+        } else {
             getSession().merge(licentie);
-            }
-
+        }
         metricsService.stop(timer);
     }
 

@@ -20,6 +20,8 @@ public abstract class Licentie implements Serializable {
     private Date startDatum;
     @Column(name = "KANTOOR")
     private Long kantoor;
+    @Column(name = "AANTALDAGEN")
+    private Integer aantalDagen;
 
     public Licentie() {
         this.startDatum = new Date();
@@ -47,5 +49,13 @@ public abstract class Licentie implements Serializable {
 
     public void setKantoor(Long kantoor) {
         this.kantoor = kantoor;
+    }
+
+    public Integer getAantalDagen() {
+        return aantalDagen;
+    }
+
+    public void setAantalDagen(Integer aantalDagen) {
+        this.aantalDagen = aantalDagen;
     }
 }

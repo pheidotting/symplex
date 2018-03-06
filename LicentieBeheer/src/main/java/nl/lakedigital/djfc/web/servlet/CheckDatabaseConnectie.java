@@ -3,17 +3,17 @@ package nl.lakedigital.djfc.web.servlet;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 
 public class CheckDatabaseConnectie implements Runnable {
-    private LicentieRepository identificatieRepository;
+    private LicentieRepository licentieRepository;
 
-    public CheckDatabaseConnectie(LicentieRepository identificatieRepository) {
-        this.identificatieRepository = identificatieRepository;
+    public CheckDatabaseConnectie(LicentieRepository licentieRepository) {
+        this.licentieRepository = licentieRepository;
     }
 
     @Override
     public void run() {
-        identificatieRepository.getSession().getTransaction().begin();
-        identificatieRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
-        identificatieRepository.getSession().getTransaction().commit();
+        licentieRepository.getSession().getTransaction().begin();
+        licentieRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
+        licentieRepository.getSession().getTransaction().commit();
     }
 
 }

@@ -11,6 +11,7 @@ import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.KantoorService;
 import nl.dias.service.LoginService;
 import nl.dias.web.medewerker.AbstractController;
 import nl.lakedigital.djfc.domain.response.AanmeldenKantoor;
@@ -42,6 +43,8 @@ public class AanmeldenKantoorController extends AbstractController {
     @Inject
     private KantoorRepository kantoorRepository;
     @Inject
+    private KantoorService kantoorService;
+    @Inject
     private LoginService loginService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/aanmeldenKantoor")
@@ -57,9 +60,10 @@ public class AanmeldenKantoorController extends AbstractController {
         kantoor.setAfkorting(aanmeldenKantoor.getAfkorting());
         kantoor.setNaam(aanmeldenKantoor.getBedrijfsnaam());
         kantoor.setIpAdres(httpServletRequest.getRemoteAddr());
+        kantoor.setEmailadres(aanmeldenKantoor.getEmailadres());
 
         try {
-            kantoorRepository.opslaanKantoor(kantoor);
+            kantoorService.aanmelden(kantoor);
         } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
             LOGGER.trace("Fout bij opslaan kantoor {}", e);
         }

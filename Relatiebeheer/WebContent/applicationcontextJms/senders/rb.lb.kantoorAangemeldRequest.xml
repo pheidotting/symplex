@@ -10,7 +10,7 @@
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestination" ref="kantoorAangemeldRequestDestination"/>
     </bean>
-    <bean id="kantoorAangemeldRequestSender" class="nl.dias.messaging.sender.kantoorAangemeldRequestSender">
+    <bean id="kantoorAangemeldRequestSender" class="nl.dias.messaging.sender.KantoorAangemeldRequestSender">
         <constructor-arg index="0" ref="kantoorAangemeldRequestTemplate"/>
     </bean>
 </beans>

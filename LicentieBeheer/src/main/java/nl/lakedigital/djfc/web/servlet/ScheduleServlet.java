@@ -14,14 +14,14 @@ public class ScheduleServlet implements ServletContextListener {
     private ScheduledExecutorService scheduler;
 
     @Inject
-    private LicentieRepository identificatieRepository;
+    private LicentieRepository licentieRepository;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext()).getAutowireCapableBeanFactory().autowireBean(this);
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new CheckDatabaseConnectie(identificatieRepository), 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new CheckDatabaseConnectie(licentieRepository), 0, 1, TimeUnit.SECONDS);
     }
 
     @Override

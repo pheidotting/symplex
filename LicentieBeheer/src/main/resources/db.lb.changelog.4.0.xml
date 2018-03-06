@@ -11,6 +11,7 @@
             <column name="SOORT" type="varchar(1)"/>
             <column name="STARTDATUM" type="date"/>
             <column name="KANTOOR" type="bigint"/>
+            <column name="AANTALDAGEN" type="integer"></column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

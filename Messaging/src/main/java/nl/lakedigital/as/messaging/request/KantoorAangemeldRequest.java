@@ -13,8 +13,8 @@ public class KantoorAangemeldRequest extends AbstractMessage {
         this.kantoor = new Kantoor();
     }
 
-    public KantoorAangemeldRequest(String naam, String straat, Long huisnummer, String toevoeging, String postcode, String plaats) {
-        this.kantoor = new Kantoor(naam, straat, huisnummer, toevoeging, postcode, plaats);
+    public KantoorAangemeldRequest(Long id, String identificatie, String naam, String emailadres, String straat, Long huisnummer, String toevoeging, String postcode, String plaats) {
+        this.kantoor = new Kantoor(id, identificatie, naam, emailadres, straat, huisnummer, toevoeging, postcode, plaats);
     }
 
     public Kantoor getKantoor() {
