@@ -16,7 +16,7 @@
         <!--<module>messaging</module>-->
         <!--<module>Communicatie</module>-->
         <module>LicentieBeheer</module>
-        <module>relatiebeheer</module>
+        <module>Relatiebeheer</module>
         <module>IdBeheer</module>
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>

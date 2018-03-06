@@ -7,20 +7,18 @@ public class AanmeldenKantoor {
     private String voornaam;
     private String achternaam;
     private String emailadres;
-    private String nieuwWachtwoord;
 
     public AanmeldenKantoor() {
         //Moet aanwezig zijn blijkbaar
     }
 
-    public AanmeldenKantoor(String bedrijfsnaam, String afkorting, String inlognaam, String voornaam, String achternaam, String emailadres, String nieuwWachtwoord) {
+    public AanmeldenKantoor(String bedrijfsnaam, String afkorting, String inlognaam, String voornaam, String achternaam, String emailadres) {
         this.bedrijfsnaam = bedrijfsnaam;
         this.afkorting = afkorting;
         this.inlognaam = inlognaam;
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.emailadres = emailadres;
-        this.nieuwWachtwoord = nieuwWachtwoord;
     }
 
     public String getBedrijfsnaam() {
@@ -69,13 +67,5 @@ public class AanmeldenKantoor {
 
     public void setEmailadres(String emailadres) {
         this.emailadres = emailadres;
-    }
-
-    public String getNieuwWachtwoord() {
-        return nieuwWachtwoord;
-    }
-
-    public void setNieuwWachtwoord(String nieuwWachtwoord) {
-        this.nieuwWachtwoord = nieuwWachtwoord;
     }
 }
