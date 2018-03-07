@@ -21,12 +21,6 @@ define(['jquery',
         this.voornaam = ko.observable().extend({ required: true });
         this.achternaam = ko.observable().extend({ required: true });
         this.emailadres = ko.observable().extend({ required: true });
-		this.onjuistWachtwoord = ko.observable(false);
-		this.nieuwWachtwoord = ko.observable();
-		this.nieuwWachtwoordNogmaals = ko.observable();
-		this.sterktePercentage = ko.observable('0');
-		this.sterkgenoeg = ko.observable(false);
-		this.wachtwoordSterkgenoegStyling = ko.observable();
 
 		this.afkortingKomtVoor = ko.observable(false);
 
@@ -71,26 +65,9 @@ define(['jquery',
                 $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
 
                 $.when(kantoorService.aanmelden(this)).then(function(result){
-                    window.location = 'zoeken.html';
+                    window.location = 'inloggen.html';
                 });
             }
-        };
-
-        this.checkWachtwoordSterkte = function(a) {
-            $("#nieuwWachtwoord").complexify({}, function(valid, complexity){
-                _this.sterktePercentage(Math.round(complexity));
-                $("#PassValue").val(complexity);
-                if(complexity > 32) {
-                    _this.sterkgenoeg(true);
-                    _this.wachtwoordSterkgenoegStyling(false);
-                }else{
-                    _this.wachtwoordSterkgenoegStyling('onjuiste-waarde');
-                }
-            });
-        };
-
-        this.resetfoutmeldingWachtwoord = function() {
-            _this.onjuistWachtwoord(false);
         };
 	};
 });

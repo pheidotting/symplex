@@ -1,6 +1,5 @@
 package nl.dias.web.medewerker;
 
-import com.codahale.metrics.Timer;
 import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
@@ -120,12 +119,7 @@ public class BijlageController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/download")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(@RequestParam("id") String identificatieString) throws IOException {
-        Timer.Context timer = metricsService.addTimerMetric("download", BijlageController.class);
-
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieString);
-        metricsService.addMetric("download" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
-
-        metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
 
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
 
@@ -154,8 +148,6 @@ public class BijlageController extends AbstractController {
         headers.add("content-disposition", "inline;filename=" + bijlage.getBestandsNaam());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
-
-        metricsService.stop(timer);
 
         return response;
     }
