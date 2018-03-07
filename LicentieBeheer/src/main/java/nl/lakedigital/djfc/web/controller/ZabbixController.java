@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.web.controller;
 
-import nl.lakedigital.djfc.repository.IdentificatieRepository;
+import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,13 @@ public class ZabbixController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ZabbixController.class);
 
     @Inject
-    private IdentificatieRepository identificatieRepository;
+    private LicentieRepository licentieRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/checkDatabase", produces = MediaType.TEXT_PLAIN)
     @ResponseBody
     public String checkDatabase() {
         try {
-            identificatieRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
+            licentieRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
             return "1";
         } catch (Exception e) {
             LOGGER.error("Database niet beschikbaar", e);

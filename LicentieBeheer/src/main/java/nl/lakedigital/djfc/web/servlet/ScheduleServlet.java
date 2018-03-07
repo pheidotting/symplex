@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.web.servlet;
 
-import nl.lakedigital.djfc.repository.IdentificatieRepository;
+import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.inject.Inject;
@@ -14,14 +14,14 @@ public class ScheduleServlet implements ServletContextListener {
     private ScheduledExecutorService scheduler;
 
     @Inject
-    private IdentificatieRepository identificatieRepository;
+    private LicentieRepository licentieRepository;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         WebApplicationContextUtils.getRequiredWebApplicationContext(servletContextEvent.getServletContext()).getAutowireCapableBeanFactory().autowireBean(this);
 
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new CheckDatabaseConnectie(identificatieRepository), 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new CheckDatabaseConnectie(licentieRepository), 0, 1, TimeUnit.SECONDS);
     }
 
     @Override

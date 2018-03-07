@@ -51,6 +51,13 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       method="onMessage"/>
     </jms:listener-container>
 
+    <bean id="kantoorAangemeldRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.KantoorAangemeldRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.lb.kantoorAangemeldRequestQueue" ref="kantoorAangemeldRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
     <!--<jms:listener-container container-type="default"-->
     <!--connection-factory="connectionFactory" acknowledge="auto">-->
     <!--<jms:listener destination="id.verwijderEntiteitenRequestQueue" ref="verwijderEntiteitenRequestReciever"-->

@@ -21,7 +21,7 @@
     </bean>
 
     <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init">
-        <property name="poortNummer" value="3320"/>
+        <property name="poortNummer" value="3322"/>
     </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
@@ -30,7 +30,7 @@
         <!--<property name="url" value="jdbc:mysql://localhost:3306/kattekoop"/>-->
         <!--<property name="username" value="dev"/>-->
         <!--<property name="password" value="dev"/>-->
-        <property name="url" value="jdbc:mysql://localhost:3320/test"/>
+        <property name="url" value="jdbc:mysql://localhost:3322/test"/>
         <property name="username" value=""/>
         <property name="password" value=""/>
     </bean>

@@ -255,4 +255,5 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <import resource="applicationcontextJms/senders/id.entiteitenOpgeslagenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.licentieToegevoegdRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.licentieVerwijderdRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.lb.kantoorAangemeldRequest.xml"/>
 </beans>
