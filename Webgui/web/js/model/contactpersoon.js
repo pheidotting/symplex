@@ -19,9 +19,7 @@ define(['jquery',
 		_this.functie = ko.observable();
 
 		_this.verwijderTelefoonNummer = function(telefoon) {
-			log.debug("Verwijderen telefoon " + ko.toJSON(telefoon));
 			_this.telefoonnummers.remove(function (item) {
-			    log.debug(ko.toJSON(item));
 				return item.telefoonnummer() === telefoon.telefoonnummer() && item.soort() === telefoon.soort();
 			});
 			_this.telefoonnummers.valueHasMutated();
