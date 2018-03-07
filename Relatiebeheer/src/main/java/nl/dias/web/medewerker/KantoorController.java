@@ -8,6 +8,7 @@ import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.dias.mapper.Mapper;
 import nl.dias.repository.KantoorRepository;
+import nl.dias.service.KantoorService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonKantoor;
@@ -33,6 +34,8 @@ public class KantoorController extends AbstractController {
 
     @Inject
     private KantoorRepository kantoorRepository;
+    @Inject
+    private KantoorService kantoorService;
     @Inject
     private Mapper mapper;
     @Inject
@@ -97,7 +100,7 @@ public class KantoorController extends AbstractController {
         kantoor.setKvk(jsonKantoor.getKvk());
 
         try {
-            kantoorRepository.opslaanKantoor(kantoor);
+            kantoorService.aanmelden(kantoor);
         } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
             e.printStackTrace();
         }

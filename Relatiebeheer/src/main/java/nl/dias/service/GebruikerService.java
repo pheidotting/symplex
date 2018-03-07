@@ -14,8 +14,6 @@ import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.InlogPogingRepository;
 import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.request.licentie.LicentieToegevoegdRequest;
-import nl.lakedigital.as.messaging.request.licentie.LicentieVerwijderdRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
@@ -136,19 +134,19 @@ public class GebruikerService {
             entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
         }
 
-        if (licentie != null) {
-            LicentieToegevoegdRequest licentieToegevoegd = new LicentieToegevoegdRequest();
-            licentieToegevoegd.setLicentieType(licentie);
-
-            Medewerker mw = (Medewerker) gebruiker;
-            nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
-            Kantoor k = mw.getKantoor();
-            nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
-
-            licentieToegevoegd.setKantoor(kantoor);
-            licentieToegevoegd.setMedwerker(medewerker);
-            licentieToegevoegdRequestSender.send(licentieToegevoegd);
-        }
+        //        if (licentie != null) {
+        //            LicentieToegevoegdRequest licentieToegevoegd = new LicentieToegevoegdRequest();
+        //            licentieToegevoegd.setLicentieType(licentie);
+        //
+        //            Medewerker mw = (Medewerker) gebruiker;
+        //            nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
+        //            Kantoor k = mw.getKantoor();
+        //            nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getId(),"",k.getNaam(), "", 0L, "", "", "");
+        //
+        //            licentieToegevoegd.setKantoor(kantoor);
+        //            licentieToegevoegd.setMedwerker(medewerker);
+        //            licentieToegevoegdRequestSender.send(licentieToegevoegd);
+        //        }
     }
 
     public void opslaan(final List<JsonContactPersoon> jsonContactPersonen, Long bedrijfId) {
@@ -224,18 +222,18 @@ public class GebruikerService {
                 List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
                 polisService.verwijder(polises);
             }
-            if (gebruiker instanceof Medewerker) {
-                LicentieVerwijderdRequest licentieVerwijderdRequest = new LicentieVerwijderdRequest();
-
-                Medewerker mw = (Medewerker) gebruiker;
-                nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
-                Kantoor k = mw.getKantoor();
-                nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
-
-                licentieVerwijderdRequest.setKantoor(kantoor);
-                licentieVerwijderdRequest.setMedwerker(medewerker);
-                licentieVerwijderdRequestSender.send(licentieVerwijderdRequest);
-            }
+            //            if (gebruiker instanceof Medewerker) {
+            //                LicentieVerwijderdRequest licentieVerwijderdRequest = new LicentieVerwijderdRequest();
+            //
+            //                Medewerker mw = (Medewerker) gebruiker;
+            //                nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
+            //                Kantoor k = mw.getKantoor();
+            //                nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
+            //
+            //                licentieVerwijderdRequest.setKantoor(kantoor);
+            //                licentieVerwijderdRequest.setMedwerker(medewerker);
+            //                licentieVerwijderdRequestSender.send(licentieVerwijderdRequest);
+            //            }
             // en dan verwijderen
             gebruikerRepository.verwijder(gebruiker);
 

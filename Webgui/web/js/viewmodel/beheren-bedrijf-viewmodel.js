@@ -127,8 +127,6 @@ define(['jquery',
 		};
 
 		this.verwijderenBedrijf = function(bedrijf){
-			log.debug("verwijderen Bedrijf met id " + bedrijf.id());
-
 			dataServices.verwijderRelatie(ko.utils.unwrapObservable(bedrijf.id));
 			redirect.redirect('LIJST_BEDRIJVEN');
 		};
@@ -143,9 +141,7 @@ define(['jquery',
         };
 
         this.verwijderContactpersoon = function(contactpersoon) {
-            log.debug("Verwijderen contactpersoon " + ko.toJSON(contactpersoon));
             _this.contactpersonen.remove(function (item) {
-                log.debug(ko.toJSON(item));
                 return item.voornaam() === contactpersoon.voornaam() && item.achternaam() === contactpersoon.achternaam();
             });
             _this.contactpersonen.valueHasMutated();

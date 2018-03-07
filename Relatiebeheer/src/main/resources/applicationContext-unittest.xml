@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <context:component-scan base-package="nl.dias.repository"/>
@@ -48,14 +48,32 @@
         </property>
     </bean>
 
-    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >-->
-    <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
-    <!--<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true" />-->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
+          p:brokerURL="tcp://localhost:61616" p:userName="admin" p:password="secret"/>
 
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+    </bean>
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
+    </bean>
+
+    <bean id="kantoorAangemeldRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.lb.kantoorAangemeldRequestQueue"/>
+    </bean>
+    <bean id="kantoorAangemeldRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="kantoorAangemeldRequestDestination"/>
+    </bean>
+    <bean id="kantoorAangemeldRequestSender" class="nl.dias.messaging.sender.KantoorAangemeldRequestSender">
+        <constructor-arg index="0" ref="kantoorAangemeldRequestTemplate"/>
+    </bean>
+
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <constructor-arg value="${id.url}"/>
+        <property name="metricsService" ref="metricsService"/>
     </bean>
 
 </beans>
