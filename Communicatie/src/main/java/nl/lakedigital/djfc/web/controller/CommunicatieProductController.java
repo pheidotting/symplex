@@ -1,19 +1,19 @@
 package nl.lakedigital.djfc.web.controller;
 
 import nl.lakedigital.djfc.commons.json.JsonCommunicatieProduct;
-import nl.lakedigital.djfc.commons.json.OpslaanCommunicatieProduct;
 import nl.lakedigital.djfc.domain.CommunicatieProduct;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.mapper.Mapper;
 import nl.lakedigital.djfc.service.CommunicatieProductService;
 import nl.lakedigital.djfc.service.ontvangen.LeesEnVerwerkEmailService;
 import nl.lakedigital.djfc.service.verzenden.VerzendService;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -45,20 +45,20 @@ public class CommunicatieProductController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/nieuw")
-    @ResponseBody
-    public Long nieuwCommunicatieProduct(@RequestBody OpslaanCommunicatieProduct opslaanCommunicatieProduct) {
-        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(opslaanCommunicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
-
-        CommunicatieProductService.SoortCommunicatieProduct soort = null;
-        if (opslaanCommunicatieProduct.getSoortCommunicatieProduct() != null) {
-            soort = CommunicatieProductService.SoortCommunicatieProduct.valueOf(opslaanCommunicatieProduct.getSoortCommunicatieProduct().name());
-        }
-
-        return communicatieProductService.maakCommunicatieProduct(opslaanCommunicatieProduct.getId(), //
-                soort,//
-                opslaanCommunicatieProduct.getParentid(), opslaanCommunicatieProduct.getTekst(), opslaanCommunicatieProduct.getOnderwerp(), null, opslaanCommunicatieProduct.getMedewerker());
-    }
+    //    @RequestMapping(method = RequestMethod.POST, value = "/nieuw")
+    //    @ResponseBody
+    //    public Long nieuwCommunicatieProduct(@RequestBody OpslaanCommunicatieProduct opslaanCommunicatieProduct) {
+    //        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(opslaanCommunicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
+    //
+    //        CommunicatieProductService.SoortCommunicatieProduct soort = null;
+    //        if (opslaanCommunicatieProduct.getSoortCommunicatieProduct() != null) {
+    //            soort = CommunicatieProductService.SoortCommunicatieProduct.valueOf(opslaanCommunicatieProduct.getSoortCommunicatieProduct().name());
+    //        }
+    //
+    //        return communicatieProductService.maakCommunicatieProduct(opslaanCommunicatieProduct.getId(), //
+    //                soort,//
+    //                opslaanCommunicatieProduct.getParentid(), opslaanCommunicatieProduct.getTekst(), opslaanCommunicatieProduct.getOnderwerp(), null, opslaanCommunicatieProduct.getMedewerker());
+    //    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/versturen/{id}")
     @ResponseBody

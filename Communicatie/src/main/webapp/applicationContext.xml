@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
-
-    <!--<context:component-scan base-package="nl.lakedigital" />-->
+    <context:component-scan base-package="nl.lakedigital.djfc"/>
 
     <!--<context:annotation-config/>-->
+    <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
+    <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
+        <property name="metricRegistry" ref="metricRegistry"/>
+    </bean>
 
     <bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -58,9 +65,24 @@
         <property name="config" value="classpath:activemq.xml" />
         <property name="start" value="true" />
     </bean>
-
-    <import resource="applicationContext-jms.xml" />
     -->
+    <!-- Activemq connection factory -->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <constructor-arg index="0" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!-- ConnectionFactory Definition -->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+    </bean>
+
+    <bean id="wachtwoordVergetenRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.WachtwoordVergetenRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.wachtwoordVergetenRequestQueue" ref="wachtwoordVergetenRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+    <!--<import resource="applicationContext-jms.xml" />-->
 
     <!-- Thymeleaf -->
     <bean id="fileTemplateResolver" class="org.thymeleaf.templateresolver.FileTemplateResolver">

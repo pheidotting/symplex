@@ -35,15 +35,15 @@ public class EmailVerzendService extends AbstractVerzendService {
     private String mailHost = "localhost";
     private Integer smtpPort = 2170;
 
-    @Inject
+    //    @Inject
     private MedewerkerClient medewerkerClient;
-    @Inject
+    //    @Inject
     private KantoorClient kantoorClient;
     //    @Inject
     //    private RelatieClient relatieClient;
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
-    @Inject
+    //    @Inject
     private BijlageClient bijlageClient;
 
     @Override

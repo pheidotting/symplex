@@ -26,15 +26,15 @@ public class MaakBriefService {
     private TemplateEngine templateEngine;
     @Inject
     private HtmlToPdfConversieService htmlToPdfConversieService;
-    @Inject
+    //    @Inject
     private KantoorClient kantoorClient;
-    @Inject
+    //    @Inject
     private MedewerkerClient medewerkerClient;
     //    @Inject
     //    private RelatieClient relatieClient;
-    @Inject
+    //    @Inject
     private AdresClient adresClient;
-    @Inject
+    //    @Inject
     private BijlageClient bijlageClient;
 
     public void verzend(UitgaandeBrief uitgaandeBrief) {

@@ -6,6 +6,7 @@ import nl.dias.domein.Beheerder;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
+import nl.dias.messaging.sender.WachtwoordVergetenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.LoginService;
@@ -54,6 +55,8 @@ public class AuthorisatieController {
     private MetricsService metricsService;
     @Inject
     private LoginService loginService;
+    @Inject
+    private WachtwoordVergetenRequestSender wachtwoordVergetenRequestSender;
 
     @RequestMapping(method = RequestMethod.POST, value = "/inloggen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -139,6 +142,8 @@ public class AuthorisatieController {
                 gebruiker.setHashWachtwoord(nieuwWachtwoord);
                 gebruiker.setMoetWachtwoordUpdaten(true);
                 gebruikerRepository.opslaan(gebruiker);
+
+                wachtwoordVergetenRequestSender.send(gebruiker, nieuwWachtwoord);
 
                 String mailHost = "smtp.gmail.com";
                 Integer smtpPort = 587;

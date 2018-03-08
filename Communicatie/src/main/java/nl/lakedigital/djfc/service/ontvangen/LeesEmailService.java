@@ -56,7 +56,7 @@ public class LeesEmailService {
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
-    @Inject
+    //    @Inject
     private BijlageClient bijlageClient;
 
     public List<CommunicatieProduct> leesMails() {

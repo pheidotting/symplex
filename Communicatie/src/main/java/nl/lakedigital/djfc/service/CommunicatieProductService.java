@@ -26,7 +26,7 @@ public class CommunicatieProductService {
 
     //    @Inject
     //    private RelatieClient relatieClient;
-    @Inject
+    //    @Inject
     private AdresClient adresClient;
 
     public void markeerAlsGelezen(Long id) {
@@ -65,20 +65,20 @@ public class CommunicatieProductService {
         return communicatieProductRepository.alles(soortEntiteit,entiteitId);
     }
 
-    public Long maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, Long relatieId, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
+    public Long maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, String email, String voornaam, String tussenvoegsel, String achternaam, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
         //        JsonRelatie relatie = relatieClient.lees(relatieId);
         //
-        //        if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && relatie.getEmailadres() == null) {
-        //            throw new IllegalStateException();
-        //        }
-        //
+        if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && email == null) {
+            throw new IllegalStateException();
+        }
+
         //        List<JsonAdres> adressen = adresClient.lijst(SoortEntiteit.RELATIE.name(), relatieId);
         //        if (soortCommunicatieProduct == SoortCommunicatieProduct.BRIEF && adressen.isEmpty()) {
         //            throw new IllegalStateException();
         //        }
-        //        if (soortCommunicatieProduct == null) {
+        //                if (soortCommunicatieProduct == null) {
         //            if (relatie.getIdentificatie() != null) {
-        //                soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
+        soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
         //            } else if (!adressen.isEmpty()) {
         //                soortCommunicatieProduct = SoortCommunicatieProduct.BRIEF;
         //            } else {
@@ -88,7 +88,7 @@ public class CommunicatieProductService {
 
         CommunicatieProduct communicatieProduct = maakCommunicatieProduct(soortCommunicatieProduct, id);
         communicatieProduct.setSoortEntiteit(SoortEntiteit.RELATIE);
-        communicatieProduct.setEntiteitId(relatieId);
+        //        communicatieProduct.setEntiteitId(relatieId);
 
         communicatieProduct.setTekst(tekst);
              communicatieProduct.setOnderwerp(onderwerp);
