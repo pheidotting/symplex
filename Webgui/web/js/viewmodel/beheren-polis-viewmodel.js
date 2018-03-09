@@ -45,9 +45,6 @@ define(['jquery',
             var deferred = $.Deferred();
 
             _this.basisId = basisId;
-            if(_this.basisId == null) {
-                _this.basisId = polisId.identificatie;
-            }
 
             _this.readOnly(readOnly);
             _this.notReadOnly(!readOnly);
@@ -58,6 +55,7 @@ define(['jquery',
                 } else {
                     _this.basisEntiteit = "RELATIE";
                 }
+                _this.basisId = entiteit.identificatie;
 
                 var polis = _.find(entiteit.polissen, function(polis) {return polis.identificatie === polisId.identificatie;});
                 if(polis == null){
@@ -131,11 +129,7 @@ define(['jquery',
 	    		polisService.opslaan(_this.polis, _this.opmerkingenModel.opmerkingen, _this.basisId).done(function() {
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 
-					if(_this.basisEntiteit == "RELATIE"){
-                        redirect.redirect('BEHEREN_RELATIE', _this.basisId);
-                    } else{
-                        redirect.redirect('BEHEREN_BEDRIJF', _this.basisId);
-                    }
+                    redirect.redirect('LIJST_POLISSEN', _this.basisId);
 	    		}).fail(function(data) {
     	    		allOk = false;
 					commonFunctions.plaatsFoutmelding(data);
