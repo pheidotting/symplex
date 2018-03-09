@@ -15,7 +15,6 @@ import org.joda.time.LocalDateTime;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -47,11 +46,11 @@ public class LeesEmailService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LeesEmailService.class);
 
-    @Value("${mailUser}")
+    //    @Value("${mailUser}")
     private String mailUser;
-    @Value("${mailPop3Host}")
+    //    @Value("${mailPop3Host}")
     private String mailPop3Host;
-    @Value("${mailPassword}")
+    //    @Value("${mailPassword}")
     private String mailPassword;
 
     @Inject

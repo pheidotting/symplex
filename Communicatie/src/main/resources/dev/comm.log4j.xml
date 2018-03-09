@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+    <!-- APPENDERS LIST -->
+    <!-- show log entries on console -->
+    <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <param name="target" value="System.out"/>
+        <!--<param name="threshold" value="debug" />-->
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="debugFileAppender" class="org.apache.log4j.FileAppender">
+        <param name="file" value="/Users/patrickheidotting/Documents/DEV/Java/logs/comm.log"/>
+        <param name="immediateFlush" value="true"/>
+        <!--<param name="threshold" value="debug"/>-->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="loggly" class="nl.lakedigital.comm.appender.LogglyAppender">
+        <param name="tag" value="dev,comm"/>
+        <param name="interval" value="60"/>
+        <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="kibana" class="nl.lakedigital.comm.appender.KibanaAppender">
+        <param name="interval" value="600"/>
+        <param name="applicatie" value="rb"/>
+        <param name="omgeving" value="dev"/>
+        <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                   value="%m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="javax.enterprise.system">
+        <level value="error"/>
+    </logger>
+    <logger name="javax.persistence">
+        <level value="info"/>
+    </logger>
+    <logger name="org.springframework">
+        <level value="info"/>
+    </logger>
+    <logger name="org.apache">
+        <level value="error"/>
+    </logger>
+    <logger name="org.hibernate">
+        <level value="error"/>
+    </logger>
+    <logger name="ch.vorburger">
+        <level value="off"/>
+    </logger>
+    <!--<logger name="nl.lakedigital.comm">-->
+    <!--<level value="trace" />-->
+    <!--</logger>-->
+
+    <root>
+        <priority value="trace"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="debugFileAppender"/>
+        <!--<appender-ref ref="loggly"/>-->
+        <!--<appender-ref ref="kibana"/>-->
+    </root>
+</log4j:configuration>

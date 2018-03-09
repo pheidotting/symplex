@@ -551,6 +551,26 @@
                         <version>2.7</version>
                         <executions>
                             <execution>
+                                <id>properties files</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>/Users/patrickheidotting/Documents/DEV/Java/jetty/comm/
+                                    </outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${basedir}/src/main/resources/dev</directory>
+                                            <includes>
+                                                <include>comm.app.properties</include>
+                                                <include>comm.log4j.xml</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>copy-resources</id>
                                 <phase>package</phase>
                                 <goals>
