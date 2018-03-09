@@ -44,6 +44,11 @@ define(['jquery',
         this.init = function(polisId, basisId, readOnly, basisEntiteit) {
             var deferred = $.Deferred();
 
+            _this.basisId = basisId;
+            if(_this.basisId == null) {
+                _this.basisId = polisId.identificatie;
+            }
+
             _this.readOnly(readOnly);
             _this.notReadOnly(!readOnly);
             _this.id(polisId.identificatie);
@@ -125,7 +130,12 @@ define(['jquery',
                 _this.polis.premie(commonFunctions.stripBedrag(_this.polis.premie()));
 	    		polisService.opslaan(_this.polis, _this.opmerkingenModel.opmerkingen, _this.basisId).done(function() {
 					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-                    redirect.redirect('BEHEREN_RELATIE', _this.basisId);
+
+					if(_this.basisEntiteit == "RELATIE"){
+                        redirect.redirect('BEHEREN_RELATIE', _this.basisId);
+                    } else{
+                        redirect.redirect('BEHEREN_BEDRIJF', _this.basisId);
+                    }
 	    		}).fail(function(data) {
     	    		allOk = false;
 					commonFunctions.plaatsFoutmelding(data);
