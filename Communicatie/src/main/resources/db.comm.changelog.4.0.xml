@@ -132,4 +132,18 @@
             <column name="UITGAANDEEMAIL" type="int" />
         </createTable>
     </changeSet>
+    <changeSet id="3" author="Patrick Heidotting">
+        <addColumn tableName="COMMUNICATIEPRODUCT">
+            <column name="NAAMONTVANGER" type="varchar(100)"/>
+            <column name="EMAILONTVANGER" type="varchar(100)"/>
+            <column name="NAAMVERZENDER" type="varchar(100)"/>
+            <column name="EMAILVERZENDER" type="varchar(100)"/>
+        </addColumn>
+        <addColumn tableName="COMMUNICATIEPRODUCT_AUD">
+            <column name="NAAMONTVANGER" type="varchar(100)"/>
+            <column name="EMAILONTVANGER" type="varchar(100)"/>
+            <column name="NAAMVERZENDER" type="varchar(100)"/>
+            <column name="EMAILVERZENDER" type="varchar(100)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

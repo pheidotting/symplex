@@ -1,6 +1,7 @@
 package nl.dias.messaging.sender;
 
 import nl.dias.domein.Gebruiker;
+import nl.dias.domein.Medewerker;
 import nl.lakedigital.as.messaging.request.WachtwoordVergetenRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,6 @@ public class WachtwoordVergetenRequestSender extends AbstractSender<WachtwoordVe
     }
 
     public void send(Gebruiker gebruiker, String wachtwoord) {
-        super.send(new WachtwoordVergetenRequest(gebruiker.getId(), gebruiker.getEmailadres(), gebruiker.getVoornaam(), gebruiker.getTussenvoegsel(), gebruiker.getAchternaam(), wachtwoord), LOGGER);
+        super.send(new WachtwoordVergetenRequest(gebruiker.getId(), gebruiker.getEmailadres(), gebruiker.getVoornaam(), gebruiker.getTussenvoegsel(), gebruiker.getAchternaam(), wachtwoord, ((Medewerker) gebruiker).getKantoor().getNaam(), ((Medewerker) gebruiker).getKantoor().getEmailadres()), LOGGER);
     }
 }

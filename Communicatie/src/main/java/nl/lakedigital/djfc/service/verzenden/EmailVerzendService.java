@@ -1,7 +1,5 @@
 package nl.lakedigital.djfc.service.verzenden;
 
-import nl.lakedigital.djfc.client.dejonge.KantoorClient;
-import nl.lakedigital.djfc.client.dejonge.MedewerkerClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.domain.CommunicatieProduct;
@@ -36,15 +34,9 @@ public class EmailVerzendService extends AbstractVerzendService {
     private String mailHost = "smtp.gmail.com";
     private Integer smtpPort = 587;
 
-    //    @Inject
-    private MedewerkerClient medewerkerClient;
-    //    @Inject
-    private KantoorClient kantoorClient;
-    //    @Inject
-    //    private RelatieClient relatieClient;
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
-    //    @Inject
+    @Inject
     private BijlageClient bijlageClient;
 
     @Override
@@ -71,29 +63,21 @@ public class EmailVerzendService extends AbstractVerzendService {
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
 
-            //            JsonMedewerker medewerker = medewerkerClient.lees(uitgaandeEmail.getMedewerker());
-            //            JsonKantoor kantoor = kantoorClient.lees(medewerker.getKantoor());
-
-            //            StringBuilder afzender = maakNaam(medewerker.getVoornaam(), medewerker.getTussenvoegsel(), medewerker.getAchternaam());
-            //            afzender.append(" (");
-            //            afzender.append(kantoor.getNaam());
-            //            afzender.append(") <");
-            //            afzender.append(kantoor.getEmailadres());
-            //            afzender.append(">");
             StringBuilder afzender = new StringBuilder();
-            afzender.append("Symplex <noreply@symplexict.nl>");
+            afzender.append(uitgaandeEmail.getNaamVerzender());
+            afzender.append("<");
+            afzender.append(uitgaandeEmail.getEmailVerzender());
+            afzender.append(">");
 
             Message msg = new MimeMessage(emailSession);
 
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress(afzender.toString()));
-            //
-            //                        JsonRelatie relatie = relatieClient.lees(uitgaandeEmail.getEntiteitId());
 
-
-            StringBuilder ontvanger = maakNaam("Patrick", null, "Heidotting");
+            StringBuilder ontvanger = new StringBuilder();
+            ontvanger.append(uitgaandeEmail.getNaamOntvanger());
             ontvanger.append(" <");
-            ontvanger.append("patrick@heidotting.nl");
+            ontvanger.append(uitgaandeEmail.getEmailOntvanger());
             ontvanger.append(">");
 
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(ontvanger.toString(), false));
@@ -108,7 +92,7 @@ public class EmailVerzendService extends AbstractVerzendService {
             // Create a multipar message
             Multipart multipart = new MimeMultipart();
             //                 Now set the actual message
-            messageBodyPart.setText(uitgaandeEmail.getTekst() + "\n");
+            messageBodyPart.setContent(uitgaandeEmail.getTekst() + "\n", "text/html");
             // Set text message part
             multipart.addBodyPart(messageBodyPart);
 
@@ -155,19 +139,5 @@ public class EmailVerzendService extends AbstractVerzendService {
             String password = "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY";
             return new PasswordAuthentication(username, password);
         }
-    }
-
-    private StringBuilder maakNaam(String voornaam, String tussenvoegsel, String achternaam) {
-        StringBuilder naam = new StringBuilder();
-        naam.append(voornaam);
-        naam.append(" ");
-        if (tussenvoegsel != null && !"".equals(tussenvoegsel)) {
-            naam.append(tussenvoegsel);
-            naam.append(" ");
-        }
-        naam.append(achternaam);
-
-        return naam;
-
     }
 }

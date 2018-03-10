@@ -32,7 +32,7 @@ public class WachtwoordVergetenRequestReciever extends AbstractReciever<Wachtwoo
 
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", WachtwoordVergetenRequestReciever.class);
 
-        wachtwoordVergetenMailService.stuurMail(wachtwoordVergetenRequest.getEmail(), wachtwoordVergetenRequest.getVoornaam(), wachtwoordVergetenRequest.getTussenvoegsel(), wachtwoordVergetenRequest.getAchternaam(), wachtwoordVergetenRequest.getNieuwWachtwoord());
+        wachtwoordVergetenMailService.stuurMail(wachtwoordVergetenRequest.getEmail(), wachtwoordVergetenRequest.getVoornaam(), wachtwoordVergetenRequest.getTussenvoegsel(), wachtwoordVergetenRequest.getAchternaam(), wachtwoordVergetenRequest.getNieuwWachtwoord(), wachtwoordVergetenRequest.getKantoorNaam(), wachtwoordVergetenRequest.getKantoorEmail());
 
         metricsService.stop(timer);
     }

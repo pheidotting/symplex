@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -20,9 +21,11 @@ public class CommunicatieProductService {
     public enum SoortCommunicatieProduct {EMAIL, BRIEF}
 
     @Inject
-    private CommunicatieProductRepository communicatieProductRepository;
+    protected CommunicatieProductRepository communicatieProductRepository;
     @Inject
     private MaakBriefService maakBriefService;
+    @Inject
+    protected TemplateEngine templateEngine;
 
     //    @Inject
     //    private RelatieClient relatieClient;
@@ -65,7 +68,7 @@ public class CommunicatieProductService {
         return communicatieProductRepository.alles(soortEntiteit,entiteitId);
     }
 
-    public Long maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, String email, String voornaam, String tussenvoegsel, String achternaam, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
+    public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, String email, String voornaam, String tussenvoegsel, String achternaam, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
         //        JsonRelatie relatie = relatieClient.lees(relatieId);
         //
         if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && email == null) {
@@ -102,7 +105,7 @@ public class CommunicatieProductService {
 
         communicatieProductRepository.opslaan(communicatieProduct);
 
-        return communicatieProduct.getId();
+        return communicatieProduct;
     }
 
     private CommunicatieProduct maakCommunicatieProduct(SoortCommunicatieProduct soortCommunicatieProduct, Long id) {
@@ -148,5 +151,19 @@ maakBriefService.verzend((UitgaandeBrief)communicatieProduct);
         ret.addAll(communicatieProductRepository.leesOnverzondenEmails());
 
         return ret;
+    }
+
+    protected StringBuilder maakNaam(String voornaam, String tussenvoegsel, String achternaam) {
+        StringBuilder naam = new StringBuilder();
+        naam.append(voornaam);
+        naam.append(" ");
+        if (tussenvoegsel != null && !"".equals(tussenvoegsel)) {
+            naam.append(tussenvoegsel);
+            naam.append(" ");
+        }
+        naam.append(achternaam);
+
+        return naam;
+
     }
 }

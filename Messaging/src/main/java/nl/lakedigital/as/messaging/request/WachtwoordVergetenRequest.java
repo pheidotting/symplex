@@ -12,17 +12,21 @@ public class WachtwoordVergetenRequest extends AbstractMessage {
     private String tussenvoegsel;
     private String achternaam;
     private String nieuwWachtwoord;
+    private String kantoorNaam;
+    private String kantoorEmail;
 
     public WachtwoordVergetenRequest() {
     }
 
-    public WachtwoordVergetenRequest(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam, String nieuwWachtwoord) {
+    public WachtwoordVergetenRequest(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam, String nieuwWachtwoord, String kantoorNaam, String kantoorEmail) {
         this.gebruikerId = gebruikerId;
         this.email = email;
         this.voornaam = voornaam;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.nieuwWachtwoord = nieuwWachtwoord;
+        this.kantoorNaam = kantoorNaam;
+        this.kantoorEmail = kantoorEmail;
     }
 
     public Long getGebruikerId() {
@@ -71,5 +75,21 @@ public class WachtwoordVergetenRequest extends AbstractMessage {
 
     public void setNieuwWachtwoord(String nieuwWachtwoord) {
         this.nieuwWachtwoord = nieuwWachtwoord;
+    }
+
+    public String getKantoorNaam() {
+        return kantoorNaam;
+    }
+
+    public void setKantoorNaam(String kantoorNaam) {
+        this.kantoorNaam = kantoorNaam;
+    }
+
+    public String getKantoorEmail() {
+        return kantoorEmail;
+    }
+
+    public void setKantoorEmail(String kantoorEmail) {
+        this.kantoorEmail = kantoorEmail;
     }
 }
