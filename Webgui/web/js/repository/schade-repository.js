@@ -7,8 +7,6 @@ define(["commons/3rdparty/log",
         return {
             opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_SCHADE');
-                log.debug("Versturen naar " + url + " : ");
-                log.debug(ko.toJSON(data));
 
                 return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },

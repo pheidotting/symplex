@@ -72,6 +72,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
@@ -87,6 +88,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
@@ -351,6 +353,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
