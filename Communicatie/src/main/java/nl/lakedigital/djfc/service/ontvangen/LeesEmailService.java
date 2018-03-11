@@ -37,7 +37,7 @@ import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Service
-@PropertySources({@PropertySource("classpath:application.properties"), @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)})
+@PropertySources({@PropertySource(value = "file:comm.app.properties", ignoreResourceNotFound = true)})
 public class LeesEmailService {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {

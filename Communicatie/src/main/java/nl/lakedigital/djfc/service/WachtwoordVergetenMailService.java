@@ -12,14 +12,14 @@ public class WachtwoordVergetenMailService extends CommunicatieProductService {
     @Inject
     private VerzendService verzendService;
 
-    public void stuurMail(String email, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord, String kantoorNaam, String kantoorEmail) {
+    public void stuurMail(Long relatieId, String email, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord, String kantoorNaam, String kantoorEmail) {
         Context context = new Context();
 
         context.setVariable("wachtwoord", wachtwoord);
 
         String tekst = templateEngine.process("wachtwoord-vergeten", context);
 
-        Email mail = (Email) maakCommunicatieProduct(null, SoortCommunicatieProduct.EMAIL, email, voornaam, tussenvoegsel, achternaam, tekst, "Nieuw wachtwoord", null, null);
+        Email mail = (Email) maakCommunicatieProduct(null, SoortCommunicatieProduct.EMAIL, relatieId, email, tekst, "Nieuw wachtwoord", null, null);
 
         mail.setEmailOntvanger(email);
         mail.setNaamOntvanger(maakNaam(voornaam, tussenvoegsel, achternaam).toString());

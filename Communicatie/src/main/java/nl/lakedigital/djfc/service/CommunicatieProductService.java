@@ -68,7 +68,7 @@ public class CommunicatieProductService {
         return communicatieProductRepository.alles(soortEntiteit,entiteitId);
     }
 
-    public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, String email, String voornaam, String tussenvoegsel, String achternaam, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
+    public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, Long relatieId, String email, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
         //        JsonRelatie relatie = relatieClient.lees(relatieId);
         //
         if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && email == null) {
@@ -91,7 +91,7 @@ public class CommunicatieProductService {
 
         CommunicatieProduct communicatieProduct = maakCommunicatieProduct(soortCommunicatieProduct, id);
         communicatieProduct.setSoortEntiteit(SoortEntiteit.RELATIE);
-        //        communicatieProduct.setEntiteitId(relatieId);
+        communicatieProduct.setEntiteitId(relatieId);
 
         communicatieProduct.setTekst(tekst);
              communicatieProduct.setOnderwerp(onderwerp);
