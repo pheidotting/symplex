@@ -4,7 +4,7 @@
     <!-- APPENDERS LIST -->
     <!-- show log entries on console -->
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
-        <param name="file" value="/var/log/djfc/djfc.log"/>
+        <param name="file" value="/var/log/djfc/comm.log"/>
         <param name="immediateFlush" value="true"/>
         <!--<param name="threshold" value="debug"/>-->
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
