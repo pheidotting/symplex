@@ -26,18 +26,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Properties;
 import java.util.UUID;
 
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -136,7 +130,6 @@ public class AuthorisatieController {
             }
 
             String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
-            String tekst = "Je nieuwe wachtwoord is : " + nieuwWachtwoord;
 
             if (gebruiker != null && gebruiker.getEmailadres() != null && !"".equals(gebruiker.getEmailadres())) {
                 gebruiker.setHashWachtwoord(nieuwWachtwoord);
@@ -144,60 +137,10 @@ public class AuthorisatieController {
                 gebruikerRepository.opslaan(gebruiker);
 
                 wachtwoordVergetenRequestSender.send(gebruiker, nieuwWachtwoord);
-
-                String mailHost = "smtp.gmail.com";
-                Integer smtpPort = 587;
-
-                Properties properties = new Properties();
-                properties.put("mail.smtp.host", mailHost);
-                properties.put("mail.smtp.port", smtpPort);
-                properties.put("mail.smtp.starttls.enable", "true");
-                properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-                properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-                properties.setProperty("mail.smtp.auth", "true");
-                Authenticator auth = new SMTPAuthenticator();
-                Session emailSession = Session.getDefaultInstance(properties, auth);
-
-                Message msg = new MimeMessage(emailSession);
-
-                // -- Set the FROM and TO fields --
-                msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
-
-                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(gebruiker.getEmailadres(), false));
-                msg.setSubject("Wachtwoord reset");
-                msg.setSentDate(new Date());
-
-                BodyPart messageBodyPart = new MimeBodyPart();
-
-                //evt bijlages bijzoeken
-
-                // Create a multipar message
-                Multipart multipart = new MimeMultipart();
-                //                 Now set the actual message
-                messageBodyPart.setText(tekst);
-                // Set text message part
-                multipart.addBodyPart(messageBodyPart);
-
-                // Send the complete message parts
-                msg.setContent(multipart);
-
-                Transport transport = emailSession.getTransport("smtp");
-                transport.connect(mailHost, smtpPort, null, null);
-                //Zeker weten dat de mail niet al verstuurd is door een andere Thread
-                transport.sendMessage(msg, msg.getAllRecipients());
-                transport.close();
             }
 
-        } catch (MessagingException | NietGevondenException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
+        } catch (NietGevondenException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
             LOGGER.error("Fout opgetreden bij het aanmaken van een nieuw wachtwoord voor {} : {}", identificatie, e);
-        }
-    }
-
-    private class SMTPAuthenticator extends javax.mail.Authenticator {
-        public PasswordAuthentication getPasswordAuthentication() {
-            String username = "p.heidotting@gmail.com";
-            String password = "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY";
-            return new PasswordAuthentication(username, password);
         }
     }
 
