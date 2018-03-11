@@ -2,7 +2,7 @@ package nl.dias.messaging.sender;
 
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
-import nl.lakedigital.as.messaging.request.WachtwoordVergetenRequest;
+import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;

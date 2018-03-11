@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.as.messaging.request.WachtwoordVergetenRequest;
+import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.djfc.service.WachtwoordVergetenMailService;
@@ -32,7 +32,7 @@ public class WachtwoordVergetenRequestReciever extends AbstractReciever<Wachtwoo
 
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", WachtwoordVergetenRequestReciever.class);
 
-        wachtwoordVergetenMailService.stuurMail(wachtwoordVergetenRequest.getGebruikerId(), wachtwoordVergetenRequest.getEmail(), wachtwoordVergetenRequest.getVoornaam(), wachtwoordVergetenRequest.getTussenvoegsel(), wachtwoordVergetenRequest.getAchternaam(), wachtwoordVergetenRequest.getNieuwWachtwoord(), wachtwoordVergetenRequest.getKantoorNaam(), wachtwoordVergetenRequest.getKantoorEmail());
+        wachtwoordVergetenMailService.stuurMail(wachtwoordVergetenRequest.getGeadresseerde().getId(), wachtwoordVergetenRequest.getGeadresseerde().getEmail(), wachtwoordVergetenRequest.getGeadresseerde().getVoornaam(), wachtwoordVergetenRequest.getGeadresseerde().getTussenvoegsel(), wachtwoordVergetenRequest.getGeadresseerde().getAchternaam(), wachtwoordVergetenRequest.getNieuwWachtwoord(), wachtwoordVergetenRequest.getAfzender().getNaam(), wachtwoordVergetenRequest.getAfzender().getEmail());
 
         metricsService.stop(timer);
     }
