@@ -7,13 +7,7 @@ define(["commons/3rdparty/log",
 
         return {
             aanmelden: function(kantoor) {
-                var deferred = $.Deferred();
-
-                kantoorRepository.aanmelden(kantoor).done(function(){
-                    return deferred.resolve();
-                });
-
-                return deferred.promise();
+                return kantoorRepository.aanmelden(kantoor);
             },
 
             lees: function() {

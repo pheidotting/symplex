@@ -13,7 +13,9 @@ public abstract class AbstractCommunicatieRequest extends AbstractMessage {
     }
 
     public AbstractCommunicatieRequest(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam, String kantoorNaam, String kantoorEmail) {
-        this.afzender = new Afzender(kantoorNaam, kantoorEmail);
+        if (kantoorNaam != null && kantoorEmail != null) {
+            this.afzender = new Afzender(kantoorNaam, kantoorEmail);
+        }
         this.geadresseerde = new Geadresseerde(gebruikerId, email, voornaam, tussenvoegsel, achternaam);
     }
 

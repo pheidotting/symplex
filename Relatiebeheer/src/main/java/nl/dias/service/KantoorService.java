@@ -23,10 +23,8 @@ public class KantoorService {
     private KantoorAangemeldRequestSender kantoorAangemeldRequestSender;
 
     public void aanmelden(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
-        LOGGER.debug("opslaan naar repo");
+        LOGGER.debug("Aanmelden Kantoor");
         kantoorRepository.opslaanKantoor(kantoor);
-        LOGGER.debug("Message verzenden");
         kantoorAangemeldRequestSender.send(kantoor);
-        LOGGER.debug("Done");
     }
 }

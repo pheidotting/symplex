@@ -11,4 +11,12 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <jms:listener destination="rb.co.wachtwoordVergetenRequestQueue" ref="wachtwoordVergetenRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
+
+    <bean id="kantoorAangemeldCommuniceerRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.KantoorAangemeldCommuniceerRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.kantoorAangemeldCommuniceerRequestQueue"
+                      ref="kantoorAangemeldCommuniceerRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 </beans>

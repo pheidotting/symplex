@@ -62,9 +62,7 @@ define(['jquery',
 	    	if(result().length > 0) {
 	    		result.showAllMessages(true);
 	    	}else{
-                $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
-
-                $.when(kantoorService.aanmelden(this)).then(function(result){
+                kantoorService.aanmelden(this).done(function(){
                     window.location = 'inloggen.html';
                 });
             }
