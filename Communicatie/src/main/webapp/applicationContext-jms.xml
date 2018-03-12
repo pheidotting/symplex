@@ -19,4 +19,12 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       ref="kantoorAangemeldCommuniceerRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
+
+    <bean id="nieuweVersieRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.NieuweVersieRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.nieuweVersieRequestQueue"
+                      ref="nieuweVersieRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 </beans>

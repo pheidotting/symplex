@@ -12,6 +12,7 @@ public abstract class AbstractCommunicatieRequest extends AbstractMessage {
     private List<Geadresseerde> geadresseerden;
 
     public AbstractCommunicatieRequest() {
+        this.geadresseerden = new ArrayList<>();
     }
 
     public AbstractCommunicatieRequest(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam, String kantoorNaam, String kantoorEmail) {
@@ -40,6 +41,5 @@ public abstract class AbstractCommunicatieRequest extends AbstractMessage {
 
     public void addGeadresseerde(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam) {
         this.geadresseerden.add(new Geadresseerde(gebruikerId, email, voornaam, tussenvoegsel, achternaam));
-
     }
 }
