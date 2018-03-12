@@ -74,12 +74,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <constructor-arg ref="amqConnectionFactory"/>
     </bean>
 
-    <!--<bean id="wachtwoordVergetenRequestReciever"-->
-    <!--class="nl.lakedigital.djfc.messaging.reciever.WachtwoordVergetenRequestReciever"/>-->
-    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
-    <!--<jms:listener destination="rb.co.wachtwoordVergetenRequestQueue" ref="wachtwoordVergetenRequestReciever"-->
-    <!--method="onMessage"/>-->
-    <!--</jms:listener-container>-->
     <import resource="applicationContext-jms.xml"/>
 
     <!-- Thymeleaf -->
