@@ -3,11 +3,13 @@ package nl.lakedigital.as.messaging.request.communicatie;
 import nl.lakedigital.as.messaging.AbstractMessage;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 public abstract class AbstractCommunicatieRequest extends AbstractMessage {
     private Afzender afzender;
-    private Geadresseerde geadresseerde;
+    private List<Geadresseerde> geadresseerden;
 
     public AbstractCommunicatieRequest() {
     }
@@ -16,7 +18,8 @@ public abstract class AbstractCommunicatieRequest extends AbstractMessage {
         if (kantoorNaam != null && kantoorEmail != null) {
             this.afzender = new Afzender(kantoorNaam, kantoorEmail);
         }
-        this.geadresseerde = new Geadresseerde(gebruikerId, email, voornaam, tussenvoegsel, achternaam);
+        this.geadresseerden = new ArrayList<>();
+        this.geadresseerden.add(new Geadresseerde(gebruikerId, email, voornaam, tussenvoegsel, achternaam));
     }
 
     public Afzender getAfzender() {
@@ -27,11 +30,16 @@ public abstract class AbstractCommunicatieRequest extends AbstractMessage {
         this.afzender = afzender;
     }
 
-    public Geadresseerde getGeadresseerde() {
-        return geadresseerde;
+    public List<Geadresseerde> getGeadresseerden() {
+        return geadresseerden;
     }
 
-    public void setGeadresseerde(Geadresseerde geadresseerde) {
-        this.geadresseerde = geadresseerde;
+    public void setGeadresseerden(List<Geadresseerde> geadresseerden) {
+        this.geadresseerden = geadresseerden;
+    }
+
+    public void addGeadresseerde(Long gebruikerId, String email, String voornaam, String tussenvoegsel, String achternaam) {
+        this.geadresseerden.add(new Geadresseerde(gebruikerId, email, voornaam, tussenvoegsel, achternaam));
+
     }
 }

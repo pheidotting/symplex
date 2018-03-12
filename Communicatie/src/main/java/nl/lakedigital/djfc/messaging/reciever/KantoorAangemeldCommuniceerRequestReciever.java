@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
+import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.as.messaging.request.communicatie.KantoorAangemeldCommuniceerRequest;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
@@ -39,7 +40,8 @@ public class KantoorAangemeldCommuniceerRequestReciever extends AbstractReciever
             email = kantoorAangemeldCommuniceerRequest.getAfzender().getEmail();
         }
 
-        kantoorAangemeldService.stuurMail(kantoorAangemeldCommuniceerRequest.getGeadresseerde().getId(), kantoorAangemeldCommuniceerRequest.getGeadresseerde().getEmail(), kantoorAangemeldCommuniceerRequest.getGeadresseerde().getVoornaam(), kantoorAangemeldCommuniceerRequest.getGeadresseerde().getTussenvoegsel(), kantoorAangemeldCommuniceerRequest.getGeadresseerde().getAchternaam(), kantoorAangemeldCommuniceerRequest.getWachtwoord(), naam, email);
+        Geadresseerde geadresseerde = kantoorAangemeldCommuniceerRequest.getGeadresseerden().get(0);
+        kantoorAangemeldService.stuurMail(geadresseerde.getId(), geadresseerde.getEmail(), geadresseerde.getVoornaam(), geadresseerde.getTussenvoegsel(), geadresseerde.getAchternaam(), kantoorAangemeldCommuniceerRequest.getWachtwoord(), naam, email);
 
         metricsService.stop(timer);
     }
