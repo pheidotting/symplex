@@ -1,18 +1,20 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.as.messaging.request.communicatie.Afzender;
+import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import nl.lakedigital.djfc.service.verzenden.VerzendService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommunicatieProductService {
@@ -20,17 +22,65 @@ public class CommunicatieProductService {
 
     public enum SoortCommunicatieProduct {EMAIL, BRIEF}
 
+    public enum TemplateNaam {
+        NIEUWE_VERSIE("nieuwe-versie", "Nieuwe versie van Symplex"), KANTOOR_AANGEMELD("kantoor-aangemeld", "Welkom bij Symplex"), WACHTWOORD_VERGETEN("wachtwoord-vergeten", "Nieuw wachtwoord");
+        private String bestandsnaam;
+        private String onderwerp;
+
+        TemplateNaam(String bestandsnaam, String onderwerp) {
+            this.bestandsnaam = bestandsnaam;
+            this.onderwerp = onderwerp;
+        }
+
+        public String getBestandsnaam() {
+            return bestandsnaam;
+        }
+
+        public String getOnderwerp() {
+            return onderwerp;
+        }
+    }
+
     @Inject
     protected CommunicatieProductRepository communicatieProductRepository;
     @Inject
     private MaakBriefService maakBriefService;
     @Inject
     protected TemplateEngine templateEngine;
+    @Inject
+    private VerzendService verzendService;
 
-    //    @Inject
-    //    private RelatieClient relatieClient;
-    //    @Inject
-    private AdresClient adresClient;
+    public Context zetVariabelen(Map<String, String> variabelen) {
+        Context context = new Context();
+
+        for (String key : variabelen.keySet()) {
+            context.setVariable(key, variabelen.get(key));
+        }
+
+        return context;
+    }
+
+    public void versturen(List<Geadresseerde> geadresseerden, Afzender afzender, Map<String, String> variabelen, TemplateNaam templateNaam) {
+        Context context = zetVariabelen(variabelen);
+        String tekst = templateEngine.process(templateNaam.getBestandsnaam(), context);
+
+        for (Geadresseerde geadresseerde : geadresseerden) {
+            Email mail = (Email) maakCommunicatieProduct(null, SoortCommunicatieProduct.EMAIL, geadresseerde.getId(), geadresseerde.getEmail(), tekst, templateNaam.getOnderwerp(), null, null);
+
+            mail.setEmailOntvanger(geadresseerde.getEmail());
+            mail.setNaamOntvanger(maakNaam(geadresseerde.getVoornaam(), geadresseerde.getTussenvoegsel(), geadresseerde.getAchternaam()).toString());
+            if (afzender != null && afzender.getEmail() != null && afzender.getNaam() != null) {
+                mail.setNaamVerzender(afzender.getNaam());
+                mail.setEmailVerzender(afzender.getEmail());
+            } else {
+                mail.setNaamVerzender("Symplex");
+                mail.setEmailVerzender("noreply@symplexict.nl");
+            }
+
+            communicatieProductRepository.opslaan(mail);
+        }
+        verzendService.verzend();
+    }
 
     public void markeerAlsGelezen(Long id) {
         LOGGER.debug("Markeer als gelezen {}", id);
@@ -49,7 +99,7 @@ public class CommunicatieProductService {
     public void verstuur(Long id) {
         CommunicatieProduct communicatieProduct = communicatieProductRepository.lees(id);
 
-        LOGGER.debug("Klaarzetten om te versturen : {}", ReflectionToStringBuilder.toString(communicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
+        LOGGER.debug("Klaarzetten om te versturen : {}", communicatieProduct.getId());
 
         if (communicatieProduct instanceof UitgaandeEmail) {
             OnverzondenIndicatie onverzondenIndicatie = new OnverzondenIndicatie();
@@ -121,7 +171,7 @@ public class CommunicatieProductService {
     public void markeerOmTeVerzenden(Long id){
         CommunicatieProduct communicatieProduct=communicatieProductRepository.lees(id);
 
-        LOGGER.debug("markeerOmTeVerzenden {}", ReflectionToStringBuilder.toString(communicatieProduct, ToStringStyle.SHORT_PREFIX_STYLE));
+        LOGGER.debug("markeerOmTeVerzenden {}", communicatieProduct.getId());
 
         if(communicatieProduct.getDatumTijdVerzending()==null){
 

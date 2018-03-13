@@ -29,10 +29,12 @@ import java.util.Properties;
 public class EmailVerzendService extends AbstractVerzendService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    //    private String mailHost = "localhost";
-    //    private Integer smtpPort = 2170;
-    private String mailHost = "smtp.gmail.com";
-    private Integer smtpPort = 587;
+    //        private String mailHost = "localhost";
+    //        private Integer smtpPort = 2170;
+    private String mailHost = "mail.djfc.local";
+    private Integer smtpPort = 25;
+    //private String mailHost = "smtp.gmail.com";
+    //    private Integer smtpPort = 587;
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -47,19 +49,19 @@ public class EmailVerzendService extends AbstractVerzendService {
     public void verzend(CommunicatieProduct communicatieProduct) {
         try {
             LOGGER.debug("Verbinding maken met {}", mailHost);
+            LOGGER.debug("smtp port {}", smtpPort);
 
             Properties properties = new Properties();
             properties.put("mail.smtp.host", mailHost);
             properties.put("mail.smtp.port", smtpPort);
-            LOGGER.debug("smtp port {}", smtpPort);
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-            properties.setProperty("mail.smtp.auth", "true");
-            Authenticator auth = new SMTPAuthenticator();
-            Session emailSession = Session.getDefaultInstance(properties, auth);
+            //            properties.put("mail.smtp.starttls.enable", "true");
+            //            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
+            //            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
+            //            properties.setProperty("mail.smtp.auth", "true");
+            //            Authenticator auth = new SMTPAuthenticator();
+            //            Session emailSession = Session.getDefaultInstance(properties, auth);
 
-            //            Session emailSession = Session.getDefaultInstance(properties, null);
+            Session emailSession = Session.getDefaultInstance(properties, null);
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
 
@@ -126,9 +128,9 @@ public class EmailVerzendService extends AbstractVerzendService {
             uitgaandeEmail.setDatumTijdVerzending(LocalDateTime.now());
             uitgaandeEmail.setOnverzondenIndicatie(null);
         } catch (NoSuchProviderException e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("{}", e.getStackTrace());
         } catch (MessagingException e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("{}", e.getStackTrace());
         }
 
     }

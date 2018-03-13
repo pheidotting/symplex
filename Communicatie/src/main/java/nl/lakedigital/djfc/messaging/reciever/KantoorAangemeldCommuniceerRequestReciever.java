@@ -1,17 +1,18 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.as.messaging.request.communicatie.KantoorAangemeldCommuniceerRequest;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
-import nl.lakedigital.djfc.service.KantoorAangemeldService;
+import nl.lakedigital.djfc.service.CommunicatieProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class KantoorAangemeldCommuniceerRequestReciever extends AbstractReciever<KantoorAangemeldCommuniceerRequest> {
@@ -20,7 +21,7 @@ public class KantoorAangemeldCommuniceerRequestReciever extends AbstractReciever
     @Inject
     private MetricsService metricsService;
     @Inject
-    private KantoorAangemeldService kantoorAangemeldService;
+    private CommunicatieProductService communicatieProductService;
 
     public KantoorAangemeldCommuniceerRequestReciever() {
         super(KantoorAangemeldCommuniceerRequest.class, LOGGER);
@@ -33,15 +34,10 @@ public class KantoorAangemeldCommuniceerRequestReciever extends AbstractReciever
 
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", KantoorAangemeldCommuniceerRequestReciever.class);
 
-        String naam = "Symplex";
-        String email = "noreply@symplexict.nl";
-        if (kantoorAangemeldCommuniceerRequest.getAfzender() != null) {
-            naam = kantoorAangemeldCommuniceerRequest.getAfzender().getNaam();
-            email = kantoorAangemeldCommuniceerRequest.getAfzender().getEmail();
-        }
+        Map<String, String> var = new HashMap<>();
+        var.put("wachtwoord", kantoorAangemeldCommuniceerRequest.getWachtwoord());
 
-        Geadresseerde geadresseerde = kantoorAangemeldCommuniceerRequest.getGeadresseerden().get(0);
-        kantoorAangemeldService.stuurMail(geadresseerde.getId(), geadresseerde.getEmail(), geadresseerde.getVoornaam(), geadresseerde.getTussenvoegsel(), geadresseerde.getAchternaam(), kantoorAangemeldCommuniceerRequest.getWachtwoord(), naam, email);
+        communicatieProductService.versturen(kantoorAangemeldCommuniceerRequest.getGeadresseerden(), null, var, CommunicatieProductService.TemplateNaam.KANTOOR_AANGEMELD);
 
         metricsService.stop(timer);
     }

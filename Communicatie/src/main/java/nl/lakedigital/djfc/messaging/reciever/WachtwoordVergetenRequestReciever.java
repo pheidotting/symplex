@@ -1,17 +1,18 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
-import nl.lakedigital.djfc.service.WachtwoordVergetenMailService;
+import nl.lakedigital.djfc.service.CommunicatieProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class WachtwoordVergetenRequestReciever extends AbstractReciever<WachtwoordVergetenRequest> {
@@ -20,7 +21,7 @@ public class WachtwoordVergetenRequestReciever extends AbstractReciever<Wachtwoo
     @Inject
     private MetricsService metricsService;
     @Inject
-    private WachtwoordVergetenMailService wachtwoordVergetenMailService;
+    private CommunicatieProductService communicatieProductService;
 
     public WachtwoordVergetenRequestReciever() {
         super(WachtwoordVergetenRequest.class, LOGGER);
@@ -33,8 +34,10 @@ public class WachtwoordVergetenRequestReciever extends AbstractReciever<Wachtwoo
 
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", WachtwoordVergetenRequestReciever.class);
 
-        Geadresseerde geadresseerde = wachtwoordVergetenRequest.getGeadresseerden().get(0);
-        wachtwoordVergetenMailService.stuurMail(geadresseerde.getId(), geadresseerde.getEmail(), geadresseerde.getVoornaam(), geadresseerde.getTussenvoegsel(), geadresseerde.getAchternaam(), wachtwoordVergetenRequest.getNieuwWachtwoord(), wachtwoordVergetenRequest.getAfzender().getNaam(), wachtwoordVergetenRequest.getAfzender().getEmail());
+        Map<String, String> var = new HashMap<>();
+        var.put("wachtwoord", wachtwoordVergetenRequest.getNieuwWachtwoord());
+
+        communicatieProductService.versturen(wachtwoordVergetenRequest.getGeadresseerden(), wachtwoordVergetenRequest.getAfzender(), var, CommunicatieProductService.TemplateNaam.WACHTWOORD_VERGETEN);
 
         metricsService.stop(timer);
     }
