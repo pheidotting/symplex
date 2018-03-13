@@ -94,13 +94,16 @@ define(['jquery',
         };
 
         this.wijzigWachtwoord = function() {
+            logger.info('wachtwoord wijzigen');
             //minimum treshold = 32%
 
           if(_this.sterkgenoeg() && (_this.nieuwWachtwoord() == _this.nieuwWachtwoordNogmaals())) {
                 _this.wachtwoordenKomenNietOvereen(false);
-                $.when(gebruikerService.wijzigWachtwoord(_this.nieuwWachtwoord())).then(function(result){
+                $.when(gebruikerService.wijzigWachtwoord(_this.nieuwWachtwoord())).then(function(){
+                    logger.info('wachtwoord gewijzigd');
                     window.location = 'zoeken.html';
                 });
+                window.location = 'zoeken.html';
             } else {
                 _this.wachtwoordenKomenNietOvereen(true);
             }

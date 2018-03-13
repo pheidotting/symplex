@@ -1,11 +1,7 @@
 package nl.lakedigital.djfc.service.verzenden;
 
-import nl.lakedigital.djfc.client.dejonge.KantoorClient;
-import nl.lakedigital.djfc.client.dejonge.MedewerkerClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
-import nl.lakedigital.djfc.commons.json.JsonKantoor;
-import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.domain.CommunicatieProduct;
 import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
@@ -24,6 +20,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -32,15 +29,13 @@ import java.util.Properties;
 public class EmailVerzendService extends AbstractVerzendService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    private String mailHost = "localhost";
-    private Integer smtpPort = 2170;
+    //        private String mailHost = "localhost";
+    //        private Integer smtpPort = 2170;
+    private String mailHost = "mail.djfc.local";
+    private Integer smtpPort = 25;
+    //private String mailHost = "smtp.gmail.com";
+    //    private Integer smtpPort = 587;
 
-    @Inject
-    private MedewerkerClient medewerkerClient;
-    @Inject
-    private KantoorClient kantoorClient;
-    //    @Inject
-    //    private RelatieClient relatieClient;
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
     @Inject
@@ -54,50 +49,52 @@ public class EmailVerzendService extends AbstractVerzendService {
     public void verzend(CommunicatieProduct communicatieProduct) {
         try {
             LOGGER.debug("Verbinding maken met {}", mailHost);
+            LOGGER.debug("smtp port {}", smtpPort);
 
             Properties properties = new Properties();
             properties.put("mail.smtp.host", mailHost);
             properties.put("mail.smtp.port", smtpPort);
-            LOGGER.debug("smtp port {}", smtpPort);
+            //            properties.put("mail.smtp.starttls.enable", "true");
+            //            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
+            //            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
+            //            properties.setProperty("mail.smtp.auth", "true");
+            //            Authenticator auth = new SMTPAuthenticator();
+            //            Session emailSession = Session.getDefaultInstance(properties, auth);
+
             Session emailSession = Session.getDefaultInstance(properties, null);
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
 
-            JsonMedewerker medewerker = medewerkerClient.lees(uitgaandeEmail.getMedewerker());
-            JsonKantoor kantoor = kantoorClient.lees(medewerker.getKantoor());
-
-            StringBuilder afzender = maakNaam(medewerker.getVoornaam(), medewerker.getTussenvoegsel(), medewerker.getAchternaam());
-            afzender.append(" (");
-            afzender.append(kantoor.getNaam());
-            afzender.append(") <");
-            afzender.append(kantoor.getEmailadres());
+            StringBuilder afzender = new StringBuilder();
+            afzender.append(uitgaandeEmail.getNaamVerzender());
+            afzender.append("<");
+            afzender.append(uitgaandeEmail.getEmailVerzender());
             afzender.append(">");
 
             Message msg = new MimeMessage(emailSession);
 
             // -- Set the FROM and TO fields --
             msg.setFrom(new InternetAddress(afzender.toString()));
-            //
-            //            JsonRelatie relatie = relatieClient.lees(uitgaandeEmail.getEntiteitId());
-            //
-            //            StringBuilder ontvanger = maakNaam(relatie.getVoornaam(), relatie.getTussenvoegsel(), relatie.getAchternaam());
-            //            ontvanger.append(" <");
-            //            ontvanger.append(relatie.getEmailadres());
-            //            ontvanger.append(">");
-            //
-            //            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(ontvanger.toString(), false));
+
+            StringBuilder ontvanger = new StringBuilder();
+            ontvanger.append(uitgaandeEmail.getNaamOntvanger());
+            ontvanger.append(" <");
+            ontvanger.append(uitgaandeEmail.getEmailOntvanger());
+            ontvanger.append(">");
+
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(ontvanger.toString(), false));
             msg.setSubject(uitgaandeEmail.getOnderwerp());
             msg.setSentDate(new Date());
 
             BodyPart messageBodyPart = new MimeBodyPart();
 
             //evt bijlages bijzoeken
-            List<JsonBijlage> bijlages = bijlageClient.lijst("COMMUNICATIEPRODUCT", uitgaandeEmail.getId());
+            List<JsonBijlage> bijlages = new ArrayList<>();//bijlageClient.lijst("COMMUNICATIEPRODUCT", uitgaandeEmail.getId());
 
             // Create a multipar message
             Multipart multipart = new MimeMultipart();
             //                 Now set the actual message
-            messageBodyPart.setText(uitgaandeEmail.getTekst() + "\n");
+            messageBodyPart.setContent(uitgaandeEmail.getTekst() + "\n", "text/html");
             // Set text message part
             multipart.addBodyPart(messageBodyPart);
 
@@ -131,24 +128,18 @@ public class EmailVerzendService extends AbstractVerzendService {
             uitgaandeEmail.setDatumTijdVerzending(LocalDateTime.now());
             uitgaandeEmail.setOnverzondenIndicatie(null);
         } catch (NoSuchProviderException e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("{}", e.getStackTrace());
         } catch (MessagingException e) {
-            LOGGER.error("{}", e);
+            LOGGER.error("{}", e.getStackTrace());
         }
 
     }
 
-    private StringBuilder maakNaam(String voornaam, String tussenvoegsel, String achternaam) {
-        StringBuilder naam = new StringBuilder();
-        naam.append(voornaam);
-        naam.append(" ");
-        if (tussenvoegsel != null && !"".equals(tussenvoegsel)) {
-            naam.append(tussenvoegsel);
-            naam.append(" ");
+    private class SMTPAuthenticator extends javax.mail.Authenticator {
+        public PasswordAuthentication getPasswordAuthentication() {
+            String username = "p.heidotting@gmail.com";
+            String password = "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY";
+            return new PasswordAuthentication(username, password);
         }
-        naam.append(achternaam);
-
-        return naam;
-
     }
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="nieuweVersieRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.co.nieuweVersieRequestQueue"/>
+    </bean>
+    <bean id="nieuweVersieRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="nieuweVersieRequestDestination"/>
+    </bean>
+    <bean id="nieuweVersieRequestSender" class="nl.dias.messaging.sender.NieuweVersieRequestSender">
+        <constructor-arg index="0" ref="nieuweVersieRequestTemplate"/>
+    </bean>
+</beans>

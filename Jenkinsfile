@@ -72,6 +72,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
@@ -88,6 +89,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
@@ -253,6 +255,12 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp Communicatie/target/communicatie.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp LicentieBeheer/src/main/resources/tst2/lb.app.properties jetty@192.168.91.230:/opt/jetty
                     scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp LicentieBeheer/target/licentie.war jetty@192.168.91.230:/opt/jetty/webapps
@@ -353,6 +361,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
@@ -405,6 +414,12 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp Communicatie/target/communicatie.war jetty@192.168.91.215:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp IdBeheer/src/main/resources/tst/id.app.properties jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/src/main/resources/tst/id.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.215:/opt/jetty/webapps
@@ -449,6 +464,12 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar productie :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp Communicatie/target/communicatie.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp IdBeheer/src/main/resources/prd/id.app.properties jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/src/main/resources/prd/id.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.220:/opt/jetty/webapps
