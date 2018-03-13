@@ -1,7 +1,6 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.as.messaging.request.communicatie.NieuweVersieRequest;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
@@ -33,8 +32,7 @@ public class NieuweVersieRequestReciever extends AbstractReciever<NieuweVersieRe
 
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", NieuweVersieRequestReciever.class);
 
-        Geadresseerde geadresseerde = nieuweVersieRequest.getGeadresseerden().get(0);
-        nieuweVersieMailService.stuurMail(geadresseerde.getId(), geadresseerde.getEmail(), geadresseerde.getVoornaam(), geadresseerde.getTussenvoegsel(), geadresseerde.getAchternaam(), nieuweVersieRequest.getVersie(), nieuweVersieRequest.getReleasenotes());
+        nieuweVersieMailService.stuurMail(nieuweVersieRequest.getGeadresseerden(), nieuweVersieRequest.getVersie(), nieuweVersieRequest.getReleasenotes());
 
         metricsService.stop(timer);
     }
