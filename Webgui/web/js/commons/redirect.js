@@ -7,7 +7,7 @@ define([ "commons/3rdparty/log"],
             redirect: function(waarnaartoe, var1, var2, var3, var4, var5) {
                 var vars = [{naam: 'INLOGGEN',                  url: '#inloggen'},
                             {naam: 'BEHEREN_RELATIE',           url: '#relatie'},
-                            {naam: 'BEHEREN_BEDRIJF',           url: '#beherenBedrijf'},
+                            {naam: 'BEHEREN_BEDRIJF',           url: '#bedrijf'},
                             {naam: 'DASHBOARD',                 url: '#dashboard'},
                             {naam: 'TAAK',                      url: '#taak'},
                             {naam: 'TAKEN',                     url: '#taken'},

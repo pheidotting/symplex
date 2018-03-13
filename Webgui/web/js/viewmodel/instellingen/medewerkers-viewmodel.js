@@ -22,6 +22,7 @@ define(['jquery',
         this.medewerkers = ko.observableArray();
 
         this.init = function() {
+            logger.info('start');
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
