@@ -47,8 +47,9 @@ public class LicentieRepository {
     public void opslaan(Licentie licentie) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", LicentieRepository.class);
 
-        LOGGER.debug("{}", licentie);
+        LOGGER.debug("{}", ReflectionToStringBuilder.toString(licentie));
         if (licentie.getId() == null) {
+            LOGGER.debug("Save");
             getSession().save(licentie);
         } else {
             getSession().merge(licentie);

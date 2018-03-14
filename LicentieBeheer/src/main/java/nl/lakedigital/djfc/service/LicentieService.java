@@ -31,7 +31,6 @@ public class LicentieService {
         return null;
     }
 
-
     public void maakTrialAan(Kantoor kantoor) {
         Trial trial = new Trial();
         trial.setKantoor(kantoor.getId());
@@ -39,6 +38,7 @@ public class LicentieService {
         trial.setAantalDagen(AANTAL_DAGEN_TRIAL);
 
         licentieRepository.opslaan(trial);
+        LOGGER.debug("ID {}", trial.getId());
     }
 
 }
