@@ -18,6 +18,7 @@ public class LicentieRepositoryTest {
     public void opslaan() {
         Trial trial = new Trial();
         trial.setKantoor(1L);
+        trial.setAantalDagen(10);
 
         licentieRepository.opslaan(trial);
     }
