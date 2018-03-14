@@ -420,6 +420,12 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp LicentieBeheer/src/main/resources/tst2/lb.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp LicentieBeheer/target/licentie.war jetty@192.168.91.215:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp IdBeheer/src/main/resources/tst/id.app.properties jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/src/main/resources/tst/id.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.215:/opt/jetty/webapps
@@ -469,6 +475,12 @@ pipeline {
                     scp Communicatie/target/communicatie.war jetty@192.168.91.220:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp LicentieBeheer/src/main/resources/tst2/lb.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp LicentieBeheer/target/licentie.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     scp IdBeheer/src/main/resources/prd/id.app.properties jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/src/main/resources/prd/id.log4j.xml jetty@192.168.91.220:/opt/jetty
@@ -535,6 +547,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd OverigeRelatieGegevensAdministratie
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
@@ -586,7 +602,11 @@ pipeline {
                 '''
                 sh '''
                     cd LicentieBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
                     cd OverigeRelatieGegevensAdministratie
