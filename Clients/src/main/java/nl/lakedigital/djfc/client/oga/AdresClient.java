@@ -20,7 +20,6 @@ public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenRe
     private final static Logger LOGGER = LoggerFactory.getLogger(AdresClient.class);
 
     private final String URL_LIJST = "/rest/adres/alles";
-    private final String URL_OPSLAAN = "/rest/adres/opslaan";
     private final String URL_VERWIJDEREN = "/rest/adres/verwijderen";
     private final String URL_LEES = "/rest/adres/lees";
     private final String URL_ADRES_BIJ_POSTCODE = "/rest/adres/ophalenAdresOpPostcode";

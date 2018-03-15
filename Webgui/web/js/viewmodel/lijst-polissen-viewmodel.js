@@ -3,7 +3,7 @@ define(['jquery',
         'knockout',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/polis-service',
         'mapper/polis-mapper',
@@ -15,7 +15,6 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('lijst-polissen-viewmodel');
-        var soortEntiteit = 'POLIS';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

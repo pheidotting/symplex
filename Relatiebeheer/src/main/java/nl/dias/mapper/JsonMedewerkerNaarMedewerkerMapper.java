@@ -13,7 +13,7 @@ public class JsonMedewerkerNaarMedewerkerMapper extends AbstractMapper<JsonMedew
         if (bestaandObject != null) {
             medewerker = (Medewerker) bestaandObject;
         }
-        //        medewerker.setEmailadres(jsonMedewerker.getEmailadres());
+        medewerker.setEmailadres(jsonMedewerker.getEmailadres());
         medewerker.setAchternaam(jsonMedewerker.getAchternaam());
         medewerker.setTussenvoegsel(jsonMedewerker.getTussenvoegsel());
         medewerker.setVoornaam(jsonMedewerker.getVoornaam());

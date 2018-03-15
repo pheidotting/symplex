@@ -1,9 +1,8 @@
 define(['jquery',
         'commons/commonFunctions',
         'knockout',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/hypotheek-mapper',
         'service/gebruiker-service',
         'service/belastingzaken-service',
@@ -12,18 +11,17 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'moment',
         'service/toggle-service',
-        'viewmodel/common/taak-viewmodel',
         'mapper/bijlage-mapper',
         'mapper/groepbijlage-mapper',
-         'fileUpload',
+        'fileUpload',
+        'lodash',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, taakViewModel, bijlageMapper, groepbijlageMapper, fileUpload) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload, _) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
-        var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
 
         this.basisEntiteit = null;

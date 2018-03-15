@@ -20,7 +20,6 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
     private final String URL_LIJST = "/rest/bijlage/alles";
     private final String URL_LEES = "/rest/bijlage/lees";
     private final String URL_OPSLAAN = "/rest/bijlage/opslaan";
-    private final String URL_OPSLAANEnkel = "/rest/bijlage/opslaanBijlage";
     private final String URL_VERWIJDEREN = "/rest/bijlage/verwijderen";
     private final String URL_VERWIJDER = "/rest/bijlage/verwijder";
     private final String URL_ZOEKEN = "/rest/bijlage/zoeken";
@@ -92,6 +91,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         return result;
     }
 
+    @Deprecated
     public String opslaan(List<JsonBijlage> bijlages, Long ingelogdeGebruiker, String trackAndTraceId) {
 
         System.out.println("Aanroepen " + URL_OPSLAAN);
@@ -99,6 +99,7 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
         return aanroepenUrlPost(URL_OPSLAAN, bijlages, ingelogdeGebruiker, trackAndTraceId, LOGGER);
     }
 
+    @Deprecated
     public String opslaan(JsonBijlage bijlage, Long ingelogdeGebruiker, String trackAndTraceId) {
 
         System.out.println("Aanroepen " + URL_OPSLAAN);

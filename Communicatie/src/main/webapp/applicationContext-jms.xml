@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
 
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    <bean id="wachtwoordVergetenRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.WachtwoordVergetenRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.wachtwoordVergetenRequestQueue" ref="wachtwoordVergetenRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 
-    <!-- Activemq connection factory -->
-    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
-          p:brokerURL="tcp://localhost:61616" p:userName="admin" p:password="secret" />
+    <bean id="kantoorAangemeldCommuniceerRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.KantoorAangemeldCommuniceerRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.kantoorAangemeldCommuniceerRequestQueue"
+                      ref="kantoorAangemeldCommuniceerRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 
-    <!-- ConnectionFactory Definition -->
-    <bean id="connectionFactory"
-          class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory"/>
-    </bean>
-
-    <!-- Aanmaken Taak -->
-    <!-- Default Destination Queue Definition -->
-    <bean id="afspraakVastgelegdDestination" class="org.apache.activemq.command.ActiveMQTopic">
-        <constructor-arg index="0" value="afspraakVastgelegdQueue"/>
-    </bean>
-    <!-- aanmakenTaakTemplate Definition -->
-    <bean id="afspraakVastgelegdTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="afspraakVastgelegdDestination"/>
-    </bean>
-
-    <!-- Message Sender Definition -->
-    <bean id="afspraakVastgelegdSender" class="nl.barbero.messaging.sender.AfspraakVastgelegdSender">
-        <constructor-arg index="0" ref="afspraakVastgelegdTemplate"/>
-    </bean>
-    <!-- /Aanmaken Taak -->
+    <bean id="nieuweVersieRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.NieuweVersieRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.nieuweVersieRequestQueue"
+                      ref="nieuweVersieRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 </beans>

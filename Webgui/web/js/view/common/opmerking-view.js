@@ -1,5 +1,5 @@
 define(['jquery',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'text!../../../templates/commons/opmerkingen.html'],
     function($, log, html) {
         var logger = log.getLogger('opmerking-view');

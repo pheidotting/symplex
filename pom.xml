@@ -15,7 +15,8 @@
         <!--<module>clients</module>-->
         <!--<module>messaging</module>-->
         <!--<module>Communicatie</module>-->
-        <module>relatiebeheer</module>
+        <module>LicentieBeheer</module>
+        <module>Relatiebeheer</module>
         <module>IdBeheer</module>
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>

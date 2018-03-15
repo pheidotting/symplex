@@ -1,7 +1,7 @@
 define(['jquery',
         'knockout',
         'commons/commonFunctions',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
         'service/kantoor-service',
        'complexify',
@@ -13,6 +13,7 @@ define(['jquery',
     return function() {
         var _this = this;
         var logger = log.getLogger('aanmelden-viewmodel');
+
         ko.validation.locale('nl-NL');
         this.bedrijfsnaam = ko.observable().extend({ required: true });
         this.afkorting = ko.observable().extend({ required: true });
@@ -20,12 +21,6 @@ define(['jquery',
         this.voornaam = ko.observable().extend({ required: true });
         this.achternaam = ko.observable().extend({ required: true });
         this.emailadres = ko.observable().extend({ required: true });
-		this.onjuistWachtwoord = ko.observable(false);
-		this.nieuwWachtwoord = ko.observable();
-		this.nieuwWachtwoordNogmaals = ko.observable();
-		this.sterktePercentage = ko.observable('0');
-		this.sterkgenoeg = ko.observable(false);
-		this.wachtwoordSterkgenoegStyling = ko.observable();
 
 		this.afkortingKomtVoor = ko.observable(false);
 
@@ -60,65 +55,17 @@ define(['jquery',
         };
 
 		this.aanmelden = function() {
+		    logger.info('aanmelden nieuw kantoor');
             commonFunctions.verbergMeldingen();
 
             var result = ko.validation.group(_this, {deep: true});
-//            if(_this.isValid()){
-                $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>' });
-
-                $.when(kantoorService.aanmelden(this)).then(function(result){
-                    window.location = 'zoeken.html';
-//                    if (result.returnCode == 0) {
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord(false);
-//                        if(!!result.moetWachtwoordUpdaten){
-//                            $.unblockUI();
-//                            _this.moetWachtwoordUpdaten(true);
-//                        }else{
-//    //                        commonFunctions.haalIngelogdeGebruiker();
-//    //                        $.unblockUI();
-//                            window.location = 'zoeken.html';
-//                        }
-//                    } else if (result.returnCode == 1) {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam('onjuiste-waarde');
-//                        _this.onjuistWachtwoord(false);
-//                        _this.teveelFoutieveInlogpogingen(false);
-//                        commonFunctions.plaatsFoutmeldingString('De ingevoerde gebruikersnaam werd niet gevonden');
-//                    } else if (result.returnCode == 2) {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord('onjuiste-waarde');
-//                        _this.teveelFoutieveInlogpogingen(false);
-//                        commonFunctions.plaatsFoutmeldingString('Het ingevoerde wachtwoord is onjuist');
-//                    } else {
-//                        $.unblockUI();
-//                        _this.onjuisteGebruikersnaam(false);
-//                        _this.onjuistWachtwoord(false);
-//                        _this.teveelFoutieveInlogpogingen('teveel');
-//                        commonFunctions.plaatsFoutmeldingString('Teveel foutieve inlogpogingen binnen 5 minuten');
-//                    }
+	    	if(result().length > 0) {
+	    		result.showAllMessages(true);
+	    	}else{
+                kantoorService.aanmelden(this).done(function(){
+                    window.location = 'inloggen.html';
                 });
-//            } else {
-//                result.showAllMessages(true);
-//            }
-        };
-
-        this.checkWachtwoordSterkte = function(a) {
-            $("#nieuwWachtwoord").complexify({}, function(valid, complexity){
-                _this.sterktePercentage(Math.round(complexity));
-                $("#PassValue").val(complexity);
-                if(complexity > 32) {
-                    _this.sterkgenoeg(true);
-                    _this.wachtwoordSterkgenoegStyling(false);
-                }else{
-                    _this.wachtwoordSterkgenoegStyling('onjuiste-waarde');
-                }
-            });
-        };
-
-        this.resetfoutmeldingWachtwoord = function() {
-            _this.onjuistWachtwoord(false);
+            }
         };
 	};
 });

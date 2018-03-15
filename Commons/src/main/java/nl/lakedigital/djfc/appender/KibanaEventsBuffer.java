@@ -44,17 +44,19 @@ public class KibanaEventsBuffer {
                 int period = 5000;
                 try {
                     this.timer = new Timer();
-                } catch (OutOfMemoryError outOfMemoryError) {
-                    throw new RuntimeException(outOfMemoryError.getMessage());
+                } catch (OutOfMemoryError outOfMemoryError) {//NOSONAR
+                    throw new RuntimeException(outOfMemoryError.getMessage());//NOSONAR
                 }
-                timer.scheduleAtFixedRate(new TimerTask() {
+                if (timer != null) {
+                    timer.scheduleAtFixedRate(new TimerTask() {
 
-                    public void run() {
-                        flush(token);
+                        public void run() {
+                            flush(token);
 
-                    }
-                }, delay, period);
-                timer = null;
+                        }
+                    }, delay, period);//NOSONAR
+                    timer = null;
+                }
             }
         }
     }
@@ -69,7 +71,7 @@ public class KibanaEventsBuffer {
 
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            StringBuffer verstuurObject = new StringBuffer();
+            StringBuilder verstuurObject = new StringBuilder();
             for (KibanaEvent event : eventsToFlush) {
                 String s = gson.toJson(event).replace("\n", "");
                 verstuurObject.append(s);

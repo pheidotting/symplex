@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'navRegister',
         'knockout',
         'repository/common/repository',
@@ -24,6 +24,10 @@ define(['commons/3rdparty/log2',
 
             lijst: function(soortEntiteit, parentid){
                 return opmerkingRepository.lijst(soortEntiteit, parentid);
+            },
+
+            verwijder: function(identificatie) {
+                opmerkingRepository.verwijder(identificatie);
             }
         }
     }

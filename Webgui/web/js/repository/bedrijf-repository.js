@@ -3,12 +3,13 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository'],
     function(log, navRegister, ko, abstractRepository) {
+        var logger = log.getLogger('bedrijf-repository');
 
         return {
             opslaan: function(data) {
                 var url = navRegister.bepaalUrl('OPSLAAN_BEDRIJF');
-                log.debug("Versturen naar " + url + " : ");
-                log.debug(ko.toJSON(data));
+                logger.debug("Versturen naar " + url + " : ");
+                logger.debug(ko.toJSON(data));
 
                 return abstractRepository.voerUitPost(url, ko.toJSON(data));
             },

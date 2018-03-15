@@ -1,6 +1,6 @@
 define(['jquery',
         'model/adres',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout'],
 	function ($, Adres, log, ko) {
         return {
@@ -29,7 +29,9 @@ define(['jquery',
                 adres.toevoeging(data.toevoeging);
                 adres.postcode(data.postcode);
                 adres.soortAdres(data.soortAdres);
-                adres.plaats(data.plaats.toUpperCase());
+                if(data.plaats != null){
+                    adres.plaats(data.plaats.toUpperCase());
+                }
                 adres.soortEntiteit(data.soortEntiteit);
                 adres.entiteitId(data.entiteitId);
                 adres.identificatie(data.identificatie);

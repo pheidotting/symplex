@@ -39,8 +39,10 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
             SessieHolder.get().setTrackAndTraceId(ontvangenObject.getTrackAndTraceId());
 
             MDC.put("trackAndTraceId", ontvangenObject.getTrackAndTraceId());
-            MDC.put("ingelogdeGebruiker", String.valueOf(ontvangenObject.getIngelogdeGebruiker()));
-            MDC.put("ingelogdeGebruikerOpgemaakt", ontvangenObject.getIngelogdeGebruikerOpgemaakt());
+            if (ontvangenObject.getIngelogdeGebruiker() != null) {
+                MDC.put("ingelogdeGebruiker", String.valueOf(ontvangenObject.getIngelogdeGebruiker()));
+                MDC.put("ingelogdeGebruikerOpgemaakt", ontvangenObject.getIngelogdeGebruikerOpgemaakt());
+            }
             MDC.put("url", ontvangenObject.getUrl());
 
             replyTo = message.getJMSReplyTo();

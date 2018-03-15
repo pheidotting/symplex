@@ -9,6 +9,7 @@ import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.join;
 
+@Component
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
     private final static Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
     private MetricsService metricsService;
@@ -52,7 +54,8 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         } else if (!retry) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) {//NOSONAR
+                LOGGER.trace("InterruptedException ", e);
             }
             return zoekIdentificatie(soortEntiteit, entiteitId, true);
         }
@@ -74,7 +77,8 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         } else if (!retry) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException e) {//NOSONAR
+                LOGGER.trace("InterruptedException ", e);
             }
             return zoekIdentificatieCode(identificatieCode, true);
         }

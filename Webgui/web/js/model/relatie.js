@@ -1,8 +1,7 @@
-define(['knockout',
-        'commons/validation'],
-	function (ko, validation) {
+define(['knockout'],
+	function (ko) {
 
-	return function (data, openstaandeTaken){
+	return function (){
 		var _this = this;
 
 		_this.identificatie = ko.observable();

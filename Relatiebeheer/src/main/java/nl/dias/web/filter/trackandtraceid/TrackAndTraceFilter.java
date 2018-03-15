@@ -106,7 +106,7 @@ public class TrackAndTraceFilter implements Filter {
     }
 
     private String maakOp(Gebruiker gebruiker) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append(gebruiker.getVoornaam());
         stringBuffer.append(" ");
         if (gebruiker.getTussenvoegsel() != null && !"".equals(gebruiker.getTussenvoegsel())) {

@@ -2,12 +2,11 @@ define(['jquery',
         'commons/commonFunctions',
         'knockout',
         'model/relatie',
-        'model/contactpersoon2',
+        'model/contactpersoon',
         'commons/commonFunctions',
         'commons/block',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/bedrijf-mapper',
         'mapper/contactpersoon-mapper',
         'service/bedrijf-service',
@@ -21,12 +20,11 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, opmerkingenModel, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
+    function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
     rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel) {
 
     return function(id) {
         var _this = this;
-        var logger = log.getLogger('beheren-relatie-viewmodel');
         var soortEntiteit = 'BEDRIJF';
 
         this.adressenModel          = null;
@@ -129,8 +127,6 @@ define(['jquery',
 		};
 
 		this.verwijderenBedrijf = function(bedrijf){
-			log.debug("verwijderen Bedrijf met id " + bedrijf.id());
-
 			dataServices.verwijderRelatie(ko.utils.unwrapObservable(bedrijf.id));
 			redirect.redirect('LIJST_BEDRIJVEN');
 		};
@@ -145,9 +141,7 @@ define(['jquery',
         };
 
         this.verwijderContactpersoon = function(contactpersoon) {
-            log.debug("Verwijderen contactpersoon " + ko.toJSON(contactpersoon));
             _this.contactpersonen.remove(function (item) {
-                log.debug(ko.toJSON(item));
                 return item.voornaam() === contactpersoon.voornaam() && item.achternaam() === contactpersoon.achternaam();
             });
             _this.contactpersonen.valueHasMutated();

@@ -1,4 +1,4 @@
-define(['commons/3rdparty/log2',
+define(['commons/3rdparty/log',
         'model/adres',
         'service/common/adres-service',
         'knockout',
@@ -6,8 +6,8 @@ define(['commons/3rdparty/log2',
     function(log, Adres, adresService, ko, adresMapper) {
 
     return function(readOnly, soortEntiteit, entiteitId, adressen) {
-        var _this = this;
         var logger = log.getLogger('adres-viewmodel');
+        var _this = this;
 
 		this.id = ko.observable(entiteitId);
 		this.soortEntiteit = ko.observable(soortEntiteit);
@@ -18,13 +18,6 @@ define(['commons/3rdparty/log2',
 
             _this.adressen.push(adres);
         });
-
-//        _this.adressen.subscribe(function(adressen) {
-//            logger.debug('adressen subscriber');
-//            $.each(adressen, function(i, adres){
-//                _this.zetPostcodeOm(adres);
-//            });
-//        });
 
 		this.verwijderAdres = function(adres) {
 		    logger.debug('verwijder adres');

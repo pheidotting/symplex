@@ -1,6 +1,6 @@
 define(['jquery',
         'model/gesprek',
-        'commons/3rdparty/log2',
+        'commons/3rdparty/log',
         'knockout',
         'moment'],
 	function ($, Gesprek, log, ko, moment) {
@@ -36,13 +36,10 @@ define(['jquery',
                     if(parts[0] == 'out') {
                         gesprek.uitgaand(true);
                         gesprek.inkomend(false);
-//                        gesprek.telefoonnummer(parts[1]);
 
                     } else {
                         gesprek.uitgaand(false);
                         gesprek.inkomend(true);
-//                        gesprek.telefoonnummer(parts[2]);
-
                     }
                     gesprek.tijdstip(moment(telefoongesprek.tijdstip, 'DD-MM-YYYY HH:mm'));
 

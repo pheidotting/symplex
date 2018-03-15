@@ -1,4 +1,4 @@
-define(["commons/3rdparty/log2",
+define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository'],
@@ -32,7 +32,7 @@ define(["commons/3rdparty/log2",
             },
 
             leesMedewerker: function(id) {
-                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER'), {id : id});
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LEES_MEDEWERKER')+'/'+ id);
             },
 
             opslaanOAuthCode: function(code) {

@@ -1,4 +1,4 @@
-define([ "commons/3rdparty/log2"],
+define([ "commons/3rdparty/log"],
     function(log) {
         var logger = log.getLogger('redirect');
 
@@ -7,7 +7,7 @@ define([ "commons/3rdparty/log2"],
             redirect: function(waarnaartoe, var1, var2, var3, var4, var5) {
                 var vars = [{naam: 'INLOGGEN',                  url: '#inloggen'},
                             {naam: 'BEHEREN_RELATIE',           url: '#relatie'},
-                            {naam: 'BEHEREN_BEDRIJF',           url: '#beherenBedrijf'},
+                            {naam: 'BEHEREN_BEDRIJF',           url: '#bedrijf'},
                             {naam: 'DASHBOARD',                 url: '#dashboard'},
                             {naam: 'TAAK',                      url: '#taak'},
                             {naam: 'TAKEN',                     url: '#taken'},
@@ -18,7 +18,8 @@ define([ "commons/3rdparty/log2"],
                             {naam: 'BEHEER_SCHADE',             url: '#schade'},
                             {naam: 'LIJST_HYPOTHEKEN',          url: '#hypotheken'},
                             {naam: 'BEHEER_HYPOTHEEK',          url: '#hypotheek'},
-                            {naam: 'BEHEER_BELASTINGZAKEN',     url: '#belastingzaken'}
+                            {naam: 'BEHEER_BELASTINGZAKEN',     url: '#belastingzaken'},
+                            {naam: 'INSTELLINGEN',              url: '#instellingen'}
                             ];
 
                 var url = '';

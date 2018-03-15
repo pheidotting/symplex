@@ -2,37 +2,35 @@ define(['jquery',
         'commons/commonFunctions',
         'model/telefoonNummer',
          'knockout',
-         'commons/3rdparty/log'],
-	function ($, commonFunctions, TelefoonNummer, ko, log) {
+         'commons/3rdparty/log',
+         'viewmodel/common/telefoonnummer-viewmodel'],
+	function ($, commonFunctions, TelefoonNummer, ko, log, telefoonnummerViewModel) {
 
-	return function(data){
-	    var _thisContactPersoon = this;
+	return function(){
+	    var _this = this;
 
-        _thisContactPersoon.id = ko.observable(data.id);
-		_thisContactPersoon.voornaam = ko.observable(data.voornaam);
-		_thisContactPersoon.tussenvoegsel = ko.observable(data.tussenvoegsel);
-		_thisContactPersoon.achternaam = ko.observable(data.achternaam);
-		_thisContactPersoon.emailadres = ko.observable(data.emailadres);
-		_thisContactPersoon.bedrijf = ko.observable(data.bedrijf);
-		_thisContactPersoon.telefoonnummers = ko.observableArray();
-		if(data.telefoonnummers != null){
-			$.each(data.telefoonnummers, function(i, item) {
-				_thisContactPersoon.telefoonnummers().push(new TelefoonNummer(item));
-			});
-		}
-		_thisContactPersoon.verwijderTelefoonNummer = function(telefoon) {
-			log.debug("Verwijderen telefoon " + ko.toJSON(telefoon));
-			_thisContactPersoon.telefoonnummers.remove(function (item) {
-			    log.debug(ko.toJSON(item));
+        _this.identificatie = ko.observable();
+		_this.voornaam = ko.observable();
+		_this.tussenvoegsel = ko.observable();
+		_this.achternaam = ko.observable();
+		_this.emailadres = ko.observable();
+		_this.bedrijf = ko.observable();
+		_this.telefoonnummers = ko.observableArray();
+		_this.functie = ko.observable();
+
+		_this.verwijderTelefoonNummer = function(telefoon) {
+			_this.telefoonnummers.remove(function (item) {
 				return item.telefoonnummer() === telefoon.telefoonnummer() && item.soort() === telefoon.soort();
 			});
-			_thisContactPersoon.telefoonnummers.valueHasMutated();
+			_this.telefoonnummers.valueHasMutated();
 		};
-		_thisContactPersoon.functie = ko.observable(data.functie);
-		
-		_thisContactPersoon.voegTelefoonNummerToe = function() {
-			_thisContactPersoon.telefoonnummers().push(new TelefoonNummer(""));
-			_thisContactPersoon.telefoonnummers.valueHasMutated();
+
+		_this.voegTelefoonNummerToe = function() {
+			_this.telefoonnummers().push(new TelefoonNummer(""));
+			_this.telefoonnummers.valueHasMutated();
 		};
+
+        _this.telefoonnummersModel  = new telefoonnummerViewModel(false, 'CONTACTPERSOON', _this.identificatie(), _this.telefoonnummers());
+
     };
 });
