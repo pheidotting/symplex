@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
-@PropertySources({@PropertySource("classpath:application.properties"), @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)})
+@PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
 public class EmailVerzendService extends AbstractVerzendService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 

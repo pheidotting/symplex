@@ -255,6 +255,8 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp TestSysteem/target/test.war jetty@192.168.91.230:/opt/jetty/webapps
+
                     scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.230:/opt/jetty
                     scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp Communicatie/target/communicatie.war jetty@192.168.91.230:/opt/jetty/webapps
