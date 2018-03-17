@@ -17,10 +17,7 @@ import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -104,6 +101,24 @@ public class KantoorController extends AbstractController {
         } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
             e.printStackTrace();
         }
+
+        metricsService.stop(timer);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/verwijderen/{afkorting}", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public void verwijderen(@PathVariable("afkorting") String afkorting, HttpServletRequest httpServletRequest) {
+        zetSessieWaarden(httpServletRequest);
+
+        metricsService.addMetric("opslaan", KantoorController.class, null, null);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", KantoorController.class);
+
+        nl.dias.domein.Kantoor kantoor = kantoorRepository.zoekOpAfkorting(afkorting).get(0);
+        for (Medewerker medewerker : gebruikerService.alleMedewerkers(kantoor)) {
+            gebruikerService.verwijder(medewerker.getId());
+        }
+
+        kantoorRepository.verwijder(kantoor);
 
         metricsService.stop(timer);
     }
