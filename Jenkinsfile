@@ -72,6 +72,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
