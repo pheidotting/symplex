@@ -32,10 +32,10 @@ import java.util.Properties;
 public class EmailVerzendService extends AbstractVerzendService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    @Value(("mailHost"))
+    @Value(("${mailHost}"))
     private String mailHost;// = "localhost";
     //        private Integer smtpPort = 2170;
-    @Value("smtpPort")
+    @Value("${smtpPort}")
     private Integer smtpPort;// = 2345;
     //    private String mailHost = "mail.djfc.local";
     //    private Integer smtpPort = 25;
