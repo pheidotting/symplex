@@ -228,6 +228,23 @@ pipeline {
             }
         }
 
+        stage ('Build TestSysteem') {
+            steps {
+                sh '''
+                    cd TestSysteem
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden TestSysteem gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden TestSysteem Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Build GUI') {
             steps {
                 sh '''
