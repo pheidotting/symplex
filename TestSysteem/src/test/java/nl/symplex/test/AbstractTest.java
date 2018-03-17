@@ -51,8 +51,8 @@ public abstract class AbstractTest {
 
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
         System.setProperty("webdriver.gecko.driver", "src/test/resources/geckodriver");
-        //        String os = System.getProperty("os.name").equals("Mac OS X") ? "" : "-linux";
-        //        System.setProperty("phantomjs.binary.path", "src/test/resources/phantomjs" + os);
+        String os = System.getProperty("os.name").equals("Mac OS X") ? "" : "-linux";
+        System.setProperty("phantomjs.binary.path", "src/test/resources/phantomjs" + os);
 
 
         if (!System.getProperty("os.name").equals("Mac OS X")) {
