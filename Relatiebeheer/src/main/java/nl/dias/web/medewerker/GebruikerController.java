@@ -116,6 +116,7 @@ public class GebruikerController extends AbstractController {
         medewerkerDomain.setKantoor(kantoor);
         medewerkerDomain.setIdentificatie(kantoor.getAfkorting().toLowerCase() + "." + medewerkerDomain.getVoornaam().toLowerCase());
         medewerkerDomain.setHashWachtwoord(jsonMedewerker.getVoornaam().toLowerCase());
+        medewerkerDomain.setMoetWachtwoordUpdaten(true);
 
         String licentie = null;
         if (medewerkerDomain.getId() == null) {
