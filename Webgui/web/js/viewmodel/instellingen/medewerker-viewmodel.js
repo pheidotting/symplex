@@ -31,7 +31,7 @@ define(['jquery',
 
             if(identificatie == null) {
                 _this.medewerker = new Medewerker();
-                _this.medewerker.licentieType = ko.observable().extend({required: true});
+//                _this.medewerker.licentieType = ko.observable().extend({required: true});
                 _this.nieuweMedewerker(true);
 
                 return deferred.resolve();
