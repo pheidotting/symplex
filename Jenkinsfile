@@ -65,11 +65,6 @@ pipeline {
         }
 
         stage ('Undeploy Testbak') {
-            when {
-                expression {
-                    return env.BRANCH_NAME != 'master'
-                }
-            }
             steps {
                 sh '''
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/test.war
@@ -265,11 +260,6 @@ pipeline {
         }
 
         stage ('Deployment Testbak') {
-            when {
-                expression {
-                    return env.BRANCH_NAME != 'master'
-                }
-            }
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''

@@ -17,8 +17,8 @@ public class Aanmelden extends AbstractPage {
     // emailadres
     // loginnaam
     // aanmeldButton
-    public Inloggen aanmelden(String bedrijfsnaam, String voornaam, String achternaam, String emailadres) {
-        open("http://localhost:8080/aanmelden.html");
+    public Inloggen aanmelden(String basisUrl, String bedrijfsnaam, String voornaam, String achternaam, String emailadres) {
+        open(basisUrl + "aanmelden.html");
 
         setValue(LOGGER, $(By.id("bedrijfsnaam")), bedrijfsnaam);
         setValue(LOGGER, $(By.id("voornaam")), voornaam);
