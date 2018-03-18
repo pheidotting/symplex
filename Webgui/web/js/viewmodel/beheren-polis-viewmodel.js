@@ -92,7 +92,7 @@ define(['jquery',
 
                 try{
                     zoekVoertuigGegevens(_this);
-                catch(err) {
+                }catch(err) {
                     logger.info(err.message);
                 }
 
