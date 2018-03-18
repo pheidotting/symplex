@@ -114,8 +114,8 @@ public class GebruikerController extends AbstractController {
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
         Medewerker medewerkerDomain = jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker);
         medewerkerDomain.setKantoor(kantoor);
-        medewerkerDomain.setIdentificatie(kantoor.getAfkorting() + "." + medewerkerDomain.getVoornaam());
-        medewerkerDomain.setHashWachtwoord(jsonMedewerker.getVoornaam());
+        medewerkerDomain.setIdentificatie(kantoor.getAfkorting().toLowerCase() + "." + medewerkerDomain.getVoornaam().toLowerCase());
+        medewerkerDomain.setHashWachtwoord(jsonMedewerker.getVoornaam().toLowerCase());
 
         String licentie = null;
         if (medewerkerDomain.getId() == null) {
