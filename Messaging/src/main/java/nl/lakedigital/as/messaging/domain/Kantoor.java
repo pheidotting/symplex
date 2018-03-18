@@ -2,7 +2,6 @@ package nl.lakedigital.as.messaging.domain;
 
 public class Kantoor {
     private Long id;
-    private String identificatie;
     private String naam;
     private String emailadres;
     private Adres adres;
@@ -10,13 +9,12 @@ public class Kantoor {
     public Kantoor() {
     }
 
-    public Kantoor(Long id, String identificatie, String naam, String emailadres, String straat, Long huisnummer, String toevoeging, String postcode, String plaats) {
+    public Kantoor(Long id, String naam, String emailadres, String straat, Long huisnummer, String toevoeging, String postcode, String plaats) {
         adres = new Adres(null, null, null, straat, huisnummer, toevoeging, postcode, plaats, null);
 
         this.naam = naam;
         this.emailadres = emailadres;
         this.id = id;
-        this.identificatie = identificatie;
     }
 
     public Long getId() {
@@ -27,13 +25,6 @@ public class Kantoor {
         this.id = id;
     }
 
-    public String getIdentificatie() {
-        return identificatie;
-    }
-
-    public void setIdentificatie(String identificatie) {
-        this.identificatie = identificatie;
-    }
 
     public String getNaam() {
         return naam;

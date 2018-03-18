@@ -90,7 +90,11 @@ define(['jquery',
 
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
-                zoekVoertuigGegevens(_this);
+                try{
+                    zoekVoertuigGegevens(_this);
+                }catch(err) {
+                    logger.info(err.message);
+                }
 
                 return deferred.resolve();
             });

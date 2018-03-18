@@ -98,7 +98,7 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanMedewerker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void opslaanMedewerker(@RequestBody JsonMedewerkerMetLicentie jsonMedewerker, HttpServletRequest httpServletRequest) {
+    public void opslaanMedewerker(@RequestBody JsonMedewerkerMetLicentie jsonMedewerker, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         zetSessieWaarden(httpServletRequest);
 
         metricsService.addMetric("opslaanMedewerker", GebruikerController.class, null, jsonMedewerker.getIdentificatie() == null);
@@ -111,8 +111,12 @@ public class GebruikerController extends AbstractController {
             medewerker = (Medewerker) gebruikerService.lees(id);
         }
 
+        Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
         Medewerker medewerkerDomain = jsonMedewerkerNaarMedewerkerMapper.map(jsonMedewerker, null, medewerker);
-        medewerkerDomain.setKantoor(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor());
+        medewerkerDomain.setKantoor(kantoor);
+        medewerkerDomain.setIdentificatie(kantoor.getAfkorting().toLowerCase() + "." + medewerkerDomain.getVoornaam().toLowerCase());
+        medewerkerDomain.setHashWachtwoord(jsonMedewerker.getVoornaam().toLowerCase());
+        medewerkerDomain.setMoetWachtwoordUpdaten(true);
 
         String licentie = null;
         if (medewerkerDomain.getId() == null) {

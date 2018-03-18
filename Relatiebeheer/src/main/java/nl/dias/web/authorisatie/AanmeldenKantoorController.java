@@ -9,6 +9,7 @@ import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
+import nl.dias.messaging.sender.KantoorAangemeldCommuniceerRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.KantoorService;
@@ -23,18 +24,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Properties;
 import java.util.UUID;
 
 @Controller
@@ -51,10 +47,12 @@ public class AanmeldenKantoorController extends AbstractController {
     private KantoorService kantoorService;
     @Inject
     private LoginService loginService;
+    @Inject
+    private KantoorAangemeldCommuniceerRequestSender kantoorAangemeldCommuniceerRequestSender;
 
     @RequestMapping(method = RequestMethod.POST, value = "/aanmeldenKantoor")
     @ResponseBody
-    public void opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException, MessagingException {
+    public boolean opslaan(@RequestBody AanmeldenKantoor aanmeldenKantoor, HttpServletResponse httpServletResponse, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException, MessagingException {
         LOGGER.info("Aanmelden nieuw kantoor");
 
         metricsService.addMetric("kantoorAanmelden", AanmeldenKantoorController.class, null, null);
@@ -78,68 +76,22 @@ public class AanmeldenKantoorController extends AbstractController {
         medewerker.setAchternaam(aanmeldenKantoor.getAchternaam());
         medewerker.setVoornaam(aanmeldenKantoor.getVoornaam());
         medewerker.setEmailadres(aanmeldenKantoor.getEmailadres());
-        try {
             medewerker.setIdentificatie(aanmeldenKantoor.getInlognaam());
             String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
-            String tekst = "Je nieuwe wachtwoord is : " + nieuwWachtwoord;
 
+        try {
             medewerker.setHashWachtwoord(nieuwWachtwoord);
-            medewerker.setMoetWachtwoordUpdaten(true);
-
-            String mailHost = "smtp.gmail.com";
-            Integer smtpPort = 587;
-
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", mailHost);
-            properties.put("mail.smtp.port", smtpPort);
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-            properties.setProperty("mail.smtp.auth", "true");
-            Authenticator auth = new SMTPAuthenticator();
-            Session emailSession = Session.getDefaultInstance(properties, auth);
-
-            Message msg = new MimeMessage(emailSession);
-
-            // -- Set the FROM and TO fields --
-            msg.setFrom(new InternetAddress("Symplex <noreply@symplexict.nl>"));
-
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(medewerker.getEmailadres(), false));
-            msg.setSubject("Wachtwoord reset");
-            msg.setSentDate(new Date());
-
-            BodyPart messageBodyPart = new MimeBodyPart();
-
-            //evt bijlages bijzoeken
-
-            // Create a multipar message
-            Multipart multipart = new MimeMultipart();
-            //                 Now set the actual message
-            messageBodyPart.setText(tekst);
-            // Set text message part
-            multipart.addBodyPart(messageBodyPart);
-
-            // Send the complete message parts
-            msg.setContent(multipart);
-
-            Transport transport = emailSession.getTransport("smtp");
-            transport.connect(mailHost, smtpPort, null, null);
-            //Zeker weten dat de mail niet al verstuurd is door een andere Thread
-            transport.sendMessage(msg, msg.getAllRecipients());
-            transport.close();
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             LOGGER.error("{}", e);
             throw e;
         }
-        gebruikerService.opslaan(medewerker);
-    }
+        medewerker.setMoetWachtwoordUpdaten(true);
 
-    private class SMTPAuthenticator extends javax.mail.Authenticator {
-        public PasswordAuthentication getPasswordAuthentication() {
-            String username = "p.heidotting@gmail.com";
-            String password = "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY";
-            return new PasswordAuthentication(username, password);
-        }
+        gebruikerService.opslaan(medewerker);
+
+        kantoorAangemeldCommuniceerRequestSender.send(kantoor, nieuwWachtwoord);
+
+        return true;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/komtAfkortingAlVoor/{afkorting}", produces = MediaType.APPLICATION_JSON)

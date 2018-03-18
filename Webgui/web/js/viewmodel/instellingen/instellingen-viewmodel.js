@@ -23,6 +23,7 @@ define(['jquery',
         this.identificatie = ko.observable();
 
         this.init = function() {
+            logger.info('start');
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();

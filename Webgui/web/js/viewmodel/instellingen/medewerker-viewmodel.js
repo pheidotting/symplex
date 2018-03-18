@@ -24,13 +24,14 @@ define(['jquery',
         this.nieuweMedewerker = ko.observable(false);
 
         this.init = function(identificatie) {
+            logger.info('start voor identificatie ' + identificatie);
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
 
             if(identificatie == null) {
                 _this.medewerker = new Medewerker();
-                _this.medewerker.licentieType = ko.observable().extend({required: true});
+//                _this.medewerker.licentieType = ko.observable().extend({required: true});
                 _this.nieuweMedewerker(true);
 
                 return deferred.resolve();

@@ -25,7 +25,7 @@ public class CommunicatieProductRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    protected Session getSession() {
+    public Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 

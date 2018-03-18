@@ -254,4 +254,7 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <import resource="applicationcontextJms/senders/rb.lb.licentieToegevoegdRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.licentieVerwijderdRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.kantoorAangemeldRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.co.wachtwoordVergetenRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.co.kantoorAangemeldCommuniceerRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.co.nieuweVersieRequest.xml"/>
 </beans>
