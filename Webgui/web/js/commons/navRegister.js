@@ -74,7 +74,7 @@ define([ ],
                             {naam: 'LIJST_SCHADES_BIJ_BEDRIJF',         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'},
 
                             {naam: 'LIJST_STATUS_SCHADE',               url: BASISURL_RELATIEBEHEER + '/medewerker/overig/lijstStatusSchade'},
-                            {naam: 'OPHALEN_ADRES_OP_POSTCODE',         url: BASISURL_RELATIEBEHEER + '/medewerker/adres/ophalenAdresOpPostcode'},
+                            {naam: 'OPHALEN_ADRES_OP_POSTCODE',         url: BASISURL_RELATIEBEHEER + '/medewerker/overig/ophalenAdresOpPostcode'},
 
                             {naam: 'LIJST_SOORTEN_HYPOTHEEK',           url: BASISURL_RELATIEBEHEER + '/medewerker/hypotheek/alleSoortenHypotheek'},
                             {naam: 'LIJST_HYPOTHEKEN_INCL_PAKKETTEN',   url: BASISURL_RELATIEBEHEER + '/medewerker/hypotheek/lijstHypothekenInclDePakketten'},

@@ -14,6 +14,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
 
     <cache:annotation-driven/>
+
     <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
             <set>
@@ -21,6 +22,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                       name="zoekIdentificatie"/>
                 <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
                       name="zoekIdentificatieCode"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="haalAdresOp"/>
             </set>
         </property>
     </bean>
@@ -30,6 +33,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </cache:caching>
         <cache:caching cache="zoekIdentificatieCode">
             <cache:cacheable method="zoekIdentificatieCode"/>
+        </cache:caching>
+        <cache:caching cache="haalAdresOp">
+            <cache:cacheable method="haalAdresOp"/>
         </cache:caching>
     </cache:advice>
 
