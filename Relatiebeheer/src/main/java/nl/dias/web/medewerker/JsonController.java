@@ -17,6 +17,7 @@ import nl.lakedigital.djfc.commons.json.JsonSoortSchade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -100,9 +101,9 @@ public class JsonController {
         return ret;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode/{postcode}/{huisnummer}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public JsonAdres ophalenAdresOpPostcode(@QueryParam("postcode") String postcode, @QueryParam("huisnummer") String huisnummer) {
+    public JsonAdres ophalenAdresOpPostcode(@PathVariable("postcode") String postcode, @PathVariable("huisnummer") String huisnummer) {
         String adres = "https://postcode-api.apiwise.nl/v2/addresses/?postcode=" + postcode + "&number=" + huisnummer;
 
         ClientConfig clientConfig = new DefaultClientConfig();
