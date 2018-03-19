@@ -4,7 +4,7 @@
 </head>
 <body>
 Nieuwe versie van Symplex :
-<h3>Versie<span th:text="${versie}"/></h3>
+<h3>Versie <span th:text="${versie}"/></h3>
 <span th:each="note : ${releasenotes}">
     <span th:text="${#strings.trim(note)}"/><br/>
 </span>
