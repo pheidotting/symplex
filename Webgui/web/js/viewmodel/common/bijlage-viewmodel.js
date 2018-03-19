@@ -47,7 +47,7 @@ define(['commons/3rdparty/log',
           if(_this.override){
             return true;
           }else{
-            return !_this.readOnly && _this.id() != null && parseInt(_this.id()) != 0;
+            return !_this.readOnly && _this.id() != null;
             }
         });
 
