@@ -176,20 +176,18 @@ define(['jquery',
                         _this.type(data[0].handelsbenaming);
                         _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
+
                         $.ajax({
                             type: "GET",
-                            url: 'https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
+                            url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
                             contentType: "application/json",
                             data: data,
                             ataType: "json",
                             async: false,
-                            beforeSend: function(request) {
-                                request.setRequestHeader('Ocp-Apim-Subscription-Key', 'da67f133a5244d7983f57185293a70fa');
-                            },
                             success: function (dataImages, textStatus, request) {
-                                _this.voertuigImage1(dataImages.value[0].contentUrl);
-                                _this.voertuigImage2(dataImages.value[1].contentUrl);
-                                _this.voertuigImage3(dataImages.value[2].contentUrl);
+                                _this.voertuigImage1(dataImages.items[0].link);
+                                _this.voertuigImage2(dataImages.items[1].link);
+                                _this.voertuigImage3(dataImages.items[2].link);
                             }
                         });
 
