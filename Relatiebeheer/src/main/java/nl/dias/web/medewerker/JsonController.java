@@ -1,5 +1,6 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -14,6 +15,7 @@ import nl.dias.service.VerzekeringsMaatschappijService;
 import nl.dias.web.mapper.SoortSchadeMapper;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonSoortSchade;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,6 +41,8 @@ public class JsonController {
     private SoortSchadeMapper soortSchadeMapper;
     @Inject
     private PostcodeService postcodeService;
+    @Inject
+    private MetricsService metricsService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijstVerzekeringsMaatschappijen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -103,6 +107,8 @@ public class JsonController {
     @RequestMapping(method = RequestMethod.GET, value = "/ophalenAdresOpPostcode", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public JsonAdres ophalenAdresOpPostcode(@QueryParam("postcode") String postcode, @QueryParam("huisnummer") String huisnummer) {
+        metricsService.addMetric("ophalenAdresOpPostcode", JsonController.class, null, null);
+
         String adres = "https://postcode-api.apiwise.nl/v2/addresses/?postcode=" + postcode + "&number=" + huisnummer;
 
         ClientConfig clientConfig = new DefaultClientConfig();
@@ -111,7 +117,12 @@ public class JsonController {
         WebResource webResource = client.resource(adres);
         ClientResponse response = webResource.header("X-Api-Key", "FYEYGHHNFV3sZutux7LcX8ng8VizXWPk1HWxPPX9").accept("application/x-www-form-urlencoded; charset=UTF-8").get(ClientResponse.class);
 
+        Timer.Context timer = metricsService.addTimerMetric("ophalenAdresOpPostcode", JsonController.class);
+
         String antwoord = response.getEntity(String.class);
+
+        metricsService.stop(timer);
+
         LOGGER.debug("Antwoord van de postcode api: {}", antwoord);
 
         JsonAdres jsonAdres = postcodeService.extraHeerAdres(antwoord);
