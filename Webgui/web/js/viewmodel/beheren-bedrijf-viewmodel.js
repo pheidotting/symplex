@@ -18,10 +18,11 @@ define(['jquery',
         'viewmodel/common/telefonie-viewmodel',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
     function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
-    rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel) {
+    rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel, LicentieViewmodel) {
 
     return function(id) {
         var _this = this;
@@ -35,6 +36,7 @@ define(['jquery',
 		this.telefonie              = null;
 		this.bedrijf                = null;
 		this.conactpersonen         = null;
+		this.licentieViewmodel      = null;
 
 		this.onderlingeRelaties = ko.observableArray();
 		this.lijst = ko.observableArray();
@@ -65,6 +67,7 @@ define(['jquery',
                 _this.contactpersonen = contactpersoonMapper.mapContactpersonen(bedrijf.contactPersoons);
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(id.identificatie, 'Bedrijf');
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 return deferred.resolve();
             });

@@ -129,7 +129,9 @@ define([ ],
 
                             {naam: 'ALLE_ADRESSEN_BIJ_ENTITEIT',        url: BASISURL_RELATIEBEHEER + '/medewerker/adres/alleAdressenBijLijstMetEntiteiten'},
 
-                            {naam: 'ZOEKEN',                            url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'}
+                            {naam: 'ZOEKEN',                            url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'},
+
+                            {naam: 'LICENTIE_EINDDATUM',                url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/einddatum'}
                         ];
 
                 var url = '';

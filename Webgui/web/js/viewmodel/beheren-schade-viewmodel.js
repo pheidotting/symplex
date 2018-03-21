@@ -3,7 +3,6 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/schade-mapper',
         'service/schade-service',
         'service/polis-service',
@@ -12,9 +11,10 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
+    function($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel) {
 
     return function() {
         var _this = this;
@@ -26,6 +26,7 @@ define(['jquery',
         this.bijlageModel           = null;
 		this.polis                = null;
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
 		this.id = ko.observable();
         this.readOnly = ko.observable();
@@ -79,6 +80,7 @@ define(['jquery',
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, schadeId, schade.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 var $selectPolis = $('#polisVoorSchademelding');
                 $('<option>', { value : '' }).text('Kies een polis uit de lijst..').appendTo($selectPolis);

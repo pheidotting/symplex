@@ -10,12 +10,14 @@ define(['jquery',
         'mapper/hypotheekPakket-mapper',
         'moment',
         'viewmodel/common/menubalk-viewmodel',
-         'commons/opmaak'],
-    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, opmaak) {
+        'viewmodel/common/licentie-viewmodel',
+        'commons/opmaak'],
+    function($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, LicentieViewmodel, opmaak) {
 
     return function() {
         var _this = this;
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.id = ko.observable();
@@ -34,6 +36,7 @@ define(['jquery',
 //                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, "RELATIE");
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 return deferred.resolve();
             });

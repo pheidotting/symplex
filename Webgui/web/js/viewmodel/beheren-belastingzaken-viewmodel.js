@@ -9,6 +9,7 @@ define(['jquery',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'moment',
         'service/toggle-service',
         'mapper/bijlage-mapper',
@@ -17,12 +18,13 @@ define(['jquery',
         'lodash',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload, _) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, gebruikerService, belastingzakenService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment, toggleService, bijlageMapper, groepbijlageMapper, fileUpload, _) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.basisId = null;
@@ -178,6 +180,7 @@ define(['jquery',
                 });
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 return deferred.resolve();
             });

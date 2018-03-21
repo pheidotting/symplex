@@ -8,17 +8,19 @@ define(['jquery',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'moment',
         'service/toggle-service',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment, toggleService) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
         var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.basisId = null;
@@ -52,6 +54,7 @@ define(['jquery',
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
 //				if(alleHypotheken.length > 0){
 //					var $koppelHypotheekSelect = $('#koppelHypotheek');

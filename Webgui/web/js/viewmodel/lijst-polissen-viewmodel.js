@@ -8,14 +8,16 @@ define(['jquery',
         'service/polis-service',
         'mapper/polis-mapper',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'moment',
         'commons/opmaak'],
-    function($, commonFunctions, ko, functions, block, log, redirect, polisService, polisMapper, menubalkViewmodel, moment, opmaak) {
+    function($, commonFunctions, ko, functions, block, log, redirect, polisService, polisMapper, menubalkViewmodel, LicentieViewmodel, moment, opmaak) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('lijst-polissen-viewmodel');
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.id = ko.observable();
@@ -39,6 +41,7 @@ define(['jquery',
                 _this.polissen = polisMapper.mapPolissen(data.polissen, maatschappijen);
 
                 _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 return deferred.resolve();
             });

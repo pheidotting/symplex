@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequestMapping("/licentie")
 @Controller
@@ -21,13 +23,16 @@ public class LicentieController extends AbstractController {
     @Inject
     private MetricsService metricsService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/actievelicentie", produces = MediaType.APPLICATION_JSON)
+    @RequestMapping(method = RequestMethod.GET, value = "/einddatum", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String actievelicentie(HttpServletRequest httpServletRequest) {
+    public Map<String, String> einddatum(HttpServletRequest httpServletRequest) {
         metricsService.addMetric("actievelicentie", LicentieController.class, null, null);
 
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
-        return licentieClient.eindDatumLicentie(kantoor.getId()).getEinddatum();
+        Map<String, String> result = new HashMap<>();
+        result.put("einddatum", licentieClient.eindDatumLicentie(kantoor.getId()).getEinddatum());
+
+        return result;
     }
 }
