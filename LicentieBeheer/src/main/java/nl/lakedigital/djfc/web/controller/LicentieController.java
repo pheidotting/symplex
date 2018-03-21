@@ -36,7 +36,7 @@ public class LicentieController {
         LocalDate einddatum = licentieService.eindDatumLicentie(kantoorid);
 
         LicentieResponse licentieResponse = new LicentieResponse();
-        licentieResponse.addLicentie(new Licentie(null, einddatum == null ? null : einddatum.toString("dd-MM-yyyy")));
+        licentieResponse.addLicentie(new Licentie(null, einddatum == null ? null : einddatum.toString("yyyy-MM-dd")));
 
         return licentieResponse;
     }
