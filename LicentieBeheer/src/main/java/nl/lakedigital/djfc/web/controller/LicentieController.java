@@ -1,8 +1,9 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.json.Licentie;
+import nl.lakedigital.djfc.commons.json.LicentieResponse;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.LicentieService;
-import nl.lakedigital.djfc.web.dto.Licentie;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +28,17 @@ public class LicentieController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/actievelicentie/{kantoorid}")
     @ResponseBody
-    public Licentie actievelicentie(@PathVariable("kantoorid") Long kantoorid, HttpServletRequest httpServletRequest) {
+    public LicentieResponse actievelicentie(@PathVariable("kantoorid") Long kantoorid, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("actievelicentie", LicentieController.class, null, null);
 
         zetSessieWaarden(httpServletRequest);
 
         LocalDate einddatum = licentieService.eindDatumLicentie(kantoorid);
 
-        return new Licentie(null, einddatum == null ? null : einddatum.toString("dd-MM-yyyy"));
+        LicentieResponse licentieResponse = new LicentieResponse();
+        licentieResponse.addLicentie(new Licentie(null, einddatum == null ? null : einddatum.toString("dd-MM-yyyy")));
+
+        return licentieResponse;
     }
 
 

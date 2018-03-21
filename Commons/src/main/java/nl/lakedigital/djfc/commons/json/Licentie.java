@@ -1,4 +1,4 @@
-package nl.lakedigital.djfc.web.dto;
+package nl.lakedigital.djfc.commons.json;
 
 public class Licentie {
     private String soort;
