@@ -5,6 +5,7 @@ import nl.lakedigital.djfc.domain.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Repository
 public class LicentieRepository {
@@ -55,6 +57,18 @@ public class LicentieRepository {
             getSession().merge(licentie);
         }
         metricsService.stop(timer);
+    }
+
+    @Transactional
+    public List<Licentie> alleLicenties(Long kantoorId) {
+        Timer.Context timer = metricsService.addTimerMetric("actieveLicentie", LicentieRepository.class);
+
+        Query query = getSession().createQuery("select l from Licentie l where kantoor = :kantoor order by startDatum asc");
+        query.setParameter("kantoor", kantoorId);
+
+        metricsService.stop(timer);
+
+        return query.list();
     }
 
 }
