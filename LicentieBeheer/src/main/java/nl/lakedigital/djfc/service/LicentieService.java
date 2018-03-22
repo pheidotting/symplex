@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class LicentieService {
@@ -41,4 +43,22 @@ public class LicentieService {
         LOGGER.debug("ID {}", trial.getId());
     }
 
+    public LocalDate eindDatumLicentie(Long kantoorId) {
+        List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
+
+        licenties.sort(new Comparator<Licentie>() {
+            @Override
+            public int compare(Licentie o1, Licentie o2) {
+                return o2.getStartDatum().compareTo(o1.getStartDatum());
+            }
+        });
+        if (licenties.size() == 0) {
+            return null;
+        }
+        return eindDatumLicentie(licenties.get(0));
+    }
+
+    private LocalDate eindDatumLicentie(Licentie licentie) {
+        return licentie == null ? null : licentie.getStartDatum().plusDays(licentie.getAantalDagen());
+    }
 }

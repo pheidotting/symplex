@@ -1,11 +1,13 @@
 package nl.lakedigital.djfc.domain;
 
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "LICENTIE")
@@ -57,5 +59,28 @@ public abstract class Licentie implements Serializable {
 
     public void setAantalDagen(Integer aantalDagen) {
         this.aantalDagen = aantalDagen;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Licentie)) {
+            return false;
+        }
+        Licentie licentie = (Licentie) o;
+        return Objects.equals(getId(), licentie.getId()) && Objects.equals(getStartDatum(), licentie.getStartDatum()) && Objects.equals(getKantoor(), licentie.getKantoor()) && Objects.equals(getAantalDagen(), licentie.getAantalDagen());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getStartDatum(), getKantoor(), getAantalDagen());
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("id", id).append("startDatum", startDatum).append("kantoor", kantoor).append("aantalDagen", aantalDagen).toString();
     }
 }

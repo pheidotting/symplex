@@ -10,11 +10,12 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
+    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, _) {
 
     return function() {
         var _this = this;
@@ -27,6 +28,7 @@ define(['jquery',
 		this.polis                = null;
 		this.taakModel              = null;
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
 		this.lijst = ko.observableArray();
 		this.id = ko.observable();
@@ -71,6 +73,7 @@ define(['jquery',
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, polisId, polis.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, polisId, polis.bijlages, polis.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 var $verzekeringsMaatschappijenSelect = $('#verzekeringsMaatschappijen');
                 $.each(maatschappijen, function(key, value) {

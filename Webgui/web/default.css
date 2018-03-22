@@ -245,3 +245,13 @@ meter::-webkit-meter-suboptimum-value {
 .belastingzaken {
     display: inline;
 }
+
+.licentiefout {
+    background-color: #ff7474;
+    height: 35px;
+    border: 1px solid #ff0000;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding:5px;
+}

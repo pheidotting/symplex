@@ -242,6 +242,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <constructor-arg value="${id.url}"/>
         <property name="metricsService" ref="metricsService"/>
     </bean>
+    <bean id="licentieClient" class="nl.lakedigital.djfc.client.licentie.LicentieClient">
+        <constructor-arg value="${lb.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
 
     <import resource="applicationcontextJms/senders/rb.oga.verwijderEntiteitRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.tb.taakOpslaan.xml"/>
