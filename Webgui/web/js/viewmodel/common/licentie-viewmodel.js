@@ -21,6 +21,12 @@ define(['commons/3rdparty/log',
                 var aantaldagen = moment().add(7, 'days').diff(moment(_this.einddatumLicentie()), 'days');
                 _this.melding('Let op! Over ' + aantaldagen + ' dag(en) loopt uw huidige licentie af!');
             }
+
+            if(moment(_this.einddatumLicentie()).isBefore(moment())){
+                if(window.location.pathname != '/zoeken.html' && window.location.pathname != '/instellingen.html'){
+                    window.location = 'instellingen.html#licenties';
+                }
+            }
         });
 	};
 });
