@@ -31,10 +31,10 @@ public class EmailVerzendService extends AbstractVerzendService {
 
     //        private String mailHost = "localhost";
     //        private Integer smtpPort = 2170;
-    private String mailHost = "mail.djfc.local";
-    private Integer smtpPort = 25;
-    //private String mailHost = "smtp.gmail.com";
-    //    private Integer smtpPort = 587;
+    //    private String mailHost = "mail.djfc.local";
+    //    private Integer smtpPort = 25;
+    private String mailHost = "smtp.gmail.com";
+    private Integer smtpPort = 587;
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -54,14 +54,14 @@ public class EmailVerzendService extends AbstractVerzendService {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", mailHost);
             properties.put("mail.smtp.port", smtpPort);
-            //            properties.put("mail.smtp.starttls.enable", "true");
-            //            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-            //            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-            //            properties.setProperty("mail.smtp.auth", "true");
-            //            Authenticator auth = new SMTPAuthenticator();
-            //            Session emailSession = Session.getDefaultInstance(properties, auth);
-
-            Session emailSession = Session.getDefaultInstance(properties, null);
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
+            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
+            properties.setProperty("mail.smtp.auth", "true");
+            Authenticator auth = new SMTPAuthenticator();
+            Session emailSession = Session.getDefaultInstance(properties, auth);
+            //
+            //            Session emailSession = Session.getDefaultInstance(properties, null);
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
 
