@@ -37,7 +37,7 @@
                     <br />
                     <a href="" data-bind="click: wachtwoordVergeten" class="wachtwoordVergeten">Wachtwoord vergeten?</a>
 
-                    <button id="inlogButton" data-bind="click: inloggen">Inloggen</button>
+                    <button id="buttonInloggen" data-bind="click: inloggen">Inloggen</button>
                 </div>
                 <div data-bind="if: moetWachtwoordUpdaten">
                     <!--Wachtwoord wijzigen-->
@@ -51,7 +51,7 @@
                     <div class="getbruikersnaam-wachtwoord">
                         Nieuw wachtwoord (nogmaals)
                     </div>
-                    <input type="password" id="nieuwWachtwoordNotmaals"
+                    <input type="password" id="nieuwWachtwoordNogmaals"
                            data-bind="value: nieuwWachtwoordNogmaals, attr: {class: onjuistWachtwoord}, event: {change: resetfoutmeldingWachtwoord}"/><br/>
                     <div id="foutmeldingWachtwoordenKomenNietOvereen" class="validationMessage"
                          data-bind="visible: wachtwoordenKomenNietOvereen">

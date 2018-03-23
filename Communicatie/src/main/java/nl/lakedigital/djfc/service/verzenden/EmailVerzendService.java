@@ -8,6 +8,8 @@ import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
@@ -26,15 +28,21 @@ import java.util.List;
 import java.util.Properties;
 
 @Service
+@PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
 public class EmailVerzendService extends AbstractVerzendService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    //        private String mailHost = "localhost";
+    @Value(("${mailHost}"))
+    private String mailHost;// = "localhost";
     //        private Integer smtpPort = 2170;
+    @Value("${smtpPort}")
+    private Integer smtpPort;// = 2345;
     //    private String mailHost = "mail.djfc.local";
     //    private Integer smtpPort = 25;
-    private String mailHost = "smtp.gmail.com";
-    private Integer smtpPort = 587;
+    //private String mailHost = "smtp.gmail.com";
+    //    private Integer smtpPort = 587;
+    //    private String mailHost = "mail.djfc.local";
+    //    private Integer smtpPort = 25;
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -54,14 +62,14 @@ public class EmailVerzendService extends AbstractVerzendService {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", mailHost);
             properties.put("mail.smtp.port", smtpPort);
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-            properties.setProperty("mail.smtp.auth", "true");
-            Authenticator auth = new SMTPAuthenticator();
-            Session emailSession = Session.getDefaultInstance(properties, auth);
-            //
-            //            Session emailSession = Session.getDefaultInstance(properties, null);
+//            properties.put("mail.smtp.starttls.enable", "true");
+//            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
+//            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
+//            properties.setProperty("mail.smtp.auth", "true");
+//            Authenticator auth = new SMTPAuthenticator();
+//            Session emailSession = Session.getDefaultInstance(properties, auth);
+            
+                        Session emailSession = Session.getDefaultInstance(properties, null);
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
 
