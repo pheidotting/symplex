@@ -58,10 +58,29 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       method="onMessage"/>
     </jms:listener-container>
 
+    <bean id="controleerLicentieRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.ControleerLicentieRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.lb.controleerLicentieRequestQueue" ref="controleerLicentieRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
     <!--<jms:listener-container container-type="default"-->
     <!--connection-factory="connectionFactory" acknowledge="auto">-->
     <!--<jms:listener destination="id.verwijderEntiteitenRequestQueue" ref="verwijderEntiteitenRequestReciever"-->
     <!--method="onMessage"/>-->
     <!--</jms:listener-container>-->
+
+    <bean id="controleerLicentieResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="lb.rb.controleerLicentieResponseQueue"/>
+    </bean>
+    <bean id="controleerLicentieResponseTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="controleerLicentieResponseDestination"/>
+    </bean>
+    <bean id="controleerLicentieResponseSender"
+          class="nl.lakedigital.djfc.messaging.sender.ControleerLicentieResponseSender">
+        <constructor-arg index="0" ref="controleerLicentieResponseTemplate"/>
+    </bean>
 
 </beans>
