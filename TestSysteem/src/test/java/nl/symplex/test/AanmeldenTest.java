@@ -3,6 +3,7 @@ package nl.symplex.test;
 import com.codeborne.selenide.junit.ScreenShooter;
 import nl.symplex.test.pages.Aanmelden;
 import nl.symplex.test.pages.Inloggen;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ public class AanmeldenTest extends AbstractTest {
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests();
 
     @Test
+    @Ignore
     public void aanmelden() {
         System.out.println("Start test");
         System.out.println(basisUrl);
