@@ -19,7 +19,7 @@ public class ControleerLicenties {
     @Inject
     private ControleerLicentieRequestSender controleerLicentieRequestSender;
 
-    @Scheduled(cron = "0 15 10 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void run() {
         for (Kantoor kantoor : kantoorRepository.alles()) {
             LOGGER.debug("KantoorID {}", kantoor.getId());
