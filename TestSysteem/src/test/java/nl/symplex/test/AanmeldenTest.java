@@ -20,12 +20,14 @@ public class AanmeldenTest extends AbstractTest {
     public void aanmelden() {
         System.out.println("Start test");
         System.out.println(basisUrl);
-        Inloggen inloggen = new Aanmelden().aanmelden(basisUrl, "Fa. List Bedrog", "henkie", "jansen", "henk@heidotting.nl");
+        try {
+            Inloggen inloggen = new Aanmelden().aanmelden(basisUrl, "Fa. List Bedrog", "henkie", "jansen", "henk@heidotting.nl");
 
-        inloggen.login("flb.henkie", getWachtwoord());
-        inloggen.wijzigwachtwoord("aabbccddeeffgghh");
-
-        open(basisUrlRest + "rest/medewerker/kantoor/verwijderen/flb");
+            inloggen.login("flb.henkie", getWachtwoord());
+            inloggen.wijzigwachtwoord("aabbccddeeffgghh");
+        } finally {
+            open(basisUrlRest + "rest/medewerker/kantoor/verwijderen/flb");
+        }
     }
 
 }
