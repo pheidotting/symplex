@@ -23,8 +23,7 @@ public class Aanmelden extends AbstractPage {
         setValue(LOGGER, $(By.id("bedrijfsnaam")), bedrijfsnaam);
         setValue(LOGGER, $(By.id("voornaam")), voornaam);
         setValue(LOGGER, $(By.id("achternaam")), achternaam);
-        setValue(LOGGER, $(By.id("emailadres")), emailadres);
-        click(LOGGER, $(By.id("aanmeldButton")).pressEnter());
+        setValue(LOGGER, $(By.id("emailadres")), emailadres).pressEnter();
 
         return page(Inloggen.class);
     }
