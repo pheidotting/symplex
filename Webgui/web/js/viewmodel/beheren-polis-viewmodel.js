@@ -10,11 +10,12 @@ define(['jquery',
         'moment',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, _) {
+    function($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, _) {
 
     return function() {
         var _this = this;
@@ -27,6 +28,7 @@ define(['jquery',
 		this.polis                = null;
 		this.taakModel              = null;
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
 		this.lijst = ko.observableArray();
 		this.id = ko.observable();
@@ -71,6 +73,7 @@ define(['jquery',
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, polisId, polis.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, polisId, polis.bijlages, polis.groepBijlages, _this.id() == _this.basisId);
                 _this.menubalkViewmodel     = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 var $verzekeringsMaatschappijenSelect = $('#verzekeringsMaatschappijen');
                 $.each(maatschappijen, function(key, value) {
@@ -90,7 +93,11 @@ define(['jquery',
 
                 _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
 
-                zoekVoertuigGegevens(_this);
+                try{
+                    zoekVoertuigGegevens(_this);
+                }catch(err) {
+                    logger.info(err.message);
+                }
 
                 return deferred.resolve();
             });
@@ -174,18 +181,15 @@ define(['jquery',
 
                         $.ajax({
                             type: "GET",
-                            url: 'https://api.cognitive.microsoft.com/bing/v7.0/images/search?q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
+                            url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
                             contentType: "application/json",
                             data: data,
                             ataType: "json",
                             async: false,
-                            beforeSend: function(request) {
-                                request.setRequestHeader('Ocp-Apim-Subscription-Key', 'da67f133a5244d7983f57185293a70fa');
-                            },
                             success: function (dataImages, textStatus, request) {
-                                _this.voertuigImage1(dataImages.value[0].contentUrl);
-                                _this.voertuigImage2(dataImages.value[1].contentUrl);
-                                _this.voertuigImage3(dataImages.value[2].contentUrl);
+                                _this.voertuigImage1(dataImages.items[0].link);
+                                _this.voertuigImage2(dataImages.items[1].link);
+                                _this.voertuigImage3(dataImages.items[2].link);
                             }
                         });
 

@@ -9,12 +9,14 @@ define(['jquery',
         'mapper/schade-mapper',
         'moment',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'commons/opmaak'],
-    function($, commonFunctions, ko, functions, block, log, redirect, schadeService, schadeMapper, moment, menubalkViewmodel, opmaak) {
+    function($, commonFunctions, ko, functions, block, log, redirect, schadeService, schadeMapper, moment, menubalkViewmodel, LicentieViewmodel, opmaak) {
 
     return function() {
         var _this = this;
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.id = ko.observable();
@@ -43,6 +45,7 @@ define(['jquery',
 
                 _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
                 _this.menubalkViewmodel     = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
                 return deferred.resolve();
             });

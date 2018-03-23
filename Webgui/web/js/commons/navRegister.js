@@ -74,7 +74,7 @@ define([ ],
                             {naam: 'LIJST_SCHADES_BIJ_BEDRIJF',         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'},
 
                             {naam: 'LIJST_STATUS_SCHADE',               url: BASISURL_RELATIEBEHEER + '/medewerker/overig/lijstStatusSchade'},
-                            {naam: 'OPHALEN_ADRES_OP_POSTCODE',         url: BASISURL_RELATIEBEHEER + '/medewerker/adres/ophalenAdresOpPostcode'},
+                            {naam: 'OPHALEN_ADRES_OP_POSTCODE',         url: BASISURL_RELATIEBEHEER + '/medewerker/overig/ophalenAdresOpPostcode'},
 
                             {naam: 'LIJST_SOORTEN_HYPOTHEEK',           url: BASISURL_RELATIEBEHEER + '/medewerker/hypotheek/alleSoortenHypotheek'},
                             {naam: 'LIJST_HYPOTHEKEN_INCL_PAKKETTEN',   url: BASISURL_RELATIEBEHEER + '/medewerker/hypotheek/lijstHypothekenInclDePakketten'},
@@ -129,7 +129,9 @@ define([ ],
 
                             {naam: 'ALLE_ADRESSEN_BIJ_ENTITEIT',        url: BASISURL_RELATIEBEHEER + '/medewerker/adres/alleAdressenBijLijstMetEntiteiten'},
 
-                            {naam: 'ZOEKEN',                            url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'}
+                            {naam: 'ZOEKEN',                            url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'},
+
+                            {naam: 'LICENTIE_EINDDATUM',                url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/einddatum'}
                         ];
 
                 var url = '';

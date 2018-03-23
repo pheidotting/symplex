@@ -2,41 +2,48 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<context:component-scan base-package="nl.dias" />
-	<context:component-scan base-package="nl.lakedigital.as.taakbeheer.client" />
+    <context:component-scan base-package="nl.dias"/>
+    <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
 
-    <!--<cache:annotation-driven />-->
+    <cache:annotation-driven/>
 
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatie"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatieCode"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="haalAdresOp"/>
+            </set>
+        </property>
+    </bean>
+    <cache:advice id="cachingBehavior" cache-manager="cacheManager">
+        <cache:caching cache="zoekIdentificatie">
+            <cache:cacheable method="zoekIdentificatie"/>
+        </cache:caching>
+        <cache:caching cache="zoekIdentificatieCode">
+            <cache:cacheable method="zoekIdentificatieCode"/>
+        </cache:caching>
+        <cache:caching cache="haalAdresOp">
+            <cache:cacheable method="haalAdresOp"/>
+        </cache:caching>
+    </cache:advice>
 
-    <!--<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">-->
-    <!--<property name="caches">-->
-    <!--<set>-->
-    <!--<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
-    <!--name="zoekIdentificatie"/>-->
-    <!--<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"-->
-    <!--name="zoekIdentificatieCode"/>-->
-    <!--</set>-->
-    <!--</property>-->
-    <!--</bean>-->
-    <!--<cache:advice id="cachingBehavior" cache-manager="cacheManager">-->
-    <!--<cache:caching cache="zoekIdentificatie">-->
-    <!--<cache:cacheable method="zoekIdentificatie"/>-->
-    <!--</cache:caching>-->
-    <!--<cache:caching cache="zoekIdentificatieCode">-->
-    <!--<cache:cacheable method="zoekIdentificatieCode"/>-->
-    <!--</cache:caching>-->
-    <!--</cache:advice>-->
-
-    <!--&lt;!&ndash; apply the behavior to all the implementations of CustomerDataService interface&ndash;&gt;-->
-    <!--<aop:config>-->
-    <!--<aop:advisor advice-ref="cachingBehavior"-->
-    <!--pointcut="execution(* nl.lakedigital.djfc.client.identificatie.IdentificatieClient.*(..))"/>-->
-    <!--</aop:config>-->
+    <!-- apply the behavior to all the implementations of CustomerDataService interface-->
+    <aop:config>
+        <aop:advisor advice-ref="cachingBehavior"
+                     pointcut="execution(* nl.lakedigital.djfc.client.identificatie.IdentificatieClient.*(..))"/>
+    </aop:config>
 
     <bean id="metricRegistry" class="com.codahale.metrics.MetricRegistry"/>
     <bean id="metricsService" class="nl.lakedigital.djfc.metrics.MetricsService">
@@ -56,17 +63,16 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <property name="maxUploadSize" value="50000000"/>
     </bean>
 
-	<!-- Activemq connection factory -->
-	<bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-		<constructor-arg index="0" value="tcp://localhost:61616" />
-	</bean>
+    <!-- Activemq connection factory -->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <constructor-arg index="0" value="tcp://localhost:61616"/>
+    </bean>
 
-	<!-- ConnectionFactory Definition -->
-	<bean id="connectionFactory"
-		class="org.springframework.jms.connection.CachingConnectionFactory">
-		<constructor-arg ref="amqConnectionFactory" />
-	</bean>
-
+    <!-- ConnectionFactory Definition -->
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+    </bean>
 
 
     <bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
@@ -90,37 +96,32 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     </jms:listener-container>
 
 
-
-
-
-
-
-	<!-- Opvragen Persoon -->
+    <!-- Opvragen Persoon -->
     <bean id="opvragenPersoonRequestReciever" class="nl.dias.messaging.reciever.OpvragenPersoonRequestReciever"/>
 
-	<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-		<jms:listener destination="tb.rb.opvragenPersoonRequestQueue" ref="opvragenPersoonRequestReciever"
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="tb.rb.opvragenPersoonRequestQueue" ref="opvragenPersoonRequestReciever"
                       method="onMessage"/>
-	</jms:listener-container>
-	<!-- // Opvragen Persoon -->
+    </jms:listener-container>
+    <!-- // Opvragen Persoon -->
 
-	<!-- Verwijderen Relaties -->
+    <!-- Verwijderen Relaties -->
     <bean id="verwijderRelatiesRequestReciever" class="nl.dias.messaging.reciever.VerwijderRelatiesRequestReciever"/>
 
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-		<jms:listener destination="rb.verwijderRelatiesRequestQueue" ref="verwijderRelatiesRequestReciever"
+        <jms:listener destination="rb.verwijderRelatiesRequestQueue" ref="verwijderRelatiesRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
-	<!-- // Verwijderen Relaties -->
+    <!-- // Verwijderen Relaties -->
 
-	<!-- Verwijderen Bedrijven -->
+    <!-- Verwijderen Bedrijven -->
     <bean id="verwijderBedrijvenRequestReciever" class="nl.dias.messaging.reciever.VerwijderBedrijvenRequestReciever"/>
 
-	<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-		<jms:listener destination="rb.verwijderBedrijvenRequestQueue" ref="verwijderBedrijvenRequestReciever"
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.verwijderBedrijvenRequestQueue" ref="verwijderBedrijvenRequestReciever"
                       method="onMessage"/>
-	</jms:listener-container>
-	<!-- // Verwijderen Bedrijven -->
+    </jms:listener-container>
+    <!-- // Verwijderen Bedrijven -->
 
     <bean id="beindigenPolisRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="rb.pa.beindigenPolisRequestQueue"/>
@@ -134,58 +135,57 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     </bean>
 
 
+    <context:annotation-config/>
 
-	<context:annotation-config/>
-
-	<bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
         <property name="targetMethod" value="initLogging"/>
-		<property name="arguments">
-			<list>
-				<value>djfc.log4j.xml</value>
-			</list>
-		</property>
-	</bean>
+        <property name="arguments">
+            <list>
+                <value>djfc.log4j.xml</value>
+            </list>
+        </property>
+    </bean>
 
-	<!--<bean id="inkomendRequestRepository" class="nl.lakedigital.djfc.repository.InkomendRequestRepository" depends-on="sessionFactory">-->
-	<!--<property name="sessionFactory" ref="sessionFactory" />-->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="inkomendRequestService" class="nl.lakedigital.djfc.service.InkomendRequestService" depends-on="inkomendRequestRepository">-->
-	<!--<property name="inkomendRequestRepository" ref="inkomendRequestRepository" />-->
-	<!--</bean>-->
+    <!--<bean id="inkomendRequestRepository" class="nl.lakedigital.djfc.repository.InkomendRequestRepository" depends-on="sessionFactory">-->
+    <!--<property name="sessionFactory" ref="sessionFactory" />-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean id="inkomendRequestService" class="nl.lakedigital.djfc.service.InkomendRequestService" depends-on="inkomendRequestRepository">-->
+    <!--<property name="inkomendRequestRepository" ref="inkomendRequestRepository" />-->
+    <!--</bean>-->
 
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<!--<property name="uniqueResourceName" value="NonXA_DataSource" />-->
-		<!--<property name="minPoolSize" value="2" />-->
-		<!--<property name="maxPoolSize" value="30" />-->
+        <!--<property name="uniqueResourceName" value="NonXA_DataSource" />-->
+        <!--<property name="minPoolSize" value="2" />-->
+        <!--<property name="maxPoolSize" value="30" />-->
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="${djfc.db.name}"/>
         <property name="username" value="${djfc.db.user}"/>
         <property name="password" value="${djfc.db.pass}"/>
-	</bean>
+    </bean>
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-		<property name="packagesToScan">
-			<list>
-				<value>nl.dias</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.current_session_context_class">thread</prop>
-				<prop key="hibernate.show_sql">true</prop>
-			</props>
-		</property>
-	</bean>
+        <property name="packagesToScan">
+            <list>
+                <value>nl.dias</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
 
-	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
-	</bean>
+    </bean>
 
     <bean id="inkomendRequestRepository" class="nl.dias.repository.trackandtraceid.InkomendRequestRepository"
           depends-on="sessionFactory">
@@ -197,37 +197,37 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <property name="inkomendRequestRepository" ref="inkomendRequestRepository"/>
     </bean>
 
-	<bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
+    <bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
         <constructor-arg value="${oga.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">
+    </bean>
+    <bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">
         <constructor-arg value="${oga.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
+    </bean>
+    <bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
         <constructor-arg value="${oga.url}"/>
-	</bean>
-	<bean id="groepBijlagesClient" class="nl.lakedigital.djfc.client.oga.GroepBijlagesClient">
-        <constructor-arg value="${oga.url}"/>
-        <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="opmerkingClient" class="nl.lakedigital.djfc.client.oga.OpmerkingClient">
+    </bean>
+    <bean id="groepBijlagesClient" class="nl.lakedigital.djfc.client.oga.GroepBijlagesClient">
         <constructor-arg value="${oga.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="rekeningClient" class="nl.lakedigital.djfc.client.oga.RekeningClient">
+    </bean>
+    <bean id="opmerkingClient" class="nl.lakedigital.djfc.client.oga.OpmerkingClient">
         <constructor-arg value="${oga.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="telefoonnummerClient" class="nl.lakedigital.djfc.client.oga.TelefoonnummerClient">
+    </bean>
+    <bean id="rekeningClient" class="nl.lakedigital.djfc.client.oga.RekeningClient">
         <constructor-arg value="${oga.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
-	<bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">
+    </bean>
+    <bean id="telefoonnummerClient" class="nl.lakedigital.djfc.client.oga.TelefoonnummerClient">
         <constructor-arg value="${oga.url}"/>
-	</bean>
-	<bean id="taakClient" class="nl.lakedigital.djfc.client.taakbeheer.TaakClient">
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
+    <bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">
+        <constructor-arg value="${oga.url}"/>
+    </bean>
+    <bean id="taakClient" class="nl.lakedigital.djfc.client.taakbeheer.TaakClient">
         <constructor-arg value="${tb.url}"/>
     </bean>
     <bean id="polisClient" class="nl.lakedigital.djfc.client.polisadministratie.PolisClient">
@@ -241,7 +241,11 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
         <constructor-arg value="${id.url}"/>
         <property name="metricsService" ref="metricsService"/>
-	</bean>
+    </bean>
+    <bean id="licentieClient" class="nl.lakedigital.djfc.client.licentie.LicentieClient">
+        <constructor-arg value="${lb.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
 
     <import resource="applicationcontextJms/senders/rb.oga.verwijderEntiteitRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.tb.taakOpslaan.xml"/>
