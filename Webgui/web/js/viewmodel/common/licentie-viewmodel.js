@@ -1,10 +1,8 @@
 define(['commons/3rdparty/log',
         'knockout',
         'service/common/licentie-service',
-        'moment',
-        'navRegister',
-        'lodash'],
-    function(log, ko, licentieService, moment, navRegister, _) {
+        'moment'],
+    function(log, ko, licentieService, moment) {
 
     return function() {
         var _this = this;
@@ -29,10 +27,8 @@ define(['commons/3rdparty/log',
                 }
             }
 
-            if(moment(_this.einddatumLicentie()).isBefore(moment())){
-                if(window.location.pathname != '/zoeken.html' && window.location.pathname != '/instellingen.html'){
-                    window.location = 'instellingen.html#licenties';
-                }
+            if(moment(_this.einddatumLicentie()).isBefore(moment()) && window.location.pathname != '/zoeken.html' && window.location.pathname != '/instellingen.html'){
+                window.location = 'instellingen.html#licenties';
             }
         });
 	};

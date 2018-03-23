@@ -12,9 +12,8 @@ define(['jquery',
         'service/gebruiker-service',
         'mapper/zoekresultaat-mapper',
         'viewmodel/common/menubalk-viewmodel',
-        'viewmodel/common/licentie-viewmodel',
-        'moment'],
-    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, LicentieViewmodel, moment) {
+        'viewmodel/common/licentie-viewmodel'],
+    function($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, LicentieViewmodel) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
