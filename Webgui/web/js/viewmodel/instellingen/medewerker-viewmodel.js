@@ -7,18 +7,20 @@ define(['jquery',
 		'redirect',
         'model/medewerker',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'mapper/medewerker-mapper',
         'service/kantoor-service',
         'service/gebruiker-service',
         'moment',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, functions, block, log, redirect, Medewerker, menubalkViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
+    function($, commonFunctions, ko, functions, block, log, redirect, Medewerker, menubalkViewmodel, LicentieViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('medewerkers-viewmodel');
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.medewerker = null;
         this.nieuweMedewerker = ko.observable(false);
@@ -28,6 +30,7 @@ define(['jquery',
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
+            _this.licentieViewmodel     = new LicentieViewmodel();
 
             if(identificatie == null) {
                 _this.medewerker = new Medewerker();

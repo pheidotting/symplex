@@ -8,6 +8,7 @@ define(['commons/3rdparty/log',
 
     return function() {
         var _this = this;
+        var logger = log.getLogger('licentie-viewmodel');
 
         this.einddatumLicentie = ko.observable();
         this.tonenLicentieWaarschuwing = ko.observable();
@@ -20,13 +21,18 @@ define(['commons/3rdparty/log',
             if(_this.tonenLicentieWaarschuwing()){
                 var aantaldagen = moment().diff(moment(_this.einddatumLicentie()), 'days');
 
-                if(aantaldagen > 0) {
-                    _this.melding('Let op! Over ' + aantaldagen + ' dag(en) loopt uw huidige licentie af!');
+                var melding = '';
+
+                if(moment().isBefore(moment(_this.einddatumLicentie())) && aantaldagen > 0) {
+                    melding = 'Let op! Over ' + aantaldagen + ' dag(en) loopt uw huidige licentie af!"';
                 } else if(aantaldagen == 0){
-                    _this.melding('Let op! Vandaag loopt uw huidige licentie af!');
+                    melding = 'Let op! Vandaag loopt uw huidige licentie af!';
                 } else {
-                    _this.melding('Let op! Uw licentie is verlopen, haal een nieuwe!');
+                    melding = 'Let op! Uw licentie is verlopen, haal een nieuwe!';
                 }
+
+                logger.info(melding);
+                _this.melding(melding + ' Klik <a href="instellingen.html#licenties">hier</a> om een nieuwe licentie aan te schaffen');
             }
 
             if(moment(_this.einddatumLicentie()).isBefore(moment())){
