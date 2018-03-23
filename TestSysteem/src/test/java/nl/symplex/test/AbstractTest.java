@@ -65,8 +65,8 @@ public abstract class AbstractTest {
             timeOut = 30000L;
         } else {
             uitvoeren = true;
-            //            setupPhantomJSDriver();
-            setupChromeDriver();
+            setupPhantomJSDriver();
+            //            setupChromeDriver();
             basisUrl = "http://localhost:8080/";
         }
         if (uitvoeren) {
