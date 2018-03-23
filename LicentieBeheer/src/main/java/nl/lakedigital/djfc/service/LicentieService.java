@@ -43,7 +43,7 @@ public class LicentieService {
         LOGGER.debug("ID {}", trial.getId());
     }
 
-    public LocalDate eindDatumLicentie(Long kantoorId) {
+    public Licentie eindDatumLicentie(Long kantoorId) {
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
 
         licenties.sort(new Comparator<Licentie>() {
@@ -55,10 +55,10 @@ public class LicentieService {
         if (licenties.size() == 0) {
             return null;
         }
-        return eindDatumLicentie(licenties.get(0));
+        return licenties.get(0);
     }
 
-    private LocalDate eindDatumLicentie(Licentie licentie) {
+    public LocalDate eindDatumLicentie(Licentie licentie) {
         return licentie == null ? null : licentie.getStartDatum().plusDays(licentie.getAantalDagen());
     }
 }

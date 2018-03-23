@@ -33,7 +33,7 @@ public class LicentieController {
 
         zetSessieWaarden(httpServletRequest);
 
-        LocalDate einddatum = licentieService.eindDatumLicentie(kantoorid);
+        LocalDate einddatum = licentieService.eindDatumLicentie(licentieService.eindDatumLicentie(kantoorid));
 
         LicentieResponse licentieResponse = new LicentieResponse();
         licentieResponse.addLicentie(new Licentie(null, einddatum == null ? null : einddatum.toString("yyyy-MM-dd")));

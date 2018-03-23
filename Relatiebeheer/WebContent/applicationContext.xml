@@ -3,17 +3,19 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jms="http://www.springframework.org/schema/jms" xmlns:cache="http://www.springframework.org/schema/cache"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
 http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <context:component-scan base-package="nl.dias"/>
     <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
 
     <cache:annotation-driven/>
+    <task:annotation-driven/>
 
     <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
         <property name="caches">
@@ -92,6 +94,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
         <jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
+    <bean id="controleerLicentiesResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="lb.rb.controleerLicentieResponseQueue"/>
+    </bean>
+    <bean id="controleerLicentiesResponseReciever"
+          class="nl.dias.messaging.reciever.ControleerLicentiesResponseReciever"/>
+
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="lb.rb.controleerLicentieResponseQueue" ref="controleerLicentiesResponseReciever"
                       method="onMessage"/>
     </jms:listener-container>
 
@@ -261,4 +274,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <import resource="applicationcontextJms/senders/rb.co.wachtwoordVergetenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.kantoorAangemeldCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.nieuweVersieRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.lb.controleerLicentieRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.co.herinnerLicentiesRequest.xml"/>
 </beans>

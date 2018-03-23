@@ -23,7 +23,10 @@ public class CommunicatieProductService {
     public enum SoortCommunicatieProduct {EMAIL, BRIEF}
 
     public enum TemplateNaam {
-        NIEUWE_VERSIE("nieuwe-versie", "Nieuwe versie van Symplex"), KANTOOR_AANGEMELD("kantoor-aangemeld", "Welkom bij Symplex"), WACHTWOORD_VERGETEN("wachtwoord-vergeten", "Nieuw wachtwoord");
+        NIEUWE_VERSIE("nieuwe-versie", "Nieuwe versie van Symplex"), //
+        KANTOOR_AANGEMELD("kantoor-aangemeld", "Welkom bij Symplex"), //
+        WACHTWOORD_VERGETEN("wachtwoord-vergeten", "Nieuw wachtwoord"),//
+        HERINNER_LICENTIE("herinner-licenties", "Herinnerling verlopen licentie");
         private String bestandsnaam;
         private String onderwerp;
 
