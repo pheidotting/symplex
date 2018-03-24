@@ -1,9 +1,7 @@
 define(['redirect',
         'knockout',
-        'navRegister',
-        'service/toggle-service',
-        'repository/common/repository'],
-    function(redirect, ko, navRegister, toggleService, repository) {
+        'navRegister'],
+    function(redirect, ko, navRegister) {
 
     return function(identificatie, soortEntiteit) {
         var _this = this;
@@ -66,7 +64,7 @@ define(['redirect',
             contentType: "application/json",
             ataType: "json",
             async: false,
-            success: function (beschikbaar, textStatus, request) {
+            success: function (beschikbaar) {
                 if(!!beschikbaar){
                     $('#instellingenLink').show();
                 }
@@ -88,7 +86,7 @@ define(['redirect',
                 beforeSend: function(request) {
                     request.setRequestHeader('url', window.location);
                 },
-                success: function (response, textStatus, request) {
+                success: function (response) {
                     _this.kantoorAfkorting(response.kantoorAfkorting.toLowerCase());
                 }
             });
