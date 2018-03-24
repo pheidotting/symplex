@@ -14,6 +14,7 @@ pipeline {
             steps {
                 sh '''
                     cd TestSysteem
+                    rm -fr target
                     mvn clean test
                 '''
             }
