@@ -3,6 +3,7 @@ package nl.lakedigital.djfc.service;
 import nl.lakedigital.as.messaging.domain.Kantoor;
 import nl.lakedigital.djfc.domain.Licentie;
 import nl.lakedigital.djfc.domain.LicentieStatus;
+import nl.lakedigital.djfc.domain.LifetimeLicense;
 import nl.lakedigital.djfc.domain.Trial;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.joda.time.LocalDate;
@@ -59,6 +60,9 @@ public class LicentieService {
     }
 
     public LocalDate eindDatumLicentie(Licentie licentie) {
+        if (licentie instanceof LifetimeLicense) {
+            return new LocalDate(2999, 12, 31);
+        }
         return licentie == null ? null : licentie.getStartDatum().plusDays(licentie.getAantalDagen());
     }
 }
