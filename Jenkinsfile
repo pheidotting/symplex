@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                     cd TestSysteem
-                    mvn clean verify
+                    mvn clean test
                 '''
             }
             post {
