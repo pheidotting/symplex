@@ -67,7 +67,8 @@ public abstract class AbstractTest {
             uitvoeren = true;
             setupPhantomJSDriver();
             //            setupChromeDriver();
-            basisUrl = "http://localhost:8080/";
+            //            basisUrl = "http://localhost:8080/";
+            basisUrl = "http://tst-diasii:8080/";
         }
         if (uitvoeren) {
             basisUrlRest = basisUrl.replace("djfc/", "") + "dejonge/";
