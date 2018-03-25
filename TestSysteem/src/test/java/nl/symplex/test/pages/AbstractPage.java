@@ -8,12 +8,16 @@ import org.slf4j.Logger;
 
 
 public class AbstractPage {
-    protected SelenideElement setValue(Logger LOGGER, SelenideElement element, String value) {
+    private void wachtff() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
         }
+    }
+    protected SelenideElement setValue(Logger LOGGER, SelenideElement element, String value) {
+        wachtff();
         element.setValue(value);
+        wachtff();
         Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
 
         return element;
@@ -21,7 +25,9 @@ public class AbstractPage {
 
     protected SelenideElement click(Logger LOGGER, SelenideElement element) {
         Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
+        wachtff();
         element.click();
+        wachtff();
         Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
 
         return element;
