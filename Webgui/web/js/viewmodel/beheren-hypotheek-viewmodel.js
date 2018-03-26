@@ -8,17 +8,18 @@ define(['jquery',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'moment',
-        'service/toggle-service',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, moment, toggleService) {
+    function($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment) {
 
     return function() {
         var _this = this;
         var logger = log.getLogger('beheren-hypotheek-viewmodel');
         var soortEntiteit = 'HYPOTHEEK';
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.basisEntiteit = null;
         this.basisId = null;
@@ -52,23 +53,9 @@ define(['jquery',
                 _this.menubalkViewmodel     = new menubalkViewmodel(data.identificatie, "RELATIE");
                 _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
                 _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
+                _this.licentieViewmodel     = new LicentieViewmodel();
 
-//				if(alleHypotheken.length > 0){
-//					var $koppelHypotheekSelect = $('#koppelHypotheek');
-//					$('<option>', { value : '' }).text('Kies evt. een hypotheek om mee te koppelen...').appendTo($koppelHypotheekSelect);
-//					$.each(alleHypotheken, function(key, value) {
-//						if(value.id != hypotheekId){
-//						    var hypo = hypotheekMapper.mapHypotheek(value, lijstSoortenHypotheek);
-//						    var selected = '';
-//						    if(hypotheek.hypotheekPakket == value.hypotheekPakket) {
-//						        selected = ' selected="selected"';
-//						    }
-//							$('<option' + selected + ' value="' + parseInt(value.id) + '">').text(hypo.titel()).appendTo($koppelHypotheekSelect);
-//						}
-//					});
-//				}else{
-					$('#gekoppeldeHypotheekGroep').hide();
-//				}
+                $('#gekoppeldeHypotheekGroep').hide();
 
                 var $hypotheekVormSelect = $('#hypotheekVorm');
                 $('<option>', { value : '' }).text('Kies een soort hypotheek uit de lijst...').appendTo($hypotheekVormSelect);
@@ -76,31 +63,17 @@ define(['jquery',
                     $('<option>', { value : value.id }).text(value.omschrijving).appendTo($hypotheekVormSelect);
                 });
 
-//                toggleService.isFeatureBeschikbaar('TODOIST').done(function(toggleBeschikbaar){
-//                    if(toggleBeschikbaar) {
-//                        var relatieId;
-//                        var bedrijfId;
-//                        if(_this.basisEntiteit == 'RELATIE'){
-//                            relatieId = _this.basisId;
-//                        } else {
-//                            bedrijfId = _this.basisId;
-//                        }
-//
-//                        _this.taakModel             = new taakViewModel(false, soortEntiteit, hypotheekId, relatieId, bedrijfId);
-//                    }
+                _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
+                _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
+                _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
+                _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
+                _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
+                _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
+                _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
+                _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
+                _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
 
-                    _this.hypotheek.hypotheekBedrag(commonFunctions.maakBedragOp(_this.hypotheek.hypotheekBedrag()));
-                    _this.hypotheek.boxI(commonFunctions.maakBedragOp(_this.hypotheek.boxI()));
-                    _this.hypotheek.boxIII(commonFunctions.maakBedragOp(_this.hypotheek.boxIII()));
-                    _this.hypotheek.marktWaarde(commonFunctions.maakBedragOp(_this.hypotheek.marktWaarde()));
-                    _this.hypotheek.koopsom(commonFunctions.maakBedragOp(_this.hypotheek.koopsom()));
-                    _this.hypotheek.vrijeVerkoopWaarde(commonFunctions.maakBedragOp(_this.hypotheek.vrijeVerkoopWaarde()));
-                    _this.hypotheek.wozWaarde(commonFunctions.maakBedragOp(_this.hypotheek.wozWaarde()));
-                    _this.hypotheek.waardeVoorVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeVoorVerbouwing()));
-                    _this.hypotheek.waardeNaVerbouwing(commonFunctions.maakBedragOp(_this.hypotheek.waardeNaVerbouwing()));
-
-                    return deferred.resolve();
-//                });
+                return deferred.resolve();
             });
 
             return deferred.promise();

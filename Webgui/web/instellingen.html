@@ -23,6 +23,7 @@
         app.addView('medewerkers', 'js/view/instellingen/medewerkers-view');
         app.addView('medewerker', 'js/view/instellingen/medewerker-view');
         app.addView('medewerker/:identificatie', 'js/view/instellingen/medewerker-view');
+        app.addView('licenties', 'js/view/instellingen/licenties-kopen-view');
 
         app.run('#instellingen');
     });
@@ -55,6 +56,11 @@
 </div>
 <div class="bar">
     <button class="uitloggen-button" data-bind="click: $root.menubalkViewmodel.uitloggen">Uitloggen</button>
+</div>
+
+<div data-bind="visible: licentieViewmodel.tonenLicentieWaarschuwing,attr: {class: 'licentiefout'}"
+     style="display:none;">
+    <span data-bind="html: licentieViewmodel.melding"></span>
 </div>
 
 <img class="logo-bedrijf"

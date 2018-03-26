@@ -65,13 +65,9 @@ pipeline {
         }
 
         stage ('Undeploy Testbak') {
-            when {
-                expression {
-                    return env.BRANCH_NAME != 'master'
-                }
-            }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
@@ -227,6 +223,23 @@ pipeline {
             }
         }
 
+        stage ('Build TestSysteem') {
+            steps {
+                sh '''
+                    cd TestSysteem
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden TestSysteem gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden TestSysteem Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Build GUI') {
             steps {
                 sh '''
@@ -247,14 +260,11 @@ pipeline {
         }
 
         stage ('Deployment Testbak') {
-            when {
-                expression {
-                    return env.BRANCH_NAME != 'master'
-                }
-            }
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar testbak :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp TestSysteem/target/test.war jetty@192.168.91.230:/opt/jetty/webapps
+
                     scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.230:/opt/jetty
                     scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp Communicatie/target/communicatie.war jetty@192.168.91.230:/opt/jetty/webapps

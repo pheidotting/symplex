@@ -6,15 +6,17 @@ define(['jquery',
         'commons/3rdparty/log',
 		'redirect',
         'viewmodel/common/menubalk-viewmodel',
+        'viewmodel/common/licentie-viewmodel',
         'service/kantoor-service',
         'moment'],
-    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, kantoorService, moment) {
+    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService, moment) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
         var _this = this;
         var logger = log.getLogger('instellingen-viewmodel');
 		this.menubalkViewmodel      = null;
+		this.licentieViewmodel      = null;
 
         this.bedrijfsnaam = ko.observable();
         this.emailadres = ko.observable();
@@ -27,6 +29,7 @@ define(['jquery',
             var deferred = $.Deferred();
 
             _this.menubalkViewmodel     = new menubalkViewmodel();
+            _this.licentieViewmodel     = new LicentieViewmodel();
 
             $.when(kantoorService.lees()).then(function(kantoor){
                 _this.bedrijfsnaam(kantoor.naam);

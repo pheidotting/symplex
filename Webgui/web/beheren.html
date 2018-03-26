@@ -71,6 +71,11 @@
     <button class="uitloggen-button" data-bind="click: $root.menubalkViewmodel.uitloggen">Uitloggen</button>
 </div>
 
+<div data-bind="visible: licentieViewmodel.tonenLicentieWaarschuwing,attr: {class: 'licentiefout'}"
+     style="display:none;">
+    <span data-bind="html: licentieViewmodel.melding"></span>
+</div>
+
 <img class="logo-bedrijf" src="images/logo-djfc.jpg"/>
 
 <div class="main">
