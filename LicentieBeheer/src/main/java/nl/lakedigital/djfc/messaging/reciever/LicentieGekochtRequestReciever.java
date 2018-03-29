@@ -49,6 +49,7 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
 
         } catch (LicentieSoortNietGevondenException e) {
             LOGGER.error("Licentie soort {} niet gevonden, kantoor id {}", licentieToegevoegd.getLicentieType(), licentieToegevoegd.getKantoor());
+            LOGGER.trace("sonar wil dat ik dit doe {}", e);
         }
     }
 }
