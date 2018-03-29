@@ -12,10 +12,7 @@ define(['jquery',
 
                 logger.debug('content geladen, viewmodel init');
 
-                var v = new viewmodel();
-                $.when(v.init()).then(function(){
-                    ko.applyBindings(v);
-                });
+                ko.applyBindings(new viewmodel());
             }
         }
     }
