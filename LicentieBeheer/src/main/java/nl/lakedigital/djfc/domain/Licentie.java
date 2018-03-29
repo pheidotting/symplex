@@ -29,6 +29,11 @@ public abstract class Licentie implements Serializable {
         this.startDatum = new Date();
     }
 
+    public Licentie(Integer aantalDagen) {
+        this();
+        this.aantalDagen = aantalDagen;
+    }
+
     public Long getId() {
         return id;
     }

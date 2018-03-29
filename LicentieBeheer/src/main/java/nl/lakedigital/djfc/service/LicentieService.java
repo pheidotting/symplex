@@ -1,10 +1,8 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.domain.Kantoor;
-import nl.lakedigital.djfc.domain.Licentie;
-import nl.lakedigital.djfc.domain.LicentieStatus;
-import nl.lakedigital.djfc.domain.LifetimeLicense;
-import nl.lakedigital.djfc.domain.Trial;
+import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.exception.LicentieSoortNietGevondenException;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -42,6 +40,28 @@ public class LicentieService {
 
         licentieRepository.opslaan(trial);
         LOGGER.debug("ID {}", trial.getId());
+    }
+
+    public void nieuweLicentie(String soort, Long kantoor) throws LicentieSoortNietGevondenException {
+        Licentie licentie = null;
+        switch (soort) {
+            case "brons":
+                licentie = new Brons();
+                break;
+            case "zilver":
+                licentie = new Zilver();
+                break;
+            case "goud":
+                licentie = new Goud();
+                break;
+        }
+
+        if (licentie == null) {
+            throw new LicentieSoortNietGevondenException();
+        }
+
+        licentie.setKantoor(kantoor);
+        licentieRepository.opslaan(licentie);
     }
 
     public Licentie eindDatumLicentie(Long kantoorId) {

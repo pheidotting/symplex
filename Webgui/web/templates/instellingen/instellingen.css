@@ -10,7 +10,12 @@
 }
 
 .licentie input {
+    margin-top: 40px;
     width:15px;
+}
+
+.licentie ul {
+    margin-bottom:30px;
 }
 
 .koopknop-area {
@@ -27,4 +32,11 @@
     padding-left:20px;
     padding-right:20px;
     margin-top:50px;
+}
+
+.licentienaam {
+    text-align:center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom:30px;
 }

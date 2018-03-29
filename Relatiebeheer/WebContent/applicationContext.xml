@@ -109,6 +109,18 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </jms:listener-container>
 
 
+    <bean id="licentieGekochtResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="lb.rb.licentieGekochtResponseQueue"/>
+    </bean>
+    <bean id="licentieGekochtResponseReciever"
+          class="nl.dias.messaging.reciever.LicentieGekochtResponseReciever"/>
+
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="lb.rb.licentieGekochtResponseQueue" ref="licentieGekochtResponseReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
+
     <!-- Opvragen Persoon -->
     <bean id="opvragenPersoonRequestReciever" class="nl.dias.messaging.reciever.OpvragenPersoonRequestReciever"/>
 
@@ -268,12 +280,12 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <import resource="applicationcontextJms/senders/rb.oga.opslaanEntiteitenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.schadeOpslaanRequest.xml"/>
     <import resource="applicationcontextJms/senders/id.entiteitenOpgeslagenRequest.xml"/>
-    <import resource="applicationcontextJms/senders/rb.lb.licentieToegevoegdRequest.xml"/>
-    <import resource="applicationcontextJms/senders/rb.lb.licentieVerwijderdRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.kantoorAangemeldRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.wachtwoordVergetenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.kantoorAangemeldCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.nieuweVersieRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.lb.controleerLicentieRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.lb.licentieGekochtRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.co.licentieGekochtCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.herinnerLicentiesRequest.xml"/>
 </beans>

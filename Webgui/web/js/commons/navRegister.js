@@ -131,7 +131,8 @@ define([ ],
 
                             {naam: 'ZOEKEN',                            url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'},
 
-                            {naam: 'LICENTIE_EINDDATUM',                url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/einddatum'}
+                            {naam: 'LICENTIE_EINDDATUM',                url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/einddatum'},
+                            {naam: 'LICENTIE_KOPEN',                    url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/licentie-kopen'}
                         ];
 
                 var url = '';

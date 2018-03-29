@@ -1,53 +1,63 @@
 <div>
-    <div class="kolom">
-        <div class="licentie">
-            Pakket A
-            <br/>
-            <br/>
-            Per maand: &euro; 5,00
-            <br/>
-            Per Jaar: &euro; 50,00
-            <br/>
-            <br/>
-            <br/>
-            <div class="selecteer">
-                <input type="radio" name="select-licentie" value="a" selected="selected"> Selecteer
+    <div data-bind="ifnot: gekocht">
+        <div class="kolom">
+            <div class="licentie">
+                <div class="licentienaam">
+                    Brons
+                </div>
+                <ul>
+                    <li>Max. 2 medewerkers</li>
+                    <li>Polisgegevems opslaan</li>
+                    <li>Hypotheekgegevens opslaan</li>
+                </ul>
+                Per maand: &euro; 5,00<br/>
+                Per Jaar: &euro; 50,00<br/>
+                <div class="selecteer">
+                    <input type="radio" name="select-licentie" value="brons" data-bind="checked: licentie"> Selecteer
+                </div>
             </div>
         </div>
-    </div>
-    <div class="kolom">
-        <div class="licentie">
-            Pakket B
-            <br/>
-            <br/>
-            Per maand: &euro; 10,00
-            <br/>
-            Per Jaar: &euro; 100,00
-            <br/>
-            <br/>
-            <br/>
-            <div class="selecteer">
-                <input type="radio" name="select-licentie" value="b"> Selecteer
+        <div class="kolom">
+            <div class="licentie">
+                <div class="licentienaam">
+                    Zilver
+                </div>
+                <ul>
+                    <li>Max. 5 medewerkers</li>
+                    <li>Polisgegevems opslaan</li>
+                    <li>Hypotheekgegevens opslaan</li>
+                    <li>Belastinggegevens opslaan</li>
+                </ul>
+                Per maand: &euro; 10,00<br/>
+                Per Jaar: &euro; 100,00<br/>
+                <div class="selecteer">
+                    <input type="radio" name="select-licentie" value="zilver" data-bind="checked: licentie"> Selecteer
+                </div>
             </div>
         </div>
-    </div>
-    <div class="kolom">
-        <div class="licentie">
-            Pakket c
-            <br/>
-            <br/>
-            Per maand: &euro; 20,00
-            <br/>
-            Per Jaar: &euro; 200,00
-            <br/>
-            <br/>
-            <br/>
-            <div class="selecteer">
-                <input type="radio" name="select-licentie" value="c"> Selecteer
+        <div class="kolom">
+            <div class="licentie">
+                <div class="licentienaam">
+                    Goud
+                </div>
+                <ul>
+                    <li>Onbeperkt aantal medewerkers</li>
+                    <li>Polisgegevems opslaan</li>
+                    <li>Hypotheekgegevens opslaan</li>
+                    <li>Belastinggegevens opslaan</li>
+                </ul>
+                Per maand: &euro; 20,00<br/>
+                Per Jaar: &euro; 200,00<br/>
+                <div class="selecteer">
+                    <input type="radio" name="select-licentie" value="goud" data-bind="checked: licentie"> Selecteer
+                </div>
             </div>
         </div>
+        <div class="koopknop-area">
+            <button class="koopknop" data-bind="click: licentieKopen">Koop</button>
+        </div>
     </div>
-    <div class="koopknop-area">
-        <button class="koopknop">Koop</button>
+    <div data-bind="if: gekocht">
+        Bedankt voor het kopen van een licentie van Symplex
     </div>
 </div>
