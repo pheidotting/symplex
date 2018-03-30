@@ -19,7 +19,7 @@ define(['commons/3rdparty/log',
             if(_this.tonenLicentieWaarschuwing()){
                 var aantaldagen = moment().diff(moment(_this.einddatumLicentie()), 'days');
 
-                var melding = '';
+                var melding;
 
                 if(moment().isBefore(moment(_this.einddatumLicentie())) && aantaldagen > 0) {
                     melding = 'Let op! Over ' + aantaldagen + ' dag(en) loopt uw huidige licentie af!"';
