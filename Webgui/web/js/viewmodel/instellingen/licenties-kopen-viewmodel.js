@@ -32,7 +32,9 @@ define(['jquery',
         _this.licentieViewmodel     = new LicentieViewmodel();
 
         _this.licentieKopen = function(){
+            logger.info('Licentie kopen ' + data);
             $.when(licentieService.licentieKopen(_this.licentie())).done(function(){
+                logger.info('Licentie gekocht');
                 _this.gekocht(true);
             });
         };

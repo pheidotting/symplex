@@ -73,7 +73,7 @@ public class LicentieService {
                 return o2.getStartDatum().compareTo(o1.getStartDatum());
             }
         });
-        if (licenties.size() == 0) {
+        if (licenties.isEmpty()) {
             return null;
         }
         return licenties.get(0);

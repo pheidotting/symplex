@@ -11,10 +11,9 @@ define(['jquery',
         'mapper/medewerker-mapper',
         'service/kantoor-service',
         'service/gebruiker-service',
-        'moment',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, functions, block, log, redirect, Medewerker, menubalkViewmodel, LicentieViewmodel, medewerkerMapper, kantoorService, gebruikerService, moment) {
+    function($, commonFunctions, ko, functions, block, log, redirect, Medewerker, menubalkViewmodel, LicentieViewmodel, medewerkerMapper, kantoorService, gebruikerService) {
 
     return function() {
         var _this = this;
