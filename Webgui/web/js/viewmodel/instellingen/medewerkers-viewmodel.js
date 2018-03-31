@@ -37,7 +37,7 @@ define(['jquery',
                     return m.achternaam() + m.voornaam();
                 });
 
-                return deferred.resolve();
+                return deferred.resolve(true);
             });
 
             return deferred.promise();
@@ -58,6 +58,10 @@ define(['jquery',
 
         this.nieuw = function() {
             window.location.hash = 'medewerker';
+        };
+
+        this.magMedewerkerToevoegen = function() {
+            return _this.medewerkers.length < _this.licentieViewmodel.maxAantalMedewerkers();
         };
 	};
 });

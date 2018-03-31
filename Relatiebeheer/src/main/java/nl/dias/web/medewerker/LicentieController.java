@@ -4,6 +4,7 @@ import nl.dias.domein.Kantoor;
 import nl.dias.domein.Medewerker;
 import nl.dias.messaging.sender.LicentieGekochtRequestSender;
 import nl.lakedigital.djfc.client.licentie.LicentieClient;
+import nl.lakedigital.djfc.commons.json.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +36,9 @@ public class LicentieController extends AbstractController {
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
         Map<String, String> result = new HashMap<>();
-        result.put("einddatum", licentieClient.eindDatumLicentie(kantoor.getId()).getEinddatum());
+        Licentie licentie = licentieClient.eindDatumLicentie(kantoor.getId());
+        result.put("einddatum", licentie.getEinddatum());
+        result.put("soort", licentie.getSoort());
 
         return result;
     }
