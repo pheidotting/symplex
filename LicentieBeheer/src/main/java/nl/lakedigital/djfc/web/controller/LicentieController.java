@@ -33,14 +33,15 @@ public class LicentieController {
 
         zetSessieWaarden(httpServletRequest);
 
-        LocalDate einddatum = licentieService.eindDatumLicentie(licentieService.eindDatumLicentie(kantoorid));
+        nl.lakedigital.djfc.domain.Licentie licentie = licentieService.eindDatumLicentie(kantoorid);
+        LocalDate einddatum = licentieService.eindDatumLicentie(licentie);
 
         LicentieResponse licentieResponse = new LicentieResponse();
-        licentieResponse.addLicentie(new Licentie(null, einddatum == null ? null : einddatum.toString("yyyy-MM-dd")));
+
+        licentieResponse.addLicentie(new Licentie(licentie.getClass().getSimpleName().toLowerCase(), einddatum == null ? null : einddatum.toString("yyyy-MM-dd")));
 
         return licentieResponse;
     }
-
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
         Long ingelogdeGebruiker = getIngelogdeGebruiker(httpServletRequest);
@@ -55,7 +56,6 @@ public class LicentieController {
             MDC.put("trackAndTraceId", trackAndTraceId);
         }
     }
-
 
     protected Long getIngelogdeGebruiker(HttpServletRequest httpServletRequest) {
         String ig = httpServletRequest.getHeader("ingelogdeGebruiker");
