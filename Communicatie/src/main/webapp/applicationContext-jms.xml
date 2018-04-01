@@ -35,4 +35,12 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       ref="herinnerLicentiesRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
+
+    <bean id="licentieGekochtCommuniceerRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.LicentieGekochtCommuniceerRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.co.licentieGekochtCommuniceerRequestQueue"
+                      ref="licentieGekochtCommuniceerRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 </beans>

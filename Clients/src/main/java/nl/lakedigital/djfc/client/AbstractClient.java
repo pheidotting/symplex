@@ -61,8 +61,8 @@ public abstract class AbstractClient<D> {
             connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
             connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
             connection.setRequestProperty("url", MDC.get("url"));
-            connection.setReadTimeout(20000);
-            connection.setConnectTimeout(20000);
+            connection.setReadTimeout(30000);
+            connection.setConnectTimeout(30000);
 
             Timer.Context timer = null;
             if (metrics != null) {

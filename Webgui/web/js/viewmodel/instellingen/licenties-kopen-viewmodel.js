@@ -8,15 +8,19 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'service/kantoor-service',
-        'moment'],
-    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService, moment) {
+        'moment',
+        'service/instellingen/licentie-service'],
+    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService, moment, licentieService) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
         var _this = this;
-        var logger = log.getLogger('instellingen-viewmodel');
+        var logger = log.getLogger('licenties-kopen-viewmodel');
 		this.menubalkViewmodel      = null;
 		this.licentieViewmodel      = null;
+
+		this.licentie = ko.observable();
+		this.gekocht = ko.observable(false);
 
         this.bedrijfsnaam = ko.observable();
         this.emailadres = ko.observable();
@@ -24,46 +28,15 @@ define(['jquery',
         this.afkorting = ko.observable();
         this.identificatie = ko.observable();
 
-        this.init = function() {
-            logger.info('start');
-            var deferred = $.Deferred();
+        _this.menubalkViewmodel     = new menubalkViewmodel();
+        _this.licentieViewmodel     = new LicentieViewmodel();
 
-            _this.menubalkViewmodel     = new menubalkViewmodel();
-            _this.licentieViewmodel     = new LicentieViewmodel();
-
-            $.when(kantoorService.lees()).then(function(kantoor){
-                _this.bedrijfsnaam(kantoor.naam);
-                _this.emailadres(kantoor.emailadres);
-                _this.kvk(kantoor.kvk);
-                _this.afkorting(kantoor.afkorting);
-                _this.identificatie(kantoor.identificatie);
-
-                return deferred.resolve();
+        _this.licentieKopen = function(){
+            logger.info('Licentie kopen ' + data);
+            $.when(licentieService.licentieKopen(_this.licentie())).done(function(){
+                logger.info('Licentie gekocht');
+                _this.gekocht(true);
             });
-
-            return deferred.promise();
-        };
-
-        this.opslaan = function(){
-            var deferred = $.Deferred();
-
-            var kantoor = {
-                'naam' : _this.bedrijfsnaam(),
-                'emailadres' : _this.emailadres(),
-                'kvk' : _this.kvk(),
-                'afkorting' : _this.afkorting(),
-                'identificatie' : _this.identificatie()
-            };
-
-            $.when(kantoorService.opslaan(kantoor)).then(function(kantoor){
-                return deferred.resolve();
-            });
-
-            return deferred.promise();
-        };
-
-        this.annuleren = function(){
-            window.location = 'zoeken.html';
         };
 	};
 });

@@ -1,5 +1,7 @@
 package nl.lakedigital.djfc.domain.response;
 
+import nl.lakedigital.djfc.commons.json.Licentie;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +15,13 @@ public class Kantoor {
     private String soortKantoor;
     private String emailadres;
     private String afkorting;
+    private Licentie licentie;
     private List<Medewerker> medewerkers;
 
     public Kantoor() {
     }
 
-    public Kantoor(String identificatie, String naam, Long kvk, String btwNummer, String datumOprichting, String rechtsvorm, String soortKantoor, String emailadres, String afkorting) {
+    public Kantoor(String identificatie, String naam, Long kvk, String btwNummer, String datumOprichting, String rechtsvorm, String soortKantoor, String emailadres, String afkorting, Licentie licentie) {
         this.identificatie = identificatie;
         this.naam = naam;
         this.kvk = kvk;
@@ -28,6 +31,7 @@ public class Kantoor {
         this.soortKantoor = soortKantoor;
         this.emailadres = emailadres;
         this.afkorting = afkorting;
+        this.licentie = licentie;
     }
 
     public String getIdentificatie() {
@@ -100,6 +104,14 @@ public class Kantoor {
 
     public void setAfkorting(String afkorting) {
         this.afkorting = afkorting;
+    }
+
+    public Licentie getLicentie() {
+        return licentie;
+    }
+
+    public void setLicentie(Licentie licentie) {
+        this.licentie = licentie;
     }
 
     public List<Medewerker> getMedewerkers() {

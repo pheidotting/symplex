@@ -7,9 +7,8 @@ define(['jquery',
 		'redirect',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
-        'service/kantoor-service',
-        'moment'],
-    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService, moment) {
+        'service/kantoor-service'],
+    function($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService) {
 
     return function() {
         commonFunctions.checkNieuweVersie();
