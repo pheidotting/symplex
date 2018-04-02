@@ -19,6 +19,7 @@ public class LicentieGekochtCommuniceerRequestSender extends AbstractSender<Lice
     private GebruikerRepository gebruikerRepository;
 
     public LicentieGekochtCommuniceerRequestSender() {
+        //Moet van Spring aanwezig zijn, maar ja
     }
 
     public LicentieGekochtCommuniceerRequestSender(JmsTemplate jmsTemplate) {
