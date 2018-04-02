@@ -147,9 +147,7 @@ public class BijlageController extends AbstractController {
         headers.setContentType(header);
         headers.add("content-disposition", "inline;filename=" + bijlage.getBestandsNaam());
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
-
-        return response;
+        return new ResponseEntity<>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/uploadBijlage", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)

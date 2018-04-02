@@ -63,12 +63,8 @@ public class VersieController extends AbstractController {
             Versie versie = new Versie(versieNummer, releasenotes);
             versieRepository.opslaan(versie);
 
-            List<Long> gebruikerIds = gebruikerRepository.alleGebruikersDieKunnenInloggen().stream().map(new Function<Gebruiker, Long>() {
-                @Override
-                public Long apply(Gebruiker gebruiker) {
-                    return gebruiker.getId();
-                }
-            }).collect(Collectors.toList());
+            List<Long> gebruikerIds = gebruikerRepository.alleGebruikersDieKunnenInloggen().stream()//
+                    .map((Function<Gebruiker, Long>) gebruiker -> gebruiker.getId()).collect(Collectors.toList());
 
             for (Long gebruikerId : gebruikerIds) {
                 versieRepository.opslaan(new VersieGelezen(versie.getId(), gebruikerId));
