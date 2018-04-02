@@ -103,7 +103,7 @@ public class KantoorController extends AbstractController {
         try {
             kantoorService.aanmelden(kantoor);
         } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
-            e.printStackTrace();
+            LOGGER.trace("Fout gevonden bij opslaan Kantoor ({}), {}", jsonKantoor.getNaam(), e);
         }
 
         metricsService.stop(timer);
