@@ -85,6 +85,7 @@ pipeline {
             }
             steps {
                 sh '''
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
@@ -424,6 +425,8 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar test :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
+                    scp TestSysteem/target/test.war jetty@192.168.91.215:/opt/jetty/webapps
+
                     scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.215:/opt/jetty
                     scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp Communicatie/target/communicatie.war jetty@192.168.91.215:/opt/jetty/webapps
