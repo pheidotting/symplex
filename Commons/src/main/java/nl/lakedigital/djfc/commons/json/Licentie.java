@@ -5,6 +5,7 @@ public class Licentie {
     private String einddatum;
 
     public Licentie() {
+        //Moet helaas aanwezig zijn
     }
 
     public Licentie(String soort, String einddatum) {
