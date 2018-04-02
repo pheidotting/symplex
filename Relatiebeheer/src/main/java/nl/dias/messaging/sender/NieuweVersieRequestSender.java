@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 public class NieuweVersieRequestSender extends AbstractSender<NieuweVersieRequest, NieuweVersieRequest> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(NieuweVersieRequestSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NieuweVersieRequestSender.class);
 
     public NieuweVersieRequestSender(JmsTemplate jmsTemplate) {
         super(jmsTemplate, NieuweVersieRequest.class);

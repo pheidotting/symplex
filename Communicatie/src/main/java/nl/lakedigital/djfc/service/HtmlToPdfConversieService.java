@@ -16,7 +16,7 @@ import java.io.OutputStream;
 @Service
 public class HtmlToPdfConversieService {
     private StringBuffer stringBufferOfData;
-    private final static Logger LOGGER = LoggerFactory.getLogger(HtmlToPdfConversieService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HtmlToPdfConversieService.class);
 
     //    @Inject
     private BijlageClient bijlageClient;

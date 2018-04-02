@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class LeesEnVerwerkEmailService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(LeesEnVerwerkEmailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LeesEnVerwerkEmailService.class);
     @Inject
     private LeesEmailService leesEmailService;
     @Inject

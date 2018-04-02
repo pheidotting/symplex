@@ -30,7 +30,7 @@ import java.util.Properties;
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
 public class EmailVerzendService extends AbstractVerzendService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
     @Value(("${mailHost}"))
     private String mailHost;// = "localhost";

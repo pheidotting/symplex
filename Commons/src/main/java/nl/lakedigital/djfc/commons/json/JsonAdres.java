@@ -18,6 +18,7 @@ public class JsonAdres extends AbstracteJsonEntiteitMetSoortEnId implements Seri
     private String soortAdres;
 
     public JsonAdres() {
+        //Moet helaas aanwezig zijn
     }
 
     public Long getId() {

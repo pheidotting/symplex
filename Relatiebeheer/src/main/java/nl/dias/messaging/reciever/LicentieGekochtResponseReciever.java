@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 public class LicentieGekochtResponseReciever extends AbstractReciever<LicentieGekochtResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(LicentieGekochtResponseReciever.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LicentieGekochtResponseReciever.class);
 
     @Inject
     private LicentieGekochtCommuniceerRequestSender licentieGekochtCommuniceerRequestSender;

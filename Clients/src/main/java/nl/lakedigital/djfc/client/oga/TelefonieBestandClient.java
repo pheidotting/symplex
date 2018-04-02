@@ -16,7 +16,7 @@ import java.util.Map;
 import static java.lang.String.join;
 
 public class TelefonieBestandClient extends AbstractClient {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelefonieBestandClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefonieBestandClient.class);
 
     private final String URL_ALLES = "/rest/telefonie/recordings";
 

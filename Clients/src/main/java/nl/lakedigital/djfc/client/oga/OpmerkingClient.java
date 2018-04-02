@@ -16,7 +16,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOpmerkingenResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpmerkingClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpmerkingClient.class);
 
     private final String URL_LIJST = "/rest/opmerking/alles";
     private final String URL_VERWIJDEREN = "/rest/opmerking/verwijderen";

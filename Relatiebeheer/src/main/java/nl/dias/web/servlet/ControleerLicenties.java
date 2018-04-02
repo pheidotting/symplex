@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 @Component
 public class ControleerLicenties {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ControleerLicenties.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControleerLicenties.class);
 
     @Inject
     private KantoorRepository kantoorRepository;

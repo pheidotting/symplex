@@ -19,9 +19,7 @@ import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.metrics.MetricsService;
-import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,10 +109,6 @@ public class GebruikerService {
     }
 
     public void opslaan(Gebruiker gebruiker) {
-        opslaan(gebruiker, null);
-    }
-
-    public void opslaan(Gebruiker gebruiker, String licentie) {
         LOGGER.debug("Opslaan {}", gebruiker);
 
         gebruikerRepository.opslaan(gebruiker);
@@ -133,20 +127,12 @@ public class GebruikerService {
         LOGGER.debug("Opslaan ContactPersonen, aantal {}, bedrijfId {}", jsonContactPersonen.size(), bedrijfId);
 
         LOGGER.debug("Ophalen bestaande ContactPersonen bij bedrijf");
-        List<Long> bestaandeContactPersonen = newArrayList(transform(alleContactPersonen(bedrijfId), new Function<ContactPersoon, Long>() {
-            @Override
-            public Long apply(ContactPersoon contactPersoon) {
-                return contactPersoon.getId();
-            }
-        }));
+        List<Long> bestaandeContactPersonen = newArrayList(transform(alleContactPersonen(bedrijfId), contactPersoon -> contactPersoon.getId()));
         LOGGER.debug("Ids bestaande ContactPersonen {}", bestaandeContactPersonen);
 
-        final List<Long> lijstIdsBewaren = newArrayList(filter(transform(jsonContactPersonen, new Function<JsonContactPersoon, Long>() {
-            @Override
-            public Long apply(JsonContactPersoon contactPersoon) {
-                Identificatie identificatie = identificatieClient.zoekIdentificatieCode(contactPersoon.getIdentificatie());
-                return identificatie.getEntiteitId();
-            }
+        final List<Long> lijstIdsBewaren = newArrayList(filter(transform(jsonContactPersonen, contactPersoon -> {
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(contactPersoon.getIdentificatie());
+            return identificatie.getEntiteitId();
         }), new Predicate<Long>() {
             @Override
             public boolean apply(Long id) {
@@ -156,12 +142,7 @@ public class GebruikerService {
         LOGGER.debug("Ids ContactPersonen uit front-end {}", lijstIdsBewaren);
 
         //Verwijderen wat niet (meer) voorkomt
-        Iterable<Long> teVerwijderen = filter(bestaandeContactPersonen, new Predicate<Long>() {
-            @Override
-            public boolean apply(Long contactPersoon) {
-                return !lijstIdsBewaren.contains(contactPersoon);
-            }
-        });
+        Iterable<Long> teVerwijderen = filter(bestaandeContactPersonen, contactPersoon -> !lijstIdsBewaren.contains(contactPersoon));
 
         LOGGER.debug("Ids die dus weg kunnen {}", teVerwijderen);
         for (Long id : teVerwijderen) {
@@ -170,11 +151,8 @@ public class GebruikerService {
 
         LOGGER.debug("Opslaan ContactPersonen");
         for (JsonContactPersoon jsonContactPersoon : jsonContactPersonen) {
-            //            jsonContactPersoon.setBedrijf(bedrijfId);
-            LOGGER.debug("opslaan {}", ReflectionToStringBuilder.toString(jsonContactPersoon, ToStringStyle.SHORT_PREFIX_STYLE));
+            LOGGER.debug("opslaan {}", jsonContactPersoon);
             ContactPersoon contactPersoon = mapper.map(jsonContactPersoon, ContactPersoon.class);
-
-            LOGGER.debug("opslaan {}", ReflectionToStringBuilder.toString(contactPersoon, ToStringStyle.SHORT_PREFIX_STYLE));
 
             gebruikerRepository.opslaan(contactPersoon);
         }
@@ -187,7 +165,6 @@ public class GebruikerService {
         Gebruiker gebruiker = gebruikerRepository.lees(id);
 
         LOGGER.debug("Opgehaalde gebruiker : ");
-        //        LOGGER.debug(ReflectionToStringBuilder.toString(gebruiker));
         if (gebruiker != null) {
             if (gebruiker instanceof Relatie) {
                 Relatie relatie = (Relatie) gebruiker;

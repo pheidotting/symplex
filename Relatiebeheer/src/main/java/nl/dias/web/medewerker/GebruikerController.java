@@ -18,7 +18,10 @@ import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonn
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.*;
+import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
+import nl.lakedigital.djfc.commons.json.JsonKoppelenOnderlingeRelatie;
+import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
@@ -88,7 +91,7 @@ public class GebruikerController extends AbstractController {
         JsonMedewerker jsonMedewerker;
         Medewerker medewerker = (Medewerker) gebruikerService.lees(id);
 
-            jsonMedewerker = medewerkerNaarJsonMedewerkerMapper.map(medewerker);
+        jsonMedewerker = medewerkerNaarJsonMedewerkerMapper.map(medewerker);
         jsonMedewerker.setIdentificatie(identificatieString);
 
         LOGGER.debug("Naar de front-end : " + jsonMedewerker);
@@ -98,7 +101,7 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaanMedewerker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public void opslaanMedewerker(@RequestBody JsonMedewerkerMetLicentie jsonMedewerker, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void opslaanMedewerker(@RequestBody JsonMedewerker jsonMedewerker, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         zetSessieWaarden(httpServletRequest);
 
         metricsService.addMetric("opslaanMedewerker", GebruikerController.class, null, jsonMedewerker.getIdentificatie() == null);
@@ -118,12 +121,7 @@ public class GebruikerController extends AbstractController {
         medewerkerDomain.setHashWachtwoord(jsonMedewerker.getVoornaam().toLowerCase());
         medewerkerDomain.setMoetWachtwoordUpdaten(true);
 
-        String licentie = null;
-        if (medewerkerDomain.getId() == null) {
-            licentie = jsonMedewerker.getLicentieType();
-        }
-
-        gebruikerService.opslaan(medewerkerDomain, licentie);
+        gebruikerService.opslaan(medewerkerDomain);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijderen/{id}", produces = MediaType.APPLICATION_JSON)

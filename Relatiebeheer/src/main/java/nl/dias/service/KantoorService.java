@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 @Service
 public class KantoorService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(KantoorService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KantoorService.class);
 
     @Inject
     private KantoorRepository kantoorRepository;

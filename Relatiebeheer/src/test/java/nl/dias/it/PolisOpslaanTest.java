@@ -38,7 +38,7 @@
 //@ContextConfiguration("classpath:applicationContext-it.xml")
 //public class PolisOpslaanTest {
 //
-//    private final static Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanTest.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanTest.class);
 //
 //    @Inject
 //    private List<Polis> polissen;

@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Service
 public class CommunicatieProductService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductService.class);
 
     public enum SoortCommunicatieProduct {EMAIL, BRIEF}
 

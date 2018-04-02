@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 public class ControleerLicentiesResponseReciever extends AbstractReciever<ControleerLicentieResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ControleerLicentiesResponseReciever.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControleerLicentiesResponseReciever.class);
 
     @Inject
     private HerinnerLicentiesRequestSender herinnerLicentiesRequestSender;
