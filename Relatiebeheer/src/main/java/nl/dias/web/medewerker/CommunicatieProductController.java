@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/communicatieproduct")
 public class CommunicatieProductController extends AbstractController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductController.class);
     @Inject
     private AuthorisatieService authorisatieService;
 

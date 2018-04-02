@@ -32,7 +32,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @RequestMapping("versies")
 @Controller
 public class VersieController extends AbstractController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(VersieController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VersieController.class);
 
     @Inject
     private VersieRepository versieRepository;

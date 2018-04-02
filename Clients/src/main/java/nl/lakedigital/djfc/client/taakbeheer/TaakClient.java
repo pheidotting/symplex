@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.List;
 
 public class TaakClient {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TaakClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaakClient.class);
 
     protected String basisUrl;
 

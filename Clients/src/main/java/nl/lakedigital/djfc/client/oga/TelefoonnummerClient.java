@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, OpvragenTelefoonnummersResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerClient.class);
 
     private final String URL_LIJST = "/rest/telefoonnummer/alles";
     private final String URL_VERWIJDEREN = "/rest/telefoonnummer/verwijderen";

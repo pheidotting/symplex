@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import static com.codeborne.selenide.Selenide.*;
 
 public class Aanmelden extends AbstractPage {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Aanmelden.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Aanmelden.class);
 
     // bedrijfsnaam
     // afkorting

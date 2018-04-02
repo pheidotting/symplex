@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 public class LicentieGekochtResponseSender extends nl.lakedigital.djfc.messaging.sender.AbstractSender<LicentieGekochtResponse, LicentieGekochtResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ControleerLicentieResponseSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControleerLicentieResponseSender.class);
 
     private LicentieService licentieService;
 

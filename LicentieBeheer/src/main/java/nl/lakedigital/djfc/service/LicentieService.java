@@ -17,7 +17,7 @@ import java.util.List;
 public class LicentieService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LicentieService.class);
 
-    private final static int AANTAL_DAGEN_TRIAL = 30;
+    private static final int AANTAL_DAGEN_TRIAL = 30;
 
     @Inject
     private LicentieRepository licentieRepository;

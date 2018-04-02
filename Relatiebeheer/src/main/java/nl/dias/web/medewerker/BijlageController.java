@@ -37,7 +37,7 @@ import java.util.List;
 @RequestMapping("/bijlage")
 @Controller
 public class BijlageController extends AbstractController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(BijlageController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BijlageController.class);
 
     @Inject
     private BijlageClient bijlageClient;

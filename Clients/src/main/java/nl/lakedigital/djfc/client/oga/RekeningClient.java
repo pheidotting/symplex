@@ -16,7 +16,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, OpvragenRekeningNummersResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RekeningClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RekeningClient.class);
 
     private final String URL_LIJST = "/rest/rekeningnummer/alles";
     private final String URL_VERWIJDEREN = "/rest/rekeningnummer/verwijderen";

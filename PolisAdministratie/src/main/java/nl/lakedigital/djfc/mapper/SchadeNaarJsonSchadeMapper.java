@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SchadeNaarJsonSchadeMapper extends AbstractMapper<Schade, JsonSchade> implements JsonMapper {
-    private final static Logger LOGGER = LoggerFactory.getLogger(SchadeNaarJsonSchadeMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchadeNaarJsonSchadeMapper.class);
 
     String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
     String patternDatum = "yyyy-MM-dd";

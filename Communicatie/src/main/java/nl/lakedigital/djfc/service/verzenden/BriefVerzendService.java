@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class BriefVerzendService extends AbstractVerzendService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(BriefVerzendService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BriefVerzendService.class);
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
