@@ -64,8 +64,10 @@ public class LicentieService {
         licentieRepository.opslaan(licentie);
     }
 
-    public Licentie eindDatumLicentie(Long kantoorId) {
+    public Licentie actieveLicentie(Long kantoorId) {
+        LOGGER.debug("AA");
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
+        LOGGER.debug("BB");
 
         licenties.sort(new Comparator<Licentie>() {
             @Override
@@ -79,7 +81,7 @@ public class LicentieService {
         return licenties.get(0);
     }
 
-    public LocalDate eindDatumLicentie(Licentie licentie) {
+    public LocalDate actieveLicentie(Licentie licentie) {
         if (licentie instanceof LifetimeLicense) {
             return new LocalDate(2999, 12, 31);
         }

@@ -28,9 +28,9 @@ public class ControleerLicentieRequestReciever extends AbstractReciever<Controle
 
         controleerLicentieResponseSender.setLicentieService(licentieService);
 
-        Licentie licentie = licentieService.eindDatumLicentie(controleerLicentieRequest.getKantoorId());
+        Licentie licentie = licentieService.actieveLicentie(controleerLicentieRequest.getKantoorId());
 
-        if (licentieService.eindDatumLicentie(licentie).isBefore(LocalDate.now().plusDays(7)) && licentieService.eindDatumLicentie(licentie).isAfter(LocalDate.now())) {
+        if (licentieService.actieveLicentie(licentie).isBefore(LocalDate.now().plusDays(7)) && licentieService.actieveLicentie(licentie).isAfter(LocalDate.now())) {
             controleerLicentieResponseSender.send(licentie);
         }
     }

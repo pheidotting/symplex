@@ -31,10 +31,12 @@ public class LicentieController {
     public LicentieResponse actievelicentie(@PathVariable("kantoorid") Long kantoorid, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("actievelicentie", LicentieController.class, null, null);
 
+        LOGGER.info("Ophalen actieve licentie bij kantoor met id {}", kantoorid);
+
         zetSessieWaarden(httpServletRequest);
 
-        nl.lakedigital.djfc.domain.Licentie licentie = licentieService.eindDatumLicentie(kantoorid);
-        LocalDate einddatum = licentieService.eindDatumLicentie(licentie);
+        nl.lakedigital.djfc.domain.Licentie licentie = licentieService.actieveLicentie(kantoorid);
+        LocalDate einddatum = licentieService.actieveLicentie(licentie);
 
         LicentieResponse licentieResponse = new LicentieResponse();
 
