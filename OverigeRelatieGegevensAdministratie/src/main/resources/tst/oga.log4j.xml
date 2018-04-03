@@ -25,27 +25,6 @@
         </layout>
     </appender>
 
-    <appender name="loggly" class="nl.lakedigital.djfc.appender.LogglyAppender">
-        <param name="interval" value="10"/>
-        <param name="tag" value="tst,oga"/>
-        <param name="token" value="ffe37ab7-e154-4316-a54e-888323b15e7e"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern"
-                   value="%d{ISO8601} ingelogdeGebruiker=%X{ingelogdeGebruiker} trackAndTraceId=%X{trackAndTraceId}  %-5p [%c{1}] - %m%n"/>
-        </layout>
-    </appender>
-
-    <appender name="kibana" class="nl.lakedigital.djfc.appender.KibanaAppender">
-        <param name="interval" value="600"/>
-        <param name="applicatie" value="oga"/>
-        <param name="omgeving" value="tst"/>
-        <param name="token" value="iwMsdwcjptofrGsLWvNBhpHahcSELSMp"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern"
-                   value="%m%n"/>
-        </layout>
-    </appender>
-
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
