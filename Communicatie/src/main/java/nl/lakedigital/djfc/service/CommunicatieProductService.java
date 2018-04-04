@@ -57,8 +57,8 @@ public class CommunicatieProductService {
     public Context zetVariabelen(Map<String, String> variabelen) {
         Context context = new Context();
 
-        for (String key : variabelen.keySet()) {
-            context.setVariable(key, variabelen.get(key));
+        for (Map.Entry<String, String> entry : variabelen.entrySet()) {
+            context.setVariable(entry.getKey(), entry.getValue());
         }
 
         return context;
@@ -122,26 +122,12 @@ public class CommunicatieProductService {
         return communicatieProductRepository.alles(soortEntiteit,entiteitId);
     }
 
-    public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, Long relatieId, String email, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
-        //        JsonRelatie relatie = relatieClient.lees(relatieId);
-        //
-        if (soortCommunicatieProduct == SoortCommunicatieProduct.EMAIL && email == null) {
+    public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soort, Long relatieId, String email, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
+        if (soort == SoortCommunicatieProduct.EMAIL && email == null) {
             throw new IllegalStateException();
         }
 
-        //        List<JsonAdres> adressen = adresClient.lijst(SoortEntiteit.RELATIE.name(), relatieId);
-        //        if (soortCommunicatieProduct == SoortCommunicatieProduct.BRIEF && adressen.isEmpty()) {
-        //            throw new IllegalStateException();
-        //        }
-        //                if (soortCommunicatieProduct == null) {
-        //            if (relatie.getIdentificatie() != null) {
-        soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
-        //            } else if (!adressen.isEmpty()) {
-        //                soortCommunicatieProduct = SoortCommunicatieProduct.BRIEF;
-        //            } else {
-        //                throw new IllegalStateException();
-        //            }
-        //        }
+        SoortCommunicatieProduct soortCommunicatieProduct = SoortCommunicatieProduct.EMAIL;
 
         CommunicatieProduct communicatieProduct = maakCommunicatieProduct(soortCommunicatieProduct, id);
         communicatieProduct.setSoortEntiteit(SoortEntiteit.RELATIE);

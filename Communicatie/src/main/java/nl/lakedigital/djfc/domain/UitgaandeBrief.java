@@ -36,8 +36,6 @@ public class UitgaandeBrief extends Brief {
             return false;
         }
 
-        UitgaandeBrief that = (UitgaandeBrief) o;
-
         return new EqualsBuilder().appendSuper(super.equals(o)).isEquals();
     }
 
