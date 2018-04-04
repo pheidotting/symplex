@@ -3,7 +3,6 @@ package nl.lakedigital.djfc.repository;
 import com.codahale.metrics.Timer;
 import nl.lakedigital.djfc.domain.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.Comparator;
 import java.util.List;
 
 @Repository
@@ -39,7 +37,7 @@ public class LicentieRepository {
     public void verwijder(Licentie identificatie) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", LicentieRepository.class);
 
-        LOGGER.debug("Verwijder {}", ReflectionToStringBuilder.toString(identificatie));
+        LOGGER.debug("Verwijder licentie met Id {}", identificatie.getId());
 
         getSession().delete(identificatie);
 
@@ -50,7 +48,6 @@ public class LicentieRepository {
     public void opslaan(Licentie licentie) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", LicentieRepository.class);
 
-        LOGGER.debug("{}", ReflectionToStringBuilder.toString(licentie));
         if (licentie.getId() == null) {
             LOGGER.debug("Save");
             getSession().save(licentie);
@@ -64,17 +61,12 @@ public class LicentieRepository {
     public List<Licentie> alleLicenties(Long kantoorId) {
         Timer.Context timer = metricsService.addTimerMetric("actieveLicentie", LicentieRepository.class);
 
-        Query query = getSession().createQuery("select l from Licentie l where kantoor = :kantoor");// order by startDatum asc");
-        query.setParameter("kantoor", kantoorId);
+        Query query = getSession().getNamedQuery("Licentie.alleLicenties");
+        //        query.setParameter("kantoor", kantoorId);
 
         List<Licentie> result = query.list();
 
-        result.sort(new Comparator<Licentie>() {
-            @Override
-            public int compare(Licentie o1, Licentie o2) {
-                return o1.getStartDatum().compareTo(o2.getStartDatum());
-            }
-        });
+        result.sort((o1, o2) -> o2.getStartDatum().compareTo(o1.getStartDatum()));
 
         metricsService.stop(timer);
 
