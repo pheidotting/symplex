@@ -86,40 +86,8 @@ public class CommunicatieProductService {
         verzendService.verzend();
     }
 
-    public void markeerAlsGelezen(Long id) {
-        LOGGER.debug("Markeer als gelezen {}", id);
-
-        IngaandeEmail email = (IngaandeEmail) communicatieProductRepository.lees(id);
-
-        email.setOngelezenIndicatie(null);
-
-        communicatieProductRepository.opslaan(email);
-    }
-
-    public CommunicatieProduct lees(Long id) {
-        return communicatieProductRepository.lees(id);
-    }
-
-    public void verstuur(Long id) {
-        CommunicatieProduct communicatieProduct = communicatieProductRepository.lees(id);
-
-        LOGGER.debug("Klaarzetten om te versturen : {}", communicatieProduct.getId());
-
-        if (communicatieProduct instanceof UitgaandeEmail) {
-            OnverzondenIndicatie onverzondenIndicatie = new OnverzondenIndicatie();
-            onverzondenIndicatie.setUitgaandeEmail((UitgaandeEmail) communicatieProduct);
-            ((UitgaandeEmail) communicatieProduct).setOnverzondenIndicatie(onverzondenIndicatie);
-        }
-
-        communicatieProductRepository.opslaan(communicatieProduct);
-    }
-
     public void opslaan(List<CommunicatieProduct> communicatieProducts) {
         communicatieProductRepository.opslaan(communicatieProducts);
-    }
-        public List<CommunicatieProduct> lijst(SoortEntiteit soortEntiteit,Long entiteitId){
-        LOGGER.debug("Ophalen lijst bij {} met id {}",soortEntiteit,entiteitId);
-        return communicatieProductRepository.alles(soortEntiteit,entiteitId);
     }
 
     public CommunicatieProduct maakCommunicatieProduct(Long id, SoortCommunicatieProduct soortCommunicatieProduct, Long relatieId, String email, String tekst, String onderwerp, Long antwoordOpId, Long medewerker) {
@@ -170,32 +138,6 @@ public class CommunicatieProductService {
             return new UitgaandeBrief();
         }
         return new UitgaandeEmail();
-    }
-
-    public void markeerOmTeVerzenden(Long id){
-        CommunicatieProduct communicatieProduct=communicatieProductRepository.lees(id);
-
-        LOGGER.debug("markeerOmTeVerzenden {}", communicatieProduct.getId());
-
-        if(communicatieProduct.getDatumTijdVerzending()==null){
-
-        if(communicatieProduct instanceof UitgaandeBrief){
-maakBriefService.verzend((UitgaandeBrief)communicatieProduct);
-        }else{
-            OnverzondenIndicatie onverzondenIndicatie=new OnverzondenIndicatie();
-            onverzondenIndicatie.setUitgaandeEmail((UitgaandeEmail)communicatieProduct);
-            ((UitgaandeEmail)communicatieProduct).setOnverzondenIndicatie(onverzondenIndicatie);
-
-            //            JsonRelatie relatie = relatieClient.lees(communicatieProduct.getEntiteitId());
-
-            Emailadres emailadres=new Emailadres();
-            emailadres.setUitgaandeEmail((UitgaandeEmail)communicatieProduct);
-            //            emailadres.setEmailadres(relatie.getEmailadres());
-            ((UitgaandeEmail)communicatieProduct).setEmailadres(emailadres);
-        }
-
-        communicatieProductRepository.opslaan(communicatieProduct);
-    }
     }
 
     public List<CommunicatieProduct> leesOnverzondenCommunicatieProducten(){
