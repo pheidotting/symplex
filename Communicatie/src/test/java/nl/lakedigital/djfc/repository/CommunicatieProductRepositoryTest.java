@@ -1,28 +1,19 @@
 package nl.lakedigital.djfc.repository;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.easymock.EasyMock.*;
-
-import java.util.List;
-
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.inloggen.Sessie;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.easymock.EasyMockRunner;
-import org.easymock.EasyMockSupport;
-import org.easymock.*;
 import org.joda.time.LocalDateTime;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-unittest.xml")
@@ -90,9 +81,9 @@ public void testOngelezenIndicatieEnExtraInformatie(){
         communicatieProductRepository.opslaan(mail4);
 
         UitgaandeEmail opgehaald =(UitgaandeEmail) communicatieProductRepository.lees(mail4.getId());
-        assertThat((IngaandeEmail)opgehaald.getAntwoordOp(),is(mail3));
-        assertThat((UitgaandeEmail)opgehaald.getAntwoordOp().getAntwoordOp(),is(mail2));
-        assertThat((IngaandeEmail)opgehaald.getAntwoordOp().getAntwoordOp().getAntwoordOp(),is(mail1));
+        assertThat(opgehaald.getAntwoordOp().getId(), is(mail3.getId()));
+        assertThat(opgehaald.getAntwoordOp().getAntwoordOp().getId(), is(mail2.getId()));
+        assertThat(opgehaald.getAntwoordOp().getAntwoordOp().getAntwoordOp().getId(), is(mail1.getId()));
         assertThat(communicatieProductRepository.alles(soortEntiteit,entiteitId).size(),is(4));
 
         communicatieProductRepository.verwijder(mail1);
