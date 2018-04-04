@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Audited
 @Entity
@@ -39,5 +40,26 @@ public class IngaandeEmail extends Email {
 
     public void setExtraInformatie(ExtraInformatie extraInformatie) {
         this.extraInformatie = extraInformatie;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof IngaandeEmail)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        IngaandeEmail that = (IngaandeEmail) o;
+        return Objects.equals(getOngelezenIndicatie(), that.getOngelezenIndicatie()) && Objects.equals(getExtraInformatie(), that.getExtraInformatie());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getOngelezenIndicatie(), getExtraInformatie());
     }
 }
