@@ -3,9 +3,9 @@ define(['commons/3rdparty/log',
         'knockout',
         'repository/common/repository',
         'repository/common/licentie-repository'],
-    function(log, navRegister, ko, repository, licentieRepository) {
+    function (log, navRegister, ko, repository, licentieRepository) {
         return {
-            einddatum: function() {
+            einddatum: function () {
                 return licentieRepository.einddatum();
             }
         }

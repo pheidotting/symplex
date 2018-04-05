@@ -9,36 +9,36 @@ define(["commons/3rdparty/log",
         'service/common/bijlage-service',
         'underscore',
         'moment'],
-    function(log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
+    function (log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
 
         return {
-            opslaan: function(schade, opmerkingen) {
+            opslaan: function (schade, opmerkingen) {
                 var deferred = $.Deferred();
 
-                    schade.opmerkingen = opmerkingen;
-                    schade.parentIdentificatie = schade.polis;
+                schade.opmerkingen = opmerkingen;
+                schade.parentIdentificatie = schade.polis;
 
-                    if(schade.datumTijdSchade().indexOf('-') == 2){
-                        schade.datumTijdSchade(moment(schade.datumTijdSchade(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
-                        schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
-                    }
+                if (schade.datumTijdSchade().indexOf('-') == 2) {
+                    schade.datumTijdSchade(moment(schade.datumTijdSchade(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                    schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                }
 
-                    $.when(schadeRepository.opslaan(schade)).then(function(response) {
-                        return deferred.resolve(response);
-                    });
+                $.when(schadeRepository.opslaan(schade)).then(function (response) {
+                    return deferred.resolve(response);
+                });
 
                 return deferred.promise();
             },
 
-            lees: function(id) {
+            lees: function (id) {
                 var identificatie = id;
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
-                    if(data.identificatie != null){
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function (data) {
+                    if (data.identificatie != null) {
                         return deferred.resolve(data);
-                    }else{
-                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                    } else {
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function (data) {
                             return deferred.resolve(data);
                         })
                     }
@@ -47,18 +47,18 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            lijstStatusSchade: function() {
+            lijstStatusSchade: function () {
                 return schadeRepository.lijstStatusSchade();
             },
 
-            lijstSchades: function(identificatie) {
+            lijstSchades: function (identificatie) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
-                    if(data.identificatie != null){
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function (data) {
+                    if (data.identificatie != null) {
                         return deferred.resolve(data);
-                    }else{
-                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                    } else {
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function (data) {
                             return deferred.resolve(data);
                         })
                     }
@@ -67,7 +67,7 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            verwijderSchade: function(id) {
+            verwijderSchade: function (id) {
                 return schadeRepository.verwijderSchade(id);
             }
         }

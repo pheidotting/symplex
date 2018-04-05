@@ -2,16 +2,16 @@ define(['jquery',
         'model/schade',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Schade, log, ko) {
+    function ($, Schade, log, ko) {
         return {
-            mapSchade: function(r) {
+            mapSchade: function (r) {
                 return mappen(r);
             },
 
-            mapSchades: function(data) {
+            mapSchades: function (data) {
                 var schades = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     schades.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var schade = new Schade();
 
                 schade.id(data.id);

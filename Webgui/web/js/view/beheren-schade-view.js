@@ -5,12 +5,12 @@ define(['jquery',
         'knockout',
         'view/common/opmerking-view',
         'view/common/bijlage-view'],
-    function($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
         var logger = log.getLogger('beheren-schade-view');
 
         return {
-            init: function(schadeId, basisId, readOnly, basisEntiteit) {
-				$('#content').html(html);
+            init: function (schadeId, basisId, readOnly, basisEntiteit) {
+                $('#content').html(html);
 
                 opmerkingView.init(schadeId);
                 bijlageView.init(schadeId);
@@ -18,7 +18,7 @@ define(['jquery',
                 logger.debug('content geladen, viewmodel init');
 
                 var v = new viewmodel();
-                $.when(v.init(schadeId, basisId, readOnly, basisEntiteit)).then(function(){
+                $.when(v.init(schadeId, basisId, readOnly, basisEntiteit)).then(function () {
                     ko.applyBindings(v);
                 });
             }

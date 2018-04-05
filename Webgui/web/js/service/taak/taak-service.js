@@ -8,24 +8,24 @@ define(["commons/3rdparty/log",
         'service/bedrijf-service',
         'underscore',
         'moment'],
-    function(log, navRegister, taakRepository, repository, todoistRepository, toggleService, gebruikerService, bedrijfService, _, moment) {
+    function (log, navRegister, taakRepository, repository, todoistRepository, toggleService, gebruikerService, bedrijfService, _, moment) {
         var logger = log.getLogger('taak-service');
 
         var projectPrefix;
         var oAuthCode;
 
         return {
-            afgerondeTaken: function(soortEntiteit, entiteitId) {
+            afgerondeTaken: function (soortEntiteit, entiteitId) {
                 return taakRepository.afgerondeTaken(soortEntiteit, entiteitId);
             },
 
-            genereerPrefixVoorTaakNaam: function(relatieId, bedrijfId) {
+            genereerPrefixVoorTaakNaam: function (relatieId, bedrijfId) {
                 var deferred = $.Deferred();
 
-                if(relatieId != null) {
-                    $.when(gebruikerService.leesRelatie(relatieId)).then(function(relatie){
+                if (relatieId != null) {
+                    $.when(gebruikerService.leesRelatie(relatieId)).then(function (relatie) {
                         var naam = relatie.voornaam + ' ';
-                        if(relatie.tussenvoegsel != '') {
+                        if (relatie.tussenvoegsel != '') {
                             naam += relatie.tussenvoegsel + ' ';
                         }
                         naam += relatie.achternaam + ' - ';
@@ -33,7 +33,7 @@ define(["commons/3rdparty/log",
                         return deferred.resolve(naam);
                     });
                 } else {
-                    $.when(bedrijfService.leesBedrijf(bedrijfId)).then(function(bedrijf){
+                    $.when(bedrijfService.leesBedrijf(bedrijfId)).then(function (bedrijf) {
                         return deferred.resolve(bedrijf.naam + ' - ');
                     });
                 }
@@ -41,94 +41,94 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-             openTakenBijRelatie: function(relatieId) {
-                 return taakRepository.openTakenBijRelatie(relatieId);
-             },
+            openTakenBijRelatie: function (relatieId) {
+                return taakRepository.openTakenBijRelatie(relatieId);
+            },
 
-             aantalOpenTaken: function() {
-                return $.when(this.ophalenTaken(this.getPrefix())).then(function(todoist) {
+            aantalOpenTaken: function () {
+                return $.when(this.ophalenTaken(this.getPrefix())).then(function (todoist) {
                     return _.chain(todoist.projecten).pluck('items').flatten().value().length;
                 });
-             },
+            },
 
-             alleTaken: function(soortEntiteit, entiteitId, relatieId, bedrijfId) {
+            alleTaken: function (soortEntiteit, entiteitId, relatieId, bedrijfId) {
                 var deferred = $.Deferred();
                 var _this = this;
 
                 $.when(
                     todoistRepository.prefix(),
                     _this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)
-                ).then(function(
+                ).then(function (
                     prefix,
                     naamPrefix
                 ) {
                     projectPrefix = prefix;
-                    $.when(_this.ophalenTaken(_this.getPrefix())).then(function(todoist) {
+                    $.when(_this.ophalenTaken(_this.getPrefix())).then(function (todoist) {
                         var items = _.chain(todoist.projecten)
                             .pluck('items')
                             .flatten()
-                            .filter(function(item){
+                            .filter(function (item) {
                                 var labels = _.chain(item.labels)
-                                    .map(function(label){
+                                    .map(function (label) {
                                         return label.omschrijving;
                                     }).value();
 
                                 return _.contains(labels, soortEntiteit) && _.contains(labels, entiteitId);
                             })
-                            .map(function(item){
+                            .map(function (item) {
                                 item.omschrijving = item.omschrijving.replace(naamPrefix, '');
                                 return item;
                             })
                             .value();
 
-                            return deferred.resolve(items);
+                        return deferred.resolve(items);
                     });
                 });
 
                 return deferred.promise();
-             },
+            },
 
-             voegTaakToe: function(soortEntiteit, entiteitId, tekst, duetime, relatieId, bedrijfId) {
+            voegTaakToe: function (soortEntiteit, entiteitId, tekst, duetime, relatieId, bedrijfId) {
                 var deferred = $.Deferred();
                 var prefix = this.getPrefix();
                 var _this = this;
 
                 logger.debug('Toevoegen taak');
-                $.when(_this.ophalenTaken(this.getPrefix())).then(function(todoist) {
-                    $.when(_this.zoekProject(todoist.projecten, soortEntiteit, prefix)).then(function(proj) {
+                $.when(_this.ophalenTaken(this.getPrefix())).then(function (todoist) {
+                    $.when(_this.zoekProject(todoist.projecten, soortEntiteit, prefix)).then(function (proj) {
                         logger.debug('nu de labels er bij zoeken');
-                        $.when(_this.zoekLabel(todoist.labels, entiteitId), _this.zoekLabel(todoist.labels, soortEntiteit)).then(function(idLabel, soortEntiteitLabel){
-                            if(proj == null) {
+                        $.when(_this.zoekLabel(todoist.labels, entiteitId), _this.zoekLabel(todoist.labels, soortEntiteit)).then(function (idLabel, soortEntiteitLabel) {
+                            if (proj == null) {
                                 logger.debug('Eerst dus een project aanmaken, deze werd namelijk niet gevonden.');
-                                $.when(_this.toevoegenProject(prefix, soortEntiteit), _this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function(projectid, naamPrefix) {
+                                $.when(_this.toevoegenProject(prefix, soortEntiteit), _this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function (projectid, naamPrefix) {
                                     logger.debug('Project aangemaakt met id ' + projectid);
                                     proj = projectid;
-                                    $.when(_this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime)).then(function(itemId){
+                                    $.when(_this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime)).then(function (itemId) {
                                         return deferred.resolve(proj);
                                     });
                                 });
                             } else {
-                                $.when(_this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function(naamPrefix) {
+                                $.when(_this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function (naamPrefix) {
                                     return _this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime);
-                                }).then(function(itemId){
+                                }).then(function (itemId) {
                                     return deferred.resolve(proj);
                                 });
                             }
                         });
-                     });
-                 });
+                    });
+                });
 
-                 return deferred.promise()
-             },
+                return deferred.promise()
+            },
 
-             voegItemToe: function(tekst, proj, idLabel, soortEntiteitLabel, duetime){
+            voegItemToe: function (tekst, proj, idLabel, soortEntiteitLabel, duetime) {
                 var deferred = $.Deferred();
                 var _this = this;
 
-                $.when(_this.toevoegenItem(tekst, proj, idLabel, soortEntiteitLabel)).then(function(itemId) {
+                $.when(_this.toevoegenItem(tekst, proj, idLabel, soortEntiteitLabel)).then(function (itemId) {
                     logger.debug('Item aangemaakt met id ' + itemId);
-                    if(duetime != null) {
-                        $.when(_this.toevoegenReminder(itemId, duetime)).then(function(reminderid){
+                    if (duetime != null) {
+                        $.when(_this.toevoegenReminder(itemId, duetime)).then(function (reminderid) {
                             logger.debug('Reminder aangemaakt met id ' + reminderid);
                             return deferred.resolve(itemId);
                         });
@@ -138,20 +138,20 @@ define(["commons/3rdparty/log",
                 });
 
                 return deferred.promise();
-             },
+            },
 
-             getPrefix: function() {
-                if(projectPrefix) {
+            getPrefix: function () {
+                if (projectPrefix) {
                     return projectPrefix + '-';
                 }
                 return '';
-             },
+            },
 
-             zoekProject: function(taken, projectnaam, prefix) {
+            zoekProject: function (taken, projectnaam, prefix) {
                 var _this = this;
 
                 var project = _this.filterProjectenOpEntiteit(taken, projectnaam, prefix);
-                if(project == null) {
+                if (project == null) {
                     var meervoudnaam;
                     var laatsteletter = projectnaam.substr(projectnaam.length - 1);
                     if (_.contains(['a', 'e', 'i', 'o', 'u'], laatsteletter)) {
@@ -165,57 +165,57 @@ define(["commons/3rdparty/log",
                     project = _this.filterProjectenOpEntiteit(taken, meervoudnaam, prefix);
                 }
 
-                if(project != null) {
+                if (project != null) {
                     return project.id;
                 }
-             },
+            },
 
-             filterProjectenOpEntiteit: function(taken, naam, prefix) {
+            filterProjectenOpEntiteit: function (taken, naam, prefix) {
                 return _.chain(taken)
-                .filter(function(project) {
-                    if (prefix) {
-                        return project.naam.startsWith(prefix);
-                    } else {
-                        return !project.naam.startsWith('{{');
-                    }
-                })
-                .filter(function(project) {
-                    return project.naam.endsWith(naam);
-                })
-                .first().value();
-             },
+                    .filter(function (project) {
+                        if (prefix) {
+                            return project.naam.startsWith(prefix);
+                        } else {
+                            return !project.naam.startsWith('{{');
+                        }
+                    })
+                    .filter(function (project) {
+                        return project.naam.endsWith(naam);
+                    })
+                    .first().value();
+            },
 
-             zoekLabel: function(labels, naam) {
+            zoekLabel: function (labels, naam) {
                 var deferred = $.Deferred();
                 var _this = this;
 
                 var label = _.chain(labels)
-                .filter(function(label) {
-                    return label != null && label.name == naam;
-                })
-                .pluck('id')
-                .flatten()
-                .first().value();
+                    .filter(function (label) {
+                        return label != null && label.name == naam;
+                    })
+                    .pluck('id')
+                    .flatten()
+                    .first().value();
 
-                if(label != null) {
+                if (label != null) {
                     return label;
                 } else {
-                    $.when(_this.toevoegenLabel(naam)).then(function(id){
+                    $.when(_this.toevoegenLabel(naam)).then(function (id) {
                         return deferred.resolve(id);
                     });
                 }
 
                 return deferred.promise();
-             },
+            },
 
-            toevoegenLabel: function(naam) {
+            toevoegenLabel: function (naam) {
                 var deferred = $.Deferred();
 
                 $.when(
                     this.authoriseerTodoist(),
                     repository.leesTrackAndTraceId(),
                     repository.leesTrackAndTraceId()
-                ).then(function(oAuthCode, temp_id, uuid) {
+                ).then(function (oAuthCode, temp_id, uuid) {
                     var commands = [];
                     var command = {};
                     command.type = 'label_add';
@@ -234,22 +234,22 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        return deferred.resolve(response.temp_id_mapping[temp_id]);
-                    });
+                        .done(function (response) {
+                            return deferred.resolve(response.temp_id_mapping[temp_id]);
+                        });
                 });
 
                 return deferred.promise();
             },
 
-             toevoegenProject: function(prefix, naam) {
+            toevoegenProject: function (prefix, naam) {
                 var deferred = $.Deferred();
 
                 $.when(
                     this.authoriseerTodoist(),
                     repository.leesTrackAndTraceId(),
                     repository.leesTrackAndTraceId()
-                ).then(function(oAuthCode, temp_id, uuid) {
+                ).then(function (oAuthCode, temp_id, uuid) {
                     var commands = [];
                     var command = {};
                     command.type = 'project_add';
@@ -268,22 +268,22 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        return deferred.resolve(response.temp_id_mapping[temp_id]);
-                    });
+                        .done(function (response) {
+                            return deferred.resolve(response.temp_id_mapping[temp_id]);
+                        });
                 });
 
                 return deferred.promise();
-             },
+            },
 
-             toevoegenItem: function(content, projectid, label1, label2) {
+            toevoegenItem: function (content, projectid, label1, label2) {
                 var deferred = $.Deferred();
 
                 $.when(
                     this.authoriseerTodoist(),
                     repository.leesTrackAndTraceId(),
                     repository.leesTrackAndTraceId()
-                ).then(function(oAuthCode, temp_id, uuid) {
+                ).then(function (oAuthCode, temp_id, uuid) {
                     var commands = [];
                     var command = {};
                     command.type = 'item_add';
@@ -309,22 +309,22 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        return deferred.resolve(response.temp_id_mapping[temp_id]);
-                    });
+                        .done(function (response) {
+                            return deferred.resolve(response.temp_id_mapping[temp_id]);
+                        });
                 });
 
                 return deferred.promise();
-             },
+            },
 
-             toevoegenReminder: function(itemId, duetime) {
+            toevoegenReminder: function (itemId, duetime) {
                 var deferred = $.Deferred();
 
                 $.when(
                     this.authoriseerTodoist(),
                     repository.leesTrackAndTraceId(),
                     repository.leesTrackAndTraceId()
-                ).then(function(oAuthCode, temp_id, uuid) {
+                ).then(function (oAuthCode, temp_id, uuid) {
 
                     var commands = [];
                     var command = {};
@@ -346,15 +346,15 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        return deferred.resolve(response.temp_id_mapping[temp_id]);
-                    });
+                        .done(function (response) {
+                            return deferred.resolve(response.temp_id_mapping[temp_id]);
+                        });
                 });
 
                 return deferred.promise();
-             },
+            },
 
-             ophalenTaak: function(id) {
+            ophalenTaak: function (id) {
                 var deferred = $.Deferred();
 
                 var url = 'https://todoist.com/API/v7/items/get?token=' + oAuthCode + '&item_id=' + id;
@@ -365,14 +365,14 @@ define(["commons/3rdparty/log",
                         url: url
                     }
                 )
-                .done(function(response) {
-                    return deferred.resolve(response);
-                });
+                    .done(function (response) {
+                        return deferred.resolve(response);
+                    });
 
                 return deferred.promise();
             },
 
-             ophalenLabel: function(id) {
+            ophalenLabel: function (id) {
                 var deferred = $.Deferred();
 
                 var url = 'https://todoist.com/API/v7/labels/get?token=' + oAuthCode + '&label_id=' + id;
@@ -383,14 +383,14 @@ define(["commons/3rdparty/log",
                         url: url
                     }
                 )
-                .done(function(response) {
-                    return deferred.resolve(response);
-                });
+                    .done(function (response) {
+                        return deferred.resolve(response);
+                    });
 
                 return deferred.promise();
             },
 
-             ophalenMedewerker: function(id) {
+            ophalenMedewerker: function (id) {
                 var deferred = $.Deferred();
 
                 var url = 'https://todoist.com/API/v7/collaborators/get?token=' + oAuthCode + '&collaboratorId=' + id;
@@ -401,29 +401,29 @@ define(["commons/3rdparty/log",
                         url: url
                     }
                 )
-                .done(function(response) {
-                    return deferred.resolve(response);
-                });
+                    .done(function (response) {
+                        return deferred.resolve(response);
+                    });
 
                 return deferred.promise();
             },
 
-            haalAfgerondeTaken: function() {
+            haalAfgerondeTaken: function () {
                 var _this = this;
                 var deferred = $.Deferred();
 
-                $.when(_this.ophalenAfgerondeTaken()).then(function(afgerondeTaken){
+                $.when(_this.ophalenAfgerondeTaken()).then(function (afgerondeTaken) {
                     return deferred.resolve(afgerondeTaken);
                 });
 
                 return deferred.promise();
             },
 
-            ophalenAfgerondeTaken: function() {
+            ophalenAfgerondeTaken: function () {
                 var deferred = $.Deferred();
                 var _this = this;
 
-                $.when(todoistRepository.prefix(), this.authoriseerTodoist()).then(function(prefix, oAuthCode) {
+                $.when(todoistRepository.prefix(), this.authoriseerTodoist()).then(function (prefix, oAuthCode) {
                     logger.debug('Todoist geauthoriseerd, code = ' + oAuthCode);
 
                     var url = 'https://todoist.com/API/v7/completed/get_all?token=' + oAuthCode;
@@ -435,76 +435,76 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        var opTeHalenItems = _.chain(response.items)
-                        .map(function(item){
-                            item.project = _.find(response.projects, function(project) {
-                                return project.id == item.project_id;
-                            });
-
-                            return item;
-                        })
-                        .filter(function(item) {
-                            if(prefix) {
-                                return item.project.name.startsWith(prefix);
-                            } else {
-                                return !item.project.name.startsWith('{{');
-                            }
-                        }).value()
-                        ;
-
-                        aantal = opTeHalenItems.length;
-
-                        var items = [];
-
-                        $.each(opTeHalenItems, function(i, item){
-                            $.when(_this.ophalenTaak(item.id)).then(function(opgehaaldItem){
-                                opgehaaldItem.item.notities = _.chain(opgehaaldItem.notes)
-                                    .filter(function(note){
-                                        return note.item_id == item.id;
-                                    })
-                                    .map(function(note){
-                                        var n = {};
-                                        n.tekst = note.content;
-                                        n.tijdstip = moment(note.tijdstip).format().replace('+01:00', '');//'YYYY-MM-DD HH:mm:ss');
-                                        n.medewerker = note.posted_uid + '';
-                                        n.todoistId = note.id;
-
-                                        return n;
-                                    }).value();
-                                aantal--;
-                                var aantalLabels = opgehaaldItem.item.labels.length;
-                                var labels = opgehaaldItem.item.labels;
-                                $.each(labels, function(i, opTeHalenLabel){
-                                    opgehaaldItem.item.labels = [];
-
-                                    $.when(_this.ophalenLabel(opTeHalenLabel)).then(function(label) {
-                                        opgehaaldItem.item.labels.push(label.label.name);
-                                        aantalLabels--;
-
-                                        if(aantalLabels == 0) {
-                                            opgehaaldItem.item.project = opgehaaldItem.project;
-                                            items.push(opgehaaldItem.item);
-                                        }
-
-                                        if(aantal == 0 && aantalLabels == 0) {
-                                            return deferred.resolve(items);
-                                        }
+                        .done(function (response) {
+                            var opTeHalenItems = _.chain(response.items)
+                                .map(function (item) {
+                                    item.project = _.find(response.projects, function (project) {
+                                        return project.id == item.project_id;
                                     });
 
+                                    return item;
+                                })
+                                .filter(function (item) {
+                                    if (prefix) {
+                                        return item.project.name.startsWith(prefix);
+                                    } else {
+                                        return !item.project.name.startsWith('{{');
+                                    }
+                                }).value()
+                            ;
+
+                            aantal = opTeHalenItems.length;
+
+                            var items = [];
+
+                            $.each(opTeHalenItems, function (i, item) {
+                                $.when(_this.ophalenTaak(item.id)).then(function (opgehaaldItem) {
+                                    opgehaaldItem.item.notities = _.chain(opgehaaldItem.notes)
+                                        .filter(function (note) {
+                                            return note.item_id == item.id;
+                                        })
+                                        .map(function (note) {
+                                            var n = {};
+                                            n.tekst = note.content;
+                                            n.tijdstip = moment(note.tijdstip).format().replace('+01:00', '');//'YYYY-MM-DD HH:mm:ss');
+                                            n.medewerker = note.posted_uid + '';
+                                            n.todoistId = note.id;
+
+                                            return n;
+                                        }).value();
+                                    aantal--;
+                                    var aantalLabels = opgehaaldItem.item.labels.length;
+                                    var labels = opgehaaldItem.item.labels;
+                                    $.each(labels, function (i, opTeHalenLabel) {
+                                        opgehaaldItem.item.labels = [];
+
+                                        $.when(_this.ophalenLabel(opTeHalenLabel)).then(function (label) {
+                                            opgehaaldItem.item.labels.push(label.label.name);
+                                            aantalLabels--;
+
+                                            if (aantalLabels == 0) {
+                                                opgehaaldItem.item.project = opgehaaldItem.project;
+                                                items.push(opgehaaldItem.item);
+                                            }
+
+                                            if (aantal == 0 && aantalLabels == 0) {
+                                                return deferred.resolve(items);
+                                            }
+                                        });
+
+                                    });
                                 });
                             });
                         });
-                    });
                 });
 
                 return deferred.promise();
             },
 
-             ophalenTaken: function(prefix) {
+            ophalenTaken: function (prefix) {
                 var deferred = $.Deferred();
 
-                $.when(this.authoriseerTodoist()).then(function(oAuthCode) {
+                $.when(this.authoriseerTodoist()).then(function (oAuthCode) {
                     logger.debug('Todoist geauthoriseerd, code = ' + oAuthCode);
 
                     var types = [];
@@ -521,75 +521,75 @@ define(["commons/3rdparty/log",
                             url: url
                         }
                     )
-                    .done(function(response) {
-                        _.chain(response.projects)
-                        .filter(function(project){
-                            if(prefix) {
-                                return project.name.startsWith(prefix);
-                            } else {
-                                return !project.name.startsWith('{{');
-                            }
-                        })
-                        .map(function(todoistproject) {
-                            var project = {};
-                            project.id = todoistproject.id;
-                            project.naam = todoistproject.name;
-                            project.items =  _.chain(response.items)
-                                .filter(function(todoistitem) {
-                                    return todoistitem.project_id == project.id && todoistproject.is_deleted == 0;
+                        .done(function (response) {
+                            _.chain(response.projects)
+                                .filter(function (project) {
+                                    if (prefix) {
+                                        return project.name.startsWith(prefix);
+                                    } else {
+                                        return !project.name.startsWith('{{');
+                                    }
                                 })
-                                .map(function(todoistitem) {
-                                    var item = {};
-                                    item.id = todoistitem.id;
-                                    item.omschrijving = todoistitem.content;
-                                    item.notities = filterNotities(response.notes, item.id, null, response.collaborators);
-                                    item.projectId = project.id;
-
-                                    item.labels = _.chain(response.labels)
-                                        .filter(function(todoistlabel) {
-                                            return _.contains(todoistitem.labels, todoistlabel.id) && todoistlabel.is_deleted == 0;
+                                .map(function (todoistproject) {
+                                    var project = {};
+                                    project.id = todoistproject.id;
+                                    project.naam = todoistproject.name;
+                                    project.items = _.chain(response.items)
+                                        .filter(function (todoistitem) {
+                                            return todoistitem.project_id == project.id && todoistproject.is_deleted == 0;
                                         })
-                                        .map(function(todoistlabel) {
-                                            var label = {};
-                                            label.id = todoistlabel.id;
-                                            label.omschrijving = todoistlabel.name;
+                                        .map(function (todoistitem) {
+                                            var item = {};
+                                            item.id = todoistitem.id;
+                                            item.omschrijving = todoistitem.content;
+                                            item.notities = filterNotities(response.notes, item.id, null, response.collaborators);
+                                            item.projectId = project.id;
 
-                                            return label
-                                        })
-                                        .value();
+                                            item.labels = _.chain(response.labels)
+                                                .filter(function (todoistlabel) {
+                                                    return _.contains(todoistitem.labels, todoistlabel.id) && todoistlabel.is_deleted == 0;
+                                                })
+                                                .map(function (todoistlabel) {
+                                                    var label = {};
+                                                    label.id = todoistlabel.id;
+                                                    label.omschrijving = todoistlabel.name;
 
-                                    item.reminders = _.chain(response.reminders)
-                                        .filter(function(todoistreminder) {
-                                            return item.id == todoistreminder.item_id && todoistreminder.is_deleted == 0;
-                                        })
-                                        .map(function(todoistreminder) {
-                                            var reminder = {};
-                                            reminder.id = todoistreminder.id;
+                                                    return label
+                                                })
+                                                .value();
 
-                                            if (todoistreminder.due_date_utc != null) {
-                                                reminder.due_date = moment(todoistreminder.due_date_utc);
-                                            }
+                                            item.reminders = _.chain(response.reminders)
+                                                .filter(function (todoistreminder) {
+                                                    return item.id == todoistreminder.item_id && todoistreminder.is_deleted == 0;
+                                                })
+                                                .map(function (todoistreminder) {
+                                                    var reminder = {};
+                                                    reminder.id = todoistreminder.id;
 
-                                            return reminder
-                                        })
-                                        .value();
+                                                    if (todoistreminder.due_date_utc != null) {
+                                                        reminder.due_date = moment(todoistreminder.due_date_utc);
+                                                    }
 
-                                    return item;
-                                }).value();
+                                                    return reminder
+                                                })
+                                                .value();
 
-                                projecten.push(project);
-                            });
+                                            return item;
+                                        }).value();
+
+                                    projecten.push(project);
+                                });
 
                             todoist.projecten = projecten;
                             todoist.labels = response.labels
-                        return deferred.resolve(todoist);
-                    });
+                            return deferred.resolve(todoist);
+                        });
                 });
 
                 return deferred.promise();
             },
 
-            authoriseerTodoist: function() {
+            authoriseerTodoist: function () {
                 var deferred = $.Deferred();
 
                 $.when(
@@ -598,7 +598,7 @@ define(["commons/3rdparty/log",
                     repository.leesTrackAndTraceId(),
                     todoistRepository.clientIdEnClientSecret(),
                     todoistRepository.prefix()
-                ).then(function(
+                ).then(function (
                     toggleBeschikbaar,
                     oAuthCodeOpgehaald,
                     secret,
@@ -614,14 +614,14 @@ define(["commons/3rdparty/log",
 
 
                     if (toggleBeschikbaar) {
-                        if(!QueryString().code && !oAuthCode && !QueryString().error) {
+                        if (!QueryString().code && !oAuthCode && !QueryString().error) {
                             var redirect_url = window.location.href;
                             var url = 'https://todoist.com/oauth/authorize?client_id=' + clientIdEnClientSecret.clientId + '&scope=data:read,data:read_write,data:delete&state=' + secret + '&redirect_uri=' + encodeURIComponent(redirect_url);
 
                             window.location.href = url;
                         }
 
-                        if(QueryString().error) {
+                        if (QueryString().error) {
                             logger.debug('Gebruiker heeft waarschijnlijk geen toestemming gegeven voor koppeling met Todoist');
 
                             var urlTerug = window.location.href;
@@ -630,7 +630,7 @@ define(["commons/3rdparty/log",
                             window.location.href = urlTerug;
                         }
 
-                        if(QueryString().code) {
+                        if (QueryString().code) {
                             var state = QueryString().state;
                             var code = QueryString().code;
 
@@ -645,44 +645,44 @@ define(["commons/3rdparty/log",
                             data.code = code;
                             data.redirect_uri = urlTerugNaar;
 
-                            $.when(oAuthCodeOphalen(data)).then(function(ccode) {
+                            $.when(oAuthCodeOphalen(data)).then(function (ccode) {
                                 oAuthCode = ccode;
                                 return gebruikerService.opslaanOAuthCode(ccode);
-                            }).then(function(){
+                            }).then(function () {
                                 window.location.href = urlTerug;
                             });
                         }
 
-                        if(oAuthCode) {
+                        if (oAuthCode) {
                             return deferred.resolve(oAuthCode);
                         }
                     }
                 });
 
                 return deferred.promise();
-             }
+            }
         }
 
         function filterNotities(notities, itemId, projectId, collaborators) {
             return _.chain(notities)
-                .filter(function(todoistnote) {
+                .filter(function (todoistnote) {
                     if (itemId != null) {
                         return todoistnote.item_id == itemId && todoistnote.is_deleted == 0;
                     } else {
                         return todoistnote.project_id == projectId && todoistnote.is_deleted == 0;
                     }
                 })
-                .map(function(todoistnote) {
+                .map(function (todoistnote) {
                     var note = {};
                     note.id = todoistnote.id;
                     note.omschrijving = todoistnote.content;
                     note.tijdstip = todoistnote.posted;
 
                     note.user = _.chain(collaborators)
-                        .filter(function(todoistUser) {
+                        .filter(function (todoistUser) {
                             return todoistnote.posted_uid == todoistUser.id;
                         })
-                        .map(function(todoistUser) {
+                        .map(function (todoistUser) {
                             return todoistUser.full_name;
                         })
                         .first()
@@ -694,26 +694,26 @@ define(["commons/3rdparty/log",
         }
 
         function QueryString() {
-          // This function is anonymous, is executed immediately and
-          // the return value is assigned to QueryString!
-          var query_string = {};
-          var query = window.location.search.substring(1);
-          var vars = query.split("&");
-          for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
+            // This function is anonymous, is executed immediately and
+            // the return value is assigned to QueryString!
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
                 // If first entry with this name
-            if (typeof query_string[pair[0]] === "undefined") {
-              query_string[pair[0]] = decodeURIComponent(pair[1]);
-                // If second entry with this name
-            } else if (typeof query_string[pair[0]] === "string") {
-              var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-              query_string[pair[0]] = arr;
-                // If third or later entry with this name
-            } else {
-              query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                    // If second entry with this name
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                    // If third or later entry with this name
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
             }
-          }
-          return query_string;
+            return query_string;
         }
 
         function oAuthCodeOphalen(data) {
