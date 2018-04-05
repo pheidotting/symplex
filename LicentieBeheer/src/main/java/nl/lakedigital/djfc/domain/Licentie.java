@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "LICENTIE")
 @DiscriminatorColumn(name = "SOORT", length = 1)
-@NamedQuery(name = "Licentie.alleLicenties", query = "select l from Licentie l")// where kantoor = :kantoor")
+@NamedQuery(name = "Licentie.alleLicenties", query = "select l from Licentie l where kantoor = :kantoor")
 public abstract class Licentie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
