@@ -25,7 +25,7 @@ public class ControleerLicentieResponseSender extends AbstractSender<ControleerL
     @Override
     public ControleerLicentieResponse maakMessage(Licentie licentie) {
         ControleerLicentieResponse controleerLicentieResponse = new ControleerLicentieResponse();
-        controleerLicentieResponse.setAantalDagenNog(Days.daysBetween(licentieService.eindDatumLicentie(licentie), LocalDate.now()).getDays());
+        controleerLicentieResponse.setAantalDagenNog(Days.daysBetween(licentieService.actieveLicentie(licentie), LocalDate.now()).getDays());
         controleerLicentieResponse.setKantoorId(licentie.getKantoor());
         controleerLicentieResponse.setSoortLicentie(licentie.getClass().getSimpleName());
 
