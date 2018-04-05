@@ -3,17 +3,17 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/instellingen/licentie-repository'],
-    function(log, navRegister, ko, repository, licentieRepository) {
+    function (log, navRegister, ko, repository, licentieRepository) {
 
         return {
-            licentieKopen: function(licentie) {
+            licentieKopen: function (licentie) {
                 var deferred = $.Deferred();
 
-                licentieRepository.licentieKopen(licentie).done(function() {
+                licentieRepository.licentieKopen(licentie).done(function () {
                     return deferred.resolve();
                 });
 
                 return deferred.promise();
+            }
         }
-    }
-});
+    });

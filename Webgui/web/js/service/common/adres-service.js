@@ -3,15 +3,15 @@ define(['commons/3rdparty/log',
         'knockout',
         'repository/common/repository',
         'repository/common/adres-repository'],
-    function(log, navRegister, ko, repository, adresRepository) {
+    function (log, navRegister, ko, repository, adresRepository) {
         var logger = log.getLogger('opmerking-service');
 
         return {
-            opslaan: function(adressen, soortEntiteit, id) {
+            opslaan: function (adressen, soortEntiteit, id) {
                 logger.debug('opslaan adressen ' + adressen);
 
-                if(adressen() != null && adressen().length > 0) {
-                    $.each(adressen(), function(i, adres){
+                if (adressen() != null && adressen().length > 0) {
+                    $.each(adressen(), function (i, adres) {
                         adres.parentIdentificatie(id);
                         adres.soortEntiteit(soortEntiteit);
                         adres.plaats(adres.plaats().toUpperCase());
@@ -23,11 +23,11 @@ define(['commons/3rdparty/log',
                 }
             },
 
-            lijst: function(soortEntiteit, parentid){
+            lijst: function (soortEntiteit, parentid) {
                 return adresRepository.lijst(soortEntiteit, parentid);
             },
 
-            ophalenAdresOpPostcode: function(postcode, huisnummer){
+            ophalenAdresOpPostcode: function (postcode, huisnummer) {
                 return adresRepository.ophalenAdresOpPostcode(postcode, huisnummer);
             }
         }

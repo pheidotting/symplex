@@ -3,19 +3,19 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/kantoor-repository'],
-    function(log, navRegister, ko, repository, kantoorRepository) {
+    function (log, navRegister, ko, repository, kantoorRepository) {
 
         return {
-            aanmelden: function(kantoor) {
+            aanmelden: function (kantoor) {
                 return kantoorRepository.aanmelden(kantoor);
             },
 
-            lees: function() {
+            lees: function () {
                 return kantoorRepository.lees();
             },
 
-            opslaan: function(data) {
+            opslaan: function (data) {
                 return kantoorRepository.opslaan(data);
             }
         }
-});
+    });

@@ -2,16 +2,16 @@ define(['jquery',
         'model/medewerker',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Medewerker, log, ko) {
+    function ($, Medewerker, log, ko) {
         return {
-            mapMedewerker: function(r) {
+            mapMedewerker: function (r) {
                 return mappen(r);
             },
 
-            mapMedewerkers: function(data) {
+            mapMedewerkers: function (data) {
                 var medewerkers = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     medewerkers.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var medewerker = new Medewerker();
 
                 medewerker.identificatie(data.identificatie);

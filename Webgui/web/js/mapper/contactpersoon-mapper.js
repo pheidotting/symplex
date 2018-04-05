@@ -3,16 +3,16 @@ define(['jquery',
         'commons/3rdparty/log',
         'knockout',
         'mapper/telefoonnummer-mapper'],
-	function ($, Contactpersoon, log, ko, telefoonnummerMapper) {
+    function ($, Contactpersoon, log, ko, telefoonnummerMapper) {
         return {
-            mapContactpersoon: function(data) {
+            mapContactpersoon: function (data) {
                 return mappen(data);
             },
 
-            mapContactpersonen: function(data) {
+            mapContactpersonen: function (data) {
                 var contactpersonen = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     contactpersonen.push(mappen(r));
                 });
 
@@ -20,8 +20,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var contactpersoon = new Contactpersoon();
 
                 contactpersoon.identificatie(data.identificatie);
@@ -30,7 +30,7 @@ define(['jquery',
                 contactpersoon.achternaam(data.achternaam);
                 contactpersoon.functie(data.functie);
                 contactpersoon.emailadres(data.emailadres);
-                $.each(telefoonnummerMapper.mapTelefoonnummers(data.telefoonnummers)(), function(i, item){
+                $.each(telefoonnummerMapper.mapTelefoonnummers(data.telefoonnummers)(), function (i, item) {
                     contactpersoon.telefoonnummers.push(item);
                 });
 

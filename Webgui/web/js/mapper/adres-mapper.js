@@ -2,16 +2,16 @@ define(['jquery',
         'model/adres',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Adres, log, ko) {
+    function ($, Adres, log, ko) {
         return {
-            mapAdres: function(r) {
+            mapAdres: function (r) {
                 mappen(r);
             },
 
-            mapAdressen: function(data) {
+            mapAdressen: function (data) {
                 var adresssen = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     adresssen.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var adres = new Adres();
 
                 adres.id(data.id);
@@ -29,7 +29,7 @@ define(['jquery',
                 adres.toevoeging(data.toevoeging);
                 adres.postcode(data.postcode);
                 adres.soortAdres(data.soortAdres);
-                if(data.plaats != null){
+                if (data.plaats != null) {
                     adres.plaats(data.plaats.toUpperCase());
                 }
                 adres.soortEntiteit(data.soortEntiteit);

@@ -2,16 +2,16 @@ define(['jquery',
         'model/rekeningNummer',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, RekeningNummer, log, ko) {
+    function ($, RekeningNummer, log, ko) {
         return {
-            mapRekeningnummer: function(r) {
+            mapRekeningnummer: function (r) {
                 mappen(r);
             },
 
-            mapRekeningnummers: function(data) {
+            mapRekeningnummers: function (data) {
                 var rekeningnummers = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     rekeningnummers.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var rekeningnummer = new RekeningNummer();
 
                 rekeningnummer.id(data.id);

@@ -3,13 +3,13 @@ define(['jquery',
         'viewmodel/lijst-bedrijven-viewmodel',
         'knockout',
         'text!../../../templates/lijstBedrijven.html'],
-    function($, log, viewmodel, ko, html) {
+    function ($, log, viewmodel, ko, html) {
 
         var logger = log.getLogger('lijst-bedrijven-view');
 
         return {
-            init: function(zoekTerm) {
-				$('#content').html(html);
+            init: function (zoekTerm) {
+                $('#content').html(html);
 
                 logger.debug('content geladen, viewmodel init');
 

@@ -1,11 +1,11 @@
 define(['knockout'],
-	function (ko) {
+    function (ko) {
 
-	return function groepBijlagesModel () {
-		_this = this;
+        return function groepBijlagesModel() {
+            _this = this;
 
-		_this.id = ko.observable();
-		_this.naam = ko.observable();
-        _this.bijlages = ko.observableArray();
-    };
-});
+            _this.id = ko.observable();
+            _this.naam = ko.observable();
+            _this.bijlages = ko.observableArray();
+        };
+    });
