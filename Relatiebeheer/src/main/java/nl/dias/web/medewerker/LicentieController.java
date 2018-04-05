@@ -3,9 +3,11 @@ package nl.dias.web.medewerker;
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.Medewerker;
 import nl.dias.messaging.sender.LicentieGekochtRequestSender;
+import nl.lakedigital.djfc.client.LeesFoutException;
 import nl.lakedigital.djfc.client.licentie.LicentieClient;
 import nl.lakedigital.djfc.commons.json.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,9 +38,14 @@ public class LicentieController extends AbstractController {
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
         Map<String, String> result = new HashMap<>();
-        Licentie licentie = licentieClient.eindDatumLicentie(kantoor.getId());
-        result.put("einddatum", licentie.getEinddatum());
-        result.put("soort", licentie.getSoort());
+        try {
+            Licentie licentie = licentieClient.eindDatumLicentie(kantoor.getId());
+            result.put("einddatum", licentie.getEinddatum());
+            result.put("soort", licentie.getSoort());
+        } catch (LeesFoutException lfe) {
+            result.put("einddatum", LocalDate.now().plusYears(1).toString("dd-MM-yyyy"));
+            result.put("soort", "goud");
+        }
 
         return result;
     }
