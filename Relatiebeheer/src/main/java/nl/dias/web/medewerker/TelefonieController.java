@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 @Configuration
 @PropertySources({@PropertySource(value = "file:djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)})
 public class TelefonieController extends AbstractController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelefonieController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefonieController.class);
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {

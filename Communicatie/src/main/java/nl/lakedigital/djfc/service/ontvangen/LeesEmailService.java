@@ -44,7 +44,7 @@ public class LeesEmailService {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(LeesEmailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LeesEmailService.class);
 
     //    @Value("${mailUser}")
     private String mailUser;

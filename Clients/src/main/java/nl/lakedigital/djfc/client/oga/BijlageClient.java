@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlagesResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(BijlageClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BijlageClient.class);
 
     private final String URL_LIJST = "/rest/bijlage/alles";
     private final String URL_LEES = "/rest/bijlage/lees";

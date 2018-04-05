@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommunicatieClient extends AbstractClient {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CommunicatieClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieClient.class);
 
     private final String URL_ALLES = basisUrl + "/rest/communicatieproduct/alles";
     private final String URL_OPSLAAN = basisUrl + "/rest/communicatieproduct/nieuw";

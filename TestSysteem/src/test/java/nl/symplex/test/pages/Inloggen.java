@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import static com.codeborne.selenide.Selenide.$;
 
 public class Inloggen extends AbstractPage {
-    private final static Logger LOGGER = LoggerFactory.getLogger(Inloggen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Inloggen.class);
 
     public void login(String username, String wachtwoord) {
         setValue(LOGGER, $("#identificatie"), username);

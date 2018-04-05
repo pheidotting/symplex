@@ -30,7 +30,7 @@ import javax.ws.rs.core.MediaType;
 //        @PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true),
 //        @PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)})
 public class TodoistController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TodoistController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoistController.class);
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {

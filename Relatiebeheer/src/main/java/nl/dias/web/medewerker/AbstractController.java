@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
 
 public abstract class AbstractController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractController.class);
 
     @Inject
     protected AuthorisatieService authorisatieService;

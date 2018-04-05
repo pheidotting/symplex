@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 @Service
 public class MaakBriefService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(MaakBriefService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MaakBriefService.class);
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
