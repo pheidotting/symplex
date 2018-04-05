@@ -38,6 +38,7 @@ public class LicentieController extends AbstractController {
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
         Map<String, String> result = new HashMap<>();
+        licentieClient.setTimeOut(1000);
         try {
             Licentie licentie = licentieClient.eindDatumLicentie(kantoor.getId());
             result.put("einddatum", licentie.getEinddatum());
@@ -46,6 +47,7 @@ public class LicentieController extends AbstractController {
             result.put("einddatum", LocalDate.now().plusYears(1).toString("dd-MM-yyyy"));
             result.put("soort", "goud");
         }
+        licentieClient.setTimeOut(0);
 
         return result;
     }
