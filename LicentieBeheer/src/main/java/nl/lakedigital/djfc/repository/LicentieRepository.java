@@ -62,7 +62,7 @@ public class LicentieRepository {
         Timer.Context timer = metricsService.addTimerMetric("actieveLicentie", LicentieRepository.class);
 
         Query query = getSession().getNamedQuery("Licentie.alleLicenties");
-        //        query.setParameter("kantoor", kantoorId);
+        query.setParameter("kantoor", kantoorId);
 
         List<Licentie> result = query.list();
 
