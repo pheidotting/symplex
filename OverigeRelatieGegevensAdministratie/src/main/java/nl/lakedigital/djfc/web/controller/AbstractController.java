@@ -94,22 +94,14 @@ public abstract class AbstractController<D extends AbstracteEntiteitMetSoortEnId
     }
 
     protected String getIngelogdeGebruikerOpgemaakt(HttpServletRequest httpServletRequest) {
-        String ingelogdeGebruikerOpgemaakt = httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
-
-        return ingelogdeGebruikerOpgemaakt;
+        return httpServletRequest == null ? null : httpServletRequest.getHeader("ingelogdeGebruikerOpgemaakt");
     }
 
     protected String getTrackAndTraceId(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("trackAndTraceId");
-
-        return tati;
+        return httpServletRequest == null ? null : httpServletRequest.getHeader("trackAndTraceId");
     }
 
     protected String getUrl(HttpServletRequest httpServletRequest) {
-        String tati = httpServletRequest == null ? null : httpServletRequest.getHeader("url");
-
-        return tati;
+        return httpServletRequest == null ? null : httpServletRequest.getHeader("url");
     }
-
-
 }

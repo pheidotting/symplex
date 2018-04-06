@@ -13,12 +13,13 @@ import java.util.List;
 
 @Repository
 public class AdresRepository extends AbstractRepository<Adres> {
-    public AdresRepository() {
-        super(Adres.class);
-    }
 
     @Inject
     private MetricsService metricsService;
+
+    public AdresRepository() {
+        super(Adres.class);
+    }
 
     public List<Adres> alles() {
         Timer.Context timer = metricsService.addTimerMetric("alles", AdresRepository.class);
