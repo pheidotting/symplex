@@ -62,8 +62,8 @@
                    data-bind="value: emailadres"/>
             <label for="functie">Functie</label>
             <input class="form-control" type="text" id="functie" name="functie" data-bind="value: functie"/>
-                <span class="glyphicon glyphicon-minus" id="verwijderContactpersoon"
-                      data-bind="click: $parent.verwijderContactpersoon"></span>
+            <span class="glyphicon glyphicon-minus" id="verwijderContactpersoon"
+                  data-bind="click: $parent.verwijderContactpersoon"></span>
 
             <div class="telefoongegevens">
                 <h4>Telefoongegevens
@@ -91,9 +91,9 @@
                             <option value="WERK">Zakelijk</option>
                         </select>
                         <label for="telefoonomschrijvingBijContactpersoon">Omschrijving</label>
-                            <textarea id="telefoonomschrijvingBijContactpersoon" data-bind="value: omschrijving"
-                                      class="form-control"
-                                      rows="3"></textarea>
+                        <textarea id="telefoonomschrijvingBijContactpersoon" data-bind="value: omschrijving"
+                                  class="form-control"
+                                  rows="3"></textarea>
                     </div>
                     &nbsp;<a class="fa fa-trash" aria-hidden="true" id="verwijderTelefoonNummerBijContactpersoon"
                              data-bind="click: $parent.telefoonnummersModel.verwijderTelefoonNummer"

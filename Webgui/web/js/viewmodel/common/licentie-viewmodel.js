@@ -13,7 +13,17 @@ define(['commons/3rdparty/log',
             this.melding = ko.observable();
             this.maxAantalMedewerkers = ko.observable();
 
-            $.when(licentieService.einddatum()).then(function (licentie) {
+            if (localStorage.getItem('symplexLicentie') == null || localStorage.getItem('symplexLicentie') == 'undefined') {
+                $.when(licentieService.einddatum()).then(function (licentie) {
+                    verwerkLicentie(licentie)
+                });
+            } else {
+                let lic = JSON.parse(localStorage.getItem('symplexLicentie'));
+                verwerkLicentie(lic);
+            }
+
+            function verwerkLicentie(licentie) {
+                localStorage.setItem('symplexLicentie', JSON.stringify(licentie));
                 _this.einddatumLicentie(licentie.einddatum);
                 _this.tonenLicentieWaarschuwing(_this.einddatumLicentie() != null && moment(_this.einddatumLicentie()).isBefore(moment().add(7, 'days')));
 
@@ -41,6 +51,9 @@ define(['commons/3rdparty/log',
                 //Bepalen max aantal medewerkers
                 var aantal = 999999;
                 switch (licentie.soort) {
+                    case 'administratiekantoor':
+                        aantal = 2;
+                        break;
                     case 'brons':
                         aantal = 2;
                         break;
@@ -50,6 +63,6 @@ define(['commons/3rdparty/log',
                 }
 
                 _this.maxAantalMedewerkers(aantal);
-            });
-        };
+            }
+        }
     });

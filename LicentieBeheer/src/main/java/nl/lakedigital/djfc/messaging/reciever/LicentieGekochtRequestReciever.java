@@ -42,6 +42,9 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
                 case "goud":
                     prijs = 20.00;
                     break;
+                case "administratiekantoor":
+                    prijs = 15.00;
+                    break;
             }
             response.setPrijs(prijs);
 

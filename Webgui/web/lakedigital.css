@@ -1,60 +1,60 @@
 label {
-	float: left;
-	margin-bottom: 0px;
-	width: 200px;
+    float: left;
+    margin-bottom: 0px;
+    width: 200px;
 }
 
 input {
-	width: 500px !important;
+    width: 500px !important;
 }
 
 textarea {
-	width: 500px !important;
+    width: 500px !important;
 }
 
 .polisLabel {
-	width: 300px;
-	float: left;
+    width: 300px;
+    float: left;
 }
 
 .schadeLabel {
-	width: 250px;
-	float: left;
+    width: 250px;
+    float: left;
 }
 
 .polisNietActief {
-	color: #CCCCCC;
+    color: #CCCCCC;
 }
 
 .polisBeeindigd {
-	color: #CCCC00;
+    color: #CCCC00;
 }
 
 .panel-heading {
-	padding: 10px 15px 30px;
+    padding: 10px 15px 30px;
 }
 
-.btn-group,.btn-group-vertical {
-	position: absolute;
+.btn-group, .btn-group-vertical {
+    position: absolute;
 }
 
 input[type="checkbox"] {
-	width: 25px !important;
+    width: 25px !important;
 }
 
 .uitloggen {
-	display: none;
-	cursor: pointer;
-	text-decoration: underline;
+    display: none;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
-.tt-suggestions{
-	background-color:#FFFFFF;
-	padding:15px;
+.tt-suggestions {
+    background-color: #FFFFFF;
+    padding: 15px;
 }
 
-.tt-cursor{
-	cursor:pointer;
+.tt-cursor {
+    cursor: pointer;
 }
 
 .navdiv {
@@ -65,10 +65,10 @@ input[type="checkbox"] {
     text-decoration: none;
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     box-sizing: border-box;
-	cursor:pointer;
+    cursor: pointer;
 }
 
-.navdivactive{
+.navdivactive {
     display: block;
     padding: 10px 15px;
     position: relative;
@@ -76,7 +76,7 @@ input[type="checkbox"] {
     text-decoration: none;
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     box-sizing: border-box;
-	-moz-border-bottom-colors: none;
+    -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
@@ -86,77 +86,84 @@ input[type="checkbox"] {
     border-style: solid;
     border-width: 1px;
     color: #555;
-	cursor:pointer;
+    cursor: pointer;
 }
 
-.validationMessage{
-	color:#FF0000;
-	font-weight:bold;
-	padding-left:200px;
+.validationMessage {
+    color: #FF0000;
+    font-weight: bold;
+    padding-left: 200px;
 }
 
 input[type=file] {
-	display:inline;
+    display: inline;
 }
 
-.persoonsgegevens_links{
-	width:500px;
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px;
-	margin-top: 0px;
-	float: left;
+.persoonsgegevens_links {
+    width: 500px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    margin-top: 0px;
+    float: left;
 }
+
 .persoonsgegevens_links label {
-	float: left;
-	margin-bottom: 0px;
-	width: 189px;
-}
-.persoonsgegevens_links input{
-	width:289px !important;
+    float: left;
+    margin-bottom: 0px;
+    width: 189px;
 }
 
-.persoonsgegevens_rechts{
-	width:500px;
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px;
-	margin-left:525px;
+.persoonsgegevens_links input {
+    width: 289px !important;
 }
+
+.persoonsgegevens_rechts {
+    width: 500px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 525px;
+}
+
 .persoonsgegevens_rechts label {
-	float: left;
-	margin-bottom: 0px;
-	width: 189px;
-}
-.persoonsgegevens_rechts input{
-	width:289px !important;
+    float: left;
+    margin-bottom: 0px;
+    width: 189px;
 }
 
-.persoonsgegevens_details{
-	width:460px;
-	border: 1px solid #ddd;
-	padding: 10px;
-	margin: 10px;
+.persoonsgegevens_rechts input {
+    width: 289px !important;
 }
+
+.persoonsgegevens_details {
+    width: 460px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+}
+
 .persoonsgegevens_details label {
-	float: left;
-	margin-bottom: 0px;
-	width: 179px;
+    float: left;
+    margin-bottom: 0px;
+    width: 179px;
 }
-.persoonsgegevens_details input{
-	width:259px !important;
+
+.persoonsgegevens_details input {
+    width: 259px !important;
 }
+
 .persoonsgegevens_details textarea {
-	width:259px !important;
+    width: 259px !important;
 }
 
 .ui-dialog {
-	width: 950px !important;
+    width: 950px !important;
 }
 
 .dashboardKnoppen {
-	width: 521px !important;
-	margin-left:300px;
+    width: 521px !important;
+    margin-left: 300px;
 }
 
 .dashboardKnoppen button {
@@ -164,15 +171,19 @@ input[type=file] {
     height: 50px;
     font-weight: bold;
 }
-.takenKolomEersteKolom{
-	width: 300px;
+
+.takenKolomEersteKolom {
+    width: 300px;
 }
-.takenKolomTweedeKolom{
-	width: 150px;
+
+.takenKolomTweedeKolom {
+    width: 150px;
 }
-.takenKolomDerdeKolom{
-	width: 100px;
+
+.takenKolomDerdeKolom {
+    width: 100px;
 }
+
 .ongelezenMail {
-    font-weight:bold;
+    font-weight: bold;
 }
