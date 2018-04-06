@@ -4,7 +4,7 @@ requirejs.config({
         jquery: 'node_modules/jquery/dist/jquery.min',
         sammy: 'node_modules/sammy/lib/min/sammy-latest.min',
         moment: 'node_modules/moment/min/moment.min',
-    	knockout: 'node_modules/knockout/build/output/knockout-latest',
+        knockout: 'node_modules/knockout/build/output/knockout-latest',
         'knockout.validation': 'node_modules/knockout.validation/dist/knockout.validation.min',
         knockoutValidationLocal: 'node_modules/knockout.validation/localization/nl-NL',
         blockUI: 'node_modules/block-ui/jquery.blockUI',
@@ -17,9 +17,9 @@ requirejs.config({
         StackTrace: 'node_modules/stacktrace-js/dist/stacktrace.min',
 //        websocket: 'node_modules/ws/lib/websocket',
         commons: 'commons',
-    	js: 'js',
-    	pages: 'pages',
-    	model: 'js/model',
+        js: 'js',
+        pages: 'pages',
+        model: 'js/model',
         navRegister: 'js/commons/navRegister',
         fileUpload: 'js/commons/fileUpload',
         opmerkingenLoader: 'js/commons/opmerkingenLoader',
@@ -35,7 +35,7 @@ requirejs.config({
         viewmodel: 'js/viewmodel',
         mapper: 'js/mapper',
     },
-	shim: {
+    shim: {
         'knockout.validation': ['knockout'],
         'blockUI': ['jquery'],
         'jqueryUI': ['jquery']

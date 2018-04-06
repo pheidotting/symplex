@@ -2,16 +2,16 @@ define(['jquery',
         'model/bijlage',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Bijlage, log, ko) {
+    function ($, Bijlage, log, ko) {
         return {
-            mapBijlage: function(r) {
+            mapBijlage: function (r) {
                 return mappen(r);
             },
 
-            mapBijlages: function(data) {
+            mapBijlages: function (data) {
                 var bijlages = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     bijlages.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var bijlage = new Bijlage();
 
                 bijlage.id(data.id);
@@ -29,7 +29,7 @@ define(['jquery',
                 bijlage.datumUpload(data.datumUpload);
                 bijlage.soortEntiteit(data.soortEntiteit);
                 bijlage.entiteitId(data.entiteitId);
-                if(data.omschrijving == null) {
+                if (data.omschrijving == null) {
                     bijlage.omschrijvingOfBestandsNaam(data.bestandsNaam);
                 } else {
                     bijlage.omschrijvingOfBestandsNaam(data.omschrijving);

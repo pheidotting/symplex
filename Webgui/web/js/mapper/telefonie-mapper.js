@@ -3,17 +3,17 @@ define(['jquery',
         'commons/3rdparty/log',
         'knockout',
         'moment'],
-	function ($, Gesprek, log, ko, moment) {
+    function ($, Gesprek, log, ko, moment) {
         return {
-            mapGesprek: function(r) {
+            mapGesprek: function (r) {
                 mappen(r);
             },
 
-            mapGesprekken: function(data) {
+            mapGesprekken: function (data) {
                 var gesprekken = ko.observableArray([]);
 
-                $.each(data, function(i, r){
-                    $.each(mappen(r), function(i, g) {
+                $.each(data, function (i, r) {
+                    $.each(mappen(r), function (i, g) {
                         gesprekken.push(g);
                     });
                 });
@@ -22,10 +22,10 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var result = [];
-                $.each(data.telefoongesprekken, function(i, telefoongesprek) {
+                $.each(data.telefoongesprekken, function (i, telefoongesprek) {
                     var gesprek = new Gesprek();
 
                     gesprek.telefoonnummer(data.telefoonnummer);
@@ -33,7 +33,7 @@ define(['jquery',
                     gesprek.bestandsnaam(telefoongesprek.bestandsnaam);
 
                     var parts = telefoongesprek.bestandsnaam.split('-');
-                    if(parts[0] == 'out') {
+                    if (parts[0] == 'out') {
                         gesprek.uitgaand(true);
                         gesprek.inkomend(false);
 

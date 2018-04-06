@@ -3,13 +3,13 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/versies-repository'],
-    function(log, navRegister, ko, repository, versiesRepository) {
+    function (log, navRegister, ko, repository, versiesRepository) {
 
         return {
-            lees: function(identificatie){
+            lees: function (identificatie) {
                 var deferred = $.Deferred();
 
-                $.when(versiesRepository.lees(identificatie)).then(function(data) {
+                $.when(versiesRepository.lees(identificatie)).then(function (data) {
                     return deferred.resolve(data);
                 });
 

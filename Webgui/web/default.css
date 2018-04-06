@@ -1,12 +1,12 @@
 body {
     margin: 0 auto;
     height: 100%;
-    font-family:verdana;
+    font-family: verdana;
 }
 
 .top {
-    min-height:50px;
-    margin-bottom:6px;
+    min-height: 50px;
+    margin-bottom: 6px;
     text-align: right;
     padding-right: 20px;
 }
@@ -52,7 +52,7 @@ body {
 .inloggen-main {
     margin: auto;
     margin-top: 200px;
-    width:380px;
+    width: 380px;
 }
 
 .inloggen-main-background {
@@ -62,7 +62,7 @@ body {
 }
 
 .inloggen-main-wit {
-    background: linear-gradient(to bottom, #ffffff , #c7c6c6);
+    background: linear-gradient(to bottom, #ffffff, #c7c6c6);
     padding-top: 2px;
     padding-bottom: 2px;
     margin-left: 1px;
@@ -74,7 +74,7 @@ body {
     margin-right: 1px;
     text-align: center;
     color: #575656;
-    background: linear-gradient(to bottom, #a2a1a1 , #fbfbfb);
+    background: linear-gradient(to bottom, #a2a1a1, #fbfbfb);
     min-height: 34px;
     font-size: 25px;
 }
@@ -89,9 +89,9 @@ body {
 }
 
 .getbruikersnaam-wachtwoord {
-    margin-bottom:5px;
-    margin-left:5px;
-    margin-top:20px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-top: 20px;
 }
 
 .onjuiste-waarde {
@@ -113,7 +113,7 @@ body {
 }
 
 .inloggen-main-form meter {
-    margin-top:10px;
+    margin-top: 10px;
     width: 233px;
     height: 30px;
     background: #ffffff;
@@ -121,7 +121,7 @@ body {
 
 meter::-webkit-meter-bar {
     background: #EEE;
-    box-shadow: 0 2px 3px rgba(0,0,0,0.2) inset;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2) inset;
     border-radius: 3px;
 }
 
@@ -141,18 +141,18 @@ meter::-webkit-meter-suboptimum-value {
     width: 100px;
     border: 1px solid #575656;
     height: 30px;
-    background: linear-gradient(to bottom, #ffffff , #d5dbe2);
+    background: linear-gradient(to bottom, #ffffff, #d5dbe2);
     font-size: 16px;
 }
 
 .uitloggen-button {
-    margin-top:10px;
-    margin-right:20px;
-    float:right;
+    margin-top: 10px;
+    margin-right: 20px;
+    float: right;
     border: 1px solid #575656;
     height: 25px;
     width: 90px;
-    background: linear-gradient(to bottom, #ffffff , #d5dbe2);
+    background: linear-gradient(to bottom, #ffffff, #d5dbe2);
     font-size: 12px;
     color: #575656;
 }
@@ -160,18 +160,18 @@ meter::-webkit-meter-suboptimum-value {
 .menu-balk {
     background-color: #000000;
     height: 50px;
-    margin-top:25px;
-    margin-bottom:25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
     padding-top: 3px;
 }
 
 .menu-balk-within {
-    background: linear-gradient(to bottom, #fefefe , #bdbec1);
-    margin-bottom:2px;
+    background: linear-gradient(to bottom, #fefefe, #bdbec1);
+    margin-bottom: 2px;
     margin-left: 4px;
     margin-right: 4px;
     height: 39px;
-    padding:4px;
+    padding: 4px;
 }
 
 .menu-balk-holder {
@@ -189,7 +189,7 @@ meter::-webkit-meter-suboptimum-value {
     display: block;
     text-align: center;
     padding-top: 7px;
-    margin-top:3px;
+    margin-top: 3px;
     height: 27px;
     border-right: 1px inset;
     width: 130px;
@@ -205,8 +205,8 @@ meter::-webkit-meter-suboptimum-value {
 }
 
 #content {
-    margin-left:75px;
-    margin-right:75px;
+    margin-left: 75px;
+    margin-right: 75px;
     margin-bottom: 40px;
 }
 
@@ -232,9 +232,9 @@ meter::-webkit-meter-suboptimum-value {
     margin-top: 20px;
     margin-bottom: 20px;
     font-weight: bold;
-    margin-left:40px;
-    padding-left:10px;
-    padding-right:10px;
+    margin-left: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .wachtwoordVergeten {
@@ -253,5 +253,5 @@ meter::-webkit-meter-suboptimum-value {
     margin-top: 15px;
     margin-left: 15px;
     margin-right: 15px;
-    padding:5px;
+    padding: 5px;
 }

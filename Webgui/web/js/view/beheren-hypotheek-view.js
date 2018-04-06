@@ -5,12 +5,12 @@ define(['jquery',
         'knockout',
         'view/common/opmerking-view',
         'view/common/bijlage-view'],
-    function($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
         var logger = log.getLogger('beheren-hypotheek-view');
 
         return {
-            init: function(hypotheekId, basisId, readOnly, basisEntiteit) {
-				$('#content').html(html);
+            init: function (hypotheekId, basisId, readOnly, basisEntiteit) {
+                $('#content').html(html);
 
                 opmerkingView.init(hypotheekId);
                 bijlageView.init(hypotheekId);
@@ -18,7 +18,7 @@ define(['jquery',
                 logger.debug('content geladen, viewmodel init');
 
                 var v = new viewmodel();
-                $.when(v.init(hypotheekId, basisId, readOnly, basisEntiteit)).then(function(){
+                $.when(v.init(hypotheekId, basisId, readOnly, basisEntiteit)).then(function () {
                     ko.applyBindings(v);
                 });
             }

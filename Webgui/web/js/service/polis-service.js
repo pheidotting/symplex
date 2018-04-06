@@ -7,10 +7,10 @@ define(["commons/3rdparty/log",
         'repository/bedrijf-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service'],
-    function(log, navRegister, ko, repository, polisRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService) {
+    function (log, navRegister, ko, repository, polisRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService) {
 
         return {
-            opslaan: function(polis, opmerkingen, basisId){
+            opslaan: function (polis, opmerkingen, basisId) {
                 var deferred = $.Deferred();
 
                 polis.maatschappij = ko.observable(polis.maatschappij.id);
@@ -18,8 +18,8 @@ define(["commons/3rdparty/log",
                 polis.opmerkingen = opmerkingen;
                 polis.parentIdentificatie = basisId;
 
-                $.when(polisRepository.opslaan(polis)).then(function(id){
-                    if(id != null && id != '') {
+                $.when(polisRepository.opslaan(polis)).then(function (id) {
+                    if (id != null && id != '') {
                         return deferred.resolve(id);
                     }
                 });
@@ -27,15 +27,15 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            lees: function(id, basisEntiteit){
+            lees: function (id, basisEntiteit) {
                 var identificatie = id.identificatie;
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
-                    if(data.identificatie != null){
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function (data) {
+                    if (data.identificatie != null) {
                         return deferred.resolve(data);
-                    }else{
-                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                    } else {
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function (data) {
                             return deferred.resolve(data);
                         })
                     }
@@ -44,26 +44,26 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            lijstVerzekeringsmaatschappijen: function(){
+            lijstVerzekeringsmaatschappijen: function () {
                 return polisRepository.lijstVerzekeringsmaatschappijen();
             },
 
-            lijstParticulierePolissen: function(){
+            lijstParticulierePolissen: function () {
                 return polisRepository.lijstParticulierePolissen();
             },
 
-            lijstZakelijkePolissen: function(){
+            lijstZakelijkePolissen: function () {
                 return polisRepository.lijstZakelijkePolissen();
             },
 
-            lijstPolissen: function(identificatie){
+            lijstPolissen: function (identificatie) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
-                    if(data.identificatie != null){
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function (data) {
+                    if (data.identificatie != null) {
                         return deferred.resolve(data);
-                    }else{
-                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function(data) {
+                    } else {
+                        $.when(bedrijfRepository.leesBedrijf(identificatie)).then(function (data) {
                             return deferred.resolve(data);
                         })
                     }
@@ -72,11 +72,11 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            beindigPolis: function(id){
+            beindigPolis: function (id) {
                 polisRepository.beindigPolis(id);
             },
 
-            verwijderPolis: function(id){
+            verwijderPolis: function (id) {
                 polisRepository.verwijderPolis(id);
             }
         }
