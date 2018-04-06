@@ -61,9 +61,6 @@ public class LicentieController extends AbstractController {
 
         licentieGekochtRequestSender.send(kantoor, soortLicentie);
 
-        Map<String, String> result = new HashMap<>();
-        result.put("einddatum", licentieClient.eindDatumLicentie(kantoor.getId()).getEinddatum());
-
         return true;
     }
 }

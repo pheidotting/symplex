@@ -54,6 +54,9 @@ public class LicentieService {
             case "goud":
                 licentie = new Goud();
                 break;
+            case "administratiekantoor":
+                licentie = new AdministratieKantoor();
+                break;
         }
 
         if (licentie == null) {

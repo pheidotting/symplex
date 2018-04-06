@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="templates/instellingen/instellingen.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <script>
-		var refreshIntervalId = 0;
+        var refreshIntervalId = 0;
 
     </script>
 </head>
@@ -33,19 +33,19 @@
 <script type="text/javascript">
     window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
 
-        StackTrace.fromError(errorObj).then(function(error){
+        StackTrace.fromError(errorObj).then(function (error) {
             var xhr = new XMLHttpRequest();
             var fd = new FormData();
 
-            fd.append( 'logger', '' );
-            fd.append( 'timestamp', new Date().getTime() );
-            fd.append( 'level', 'ERROR' );
-            fd.append( 'url', url );
-            fd.append( 'message', error );
-            fd.append( 'layout', 'HttpPostDataLayout' );
+            fd.append('logger', '');
+            fd.append('timestamp', new Date().getTime());
+            fd.append('level', 'ERROR');
+            fd.append('url', url);
+            fd.append('message', error);
+            fd.append('layout', 'HttpPostDataLayout');
 
-            xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
-            xhr.send( fd );
+            xhr.open('POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true);
+            xhr.send(fd);
         });
     }
 

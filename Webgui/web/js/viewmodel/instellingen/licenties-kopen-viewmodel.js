@@ -10,7 +10,7 @@ define(['jquery',
         'service/kantoor-service',
         'moment',
         'service/instellingen/licentie-service'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, menubalkViewmodel, LicentieViewmodel, kantoorService, moment, licentieService) {
+    function ($, commonFunctions, ko, functions, block, log, redirect, MenubalkViewmodel, LicentieViewmodel, kantoorService, moment, licentieService) {
 
         return function () {
             commonFunctions.checkNieuweVersie();
@@ -28,14 +28,15 @@ define(['jquery',
             this.afkorting = ko.observable();
             this.identificatie = ko.observable();
 
-            _this.menubalkViewmodel = new menubalkViewmodel();
+            _this.menubalkViewmodel = new MenubalkViewmodel();
             _this.licentieViewmodel = new LicentieViewmodel();
 
             _this.licentieKopen = function () {
-                logger.info('Licentie kopen ' + data);
+                logger.info('Licentie kopen ' + _this.licentie());
                 $.when(licentieService.licentieKopen(_this.licentie())).done(function () {
                     logger.info('Licentie gekocht');
                     _this.gekocht(true);
+                    localStorage.setItem('symplexLicentie', null);
                 });
             };
         };

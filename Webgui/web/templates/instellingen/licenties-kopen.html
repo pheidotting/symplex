@@ -1,13 +1,13 @@
 <div>
     <div data-bind="ifnot: gekocht">
-        <div class="kolom">
+        <div class="kolom-4">
             <div class="licentie">
                 <div class="licentienaam">
                     Brons
                 </div>
                 <ul>
                     <li>Max. 2 medewerkers</li>
-                    <li>Polisgegevems opslaan</li>
+                    <li>Polisgegevens opslaan</li>
                     <li>Hypotheekgegevens opslaan</li>
                 </ul>
                 Per maand: &euro; 5,00<br/>
@@ -17,14 +17,14 @@
                 </div>
             </div>
         </div>
-        <div class="kolom">
+        <div class="kolom-4">
             <div class="licentie">
                 <div class="licentienaam">
                     Zilver
                 </div>
                 <ul>
                     <li>Max. 5 medewerkers</li>
-                    <li>Polisgegevems opslaan</li>
+                    <li>Polisgegevens opslaan</li>
                     <li>Hypotheekgegevens opslaan</li>
                     <li>Belastinggegevens opslaan</li>
                 </ul>
@@ -35,14 +35,14 @@
                 </div>
             </div>
         </div>
-        <div class="kolom">
+        <div class="kolom-4">
             <div class="licentie">
                 <div class="licentienaam">
                     Goud
                 </div>
                 <ul>
                     <li>Onbeperkt aantal medewerkers</li>
-                    <li>Polisgegevems opslaan</li>
+                    <li>Polisgegevens opslaan</li>
                     <li>Hypotheekgegevens opslaan</li>
                     <li>Belastinggegevens opslaan</li>
                 </ul>
@@ -53,9 +53,28 @@
                 </div>
             </div>
         </div>
-        <div class="koopknop-area">
-            <button class="koopknop" data-bind="click: licentieKopen">Koop</button>
+        <div class="kolom-4">
+            <div class="licentie">
+                <div class="licentienaam">
+                    Admin. kantoor
+                </div>
+                <ul>
+                    <li>Max. 2 medewerkers</li>
+                    <li>Polisgegevens opslaan</li>
+                    <li>Hypotheekgegevens opslaan</li>
+                </ul>
+                Per maand: &euro; 15,00<br/>
+                Per Jaar: &euro; 150,00<br/>
+                <div class="selecteer">
+                    <input type="radio" name="select-licentie" value="administratiekantoor"
+                           data-bind="checked: licentie"> Selecteer
+                </div>
+            </div>
         </div>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="koopknop-area">
+        <button class="koopknop" data-bind="click: licentieKopen">Koop</button>
     </div>
     <div data-bind="if: gekocht">
         Bedankt voor het kopen van een licentie van Symplex

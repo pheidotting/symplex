@@ -7,6 +7,7 @@ define(['redirect',
             var _this = this;
 
             this.identificatie = identificatie;
+            this.licentieSoort;
             if (soortEntiteit != null) {
                 this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
             }
@@ -90,6 +91,19 @@ define(['redirect',
                         _this.kantoorAfkorting(response.kantoorAfkorting.toLowerCase());
                     }
                 });
+            }
+
+            if (localStorage.getItem('symplexLicentie') != null) {
+                let lic = JSON.parse(localStorage.getItem('symplexLicentie'));
+                _this.licentieSoort = lic.soort;
+                if (lic.soort == 'administratiekantoor') {
+                    $('#nieuwePolisLink').hide();
+                    $('#polisLijstLink').hide();
+                    $('#nieuweSchadeLink').hide();
+                    $('#schadeLijstLink').hide();
+                    $('#hypotheekLijstLink').hide();
+                    $('#nieuweHypotheekLink').hide();
+                }
             }
         };
     });
