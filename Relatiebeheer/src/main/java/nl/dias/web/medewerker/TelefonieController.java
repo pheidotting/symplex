@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,21 +28,22 @@ import java.nio.file.Paths;
 @RequestMapping("/telefonie")
 @Controller
 @Configuration
-@PropertySources({@PropertySource(value = "file:djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true), @PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)})
+@PropertySource(value = "file:djfc.app.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "djfc.app.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:dev/djfc.app.properties", ignoreResourceNotFound = true)
 public class TelefonieController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TelefonieController.class);
+
+    @Value("${voicemailspad}")
+    private String voicemailspad;
+    private String recordingspad = "/data/recordings";
+    @Inject
+    private TelefonieBestandClient telefonieBestandClient;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
         return new PropertySourcesPlaceholderConfigurer();
     }
-
-    @Value("${voicemailspad}")
-    private String voicemailspad;
-    //    @Value("${recordingspad}")
-    private String recordingspad = "/data/recordings";
-    @Inject
-    private TelefonieBestandClient telefonieBestandClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/download/{bestandsnaam}", produces = javax.ws.rs.core.MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -59,7 +59,7 @@ public class TelefonieController extends AbstractController {
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
+            ResponseEntity<byte[]> response = new ResponseEntity<>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
             return response;
         } else {
             LOGGER.trace("Bestand niet gevonden : {}", bestandsnaam);
@@ -67,7 +67,7 @@ public class TelefonieController extends AbstractController {
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(null, headers, HttpStatus.NOT_FOUND);
+            ResponseEntity<byte[]> response = new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
             return response;
         }
     }

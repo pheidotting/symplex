@@ -10,12 +10,13 @@ import java.util.List;
 
 @Repository
 public class RekeningNummerRepository extends AbstractRepository<RekeningNummer> {
-    public RekeningNummerRepository() {
-        super(RekeningNummer.class);
-    }
 
     @Inject
     private MetricsService metricsService;
+
+    public RekeningNummerRepository() {
+        super(RekeningNummer.class);
+    }
 
     public List<RekeningNummer> alles() {
         Timer.Context timer = metricsService.addTimerMetric("alles", RekeningNummerRepository.class);

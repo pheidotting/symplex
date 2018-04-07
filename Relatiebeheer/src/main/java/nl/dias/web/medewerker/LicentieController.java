@@ -8,6 +8,8 @@ import nl.lakedigital.djfc.client.licentie.LicentieClient;
 import nl.lakedigital.djfc.commons.json.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RequestMapping("/licentie")
 @Controller
 public class LicentieController extends AbstractController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LicentieController.class);
+
     @Inject
     private LicentieClient licentieClient;
     @Inject
@@ -44,6 +48,7 @@ public class LicentieController extends AbstractController {
             result.put("einddatum", licentie.getEinddatum());
             result.put("soort", licentie.getSoort());
         } catch (LeesFoutException lfe) {
+            LOGGER.trace("{}", lfe);
             result.put("einddatum", LocalDate.now().plusYears(1).toString("dd-MM-yyyy"));
             result.put("soort", "goud");
         }

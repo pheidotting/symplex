@@ -18,12 +18,13 @@ import java.util.List;
 
 @Repository
 public class TelefonieBestandRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TelefonieBestandRepository.class);
 
     @Autowired
     private SessionFactory sessionFactory;
     @Inject
     private MetricsService metricsService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefonieBestandRepository.class);
 
     protected Session getSession() {
         return sessionFactory.getCurrentSession();
