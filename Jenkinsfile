@@ -85,7 +85,8 @@ pipeline {
             steps {
                 sh '''
                     cd Communicatie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean org.jacoco:jacoco-maven-plugin:0.7.0.201403182114:prepare-agentverify -P coverage-per-test,cargo-tomcat,selenium-tests,jmeter-tests
+                    mvn sonar:sonar -P coverage-per-test
                 '''
             }
             post {
