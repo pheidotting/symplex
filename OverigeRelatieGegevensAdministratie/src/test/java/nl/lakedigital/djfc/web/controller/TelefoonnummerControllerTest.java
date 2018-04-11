@@ -94,5 +94,4 @@ public class TelefoonnummerControllerTest extends AbstractControllerTest<Telefoo
 
         verifyAll();
     }
-
 }
