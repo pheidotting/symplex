@@ -26,13 +26,14 @@ import java.util.*;
 
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:comm.app.properties", ignoreResourceNotFound = true)
 public class EmailVerzendService extends AbstractVerzendService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
     @Value(("${mailHost}"))
     private String mailHost;// = "localhost";
     @Value("${smtpPort}")
-    private Integer smtpPort;// = 2345;
+    private String smtpPort;// = 2345;
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -103,7 +104,7 @@ public class EmailVerzendService extends AbstractVerzendService {
             msg.setContent(multipart);
 
             Transport transport = emailSession.getTransport("smtp");
-            transport.connect(mailHost, smtpPort, null, null);
+            transport.connect(mailHost, Integer.valueOf(smtpPort), null, null);
             //Zeker weten dat de mail niet al verstuurd is door een andere Thread
             if (communicatieProductRepository.lees(uitgaandeEmail.getId()).getDatumTijdVerzending() == null) {
                 transport.sendMessage(msg, msg.getAllRecipients());
