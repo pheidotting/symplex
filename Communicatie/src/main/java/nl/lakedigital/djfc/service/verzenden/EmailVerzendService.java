@@ -27,10 +27,10 @@ import java.util.*;
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:comm.app.properties", ignoreResourceNotFound = true)
-public class EmailVerzendService extends AbstractVerzendService {
+public class EmailVerzendService implements AbstractVerzendService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    @Value(("${mailHost}"))
+    @Value("${mailHost}")
     private String mailHost;// = "localhost";
     @Value("${smtpPort}")
     private String smtpPort;// = 2345;

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class BriefVerzendService extends AbstractVerzendService {
+public class BriefVerzendService implements AbstractVerzendService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BriefVerzendService.class);
 
     @Inject
