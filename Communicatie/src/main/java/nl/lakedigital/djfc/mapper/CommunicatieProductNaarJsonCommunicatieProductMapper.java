@@ -19,7 +19,7 @@ import java.util.List;
 @Component
 public class CommunicatieProductNaarJsonCommunicatieProductMapper extends AbstractMapper<CommunicatieProduct, JsonCommunicatieProduct> implements JsonMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductNaarJsonCommunicatieProductMapper.class);
-    private final String datumTijdFormaat = "yyyy-MM-dd HH:mm";
+    private static final String datumTijdFormaat = "yyyy-MM-dd HH:mm";
 
     //    @Inject
     private AdresClient adresClient;

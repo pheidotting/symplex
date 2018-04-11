@@ -28,6 +28,7 @@ public class BriefVerzendService implements AbstractVerzendService {
         List<UitgaandeBrief> uitgaandeBriefs = communicatieProductRepository.leesOnverzondenBrieven();
 
         for (UitgaandeBrief uitgaandeBrief : uitgaandeBriefs) {
+            LOGGER.debug("Tijdstip verzending zetten bij Uitgaande brief met id {}", uitgaandeBrief.getId());
             uitgaandeBrief.setDatumTijdVerzending(LocalDateTime.now());
 
             communicatieProductRepository.opslaan(uitgaandeBrief);
