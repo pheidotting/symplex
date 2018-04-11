@@ -2,7 +2,7 @@ define(['knockout'],
     function (ko) {
 
         return function bijlageModel() {
-            _this = this;
+            var _this = this;
 
             _this.id = ko.observable();
             _this.identificatie = ko.observable();

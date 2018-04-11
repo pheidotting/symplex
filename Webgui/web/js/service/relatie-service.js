@@ -18,7 +18,7 @@ define(["commons/3rdparty/log",
                         telefoonnummerService.opslaan(telefoonnummers, soortEntiteit, id),
                         rekeningnummerService.opslaan(rekeningnummers, soortEntiteit, id),
                         opmerkingService.opslaan(opmerkingen, soortEntiteit, id))
-                        .then(function (adresResponse, telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
+                        .then(function () {
                             return deferred.resolve(id);
                         });
                 });

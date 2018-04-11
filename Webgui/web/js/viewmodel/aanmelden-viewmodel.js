@@ -4,11 +4,10 @@ define(['jquery',
         'commons/3rdparty/log',
         'redirect',
         'service/kantoor-service',
-        'complexify',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, ko, commonFunctions, log, redirect, kantoorService, complexify) {
+    function ($, ko, commonFunctions, log, redirect, kantoorService) {
 
         return function () {
             var _this = this;
@@ -30,7 +29,7 @@ define(['jquery',
 
                 if (woorden.length > 1) {
                     var afkorting = '';
-                    for (i = 0; i < woorden.length; i++) {
+                    for (var i = 0; i < woorden.length; i++) {
                         afkorting += woorden[i].substring(0, 1).toLowerCase();
                     }
 

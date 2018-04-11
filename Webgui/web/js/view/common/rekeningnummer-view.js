@@ -5,7 +5,7 @@ define(['jquery',
         var logger = log.getLogger('rekeningnummer-view');
 
         return {
-            init: function (id) {
+            init: function () {
                 $('#rekeningnummers').html(html);
 
                 logger.debug('content geladen, viewmodel init');

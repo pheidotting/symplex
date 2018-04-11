@@ -9,7 +9,7 @@ define(["commons/3rdparty/log",
             opslaan: function (medewerker) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.opslaanMedewerker(medewerker)).then(function (response) {
+                $.when(gebruikerRepository.opslaanMedewerker(medewerker)).then(function () {
                     logger.debug('opslaan medewerker');
 
                     return deferred.resolve();

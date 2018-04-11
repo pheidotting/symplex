@@ -89,7 +89,7 @@ define(['jquery',
                 _this.hypotheek.eindDatumRenteVastePeriode(moment(_this.hypotheek.ingangsDatumRenteVastePeriode()).add(_this.hypotheek.duurRenteVastePeriode(), 'years').format('YYYY-MM-DD'));
             };
 
-            this.formatBedrag = function (datum) {
+            this.formatBedrag = function () {
                 return opmaak.maakBedragOp(bedrag());
             };
 

@@ -15,15 +15,6 @@ define(["commons/3rdparty/log",
             opslaan: function (bedrijf, telefoonnummers) {
                 var deferred = $.Deferred();
 
-//                var adressen = bedrijf.adressen;
-//                delete bedrijf.adressen;
-//                var telefoonnummers = bedrijf.telefoonnummers;
-//                delete bedrijf.telefoonnummers;
-//                var opmerkingen = bedrijf.opmerkingen;
-//                delete bedrijf.opmerkingen;
-//                var contactpersonen = bedrijf.contactpersonen;
-//                delete bedrijf.contactpersonen;
-
                 bedrijf.telefoonnummers = telefoonnummers;
                 $.each(bedrijf.telefoonnummers(), function (i, telefoonnummer) {
                     telefoonnummer.parentIdentificatie(bedrijf.id());
@@ -69,7 +60,6 @@ define(["commons/3rdparty/log",
 
             leesBedrijf: function (id) {
                 var deferred = $.Deferred();
-                var bedrijf;
 
                 if (id == null) {
                     return deferred.resolve({});
@@ -86,7 +76,6 @@ define(["commons/3rdparty/log",
 
             lijstBedrijven: function (zoekTerm) {
                 var deferred = $.Deferred();
-                var dataRelaties;
 
                 bedrijfRepository.lijstBedrijven(zoekTerm).done(function (data) {
                     dataBedrijven = data;
@@ -105,12 +94,6 @@ define(["commons/3rdparty/log",
                         return deferred.resolve(dataBedrijven);
                     });
                 });
-
-                function teruggeven(aantalOphalen) {
-                    if (aantalOphalen === 0) {
-                        return deferred.resolve(dataBedrijven);
-                    }
-                }
 
                 return deferred.promise();
             }
