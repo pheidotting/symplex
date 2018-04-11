@@ -8,9 +8,8 @@ define(['jquery',
         'commons/3rdparty/log',
         'redirect',
         'service/versies-service',
-        'viewmodel/common/menubalk-viewmodel',
-        'moment'],
-    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, versiesService, menubalkViewmodel, moment) {
+        'viewmodel/common/menubalk-viewmodel'],
+    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, versiesService, menubalkViewmodel) {
 
         return function () {
             var _this = this;

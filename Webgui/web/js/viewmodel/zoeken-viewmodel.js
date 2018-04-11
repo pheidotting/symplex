@@ -53,8 +53,7 @@ define(['jquery',
             this.zoeken = function () {
                 logger.debug('we gaan zoeken');
                 _this.zoekResultaat([]);
-                if (_this.zoekvelden.geboortedatum() != null) {
-                    if (_this.zoekvelden.geboortedatum() == '') {
+                if (_this.zoekvelden.geboortedatum() != null && _this.zoekvelden.geboortedatum() == '') {
                         _this.zoekvelden.geboortedatum(undefined);
                     }
                 }

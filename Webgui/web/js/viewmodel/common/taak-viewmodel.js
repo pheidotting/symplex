@@ -38,27 +38,6 @@ define(['commons/3rdparty/log',
                 }
             });
 
-//        $.when(toggleService.isFeatureBeschikbaar('TODOIST')).then(function(toggleBeschikbaar){
-//            if(toggleBeschikbaar) {
-//                $.when(
-//                    taakService.alleTaken(_this.soortEntiteit(), _this.id(), _this.relatieId, _this.bedrijfId),
-//                    taakService.afgerondeTaken(_this.soortEntiteit(), _this.id())
-//                ).then(function(
-//                    opgehaaldeTaken,
-//                    afgerondeTaken
-//                ) {
-//                    _.each(taakMapper.mapTaken(opgehaaldeTaken)(), function(gemapteTaak) {
-//                        _this.taken.push(gemapteTaak);
-//                        _this.taken.valueHasMutated()
-//                    });
-//                    _.each(taakMapper.mapTaken(afgerondeTaken)(), function(gemapteTaak) {
-//                        _this.afgerondeTaken.push(gemapteTaak);
-//                        _this.afgerondeTaken.valueHasMutated()
-//                    });
-//                });
-//            }
-//        });
-
             this.voegTaakToe = function () {
                 logger.debug('Toevoegen taak');
                 if (_this.nieuweTaakReminder.isValid() && _this.nieuweTaakTekst() != null && _this.nieuweTaakTekst() != '') {

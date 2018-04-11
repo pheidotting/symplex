@@ -18,7 +18,5 @@ define(['jquery',
             var gestripteTekst = tekst.substring(index1 + 6, index2);
 
             _this.tekst(gestripteTekst);
-
-//        ko.applyBindings(_this);
         };
     });
