@@ -113,9 +113,10 @@ public class EmailVerzendService extends AbstractVerzendService {
 
             try {
                 Random r = new Random();
-                Thread.sleep(1 + (r.nextInt() * 10));
+                Thread.sleep(r.nextInt() * 10);
             } catch (InterruptedException ie) {
                 LOGGER.trace("Error bij Sleep {}", ie.getStackTrace());
+                Thread.currentThread().interrupt();
             }
 
             uitgaandeEmail.setDatumTijdVerzending(LocalDateTime.now());
