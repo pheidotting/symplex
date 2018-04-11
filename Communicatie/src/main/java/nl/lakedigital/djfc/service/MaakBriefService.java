@@ -4,15 +4,12 @@ import nl.lakedigital.djfc.client.dejonge.KantoorClient;
 import nl.lakedigital.djfc.client.dejonge.MedewerkerClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
-import nl.lakedigital.djfc.commons.json.JsonKantoor;
-import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.domain.UitgaandeBrief;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import javax.inject.Inject;
 
@@ -38,10 +35,8 @@ public class MaakBriefService {
     private BijlageClient bijlageClient;
 
     public void verzend(UitgaandeBrief uitgaandeBrief) {
-            Context context = new Context();
-
-            JsonMedewerker medewerker = medewerkerClient.lees(uitgaandeBrief.getMedewerker());
-            JsonKantoor kantoor = kantoorClient.lees(medewerker.getKantoor());
+        //            JsonMedewerker medewerker = medewerkerClient.lees(uitgaandeBrief.getMedewerker());
+        //            JsonKantoor kantoor = kantoorClient.lees(medewerker.getKantoor());
         //            JsonRelatie relatie = relatieClient.lees(uitgaandeBrief.getEntiteitId());
         //
         //            JsonAdres afzenderAdres = adresClient.lijst("KANTOOR", kantoor.getId()).get(0);

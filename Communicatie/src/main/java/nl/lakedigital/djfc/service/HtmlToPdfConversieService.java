@@ -15,14 +15,14 @@ import java.io.OutputStream;
 
 @Service
 public class HtmlToPdfConversieService {
-    private StringBuffer stringBufferOfData;
+    private StringBuilder stringBufferOfData;
     private static final Logger LOGGER = LoggerFactory.getLogger(HtmlToPdfConversieService.class);
 
     //    @Inject
     private BijlageClient bijlageClient;
 
     public String maakAan(String input) {
-        stringBufferOfData = new StringBuffer();
+        stringBufferOfData = new StringBuilder();
 
         String root = bijlageClient.getUploadPad();
         String bestandsnaam = bijlageClient.genereerBestandsnaam();
