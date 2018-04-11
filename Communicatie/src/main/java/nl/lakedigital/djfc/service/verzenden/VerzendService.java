@@ -1,13 +1,12 @@
 package nl.lakedigital.djfc.service.verzenden;
 
 import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import nl.lakedigital.djfc.service.CommunicatieProductService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VerzendService {
@@ -20,12 +19,11 @@ public class VerzendService {
         List<CommunicatieProduct> communicatieProducten=communicatieProductService.leesOnverzondenCommunicatieProducten();
 
         for(final CommunicatieProduct communicatieProduct:communicatieProducten){
-            verzendServiceList.stream().filter(new Predicate<AbstractVerzendService>() {
-                @Override
-                public boolean test(AbstractVerzendService abstractVerzendService) {
-                    return abstractVerzendService.isVoorMij(communicatieProduct);
-                }
-            }).findFirst().get().verzend(communicatieProduct);
+            Optional<AbstractVerzendService> optionalAbstractVerzendService = verzendServiceList.stream().filter(abstractVerzendService -> abstractVerzendService.isVoorMij(communicatieProduct)).findFirst();
+
+            if (optionalAbstractVerzendService.isPresent()) {
+                optionalAbstractVerzendService.get().verzend(communicatieProduct);
+            }
         }
 
         communicatieProductService.opslaan(communicatieProducten);

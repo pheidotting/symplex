@@ -22,10 +22,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
@@ -96,7 +93,6 @@ public class EmailVerzendService extends AbstractVerzendService {
             for (JsonBijlage bijlage : bijlages) {
                 // Part two is attachment
                 messageBodyPart = new MimeBodyPart();
-                String filename = bijlage.getBestandsNaam();
                 DataSource source = new FileDataSource(bijlageClient.getUploadPad() + File.separator + bijlage.getS3Identificatie());
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(bijlage.getBestandsNaam());
@@ -115,7 +111,8 @@ public class EmailVerzendService extends AbstractVerzendService {
             transport.close();
 
             try {
-                Thread.sleep(1 + (int) (Math.random() * 10));
+                Random r = new Random();
+                Thread.sleep(1 + (r.nextInt() * 10));
             } catch (InterruptedException ie) {
                 LOGGER.trace("Error bij Sleep {}", ie.getStackTrace());
             }
