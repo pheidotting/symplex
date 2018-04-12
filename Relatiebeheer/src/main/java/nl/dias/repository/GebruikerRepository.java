@@ -212,7 +212,7 @@ public class GebruikerRepository {
         //        query.setParameter("emailadres", "'"+emailadres+"'");
         try {
             gebruiker = (Relatie) query.list().get(0);
-        } catch (NoResultException e) {
+        } catch (NoResultException | IndexOutOfBoundsException e) {
             LOGGER.info("Niets gevonden", e);
             throw new NietGevondenException(emailadres);
         }

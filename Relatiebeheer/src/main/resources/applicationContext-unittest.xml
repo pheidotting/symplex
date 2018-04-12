@@ -27,9 +27,9 @@
         <property name="url" value="jdbc:mysql://localhost:3319/test"/>
         <property name="username" value=""/>
         <property name="password" value=""/>
-        <!--<property name="url" value="jdbc:mysql://192.168.2.236/unittest"/>-->
-        <!--<property name="username" value="communicatie"/>-->
-        <!--<property name="password" value="communicatie"/>-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/kattekoop" />-->
+        <!--<property name="username" value="dev" />-->
+        <!--<property name="password" value="dev" />-->
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
