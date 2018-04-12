@@ -32,7 +32,7 @@ public class GebruikerRepositoryTest {
         Kantoor kantoor = new Kantoor();
         kantoor.setNaam("naam");
 
-        kantoorRepository.opslaanKantoor(kantoor);
+        kantoorRepository.opslaan(kantoor);
 
         Relatie relatie = new Relatie();
         relatie.setEmailadres("mail");
@@ -66,8 +66,8 @@ public class GebruikerRepositoryTest {
         Kantoor kantoor2 = new Kantoor();
         kantoor2.setNaam("kantoor2");
 
-        kantoorRepository.opslaanKantoor(kantoor1);
-        kantoorRepository.opslaanKantoor(kantoor2);
+        kantoorRepository.opslaan(kantoor1);
+        kantoorRepository.opslaan(kantoor2);
 
         Relatie relatie1 = new Relatie();
         Relatie relatie2 = new Relatie();
@@ -100,7 +100,7 @@ public class GebruikerRepositoryTest {
         Kantoor kantoor = new Kantoor();
         kantoor.setNaam("naam");
 
-        kantoorRepository.opslaanKantoor(kantoor);
+        kantoorRepository.opslaan(kantoor);
 
         Relatie relatie1 = new Relatie();
         relatie1.setVoornaam("ab");

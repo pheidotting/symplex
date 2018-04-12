@@ -48,8 +48,8 @@ public class KantoorRepository {
     }
 
     @Transactional
-    public void opslaanKantoor(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
-        Timer.Context timer = metricsService.addTimerMetric("opslaanKantoor", KantoorRepository.class);
+    public void opslaan(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", KantoorRepository.class);
 
         getTransaction();
 

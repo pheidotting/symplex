@@ -83,7 +83,7 @@ package nl.dias.web;
 //
 //		// System.out.println(kantoor);
 //
-//		kantoorService.opslaanKantoor(kantoor);
+//		kantoorService.opslaan(kantoor);
 //		EasyMock.expectLastCall().andDelegateTo(new OpslaanKantoor());
 //
 //		// sessie.setAttribute("ingelogdeGebruiker", 58);
@@ -98,7 +98,7 @@ package nl.dias.web;
 //
 //	private class OpslaanKantoor extends KantoorService {
 //		@Override
-//		public void opslaanKantoor(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
+//		public void opslaan(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
 //			kantoor.setId(58L);
 //			kantoor.getMedewerkers().get(0).setId(46L);
 //		}
@@ -115,7 +115,7 @@ package nl.dias.web;
 //		gebruiker.setId(46L);
 //		PowerMock.expectPrivate(controller, "getIngelogdeGebruiker", request).andReturn(gebruiker);
 //
-//		kantoorService.opslaanKantoor(kantoor());
+//		kantoorService.opslaan(kantoor());
 //		EasyMock.expectLastCall();
 //
 //		EasyMock.replay(request, kantoorService);
@@ -144,7 +144,7 @@ package nl.dias.web;
 //		EasyMock.expect(kantoorService.lees(2L)).andReturn(kantoor);
 //
 //		kantoor.getAdres().setPlaats("PLAATST");
-//		kantoorService.opslaanKantoor(kantoor);
+//		kantoorService.opslaan(kantoor);
 //		EasyMock.expectLastCall();
 //
 //		EasyMock.replay(request, kantoorService);
