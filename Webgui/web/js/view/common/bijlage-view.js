@@ -5,7 +5,7 @@ define(['jquery',
         var logger = log.getLogger('adres-view');
 
         return {
-            init: function (id) {
+            init: function () {
                 $('#bijlages').html(html);
 
                 logger.debug('content geladen, viewmodel init');

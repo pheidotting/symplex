@@ -54,7 +54,7 @@ define(['jquery',
                     'identificatie': _this.identificatie()
                 };
 
-                $.when(kantoorService.opslaan(kantoor)).then(function (kantoor) {
+                $.when(kantoorService.opslaan(kantoor)).then(function () {
                     return deferred.resolve();
                 });
 

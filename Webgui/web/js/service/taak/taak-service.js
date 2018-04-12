@@ -103,14 +103,14 @@ define(["commons/3rdparty/log",
                                 $.when(_this.toevoegenProject(prefix, soortEntiteit), _this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function (projectid, naamPrefix) {
                                     logger.debug('Project aangemaakt met id ' + projectid);
                                     proj = projectid;
-                                    $.when(_this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime)).then(function (itemId) {
+                                    $.when(_this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime)).then(function () {
                                         return deferred.resolve(proj);
                                     });
                                 });
                             } else {
                                 $.when(_this.genereerPrefixVoorTaakNaam(relatieId, bedrijfId)).then(function (naamPrefix) {
                                     return _this.voegItemToe(naamPrefix + tekst, proj, idLabel, soortEntiteitLabel, duetime);
-                                }).then(function (itemId) {
+                                }).then(function () {
                                     return deferred.resolve(proj);
                                 });
                             }
@@ -718,9 +718,6 @@ define(["commons/3rdparty/log",
 
         function oAuthCodeOphalen(data) {
             return todoistRepository.oauthToken(data);
-//            var url="../dejonge/rest/medewerker/todoist/oauthToken";
-//
-//            return repository.voerUitPost(url, JSON.stringify(data), '');
         }
     }
 );

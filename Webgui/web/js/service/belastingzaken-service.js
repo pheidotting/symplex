@@ -3,10 +3,8 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/gebruiker-repository',
-        'repository/bedrijf-repository',
-        'service/common/opmerking-service',
-        'service/common/bijlage-service'],
-    function (log, navRegister, ko, repository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService) {
+        'repository/bedrijf-repository'],
+    function (log, navRegister, ko, repository, gebruikerRepository, bedrijfRepository) {
 
         return {
             lees: function (identificatie) {

@@ -8,7 +8,7 @@ define(['jquery',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, ko, commonFunctions, log, redirect, gebruikerService, complexify) {
+    function ($, ko, commonFunctions, log, redirect, gebruikerService) {
 
         return function () {
             var _this = this;
@@ -80,7 +80,7 @@ define(['jquery',
                 }
             };
 
-            this.checkWachtwoordSterkte = function (a) {
+            this.checkWachtwoordSterkte = function () {
                 $("#nieuwWachtwoord").complexify({}, function (valid, complexity) {
                     _this.sterktePercentage(Math.round(complexity));
                     $("#PassValue").val(complexity);
@@ -109,7 +109,7 @@ define(['jquery',
                 }
             };
 
-            this.resetfoutmeldingGebruikersnaam = function (a) {
+            this.resetfoutmeldingGebruikersnaam = function () {
                 _this.onjuisteGebruikersnaam(false);
             };
 

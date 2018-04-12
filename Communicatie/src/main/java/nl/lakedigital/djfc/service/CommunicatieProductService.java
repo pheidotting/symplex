@@ -5,8 +5,6 @@ import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import nl.lakedigital.djfc.service.verzenden.VerzendService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -18,7 +16,6 @@ import java.util.Map;
 
 @Service
 public class CommunicatieProductService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductService.class);
 
     public enum SoortCommunicatieProduct {EMAIL, BRIEF}
 
@@ -47,8 +44,6 @@ public class CommunicatieProductService {
 
     @Inject
     protected CommunicatieProductRepository communicatieProductRepository;
-    @Inject
-    private MaakBriefService maakBriefService;
     @Inject
     protected TemplateEngine templateEngine;
     @Inject

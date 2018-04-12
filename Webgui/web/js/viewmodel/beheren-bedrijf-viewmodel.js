@@ -24,7 +24,7 @@ define(['jquery',
     function ($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
               rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel, LicentieViewmodel) {
 
-        return function (id) {
+        return function () {
             var _this = this;
             var soortEntiteit = 'BEDRIJF';
 
@@ -40,15 +40,6 @@ define(['jquery',
 
             this.onderlingeRelaties = ko.observableArray();
             this.lijst = ko.observableArray();
-
-            this.zoekTerm = function () {
-            };
-            this.zoekRelaties = function () {
-            };
-
-            this.voegRelatieToe = function (datum) {
-
-            };
 
             this.veranderDatum = function (datum) {
                 datum(commonFunctions.zetDatumOm(datum()));
@@ -80,9 +71,6 @@ define(['jquery',
 
 
             this.schermTonen = ko.computed(function () {
-//            if(data.id == null || data.id === 0) {
-//                return false;
-//            }
                 return true;
             });
             this.readOnly = ko.observable(false);

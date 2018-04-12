@@ -4,10 +4,8 @@ define(["commons/3rdparty/log",
         'repository/common/repository',
         'repository/polis-repository',
         'repository/gebruiker-repository',
-        'repository/bedrijf-repository',
-        'service/common/opmerking-service',
-        'service/common/bijlage-service'],
-    function (log, navRegister, ko, repository, polisRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService) {
+        'repository/bedrijf-repository'],
+    function (log, navRegister, ko, repository, polisRepository, gebruikerRepository, bedrijfRepository) {
 
         return {
             opslaan: function (polis, opmerkingen, basisId) {
@@ -27,7 +25,7 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            lees: function (id, basisEntiteit) {
+            lees: function (id) {
                 var identificatie = id.identificatie;
                 var deferred = $.Deferred();
 

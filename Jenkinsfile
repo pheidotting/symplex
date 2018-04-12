@@ -19,7 +19,7 @@ pipeline {
             steps {
                 sh '''
                     cd Commons
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -41,7 +41,7 @@ pipeline {
             steps {
                 sh '''
                     cd Clients
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -63,7 +63,7 @@ pipeline {
             steps {
                 sh '''
                     cd Messaging
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -85,7 +85,7 @@ pipeline {
             steps {
                 sh '''
                     cd Communicatie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -107,7 +107,7 @@ pipeline {
             steps {
                 sh '''
                     cd IdBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -129,7 +129,7 @@ pipeline {
             steps {
                 sh '''
                     cd LicentieBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -151,7 +151,7 @@ pipeline {
             steps {
                 sh '''
                     cd OverigeRelatieGegevensAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -173,7 +173,7 @@ pipeline {
             steps {
                 sh '''
                     cd Relatiebeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
                 '''
             }
             post {
@@ -195,7 +195,7 @@ pipeline {
             steps {
                 sh '''
                     cd Webgui
-                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=development
+                    /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=branch
                 '''
             }
             post {

@@ -60,22 +60,5 @@ define(['commons/3rdparty/log',
             this.readOnly = ko.computed(function () {
                 return _this.readOnly;
             });
-
-            this.opslaan = function () {
-            };
-            this.annuleren = function () {
-            };
-
-            this.startBewerken = function (telefoonnummer) {
-//            if(telefoonnummer.telefoonnummer()){
-//                telefoonnummer.telefoonnummer(telefoonnummer.telefoonnummer().replace(/ /g, "").replace("-", ""));
-//            }
-            };
-
-//        this.stopBewerken = function(telefoonnummer){
-//            _this.zetTelefoonnummerOm(telefoonnummer);
-//        };
-
-
         };
     });

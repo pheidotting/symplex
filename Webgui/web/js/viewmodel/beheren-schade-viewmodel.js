@@ -118,18 +118,6 @@ define(['jquery',
                 return commonFunctions.zetDatumTijdOm(d);
             };
 
-//        this.exitDatumTijdSchade = function() {
-//		    _this.schade.datumTijdSchade(zetDatumTijdOm(_this.schade.datumTijdSchade()));
-//        };
-//
-//		this.exitDatumTijdMelding = function() {
-//		    _this.schade.datumTijdMelding(zetDatumTijdOm(_this.schade.datumTijdMelding()));
-//		}
-//
-//		this.exitDatumAfgehandeld = function() {
-//		    _this.schade.datumAfgehandeld(zetDatumOm(_this.schade.datumAfgehandeld()));
-//		};
-
             this.formatBedrag = function (datum) {
                 return opmaak.maakBedragOp(bedrag());
             };

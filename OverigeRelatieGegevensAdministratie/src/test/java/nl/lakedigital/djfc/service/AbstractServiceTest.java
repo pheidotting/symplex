@@ -23,12 +23,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(EasyMockRunner.class)
-public abstract class AbstractServicetTest<T extends AbstracteEntiteitMetSoortEnId> extends EasyMockSupport {
+public abstract class AbstractServiceTest<T extends AbstracteEntiteitMetSoortEnId> extends EasyMockSupport {
 
     @Mock
-    private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
+    protected EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
     @Mock
-    private EntiteitenVerwijderdRequestSender entiteitenVerwijderdRequestSender;
+    protected EntiteitenVerwijderdRequestSender entiteitenVerwijderdRequestSender;
 
     public abstract AbstractService getService();
 

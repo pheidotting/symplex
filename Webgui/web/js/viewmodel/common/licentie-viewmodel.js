@@ -52,8 +52,6 @@ define(['commons/3rdparty/log',
                 var aantal = 999999;
                 switch (licentie.soort) {
                     case 'administratiekantoor':
-                        aantal = 2;
-                        break;
                     case 'brons':
                         aantal = 2;
                         break;

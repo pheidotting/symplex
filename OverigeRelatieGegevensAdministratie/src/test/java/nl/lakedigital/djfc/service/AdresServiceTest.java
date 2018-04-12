@@ -1,9 +1,12 @@
 package nl.lakedigital.djfc.service;
 
+import com.google.common.collect.Lists;
+import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Adres;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.AdresRepository;
+import org.easymock.Capture;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.Test;
@@ -11,9 +14,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-public class AdresServiceTest extends AbstractServicetTest<Adres> {
+public class AdresServiceTest extends AbstractServiceTest<Adres> {
     @TestSubject
     private AdresService adresService = new AdresService();
     @Mock
@@ -103,5 +108,29 @@ public class AdresServiceTest extends AbstractServicetTest<Adres> {
         adresService.alleAdressenBijLijstMetEntiteiten(lijst, soortEntiteit);
 
         verifyAll();
+    }
+
+    @Test
+    public void testOpslaanLijstMetAlleenEntiteiten() {
+        Adres adres = new Adres();
+        adres.setPostcode("1234AA");
+        List<Adres> adressen = Lists.newArrayList(adres);
+
+        adresRepository.opslaan(adressen);
+        expectLastCall();
+
+        Capture<List> listCapture = newCapture();
+        entiteitenOpgeslagenRequestSender.send(capture(listCapture));
+        expectLastCall();
+
+        replayAll();
+
+        adresService.opslaan(adressen);
+
+        verifyAll();
+
+        List<SoortEntiteitEnEntiteitId> lijst = listCapture.getValue();
+        assertThat(lijst.size(), is(1));
+        assertThat(lijst.get(0).getSoortEntiteit(), is(nl.lakedigital.as.messaging.domain.SoortEntiteit.ADRES));
     }
 }
