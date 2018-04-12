@@ -36,7 +36,7 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan">
             <list>
-                <value>nl.dias.domein</value>
+                <value>nl.dias</value>
             </list>
         </property>
         <property name="hibernateProperties">

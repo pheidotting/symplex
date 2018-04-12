@@ -1,5 +1,6 @@
 package nl.dias.repository;
 
+import inloggen.SessieHolder;
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.Relatie;
 import nl.dias.exception.BsnNietGoedException;
@@ -7,6 +8,7 @@ import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +28,12 @@ public class GebruikerRepositoryTest {
     private GebruikerRepository gebruikerRepository;
     @Inject
     private KantoorRepository kantoorRepository;
+
+    @Before
+    public void init() {
+        SessieHolder.get().setIngelogdeGebruiker(4L);
+        SessieHolder.get().setTrackAndTraceId("tEnTId");
+    }
 
     @Test
     public void zoek() throws UnsupportedEncodingException, NoSuchAlgorithmException, PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
