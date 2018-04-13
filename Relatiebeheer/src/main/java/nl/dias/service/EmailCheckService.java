@@ -27,17 +27,6 @@ public class EmailCheckService {
         List<Relatie> verdwenenAdressen = newArrayList();
         List<Relatie> gemuteerdeAdressen = newArrayList();
 
-        if (checks.isEmpty()) {
-            //eerste run dus
-            relaties.stream().forEach(new Consumer<Relatie>() {
-                @Override
-                public void accept(Relatie relatie) {
-                    if (!"".equals(relatie.getEmailadres())) {
-                        emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
-                    }
-                }
-            });
-        } else {
             checks.stream().forEach(new Consumer<EmailCheck>() {
                 @Override
                 public void accept(EmailCheck emailCheck) {
@@ -69,6 +58,7 @@ public class EmailCheckService {
                         }
                     })) {
                         emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
+                        slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW);
                     }
                 }
             });
@@ -83,17 +73,15 @@ public class EmailCheckService {
                         }
                     }).findFirst().get();
 
-                    slackService.stuurVerdwenenMailAdres(emailCheck.getMailadres(), relatie.getId());
+                    slackService.stuurBericht(emailCheck.getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD);
                 }
             });
 
             gemuteerdeAdressen.stream().forEach(new Consumer<Relatie>() {
                 @Override
                 public void accept(Relatie relatie) {
-                    slackService.stuurGewijzigdeMailAdres(relatie.getEmailadres(), relatie.getId());
+                    slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.GEWIJZIGD);
                 }
             });
-        }
-
     }
 }

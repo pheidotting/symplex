@@ -38,6 +38,9 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         emailCheckRepository.opslaan(capture(emailCheckCapture));
         expectLastCall();
 
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW);
+        expectLastCall();
+
         replayAll();
 
         emailCheckService.checkEmailAdressen();
@@ -74,7 +77,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setId(3L);
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurVerdwenenMailAdres("mail1", 3L);
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -101,7 +104,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setEmailadres("mail2");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurGewijzigdeMailAdres("mail2", 3L);
+        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
