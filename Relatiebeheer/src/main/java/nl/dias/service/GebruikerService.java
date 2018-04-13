@@ -295,4 +295,8 @@ public class GebruikerService {
     public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
         return gebruikerRepository.alleMedewerkers(kantoor);
     }
+
+    public List<Relatie> alleRelaties() {
+        return gebruikerRepository.alleRelaties();
+    }
 }

@@ -32,6 +32,12 @@
     <logger name="ch.vorburger">
         <level value="off"/>
     </logger>
+    <logger name="com.ullink.slack.simpleslackapi.impl">
+        <level value="error"/>
+    </logger>
+    <logger name="com.ullink.slack.simpleslackapi.impl">
+        <level value="error"/>
+    </logger>
     <!--<logger name="nl.lakedigital.djfc">-->
     <!--<level value="trace" />-->
     <!--</logger>-->
