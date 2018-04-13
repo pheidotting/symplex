@@ -91,23 +91,7 @@ define(["commons/3rdparty/log",
                 });
 
                 return deferred.promise();
-            },
-
-            leesTrackAndTraceId: function () {
-                //wordt nog voor todoist gebruikt, al wordt dat ook niet gebruikt..
-                return guid();
             }
-        }
-
-        function guid() {
-            function s4() {
-                return Math.floor((1 + Math.random()) * 0x10000)
-                    .toString(16)
-                    .substring(1);
-            }
-
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-                s4() + '-' + s4() + s4() + s4();
         }
     }
 );

@@ -292,19 +292,6 @@ public class GebruikerService {
         return null;
     }
 
-    public void opslaanOAuthCodeTodoist(String code, Long id) {
-        Medewerker medewerker = (Medewerker) gebruikerRepository.lees(id);
-        medewerker.setoAuthCodeTodoist(code);
-
-        gebruikerRepository.opslaan(medewerker);
-    }
-
-    public String leesOAuthCodeTodoist(Long id) {
-        Medewerker medewerker = (Medewerker) gebruikerRepository.lees(id);
-
-        return medewerker.getoAuthCodeTodoist();
-    }
-
     public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
         return gebruikerRepository.alleMedewerkers(kantoor);
     }

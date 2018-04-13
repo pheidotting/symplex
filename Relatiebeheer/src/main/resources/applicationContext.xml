@@ -41,9 +41,6 @@
     <!--<property name="connectionFactory" ref="connectionFactory" />-->
     <!--<property name="defaultDestination" ref="taakOpslaanDestination"/>-->
     <!--</bean>-->
-    <!--<bean id="taakOpslaanSender" class="nl.dias.messaging.sender.TaakOpslaanSender">-->
-    <!--<constructor-arg index="0" ref="taakOpslaanTemplate"/>-->
-    <!--</bean>-->
     <!--&lt;!&ndash; /Taak Opslaan  &ndash;&gt;-->
     <!--&lt;!&ndash; VerwijderEntiteitenRequest &ndash;&gt;-->
     <!--<bean id="verwijderEntiteitenRequestDestinationId" class="org.apache.activemq.command.ActiveMQQueue">-->
@@ -285,9 +282,6 @@
     <!--<bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">-->
     <!--<constructor-arg value="${oga.url}"/>-->
     <!--</bean>-->
-    <!--&lt;!&ndash;<bean id="taakClient" class="nl.lakedigital.djfc.client.taakbeheer.TaakClient">&ndash;&gt;-->
-    <!--&lt;!&ndash;<constructor-arg value="${tb.url}"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;</bean>&ndash;&gt;-->
     <!--<bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">-->
     <!--<constructor-arg value="${id.url}"/>-->
     <!--</bean>-->

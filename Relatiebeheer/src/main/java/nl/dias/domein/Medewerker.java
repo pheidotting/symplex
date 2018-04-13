@@ -16,23 +16,12 @@ public class Medewerker extends Gebruiker implements Serializable {
     @JoinColumn(name = "KANTOOR")
     private Kantoor kantoor;
 
-    @Column(name = "OAUTHTODOIST")
-    private String oAuthCodeTodoist;
-
     public Kantoor getKantoor() {
         return kantoor;
     }
 
     public void setKantoor(Kantoor kantoor) {
         this.kantoor = kantoor;
-    }
-
-    public String getoAuthCodeTodoist() {
-        return oAuthCodeTodoist;
-    }
-
-    public void setoAuthCodeTodoist(String oAuthCodeTodoist) {
-        this.oAuthCodeTodoist = oAuthCodeTodoist;
     }
 
     @Override
@@ -70,12 +59,12 @@ public class Medewerker extends Gebruiker implements Serializable {
             return false;
         }
         Medewerker that = (Medewerker) o;
-        return Objects.equals(getKantoor(), that.getKantoor()) && Objects.equals(getoAuthCodeTodoist(), that.getoAuthCodeTodoist());
+        return Objects.equals(getKantoor(), that.getKantoor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getKantoor(), getoAuthCodeTodoist());
+        return Objects.hash(super.hashCode(), getKantoor());
     }
 
     public String getName() {
