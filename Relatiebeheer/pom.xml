@@ -33,14 +33,14 @@
         <developerConnection>scm:git:git@github.com/pheidotting/dejonge.git</developerConnection>
     </scm>
 
-    <!-- https://mvnrepository.com/artifact/com.ullink.slack/simpleslackapi -->
-    <dependency>
-        <groupId>com.ullink.slack</groupId>
-        <artifactId>simpleslackapi</artifactId>
-        <version>1.2.0</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.ullink.slack</groupId>
+            <artifactId>simpleslackapi</artifactId>
+            <version>1.2.0</version>
+        </dependency>
 
-    <dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring-framework.version}</version>
