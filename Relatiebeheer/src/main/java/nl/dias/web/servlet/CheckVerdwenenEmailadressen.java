@@ -1,5 +1,6 @@
 package nl.dias.web.servlet;
 
+import com.google.common.util.concurrent.RateLimiter;
 import nl.dias.service.EmailCheckService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,8 +17,8 @@ public class CheckVerdwenenEmailadressen {
     @Value("${slack.channel}")
     private String channel;
 
-    @Scheduled(cron = "0 10 13 * * ?")
+    @Scheduled(cron = "0 30 13 * * ?")
     public void run() {
-        emailCheckService.checkEmailAdressen(channel);
+        emailCheckService.checkEmailAdressen(channel, RateLimiter.create(1));
     }
 }

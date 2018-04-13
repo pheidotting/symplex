@@ -16,9 +16,8 @@ public class SlackService {
 
     public enum Soort {NIEUW, GEWIJZIGD, VERWIJDERD}
 
-    private RateLimiter rateLimiter = RateLimiter.create(1);
 
-    public void stuurBericht(String mailadres, Long gebruikerId, Soort soort, String channelName) {
+    public void stuurBericht(String mailadres, Long gebruikerId, Soort soort, String channelName, RateLimiter rateLimiter) {
         rateLimiter.acquire();
 
         LOGGER.info("Slack bericht sturen, mailadres {}, gebruikerId {}, soort {}", mailadres, gebruikerId, soort);
