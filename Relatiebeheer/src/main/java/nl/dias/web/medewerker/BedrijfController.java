@@ -86,6 +86,8 @@ public class BedrijfController extends AbstractController {
     @Inject
     private MetricsService metricsService;
 
+    private final String BELASTINGZAKEN = "BELASTINGZAKEN";
+
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
@@ -240,9 +242,9 @@ public class BedrijfController extends AbstractController {
     private Contracten mapContracten(nl.dias.domein.Belastingzaken belastingzaken) {
         Contracten contracten = new Contracten();
 
-        contracten.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        contracten.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        contracten.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        contracten.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        contracten.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        contracten.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return contracten;
     }
@@ -251,9 +253,9 @@ public class BedrijfController extends AbstractController {
         IB ib = new IB();
 
         ib.setJaartal(belastingzaken.getJaar());
-        ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        ib.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return ib;
     }
@@ -262,9 +264,9 @@ public class BedrijfController extends AbstractController {
         Overig overig = new Overig();
 
         overig.setJaartal(belastingzaken.getJaar());
-        overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        overig.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return overig;
     }
@@ -273,9 +275,9 @@ public class BedrijfController extends AbstractController {
         Btw btw = new Btw();
 
         btw.setJaartal(belastingzaken.getJaar());
-        btw.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        btw.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        btw.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        btw.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        btw.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        btw.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return btw;
     }
@@ -284,9 +286,9 @@ public class BedrijfController extends AbstractController {
         Loonbelasting loonbelasting = new Loonbelasting();
 
         loonbelasting.setJaartal(belastingzaken.getJaar());
-        loonbelasting.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        loonbelasting.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        loonbelasting.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        loonbelasting.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        loonbelasting.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        loonbelasting.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return loonbelasting;
     }
@@ -295,9 +297,9 @@ public class BedrijfController extends AbstractController {
         Jaarrekening jaarrekening = new Jaarrekening();
 
         jaarrekening.setJaartal(belastingzaken.getJaar());
-        jaarrekening.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        jaarrekening.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        jaarrekening.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        jaarrekening.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        jaarrekening.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        jaarrekening.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return jaarrekening;
     }

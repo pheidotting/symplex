@@ -59,16 +59,16 @@ public class TelefonieController extends AbstractController {
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
-            return response;
+
+            return new ResponseEntity<>(Files.readAllBytes(Paths.get(file.getAbsolutePath())), headers, HttpStatus.OK);
         } else {
             LOGGER.trace("Bestand niet gevonden : {}", bestandsnaam);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.parseMediaType("application/wav"));
             headers.add("content-disposition", "inline;filename=" + bestandsnaam);
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
-            return response;
+
+            return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
         }
     }
 

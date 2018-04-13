@@ -76,26 +76,6 @@ public class GebruikerService {
         return gebruikerRepository.alleContactPersonen(bedrijfsId);
     }
 
-    public void koppelenOnderlingeRelatie(Long relatieId, Long relatieMetId, String soortRelatie) {
-        LOGGER.info("koppelenOnderlingeRelatie({}, {}, {})", relatieId, relatieMetId, soortRelatie);
-
-        Relatie relatie = (Relatie) gebruikerRepository.lees(relatieId);
-        Relatie relatieMet = (Relatie) gebruikerRepository.lees(relatieMetId);
-
-        OnderlingeRelatieSoort onderlingeRelatieSoort = OnderlingeRelatieSoort.valueOf(soortRelatie);
-        OnderlingeRelatieSoort onderlingeRelatieSoortTegengesteld = OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort);
-
-        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);//NOSONAR
-        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);//NOSONAR
-
-        //                relatie.getOnderlingeRelaties().add(onderlingeRelatie);
-        //                relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
-
-        gebruikerRepository.opslaan(relatie);
-        gebruikerRepository.opslaan(relatieMet);
-
-    }
-
     public Gebruiker lees(Long id) {
         return gebruikerRepository.lees(id);
     }

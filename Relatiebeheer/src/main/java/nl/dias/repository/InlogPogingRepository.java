@@ -26,7 +26,6 @@ import java.net.URL;
 @Repository
 public class InlogPogingRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(InlogPogingRepository.class);
-    private static final int MAX_RESULTS = 30;
 
     @Autowired
     private SessionFactory sessionFactory;
