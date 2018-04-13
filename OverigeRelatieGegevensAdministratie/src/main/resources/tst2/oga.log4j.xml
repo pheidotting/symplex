@@ -35,8 +35,6 @@
 
     <root>
         <priority value="trace"/>
-        <appender-ref ref="loggly"/>
         <appender-ref ref="fileAppender"/>
-        <appender-ref ref="kibana"/>
     </root>
 </log4j:configuration>
