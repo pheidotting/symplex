@@ -62,7 +62,9 @@ public class EmailCheckService {
             }
         });
 
+        LOGGER.debug("{} bestaande checks", checks.size());
         //checken op nieuwe adressen
+        LOGGER.debug("{} Relaties bekijken", relaties.size());
         relaties.stream().filter(new Predicate<Relatie>() {
             @Override
             public boolean test(Relatie relatie) {
@@ -83,6 +85,7 @@ public class EmailCheckService {
             }
         });
 
+        LOGGER.debug("{} verdwenen E-mailadressen", verdwenenAdressen.size());
         verdwenenAdressen.stream().forEach(new Consumer<Relatie>() {
             @Override
             public void accept(Relatie relatie) {
@@ -97,6 +100,7 @@ public class EmailCheckService {
             }
         });
 
+        LOGGER.debug("{} gemuteerde E-mailadressen", gemuteerdeAdressen.size());
         gemuteerdeAdressen.stream().forEach(new Consumer<Relatie>() {
             @Override
             public void accept(Relatie relatie) {
