@@ -54,26 +54,8 @@
 //        bedrijf3.setKvk("kvkNieuw");
 //        bedrijfRepository.opslaan(bedrijf3);
 //
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println(ReflectionToStringBuilder.toString(bedrijf3));
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
 //        bedrijf3.setKvk("kvNie3uw");
 //        bedrijfRepository.opslaan(bedrijf3);
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println(ReflectionToStringBuilder.toString(bedrijf3));
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
-//        System.out.println("# # # # # # # # # # # # # #");
-//        System.out.println(" # # # # # # # # # # # # # #");
 //
 //        bedrijf1.setKvk("kvkNie");
 //        bedrijfRepository.opslaan(bedrijf1);

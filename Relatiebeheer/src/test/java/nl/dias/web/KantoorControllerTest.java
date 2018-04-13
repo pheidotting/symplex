@@ -81,9 +81,7 @@ package nl.dias.web;
 //		// medewerker.getSessies().add(sessie);
 //		// sessie.setGebruiker(medewerker);
 //
-//		// System.out.println(kantoor);
-//
-//		kantoorService.opslaan(kantoor);
+//		kantoorService.opslaanKantoor(kantoor);
 //		EasyMock.expectLastCall().andDelegateTo(new OpslaanKantoor());
 //
 //		// sessie.setAttribute("ingelogdeGebruiker", 58);

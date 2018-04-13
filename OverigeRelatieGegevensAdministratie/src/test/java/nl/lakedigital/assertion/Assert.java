@@ -19,8 +19,6 @@ public class Assert {
 
             Object actualField = ReflectionUtils.getField(f, actual);
 
-            //            System.out.println(field);
-
             org.junit.Assert.assertEquals(expectedField, actualField);
         }
     }
