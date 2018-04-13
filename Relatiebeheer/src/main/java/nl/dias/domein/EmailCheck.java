@@ -19,9 +19,11 @@ public class EmailCheck {
     private String mailadres;
 
     public EmailCheck() {
+        super();
     }
 
     public EmailCheck(Long gebruiker, String mailadres) {
+        super();
         this.gebruiker = gebruiker;
         this.mailadres = mailadres;
     }

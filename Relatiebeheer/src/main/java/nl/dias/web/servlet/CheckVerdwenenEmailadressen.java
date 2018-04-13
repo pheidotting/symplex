@@ -17,7 +17,7 @@ import java.io.IOException;
 @Component
 @PropertySource("file:djfc.app.properties")
 public class CheckVerdwenenEmailadressen {
-    private final static Logger LOGGER = LoggerFactory.getLogger(CheckVerdwenenEmailadressen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckVerdwenenEmailadressen.class);
 
     @Inject
     private EmailCheckService emailCheckService;
