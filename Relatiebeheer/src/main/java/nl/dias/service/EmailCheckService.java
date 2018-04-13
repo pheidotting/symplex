@@ -1,6 +1,7 @@
 package nl.dias.service;
 
 import com.google.common.util.concurrent.RateLimiter;
+import com.ullink.slack.simpleslackapi.SlackSession;
 import nl.dias.domein.EmailCheck;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.EmailCheckRepository;
@@ -26,7 +27,7 @@ public class EmailCheckService {
     @Inject
     private SlackService slackService;
 
-    public void checkEmailAdressen(String channelName, RateLimiter rateLimiter) {
+    public void checkEmailAdressen(SlackSession session, String channelName, RateLimiter rateLimiter) {
         List<EmailCheck> checks = emailCheckRepository.alles();
         List<Relatie> relaties = gebruikerService.alleRelaties();
         List<Relatie> verdwenenAdressen = newArrayList();
@@ -81,7 +82,7 @@ public class EmailCheckService {
                     }
                 })) {
                     emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
-                    slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW, channelName, rateLimiter);
+                    slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW, session, channelName, rateLimiter);
                 }
             }
         });
@@ -97,7 +98,7 @@ public class EmailCheckService {
                     }
                 }).findFirst().get();
 
-                slackService.stuurBericht(emailCheck.getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD, channelName, rateLimiter);
+                slackService.stuurBericht(emailCheck.getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
             }
         });
 
@@ -105,7 +106,7 @@ public class EmailCheckService {
         gemuteerdeAdressen.stream().forEach(new Consumer<Relatie>() {
             @Override
             public void accept(Relatie relatie) {
-                slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.GEWIJZIGD, channelName, rateLimiter);
+                slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter);
             }
         });
     }

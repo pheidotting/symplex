@@ -1,6 +1,7 @@
 package nl.dias.service;
 
 import com.google.common.util.concurrent.RateLimiter;
+import com.ullink.slack.simpleslackapi.SlackSession;
 import nl.dias.domein.EmailCheck;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.EmailCheckRepository;
@@ -30,6 +31,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
     public void checkEmailAdressenEersteKeer() {
         String channelName = "channelName";
         RateLimiter rateLimiter = RateLimiter.create(1);
+        SlackSession session = null;
 
         expect(emailCheckRepository.alles()).andReturn(newArrayList());
 
@@ -42,12 +44,12 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         emailCheckRepository.opslaan(capture(emailCheckCapture));
         expectLastCall();
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW, channelName, rateLimiter);
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW, session, channelName, rateLimiter);
         expectLastCall();
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen(channelName, rateLimiter);
+        emailCheckService.checkEmailAdressen(session, channelName, rateLimiter);
 
         verifyAll();
 
@@ -61,6 +63,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
     public void checkEmailAdressenNietsGewijzigd() {
         String channelName = "channelName";
         RateLimiter rateLimiter = RateLimiter.create(1);
+        SlackSession session = null;
 
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
@@ -71,7 +74,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen(channelName, rateLimiter);
+        emailCheckService.checkEmailAdressen(session, channelName, rateLimiter);
 
         verifyAll();
     }
@@ -80,6 +83,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
     public void checkEmailAdressenAdresVerdwenen() {
         String channelName = "channelName";
         RateLimiter rateLimiter = RateLimiter.create(1);
+        SlackSession session = null;
 
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
@@ -87,7 +91,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setId(3L);
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD, channelName, rateLimiter);
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -96,7 +100,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen(channelName, rateLimiter);
+        emailCheckService.checkEmailAdressen(session, channelName, rateLimiter);
 
         verifyAll();
 
@@ -109,6 +113,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
     public void checkEmailAdressenAdresGewijzigd() {
         String channelName = "channelName";
         RateLimiter rateLimiter = RateLimiter.create(1);
+        SlackSession session = null;
 
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
@@ -117,7 +122,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setEmailadres("mail2");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD, channelName, rateLimiter);
+        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -126,7 +131,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen(channelName, rateLimiter);
+        emailCheckService.checkEmailAdressen(session, channelName, rateLimiter);
 
         verifyAll();
 
