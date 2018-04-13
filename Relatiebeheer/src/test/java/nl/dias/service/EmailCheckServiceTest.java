@@ -27,6 +27,8 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
     @Test
     public void checkEmailAdressenEersteKeer() {
+        String channelName = "channelName";
+
         expect(emailCheckRepository.alles()).andReturn(newArrayList());
 
         Relatie relatie = new Relatie();
@@ -38,12 +40,12 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         emailCheckRepository.opslaan(capture(emailCheckCapture));
         expectLastCall();
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW);
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW, channelName);
         expectLastCall();
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen();
+        emailCheckService.checkEmailAdressen(channelName);
 
         verifyAll();
 
@@ -55,6 +57,8 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
     @Test
     public void checkEmailAdressenNietsGewijzigd() {
+        String channelName = "channelName";
+
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
         Relatie relatie = new Relatie();
@@ -64,20 +68,22 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen();
+        emailCheckService.checkEmailAdressen(channelName);
 
         verifyAll();
     }
 
     @Test
     public void checkEmailAdressenAdresVerdwenen() {
+        String channelName = "channelName";
+
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
         Relatie relatie = new Relatie();
         relatie.setId(3L);
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD);
+        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD, channelName);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -86,7 +92,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen();
+        emailCheckService.checkEmailAdressen(channelName);
 
         verifyAll();
 
@@ -97,6 +103,8 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
     @Test
     public void checkEmailAdressenAdresGewijzigd() {
+        String channelName = "channelName";
+
         expect(emailCheckRepository.alles()).andReturn(newArrayList(new EmailCheck(3L, "mail1")));
 
         Relatie relatie = new Relatie();
@@ -104,7 +112,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setEmailadres("mail2");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
 
-        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD);
+        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD, channelName);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -113,7 +121,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        emailCheckService.checkEmailAdressen();
+        emailCheckService.checkEmailAdressen(channelName);
 
         verifyAll();
 

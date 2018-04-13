@@ -1,5 +1,7 @@
 package nl.dias.domein;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 @Entity
@@ -46,5 +48,10 @@ public class EmailCheck {
 
     public void setMailadres(String mailadres) {
         this.mailadres = mailadres;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("gebruiker", gebruiker).append("mailadres", mailadres).toString();
     }
 }

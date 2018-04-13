@@ -40,7 +40,11 @@ public class EmailCheckRepository {
     public void opslaan(EmailCheck emailCheck) {
         getTransaction();
 
-        getSession().persist(emailCheck);
+        if (emailCheck.getId() == null) {
+            getSession().persist(emailCheck);
+        } else {
+            getSession().merge(emailCheck);
+        }
 
         getTransaction().commit();
     }
