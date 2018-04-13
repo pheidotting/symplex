@@ -50,9 +50,7 @@
 //        relatie.getPolissen().add(reisVerzekering);
 //
 //        polisRepository.opslaan(autoVerzekering);
-//        System.out.println(autoVerzekering.getId());
 //        polisRepository.opslaan(reisVerzekering);
-//        System.out.println(reisVerzekering.getId());
 //
 //        assertEquals(2, polisRepository.alles().size());
 //        assertEquals(1, polisRepository.zoekPolissenOpSoort(AutoVerzekering.class).size());

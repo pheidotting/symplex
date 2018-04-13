@@ -138,7 +138,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
         WebResource webResource = client.resource(basisUrl + adres);
         String verstuurObject = gson.toJson(object);
         LOGGER.info("Versturen {}", verstuurObject);
-        System.out.println("Versturen " + verstuurObject + " naar " + basisUrl + adres);
 
         String gebruiker = null;
         if (ingelogdeGebruiker != null) {
@@ -173,7 +172,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
 
     protected String uitvoerenGet(String adres, Logger LOGGER) {
         LOGGER.info("Aanroepen via GET " + basisUrl + adres);
-        System.out.println("Aanroepen via GET " + basisUrl + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -207,7 +205,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
             throw new LeesFoutException("Fout bij omzetten adres", e);
         }
         LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
-        System.out.println("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -233,7 +230,6 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
             }
         }
         LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
-        System.out.println("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);

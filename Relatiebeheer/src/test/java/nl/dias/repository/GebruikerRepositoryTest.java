@@ -275,9 +275,6 @@
 //        adres3.setRelatie(relatie3);
 //        relatie3.getAdressen().add(adres3);
 //
-//        System.out.println(ReflectionToStringBuilder.toString(relatie1));
-//        System.out.println(ReflectionToStringBuilder.toString(adres1));
-//
 //        opslaan(relatie1);
 //        opslaan(relatie2);
 //        opslaan(relatie3);

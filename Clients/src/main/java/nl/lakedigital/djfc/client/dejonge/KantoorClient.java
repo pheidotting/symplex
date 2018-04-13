@@ -28,9 +28,6 @@ public class KantoorClient extends AbstractClient<Object> {
     }
 
     public JsonKantoor lees(Long id) {
-
-        System.out.println("Aanroepen " + URL_LEES);
-
         return uitvoerenGet(URL_LEES, JsonKantoor.class, LOGGER, id.toString());
     }
 }

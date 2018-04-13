@@ -168,7 +168,6 @@ public abstract class AbstractClient<D> {
     @Deprecated
     protected String uitvoerenGet(String adres, Logger LOGGER) {
         LOGGER.info("Aanroepen via GET " + adres);
-        System.out.println("Aanroepen via GET " + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
