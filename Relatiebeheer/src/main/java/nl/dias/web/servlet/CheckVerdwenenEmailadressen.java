@@ -17,7 +17,7 @@ public class CheckVerdwenenEmailadressen {
     @Value("${slack.channel}")
     private String channel;
 
-    @Scheduled(cron = "0 30 13 * * ?")
+    @Scheduled(cron = "0 45 13 * * ?")
     public void run() {
         emailCheckService.checkEmailAdressen(channel, RateLimiter.create(1));
     }
