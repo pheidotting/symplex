@@ -4,8 +4,6 @@ import nl.lakedigital.djfc.domain.Bijlage;
 import nl.lakedigital.djfc.domain.GroepBijlages;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.inloggen.Sessie;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -114,7 +112,6 @@ public class BijlageRepositoryTest extends AbstractRepositoryTest<Bijlage> {
 
         List<GroepBijlages> groepBijlagesList = bijlageRepository.alleGroepenBijlages(soortEntiteit, entiteitId);
         assertThat(groepBijlagesList.size(), is(1));
-        System.out.println(ReflectionToStringBuilder.toString(groepBijlagesList.get(0), ToStringStyle.SHORT_PREFIX_STYLE));
         assertThat(groepBijlagesList.get(0), is(groepBijlages));
 
         GroepBijlages gp = bijlageRepository.leesGroepBijlages(groepBijlages.getId());

@@ -62,9 +62,6 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
 
     @Override
     public List<JsonBijlage> zoeken(String zoekterm) {
-
-        System.out.println("Aanroepen " + URL_ZOEKEN);
-
         List<JsonBijlage> result;
 
         try {
@@ -78,8 +75,6 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
 
     @Override
     public List<JsonBijlage> lijst(String soortEntiteit, Long entiteitId) {
-        System.out.println("Aanroepen " + URL_LIJST);
-
         List<JsonBijlage> result;
 
         try {
@@ -93,32 +88,20 @@ public class BijlageClient extends AbstractOgaClient<JsonBijlage, OpvragenBijlag
 
     @Deprecated
     public String opslaan(List<JsonBijlage> bijlages, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_OPSLAAN);
-
         return aanroepenUrlPost(URL_OPSLAAN, bijlages, ingelogdeGebruiker, trackAndTraceId, LOGGER);
     }
 
     @Deprecated
     public String opslaan(JsonBijlage bijlage, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_OPSLAAN);
-
         return aanroepenUrlPost(URL_OPSLAAN, bijlage, ingelogdeGebruiker, trackAndTraceId, LOGGER);
     }
 
     @Override
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDEREN);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDEREN, ingelogdeGebruiker, trackAndTraceId, soortEntiteit, entiteitId.toString());
     }
 
     public void verwijder(Long id, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDER);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDER, ingelogdeGebruiker, trackAndTraceId, id.toString());
     }
 

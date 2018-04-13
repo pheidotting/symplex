@@ -28,9 +28,6 @@ public class MedewerkerClient extends AbstractClient {
     }
 
     public JsonMedewerker lees(Long id) {
-
-        System.out.println("Aanroepen " + URL_LEES);
-
         return (JsonMedewerker) uitvoerenGet(URL_LEES, JsonMedewerker.class, LOGGER, id.toString());
     }
 }
