@@ -34,10 +34,10 @@ import static org.junit.Assert.assertThat;
 @RunWith(EasyMockRunner.class)
 public class GebruikerServiceTest extends EasyMockSupport {
     @TestSubject
-    private GebruikerService service = new GebruikerService();
+    private GebruikerService gebruikerService = new GebruikerService();
 
     @Mock
-    private GebruikerRepository repository;
+    private GebruikerRepository gebruikerRepository;
     @Mock
     private PolisService polisService;
     @Mock
@@ -65,22 +65,22 @@ public class GebruikerServiceTest extends EasyMockSupport {
     public void testLees() {
         Gebruiker gebruiker = new Relatie();
 
-        expect(repository.lees(1L)).andReturn(gebruiker);
+        expect(gebruikerRepository.lees(1L)).andReturn(gebruiker);
 
         replayAll();
 
-        assertEquals(gebruiker, service.lees(1L));
+        assertEquals(gebruiker, gebruikerService.lees(1L));
     }
 
     @Test
     public void testLeesRelatie() {
         Relatie relatie = new Relatie();
 
-        expect(repository.lees(1L)).andReturn(relatie);
+        expect(gebruikerRepository.lees(1L)).andReturn(relatie);
 
         replayAll();
 
-        assertEquals(relatie, service.leesRelatie(1L));
+        assertEquals(relatie, gebruikerService.leesRelatie(1L));
     }
 
     @Test
@@ -90,11 +90,11 @@ public class GebruikerServiceTest extends EasyMockSupport {
         List<Relatie> relaties = new ArrayList<>();
         relaties.add(relatie);
 
-        expect(repository.alleRelaties(kantoor)).andReturn(relaties);
+        expect(gebruikerRepository.alleRelaties(kantoor)).andReturn(relaties);
 
         replayAll();
 
-        assertEquals(relaties, service.alleRelaties(kantoor));
+        assertEquals(relaties, gebruikerService.alleRelaties(kantoor));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setIdentificatie("id");
         relatie.setId(relatieId);
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -115,7 +115,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setBsn("1234");
         relatie.setIdentificatie("id");
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -133,7 +133,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setBsn("1234");
         relatie.setIdentificatie("id");
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -151,7 +151,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
     }
 
     @Test
@@ -160,7 +160,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setId(2L);
         relatie.setIdentificatie("id");
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -169,7 +169,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
 
         verifyAll();
     }
@@ -180,7 +180,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setId(2L);
         relatie.setBsn("id");
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -189,7 +189,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
 
         verifyAll();
     }
@@ -201,7 +201,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setBsn("bsn");
         relatie.setIdentificatie("id");
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
@@ -210,7 +210,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
 
         verifyAll();
     }
@@ -226,12 +226,12 @@ public class GebruikerServiceTest extends EasyMockSupport {
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
-        repository.opslaan(relatie);
+        gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
         replayAll();
 
-        service.opslaan(relatie);
+        gebruikerService.opslaan(relatie);
     }
 
     @Test
@@ -239,12 +239,12 @@ public class GebruikerServiceTest extends EasyMockSupport {
         Medewerker medewerker = new Medewerker();
         medewerker.setIdentificatie("identificatie");
 
-        repository.opslaan(medewerker);
+        gebruikerRepository.opslaan(medewerker);
         expectLastCall();
 
         replayAll();
 
-        service.opslaan(medewerker);
+        gebruikerService.opslaan(medewerker);
     }
 
     @Test
@@ -252,8 +252,8 @@ public class GebruikerServiceTest extends EasyMockSupport {
         Relatie relatie = new Relatie();
         relatie.setId(1L);
 
-        expect(repository.lees(1L)).andReturn(relatie);
-        repository.verwijder(relatie);
+        expect(gebruikerRepository.lees(1L)).andReturn(relatie);
+        gebruikerRepository.verwijder(relatie);
         expectLastCall();
 
         List<Hypotheek> hypotheeks = newArrayList();
@@ -276,7 +276,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        service.verwijder(1L);
+        gebruikerService.verwijder(1L);
 
         assertThat(soortEntiteitEnEntiteitIdCapture.getValue().getSoortEntiteit(), is(SoortEntiteit.RELATIE));
         assertThat(soortEntiteitEnEntiteitIdCapture.getValue().getEntiteitId(), is(1L));
@@ -286,11 +286,11 @@ public class GebruikerServiceTest extends EasyMockSupport {
     public void testZoek() throws NietGevondenException {
         Medewerker medewerker = new Medewerker();
 
-        expect(repository.zoek("e")).andReturn(medewerker);
+        expect(gebruikerRepository.zoek("e")).andReturn(medewerker);
 
         replayAll();
 
-        assertEquals(medewerker, service.zoek("e"));
+        assertEquals(medewerker, gebruikerService.zoek("e"));
     }
 
     @Test
@@ -300,11 +300,11 @@ public class GebruikerServiceTest extends EasyMockSupport {
 
         Medewerker medewerker = new Medewerker();
 
-        expect(repository.zoekOpSessieEnIpadres(sessie, ipadres)).andReturn(medewerker);
+        expect(gebruikerRepository.zoekOpSessieEnIpadres(sessie, ipadres)).andReturn(medewerker);
 
         replayAll();
 
-        assertEquals(medewerker, service.zoekOpSessieEnIpAdres(sessie, ipadres));
+        assertEquals(medewerker, gebruikerService.zoekOpSessieEnIpAdres(sessie, ipadres));
     }
 
     @Test
@@ -328,12 +328,12 @@ public class GebruikerServiceTest extends EasyMockSupport {
         Relatie relatiePolis = new Relatie();
         polis.setRelatie(8L);
 
-        expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
-        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
+        expect(gebruikerRepository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(gebruikerRepository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
-        expect(repository.lees(8L)).andReturn(relatiePolis);
+        expect(gebruikerRepository.lees(8L)).andReturn(relatiePolis);
         expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(polis);
-        expect(repository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
+        expect(gebruikerRepository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
 
         replayAll();
 
@@ -341,7 +341,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatiesVerwacht.add(relatieZoekOpNaam);
         relatiesVerwacht.add(relatiePolis);
 
-        assertEquals(relatiesVerwacht.size(), service.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
+        assertEquals(relatiesVerwacht.size(), gebruikerService.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
     }
 
 
@@ -356,21 +356,21 @@ public class GebruikerServiceTest extends EasyMockSupport {
         jsonTelefoonnummer.setEntiteitId(888L);
         jsonTelefoonnummer.setSoortEntiteit("RELATIE");
 
-        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
+        expect(gebruikerRepository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(newArrayList());
         expect(adresClient.zoeken(zoekterm)).andReturn(Lists.<JsonAdres>newArrayList());
         expect(telefoonnummerClient.zoeken(zoekterm)).andReturn(newArrayList(jsonTelefoonnummer));
-        expect(repository.lees(888L)).andReturn(relatieTelefoonnummer).times(2);
+        expect(gebruikerRepository.lees(888L)).andReturn(relatieTelefoonnummer).times(2);
 
-        expect(repository.zoekOpNaam(zoekterm)).andReturn(new ArrayList<Gebruiker>());
+        expect(gebruikerRepository.zoekOpNaam(zoekterm)).andReturn(new ArrayList<Gebruiker>());
         expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(null);
-        expect(repository.zoekRelatiesOpBedrijfsnaam(zoekterm)).andReturn(new ArrayList<Relatie>());
+        expect(gebruikerRepository.zoekRelatiesOpBedrijfsnaam(zoekterm)).andReturn(new ArrayList<Relatie>());
 
         replayAll();
 
         List<Relatie> relatiesVerwacht = new ArrayList<>();
         relatiesVerwacht.add(relatieTelefoonnummer);
 
-        assertEquals(relatiesVerwacht.size(), service.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
+        assertEquals(relatiesVerwacht.size(), gebruikerService.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
     }
 
     @Test
@@ -403,12 +403,12 @@ public class GebruikerServiceTest extends EasyMockSupport {
         adres.setEntiteitId(23L);
         adres.setSoortEntiteit("RELATIE");
 
-        expect(repository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
-        expect(repository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(relatiesZoekOpRoepnaam);
+        expect(gebruikerRepository.zoekOpNaam(zoekterm)).andReturn(relatiesZoekOpNaam);
+        expect(gebruikerRepository.zoekRelatieOpRoepnaam(zoekterm)).andReturn(relatiesZoekOpRoepnaam);
         expect(adresClient.zoeken(zoekterm)).andReturn(newArrayList(adres));
-        expect(repository.lees(23L)).andReturn(relatieZoekOpAdres).times(2);
+        expect(gebruikerRepository.lees(23L)).andReturn(relatieZoekOpAdres).times(2);
         expect(polisService.zoekOpPolisNummer(zoekterm)).andReturn(null);
-        expect(repository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
+        expect(gebruikerRepository.zoekRelatiesOpBedrijfsnaam("a")).andReturn(relatiesZoekOpBedrijfsnaam);
 
         replayAll();
 
@@ -417,39 +417,20 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatiesVerwacht.add(relatieZoekOpAdres);
         relatiesVerwacht.add(relatieZoekOpBedrijfsnaam);
 
-        assertEquals(relatiesVerwacht.size(), service.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
+        assertEquals(relatiesVerwacht.size(), gebruikerService.zoekOpNaamAdresOfPolisNummer(zoekterm).size());
     }
 
-    //    @Test
-    //    public void testKoppelenOnderlingeRelatie() {
-    //        Relatie relatie1 = new Relatie();
-    //        relatie1.setId(1L);
-    //        Relatie relatie2 = new Relatie();
-    //        relatie2.setId(2L);
-    //
-    //        expect(repository.lees(relatie1.getId())).andReturn(relatie1);
-    //        expect(repository.lees(relatie2.getId())).andReturn(relatie2);
-    //
-    //        Capture<Relatie> relatieCapture1 = newCapture();
-    //        Capture<Relatie> relatieCapture2 = newCapture();
-    //
-    //        repository.opslaan(capture(relatieCapture1));
-    //        repository.opslaan(capture(relatieCapture2));
-    //
-    //        replayAll();
-    //
-    //        service.koppelenOnderlingeRelatie(relatie1.getId(), relatie2.getId(), "O");
-    //
-    //        Relatie relatie1Opgeslagen = relatieCapture1.getValue();
-    //        Relatie relatie2Opgeslagen = relatieCapture2.getValue();
-    //
-    //        assertEquals(1, relatie1Opgeslagen.getOnderlingeRelaties().size());
-    //        OnderlingeRelatie onderlingeRelatie1 = relatie1Opgeslagen.getOnderlingeRelaties().iterator().next();
-    //        assertEquals(relatie2, onderlingeRelatie1.getRelatieMet());
-    //        assertEquals(OnderlingeRelatieSoort.O, onderlingeRelatie1.getOnderlingeRelatieSoort());
-    //        assertEquals(1, relatie2Opgeslagen.getOnderlingeRelaties().size());
-    //        OnderlingeRelatie onderlingeRelatie2 = relatie2Opgeslagen.getOnderlingeRelaties().iterator().next();
-    //        assertEquals(relatie1, onderlingeRelatie2.getRelatieMet());
-    //        assertEquals(OnderlingeRelatieSoort.K, onderlingeRelatie2.getOnderlingeRelatieSoort());
-    //    }
+    @Test
+    public void alleRelaties() {
+        Relatie relatie = new Relatie();
+        List<Relatie> relatieList = newArrayList(relatie);
+
+        expect(gebruikerRepository.alleRelaties()).andReturn(relatieList);
+
+        replayAll();
+
+        assertThat(gebruikerService.alleRelaties(), is(relatieList));
+
+        verifyAll();
+    }
 }

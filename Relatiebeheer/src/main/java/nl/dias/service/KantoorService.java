@@ -24,7 +24,7 @@ public class KantoorService {
 
     public void aanmelden(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
         LOGGER.debug("Aanmelden Kantoor");
-        kantoorRepository.opslaanKantoor(kantoor);
+        kantoorRepository.opslaan(kantoor);
         kantoorAangemeldRequestSender.send(kantoor);
     }
 }
