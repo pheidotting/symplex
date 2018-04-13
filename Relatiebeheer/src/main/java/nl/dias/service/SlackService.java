@@ -1,5 +1,6 @@
 package nl.dias.service;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
@@ -15,7 +16,11 @@ public class SlackService {
 
     public enum Soort {NIEUW, GEWIJZIGD, VERWIJDERD}
 
+    private RateLimiter rateLimiter = RateLimiter.create(1);
+
     public void stuurBericht(String mailadres, Long gebruikerId, Soort soort, String channelName) {
+        rateLimiter.acquire();
+
         LOGGER.info("Slack bericht sturen, mailadres {}, gebruikerId {}, soort {}", mailadres, gebruikerId, soort);
 
         SlackSession session = SlackSessionFactory.createWebSocketSlackSession("xoxb-345532041312-MCQfLsoJhlGO8zFtTWg1SvMv");
