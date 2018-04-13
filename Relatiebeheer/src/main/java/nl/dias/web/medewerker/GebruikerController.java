@@ -230,23 +230,6 @@ public class GebruikerController extends AbstractController {
         gebruikerService.koppelenOnderlingeRelatie(jsonKoppelenOnderlingeRelatie.getRelatie(), jsonKoppelenOnderlingeRelatie.getRelatieMet(), jsonKoppelenOnderlingeRelatie.getSoortRelatie());
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/opslaanoauthcode", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public void opslaanOAuthCode(@RequestBody String code, HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Opslaan Authcode {}", code);
-        zetSessieWaarden(httpServletRequest);
-
-        gebruikerService.opslaanOAuthCodeTodoist(code, getIngelogdeGebruiker(httpServletRequest).getId());
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/leesoauthcode", produces = MediaType.TEXT_PLAIN)
-    @ResponseBody
-    public String leesOAuthCode(HttpServletRequest httpServletRequest) {
-        LOGGER.debug("Lees Authcode ");
-
-        return gebruikerService.leesOAuthCodeTodoist(getIngelogdeGebruiker(httpServletRequest).getId());
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/wijzigWachtwoord", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public void wijzigWachtwoord(@RequestBody String nieuwWactwoord, HttpServletRequest httpServletRequest) {
