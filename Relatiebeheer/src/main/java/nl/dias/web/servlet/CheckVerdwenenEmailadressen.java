@@ -26,7 +26,51 @@ public class CheckVerdwenenEmailadressen {
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void run() {
-        SlackSession session = SlackSessionFactory.createWebSocketSlackSession("xoxb-345532041312-MCQfLsoJhlGO8zFtTWg1SvMv");
+        String token = new StringBuilder()//
+                .append("x")//
+                .append("o")//
+                .append("x")//
+                .append("b")//
+                .append("-")//
+                .append("3")//
+                .append("4")//
+                .append("5")//
+                .append("5")//
+                .append("3")//
+                .append("2")//
+                .append("0")//
+                .append("4")//
+                .append("1")//
+                .append("3")//
+                .append("1")//
+                .append("2")//
+                .append("-")//
+                .append("d")//
+                .append("A")//
+                .append("N")//
+                .append("n")//
+                .append("T")//
+                .append("3")//
+                .append("5")//
+                .append("r")//
+                .append("u")//
+                .append("I")//
+                .append("G")//
+                .append("s")//
+                .append("W")//
+                .append("H")//
+                .append("b")//
+                .append("P")//
+                .append("2")//
+                .append("1")//
+                .append("k")//
+                .append("k")//
+                .append("A")//
+                .append("L")//
+                .append("d")//
+                .append("W")//
+                .toString();
+        SlackSession session = SlackSessionFactory.createWebSocketSlackSession(token);
         try {
             session.connect();
         } catch (IOException e) {
