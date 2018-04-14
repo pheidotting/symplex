@@ -113,12 +113,7 @@ public class GebruikerService {
         final List<Long> lijstIdsBewaren = newArrayList(filter(transform(jsonContactPersonen, contactPersoon -> {
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(contactPersoon.getIdentificatie());
             return identificatie.getEntiteitId();
-        }), new Predicate<Long>() {
-            @Override
-            public boolean apply(Long id) {
-                return id != null;
-            }
-        }));
+        }), id -> id != null));
         LOGGER.debug("Ids ContactPersonen uit front-end {}", lijstIdsBewaren);
 
         //Verwijderen wat niet (meer) voorkomt
@@ -191,7 +186,7 @@ public class GebruikerService {
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {
         LOGGER.debug("zoekOpNaamAdresOfPolisNummer met zoekTerm " + zoekTerm);
-        Set<Relatie> relaties = new HashSet<Relatie>();
+        Set<Relatie> relaties = new HashSet<>();
         for (Gebruiker g : gebruikerRepository.zoekOpNaam(zoekTerm)) {
             if (g instanceof Relatie) {
                 relaties.add((Relatie) g);
@@ -230,31 +225,18 @@ public class GebruikerService {
         LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
 
         List<Relatie> ret = new ArrayList<>();
-        ret.addAll(newArrayList(filter(relaties, new Predicate<Relatie>() {
-            @Override
-            public boolean apply(Relatie relatie) {
-                return relatie != null;
-            }
-        })));
+        ret.addAll(newArrayList(filter(relaties, relatie -> relatie != null)));
 
         return ret;
     }
 
     private List<Relatie> destilleerRelatie(List<? extends AbstracteJsonEntiteitMetSoortEnId> entiteitenMetSoortEnId) {
-        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, new Predicate<AbstracteJsonEntiteitMetSoortEnId>() {
-            @Override
-            public boolean apply(AbstracteJsonEntiteitMetSoortEnId adres) {
-                return adres.getSoortEntiteit().equals(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE.name());
+        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, (Predicate<AbstracteJsonEntiteitMetSoortEnId>) adres -> adres.getSoortEntiteit().equals(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE.name()))), (Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>) adres -> {
+            Gebruiker gebruiker = gebruikerRepository.lees(adres.getEntiteitId());
+            if (gebruiker instanceof Relatie) {
+                return (Relatie) gebruikerRepository.lees(adres.getEntiteitId());
             }
-        })), new Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>() {
-            @Override
-            public Relatie apply(AbstracteJsonEntiteitMetSoortEnId adres) {
-                Gebruiker gebruiker = gebruikerRepository.lees(adres.getEntiteitId());
-                if (gebruiker instanceof Relatie) {
-                    return (Relatie) gebruikerRepository.lees(adres.getEntiteitId());
-                }
-                return null;
-            }
+            return null;
         }));
 
         return relaties;
@@ -262,14 +244,6 @@ public class GebruikerService {
 
     public List<Relatie> zoekOpGeboortedatum(LocalDate geboortedatum) {
         return gebruikerRepository.zoekOpGeboortedatum(geboortedatum);
-    }
-
-    public List<Relatie> zoekOpTussenVoegsel(String tussenvoegsel) {
-        return null;
-    }
-
-    public List<Relatie> zoekOpVoorletters(String voorletters) {
-        return null;
     }
 
     public List<Medewerker> alleMedewerkers(Kantoor kantoor) {

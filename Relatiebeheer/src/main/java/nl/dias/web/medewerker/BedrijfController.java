@@ -86,7 +86,7 @@ public class BedrijfController extends AbstractController {
     @Inject
     private MetricsService metricsService;
 
-    private final String BELASTINGZAKEN = "BELASTINGZAKEN";
+    private static final String BELASTINGZAKEN = "BELASTINGZAKEN";
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
