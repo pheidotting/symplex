@@ -24,7 +24,7 @@ public class CheckVerdwenenEmailadressen {
     @Value("${slack.channel}")
     private String channel;
 
-    @Scheduled(cron = "0 0 20 * * ?")
+    @Scheduled(cron = "0 15 20 * * ?")
     public void run() {
         String token = new StringBuilder()//
                 .append("x")//
