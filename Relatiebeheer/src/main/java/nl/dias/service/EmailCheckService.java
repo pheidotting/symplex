@@ -17,7 +17,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class EmailCheckService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailCheckService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailCheckService.class);
 
     @Inject
     private GebruikerService gebruikerService;
