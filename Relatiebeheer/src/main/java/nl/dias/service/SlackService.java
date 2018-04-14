@@ -25,18 +25,18 @@ public class SlackService {
 
         switch (soort) {
             case NIEUW:
-                tekst = "Nieuw e-mailadres toegevoegd : " + mailadres + " bij Relatie met id :" + gebruikerId;
+                tekst = "Nieuw e-mailadres toegevoegd : ";
                 break;
             case GEWIJZIGD:
-                tekst = "E-mailadres gewijzigd : " + mailadres + " bij Relatie met id :" + gebruikerId;
+                tekst = "E-mailadres gewijzigd : ";
                 break;
             case VERWIJDERD:
-                tekst = "E-mailadres verwijderd : " + mailadres + " bij Relatie met id :" + gebruikerId;
+                tekst = "E-mailadres verwijderd : ";
                 break;
         }
 
         if (tekst != null) {
-            session.sendMessage(channel, tekst);
+            session.sendMessage(channel, tekst + mailadres + " bij Relatie met id :" + gebruikerId);
         }
     }
 }
