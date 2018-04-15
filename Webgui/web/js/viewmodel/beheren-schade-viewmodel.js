@@ -3,7 +3,6 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
 		'redirect',
-        'opmerkingenModel',
         'mapper/schade-mapper',
         'service/schade-service',
         'service/polis-service',
@@ -14,7 +13,7 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, log, redirect, opmerkingenModel, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
+    function($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel) {
 
     return function() {
         var _this = this;
