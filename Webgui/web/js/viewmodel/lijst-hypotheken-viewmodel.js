@@ -33,7 +33,6 @@ define(['jquery',
                 _this.basisEntiteit = basisEntiteit;
                 $.when(hypotheekService.lijstHypotheken(_this.identificatie), hypotheekService.lijstSoortenHypotheek()).then(function (data, lijstSoortenHypotheek) {
                     _this.hypotheken = hypotheekMapper.mapHypotheken(data.hypotheken, lijstSoortenHypotheek);
-//                _this.hypotheekPakketten = hypotheekPakketMapper.mapHypotheekPakketten(pakketten, lijstSoortenHypotheek);
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, "RELATIE");
                     _this.licentieViewmodel = new LicentieViewmodel();
@@ -60,7 +59,7 @@ define(['jquery',
 
             this.verwijder = function (hypotheek) {
                 var r = confirm("Weet je zeker dat je deze hypotheek wilt verwijderen?");
-                if (r == true) {
+                if (r) {
                     _this.hypotheken.remove(hypotheek);
                     hypotheekService.verwijderSchade(hypotheek.id());
                 }

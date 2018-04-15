@@ -44,9 +44,6 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
 
     @Override
     public List<JsonOpmerking> zoeken(String zoekterm) {
-
-        System.out.println("Aanroepen " + URL_ZOEKEN);
-
         List<JsonOpmerking> result = newArrayList();
 
         try {
@@ -64,8 +61,6 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
     }
 
     public List<JsonOpmerking> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
-        System.out.println("Aanroepen " + URL_LIJST);
-
         List<JsonOpmerking> result = newArrayList();
 
         try {
@@ -87,16 +82,10 @@ public class OpmerkingClient extends AbstractOgaClient<JsonOpmerking, OpvragenOp
 
     @Override
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDEREN);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDEREN, ingelogdeGebruiker, trackAndTraceId, soortEntiteit, entiteitId.toString());
     }
 
     public void verwijder(Long id, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDER);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDER, ingelogdeGebruiker, trackAndTraceId, id.toString());
     }
 }

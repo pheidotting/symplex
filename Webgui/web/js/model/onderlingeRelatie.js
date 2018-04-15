@@ -6,7 +6,7 @@ define(['jquery',
     function ($, ko, log, commonFunctions, redirect) {
 
         return function onderlingeRelatieModel(modelData) {
-            thisonderlingeRelatie = this;
+            var thisonderlingeRelatie = this;
 
             thisonderlingeRelatie.id = ko.observable(modelData.id);
             thisonderlingeRelatie.relatieMet = ko.observable(modelData.relatieMet);

@@ -17,26 +17,26 @@ import javax.ws.rs.FormParam;
 public class Log4JController extends AbstractController {
     @RequestMapping(method = RequestMethod.POST, value = "/log4javascript")
     @ResponseBody
-    public void log4javascript(@FormParam("logger") String logger, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout, HttpServletRequest httpServletRequest) {
+    public void log4javascript(@FormParam("logger") String loggerNameIn, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
         MDC.put("url", url);
 
-        String loggerName = logger;
-        if (logger == null || "".equals(logger)) {
+        String loggerName = loggerNameIn;
+        if (loggerNameIn == null || "".equals(loggerNameIn)) {
             loggerName = this.getClass().toString();
         }
-        final Logger LOGGER = LoggerFactory.getLogger(loggerName);
+        final Logger logger = LoggerFactory.getLogger(loggerName);
 
         if ("debug".equalsIgnoreCase(level)) {
-            LOGGER.debug(message);
+            logger.debug(message);
         } else if ("info".equalsIgnoreCase(level)) {
-            LOGGER.info(message);
+            logger.info(message);
         } else if ("warn".equalsIgnoreCase(level)) {
-            LOGGER.warn(message);
+            logger.warn(message);
         } else if ("error".equalsIgnoreCase(level) || "fatal".equalsIgnoreCase(level)) {
-            LOGGER.error(message);
+            logger.error(message);
         } else {
-            LOGGER.trace(message);
+            logger.trace(message);
         }
     }
 

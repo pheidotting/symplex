@@ -59,7 +59,7 @@ define(['jquery',
 
             this.verwijder = function (polis) {
                 var r = confirm("Weet je zeker dat je deze polis wilt verwijderen?");
-                if (r == true) {
+                if (r) {
                     _this.polissen.remove(polis);
                     polisService.verwijderPolis(polis.identificatie());
                 }
@@ -93,7 +93,7 @@ define(['jquery',
             this.verwijderPolis = function (polis) {
                 commonFunctions.verbergMeldingen();
                 var r = confirm("Weet je zeker dat je deze polis wilt verwijderen?");
-                if (r == true) {
+                if (r) {
                     _this.polissen.remove(polis);
                     polisService.verwijderPolis(ko.utils.unwrapObservable(polis.id));
                 }

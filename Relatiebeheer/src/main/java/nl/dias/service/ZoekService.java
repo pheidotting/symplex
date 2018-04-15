@@ -57,12 +57,6 @@ public class ZoekService {
                 relaties.addAll(result);
             }
         }
-        if (tussenvoegsel != null && !"".equals(tussenvoegsel)) {
-            List<Relatie> result = gebruikerService.zoekOpTussenVoegsel(tussenvoegsel);
-            if (result != null) {
-                relaties.addAll(result);
-            }
-        }
         if (polisnummer != null && !"".equals(polisnummer)) {
             LOGGER.debug("Zoeken op polisnummer {}", polisnummer);
             List<JsonPolis> polissen = polisClient.zoekOpPolisNummer(polisnummer);
@@ -75,12 +69,6 @@ public class ZoekService {
                     LOGGER.debug("Hoort bij een Bedrijf met id {}", polis.getEntiteitId());
                     bedrijven.add(bedrijfService.lees(polis.getEntiteitId()));
                 }
-            }
-        }
-        if (voorletters != null && !"".equals(voorletters)) {
-            List<Relatie> result = gebruikerService.zoekOpVoorletters(voorletters);
-            if (result != null) {
-                relaties.addAll(result);
             }
         }
         if (schadenummer != null && !"".equals(schadenummer)) {

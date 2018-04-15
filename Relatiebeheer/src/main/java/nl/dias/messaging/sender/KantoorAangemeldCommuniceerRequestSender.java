@@ -19,6 +19,7 @@ public class KantoorAangemeldCommuniceerRequestSender extends AbstractSender<Kan
     private GebruikerRepository gebruikerRepository;
 
     public KantoorAangemeldCommuniceerRequestSender() {
+        super();
     }
 
     public KantoorAangemeldCommuniceerRequestSender(JmsTemplate jmsTemplate) {

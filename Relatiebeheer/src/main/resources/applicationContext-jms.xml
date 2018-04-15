@@ -15,18 +15,6 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <constructor-arg ref="amqConnectionFactory"/>
     </bean>
 
-    <!-- Taak Opslaan -->
-    <bean id="taakOpslaanDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="rb.tb.taakOpslaanQueue"/>
-    </bean>
-    <bean id="taakOpslaanTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="taakOpslaanDestination"/>
-    </bean>
-    <bean id="taakOpslaanSender" class="nl.dias.messaging.sender.TaakOpslaanSender">
-        <constructor-arg index="0" ref="taakOpslaanTemplate"/>
-    </bean>
-    <!-- /Taak Opslaan  -->
     <!-- VerwijderEntiteitenRequest -->
     <bean id="verwijderEntiteitenRequestDestinationId" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="id.verwijderEntiteitenRequestQueue"/>

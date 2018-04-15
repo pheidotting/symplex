@@ -28,7 +28,7 @@ define(['knockout',
             _this.locatie = ko.observable();
             _this.statusSchade = ko.observable().extend({
                 validation: {
-                    validator: function (val) {
+                    validator: function () {
                         if (ko.utils.unwrapObservable(_this.statusSchade) == "Kies een status uit de lijst..") {
                             return !_this.schadeNummerMaatschappij.isValid();
                         } else {
@@ -41,11 +41,7 @@ define(['knockout',
             _this.datumTijdSchade = ko.observable().extend({
                 required: true, validation: {
                     validator: function (val) {
-                        if (moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") == "Invalid date") {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") != "Invalid date";
                     },
                     message: 'Juiste invoerformaat is : dd-mm-eejj uu:mm'
                 }
@@ -53,11 +49,7 @@ define(['knockout',
             _this.datumTijdMelding = ko.observable().extend({
                 required: true, validation: {
                     validator: function (val) {
-                        if (moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") == "Invalid date") {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                        return moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") != "Invalid date";
                     },
                     message: 'Juiste invoerformaat is : dd-mm-eejj uu:mm'
                 }
@@ -66,11 +58,7 @@ define(['knockout',
                 validation: {
                     validator: function (val) {
                         if (val != undefined && val != "") {
-                            if (moment(val, "DD-MM-YYYY").format("DD-MM-YYYY") == "Invalid date") {
-                                return false;
-                            } else {
-                                return true;
-                            }
+                            return moment(val, "DD-MM-YYYY").format("DD-MM-YYYY") != "Invalid date";
                         } else {
                             return true;
                         }

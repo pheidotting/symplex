@@ -48,6 +48,7 @@ public class RekeningNummerRepositoryTest extends AbstractRepositoryTest<Rekenin
         rekeningNummerRepository.opslaan(newArrayList(rekeningNummer));
 
         assertEquals(1, rekeningNummerRepository.alles(soortEntiteit, entiteitId).size());
+        assertEquals(1, rekeningNummerRepository.alles().size());
         assertEquals(rekeningNummer, rekeningNummerRepository.lees(rekeningNummer.getId()));
 
         rekeningNummerRepository.verwijder(newArrayList(rekeningNummer));

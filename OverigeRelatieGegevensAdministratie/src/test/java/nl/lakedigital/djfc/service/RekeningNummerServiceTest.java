@@ -6,7 +6,7 @@ import nl.lakedigital.djfc.repository.RekeningNummerRepository;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 
-public class RekeningNummerServiceTest extends AbstractServicetTest<RekeningNummer> {
+public class RekeningNummerServiceTest extends AbstractServiceTest<RekeningNummer> {
     @TestSubject
     private RekeningNummerService rekeningNummerService = new RekeningNummerService();
     @Mock

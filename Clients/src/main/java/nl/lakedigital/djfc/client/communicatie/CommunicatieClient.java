@@ -87,7 +87,6 @@ public class CommunicatieClient extends AbstractClient {
         }).create();
 
         LOGGER.info("Aanroepen via GET " + adres);
-        System.out.println("Aanroepen via GET " + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -126,7 +125,6 @@ public class CommunicatieClient extends AbstractClient {
             }
         }
         LOGGER.info("Aanroepen via GET " + adres + stringBuilder.toString());
-        System.out.println("Aanroepen via GET " + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);

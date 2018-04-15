@@ -70,9 +70,6 @@
 //
 //            JsonPolis opgeslagenPolis = polisClient.lees(polis.getId().toString());
 //            opgeslagenPolis.setSoortEntiteit("RELATIE");
-//            System.out.println(ReflectionToStringBuilder.toString(opgeslagenPolis, ToStringStyle.SHORT_PREFIX_STYLE));
-//            System.out.println(ReflectionToStringBuilder.toString(polis, ToStringStyle.SHORT_PREFIX_STYLE));
-//
 //
 //            assertThat(opgeslagenPolis, is(polis));
 //        }

@@ -24,8 +24,8 @@ public class KantoorRepositoryTest {
         Kantoor kantoor2 = new Kantoor();
         kantoor2.setAfkorting("b");
 
-        kantoorRepository.opslaanKantoor(kantoor1);
-        kantoorRepository.opslaanKantoor(kantoor2);
+        kantoorRepository.opslaan(kantoor1);
+        kantoorRepository.opslaan(kantoor2);
 
         assertThat(kantoorRepository.zoekOpAfkorting("a").size(), is(1));
         assertThat(kantoorRepository.zoekOpAfkorting("a").get(0).getAfkorting(), is("a"));

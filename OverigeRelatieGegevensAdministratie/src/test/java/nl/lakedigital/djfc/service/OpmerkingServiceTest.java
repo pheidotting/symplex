@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 
-public class OpmerkingServiceTest extends AbstractServicetTest<Opmerking> {
+public class OpmerkingServiceTest extends AbstractServiceTest<Opmerking> {
     @TestSubject
     public OpmerkingService opmerkingService = new OpmerkingService();
     @Mock

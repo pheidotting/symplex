@@ -2,13 +2,8 @@ define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository',
-        'repository/gebruiker-repository',
-        'service/common/adres-service',
-        'service/common/telefoonnummer-service',
-        'service/common/rekeningnummer-service',
-        'service/common/opmerking-service',
-        'service/common/bijlage-service'],
-    function (log, navRegister, ko, repository, gebruikerRepository, adresService, telefoonnummerService, rekeningnummerService, opmerkingService, bijlageService) {
+        'repository/gebruiker-repository'],
+    function (log, navRegister, ko, repository, gebruikerRepository) {
         var logger = log.getLogger('gebruiker-service');
 
         return {

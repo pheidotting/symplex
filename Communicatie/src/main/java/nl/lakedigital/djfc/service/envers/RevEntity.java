@@ -5,6 +5,7 @@ import org.hibernate.envers.RevisionEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "REVINFO")
@@ -20,5 +21,26 @@ public class RevEntity extends DefaultRevisionEntity {
 
     public void setUserid(Long userid) {
         this.userid = userid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RevEntity)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        RevEntity revEntity = (RevEntity) o;
+        return Objects.equals(getUserid(), revEntity.getUserid());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getUserid());
     }
 }

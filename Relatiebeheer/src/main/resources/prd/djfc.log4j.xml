@@ -40,6 +40,9 @@
     <logger name="org.hibernate">
         <level value="error"/>
     </logger>
+    <logger name="com.ullink.slack.simpleslackapi.impl">
+        <level value="error"/>
+    </logger>
     <logger name="ch.vorburger">
         <level value="off"/>
     </logger>

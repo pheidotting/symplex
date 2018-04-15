@@ -71,7 +71,6 @@ public class PolisRepositoryTest {
             }),null));
 
             Polis opgehaaldePolis = polisRepository.lees(p.getId());
-            System.out.println(opgehaaldePolis.getClass());
             assertThat(opgehaaldePolis.getRelatie(),is(34L));
         }
 

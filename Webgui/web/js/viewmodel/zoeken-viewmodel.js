@@ -53,11 +53,10 @@ define(['jquery',
             this.zoeken = function () {
                 logger.debug('we gaan zoeken');
                 _this.zoekResultaat([]);
-                if (_this.zoekvelden.geboortedatum() != null) {
-                    if (_this.zoekvelden.geboortedatum() == '') {
-                        _this.zoekvelden.geboortedatum(undefined);
-                    }
+                if (_this.zoekvelden.geboortedatum() != null && _this.zoekvelden.geboortedatum() == '') {
+                    _this.zoekvelden.geboortedatum(undefined);
                 }
+
                 $.when(zoekenService.zoeken(btoa(ko.toJSON(_this.zoekvelden)))).then(function (zoekResultaat) {
                     $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function (i, gemapt) {
                         _this.zoekResultaat.push(gemapt);
@@ -86,4 +85,5 @@ define(['jquery',
                 window.location = _this.maaklink(0, 'bedrijf');
             };
         };
-    });
+    }
+);

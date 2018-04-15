@@ -8,7 +8,7 @@ define(['commons/3rdparty/log',
         var logger = log.getLogger('wachtwoord-service');
 
         return {
-            verstuur: function (gebruikersnaamEnWachtwoord, inloggen) {
+            verstuur: function (gebruikersnaamEnWachtwoord) {
                 logger.debug('Versturen wachtwoord');
                 var deferred = $.Deferred();
 

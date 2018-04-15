@@ -23,7 +23,7 @@ define(['jquery',
         'blockUI'],
     function ($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel, LicentieViewmodel) {
 
-        return function (id) {
+        return function () {
             var _this = this;
             var logger = log.getLogger('beheren-relatie-viewmodel');
             var soortEntiteit = 'RELATIE';
@@ -42,21 +42,11 @@ define(['jquery',
             this.onderlingeRelaties = ko.observableArray();
             this.lijst = ko.observableArray();
 
-            this.zoekTerm = function () {
-            };
-            this.zoekRelaties = function () {
-            };
-            this.identificatie = null;
-
-            this.voegRelatieToe = function (datum) {
-
-            };
-
             this.veranderDatum = function (datum) {
                 datum(commonFunctions.zetDatumOm(datum()));
             };
 
-            this.init = function (id, toggleBeschikbaar) {
+            this.init = function (id) {
                 _this.identificatie = id.identificatie;
                 var deferred = $.Deferred();
 

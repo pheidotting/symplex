@@ -211,13 +211,6 @@ define([],
 
                     {naam: 'TOGGLZ', url: BASISURL_RELATIEBEHEER + '/authorisatie/togglz/toggles'},
 
-                    {naam: 'TODOIST_OAUTHTOKEN', url: BASISURL_RELATIEBEHEER + '/medewerker/todoist/oauthToken'},
-                    {naam: 'TODOIST_PREFIX', url: BASISURL_RELATIEBEHEER + '/medewerker/todoist/getPrefix'},
-                    {
-                        naam: 'TODOIST_CLIENT_ID_EN_SECRET',
-                        url: BASISURL_RELATIEBEHEER + '/medewerker/todoist/getClientIdEnClientSecret'
-                    },
-
                     {naam: 'TELEFONIE_RECORDINGS', url: BASISURL_RELATIEBEHEER + '/medewerker/telefonie/recordings'},
                     {naam: 'TELEFONIE_DOWNLOAD', url: BASISURL_RELATIEBEHEER + '/medewerker/telefonie/download'},
 

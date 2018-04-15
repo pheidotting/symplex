@@ -5,7 +5,7 @@ define(['jquery',
         var logger = log.getLogger('opmerking-view');
 
         return {
-            init: function (id) {
+            init: function () {
                 $('#opmerkingen').html(html);
 
                 logger.debug('content geladen, viewmodel init');

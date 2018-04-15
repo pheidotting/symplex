@@ -114,7 +114,7 @@ define(['jquery',
                     nonWords: /\W/.test(pass),
                 }
 
-                variationCount = 0;
+                var variationCount = 0;
                 for (var check in variations) {
                     if (variations.hasOwnProperty(check)) {
                         variationCount += (variations[check] == true) ? 1 : 0;

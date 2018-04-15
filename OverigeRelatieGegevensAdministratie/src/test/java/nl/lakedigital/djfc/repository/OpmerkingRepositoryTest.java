@@ -51,6 +51,7 @@ public class OpmerkingRepositoryTest extends AbstractRepositoryTest<Opmerking> {
         opmerkingRepository.opslaan(newArrayList(opmerking));
 
         assertEquals(1, opmerkingRepository.alles(soortEntiteit, entiteitId).size());
+        assertEquals(1, opmerkingRepository.alles().size());
         assertEquals(opmerking, opmerkingRepository.lees(opmerking.getId()));
 
         opmerkingRepository.verwijder(newArrayList(opmerking));

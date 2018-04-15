@@ -115,7 +115,7 @@ define(['jquery',
                 _this.berekenProlongatieDatum();
             };
 
-            this.formatBedrag = function (datum) {
+            this.formatBedrag = function () {
                 return opmaak.maakBedragOp(bedrag());
             };
 
@@ -188,7 +188,7 @@ define(['jquery',
                                 data: data,
                                 ataType: "json",
                                 async: false,
-                                success: function (dataImages, textStatus, request) {
+                                success: function (dataImages) {
                                     _this.voertuigImage1(dataImages.items[0].link);
                                     _this.voertuigImage2(dataImages.items[1].link);
                                     _this.voertuigImage3(dataImages.items[2].link);
@@ -231,7 +231,7 @@ define(['jquery',
             //except licenseplates for diplomats
             var scUitz = '^CD[ABFJNST][0-9]{1,3}$' //for example: CDB1 of CDJ45
 
-            for (i = 0; i < arrSC.length; i++) {
+            for (let i = 0; i < arrSC.length; i++) {
                 if (arrSC[i].test(Licenseplate)) {
                     return {'i': i + 1, 'r': arrSC[i].exec(Licenseplate)};
                 }

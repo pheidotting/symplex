@@ -5,7 +5,7 @@ define(['jquery',
         var logger = log.getLogger('telefoonnummer-view');
 
         return {
-            init: function (id) {
+            init: function () {
                 $('#telefoonnummers').html(html);
 
                 logger.debug('content geladen, viewmodel init');

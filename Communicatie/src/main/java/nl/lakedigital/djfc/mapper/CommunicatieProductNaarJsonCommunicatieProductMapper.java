@@ -1,8 +1,13 @@
 package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.djfc.client.oga.AdresClient;
-import nl.lakedigital.djfc.commons.json.*;
-import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.commons.json.JsonAdres;
+import nl.lakedigital.djfc.commons.json.JsonCommunicatieProduct;
+import nl.lakedigital.djfc.commons.json.JsonUitgaandeBrief;
+import nl.lakedigital.djfc.commons.json.JsonUitgaandeEmail;
+import nl.lakedigital.djfc.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.domain.UitgaandeBrief;
+import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -14,7 +19,7 @@ import java.util.List;
 @Component
 public class CommunicatieProductNaarJsonCommunicatieProductMapper extends AbstractMapper<CommunicatieProduct, JsonCommunicatieProduct> implements JsonMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunicatieProductNaarJsonCommunicatieProductMapper.class);
-    private final String datumTijdFormaat = "yyyy-MM-dd HH:mm";
+    private static final String datumTijdFormaat = "yyyy-MM-dd HH:mm";
 
     //    @Inject
     private AdresClient adresClient;
@@ -29,26 +34,23 @@ public class CommunicatieProductNaarJsonCommunicatieProductMapper extends Abstra
             jsonCommunicatieProduct = mapUitgaandeBrief((UitgaandeBrief) communicatieProduct);
         } else if (communicatieProduct instanceof UitgaandeEmail) {
             jsonCommunicatieProduct = mapUitgaandeEmail((UitgaandeEmail) communicatieProduct);
-        } else if (communicatieProduct instanceof IngaandeBrief) {
-            jsonCommunicatieProduct = mapIngaandeBrief((IngaandeBrief) communicatieProduct);
-        } else if (communicatieProduct instanceof IngaandeEmail) {
-            jsonCommunicatieProduct = mapIngaandeEmail((IngaandeEmail) communicatieProduct);
         }
 
-        jsonCommunicatieProduct.setId(communicatieProduct.getId());
-        if (communicatieProduct.getDatumTijdCreatie() != null) {
-            jsonCommunicatieProduct.setDatumTijdCreatie(communicatieProduct.getDatumTijdCreatie().toString(datumTijdFormaat));
+        if (jsonCommunicatieProduct != null) {
+            jsonCommunicatieProduct.setId(communicatieProduct.getId());
+            if (communicatieProduct.getDatumTijdCreatie() != null) {
+                jsonCommunicatieProduct.setDatumTijdCreatie(communicatieProduct.getDatumTijdCreatie().toString(datumTijdFormaat));
+            }
+            if (communicatieProduct.getDatumTijdVerzending() != null) {
+                jsonCommunicatieProduct.setDatumTijdVerzending(communicatieProduct.getDatumTijdVerzending().toString(datumTijdFormaat));
+            }
+            jsonCommunicatieProduct.setSoortEntiteit(communicatieProduct.getSoortEntiteit());
+            jsonCommunicatieProduct.setEntiteitId(communicatieProduct.getEntiteitId());
+            jsonCommunicatieProduct.setTekst(communicatieProduct.getTekst());
+            if (communicatieProduct.getAntwoordOp() != null) {
+                jsonCommunicatieProduct.setAntwoordOp(communicatieProduct.getAntwoordOp().getId());
+            }
         }
-        if (communicatieProduct.getDatumTijdVerzending() != null) {
-            jsonCommunicatieProduct.setDatumTijdVerzending(communicatieProduct.getDatumTijdVerzending().toString(datumTijdFormaat));
-        }
-        jsonCommunicatieProduct.setSoortEntiteit(communicatieProduct.getSoortEntiteit());
-        jsonCommunicatieProduct.setEntiteitId(communicatieProduct.getEntiteitId());
-        jsonCommunicatieProduct.setTekst(communicatieProduct.getTekst());
-        if (communicatieProduct.getAntwoordOp() != null) {
-            jsonCommunicatieProduct.setAntwoordOp(communicatieProduct.getAntwoordOp().getId());
-        }
-
 
         return jsonCommunicatieProduct;
     }
@@ -77,25 +79,6 @@ public class CommunicatieProductNaarJsonCommunicatieProductMapper extends Abstra
         json.setOnderwerp(uitgaandeEmail.getOnderwerp());
         if(uitgaandeEmail.getEmailadres()!=null){
             json.setEmailadres(uitgaandeEmail.getEmailadres().getEmailadres());
-        }
-
-        return json;
-    }
-
-    private JsonIngaandeBrief mapIngaandeBrief(IngaandeBrief ingaandeBrief) {
-        JsonIngaandeBrief json = new JsonIngaandeBrief();
-        return json;
-    }
-
-    private JsonIngaandeEmail mapIngaandeEmail(IngaandeEmail ingaandeEmail) {
-        JsonIngaandeEmail json = new JsonIngaandeEmail();
-
-        json.setOnderwerp(ingaandeEmail.getOnderwerp());
-        if (ingaandeEmail.getExtraInformatie() != null) {
-            json.setEmailadres(ingaandeEmail.getExtraInformatie().getEmailadres());
-        }
-        if (ingaandeEmail.getOngelezenIndicatie() != null) {
-            json.setOngelezenIndicatie(true);
         }
 
         return json;

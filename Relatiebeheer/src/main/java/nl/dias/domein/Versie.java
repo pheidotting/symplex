@@ -17,6 +17,7 @@ public class Versie {
     private String releasenotes;
 
     public Versie() {
+        super();
     }
 
     public Versie(String versie, String releasenotes) {

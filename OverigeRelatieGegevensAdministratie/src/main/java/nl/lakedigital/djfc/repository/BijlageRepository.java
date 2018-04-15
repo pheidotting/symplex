@@ -18,12 +18,13 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Repository
 public class BijlageRepository extends AbstractRepository<Bijlage> {
-    public BijlageRepository() {
-        super(Bijlage.class);
-    }
 
     @Inject
     private MetricsService metricsService;
+
+    public BijlageRepository() {
+        super(Bijlage.class);
+    }
 
     public GroepBijlages leesGroepBijlages(Long id) {
         Timer.Context timer = metricsService.addTimerMetric("leesGroepBijlages", BijlageRepository.class);

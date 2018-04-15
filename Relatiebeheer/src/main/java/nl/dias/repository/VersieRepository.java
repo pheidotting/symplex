@@ -52,6 +52,8 @@ public class VersieRepository {
     public void opslaan(Versie versie) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", VersieRepository.class);
 
+        LOGGER.debug("opslaan");
+
         getTransaction();
 
         getSession().save(versie);
@@ -62,7 +64,9 @@ public class VersieRepository {
     }
 
     public void opslaan(VersieGelezen versieGelezen) {
-        Timer.Context timer = metricsService.addTimerMetric("alleSchadesBijPolis", VersieRepository.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", VersieRepository.class);
+
+        LOGGER.debug("opslaan");
 
         getTransaction();
 
@@ -75,6 +79,8 @@ public class VersieRepository {
 
     public List<Versie> getOngelezenVersies(Long gebruikerId) {
         Timer.Context timer = metricsService.addTimerMetric("getOngelezenVersies", VersieRepository.class);
+
+        LOGGER.debug("getOngelezenVersies");
 
         List<Versie> result = newArrayList();
         getTransaction();
@@ -105,6 +111,8 @@ public class VersieRepository {
 
     public Versie lees(Long id) {
         Timer.Context timer = metricsService.addTimerMetric("lees", VersieRepository.class);
+
+        LOGGER.debug("lees");
 
         getTransaction();
 

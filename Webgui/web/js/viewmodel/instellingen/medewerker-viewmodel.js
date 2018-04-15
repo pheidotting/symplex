@@ -59,11 +59,8 @@ define(['jquery',
                 }
             };
 
-            this.annuleren = function (medewerker) {
+            this.annuleren = function () {
                 window.location.hash = 'medewerkers';
-            };
-
-            this.verwijderen = function () {
             };
         };
     });

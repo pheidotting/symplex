@@ -1,10 +1,9 @@
 define(['jquery',
-        'knockout',
-        'commons/validation'],
-    function ($, ko, validation) {
+        'knockout'],
+    function ($, ko) {
 
         return function hypotheek() {
-            _this = this;
+            var _this = this;
 
             _this.id = ko.observable();
             _this.parentIdentificatie = ko.observable();
