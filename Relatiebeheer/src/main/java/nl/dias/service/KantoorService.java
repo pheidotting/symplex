@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 @Service
 public class KantoorService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(KantoorService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KantoorService.class);
 
     @Inject
     private KantoorRepository kantoorRepository;
@@ -24,7 +24,7 @@ public class KantoorService {
 
     public void aanmelden(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
         LOGGER.debug("Aanmelden Kantoor");
-        kantoorRepository.opslaanKantoor(kantoor);
+        kantoorRepository.opslaan(kantoor);
         kantoorAangemeldRequestSender.send(kantoor);
     }
 }

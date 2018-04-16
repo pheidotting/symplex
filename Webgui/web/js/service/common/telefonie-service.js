@@ -3,9 +3,9 @@ define(['commons/3rdparty/log',
         'knockout',
         'repository/common/repository',
         'repository/common/telefonie-repository'],
-    function(log, navRegister, ko, repository, telefonieRepository) {
+    function (log, navRegister, ko, repository, telefonieRepository) {
         return {
-            haalOp: function(telefoonnummers) {
+            haalOp: function (telefoonnummers) {
                 return telefonieRepository.haalOp(telefoonnummers);
             }
         }

@@ -4,11 +4,11 @@ define(['commons/3rdparty/log',
         'repository/common/repository',
         '../../node_modules/crypto-js/crypto-js',
         '../../node_modules/crypto-js/sha3'],
-    function(log, navRegister, ko, repository, CryptoJs, sha3) {
+    function (log, navRegister, ko, repository, CryptoJs, sha3) {
         var logger = log.getLogger('wachtwoord-service');
 
         return {
-            verstuur: function(gebruikersnaamEnWachtwoord, inloggen) {
+            verstuur: function (gebruikersnaamEnWachtwoord) {
                 logger.debug('Versturen wachtwoord');
                 var deferred = $.Deferred();
 

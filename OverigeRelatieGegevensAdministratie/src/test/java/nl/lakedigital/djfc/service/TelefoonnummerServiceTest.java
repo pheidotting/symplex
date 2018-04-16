@@ -6,7 +6,7 @@ import nl.lakedigital.djfc.repository.TelefoonnummerRepository;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 
-public class TelefoonnummerServiceTest extends AbstractServicetTest<Telefoonnummer> {
+public class TelefoonnummerServiceTest extends AbstractServiceTest<Telefoonnummer> {
     @TestSubject
     private TelefoonnummerService telefoonnummerService = new TelefoonnummerService();
     @Mock

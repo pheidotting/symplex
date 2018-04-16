@@ -12,8 +12,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Service
-public class BriefVerzendService extends AbstractVerzendService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(BriefVerzendService.class);
+public class BriefVerzendService implements AbstractVerzendService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BriefVerzendService.class);
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -28,6 +28,7 @@ public class BriefVerzendService extends AbstractVerzendService {
         List<UitgaandeBrief> uitgaandeBriefs = communicatieProductRepository.leesOnverzondenBrieven();
 
         for (UitgaandeBrief uitgaandeBrief : uitgaandeBriefs) {
+            LOGGER.debug("Tijdstip verzending zetten bij Uitgaande brief met id {}", uitgaandeBrief.getId());
             uitgaandeBrief.setDatumTijdVerzending(LocalDateTime.now());
 
             communicatieProductRepository.opslaan(uitgaandeBrief);

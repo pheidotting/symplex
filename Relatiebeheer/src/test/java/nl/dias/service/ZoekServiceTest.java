@@ -81,23 +81,6 @@ public class ZoekServiceTest extends EasyMockSupport {
     }
 
     @Test
-    public void testZoekOpTussenvoegsel() {
-        String tussenvoegsel = "van";
-
-        List<Relatie> relaties = newArrayList();
-        relaties.add(new Relatie());
-        expect(gebruikerService.zoekOpTussenVoegsel(tussenvoegsel)).andReturn(relaties);
-
-        replayAll();
-
-        ZoekResultaat resultaat = zoekService.zoek(null, null, tussenvoegsel, null, null, null, null, null, null, null);
-        assertThat(resultaat.getBedrijven().size(), is(0));
-        assertThat(resultaat.getRelaties().size(), is(1));
-
-        verifyAll();
-    }
-
-    @Test
     public void testZoekOpPolisnummerRelatie() {
         String polisnummer = "123";
         Long relatieId = 2L;
@@ -141,23 +124,6 @@ public class ZoekServiceTest extends EasyMockSupport {
         ZoekResultaat resultaat = zoekService.zoek(null, null, null, polisnummer, null, null, null, null, null, null);
         assertThat(resultaat.getBedrijven().size(), is(1));
         assertThat(resultaat.getRelaties().size(), is(0));
-
-        verifyAll();
-    }
-
-    @Test
-    public void testZoekOpVoorletters() {
-        String voorletters = "ae";
-
-        List<Relatie> relaties = newArrayList();
-        relaties.add(new Relatie());
-        expect(gebruikerService.zoekOpVoorletters(voorletters)).andReturn(relaties);
-
-        replayAll();
-
-        ZoekResultaat resultaat = zoekService.zoek(null, null, null, null, voorletters, null, null, null, null, null);
-        assertThat(resultaat.getBedrijven().size(), is(0));
-        assertThat(resultaat.getRelaties().size(), is(1));
 
         verifyAll();
     }

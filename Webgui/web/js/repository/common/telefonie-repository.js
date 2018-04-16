@@ -2,13 +2,13 @@ define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository'],
-    function(log, navRegister, ko, abstractRepository) {
+    function (log, navRegister, ko, abstractRepository) {
 
         return {
-            haalOp: function(telefoonnummers) {
+            haalOp: function (telefoonnummers) {
                 var params = '';
 
-                _.each(telefoonnummers, function(telefoonnummer){
+                _.each(telefoonnummers, function (telefoonnummer) {
                     if (params == '') {
                         params = '?telefoonnummers=' + telefoonnummer.telefoonnummer;
                     } else {

@@ -1,14 +1,14 @@
 define(['jquery',
-         'knockout'],
-	function ($, ko) {
+        'knockout'],
+    function ($, ko) {
 
-	return function(){
-	    var _this = this;
+        return function () {
+            var _this = this;
 
-        _this.bestandsnaam = ko.observable();
-		_this.tijdstip = ko.observable();
-		_this.telefoonnummer = ko.observable();
-		_this.uitgaand = ko.observable();
-		_this.inkomend = ko.observable();
-    };
-});
+            _this.bestandsnaam = ko.observable();
+            _this.tijdstip = ko.observable();
+            _this.telefoonnummer = ko.observable();
+            _this.uitgaand = ko.observable();
+            _this.inkomend = ko.observable();
+        };
+    });

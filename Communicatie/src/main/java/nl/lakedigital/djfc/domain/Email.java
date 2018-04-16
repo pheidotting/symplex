@@ -5,6 +5,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Audited
 @Entity
@@ -49,5 +50,26 @@ public abstract class Email extends CommunicatieProduct{
 
     public void setEmailVerzender(String emailVerzender) {
         this.emailVerzender = emailVerzender;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Email)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        Email email = (Email) o;
+        return Objects.equals(getNaamOntvanger(), email.getNaamOntvanger()) && Objects.equals(getEmailOntvanger(), email.getEmailOntvanger()) && Objects.equals(getNaamVerzender(), email.getNaamVerzender()) && Objects.equals(getEmailVerzender(), email.getEmailVerzender());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getNaamOntvanger(), getEmailOntvanger(), getNaamVerzender(), getEmailVerzender());
     }
 }

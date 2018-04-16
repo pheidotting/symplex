@@ -16,7 +16,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, OpvragenRekeningNummersResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(RekeningClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RekeningClient.class);
 
     private final String URL_LIJST = "/rest/rekeningnummer/alles";
     private final String URL_VERWIJDEREN = "/rest/rekeningnummer/verwijderen";
@@ -43,9 +43,6 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
 
     @Override
     public List<JsonRekeningNummer> zoeken(String zoekterm) {
-
-        System.out.println("Aanroepen " + URL_ZOEKEN);
-
         List<JsonRekeningNummer> result = newArrayList();
 
         try {
@@ -63,8 +60,6 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
     }
 
     public List<JsonRekeningNummer> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
-        System.out.println("Aanroepen " + URL_LIJST);
-
         List<JsonRekeningNummer> result = newArrayList();
 
         try {
@@ -86,9 +81,6 @@ public class RekeningClient extends AbstractOgaClient<JsonRekeningNummer, Opvrag
 
     @Override
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDEREN);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDEREN, ingelogdeGebruiker, trackAndTraceId, soortEntiteit, entiteitId.toString());
     }
 }

@@ -10,12 +10,13 @@ import java.util.List;
 
 @Repository
 public class OpmerkingRepository extends AbstractRepository<Opmerking> {
-    public OpmerkingRepository() {
-        super(Opmerking.class);
-    }
 
     @Inject
     private MetricsService metricsService;
+
+    public OpmerkingRepository() {
+        super(Opmerking.class);
+    }
 
     public List<Opmerking> alles() {
         Timer.Context timer = metricsService.addTimerMetric("alles", OpmerkingRepository.class);

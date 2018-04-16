@@ -50,6 +50,7 @@ public class TelefoonnummerRepositoryTest extends AbstractRepositoryTest<Telefoo
         telefoonnummerRepository.opslaan(newArrayList(telefoonnummer));
 
         assertEquals(1, telefoonnummerRepository.alles(soortEntiteit, entiteitId).size());
+        assertEquals(1, telefoonnummerRepository.alles().size());
         assertEquals(telefoonnummer, telefoonnummerRepository.lees(telefoonnummer.getId()));
 
         telefoonnummerRepository.verwijder(newArrayList(telefoonnummer));

@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 @Ignore
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class OpslaanRelatieITest extends AbstractITest {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanRelatieITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpslaanRelatieITest.class);
 
     @Inject
     private JmsTemplate entiteitenOpgeslagenRequestTemplate;

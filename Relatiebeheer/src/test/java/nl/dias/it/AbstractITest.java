@@ -21,7 +21,7 @@ import java.util.UUID;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 
 public class AbstractITest {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractITest.class);
 
     protected final String GEBRUIKER_OPSLAAN = "http://localhost:7075/dejonge/rest/medewerker/gebruiker/opslaan";
     protected final String RELATIE_LEZEN = "http://localhost:7075/dejonge/rest/medewerker/relatie/lees";

@@ -73,9 +73,6 @@
     <bean id="telefonieBestandClient" class="nl.lakedigital.djfc.client.oga.TelefonieBestandClient">
         <constructor-arg value="http://localhost:7075/dejonge"/>
     </bean>
-    <bean id="taakClient" class="nl.lakedigital.djfc.client.taakbeheer.TaakClient">
-        <constructor-arg value="${tb.url}"/>
-    </bean>
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
         <constructor-arg value="http://localhost:8089"/>
     </bean>

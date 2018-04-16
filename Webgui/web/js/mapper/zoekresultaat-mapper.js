@@ -3,16 +3,16 @@ define(['jquery',
         'commons/3rdparty/log',
         'mapper/adres-mapper',
         'knockout'],
-	function ($, Zoekresultaat, log, adresMapper, ko) {
+    function ($, Zoekresultaat, log, adresMapper, ko) {
         return {
-            mapZoekresultaat: function(r) {
+            mapZoekresultaat: function (r) {
                 mappen(r);
             },
 
-            mapZoekresultaten: function(data) {
+            mapZoekresultaten: function (data) {
                 var zoekresultaten = ko.observableArray([]);
 
-                $.each(data, function(i, r) {
+                $.each(data, function (i, r) {
                     zoekresultaten.push(mappen(r));
                 });
 
@@ -21,19 +21,19 @@ define(['jquery',
         }
 
         function mappen(data) {
-            if(data != null) {
+            if (data != null) {
                 var zoekresultaat = new Zoekresultaat();
 
                 zoekresultaat.identificatie(data.identificatie);
                 zoekresultaat.id(data.id);
-                if(data.naam != null) {
+                if (data.naam != null) {
                     //Dus een bedrijf
                     zoekresultaat.naam(data.naam);
                     zoekresultaat.soortEntiteit('BEDRIJF');
                 } else {
                     //Een relatie..
                     var naam = data.roepnaam;
-                    if(data.tussenvoegsel != null) {
+                    if (data.tussenvoegsel != null) {
                         naam += ' ' + data.tussenvoegsel;
                     }
                     naam += ' ' + data.achternaam;
@@ -43,11 +43,11 @@ define(['jquery',
                     zoekresultaat.soortEntiteit('RELATIE');
                 }
 
-                if(data.adres != null) {
+                if (data.adres != null) {
                     zoekresultaat.adres(data.adres.straat + ' ' + data.adres.huisnummer);
 
                     var postcode = data.adres.postcode;
-                    if(postcode != null && postcode.length === 6) {
+                    if (postcode != null && postcode.length === 6) {
                         postcode = postcode.substring(0, 4) + ' ' + postcode.substring(4, 6);
                     }
 

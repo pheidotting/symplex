@@ -3,30 +3,30 @@ define(["commons/3rdparty/log",
         'knockout',
         'repository/common/repository',
         'repository/relatie-repository'],
-    function(log, navRegister, ko, repository, relatieRepository) {
+    function (log, navRegister, ko, repository, relatieRepository) {
         var logger = log.getLogger('gebruiker-service');
 
         return {
-            opslaan: function(relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
+            opslaan: function (relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
                 var deferred = $.Deferred();
 
-                    $.when(gebruikerRepository.opslaan(relatie)).then(function(response) {
-                        var id = response.entity.foutmelding;
-                        var soortEntiteit = 'RELATIE';
+                $.when(gebruikerRepository.opslaan(relatie)).then(function (response) {
+                    var id = response.entity.foutmelding;
+                    var soortEntiteit = 'RELATIE';
 
-                        $.when(adresService.opslaan(adressen, soortEntiteit, id),
-                            telefoonnummerService.opslaan(telefoonnummers, soortEntiteit, id),
-                            rekeningnummerService.opslaan(rekeningnummers, soortEntiteit, id),
-                            opmerkingService.opslaan(opmerkingen, soortEntiteit, id))
-                        .then(function(adresResponse, telefoonnummerResponse, rekeningnummerResponse, opmerkingResponse) {
+                    $.when(adresService.opslaan(adressen, soortEntiteit, id),
+                        telefoonnummerService.opslaan(telefoonnummers, soortEntiteit, id),
+                        rekeningnummerService.opslaan(rekeningnummers, soortEntiteit, id),
+                        opmerkingService.opslaan(opmerkingen, soortEntiteit, id))
+                        .then(function () {
                             return deferred.resolve(id);
                         });
-                    });
+                });
 
                 return deferred.promise();
             },
 
-            lees: function(id) {
+            lees: function (id) {
                 logger.debug('ophalen relatie met id ' + id);
 
                 var deferred = $.Deferred();
@@ -35,15 +35,15 @@ define(["commons/3rdparty/log",
                     return deferred.resolve({});
                 } else {
                     $.when(relatieRepository.lees(id)
-                            ).then(function(relatie) {
-                                return deferred.resolve(relatie);
+                    ).then(function (relatie) {
+                        return deferred.resolve(relatie);
                     });
                 }
 
                 return deferred.promise();
             },
 
-            verwijder: function(id) {
+            verwijder: function (id) {
                 gebruikerRepository.verwijderRelatie(id);
             }
         }

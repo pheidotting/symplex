@@ -7,8 +7,6 @@ import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
-import nl.dias.messaging.sender.LicentieToegevoegdRequestSender;
-import nl.dias.messaging.sender.LicentieVerwijderdRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.InlogPogingRepository;
@@ -21,9 +19,7 @@ import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.metrics.MetricsService;
-import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,10 +67,6 @@ public class GebruikerService {
     private MetricsService metricsService;
     @Inject
     private InlogPogingRepository inlogPogingRepository;
-    @Inject
-    private LicentieToegevoegdRequestSender licentieToegevoegdRequestSender;
-    @Inject
-    private LicentieVerwijderdRequestSender licentieVerwijderdRequestSender;
 
     public boolean magInloggen(Gebruiker gebruiker) {
         return inlogPogingRepository.magInloggen(gebruiker.getId());
@@ -82,26 +74,6 @@ public class GebruikerService {
 
     public List<ContactPersoon> alleContactPersonen(Long bedrijfsId) {
         return gebruikerRepository.alleContactPersonen(bedrijfsId);
-    }
-
-    public void koppelenOnderlingeRelatie(Long relatieId, Long relatieMetId, String soortRelatie) {
-        LOGGER.info("koppelenOnderlingeRelatie({}, {}, {})", relatieId, relatieMetId, soortRelatie);
-
-        Relatie relatie = (Relatie) gebruikerRepository.lees(relatieId);
-        Relatie relatieMet = (Relatie) gebruikerRepository.lees(relatieMetId);
-
-        OnderlingeRelatieSoort onderlingeRelatieSoort = OnderlingeRelatieSoort.valueOf(soortRelatie);
-        OnderlingeRelatieSoort onderlingeRelatieSoortTegengesteld = OnderlingeRelatieSoort.getTegenGesteld(onderlingeRelatieSoort);
-
-        OnderlingeRelatie onderlingeRelatie = new OnderlingeRelatie(relatie, relatieMet, false, onderlingeRelatieSoort);//NOSONAR
-        OnderlingeRelatie onderlingeRelatieTegengesteld = new OnderlingeRelatie(relatieMet, relatie, false, onderlingeRelatieSoortTegengesteld);//NOSONAR
-
-        //                relatie.getOnderlingeRelaties().add(onderlingeRelatie);
-        //                relatieMet.getOnderlingeRelaties().add(onderlingeRelatieTegengesteld);
-
-        gebruikerRepository.opslaan(relatie);
-        gebruikerRepository.opslaan(relatieMet);
-
     }
 
     public Gebruiker lees(Long id) {
@@ -117,10 +89,6 @@ public class GebruikerService {
     }
 
     public void opslaan(Gebruiker gebruiker) {
-        opslaan(gebruiker, null);
-    }
-
-    public void opslaan(Gebruiker gebruiker, String licentie) {
         LOGGER.debug("Opslaan {}", gebruiker);
 
         gebruikerRepository.opslaan(gebruiker);
@@ -133,55 +101,23 @@ public class GebruikerService {
 
             entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
         }
-
-        //        if (licentie != null) {
-        //            LicentieToegevoegdRequest licentieToegevoegd = new LicentieToegevoegdRequest();
-        //            licentieToegevoegd.setLicentieType(licentie);
-        //
-        //            Medewerker mw = (Medewerker) gebruiker;
-        //            nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
-        //            Kantoor k = mw.getKantoor();
-        //            nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getId(),"",k.getNaam(), "", 0L, "", "", "");
-        //
-        //            licentieToegevoegd.setKantoor(kantoor);
-        //            licentieToegevoegd.setMedwerker(medewerker);
-        //            licentieToegevoegdRequestSender.send(licentieToegevoegd);
-        //        }
     }
 
     public void opslaan(final List<JsonContactPersoon> jsonContactPersonen, Long bedrijfId) {
         LOGGER.debug("Opslaan ContactPersonen, aantal {}, bedrijfId {}", jsonContactPersonen.size(), bedrijfId);
 
         LOGGER.debug("Ophalen bestaande ContactPersonen bij bedrijf");
-        List<Long> bestaandeContactPersonen = newArrayList(transform(alleContactPersonen(bedrijfId), new Function<ContactPersoon, Long>() {
-            @Override
-            public Long apply(ContactPersoon contactPersoon) {
-                return contactPersoon.getId();
-            }
-        }));
+        List<Long> bestaandeContactPersonen = newArrayList(transform(alleContactPersonen(bedrijfId), contactPersoon -> contactPersoon.getId()));
         LOGGER.debug("Ids bestaande ContactPersonen {}", bestaandeContactPersonen);
 
-        final List<Long> lijstIdsBewaren = newArrayList(filter(transform(jsonContactPersonen, new Function<JsonContactPersoon, Long>() {
-            @Override
-            public Long apply(JsonContactPersoon contactPersoon) {
-                Identificatie identificatie = identificatieClient.zoekIdentificatieCode(contactPersoon.getIdentificatie());
-                return identificatie.getEntiteitId();
-            }
-        }), new Predicate<Long>() {
-            @Override
-            public boolean apply(Long id) {
-                return id != null;
-            }
-        }));
+        final List<Long> lijstIdsBewaren = newArrayList(filter(transform(jsonContactPersonen, contactPersoon -> {
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(contactPersoon.getIdentificatie());
+            return identificatie.getEntiteitId();
+        }), id -> id != null));
         LOGGER.debug("Ids ContactPersonen uit front-end {}", lijstIdsBewaren);
 
         //Verwijderen wat niet (meer) voorkomt
-        Iterable<Long> teVerwijderen = filter(bestaandeContactPersonen, new Predicate<Long>() {
-            @Override
-            public boolean apply(Long contactPersoon) {
-                return !lijstIdsBewaren.contains(contactPersoon);
-            }
-        });
+        Iterable<Long> teVerwijderen = filter(bestaandeContactPersonen, contactPersoon -> !lijstIdsBewaren.contains(contactPersoon));
 
         LOGGER.debug("Ids die dus weg kunnen {}", teVerwijderen);
         for (Long id : teVerwijderen) {
@@ -190,11 +126,8 @@ public class GebruikerService {
 
         LOGGER.debug("Opslaan ContactPersonen");
         for (JsonContactPersoon jsonContactPersoon : jsonContactPersonen) {
-            //            jsonContactPersoon.setBedrijf(bedrijfId);
-            LOGGER.debug("opslaan {}", ReflectionToStringBuilder.toString(jsonContactPersoon, ToStringStyle.SHORT_PREFIX_STYLE));
+            LOGGER.debug("opslaan {}", jsonContactPersoon);
             ContactPersoon contactPersoon = mapper.map(jsonContactPersoon, ContactPersoon.class);
-
-            LOGGER.debug("opslaan {}", ReflectionToStringBuilder.toString(contactPersoon, ToStringStyle.SHORT_PREFIX_STYLE));
 
             gebruikerRepository.opslaan(contactPersoon);
         }
@@ -207,7 +140,6 @@ public class GebruikerService {
         Gebruiker gebruiker = gebruikerRepository.lees(id);
 
         LOGGER.debug("Opgehaalde gebruiker : ");
-        //        LOGGER.debug(ReflectionToStringBuilder.toString(gebruiker));
         if (gebruiker != null) {
             if (gebruiker instanceof Relatie) {
                 Relatie relatie = (Relatie) gebruiker;
@@ -222,18 +154,6 @@ public class GebruikerService {
                 List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
                 polisService.verwijder(polises);
             }
-            //            if (gebruiker instanceof Medewerker) {
-            //                LicentieVerwijderdRequest licentieVerwijderdRequest = new LicentieVerwijderdRequest();
-            //
-            //                Medewerker mw = (Medewerker) gebruiker;
-            //                nl.lakedigital.as.messaging.domain.Medewerker medewerker = new nl.lakedigital.as.messaging.domain.Medewerker(mw.getId(), mw.getVoornaam(), mw.getTussenvoegsel(), mw.getAchternaam(), mw.getEmailadres());
-            //                Kantoor k = mw.getKantoor();
-            //                nl.lakedigital.as.messaging.domain.Kantoor kantoor = new nl.lakedigital.as.messaging.domain.Kantoor(k.getNaam(), "", 0L, "", "", "");
-            //
-            //                licentieVerwijderdRequest.setKantoor(kantoor);
-            //                licentieVerwijderdRequest.setMedwerker(medewerker);
-            //                licentieVerwijderdRequestSender.send(licentieVerwijderdRequest);
-            //            }
             // en dan verwijderen
             gebruikerRepository.verwijder(gebruiker);
 
@@ -266,7 +186,7 @@ public class GebruikerService {
 
     public List<Relatie> zoekOpNaamAdresOfPolisNummer(String zoekTerm) {
         LOGGER.debug("zoekOpNaamAdresOfPolisNummer met zoekTerm " + zoekTerm);
-        Set<Relatie> relaties = new HashSet<Relatie>();
+        Set<Relatie> relaties = new HashSet<>();
         for (Gebruiker g : gebruikerRepository.zoekOpNaam(zoekTerm)) {
             if (g instanceof Relatie) {
                 relaties.add((Relatie) g);
@@ -305,31 +225,18 @@ public class GebruikerService {
         LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
 
         List<Relatie> ret = new ArrayList<>();
-        ret.addAll(newArrayList(filter(relaties, new Predicate<Relatie>() {
-            @Override
-            public boolean apply(Relatie relatie) {
-                return relatie != null;
-            }
-        })));
+        ret.addAll(newArrayList(filter(relaties, relatie -> relatie != null)));
 
         return ret;
     }
 
     private List<Relatie> destilleerRelatie(List<? extends AbstracteJsonEntiteitMetSoortEnId> entiteitenMetSoortEnId) {
-        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, new Predicate<AbstracteJsonEntiteitMetSoortEnId>() {
-            @Override
-            public boolean apply(AbstracteJsonEntiteitMetSoortEnId adres) {
-                return adres.getSoortEntiteit().equals(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE.name());
+        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, (Predicate<AbstracteJsonEntiteitMetSoortEnId>) adres -> adres.getSoortEntiteit().equals(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE.name()))), (Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>) adres -> {
+            Gebruiker gebruiker = gebruikerRepository.lees(adres.getEntiteitId());
+            if (gebruiker instanceof Relatie) {
+                return (Relatie) gebruikerRepository.lees(adres.getEntiteitId());
             }
-        })), new Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>() {
-            @Override
-            public Relatie apply(AbstracteJsonEntiteitMetSoortEnId adres) {
-                Gebruiker gebruiker = gebruikerRepository.lees(adres.getEntiteitId());
-                if (gebruiker instanceof Relatie) {
-                    return (Relatie) gebruikerRepository.lees(adres.getEntiteitId());
-                }
-                return null;
-            }
+            return null;
         }));
 
         return relaties;
@@ -339,28 +246,11 @@ public class GebruikerService {
         return gebruikerRepository.zoekOpGeboortedatum(geboortedatum);
     }
 
-    public List<Relatie> zoekOpTussenVoegsel(String tussenvoegsel) {
-        return null;
-    }
-
-    public List<Relatie> zoekOpVoorletters(String voorletters) {
-        return null;
-    }
-
-    public void opslaanOAuthCodeTodoist(String code, Long id) {
-        Medewerker medewerker = (Medewerker) gebruikerRepository.lees(id);
-        medewerker.setoAuthCodeTodoist(code);
-
-        gebruikerRepository.opslaan(medewerker);
-    }
-
-    public String leesOAuthCodeTodoist(Long id) {
-        Medewerker medewerker = (Medewerker) gebruikerRepository.lees(id);
-
-        return medewerker.getoAuthCodeTodoist();
-    }
-
     public List<Medewerker> alleMedewerkers(Kantoor kantoor) {
         return gebruikerRepository.alleMedewerkers(kantoor);
+    }
+
+    public List<Relatie> alleRelaties() {
+        return gebruikerRepository.alleRelaties();
     }
 }
