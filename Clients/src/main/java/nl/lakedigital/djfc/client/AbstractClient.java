@@ -47,7 +47,7 @@ public abstract class AbstractClient<D> {
                 stringBuilder.append(arg);
             }
         }
-        URL url = null;
+        URL url;
         try {
             if (urlEncoden) {
                 url = new URL(basisUrl + uri + URLEncoder.encode(stringBuilder.toString(), "UTF-8").replace("+", "%20"));
@@ -83,11 +83,7 @@ public abstract class AbstractClient<D> {
                 LOGGER.debug("Error opgetreden, retry");
                 return getXML(uri, clazz, urlEncoden, LOGGER, true, metrics, metricsName, metricsClass, args);
             } else {
-                if (url == null) {
-                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), "lege url");
-                } else {
-                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), url.toString());
-                }
+                LOGGER.error("Fout bij omzetten xml {}", e.getStackTrace());
                 throw new LeesFoutException("Fout bij omzetten xml", e);
             }
         }
