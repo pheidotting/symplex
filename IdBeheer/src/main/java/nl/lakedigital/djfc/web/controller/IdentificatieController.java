@@ -35,18 +35,22 @@ public class IdentificatieController {
         ZoekIdentificatieResponse zoekIdentificatieResponse = new ZoekIdentificatieResponse();
 
         Identificatie identificatie = identificatieService.zoekOpIdentificatieCode(identificatieCode);
-        nl.lakedigital.djfc.commons.json.Identificatie json = new nl.lakedigital.djfc.commons.json.Identificatie();
-        if (identificatie != null) {
-            json.setId(identificatie.getId());
-            json.setEntiteitId(identificatie.getEntiteitId());
-            json.setIdentificatie(identificatie.getIdentificatie());
-            json.setSoortEntiteit(identificatie.getSoortEntiteit());
 
-            zoekIdentificatieResponse.getIdentificaties().add(json);
+        if (identificatie != null) {
+            zoekIdentificatieResponse.getIdentificaties().add(map(identificatie));
         }
         return zoekIdentificatieResponse;
     }
 
+    private nl.lakedigital.djfc.commons.json.Identificatie map(Identificatie identificatie) {
+        nl.lakedigital.djfc.commons.json.Identificatie json = new nl.lakedigital.djfc.commons.json.Identificatie();
+        json.setId(identificatie.getId());
+        json.setEntiteitId(identificatie.getEntiteitId());
+        json.setIdentificatie(identificatie.getIdentificatie());
+        json.setSoortEntiteit(identificatie.getSoortEntiteit());
+
+        return json;
+    }
     @RequestMapping(method = RequestMethod.GET, value = "/zoekenMeerdere/{zoekterm}")
     @ResponseBody
     public ZoekIdentificatieResponse zoekenMeerdere(@PathVariable("zoekterm") String zoekterm, HttpServletRequest httpServletRequest) {
@@ -65,14 +69,8 @@ public class IdentificatieController {
 
             Identificatie identificatie = identificatieService.zoek(soortEntiteit, entiteitId);
 
-            nl.lakedigital.djfc.commons.json.Identificatie json = new nl.lakedigital.djfc.commons.json.Identificatie();
             if (identificatie != null) {
-                json.setId(identificatie.getId());
-                json.setEntiteitId(identificatie.getEntiteitId());
-                json.setIdentificatie(identificatie.getIdentificatie());
-                json.setSoortEntiteit(identificatie.getSoortEntiteit());
-
-                zoekIdentificatieResponse.getIdentificaties().add(json);
+                zoekIdentificatieResponse.getIdentificaties().add(map(identificatie));
             }
         }
 

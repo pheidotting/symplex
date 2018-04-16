@@ -37,7 +37,7 @@ public class IdentificatieService {
 
     public Identificatie zoek(String soortEntiteit, Long entiteitId) {
         Identificatie identificatie = identificatieRepository.zoek(soortEntiteit, entiteitId);
-        if (identificatie == null || (identificatie != null && identificatie.getIdentificatie() == null)) {
+        if (identificatie == null) {
             identificatie = new Identificatie(soortEntiteit, entiteitId);
             identificatieRepository.opslaan(identificatie);
         }
