@@ -16,7 +16,7 @@ import java.util.Set;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class VerwijderDuplicaatAdressen implements ServletContextListener {
-    private final static Logger LOGGER = LoggerFactory.getLogger(VerwijderDuplicaatAdressen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerwijderDuplicaatAdressen.class);
 
     @Inject
     private AdresService adresService;

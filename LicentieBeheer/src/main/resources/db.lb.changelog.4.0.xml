@@ -14,4 +14,12 @@
             <column name="AANTALDAGEN" type="integer"></column>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Patrick Heidotting">
+        <insert tableName="LICENTIE">
+            <column name="SOORT" value="L"></column>
+            <column name="STARTDATUM" value="2018-01-01"></column>
+            <column name="KANTOOR" value="1"></column>
+            <column name="AANTALDAGEN" value="0"></column>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

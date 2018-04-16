@@ -20,7 +20,11 @@
     <tr>
         <td>&nbsp;</td>
         <td>
-            <button class="fa fa-plus fa-2x btn-awesome" data-bind="click: nieuw"></button>
+            <button class="fa fa-plus fa-2x btn-awesome"
+                    data-bind="click: nieuw, attr: {disabled : !magMedewerkerToevoegen()}"></button>
+            <div data-bind="visible: !magMedewerkerToevoegen()">U heeft het maximaal aantal medewekers voor uw licentie
+                bereikt. Upgrade uw <a href="instellingen.html#licenties">licentie</a>.
+            </div>
         </td>
     </tr>
     </tfoot>

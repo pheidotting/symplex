@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 public class KantoorAangemeldRequestReciever extends AbstractReciever<KantoorAangemeldRequest> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(KantoorAangemeldRequestReciever.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KantoorAangemeldRequestReciever.class);
 
     @Inject
     private LicentieService licentieService;

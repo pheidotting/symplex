@@ -17,6 +17,7 @@ public class VersieGelezen {
     private Long gebruiker;
 
     public VersieGelezen() {
+        super();
     }
 
     public VersieGelezen(Long versie, Long gebruiker) {

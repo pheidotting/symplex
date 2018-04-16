@@ -25,11 +25,8 @@
 //
 //    public static void vulVeld(WebElement element, String waarde) {
 //        LocalDateTime timeOut = new LocalDateTime().plusSeconds(zoekTimeOut);
-//        System.out.println(timeout);
-//        System.out.println(LocalDateTime.now());
 //        while (!element.isDisplayed() && LocalDateTime.now().isBefore(timeOut)) {
 //            wachtFf();
-//            System.out.println(LocalDateTime.now());
 //        }
 //        if (waarde != null && !waarde.equals("") && !waarde.equals(element.getText()) && !waarde.equals(getText(element))) {
 //            do {

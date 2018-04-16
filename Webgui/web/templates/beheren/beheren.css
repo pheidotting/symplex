@@ -1,11 +1,17 @@
 .kolom {
-    width: 31%;
+    width: 30%;
     float: left;
     padding: 1em;
 }
 
 .kolom-2 {
     width: 47%;
+    float: left;
+    padding: 1em;
+}
+
+.kolom-4 {
+    width: 22%;
     float: left;
     padding: 1em;
 }
@@ -71,11 +77,11 @@ textarea {
     color: #4a95ca;
 }
 
-.rechts-icon::before{
+.rechts-icon::before {
     margin-right: 10px
 }
 
-#telefoonomschrijving{
+#telefoonomschrijving {
     width: 65%;
 }
 
@@ -93,33 +99,45 @@ td.overzicht {
 td.maatschappij {
     width: 300px;
 }
+
 td.polisNummer {
     width: 225px;
 }
+
 td.status {
     width: 150px;
 }
+
 td.soort {
     width: 175px;
 }
+
 td.kenmerk {
     width: 300px;
 }
+
 td.ingangsDatum {
     width: 135px;
 }
+
 td.Beindigd {
     color: #ff0000;
 }
-td.Aanvraag/Offerte {
+
+td.Aanvraag
+
+Offerte {
     color: #000000;
 }
+
 td.Actief {
     color: #00c541;
 }
+
 td.Geschorst {
     color: #ff0000;
 }
+
 td.Premievrij {
     color: #00c541;
 }
@@ -130,21 +148,27 @@ td.schade-overzicht {
     border-bottom: 4px solid #ffffff;
     border-right: 2px solid #ffffff;
 }
+
 td.soort-schade {
     width: 200px;
 }
+
 td.schadenummer-maatschappij {
     width: 300px;
 }
+
 td.leningNummer {
     width: 200px;
 }
+
 td.bank {
     width: 325px;
 }
-td.rente{
+
+td.rente {
     width: 100px;
 }
-td.hypotheekBedrag{
+
+td.hypotheekBedrag {
     width: 185px;
 }

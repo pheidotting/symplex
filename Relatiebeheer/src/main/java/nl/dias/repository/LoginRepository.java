@@ -18,7 +18,6 @@ import java.util.List;
 @Repository
 public class LoginRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRepository.class);
-    private static final int MAX_RESULTS = 30;
 
     @Autowired
     private SessionFactory sessionFactory;

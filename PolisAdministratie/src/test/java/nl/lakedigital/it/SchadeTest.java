@@ -5,8 +5,6 @@ import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.domain.SoortSchade;
 import nl.lakedigital.djfc.domain.StatusSchade;
 import nl.lakedigital.djfc.repository.SchadeRepository;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDateTime;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -117,9 +115,6 @@ public class SchadeTest {
         schadeClient.opslaan(schade, ingegelogdeGebruiker, trackAndTraceId);
 
         JsonSchade s = schadeClient.lees(schade.getId().toString());
-
-        System.out.println(ReflectionToStringBuilder.toString(schade, ToStringStyle.SHORT_PREFIX_STYLE));
-        System.out.println(ReflectionToStringBuilder.toString(s, ToStringStyle.SHORT_PREFIX_STYLE));
 
         assertThat(s, is(schade));
     }

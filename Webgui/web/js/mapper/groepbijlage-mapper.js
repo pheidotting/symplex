@@ -3,16 +3,16 @@ define(['jquery',
         'commons/3rdparty/log',
         'knockout',
         'mapper/bijlage-mapper'],
-	function ($, Groepbijlage, log, ko, bijlageMapper) {
+    function ($, Groepbijlage, log, ko, bijlageMapper) {
         return {
-            mapGroepbijlage: function(r) {
+            mapGroepbijlage: function (r) {
                 return mappen(r);
             },
 
-            mapGroepbijlages: function(data) {
+            mapGroepbijlages: function (data) {
                 var groepbijlages = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     groepbijlages.push(mappen(r));
                 });
 
@@ -20,8 +20,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var groepbijlage = new Groepbijlage();
 
                 groepbijlage.id(data.id);

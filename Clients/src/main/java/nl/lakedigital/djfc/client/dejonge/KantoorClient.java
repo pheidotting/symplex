@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class KantoorClient extends AbstractClient<Object> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(KantoorClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KantoorClient.class);
 
     private final String URL_LEES = basisUrl + "/rest/applicaties/kantoor/lees";
 
@@ -28,9 +28,6 @@ public class KantoorClient extends AbstractClient<Object> {
     }
 
     public JsonKantoor lees(Long id) {
-
-        System.out.println("Aanroepen " + URL_LEES);
-
         return uitvoerenGet(URL_LEES, JsonKantoor.class, LOGGER, id.toString());
     }
 }

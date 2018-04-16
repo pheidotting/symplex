@@ -3,15 +3,15 @@ define(['commons/3rdparty/log',
         'knockout',
         'repository/common/repository',
         'repository/common/opmerking-repository'],
-    function(log, navRegister, ko, repository, opmerkingRepository) {
+    function (log, navRegister, ko, repository, opmerkingRepository) {
         var logger = log.getLogger('opmerking-service');
 
         return {
-            opslaan: function(opmerkingen, soortEntiteit, id) {
+            opslaan: function (opmerkingen, soortEntiteit, id) {
                 logger.debug('opslaan opmerkingen ' + ko.toJSON(opmerkingen));
 
-                if(opmerkingen != null && opmerkingen() != null && opmerkingen().length > 0) {
-                    $.each(opmerkingen(), function(i, opmerking){
+                if (opmerkingen != null && opmerkingen() != null && opmerkingen().length > 0) {
+                    $.each(opmerkingen(), function (i, opmerking) {
                         opmerking.parentIdentificatie(id);
                         opmerking.soortEntiteit(soortEntiteit);
                     });
@@ -22,11 +22,11 @@ define(['commons/3rdparty/log',
                 }
             },
 
-            lijst: function(soortEntiteit, parentid){
+            lijst: function (soortEntiteit, parentid) {
                 return opmerkingRepository.lijst(soortEntiteit, parentid);
             },
 
-            verwijder: function(identificatie) {
+            verwijder: function (identificatie) {
                 opmerkingRepository.verwijder(identificatie);
             }
         }

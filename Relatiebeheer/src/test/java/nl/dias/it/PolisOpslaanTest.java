@@ -38,7 +38,7 @@
 //@ContextConfiguration("classpath:applicationContext-it.xml")
 //public class PolisOpslaanTest {
 //
-//    private final static Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanTest.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanTest.class);
 //
 //    @Inject
 //    private List<Polis> polissen;
@@ -70,9 +70,6 @@
 //
 //            JsonPolis opgeslagenPolis = polisClient.lees(polis.getId().toString());
 //            opgeslagenPolis.setSoortEntiteit("RELATIE");
-//            System.out.println(ReflectionToStringBuilder.toString(opgeslagenPolis, ToStringStyle.SHORT_PREFIX_STYLE));
-//            System.out.println(ReflectionToStringBuilder.toString(polis, ToStringStyle.SHORT_PREFIX_STYLE));
-//
 //
 //            assertThat(opgeslagenPolis, is(polis));
 //        }

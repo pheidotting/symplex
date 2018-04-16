@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GroepBijlagesClient extends AbstractOgaClient<JsonBijlage, OpvragenGroepBijlagesResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(GroepBijlagesClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroepBijlagesClient.class);
 
     private final String URL_LIJST_GROEPEN = "/rest/bijlage/alleGroepen";
     private final String URL_OPSLAAN_GROEP = "/rest/bijlage/opslaanGroep";

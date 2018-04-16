@@ -22,7 +22,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class AbstractITest {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractITest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractITest.class);
 
     @Inject
     protected JmsTemplate polisOpslaanRequestTemplate;

@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-it.xml")
 public class PolisTest extends AbstractITest {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PolisTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolisTest.class);
 
     private final Long ingegelogdeGebruiker = 46L;
     private final String trackAndTraceId = UUID.randomUUID().toString();

@@ -52,19 +52,6 @@ public class Relatie extends Gebruiker implements Serializable {
     @Enumerated(EnumType.STRING)
     private BurgerlijkeStaat burgerlijkeStaat;
 
-    //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = OnderlingeRelatie.class, mappedBy = "relatie")
-    //    @NotAudited
-    //    private Set<OnderlingeRelatie> onderlingeRelaties;
-    //
-    //        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Hypotheek.class, mappedBy = "relatie", orphanRemoval = true)
-    //        @NotAudited
-    //    @Transient
-    //        private Set<Hypotheek> hypotheken;
-    //        @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = HypotheekPakket.class, mappedBy = "relatie", orphanRemoval = true)
-    //        @NotAudited
-    //    @Transient
-    //        private Set<HypotheekPakket> hypotheekPakketten;
-
     public String getRoepnaam() {
         return roepnaam;
     }
@@ -127,39 +114,6 @@ public class Relatie extends Gebruiker implements Serializable {
         this.burgerlijkeStaat = burgerlijkeStaat;
     }
 
-    //    public Set<OnderlingeRelatie> getOnderlingeRelaties() {
-    //        if (onderlingeRelaties == null) {
-    //            onderlingeRelaties = new HashSet<>();
-    //        }
-    //        return onderlingeRelaties;
-    //    }
-    //
-    //    public void setOnderlingeRelaties(Set<OnderlingeRelatie> onderlingeRelaties) {
-    //        this.onderlingeRelaties = onderlingeRelaties;
-    //    }
-    //
-    //    public Set<Hypotheek> getHypotheken() {
-    //        if (hypotheken == null) {
-    //            hypotheken = new HashSet<>();
-    //        }
-    //        return hypotheken;
-    //    }
-    //
-    //    public void setHypotheken(Set<Hypotheek> hypotheken) {
-    //        this.hypotheken = hypotheken;
-    //    }
-    //
-    //    public Set<HypotheekPakket> getHypotheekPakketten() {
-    //        if (hypotheekPakketten == null) {
-    //            hypotheekPakketten = new HashSet<>();
-    //        }
-    //        return hypotheekPakketten;
-    //    }
-    //
-    //    public void setHypotheekPakketten(Set<HypotheekPakket> hypotheekPakketten) {
-    //        this.hypotheekPakketten = hypotheekPakketten;
-    //    }
-    //
     /**
      * @see java.lang.Object#hashCode()
      */

@@ -16,7 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class JsonToDtoPolisMapper implements Function<nl.dias.domein.polis.Polis, Polis> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(JsonToDtoPolisMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonToDtoPolisMapper.class);
 
     private BijlageClient bijlageClient;
     private GroepBijlagesClient groepBijlagesClient;

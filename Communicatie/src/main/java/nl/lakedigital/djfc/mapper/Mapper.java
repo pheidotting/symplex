@@ -1,7 +1,6 @@
 package nl.lakedigital.djfc.mapper;
 
 
-import com.google.common.base.Predicate;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -22,16 +21,11 @@ public class Mapper {
     private List<JsonMapper> mappers;
 
     public <T> T map(final Object objectIn, final Class<T> clazz) {
-        Object objectUit = null;
+        Object objectUit;
 
         LOGGER.debug("Mappen van {}", ReflectionToStringBuilder.toString(objectIn, ToStringStyle.SHORT_PREFIX_STYLE));
 
-        JsonMapper mapper = getOnlyElement(filter(mappers, new Predicate<JsonMapper>() {
-            @Override
-            public boolean apply(JsonMapper jsonMapper) {
-                return jsonMapper.isVoorMij(objectIn);
-            }
-        }));
+        JsonMapper mapper = getOnlyElement(filter(mappers, jsonMapper -> jsonMapper.isVoorMij(objectIn)));
 
         objectUit = ((AbstractMapper) mapper).map(objectIn);
 

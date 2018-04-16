@@ -4,7 +4,5 @@
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-    <bean id="logglyEventsBuffer" class="nl.lakedigital.djfc.appender.LogglyEventsBuffer"/>
-    <bean id="kibanaEventsBuffer" class="nl.lakedigital.djfc.appender.KibanaEventsBuffer"/>
 
 </beans>

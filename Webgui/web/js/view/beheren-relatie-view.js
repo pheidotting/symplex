@@ -9,12 +9,12 @@ define(['jquery',
         'view/common/opmerking-view',
         'view/common/bijlage-view',
         'view/common/telefonie-view'],
-    function($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, telefonieView) {
+    function ($, log, html, viewmodel, ko, adresView, rekeningnummerView, telefoonnummerView, opmerkingView, bijlageView, telefonieView) {
         var logger = log.getLogger('beheren-relatie-view');
 
         return {
-            init: function(id) {
-				$('#content').html(html);
+            init: function (id) {
+                $('#content').html(html);
 
                 adresView.init(id);
                 rekeningnummerView.init(id);
@@ -26,7 +26,7 @@ define(['jquery',
                 logger.debug('content geladen, viewmodel init');
 
                 var v = new viewmodel(id);
-                $.when(v.init(id)).then(function(){
+                $.when(v.init(id)).then(function () {
                     ko.applyBindings(v);
                 });
             }

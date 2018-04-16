@@ -6,29 +6,29 @@ define(["commons/3rdparty/log",
         'repository/gebruiker-repository',
         'service/common/opmerking-service',
         'service/common/bijlage-service'],
-    function(log, navRegister, ko, repository, hypotheekRepository, gebruikerRepository, opmerkingService, bijlageService) {
+    function (log, navRegister, ko, repository, hypotheekRepository, gebruikerRepository, opmerkingService, bijlageService) {
 
         return {
-            lijstSoortenHypotheek: function(id) {
+            lijstSoortenHypotheek: function (id) {
                 return hypotheekRepository.lijstSoortenHypotheek(id);
             },
 
-            lijstHypothekenInclDePakketten: function(relatieId) {
+            lijstHypothekenInclDePakketten: function (relatieId) {
                 return hypotheekRepository.lijstHypothekenInclDePakketten(relatieId);
             },
 
-            lees: function(id){
+            lees: function (id) {
                 var identificatie = id.identificatie;
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(identificatie, true)).then(function (data) {
                     return deferred.resolve(data);
                 });
 
                 return deferred.promise();
             },
 
-            leesHypotheek: function(id) {
+            leesHypotheek: function (id) {
                 var deferred = $.Deferred();
 
                 $.when(
@@ -36,56 +36,56 @@ define(["commons/3rdparty/log",
                     bijlageService.lijst('HYPOTHEEK', id),
                     bijlageService.lijstGroep('HYPOTHEEK', id),
                     opmerkingService.lijst('HYPOTHEEK', id)
-                ).then(function(data, bijlages, groepenBijlages, opmerkingen){
-                        data.bijlages = bijlages;
-                        data.groepenBijlages = groepenBijlages;
-                        data.opmerkingen = opmerkingen;
+                ).then(function (data, bijlages, groepenBijlages, opmerkingen) {
+                    data.bijlages = bijlages;
+                    data.groepenBijlages = groepenBijlages;
+                    data.opmerkingen = opmerkingen;
 
-                        return deferred.resolve(data);
-                });
-
-                return deferred.promise();
-            },
-
-            lijstHypotheken: function(relatieId) {
-                var deferred = $.Deferred();
-
-                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
                     return deferred.resolve(data);
                 });
 
                 return deferred.promise();
             },
 
-            lijstHypotheekPakketten: function(relatieId) {
+            lijstHypotheken: function (relatieId) {
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function(data) {
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function (data) {
                     return deferred.resolve(data);
                 });
 
                 return deferred.promise();
             },
 
-            opslaanHypotheek: function(hypotheek, opmerkingen) {
+            lijstHypotheekPakketten: function (relatieId) {
+                var deferred = $.Deferred();
+
+                $.when(gebruikerRepository.leesRelatie(relatieId, true)).then(function (data) {
+                    return deferred.resolve(data);
+                });
+
+                return deferred.promise();
+            },
+
+            opslaanHypotheek: function (hypotheek, opmerkingen) {
                 var deferred = $.Deferred();
 
                 hypotheek.hypotheekVorm = ko.observable(hypotheek.hypotheekVorm.id);
                 hypotheek.opmerkingen = opmerkingen;
 
-                hypotheekRepository.opslaanHypotheek(hypotheek).done(function(response) {
+                hypotheekRepository.opslaanHypotheek(hypotheek).done(function (response) {
                     return deferred.resolve(response);
                 });
 
                 return deferred.promise();
             },
 
-            verwijderHypotheek: function(id) {
+            verwijderHypotheek: function (id) {
                 var deferred = $.Deferred();
 
-                    hypotheekRepository.verwijderHypotheek(id).done(function(response) {
-                        return deferred.resolve(response);
-                    });
+                hypotheekRepository.verwijderHypotheek(id).done(function (response) {
+                    return deferred.resolve(response);
+                });
 
                 return deferred.promise();
             }

@@ -2,18 +2,18 @@ define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository'],
-    function(log, navRegister, ko, abstractRepository) {
+    function (log, navRegister, ko, abstractRepository) {
 
         return {
-            opslaan: function(opmerkingen) {
+            opslaan: function (opmerkingen) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('OPSLAAN_OPMERKINGEN'), ko.toJSON(opmerkingen));
             },
 
-            verwijder: function(identificatie) {
+            verwijder: function (identificatie) {
                 return abstractRepository.voerUitPost(navRegister.bepaalUrl('VERWIJDER_OPMERKINGEN') + '/' + identificatie, null);
             },
 
-            lijst: function(soortEntiteit, parentid){
+            lijst: function (soortEntiteit, parentid) {
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_OPMERKINGEN') + '/' + soortEntiteit + '/' + parentid);
             }
         }

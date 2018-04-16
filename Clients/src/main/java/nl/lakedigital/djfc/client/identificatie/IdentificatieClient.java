@@ -20,7 +20,7 @@ import static java.lang.String.join;
 
 @Component
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
     private MetricsService metricsService;
 
     public IdentificatieClient(String basisUrl) {
