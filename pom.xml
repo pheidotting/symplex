@@ -20,5 +20,6 @@
         <module>IdBeheer</module>
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>
+        <module>TestSysteem</module>
     </modules>
 </project>
