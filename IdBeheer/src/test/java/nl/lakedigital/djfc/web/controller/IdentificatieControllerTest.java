@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import static org.easymock.EasyMock.expect;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 @RunWith(EasyMockRunner.class)
 public class IdentificatieControllerTest extends EasyMockSupport {
@@ -103,10 +102,5 @@ public class IdentificatieControllerTest extends EasyMockSupport {
         assertThat(id1.getSoortEntiteit(), is(identificatie1.getSoortEntiteit()));
 
         verifyAll();
-    }
-
-    @Test
-    public void opslaan() {
-        fail();
     }
 }

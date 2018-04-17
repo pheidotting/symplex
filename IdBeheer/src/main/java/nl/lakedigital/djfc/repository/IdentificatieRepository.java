@@ -92,7 +92,7 @@ public class IdentificatieRepository {
 
         LOGGER.debug("trace {} al voor?", identificatieCode);
         Query query = getSession().getNamedQuery("Identificatie.zoekOpIdentificatieCode");
-        query.setParameter("identificatie", identificatieCode);
+        query.setParameter("identificatieCode", identificatieCode);
 
         metricsService.stop(timer);
 
