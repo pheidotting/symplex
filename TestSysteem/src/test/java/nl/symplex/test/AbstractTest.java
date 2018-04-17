@@ -54,7 +54,6 @@ public abstract class AbstractTest {
         String os = System.getProperty("os.name").equals("Mac OS X") ? "" : "-linux";
         System.setProperty("phantomjs.binary.path", "src/test/resources/phantomjs" + os);
 
-
         if (!System.getProperty("os.name").equals("Mac OS X")) {
             uitvoeren = true;
             opServer = true;
@@ -67,8 +66,8 @@ public abstract class AbstractTest {
             uitvoeren = true;
             setupPhantomJSDriver();
             //            setupChromeDriver();
-            //            basisUrl = "http://localhost:8080/";
-            basisUrl = "http://tst-diasii:8080/";
+            basisUrl = "http://localhost:8080/";
+            //            basisUrl = "http://tst-diasii:8080/";
         }
         if (uitvoeren) {
             basisUrlRest = basisUrl.replace("djfc/", "") + "dejonge/";
@@ -76,7 +75,7 @@ public abstract class AbstractTest {
             LOGGER.debug("basisUrlRest {}", basisUrlRest);
 
 
-            //            LOGGER.info("Naar de inlogpagina {}index.html#inloggen", basisUrl);
+            //                        LOGGER.info("Naar de inlogpagina {}index.html#inloggen", basisUrl);
             //            open(basisUrl + "inloggen.html");
         }
     }
@@ -86,7 +85,6 @@ public abstract class AbstractTest {
         if (uitvoeren) {
             assertNoJavascriptErrors();
             close();
-
         }
     }
 
