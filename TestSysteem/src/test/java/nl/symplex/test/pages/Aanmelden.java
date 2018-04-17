@@ -25,6 +25,9 @@ public class Aanmelden extends AbstractPage {
         setValue(LOGGER, $(By.id("achternaam")), achternaam);
         setValue(LOGGER, $(By.id("emailadres")), emailadres).pressEnter();
 
+        //Zou eigenlijk niet nodig hoeven zijn, maar PhantomJS heeft hier wat moeite mee anders
+        open(basisUrl + "inloggen.html");
+
         return page(Inloggen.class);
     }
 }
