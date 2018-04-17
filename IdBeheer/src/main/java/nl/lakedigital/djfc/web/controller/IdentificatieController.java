@@ -63,6 +63,8 @@ public class IdentificatieController {
         String[] zoekterms = zoekterm.split("&zoekterm=");
 
         for (String s : zoekterms) {
+            LOGGER.debug("Zoekterm : '{}'", s);
+
             String[] split = s.split(",");
             String soortEntiteit = split[0];
             Long entiteitId = Long.valueOf(split[1]);

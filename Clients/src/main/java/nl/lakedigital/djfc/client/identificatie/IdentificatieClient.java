@@ -103,6 +103,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         return lijst;
     }
 
+    @Deprecated
     public nl.lakedigital.djfc.commons.json.Identificatie opslaan(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
         return new Gson().fromJson(aanroepenUrlPost("/rest/identificatie/opslaan", entiteitenOpgeslagenRequest, 0L, "", LOGGER), nl.lakedigital.djfc.commons.json.Identificatie.class);
     }
