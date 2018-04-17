@@ -1,12 +1,12 @@
 define(['jquery',
         'commons/3rdparty/log',
         'text!../../../templates/commons/telefoonnummers.html'],
-    function($, log, html) {
+    function ($, log, html) {
         var logger = log.getLogger('telefoonnummer-view');
 
         return {
-            init: function(id) {
-				$('#telefoonnummers').html(html);
+            init: function () {
+                $('#telefoonnummers').html(html);
 
                 logger.debug('content geladen, viewmodel init');
             }

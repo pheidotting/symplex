@@ -1,9 +1,8 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.domain.Kantoor;
-import nl.lakedigital.djfc.domain.Licentie;
-import nl.lakedigital.djfc.domain.LicentieStatus;
-import nl.lakedigital.djfc.domain.Trial;
+import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.exception.LicentieSoortNietGevondenException;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import java.util.List;
 public class LicentieService {
     private static final Logger LOGGER = LoggerFactory.getLogger(LicentieService.class);
 
-    private final static int AANTAL_DAGEN_TRIAL = 30;
+    private static final int AANTAL_DAGEN_TRIAL = 30;
 
     @Inject
     private LicentieRepository licentieRepository;
@@ -43,8 +42,35 @@ public class LicentieService {
         LOGGER.debug("ID {}", trial.getId());
     }
 
-    public Licentie eindDatumLicentie(Long kantoorId) {
+    public void nieuweLicentie(String soort, Long kantoor) throws LicentieSoortNietGevondenException {
+        Licentie licentie = null;
+        switch (soort) {
+            case "brons":
+                licentie = new Brons();
+                break;
+            case "zilver":
+                licentie = new Zilver();
+                break;
+            case "goud":
+                licentie = new Goud();
+                break;
+            case "administratiekantoor":
+                licentie = new AdministratieKantoor();
+                break;
+        }
+
+        if (licentie == null) {
+            throw new LicentieSoortNietGevondenException();
+        }
+
+        licentie.setKantoor(kantoor);
+        licentieRepository.opslaan(licentie);
+    }
+
+    public Licentie actieveLicentie(Long kantoorId) {
+        LOGGER.debug("AA");
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
+        LOGGER.debug("BB");
 
         licenties.sort(new Comparator<Licentie>() {
             @Override
@@ -52,13 +78,16 @@ public class LicentieService {
                 return o2.getStartDatum().compareTo(o1.getStartDatum());
             }
         });
-        if (licenties.size() == 0) {
+        if (licenties.isEmpty()) {
             return null;
         }
         return licenties.get(0);
     }
 
-    public LocalDate eindDatumLicentie(Licentie licentie) {
+    public LocalDate actieveLicentie(Licentie licentie) {
+        if (licentie instanceof LifetimeLicense) {
+            return new LocalDate(2999, 12, 31);
+        }
         return licentie == null ? null : licentie.getStartDatum().plusDays(licentie.getAantalDagen());
     }
 }

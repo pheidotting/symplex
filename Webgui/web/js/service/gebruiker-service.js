@@ -2,118 +2,113 @@ define(["commons/3rdparty/log",
         "navRegister",
         'knockout',
         'repository/common/repository',
-        'repository/gebruiker-repository',
-        'service/common/adres-service',
-        'service/common/telefoonnummer-service',
-        'service/common/rekeningnummer-service',
-        'service/common/opmerking-service',
-        'service/common/bijlage-service'],
-    function(log, navRegister, ko, repository, gebruikerRepository, adresService, telefoonnummerService, rekeningnummerService, opmerkingService, bijlageService) {
+        'repository/gebruiker-repository'],
+    function (log, navRegister, ko, repository, gebruikerRepository) {
         var logger = log.getLogger('gebruiker-service');
 
         return {
-            opslaan: function(relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
+            opslaan: function (relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
                 var deferred = $.Deferred();
 
                 relatie.adressen = adressen;
                 relatie.telefoonnummers = telefoonnummers;
-                $.each(relatie.telefoonnummers(), function(i, telefoonnummer){
+                $.each(relatie.telefoonnummers(), function (i, telefoonnummer) {
                     telefoonnummer.parentIdentificatie(relatie.id());
                     telefoonnummer.soortEntiteit('RELATIE');
-                    if(telefoonnummer.telefoonnummer() != null && telefoonnummer.telefoonnummer() != '') {
+                    if (telefoonnummer.telefoonnummer() != null && telefoonnummer.telefoonnummer() != '') {
                         telefoonnummer.telefoonnummer(telefoonnummer.telefoonnummer().replace(/ /g, "").replace("-", ""));
                     }
                 });
                 relatie.rekeningNummers = rekeningnummers;
-                $.each(relatie.rekeningNummers(), function(i, rekeningnummer){
+                $.each(relatie.rekeningNummers(), function (i, rekeningnummer) {
                     rekeningnummer.parentIdentificatie(relatie.id());
                     rekeningnummer.soortEntiteit('RELATIE');
-                    if(rekeningnummer.rekeningnummer()!=null && rekeningnummer.rekeningnummer()!= ''){
+                    if (rekeningnummer.rekeningnummer() != null && rekeningnummer.rekeningnummer() != '') {
                         rekeningnummer.rekeningnummer(rekeningnummer.rekeningnummer().replace(/ /g, ""));
                     }
                 });
                 relatie.opmerkingen = opmerkingen;
 
-                gebruikerRepository.opslaan(relatie).done(function(response) {
+                gebruikerRepository.opslaan(relatie).done(function (response) {
                     return deferred.resolve(response);
                 });
 
                 return deferred.promise();
             },
 
-            leesRelatie: function(id) {
+            leesRelatie: function (id) {
                 logger.debug('ophalen relatie met id ' + id);
 
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesRelatie(id)).then(function(relatie) {
+                $.when(gebruikerRepository.leesRelatie(id)).then(function (relatie) {
                     return deferred.resolve(relatie);
                 });
 
                 return deferred.promise();
             },
 
-            leesMedewerker: function(id) {
+            leesMedewerker: function (id) {
                 logger.debug('ophalen medewerker met id ' + id);
 
                 var deferred = $.Deferred();
 
-                $.when(gebruikerRepository.leesMedewerker(id)).then(function(medewerker) {
+                $.when(gebruikerRepository.leesMedewerker(id)).then(function (medewerker) {
                     return deferred.resolve(medewerker);
                 });
 
                 return deferred.promise();
             },
 
-            opslaanMedewerker: function(medewerker) {
+            opslaanMedewerker: function (medewerker) {
                 return gebruikerRepository.opslaanMedewerker(medewerker);
             },
 
-            verwijderRelatie: function(id) {
+            verwijderRelatie: function (id) {
                 gebruikerRepository.verwijderRelatie(id);
             },
 
-            opslaanOAuthCode: function(code) {
+            opslaanOAuthCode: function (code) {
                 var deferred = $.Deferred();
 
-                    $.when(gebruikerRepository.opslaanOAuthCode(code)).then(function(){
-                        return deferred.resolve();
-                    });
+                $.when(gebruikerRepository.opslaanOAuthCode(code)).then(function () {
+                    return deferred.resolve();
+                });
 
                 return deferred.promise();
             },
 
-            inloggen: function(data){
+            inloggen: function (data) {
                 var deferred = $.Deferred();
 
-                $.when(repository.voerUitPost(navRegister.bepaalUrl('INLOGGEN'), ko.toJSON(data), '')).always(function(result){
+                $.when(repository.voerUitPost(navRegister.bepaalUrl('INLOGGEN'), ko.toJSON(data), '')).always(function (result) {
                     return deferred.resolve(result);
                 });
 
                 return deferred.promise();
             },
 
-            wijzigWachtwoord: function(nieuwWachtwoord) {
+            wijzigWachtwoord: function (nieuwWachtwoord) {
                 return gebruikerRepository.wijzigWachtwoord(nieuwWachtwoord);
             },
 
-            leesOAuthCode: function() {
+            leesOAuthCode: function () {
                 return gebruikerRepository.leesOAuthCode();
             },
 
-            haalIngelogdeGebruiker: function(){
+            haalIngelogdeGebruiker: function () {
                 logger.debug("Haal ingelogde gebruiker");
                 var deferred = $.Deferred();
 
-                if(localStorage.getItem('symplexAccessToken') != null) {
+                if (localStorage.getItem('symplexAccessToken') != null) {
                     var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
                     var base64 = base64Url.replace('-', '+').replace('_', '/');
                     var token = JSON.parse(window.atob(base64));
 
-                    gebruikerRepository.haalIngelogdeGebruiker(token.sub).done(function(response){
-                        if(response.kantoor != null){
+                    gebruikerRepository.haalIngelogdeGebruiker(token.sub).done(function (response) {
+                        if (response.kantoor != null) {
                             logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam + ", (" + response.kantoor + ")");
-                        }else{
+                        } else {
                             logger.debug("Ingelogde gebruiker : " + response.gebruikersnaam);
                         }
 
@@ -126,7 +121,7 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            stuurNieuwWachtwoord: function(identificatie) {
+            stuurNieuwWachtwoord: function (identificatie) {
                 gebruikerRepository.stuurNieuwWachtwoord(identificatie);
             }
         }

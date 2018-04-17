@@ -22,27 +22,18 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
-public class EmailVerzendService extends AbstractVerzendService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
+@PropertySource(value = "file:comm.app.properties", ignoreResourceNotFound = true)
+public class EmailVerzendService implements AbstractVerzendService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailVerzendService.class);
 
-    @Value(("${mailHost}"))
+    @Value("${mailHost}")
     private String mailHost;// = "localhost";
-    //        private Integer smtpPort = 2170;
     @Value("${smtpPort}")
-    private Integer smtpPort;// = 2345;
-    //    private String mailHost = "mail.djfc.local";
-    //    private Integer smtpPort = 25;
-    //private String mailHost = "smtp.gmail.com";
-    //    private Integer smtpPort = 587;
-    //    private String mailHost = "mail.djfc.local";
-    //    private Integer smtpPort = 25;
+    private String smtpPort;// = 2345;
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
@@ -62,13 +53,7 @@ public class EmailVerzendService extends AbstractVerzendService {
             Properties properties = new Properties();
             properties.put("mail.smtp.host", mailHost);
             properties.put("mail.smtp.port", smtpPort);
-//            properties.put("mail.smtp.starttls.enable", "true");
-//            properties.setProperty("mail.smtp.user", "p.heidotting@gmail.com");
-//            properties.setProperty("mail.smtp.password", "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY");
-//            properties.setProperty("mail.smtp.auth", "true");
-//            Authenticator auth = new SMTPAuthenticator();
-//            Session emailSession = Session.getDefaultInstance(properties, auth);
-            
+
                         Session emailSession = Session.getDefaultInstance(properties, null);
 
             UitgaandeEmail uitgaandeEmail = (UitgaandeEmail) communicatieProduct;
@@ -109,7 +94,6 @@ public class EmailVerzendService extends AbstractVerzendService {
             for (JsonBijlage bijlage : bijlages) {
                 // Part two is attachment
                 messageBodyPart = new MimeBodyPart();
-                String filename = bijlage.getBestandsNaam();
                 DataSource source = new FileDataSource(bijlageClient.getUploadPad() + File.separator + bijlage.getS3Identificatie());
                 messageBodyPart.setDataHandler(new DataHandler(source));
                 messageBodyPart.setFileName(bijlage.getBestandsNaam());
@@ -120,7 +104,7 @@ public class EmailVerzendService extends AbstractVerzendService {
             msg.setContent(multipart);
 
             Transport transport = emailSession.getTransport("smtp");
-            transport.connect(mailHost, smtpPort, null, null);
+            transport.connect(mailHost, Integer.valueOf(smtpPort), null, null);
             //Zeker weten dat de mail niet al verstuurd is door een andere Thread
             if (communicatieProductRepository.lees(uitgaandeEmail.getId()).getDatumTijdVerzending() == null) {
                 transport.sendMessage(msg, msg.getAllRecipients());
@@ -128,26 +112,20 @@ public class EmailVerzendService extends AbstractVerzendService {
             transport.close();
 
             try {
-                Thread.sleep(1 + (int) (Math.random() * 10));
+                Random r = new Random();
+                Thread.sleep(r.nextInt() * 10);
             } catch (InterruptedException ie) {
                 LOGGER.trace("Error bij Sleep {}", ie.getStackTrace());
+                Thread.currentThread().interrupt();
             }
 
             uitgaandeEmail.setDatumTijdVerzending(LocalDateTime.now());
             uitgaandeEmail.setOnverzondenIndicatie(null);
         } catch (NoSuchProviderException e) {
-            LOGGER.error("{}", e.getStackTrace());
+            LOGGER.error("{}", e);
         } catch (MessagingException e) {
-            LOGGER.error("{}", e.getStackTrace());
+            LOGGER.error("{}", e);
         }
 
-    }
-
-    private class SMTPAuthenticator extends javax.mail.Authenticator {
-        public PasswordAuthentication getPasswordAuthentication() {
-            String username = "p.heidotting@gmail.com";
-            String password = "FR0KQwuPmDhwzIc@npqg%Dw!lI6@^5tx3iY";
-            return new PasswordAuthentication(username, password);
-        }
     }
 }

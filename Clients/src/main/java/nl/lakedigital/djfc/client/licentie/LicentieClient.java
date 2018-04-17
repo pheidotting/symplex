@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class LicentieClient extends AbstractClient<LicentieResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(LicentieClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LicentieClient.class);
     private MetricsService metricsService;
 
     public LicentieClient(String basisUrl) {

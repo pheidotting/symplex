@@ -2,16 +2,16 @@ define(['jquery',
         'model/opmerking',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Opmerking, log, ko) {
+    function ($, Opmerking, log, ko) {
         return {
-            mapOpmerking: function(r) {
+            mapOpmerking: function (r) {
                 mappen(r);
             },
 
-            mapOpmerkingen: function(data) {
+            mapOpmerkingen: function (data) {
                 var opmerkingen = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     opmerkingen.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var opmerking = new Opmerking();
 
                 opmerking.id(data.id);

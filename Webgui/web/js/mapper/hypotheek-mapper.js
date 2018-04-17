@@ -2,16 +2,16 @@ define(['jquery',
         'model/hypotheek',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Hypotheek, log, ko) {
+    function ($, Hypotheek, log, ko) {
         return {
-            mapHypotheek: function(r, soortenHypotheek) {
+            mapHypotheek: function (r, soortenHypotheek) {
                 return mappen(r, soortenHypotheek);
             },
 
-            mapHypotheken: function(data, soortenHypotheek) {
+            mapHypotheken: function (data, soortenHypotheek) {
                 var hypotheken = ko.observableArray([]);
 
-                $.each(data, function(i, r) {
+                $.each(data, function (i, r) {
                     hypotheken.push(mappen(r, soortenHypotheek));
                 });
 
@@ -20,7 +20,7 @@ define(['jquery',
         }
 
         function mappen(data, soortenHypotheek) {
-            if(data != null) {
+            if (data != null) {
                 var hypotheek = new Hypotheek();
 
                 hypotheek.id(data.id);
@@ -31,9 +31,9 @@ define(['jquery',
                 hypotheek.boxIII(data.boxIII);
                 hypotheek.relatie(data.relatie);
 
-                if(data.hypotheekVorm) {
-                    $.each(soortenHypotheek, function(i, soort){
-                        if(parseInt(data.hypotheekVorm) == parseInt(soort.id)) {
+                if (data.hypotheekVorm) {
+                    $.each(soortenHypotheek, function (i, soort) {
+                        if (parseInt(data.hypotheekVorm) == parseInt(soort.id)) {
                             var d = {};
                             d.id = soort.id;
                             d.hypotheekVorm = soort.omschrijving;

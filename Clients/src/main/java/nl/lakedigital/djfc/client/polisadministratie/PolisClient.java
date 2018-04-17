@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PolisClient extends AbstractClient {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PolisClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolisClient.class);
 
     private final String URL_ALLE_PARTICULIERE_POLIS_SOORTEN = "/rest/polis/alleParticulierePolisSoorten";
     private final String URL_ALLE_PARTICULIERE_ZAKELIJKE_SOORTEN = "/rest/polis/alleZakelijkePolisSoorten";

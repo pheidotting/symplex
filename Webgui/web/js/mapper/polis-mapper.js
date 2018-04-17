@@ -2,16 +2,16 @@ define(['jquery',
         'model/polis',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Polis, log, ko) {
+    function ($, Polis, log, ko) {
         return {
-            mapPolis: function(r, maatschappijen) {
+            mapPolis: function (r, maatschappijen) {
                 return mappen(r, maatschappijen);
             },
 
-            mapPolissen: function(data, maatschappijen) {
+            mapPolissen: function (data, maatschappijen) {
                 var polissen = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     polissen.push(mappen(r, maatschappijen));
                 });
 
@@ -19,24 +19,24 @@ define(['jquery',
             }
         }
 
-        function mappen(data, maatschappijen){
-            if(data != null) {
+        function mappen(data, maatschappijen) {
+            if (data != null) {
                 var polis = new Polis();
 
                 polis.identificatie(data.identificatie);
                 polis.status(data.status);
                 polis.polisNummer(data.polisNummer);
                 polis.kenmerk(data.kenmerk);
-                if(data.ingangsDatum != null) {
+                if (data.ingangsDatum != null) {
                     polis.ingangsDatum(data.ingangsDatum);
                 }
-                if(data.eindDatum != null) {
+                if (data.eindDatum != null) {
                     polis.eindDatum(data.eindDatum);
                 }
-                if(data.wijzigingsDatum != null) {
+                if (data.wijzigingsDatum != null) {
                     polis.wijzigingsDatum(data.wijzigingsDatum);
                 }
-                if(data.prolongatieDatum) {
+                if (data.prolongatieDatum) {
                     polis.prolongatieDatum(data.prolongatieDatum);
                 }
                 polis.soort(data.soort);
@@ -50,8 +50,8 @@ define(['jquery',
                 polis.soortEntiteit(data.soortEntiteit);
                 polis.entiteitId(data.entiteitId);
 
-                $.each(maatschappijen, function(i, m){
-                    if(i == data.maatschappij) {
+                $.each(maatschappijen, function (i, m) {
+                    if (i == data.maatschappij) {
                         var d = {};
                         d.id = i;
                         d.omschrijving = m;

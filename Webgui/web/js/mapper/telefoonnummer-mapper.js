@@ -2,16 +2,16 @@ define(['jquery',
         'model/telefoonNummer',
         'commons/3rdparty/log',
         'knockout'],
-	function ($, Telefoonnummer, log, ko) {
+    function ($, Telefoonnummer, log, ko) {
         return {
-            mapTelefoonnummer: function(r) {
+            mapTelefoonnummer: function (r) {
                 mappen(r);
             },
 
-            mapTelefoonnummers: function(data) {
+            mapTelefoonnummers: function (data) {
                 var telefoonnummers = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     telefoonnummers.push(mappen(r));
                 });
 
@@ -19,8 +19,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var telefoonnummer = new Telefoonnummer();
 
                 telefoonnummer.id(data.id);

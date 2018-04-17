@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="templates/beheren/beheren.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <script>
-		var refreshIntervalId = 0;
+        var refreshIntervalId = 0;
 
 
     </script>
@@ -47,19 +47,19 @@
 <script type="text/javascript">
     window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
 
-        StackTrace.fromError(errorObj).then(function(error){
+        StackTrace.fromError(errorObj).then(function (error) {
             var xhr = new XMLHttpRequest();
             var fd = new FormData();
 
-            fd.append( 'logger', '' );
-            fd.append( 'timestamp', new Date().getTime() );
-            fd.append( 'level', 'ERROR' );
-            fd.append( 'url', url );
-            fd.append( 'message', error );
-            fd.append( 'layout', 'HttpPostDataLayout' );
+            fd.append('logger', '');
+            fd.append('timestamp', new Date().getTime());
+            fd.append('level', 'ERROR');
+            fd.append('url', url);
+            fd.append('message', error);
+            fd.append('layout', 'HttpPostDataLayout');
 
-            xhr.open( 'POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true );
-            xhr.send( fd );
+            xhr.open('POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true);
+            xhr.send(fd);
         });
     }
 
@@ -88,23 +88,31 @@
                     <li><a style="cursor: pointer;"
                            data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
                     </li>
-                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe
+                    <li id="nieuwePolisLink"><a style="cursor: pointer;"
+                                                data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe
                         polis</a>
                     </li>
-                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
+                    <li id="polisLijstLink"><a style="cursor: pointer;"
+                                               data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
                     </li>
-                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe
+                    <li id="nieuweSchadeLink"><a style="cursor: pointer;"
+                                                 data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe
                         schade</a>
                     </li>
-                    <li><a style="cursor: pointer;" data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
+                    <li id="schadeLijstLink"><a style="cursor: pointer;"
+                                                data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
                     </li>
-                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
-                            style="cursor: pointer;"
-                            data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
+                    <li id="hypotheekLijstLink"
+                        data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie' && $root.menubalkViewmodel.licentieSoort != 'administratiekantoor'">
+                        <a
+                                style="cursor: pointer;"
+                                data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
                     </li>
-                    <li data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie'"><a
-                            style="cursor: pointer;"
-                            data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
+                    <li id="nieuweHypotheekLink"
+                        data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie' && $root.menubalkViewmodel.licentieSoort != 'administratiekantoor'">
+                        <a
+                                style="cursor: pointer;"
+                                data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
                     </li>
                     <li><a style="cursor: pointer;"
                            data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>

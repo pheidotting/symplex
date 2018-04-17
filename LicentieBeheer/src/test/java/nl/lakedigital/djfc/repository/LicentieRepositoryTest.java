@@ -72,7 +72,7 @@ public class LicentieRepositoryTest {
         licentieRepository.opslaan(trial1);
         licentieRepository.opslaan(trial2);
 
-        assertThat(licentieRepository.alleLicenties(kantoorId), is(newArrayList(trial1, trial2)));
+        assertThat(licentieRepository.alleLicenties(kantoorId), is(newArrayList(trial2, trial1)));
 
         licentieRepository.verwijder(trial1);
         licentieRepository.verwijder(trial2);
@@ -93,7 +93,7 @@ public class LicentieRepositoryTest {
         licentieRepository.opslaan(trial1);
         licentieRepository.opslaan(trial2);
 
-        assertThat(licentieRepository.alleLicenties(kantoorId), is(newArrayList(trial1, trial2)));
+        assertThat(licentieRepository.alleLicenties(kantoorId), is(newArrayList(trial2, trial1)));
 
         licentieRepository.verwijder(trial1);
         licentieRepository.verwijder(trial2);

@@ -66,6 +66,8 @@ public class RelatieController extends AbstractController {
     @Inject
     private BelastingzakenService belastingzakenService;
 
+    private static final String BELASTINGZAKEN = "BELASTINGZAKEN";
+
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public Relatie leesRelatie(@PathVariable("id") String identificatie, HttpServletRequest httpServletRequest) {
@@ -216,9 +218,9 @@ public class RelatieController extends AbstractController {
         IB ib = new IB();
 
         ib.setJaartal(belastingzaken.getJaar());
-        ib.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        ib.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        ib.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        ib.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return ib;
     }
@@ -227,9 +229,9 @@ public class RelatieController extends AbstractController {
         Overig overig = new Overig();
 
         overig.setJaartal(belastingzaken.getJaar());
-        overig.setBijlages(bijlageClient.lijst("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen("BELASTINGZAKEN", belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        overig.setIdentificatie(identificatieClient.zoekIdentificatie("BELASTINGZAKEN", belastingzaken.getId()).getIdentificatie());
+        overig.setBijlages(bijlageClient.lijst(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setGroepBijlages(groepBijlagesClient.lijstGroepen(BELASTINGZAKEN, belastingzaken.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        overig.setIdentificatie(identificatieClient.zoekIdentificatie(BELASTINGZAKEN, belastingzaken.getId()).getIdentificatie());
 
         return overig;
     }

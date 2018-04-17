@@ -24,9 +24,7 @@ public class VerwijderEntiteitRequestSender extends AbstractSender<VerwijderEnti
 
     @Override
     public VerwijderEntiteitRequest maakMessage(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId) {
-        VerwijderEntiteitRequest verwijderEntiteitenRequest = new VerwijderEntiteitRequest(soortEntiteitEnEntiteitId.getSoortEntiteit(), soortEntiteitEnEntiteitId.getEntiteitId());
-
-        return verwijderEntiteitenRequest;
+        return new VerwijderEntiteitRequest(soortEntiteitEnEntiteitId.getSoortEntiteit(), soortEntiteitEnEntiteitId.getEntiteitId());
     }
 
     public void send(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId) {

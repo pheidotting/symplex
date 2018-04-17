@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SchadeClient extends AbstractClient<OpvragenSchadesResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(SchadeClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchadeClient.class);
 
     private final String URL_OPSLAAN = "/rest/schade/opslaan";
     private final String URL_LIJST = "/rest/schade/lijst";

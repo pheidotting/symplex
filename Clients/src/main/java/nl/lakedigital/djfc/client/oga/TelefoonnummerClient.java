@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, OpvragenTelefoonnummersResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TelefoonnummerClient.class);
 
     private final String URL_LIJST = "/rest/telefoonnummer/alles";
     private final String URL_VERWIJDEREN = "/rest/telefoonnummer/verwijderen";
@@ -41,9 +41,6 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
 
     @Override
     public List<JsonTelefoonnummer> zoeken(String zoekterm) {
-
-        System.out.println("Aanroepen " + URL_ZOEKEN);
-
         List<JsonTelefoonnummer> result;
 
         try {
@@ -61,8 +58,6 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
     }
 
     public List<JsonTelefoonnummer> lijst(String soortEntiteit, Long entiteitId, boolean retry) {
-        System.out.println("Aanroepen " + URL_LIJST);
-
         List<JsonTelefoonnummer> result;
 
         try {
@@ -84,9 +79,6 @@ public class TelefoonnummerClient extends AbstractOgaClient<JsonTelefoonnummer, 
 
     @Override
     public void verwijder(String soortEntiteit, Long entiteitId, Long ingelogdeGebruiker, String trackAndTraceId) {
-
-        System.out.println("Aanroepen " + URL_VERWIJDEREN);
-
         aanroepenUrlPostZonderBody(URL_VERWIJDEREN, ingelogdeGebruiker, trackAndTraceId, soortEntiteit, entiteitId.toString());
     }
 }

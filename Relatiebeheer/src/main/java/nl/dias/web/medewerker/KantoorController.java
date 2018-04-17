@@ -10,6 +10,7 @@ import nl.dias.mapper.Mapper;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.KantoorService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.client.licentie.LicentieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonKantoor;
 import nl.lakedigital.djfc.domain.response.Kantoor;
@@ -39,6 +40,8 @@ public class KantoorController extends AbstractController {
     private MetricsService metricsService;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private LicentieClient licentieClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -63,6 +66,7 @@ public class KantoorController extends AbstractController {
         result.setRechtsvorm(kantoor.getRechtsvorm().getOmschrijving());
         result.setEmailadres(kantoor.getEmailadres());
         result.setAfkorting(kantoor.getAfkorting());
+        result.setLicentie(licentieClient.eindDatumLicentie(kantoorId));
 
         gebruikerService.alleMedewerkers(kantoor).stream().forEach(new Consumer<Medewerker>() {
             @Override
@@ -99,7 +103,7 @@ public class KantoorController extends AbstractController {
         try {
             kantoorService.aanmelden(kantoor);
         } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
-            e.printStackTrace();
+            LOGGER.trace("Fout gevonden bij opslaan Kantoor ({}), {}", jsonKantoor.getNaam(), e);
         }
 
         metricsService.stop(timer);

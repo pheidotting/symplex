@@ -2,14 +2,19 @@ package nl.lakedigital.djfc.web.controller;
 
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.domain.Opmerking;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.OpmerkingService;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.hamcrest.CoreMatchers.is;
@@ -96,6 +101,48 @@ public class OpmerkingControllerTest extends AbstractControllerTest<Opmerking, J
         assertThat(opmerkingController.opslaan(jsonOpmerking, httpServletRequest), is(id));
 
         verifyAll();
+    }
 
+    @Test
+    public void testAlles() {
+        String soortEntiteit = "RELATIE";
+        Long entiteitId = 5L;
+
+        Opmerking telefoonnummer = new Opmerking();
+        List<Opmerking> lijst = newArrayList(telefoonnummer);
+
+        expect(opmerkingService.alles(SoortEntiteit.RELATIE, entiteitId)).andReturn(lijst);
+
+        JsonOpmerking jsonOpmerking = new JsonOpmerking();
+        expect(mapper.map(telefoonnummer, JsonOpmerking.class)).andReturn(jsonOpmerking);
+
+        replayAll();
+
+        List<JsonOpmerking> result = opmerkingController.alles(soortEntiteit, entiteitId, httpServletRequest).getOpmerkingen();
+        Assert.assertThat(result.size(), Is.is(1));
+        Assert.assertThat(result.get(0), Is.is(jsonOpmerking));
+
+        verifyAll();
+    }
+
+    @Test
+    public void testZoeken() {
+        String zoekTerm = "65";
+
+        Opmerking telefoonnummer = new Opmerking();
+        List<Opmerking> lijst = newArrayList(telefoonnummer);
+
+        expect(opmerkingService.zoeken(zoekTerm)).andReturn(lijst);
+
+        JsonOpmerking jsonOpmerking = new JsonOpmerking();
+        expect(mapper.map(telefoonnummer, JsonOpmerking.class)).andReturn(jsonOpmerking);
+
+        replayAll();
+
+        List<JsonOpmerking> result = opmerkingController.zoeken(zoekTerm, httpServletRequest).getOpmerkingen();
+        Assert.assertThat(result.size(), Is.is(1));
+        Assert.assertThat(result.get(0), Is.is(jsonOpmerking));
+
+        verifyAll();
     }
 }

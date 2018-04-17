@@ -20,7 +20,7 @@ import static java.lang.String.join;
 
 @Component
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
     private MetricsService metricsService;
 
     public IdentificatieClient(String basisUrl) {
@@ -103,6 +103,7 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
         return lijst;
     }
 
+    @Deprecated
     public nl.lakedigital.djfc.commons.json.Identificatie opslaan(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
         return new Gson().fromJson(aanroepenUrlPost("/rest/identificatie/opslaan", entiteitenOpgeslagenRequest, 0L, "", LOGGER), nl.lakedigital.djfc.commons.json.Identificatie.class);
     }

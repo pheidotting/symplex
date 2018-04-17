@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlRootElement
 @XmlSeeAlso({//
         BeindigenPolisRequest.class,//
-        TaakOpslaan.class,//
         OpvragenPersoonSOfBedrijfsGegevensRequest.class,//
         OpvragenPersoonSOfBedrijfsGegevensRequest.class,//
         PolisOpslaanRequest.class,//

@@ -26,6 +26,7 @@ public abstract class AbstractClient<D> {
     protected Gson gson = new Gson();
     protected String basisUrl;
     protected XmlMapper mapper = new XmlMapper();
+    private int timeOut;
 
     public AbstractClient() {
     }
@@ -39,7 +40,14 @@ public abstract class AbstractClient<D> {
         this.basisUrl = basisUrl;
     }
 
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
     protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, MetricsService metrics, String metricsName, Class metricsClass, String... args) {
+        if (timeOut == 0) {
+            timeOut = 30000;
+        }
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
             for (String arg : args) {
@@ -47,7 +55,7 @@ public abstract class AbstractClient<D> {
                 stringBuilder.append(arg);
             }
         }
-        URL url;
+        URL url = null;
         try {
             if (urlEncoden) {
                 url = new URL(basisUrl + uri + URLEncoder.encode(stringBuilder.toString(), "UTF-8").replace("+", "%20"));
@@ -61,8 +69,8 @@ public abstract class AbstractClient<D> {
             connection.setRequestProperty("ingelogdeGebruikerOpgemaakt", MDC.get("ingelogdeGebruikerOpgemaakt"));
             connection.setRequestProperty("trackAndTraceId", MDC.get("trackAndTraceId"));
             connection.setRequestProperty("url", MDC.get("url"));
-            connection.setReadTimeout(20000);
-            connection.setConnectTimeout(20000);
+            connection.setReadTimeout(timeOut);
+            connection.setConnectTimeout(timeOut);
 
             Timer.Context timer = null;
             if (metrics != null) {
@@ -83,7 +91,11 @@ public abstract class AbstractClient<D> {
                 LOGGER.debug("Error opgetreden, retry");
                 return getXML(uri, clazz, urlEncoden, LOGGER, true, metrics, metricsName, metricsClass, args);
             } else {
-                LOGGER.error("Fout bij omzetten xml {}", e.getStackTrace());
+                if (url == null) {
+                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), "lege url");
+                } else {
+                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), url.toString());
+                }
                 throw new LeesFoutException("Fout bij omzetten xml", e);
             }
         }
@@ -160,7 +172,6 @@ public abstract class AbstractClient<D> {
     @Deprecated
     protected String uitvoerenGet(String adres, Logger LOGGER) {
         LOGGER.info("Aanroepen via GET " + adres);
-        System.out.println("Aanroepen via GET " + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);

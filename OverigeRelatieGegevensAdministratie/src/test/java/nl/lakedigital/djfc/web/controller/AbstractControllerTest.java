@@ -25,6 +25,8 @@ public abstract class AbstractControllerTest<T extends AbstracteEntiteitMetSoort
     protected Mapper mapper;
     @Mock(type = MockType.NICE)
     protected MetricsService metricsService;
+    @Mock(type = MockType.NICE)
+    protected HttpServletRequest httpServletRequest;
     private Class<T> type;
     private Class<U> jsonType;
 
@@ -65,26 +67,4 @@ public abstract class AbstractControllerTest<T extends AbstracteEntiteitMetSoort
 
         verifyAll();
     }
-
-    //    @Test
-    //    public void zoeken() {
-    //        String zoekTerm = "zoekTerm";
-    //        List<T> domainEntiteiten = new ArrayList<>();
-    //        T t = getEntiteit();
-    //        domainEntiteiten.add(t);
-    //
-    //        List<U> jsonEntiteiten = new ArrayList<>();
-    //        U u = getJsonEntiteit();
-    //        jsonEntiteiten.add(u);
-    //
-    //        expect(getService().zoeken(zoekTerm)).andReturn(domainEntiteiten);
-    //        expect(mapper.map(t, jsonType)).andReturn(u);
-    //
-    //        replayAll();
-    //
-    //        assertEquals(jsonEntiteiten, getController().zoeken(zoekTerm));
-    //
-    //        verifyAll();
-    //    }
-
 }

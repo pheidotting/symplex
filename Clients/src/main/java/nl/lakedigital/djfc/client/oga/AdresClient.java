@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static java.lang.String.join;
 
 public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenResponse> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AdresClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdresClient.class);
 
     private final String URL_LIJST = "/rest/adres/alles";
     private final String URL_VERWIJDEREN = "/rest/adres/verwijderen";

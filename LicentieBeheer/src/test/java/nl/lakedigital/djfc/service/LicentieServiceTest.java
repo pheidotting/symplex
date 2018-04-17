@@ -51,7 +51,7 @@ public class LicentieServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        assertThat(licentieService.eindDatumLicentie(kantoorId), is(new LocalDate(2018, 3, 5)));
+        assertThat(licentieService.actieveLicentie(kantoorId), is(trial));
 
         verifyAll();
     }

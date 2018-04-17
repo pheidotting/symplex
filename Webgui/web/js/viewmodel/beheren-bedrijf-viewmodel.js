@@ -6,7 +6,7 @@ define(['jquery',
         'commons/commonFunctions',
         'commons/block',
         'commons/3rdparty/log',
-		'redirect',
+        'redirect',
         'mapper/bedrijf-mapper',
         'mapper/contactpersoon-mapper',
         'service/bedrijf-service',
@@ -21,133 +21,124 @@ define(['jquery',
         'viewmodel/common/licentie-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
-    rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel, LicentieViewmodel) {
+    function ($, commonFunctions, ko, Relatie, Contactpersoon, functions, block, log, redirect, bedrijfMapper, contactpersoonMapper, bedrijfService, adresViewModel,
+              rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, toggleService, menubalkViewmodel, LicentieViewmodel) {
 
-    return function(id) {
-        var _this = this;
-        var soortEntiteit = 'BEDRIJF';
+        return function () {
+            var _this = this;
+            var soortEntiteit = 'BEDRIJF';
 
-        this.adressenModel          = null;
-        this.rekeningnummerModel    = null;
-        this.telefoonnummersModel   = null;
-        this.opmerkingenModel       = null;
-        this.bijlageModel           = null;
-		this.telefonie              = null;
-		this.bedrijf                = null;
-		this.conactpersonen         = null;
-		this.licentieViewmodel      = null;
+            this.adressenModel = null;
+            this.rekeningnummerModel = null;
+            this.telefoonnummersModel = null;
+            this.opmerkingenModel = null;
+            this.bijlageModel = null;
+            this.telefonie = null;
+            this.bedrijf = null;
+            this.conactpersonen = null;
+            this.licentieViewmodel = null;
 
-		this.onderlingeRelaties = ko.observableArray();
-		this.lijst = ko.observableArray();
+            this.onderlingeRelaties = ko.observableArray();
+            this.lijst = ko.observableArray();
 
-        this.zoekTerm = function(){};
-        this.zoekRelaties = function(){};
+            this.veranderDatum = function (datum) {
+                datum(commonFunctions.zetDatumOm(datum()));
+                zo
+            };
 
-		this.voegRelatieToe = function(datum){
+            this.init = function (id) {
+                var deferred = $.Deferred();
 
-		};
+                $.when(bedrijfService.leesBedrijf(id.identificatie)).then(function (bedrijf) {
+                    _this.bedrijf = bedrijfMapper.mapBedrijf(bedrijf);
 
-		this.veranderDatum = function(datum){
-			datum(commonFunctions.zetDatumOm(datum()));zo
-		};
+                    _this.telefoonnummersModel = new telefoonnummerViewModel(false, soortEntiteit, id, bedrijf.telefoonnummers);
+                    _this.adressenModel = new adresViewModel(false, soortEntiteit, id, bedrijf.adressen);
+                    _this.opmerkingenModel = new opmerkingViewModel(false, soortEntiteit, id, bedrijf.opmerkingen);
+                    _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages, id.identificatie == null);
+                    _this.telefonie = new telefonieViewModel(bedrijf.telefoonnummerMetGesprekkens);
 
-        this.init = function(id) {
-            var deferred = $.Deferred();
+                    _this.contactpersonen = contactpersoonMapper.mapContactpersonen(bedrijf.contactPersoons);
 
-            $.when(bedrijfService.leesBedrijf(id.identificatie)).then(function(bedrijf){
-                _this.bedrijf = bedrijfMapper.mapBedrijf(bedrijf);
+                    _this.menubalkViewmodel = new menubalkViewmodel(id.identificatie, 'Bedrijf');
+                    _this.licentieViewmodel = new LicentieViewmodel();
 
-                _this.telefoonnummersModel  = new telefoonnummerViewModel(false, soortEntiteit, id, bedrijf.telefoonnummers);
-                _this.adressenModel         = new adresViewModel(false, soortEntiteit, id, bedrijf.adressen);
-                _this.opmerkingenModel      = new opmerkingViewModel(false, soortEntiteit, id, bedrijf.opmerkingen);
-                _this.bijlageModel          = new bijlageViewModel(false, soortEntiteit, id, bedrijf.bijlages, bedrijf.groepBijlages, id.identificatie == null);
-                _this.telefonie             = new telefonieViewModel(bedrijf.telefoonnummerMetGesprekkens);
+                    return deferred.resolve();
+                });
 
-                _this.contactpersonen = contactpersoonMapper.mapContactpersonen(bedrijf.contactPersoons);
+                return deferred.promise();
+            };
 
-                _this.menubalkViewmodel     = new menubalkViewmodel(id.identificatie, 'Bedrijf');
-                _this.licentieViewmodel     = new LicentieViewmodel();
 
-                return deferred.resolve();
+            this.schermTonen = ko.computed(function () {
+                return true;
             });
+            this.readOnly = ko.observable(false);
+            this.notReadOnly = ko.observable(true);
 
-            return deferred.promise();
+            this.veranderDatum = function (datum) {
+                if (datum != null) {
+                    datum(commonFunctions.zetDatumOm(datum()));
+                }
+            };
+
+            this.zetPostcodeOm = function () {
+                var postcode = _this.postcode();
+                if (postcode !== null && postcode.length === 6) {
+                    postcode = postcode.toUpperCase();
+                    postcode = postcode.substring(0, 4) + " " + postcode.substring(4);
+                    _this.postcode(postcode);
+                }
+            };
+
+            this.naarTaak = function (taak) {
+                redirect.redirect('TAAK', taak.id());
+            };
+
+            this.opslaan = function () {
+                _this.bedrijf.adressen = _this.adressenModel.adressen;
+                _this.bedrijf.telefoonnummers = _this.telefoonnummersModel.telefoonnummers;
+                _this.bedrijf.opmerkingen = _this.opmerkingenModel.opmerkingen;
+                _this.bedrijf.contactpersonen = _this.contactpersonen;
+
+                var result = ko.validation.group(_this.bedrijf, {deep: true});
+                if (result().length > 0) {
+                    result.showAllMessages(true);
+                } else {
+                    var foutmelding;
+                    bedrijfService.opslaan(_this.bedrijf, _this.telefoonnummersModel.telefoonnummers).done(function () {
+                        document.location.href = 'zoeken.html';
+                        commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
+                    }).fail(function (response) {
+                        commonFunctions.plaatsFoutmelding(response);
+                        foutmelding = true;
+                    });
+                    if (foutmelding === undefined || foutmelding === null) {
+                        document.location.href = 'zoeken.html';
+                        commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
+                    }
+                }
+            };
+
+            this.verwijderenBedrijf = function (bedrijf) {
+                dataServices.verwijderRelatie(ko.utils.unwrapObservable(bedrijf.id));
+                redirect.redirect('LIJST_BEDRIJVEN');
+            };
+
+            this.annuleren = function () {
+                redirect.redirect('LIJST_BEDRIJVEN');
+            };
+
+            this.voegContactpersoonToe = function () {
+                _this.contactpersonen().push(new Contactpersoon(''));
+                _this.contactpersonen.valueHasMutated();
+            };
+
+            this.verwijderContactpersoon = function (contactpersoon) {
+                _this.contactpersonen.remove(function (item) {
+                    return item.voornaam() === contactpersoon.voornaam() && item.achternaam() === contactpersoon.achternaam();
+                });
+                _this.contactpersonen.valueHasMutated();
+            };
         };
-
-
-        this.schermTonen = ko.computed(function(){
-//            if(data.id == null || data.id === 0) {
-//                return false;
-//            }
-            return true;
-        });
-        this.readOnly = ko.observable(false);
-        this.notReadOnly = ko.observable(true);
-
-		this.veranderDatum = function(datum){
-    		if(datum != null) {
-	    		datum(commonFunctions.zetDatumOm(datum()));
-			}
-		};
-
-		this.zetPostcodeOm = function(){
-			var postcode = _this.postcode();
-			if(postcode !== null && postcode.length === 6){
-                postcode = postcode.toUpperCase();
-                postcode = postcode.substring(0, 4) + " " + postcode.substring(4);
-                _this.postcode(postcode);
-			}
-		};
-
-		this.naarTaak = function(taak){
-		    redirect.redirect('TAAK', taak.id());
-		};
-
-		this.opslaan = function(){
-		    _this.bedrijf.adressen = _this.adressenModel.adressen;
-		    _this.bedrijf.telefoonnummers = _this.telefoonnummersModel.telefoonnummers;
-		    _this.bedrijf.opmerkingen = _this.opmerkingenModel.opmerkingen;
-		    _this.bedrijf.contactpersonen = _this.contactpersonen;
-
-	    	var result = ko.validation.group(_this.bedrijf, {deep: true});
-	    	if(result().length > 0) {
-	    		result.showAllMessages(true);
-	    	}else{
-				var foutmelding;
-				bedrijfService.opslaan(_this.bedrijf, _this.telefoonnummersModel.telefoonnummers).done(function(){
-                    document.location.href = 'zoeken.html';
-					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-				}).fail(function(response){
-					commonFunctions.plaatsFoutmelding(response);
-					foutmelding = true;
-				});
-				if(foutmelding === undefined || foutmelding === null){
-                    document.location.href = 'zoeken.html';
-					commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-				}
-	    	}
-		};
-
-		this.verwijderenBedrijf = function(bedrijf){
-			dataServices.verwijderRelatie(ko.utils.unwrapObservable(bedrijf.id));
-			redirect.redirect('LIJST_BEDRIJVEN');
-		};
-
-        this.annuleren = function(){
-            redirect.redirect('LIJST_BEDRIJVEN');
-        };
-
-        this.voegContactpersoonToe = function(){
-            _this.contactpersonen().push(new Contactpersoon(''));
-            _this.contactpersonen.valueHasMutated();
-        };
-
-        this.verwijderContactpersoon = function(contactpersoon) {
-            _this.contactpersonen.remove(function (item) {
-                return item.voornaam() === contactpersoon.voornaam() && item.achternaam() === contactpersoon.achternaam();
-            });
-            _this.contactpersonen.valueHasMutated();
-        };
-	};
-});
+    });

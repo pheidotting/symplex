@@ -43,16 +43,16 @@ public abstract class CommunicatieProduct {
     @Column(name="ONDERWERP")
     private String onderwerp;
 
+    public CommunicatieProduct() {
+        setDatumTijdCreatie(LocalDateTime.now());
+    }
+
     public String getOnderwerp() {
         return onderwerp;
     }
 
     public void setOnderwerp(String onderwerp) {
         this.onderwerp = onderwerp;
-    }
-
-    public CommunicatieProduct(){
-        setDatumTijdCreatie(LocalDateTime.now());
     }
 
     public Long getId() {

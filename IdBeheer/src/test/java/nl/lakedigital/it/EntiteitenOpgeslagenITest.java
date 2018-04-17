@@ -159,7 +159,7 @@ public class EntiteitenOpgeslagenITest {
                 fail("gevonden is null, dit mag niet voorkomen");
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(500);//NOSONAR
             } catch (InterruptedException e) {
                 LOGGER.trace("{}", e);
                 Thread.currentThread().interrupt();
@@ -181,7 +181,7 @@ public class EntiteitenOpgeslagenITest {
 
             assertThat(gevonden, is(nullValue()));
             try {
-                Thread.sleep(100);
+                Thread.sleep(100);//NOSONAR
             } catch (InterruptedException e) {
                 LOGGER.trace("{}", e);
                 Thread.currentThread().interrupt();

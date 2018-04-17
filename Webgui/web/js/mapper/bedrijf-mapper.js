@@ -3,16 +3,16 @@ define(['jquery',
         'commons/3rdparty/log',
         'knockout',
         'mapper/adres-mapper'],
-	function ($, Bedrijf, log, ko, adresMapper) {
+    function ($, Bedrijf, log, ko, adresMapper) {
         return {
-            mapBedrijf: function(r) {
+            mapBedrijf: function (r) {
                 return mappen(r);
             },
 
-            mapBedrijven: function(data) {
+            mapBedrijven: function (data) {
                 var bedrijven = ko.observableArray([]);
 
-                $.each(data, function(i, r){
+                $.each(data, function (i, r) {
                     bedrijven.push(mappen(r));
                 });
 
@@ -20,8 +20,8 @@ define(['jquery',
             }
         }
 
-        function mappen(data){
-            if(data != null) {
+        function mappen(data) {
+            if (data != null) {
                 var bedrijf = new Bedrijf();
 
                 bedrijf.id(data.id);
@@ -36,10 +36,10 @@ define(['jquery',
                 bedrijf.contactpersonen(data.contactpersonen);
                 bedrijf.identificatie(data.identificatie);
 
-               if(data.adressen != null){
+                if (data.adressen != null) {
                     bedrijf.adressen = ko.observableArray([]);
                     var adressen = adresMapper.mapAdressen(data.adressen);
-                    $.each(adressen(), function(i, adres){
+                    $.each(adressen(), function (i, adres) {
                         bedrijf.adressen.push(adres);
                     });
                 }

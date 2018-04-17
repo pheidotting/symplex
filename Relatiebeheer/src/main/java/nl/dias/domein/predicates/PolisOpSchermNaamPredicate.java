@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PolisOpSchermNaamPredicate implements Predicate<Polis> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(PolisOpSchermNaamPredicate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpSchermNaamPredicate.class);
     private String schermNaam;
 
     public PolisOpSchermNaamPredicate(String schermNaam) {
