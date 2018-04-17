@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.List;
 
 @Service
 public class IdentificatieService {
@@ -20,19 +19,12 @@ public class IdentificatieService {
         identificatieRepository.verwijder(identificatie);
     }
 
-    public void verwijder(List<Identificatie> identificaties) {
-        identificatieRepository.verwijder(identificaties);
-    }
 
     public void opslaan(Identificatie identificatie) {
         LOGGER.debug("{}", identificatie);
         if (zoek(identificatie.getSoortEntiteit(), identificatie.getEntiteitId()) == null) {
             identificatieRepository.opslaan(identificatie);
         }
-    }
-
-    public void opslaan(List<Identificatie> identificaties) {
-        identificatieRepository.opslaan(identificaties);
     }
 
     public Identificatie zoek(String soortEntiteit, Long entiteitId) {
