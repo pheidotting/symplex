@@ -105,7 +105,7 @@ public class IdentificatieRepository {
 
         LOGGER.trace("Komt {} al voor?", identificatieCode);
         Query query = getSession().getNamedQuery("Identificatie.zoekOpIdentificatieCode");
-        query.setParameter("identificatie", identificatieCode);
+        query.setParameter("identificatieCode", identificatieCode);
 
         List<Identificatie> identificaties = query.list();
 

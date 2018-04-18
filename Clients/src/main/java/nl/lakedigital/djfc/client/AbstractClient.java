@@ -72,6 +72,15 @@ public abstract class AbstractClient<D> {
             connection.setReadTimeout(timeOut);
             connection.setConnectTimeout(timeOut);
 
+            //LOGGEN
+            LOGGER.debug("Accept {}", "application/xml");
+            LOGGER.debug("ingelogdeGebruiker {}", MDC.get("ingelogdeGebruiker"));
+            LOGGER.debug("ingelogdeGebruikerOpgemaakt {}", MDC.get("ingelogdeGebruikerOpgemaakt"));
+            LOGGER.debug("trackAndTraceId {}", MDC.get("trackAndTraceId"));
+            LOGGER.debug("url {}", MDC.get("url"));
+            LOGGER.debug("Aan te roepen url : {}", url.toString());
+            //\\LOGGEN
+
             Timer.Context timer = null;
             if (metrics != null) {
                 timer = metrics.addTimerMetric(metricsName, metricsClass);
