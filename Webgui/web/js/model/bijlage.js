@@ -7,7 +7,7 @@ define(['knockout'],
             _this.id = ko.observable();
             _this.identificatie = ko.observable();
             _this.url = ko.computed(function () {
-                return "../dejonge/rest/medewerker/bijlage/download?id=" + _this.identificatie();
+                return "../dejonge/rest/medewerker/bijlage/download?id=" + _this.identificatie() + "&token=" + localStorage.getItem('symplexAccessToken').replace("Bearer ", "");
             }, this);
             _this.bestandsNaam = ko.observable();
             _this.omschrijving = ko.observable();
