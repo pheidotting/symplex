@@ -35,15 +35,8 @@ public class EmailCheckService {
         checks.stream().forEach(emailCheck -> {
             LOGGER.debug("Evalueren {}", emailCheck);
 
-            //            Relatie relatie = null;
-            //            for (Relatie r : relaties) {
-            //                if (r.getId().equals(emailCheck.getGebruiker())) {
-            //                    relatie = r;
-            //                }
-            //            }
             Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId().equals(emailCheck.getGebruiker())).findFirst();
-            //
-            //            if (relatie != null) {
+
             if (optionalRelatie.isPresent()) {
                 Relatie relatie = optionalRelatie.get();
 
