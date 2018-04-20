@@ -35,17 +35,17 @@ public class EmailCheckService {
         checks.stream().forEach(emailCheck -> {
             LOGGER.debug("Evalueren {}", emailCheck);
 
-            Relatie relatie = null;
-            for (Relatie r : relaties) {
-                if (r.getId().equals(emailCheck.getGebruiker())) {
-                    relatie = r;
-                }
-            }
-            //            Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId() == emailCheck.getGebruiker()).();
-
-            if (relatie != null) {
-                //            if (optionalRelatie.isPresent()) {
-                //                Relatie relatie = optionalRelatie.get();
+            //            Relatie relatie = null;
+            //            for (Relatie r : relaties) {
+            //                if (r.getId().equals(emailCheck.getGebruiker())) {
+            //                    relatie = r;
+            //                }
+            //            }
+            Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId().equals(emailCheck.getGebruiker())).findFirst();
+            //
+            //            if (relatie != null) {
+            if (optionalRelatie.isPresent()) {
+                Relatie relatie = optionalRelatie.get();
 
                 LOGGER.debug("Relatie gevonden, e-mailadres is {}", relatie.getEmailadres());
                 if (relatie.getEmailadres() == null || "".equals(relatie.getEmailadres())) {
@@ -68,7 +68,7 @@ public class EmailCheckService {
         //checken op nieuwe adressen
         LOGGER.debug("{} Relaties bekijken", relaties.size());
         relaties.stream().filter(relatie -> relatie.getEmailadres() != null && !"".equals(relatie.getEmailadres())).forEach(relatie -> {
-            if (checks.stream().noneMatch(emailCheck -> emailCheck.getGebruiker() == relatie.getId())) {
+            if (checks.stream().noneMatch(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId()))) {
                 emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
                 slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW, session, channelName, rateLimiter);
             }
@@ -76,7 +76,7 @@ public class EmailCheckService {
 
         LOGGER.debug("{} verdwenen E-mailadressen", verdwenenAdressen.size());
         verdwenenAdressen.stream().forEach(relatie -> {
-            Optional<EmailCheck> emailCheckOptional = checks.stream().filter(emailCheck -> emailCheck.getGebruiker() == relatie.getId()).findFirst();
+            Optional<EmailCheck> emailCheckOptional = checks.stream().filter(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId())).findFirst();
 
             if (emailCheckOptional.isPresent()) {
                 slackService.stuurBericht(emailCheckOptional.get().getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
