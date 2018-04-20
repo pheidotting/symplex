@@ -37,7 +37,8 @@ public class EmailCheckService {
 
             Relatie relatie = null;
             for (Relatie r : relaties) {
-                if (relatie.getId() == emailCheck.getGebruiker()) {
+                LOGGER.debug("Relatie {}", r);
+                if (r.getId() == emailCheck.getGebruiker()) {
                     relatie = r;
                 }
             }
