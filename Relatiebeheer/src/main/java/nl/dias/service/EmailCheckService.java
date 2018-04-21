@@ -35,7 +35,7 @@ public class EmailCheckService {
         checks.stream().forEach(emailCheck -> {
             LOGGER.debug("Evalueren {}", emailCheck);
 
-            Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId() == emailCheck.getGebruiker()).findFirst();
+            Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId().equals(emailCheck.getGebruiker())).findFirst();
 
             if (optionalRelatie.isPresent()) {
                 Relatie relatie = optionalRelatie.get();
@@ -61,7 +61,7 @@ public class EmailCheckService {
         //checken op nieuwe adressen
         LOGGER.debug("{} Relaties bekijken", relaties.size());
         relaties.stream().filter(relatie -> relatie.getEmailadres() != null && !"".equals(relatie.getEmailadres())).forEach(relatie -> {
-            if (checks.stream().noneMatch(emailCheck -> emailCheck.getGebruiker() == relatie.getId())) {
+            if (checks.stream().noneMatch(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId()))) {
                 emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
                 slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW, session, channelName, rateLimiter);
             }
@@ -69,7 +69,7 @@ public class EmailCheckService {
 
         LOGGER.debug("{} verdwenen E-mailadressen", verdwenenAdressen.size());
         verdwenenAdressen.stream().forEach(relatie -> {
-            Optional<EmailCheck> emailCheckOptional = checks.stream().filter(emailCheck -> emailCheck.getGebruiker() == relatie.getId()).findFirst();
+            Optional<EmailCheck> emailCheckOptional = checks.stream().filter(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId())).findFirst();
 
             if (emailCheckOptional.isPresent()) {
                 slackService.stuurBericht(emailCheckOptional.get().getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
