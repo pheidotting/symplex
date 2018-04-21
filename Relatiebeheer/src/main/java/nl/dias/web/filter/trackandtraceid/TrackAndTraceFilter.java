@@ -74,9 +74,18 @@ public class TrackAndTraceFilter implements Filter {
             MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(ingelogdeGebruiker));
         }
         MDC.put("trackAndTraceId", trackAndTraceId);
-        MDC.put("url", url);
+        MDC.put("url", stripToken(url));
 
         filterChain.doFilter(requestWrapper, servletResponse);
+    }
+
+    private String stripToken(String urlMetToken) {
+        int pos = urlMetToken.indexOf("&token=");
+        if (pos > 0) {
+            return urlMetToken.substring(0, pos);
+        } else {
+            return urlMetToken;
+        }
     }
 
     @Override

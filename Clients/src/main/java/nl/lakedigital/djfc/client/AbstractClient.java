@@ -55,7 +55,7 @@ public abstract class AbstractClient<D> {
                 stringBuilder.append(arg);
             }
         }
-        URL url;
+        URL url = null;
         try {
             if (urlEncoden) {
                 url = new URL(basisUrl + uri + URLEncoder.encode(stringBuilder.toString(), "UTF-8").replace("+", "%20"));
@@ -71,6 +71,15 @@ public abstract class AbstractClient<D> {
             connection.setRequestProperty("url", MDC.get("url"));
             connection.setReadTimeout(timeOut);
             connection.setConnectTimeout(timeOut);
+
+            //LOGGEN
+            LOGGER.debug("Accept {}", "application/xml");
+            LOGGER.debug("ingelogdeGebruiker {}", MDC.get("ingelogdeGebruiker"));
+            LOGGER.debug("ingelogdeGebruikerOpgemaakt {}", MDC.get("ingelogdeGebruikerOpgemaakt"));
+            LOGGER.debug("trackAndTraceId {}", MDC.get("trackAndTraceId"));
+            LOGGER.debug("url {}", MDC.get("url"));
+            LOGGER.debug("Aan te roepen url : {}", url.toString());
+            //\\LOGGEN
 
             Timer.Context timer = null;
             if (metrics != null) {
@@ -91,7 +100,11 @@ public abstract class AbstractClient<D> {
                 LOGGER.debug("Error opgetreden, retry");
                 return getXML(uri, clazz, urlEncoden, LOGGER, true, metrics, metricsName, metricsClass, args);
             } else {
-                LOGGER.error("Fout bij omzetten xml {}", e.getStackTrace());
+                if (url == null) {
+                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), "lege url");
+                } else {
+                    LOGGER.error("Fout bij omzetten xml {}, url : {}", e.getStackTrace(), url.toString());
+                }
                 throw new LeesFoutException("Fout bij omzetten xml", e);
             }
         }

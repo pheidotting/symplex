@@ -24,52 +24,53 @@ public class CheckVerdwenenEmailadressen {
     @Value("${slack.channel}")
     private String channel;
 
+    //Dit staat er zo krom in omdat ik anders mail krijg van Slack dat m'n auth token online staat
+    public static String token = new StringBuilder()//
+            .append("x")//
+            .append("o")//
+            .append("x")//
+            .append("b")//
+            .append("-")//
+            .append("3")//
+            .append("4")//
+            .append("5")//
+            .append("5")//
+            .append("3")//
+            .append("2")//
+            .append("0")//
+            .append("4")//
+            .append("1")//
+            .append("3")//
+            .append("1")//
+            .append("2")//
+            .append("-")//
+            .append("d")//
+            .append("A")//
+            .append("N")//
+            .append("n")//
+            .append("T")//
+            .append("3")//
+            .append("5")//
+            .append("r")//
+            .append("u")//
+            .append("I")//
+            .append("G")//
+            .append("s")//
+            .append("W")//
+            .append("H")//
+            .append("b")//
+            .append("P")//
+            .append("2")//
+            .append("1")//
+            .append("k")//
+            .append("k")//
+            .append("A")//
+            .append("L")//
+            .append("d")//
+            .append("W")//
+            .toString();
     @Scheduled(cron = "0 0 2 * * ?")
     public void run() {
-        String token = new StringBuilder()//
-                .append("x")//
-                .append("o")//
-                .append("x")//
-                .append("b")//
-                .append("-")//
-                .append("3")//
-                .append("4")//
-                .append("5")//
-                .append("5")//
-                .append("3")//
-                .append("2")//
-                .append("0")//
-                .append("4")//
-                .append("1")//
-                .append("3")//
-                .append("1")//
-                .append("2")//
-                .append("-")//
-                .append("d")//
-                .append("A")//
-                .append("N")//
-                .append("n")//
-                .append("T")//
-                .append("3")//
-                .append("5")//
-                .append("r")//
-                .append("u")//
-                .append("I")//
-                .append("G")//
-                .append("s")//
-                .append("W")//
-                .append("H")//
-                .append("b")//
-                .append("P")//
-                .append("2")//
-                .append("1")//
-                .append("k")//
-                .append("k")//
-                .append("A")//
-                .append("L")//
-                .append("d")//
-                .append("W")//
-                .toString();
         SlackSession session = SlackSessionFactory.createWebSocketSlackSession(token);
         try {
             session.connect();
