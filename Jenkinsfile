@@ -571,8 +571,8 @@ pipeline {
                 sh '''
                     scp TestSysteem/target/test.war jetty@192.168.91.215:/opt/jetty/webapps
 
-                    scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp Communicatie/src/main/resources/tst/comm.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp Communicatie/src/main/resources/tst/comm.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp Communicatie/target/communicatie.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
