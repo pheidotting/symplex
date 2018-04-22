@@ -37,14 +37,25 @@ define(['jquery',
                 } else {
                     _this.afkorting(_this.bedrijfsnaam().toLowerCase());
                 }
+
                 _this.komtAfkortingVoor(_this);
             };
 
             this.komtAfkortingVoor = function (afkorting) {
-                $.get('dejonge/rest/authorisatie/komtAfkortingAlVoor/' + afkorting.afkorting()).done(function (result) {
-                    _this.afkortingKomtVoor(result);
-                    _this.genereerInlognaam();
-                });
+                if (afkorting.afkorting() == null || afkorting.afkorting() == '') {
+                    _this.genereerAfkorting();
+                    _this.komtAfkortingVoor(_this);
+                } else {
+                    $.get('dejonge/rest/authorisatie/komtAfkortingAlVoor/' + afkorting.afkorting()).done(function (result) {
+                        _this.afkortingKomtVoor(result);
+                        _this.genereerInlognaam();
+
+                        if (result) {
+                            _this.afkorting(_this.afkorting() + 1);
+                            _this.komtAfkortingVoor(afkorting);
+                        }
+                    });
+                }
             };
 
             this.genereerInlognaam = function () {
