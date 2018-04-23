@@ -42,7 +42,7 @@ public class EmailVerzendService implements AbstractVerzendService {
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
-    @Inject
+    //    @Inject
     private BijlageClient bijlageClient;
     private RateLimiter rateLimiter;
 
