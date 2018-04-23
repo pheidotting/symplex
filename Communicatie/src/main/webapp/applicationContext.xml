@@ -105,8 +105,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <!--<property name="messageResolver" ref="messageResolver" />-->
     </bean>
 
-    <bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">
-        <constructor-arg value="${oga.url}"/>
-        <property name="metricsService" ref="metricsService"/>
-    </bean>
+    <!--<bean id="bijlageClient" class="nl.lakedigital.djfc.client.oga.BijlageClient">-->
+    <!--<constructor-arg value="${oga.url}"/>-->
+    <!--<property name="metricsService" ref="metricsService"/>-->
+    <!--</bean>-->
 </beans>
