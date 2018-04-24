@@ -102,8 +102,9 @@ public class BijlageController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+        JsonBijlage bijlage = bijlageClient.lees(identificatie.getEntiteitId());
 
-        metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
+        metricsService.addMetric("verwijderen" + bijlage.getSoortEntiteit(), BijlageController.class, null, null);
 
         bijlageClient.verwijder(identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
@@ -124,6 +125,8 @@ public class BijlageController extends AbstractController {
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
 
         JsonBijlage bijlage = bijlageClient.lees(identificatie.getEntiteitId());
+
+        metricsService.addMetric("download" + bijlage.getSoortEntiteit(), BijlageController.class, null, null);
 
         File file = new File(bijlageClient.getUploadPad() + "/" + bijlage.getS3Identificatie());
 
