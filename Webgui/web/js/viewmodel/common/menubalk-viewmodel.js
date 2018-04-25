@@ -105,5 +105,14 @@ define(['redirect',
                     $('#nieuweHypotheekLink').hide();
                 }
             }
+
+            var loc = window.location.href;
+            var posHashtag = loc.indexOf("#");
+            loc =loc.substring(posHashtag);
+            var posSlash = loc.indexOf("/");
+
+            if(loc.substring(0, posSlash) =='#polissen'){
+                $('#nieuwePolisLink').show();
+            }
         };
     });
