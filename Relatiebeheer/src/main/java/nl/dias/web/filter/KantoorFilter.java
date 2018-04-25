@@ -41,11 +41,10 @@ public class KantoorFilter implements Filter {
         byte[] bytes = wrappedResponse.getByteArray();
 
         String responseString = new String(bytes);
-        LOGGER.debug("Mag persoon deze gegevens zien?");
-        LOGGER.debug(responseString);
+        LOGGER.trace(responseString);
 
         if (getFullURL((HttpServletRequest) request).contains("/relatie/lees/")) {
-            LOGGER.debug("Relatie opvragen");
+            LOGGER.trace("Relatie opvragen");
 
             nl.lakedigital.djfc.domain.response.Relatie relatieRes = (nl.lakedigital.djfc.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Relatie.class);
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(relatieRes.getIdentificatie());
@@ -53,20 +52,25 @@ public class KantoorFilter implements Filter {
 
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
-            LOGGER.debug("Gevraagd, relatie met id {}, kantoor {}", relatie.getId(), relatie.getKantoor());
-            LOGGER.debug("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
+            LOGGER.trace("Gevraagd, relatie met id {}, kantoor {}", relatie.getId(), relatie.getKantoor());
+            LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
 
             if (relatie == null || relatie.getKantoor().getId() != ingelogdeGebruiker.getKantoor().getId()) {
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 responseString = "";
             }
         } else if (getFullURL((HttpServletRequest) request).contains("/bedrijf/lees/")) {
+            LOGGER.trace("Bedrijf opvragen");
+
             nl.lakedigital.djfc.domain.response.Bedrijf bedrijfRes = (nl.lakedigital.djfc.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Bedrijf.class);
 
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(bedrijfRes.getIdentificatie());
             Bedrijf bedrijf = bedrijfService.lees(identificatie.getEntiteitId());
 
             Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+
+            LOGGER.trace("Gevraagd, bedrijf met id {}, kantoor {}", bedrijf.getId(), bedrijf.getKantoor());
+            LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
 
             if (bedrijf != null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
