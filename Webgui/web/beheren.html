@@ -88,9 +88,6 @@
                     <li><a style="cursor: pointer;"
                            data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
                     </li>
-                    <li id="nieuwePolisLink"><a style="cursor: pointer;"
-                                                data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe
-                        polis</a>
                     </li>
                     <li id="polisLijstLink"><a style="cursor: pointer;"
                                                data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
@@ -124,6 +121,8 @@
             </div>
         </div>
     </div>
+    <button id="nieuwePolisLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuw</button>
+
     <div id="content"></div>
 </div>
 
