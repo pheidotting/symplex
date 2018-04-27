@@ -1,10 +1,12 @@
 package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
+import nl.dias.domein.Kantoor;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.SchadeService;
+import nl.dias.web.mapper.SchadeMapper;
 import nl.lakedigital.djfc.commons.json.Dashboard;
 import nl.lakedigital.djfc.commons.json.RelatieZoekResultaat;
 import nl.lakedigital.djfc.metrics.MetricsService;
@@ -29,6 +31,8 @@ public class DashboardController extends AbstractController {
     private GebruikerService gebruikerService;
     @Inject
     private SchadeService schadeService;
+    @Inject
+    private SchadeMapper schadeMapper;
 
     @RequestMapping(method = RequestMethod.GET, value = "/dashboard", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -36,15 +40,18 @@ public class DashboardController extends AbstractController {
         Timer.Context timer = metricsService.addTimerMetric("dashboard", DashboardController.class);
 
         zetSessieWaarden(httpServletRequest);
+        Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
         Dashboard dashboard = new Dashboard();
 
-        List<RelatieZoekResultaat> relaties = gebruikerService.alleRelaties(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor()).stream().map(new Function<Relatie, RelatieZoekResultaat>() {
+        List<RelatieZoekResultaat> relaties = gebruikerService.alleRelaties(kantoor).stream().map(new Function<Relatie, RelatieZoekResultaat>() {
             @Override
             public RelatieZoekResultaat apply(Relatie relatie) {
                 RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();
                 relatieZoekResultaat.setAchternaam(relatie.getAchternaam());
-                relatieZoekResultaat.setGeboortedatum(relatie.getGeboorteDatum().toString("yyyy-MM-dd"));
+                if (relatie.getGeboorteDatum() != null) {
+                    relatieZoekResultaat.setGeboortedatum(relatie.getGeboorteDatum().toString("yyyy-MM-dd"));
+                }
                 relatieZoekResultaat.setRoepnaam(relatie.getRoepnaam());
                 relatieZoekResultaat.setTussenvoegsel(relatie.getTussenvoegsel());
                 relatieZoekResultaat.setVoornaam(relatie.getVoornaam());
@@ -55,6 +62,7 @@ public class DashboardController extends AbstractController {
 
         dashboard.setRelaties(relaties);
 
+        dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
 
         metricsService.stop(timer);
 
