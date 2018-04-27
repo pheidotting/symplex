@@ -172,16 +172,25 @@ td.hypotheekBedrag {
     width: 185px;
 }
 
+.nieuwKnopPlus {
+    color: #0e71b8;
+    padding-top:5px;
+}
+
 .nieuwKnop {
-    background-color: #0e71b8;
+    background-color: #ffffff;
     border: 0px;
-    color: #ffffff;
-    height: 44px;
-    margin-left: 90px;
-    font-weight: bold;
+    color: #0e71b8;
+    height: 30px;
     font-size: 16px;
-    padding-left: 10px;
-    padding-right: 10px;
-    display:none;
     margin-bottom: 10px;
+    cursor: pointer;
+    display: none;
+    margin-top:-5px;
+}
+
+.nieuwKnopDiv {
+    display: none;
+    margin-left: 90px;
+    padding-bottom:15px;
 }
