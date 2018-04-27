@@ -112,7 +112,18 @@ define(['redirect',
             var posSlash = loc.indexOf("/");
 
             if(loc.substring(0, posSlash) =='#polissen'){
+                $('#nieuwKnopDiv').show();
                 $('#nieuwePolisLink').show();
+            }
+
+            if(loc.substring(0, posSlash) =='#schades'){
+                $('#nieuwKnopDiv').show();
+                $('#nieuweSchadeLink').show();
+            }
+
+            if(loc.substring(0, posSlash) =='#hypotheken'){
+                $('#nieuwKnopDiv').show();
+                $('#nieuweHypotheekLink').show();
             }
         };
     });
