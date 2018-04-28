@@ -133,6 +133,21 @@ public class SchadeRepositoryTest {
         assertThat(schadeRepository.alleOpenSchade(kantoor).size(), is(1));
         assertThat(schadeRepository.alleOpenSchade(kantoor2).size(), is(1));
         assertThat(schadeRepository.alleOpenSchade(kantoor3).size(), is(0));
+
+        schadeRepository.getTransaction();
+        schadeRepository.getSession().delete(afgehandeldeSchade3);
+        schadeRepository.getSession().delete(afgehandeldeSchade);
+        schadeRepository.getSession().delete(openSchade2);
+        schadeRepository.getSession().delete(openSchade);
+        schadeRepository.getSession().delete(polis3);
+        schadeRepository.getSession().delete(relatie3);
+        schadeRepository.getSession().delete(relatie2);
+        schadeRepository.getSession().delete(relatie);
+        schadeRepository.getSession().delete(kantoor3);
+        schadeRepository.getSession().delete(kantoor2);
+        schadeRepository.getSession().delete(kantoor);
+        schadeRepository.getTransaction().commit();
+
     }
 
 }
