@@ -59,10 +59,6 @@ public class LicentieService {
                 break;
         }
 
-        if (licentie == null) {
-            throw new LicentieSoortNietGevondenException();
-        }
-
         licentie.setKantoor(kantoor);
         licentieRepository.opslaan(licentie);
     }
