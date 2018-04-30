@@ -2,7 +2,6 @@ package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.domain.Kantoor;
 import nl.lakedigital.djfc.domain.*;
-import nl.lakedigital.djfc.exception.LicentieSoortNietGevondenException;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -41,7 +40,7 @@ public class LicentieService {
         LOGGER.debug("ID {}", trial.getId());
     }
 
-    public void nieuweLicentie(String soort, Long kantoor) throws LicentieSoortNietGevondenException {
+    public void nieuweLicentie(String soort, Long kantoor) {
         Licentie licentie;
         switch (soort) {
             case "brons":
@@ -64,9 +63,7 @@ public class LicentieService {
     }
 
     public Licentie actieveLicentie(Long kantoorId) {
-        LOGGER.debug("AA");
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
-        LOGGER.debug("BB");
 
         licenties.sort((o1, o2) -> o2.getStartDatum().compareTo(o1.getStartDatum()));
         if (licenties.isEmpty()) {

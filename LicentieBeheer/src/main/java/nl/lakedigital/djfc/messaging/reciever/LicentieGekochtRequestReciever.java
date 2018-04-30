@@ -2,7 +2,6 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import nl.lakedigital.as.messaging.request.licentie.LicentieGekochtRequest;
 import nl.lakedigital.as.messaging.request.licentie.LicentieGekochtResponse;
-import nl.lakedigital.djfc.exception.LicentieSoortNietGevondenException;
 import nl.lakedigital.djfc.messaging.sender.LicentieGekochtResponseSender;
 import nl.lakedigital.djfc.service.LicentieService;
 import org.slf4j.Logger;
@@ -24,7 +23,6 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
 
     @Override
     public void verwerkMessage(LicentieGekochtRequest licentieToegevoegd) {
-        try {
             licentieService.nieuweLicentie(licentieToegevoegd.getLicentieType(), licentieToegevoegd.getKantoor());
 
             LicentieGekochtResponse response = new LicentieGekochtResponse();
@@ -33,10 +31,5 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
             response.setPrijs(licentieService.bepaalPrijs(licentieToegevoegd.getLicentieType()));
 
             licentieGekochtResponseSender.send(response);
-
-        } catch (LicentieSoortNietGevondenException e) {
-            LOGGER.error("Licentie soort {} niet gevonden, kantoor id {}", licentieToegevoegd.getLicentieType(), licentieToegevoegd.getKantoor());
-            LOGGER.trace("sonar wil dat ik dit doe {}", e);
-        }
     }
 }
