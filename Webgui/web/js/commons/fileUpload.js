@@ -33,13 +33,14 @@ define(['commons/3rdparty/log',
 
                     $('#bijlageFile').val("");
 
+                    var result = null;
                     if (response.bijlage != null) {
-                        ret = bijlageMapper.mapBijlage(response.bijlage);
+                        result = bijlageMapper.mapBijlage(response.bijlage);
                     } else {
-                        ret = groepbijlageMapper.mapGroepbijlage(response.groepBijlages);
+                        result = groepbijlageMapper.mapGroepbijlage(response.groepBijlages);
                     }
 
-                    return deferred.resolve(ret);
+                    return deferred.resolve(result);
                 });
 
                 return deferred.promise();

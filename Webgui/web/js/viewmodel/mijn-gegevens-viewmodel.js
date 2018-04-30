@@ -117,7 +117,7 @@ define(['jquery',
                 var variationCount = 0;
                 for (var check in variations) {
                     if (variations.hasOwnProperty(check)) {
-                        variationCount += (variations[check] == true) ? 1 : 0;
+                        variationCount += (variations[check]) ? 1 : 0;
                     }
                 }
                 score += (variationCount - 1) * 10;
