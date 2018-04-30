@@ -55,4 +55,19 @@ public class LicentieServiceTest extends EasyMockSupport {
 
         verifyAll();
     }
+
+    @Test
+    public void bepaalPrijs() {
+        String brons = "brons";
+        String zilver = "zilver";
+        String goud = "goud";
+        String administratiekantoor = "administratiekantoor";
+        String ietsanders = "ietsanders";
+
+        assertThat(licentieService.bepaalPrijs(brons), is(5.00));
+        assertThat(licentieService.bepaalPrijs(zilver), is(10.00));
+        assertThat(licentieService.bepaalPrijs(goud), is(20.00));
+        assertThat(licentieService.bepaalPrijs(administratiekantoor), is(15.00));
+        assertThat(licentieService.bepaalPrijs(ietsanders), is(15.00));
+    }
 }

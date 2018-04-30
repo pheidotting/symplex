@@ -13,14 +13,14 @@ import javax.inject.Inject;
 public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGekochtRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(LicentieGekochtRequestReciever.class);
 
-    public LicentieGekochtRequestReciever() {
-        super(LicentieGekochtRequest.class, LOGGER);
-    }
-
     @Inject
     private LicentieService licentieService;
     @Inject
     private LicentieGekochtResponseSender licentieGekochtResponseSender;
+
+    public LicentieGekochtRequestReciever() {
+        super(LicentieGekochtRequest.class, LOGGER);
+    }
 
     @Override
     public void verwerkMessage(LicentieGekochtRequest licentieToegevoegd) {
@@ -30,23 +30,7 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
             LicentieGekochtResponse response = new LicentieGekochtResponse();
             response.setKantoor(licentieToegevoegd.getKantoor());
             response.setLicentieType(licentieToegevoegd.getLicentieType());
-
-            Double prijs = null;
-            switch (licentieToegevoegd.getLicentieType()) {
-                case "brons":
-                    prijs = 5.00;
-                    break;
-                case "zilver":
-                    prijs = 10.00;
-                    break;
-                case "goud":
-                    prijs = 20.00;
-                    break;
-                case "administratiekantoor":
-                    prijs = 15.00;
-                    break;
-            }
-            response.setPrijs(prijs);
+            response.setPrijs(licentieService.bepaalPrijs(licentieToegevoegd.getLicentieType()));
 
             licentieGekochtResponseSender.send(response);
 
