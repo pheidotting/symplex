@@ -4,9 +4,11 @@ import com.codahale.metrics.Timer;
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
+import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.SchadeService;
 import nl.dias.web.mapper.SchadeMapper;
+import nl.lakedigital.djfc.commons.json.BedrijfZoekResultaat;
 import nl.lakedigital.djfc.commons.json.Dashboard;
 import nl.lakedigital.djfc.commons.json.RelatieZoekResultaat;
 import nl.lakedigital.djfc.metrics.MetricsService;
@@ -33,6 +35,8 @@ public class DashboardController extends AbstractController {
     private SchadeService schadeService;
     @Inject
     private SchadeMapper schadeMapper;
+    @Inject
+    private BedrijfService bedrijfService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/dashboard", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -63,6 +67,20 @@ public class DashboardController extends AbstractController {
         dashboard.setRelaties(relaties);
 
         dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
+
+        dashboard.setBedrijven(bedrijfService.alles().stream()//
+                .filter(bedrijf -> {
+                    if (getIngelogdeGebruiker(httpServletRequest) != null) {
+                        return bedrijf.getKantoor() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
+                    }
+                    return false;
+                }).map(bedrijf -> {
+                    BedrijfZoekResultaat bedrijfZoekResultaat = new BedrijfZoekResultaat();
+                    bedrijfZoekResultaat.setId(bedrijf.getId());
+                    bedrijfZoekResultaat.setNaam(bedrijf.getNaam());
+
+                    return bedrijfZoekResultaat;
+                }).collect(Collectors.toList()));
 
         metricsService.stop(timer);
 
