@@ -29,14 +29,14 @@ public class LicentieGekochtRequestReciever extends AbstractReciever<LicentieGek
     public void verwerkMessage(LicentieGekochtRequest licentieToegevoegd) {
         Timer.Context context = metricsService.addTimerMetric("verwerkMessage", LicentieGekochtRequestReciever.class);
 
-            licentieService.nieuweLicentie(licentieToegevoegd.getLicentieType(), licentieToegevoegd.getKantoor());
+        licentieService.nieuweLicentie(licentieToegevoegd.getLicentieType(), licentieToegevoegd.getKantoor());
 
-            LicentieGekochtResponse response = new LicentieGekochtResponse();
-            response.setKantoor(licentieToegevoegd.getKantoor());
-            response.setLicentieType(licentieToegevoegd.getLicentieType());
-            response.setPrijs(licentieService.bepaalPrijs(licentieToegevoegd.getLicentieType()));
+        LicentieGekochtResponse response = new LicentieGekochtResponse();
+        response.setKantoor(licentieToegevoegd.getKantoor());
+        response.setLicentieType(licentieToegevoegd.getLicentieType());
+        response.setPrijs(licentieService.bepaalPrijs(licentieToegevoegd.getLicentieType()));
 
-            licentieGekochtResponseSender.send(response);
+        licentieGekochtResponseSender.send(response);
 
         metricsService.stop(context);
     }
