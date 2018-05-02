@@ -6,6 +6,7 @@
 
     <!-- Eigen CSS -->
     <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="templates/zoeken/zoeken.css">
     <link rel="stylesheet" href="templates/dashboard/dashboard.css">
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
     <script>
@@ -65,13 +66,21 @@
         <div class="menu-balk-within">
             <div class="menu-balk-holder">
                 <ul>
-                    <li class="first"><a href="dashboard.html">Home</a></li>
+                    <li class="first"><a href="dashboard.html">Dashboard</a></li>
                     <li class="first" id="instellingenLink" style="display:none;"><a href="instellingen.html">Instellingen</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class="nieuwKnopDiv">
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
+
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
+    </div>
+
     <div id="content"></div>
 </div>
 

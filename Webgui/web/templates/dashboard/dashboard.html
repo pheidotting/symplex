@@ -1,24 +1,44 @@
-<div class="center">
-    <table>
-        <tr>
-            <td>Aantal relaties :</td>
-            <td><span data-bind="text: aantalRelaties"></span></td>
-
-            <td></td>
-        </tr>
-        <tr>
-            <td>Aantal bedrijven :</td>
-            <td><span data-bind="text: aantalBedrijven"></span></td>
-
-            <td><input type="text" placeholder="Snel zoeken">
-                <button>Zoek</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Aantal open schades :</td>
-            <td><span data-bind="text: aantalOpenSchades"></span></td>
-
-            <td class="td-uitgebreid-zoeken"><a href="zoeken.html" class="uitgebreid-zoeken">Uitgebreid zoeken</a></td>
-        </tr>
-    </table>
+<h2>Relatie zoeken</h2>
+<div class="zoekvelden">
+    <hr/>
 </div>
+<div class="top-zoek-scherm">
+    <form>
+        <div class="zoekvelden">
+            <label>Naam</label><input type="text" data-bind="value: zoekvelden.naam"/>
+            <label>Geboortedatum</label><input type="date" data-bind="value: zoekvelden.geboortedatum"/>
+            <label>Tussenvoegsel</label><input type="text" data-bind="value: zoekvelden.tussenvoegsel"/>
+            <label>Polisnummer</label><input type="text" data-bind="value: zoekvelden.polisnummer"/>
+            <label>Voorletters</label><input type="text" data-bind="value: zoekvelden.voorletters"/>
+            <label>Schadenummer</label><input type="text" data-bind="value: zoekvelden.schadenummer"/>
+            <label>Adres</label><input type="text" data-bind="value: zoekvelden.adres"/>
+            <label>Postcode</label><input type="text" data-bind="value: zoekvelden.postcode"/>
+            <label>Woonplaats</label><input type="text" data-bind="value: zoekvelden.woonplaats"/>
+            <label>Bedrijf</label><input type="checkbox" data-bind="checked: zoekvelden.bedrijf"/>
+        </div>
+        <div class="zoekknop">
+            <button data-bind="click: zoeken">Zoeken&nbsp;<span class="fa fa-search" aria-hidden="true"/></button>
+        </div>
+    </form>
+    <div class="actiepunten">
+        &nbsp;
+    </div>
+    <div class="clear"/>
+</div>
+
+<h2>Snel starten</h2>
+<div class="zoekvelden">
+    <hr/>
+</div>
+<br/>
+
+<div class="box">
+    <div>Aantal relaties :</div>
+    <div data-bind="text: aantalRelaties"></div>
+</div>
+
+<div class="box">
+    <div>Aantal open schades :</div>
+    <div data-bind="text: aantalOpenSchades"></div>
+</div>
+<div class="clear:both;"></div>
