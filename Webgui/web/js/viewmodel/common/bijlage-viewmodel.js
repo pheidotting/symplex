@@ -103,7 +103,7 @@ define(['commons/3rdparty/log',
             this.verwijderBijlage = function (bijlage) {
                 commonFunctions.verbergMeldingen();
                 var r = confirm("Weet je zeker dat je deze bijlage wilt verwijderen?");
-                if (r == true) {
+                if (r) {
                     _this.bijlages.remove(bijlage);
                     bijlageService.verwijderBijlage(bijlage.identificatie());
 

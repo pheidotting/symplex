@@ -2,9 +2,11 @@ package nl.dias.service;
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.ullink.slack.simpleslackapi.SlackSession;
+import nl.dias.domein.Bedrijf;
 import nl.dias.domein.EmailCheck;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.EmailCheckRepository;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import org.easymock.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,8 @@ public class EmailCheckServiceTest extends EasyMockSupport {
     @Mock
     private GebruikerService gebruikerService;
     @Mock
+    private BedrijfService bedrijfService;
+    @Mock
     private EmailCheckRepository emailCheckRepository;
     @Mock
     private SlackService slackService;
@@ -39,12 +43,21 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setId(3L);
         relatie.setEmailadres("mail1");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
+        Bedrijf bedrijf = new Bedrijf();
+        bedrijf.setId(4L);
+        bedrijf.setEmail("mail2");
+        expect(bedrijfService.alles()).andReturn(newArrayList(bedrijf));
 
-        Capture<EmailCheck> emailCheckCapture = newCapture();
-        emailCheckRepository.opslaan(capture(emailCheckCapture));
+        Capture<EmailCheck> emailCheckCaptureRelatie = newCapture();
+        emailCheckRepository.opslaan(capture(emailCheckCaptureRelatie));
+        expectLastCall();
+        Capture<EmailCheck> emailCheckCaptureBedrijf = newCapture();
+        emailCheckRepository.opslaan(capture(emailCheckCaptureBedrijf));
         expectLastCall();
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.NIEUW, session, channelName, rateLimiter);
+        slackService.stuurBericht("mail1", 3L, SoortEntiteit.RELATIE, SlackService.Soort.NIEUW, session, channelName, rateLimiter);
+        expectLastCall();
+        slackService.stuurBericht("mail2", 4L, SoortEntiteit.BEDRIJF, SlackService.Soort.NIEUW, session, channelName, rateLimiter);
         expectLastCall();
 
         replayAll();
@@ -53,10 +66,15 @@ public class EmailCheckServiceTest extends EasyMockSupport {
 
         verifyAll();
 
-        EmailCheck emailCheck = emailCheckCapture.getValue();
-        assertThat(emailCheck.getId(), is(nullValue()));
-        assertThat(emailCheck.getMailadres(), is("mail1"));
-        assertThat(emailCheck.getGebruiker(), is(3L));
+        EmailCheck emailCheckRelatie = emailCheckCaptureRelatie.getValue();
+        assertThat(emailCheckRelatie.getId(), is(nullValue()));
+        assertThat(emailCheckRelatie.getMailadres(), is("mail1"));
+        assertThat(emailCheckRelatie.getGebruiker(), is(3L));
+
+        EmailCheck emailCheckBedrijf = emailCheckCaptureBedrijf.getValue();
+        assertThat(emailCheckBedrijf.getId(), is(nullValue()));
+        assertThat(emailCheckBedrijf.getMailadres(), is("mail2"));
+        assertThat(emailCheckBedrijf.getGebruiker(), is(4L));
     }
 
     @Test
@@ -71,6 +89,7 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setId(3L);
         relatie.setEmailadres("mail1");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
+        expect(bedrijfService.alles()).andReturn(newArrayList());
 
         replayAll();
 
@@ -90,8 +109,9 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         Relatie relatie = new Relatie();
         relatie.setId(3L);
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
+        expect(bedrijfService.alles()).andReturn(newArrayList());
 
-        slackService.stuurBericht("mail1", 3L, SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
+        slackService.stuurBericht("mail1", 3L, SoortEntiteit.RELATIE, SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -121,8 +141,9 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         relatie.setId(3L);
         relatie.setEmailadres("mail2");
         expect(gebruikerService.alleRelaties()).andReturn(newArrayList(relatie));
+        expect(bedrijfService.alles()).andReturn(newArrayList());
 
-        slackService.stuurBericht("mail2", 3L, SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter);
+        slackService.stuurBericht("mail2", 3L, SoortEntiteit.RELATIE, SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter);
         expectLastCall();
 
         Capture<EmailCheck> emailCheckCapture = newCapture();
@@ -139,5 +160,5 @@ public class EmailCheckServiceTest extends EasyMockSupport {
         assertThat(emailCheck.getMailadres(), is("mail2"));
         assertThat(emailCheck.getGebruiker(), is(3L));
     }
-
 }
+
