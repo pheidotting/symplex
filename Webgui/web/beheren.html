@@ -93,9 +93,6 @@
                     <li id="polisLijstLink"><a style="cursor: pointer;"
                                                data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
                     </li>
-                    <li id="nieuweSchadeLink"><a style="cursor: pointer;"
-                                                 data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe
-                        schade</a>
                     </li>
                     <li id="schadeLijstLink"><a style="cursor: pointer;"
                                                 data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
@@ -105,12 +102,6 @@
                         <a
                                 style="cursor: pointer;"
                                 data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
-                    </li>
-                    <li id="nieuweHypotheekLink"
-                        data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie' && $root.menubalkViewmodel.licentieSoort != 'administratiekantoor'">
-                        <a
-                                style="cursor: pointer;"
-                                data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
                     </li>
                     <li><a style="cursor: pointer;"
                            data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
@@ -122,7 +113,12 @@
             </div>
         </div>
     </div>
-    <button id="nieuwePolisLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuw</button>
+    <div class="nieuwKnopDiv" id="nieuwKnopDiv">
+        <span class="fa fa-plus nieuwKnopPlus" id="nieuwPlus"></span>
+        <button id="nieuwePolisLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe Polis</button>
+        <button id="nieuweSchadeLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe schade</button>
+        <button id="nieuweHypotheekLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</button>
+    </div>
 
     <div id="content"></div>
 </div>

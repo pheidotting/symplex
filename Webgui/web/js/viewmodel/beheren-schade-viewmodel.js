@@ -118,7 +118,7 @@ define(['jquery',
                 return commonFunctions.zetDatumTijdOm(d);
             };
 
-            this.formatBedrag = function (datum) {
+            this.formatBedrag = function () {
                 return opmaak.maakBedragOp(bedrag());
             };
 
@@ -169,7 +169,6 @@ define(['jquery',
                     _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
                     schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-//                    redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'schades');
                     }).fail(function (data) {
                         allOk = false;
                         commonFunctions.plaatsFoutmelding(data);

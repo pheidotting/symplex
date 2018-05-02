@@ -58,9 +58,6 @@
 <img class="logo-bedrijf"
      data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
 
-<button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
-<button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
-
 <div class="main">
     <div id="hoofd"></div>
     <div class="menu-balk">
@@ -75,7 +72,16 @@
             </div>
         </div>
     </div>
+    <div class="nieuwKnopDiv">
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
+
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
+    </div>
+
     <div id="content"></div>
+
 </div>
 
 <div class="bottom"></div>

@@ -115,7 +115,7 @@ define(['jquery',
                 }
             };
 
-            this.verwijderenRelatie = function (relatie) {
+            this.verwijderenRelatie = function () {
                 logger.debug("verwijderen Relatie met id " + _this.relatie.id());
 
                 gebruikerService.verwijderRelatie(_this.identificatie).done(function () {

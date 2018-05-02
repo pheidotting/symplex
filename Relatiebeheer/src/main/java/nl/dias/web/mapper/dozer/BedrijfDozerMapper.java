@@ -21,6 +21,11 @@ public class BedrijfDozerMapper extends DozerConverter<Bedrijf, nl.lakedigital.d
         Bedrijf result = new Bedrijf();
         result.setKvk(jsonBedrijf.getKvk());
         result.setNaam(jsonBedrijf.getNaam());
+        result.setEmail(jsonBedrijf.getEmail());
+        result.setcAoVerplichtingen(jsonBedrijf.getcAoVerplichtingen());
+        result.setHoedanigheid(jsonBedrijf.getHoedanigheid());
+        result.setInternetadres(jsonBedrijf.getInternetadres());
+        result.setRechtsvorm(jsonBedrijf.getRechtsvorm());
         if (jsonBedrijf.getId() != null) {
             result.setId(Long.valueOf(jsonBedrijf.getId()));
         }
