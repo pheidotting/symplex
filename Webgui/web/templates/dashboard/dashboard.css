@@ -1,0 +1,28 @@
+.box {
+    width: 165px;
+    border-radius: 5px;
+    padding:20px;
+    float:left;
+    margin-left:80px;
+    margin-bottom:50px;
+    background-color:#0e71b8;
+    color:#ffffff;
+}
+
+.eerste {
+    margin-left:10px;
+}
+
+.box a {
+    color:#ffffff;
+    text-decoration: none;
+}
+
+.aantal {
+font-size:22px;
+font-weight: bold;
+}
+
+.centreren{
+text-align:center;
+}

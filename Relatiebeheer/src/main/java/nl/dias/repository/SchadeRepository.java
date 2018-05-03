@@ -1,10 +1,7 @@
 package nl.dias.repository;
 
 import com.codahale.metrics.Timer;
-import nl.dias.domein.Relatie;
-import nl.dias.domein.Schade;
-import nl.dias.domein.SoortSchade;
-import nl.dias.domein.StatusSchade;
+import nl.dias.domein.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -245,6 +242,23 @@ public class SchadeRepository {
 
         Query query = getSession().getNamedQuery("Schade.allesBijPolis");
         query.setParameter("polis", polis);
+
+        List<Schade> schades = query.list();
+
+        getTransaction().commit();
+
+        metricsService.stop(timer);
+
+        return schades;
+    }
+
+    public List<Schade> alleOpenSchade(Kantoor kantoor) {
+        Timer.Context timer = metricsService.addTimerMetric("alleOpenSchade", SchadeRepository.class);
+
+        getTransaction();
+
+        Query query = getSession().getNamedQuery("Schade.alleOpenSchades");
+        query.setParameter("kantoor", kantoor);
 
         List<Schade> schades = query.list();
 

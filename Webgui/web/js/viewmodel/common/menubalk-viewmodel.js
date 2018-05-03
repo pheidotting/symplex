@@ -10,6 +10,11 @@ define(['redirect',
             this.licentieSoort;
             if (soortEntiteit != null) {
                 this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
+            }else {
+                $('#linkNaarRelatie').hide();
+                $('#polisLijstLink').hide();
+                $('#schadeLijstLink').hide();
+                $('#belastingzakenLink').hide();
             }
 
             this.getSoortEntiteit = function () {
@@ -72,6 +77,23 @@ define(['redirect',
                 }
             });
 
+            $.ajax({
+                type: "GET",
+                url: navRegister.bepaalUrl('TOGGLZ') + '/DASHBOARD',
+                contentType: "application/json",
+                ataType: "json",
+                async: false,
+                success: function (beschikbaar) {
+                    if (!!beschikbaar) {
+                        $('#zoekenLink').hide();
+                        $('#dashboardLink').show();
+                    }else{
+                        $('#zoekenLink').show();
+                        $('#dashboardLink').hide();
+                    }
+                }
+            });
+
             if (localStorage.getItem('symplexAccessToken') != null) {
                 var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
                 var base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -104,6 +126,26 @@ define(['redirect',
                     $('#hypotheekLijstLink').hide();
                     $('#nieuweHypotheekLink').hide();
                 }
+            }
+
+            var loc = window.location.href;
+            var posHashtag = loc.indexOf("#");
+            loc =loc.substring(posHashtag);
+            var posSlash = loc.indexOf("/");
+
+            if(loc.substring(0, posSlash) =='#polissen'){
+                $('#nieuwKnopDiv').show();
+                $('#nieuwePolisLink').show();
+            }
+
+            if(loc.substring(0, posSlash) =='#schades'){
+                $('#nieuwKnopDiv').show();
+                $('#nieuweSchadeLink').show();
+            }
+
+            if(loc.substring(0, posSlash) =='#hypotheken'){
+                $('#nieuwKnopDiv').show();
+                $('#nieuweHypotheekLink').show();
             }
         };
     });

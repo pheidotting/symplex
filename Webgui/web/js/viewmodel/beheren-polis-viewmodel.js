@@ -167,39 +167,44 @@ define(['jquery',
             if (_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen' || _this.polis.soort() === 'BromSnorfiets') {
                 var kenmerk = _this.polis.kenmerk();
 
-                _this.voertuigImage1('');
-                _this.voertuigImage2('');
-                _this.voertuigImage3('');
-                var plate = GetSidecodeLicenseplate(kenmerk);
-                if (plate) {
-                    var kenteken = FormatLicenseplate(plate);
+                if(kenmerk != null){
 
-                    $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
-                        if (data.length > 0) {
-                            _this.voertuiginfo(true);
-                            _this.merk(data[0].merk);
-                            _this.type(data[0].handelsbenaming);
-                            _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+                    _this.voertuigImage1('');
+                    _this.voertuigImage2('');
+                    _this.voertuigImage3('');
+                    var plate = GetSidecodeLicenseplate(kenmerk);
+                    if (plate) {
+                        var kenteken = FormatLicenseplate(plate);
 
-                            $.ajax({
-                                type: "GET",
-                                url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
-                                contentType: "application/json",
-                                data: data,
-                                ataType: "json",
-                                async: false,
-                                success: function (dataImages) {
-                                    _this.voertuigImage1(dataImages.items[0].link);
-                                    _this.voertuigImage2(dataImages.items[1].link);
-                                    _this.voertuigImage3(dataImages.items[2].link);
-                                }
-                            });
+                        $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
+                            if (data.length > 0) {
+                                _this.voertuiginfo(true);
+                                _this.merk(data[0].merk);
+                                _this.type(data[0].handelsbenaming);
+                                _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
+                                    contentType: "application/json",
+                                    data: data,
+                                    ataType: "json",
+                                    async: false,
+                                    success: function (dataImages) {
+                                        _this.voertuigImage1(dataImages.items[0].link);
+                                        _this.voertuigImage2(dataImages.items[1].link);
+                                        _this.voertuigImage3(dataImages.items[2].link);
+                                    }
+                                });
 
 
-                        } else {
-                            _this.voertuiginfo(false);
-                        }
-                    });
+                            } else {
+                                _this.voertuiginfo(false);
+                            }
+                        });
+                    } else {
+                        _this.voertuiginfo(false);
+                    }
                 } else {
                     _this.voertuiginfo(false);
                 }

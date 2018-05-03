@@ -51,6 +51,10 @@ define(["commons/3rdparty/log",
                 return schadeRepository.lijstStatusSchade();
             },
 
+            lijstOpenSchades: function () {
+                return schadeRepository.lijstOpenSchades();
+            },
+
             lijstSchades: function (identificatie) {
                 var deferred = $.Deferred();
 

@@ -30,6 +30,7 @@
         app.addView('polis/:identificatie/:readonly', 'js/view/beheren-polis-view');
 
         app.addView('schades/:identificatie', 'js/view/lijst-schades-view');
+        app.addView('schades', 'js/view/lijst-schades-view');
         app.addView('schade/:identificatie', 'js/view/beheren-schade-view');
         app.addView('schade/:identificatie/:readonly', 'js/view/beheren-schade-view');
 
@@ -84,20 +85,15 @@
         <div class="menu-balk-within">
             <div class="menu-balk-holder">
                 <ul>
-                    <li class="first"><a href="zoeken.html">Home</a></li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
+                    <li class="first" id="zoekenLink"><a href="zoeken.html">Zoeken</a></li>
+                    <li class="first" id="dashboardLink"><a href="dashboard.html">Dashboard</a></li>
+                    <li id="linkNaarRelatie"><a style="cursor: pointer;"
+                                                data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
                     </li>
-                    <li id="nieuwePolisLink"><a style="cursor: pointer;"
-                                                data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe
-                        polis</a>
                     </li>
                     <li id="polisLijstLink"><a style="cursor: pointer;"
                                                data-bind="click: $root.menubalkViewmodel.naarPolissen">Polissen</a>
                     </li>
-                    <li id="nieuweSchadeLink"><a style="cursor: pointer;"
-                                                 data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe
-                        schade</a>
                     </li>
                     <li id="schadeLijstLink"><a style="cursor: pointer;"
                                                 data-bind="click: $root.menubalkViewmodel.naarSchades">Schades</a>
@@ -108,14 +104,8 @@
                                 style="cursor: pointer;"
                                 data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
                     </li>
-                    <li id="nieuweHypotheekLink"
-                        data-bind="visible: $root.menubalkViewmodel.soortEntiteit == 'Relatie' && $root.menubalkViewmodel.licentieSoort != 'administratiekantoor'">
-                        <a
-                                style="cursor: pointer;"
-                                data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</a>
-                    </li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
+                    <li id="belastingzakenLink"><a style="cursor: pointer;"
+                                                   data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
                     </li>
                     <li id="instellingenLink" style="display:none;"><a style="cursor: pointer;"
                                                                        data-bind="click: $root.menubalkViewmodel.instellingen">Instellingen</a>
@@ -124,6 +114,13 @@
             </div>
         </div>
     </div>
+    <div class="nieuwKnopDiv" id="nieuwKnopDiv">
+        <span class="fa fa-plus nieuwKnopPlus" id="nieuwPlus"></span>
+        <button id="nieuwePolisLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuwePolis">Nieuwe Polis</button>
+        <button id="nieuweSchadeLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuweSchade">Nieuwe schade</button>
+        <button id="nieuweHypotheekLink" class="nieuwKnop" data-bind="click: $root.menubalkViewmodel.nieuweHypotheek">Nieuwe Hypotheek</button>
+    </div>
+
     <div id="content"></div>
 </div>
 

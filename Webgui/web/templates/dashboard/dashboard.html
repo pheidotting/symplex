@@ -1,0 +1,61 @@
+<h3>Relatie zoeken</h3>
+<div class="zoekvelden">
+    <hr/>
+</div>
+<div class="top-zoek-scherm">
+    <form>
+        <div class="zoekvelden">
+            <label>Naam</label><input type="text" data-bind="value: zoekvelden.naam"/>
+            <label>Geboortedatum</label><input type="date" data-bind="value: zoekvelden.geboortedatum"/>
+            <label>Tussenvoegsel</label><input type="text" data-bind="value: zoekvelden.tussenvoegsel"/>
+            <label>Polisnummer</label><input type="text" data-bind="value: zoekvelden.polisnummer"/>
+            <label>Voorletters</label><input type="text" data-bind="value: zoekvelden.voorletters"/>
+            <label>Schadenummer</label><input type="text" data-bind="value: zoekvelden.schadenummer"/>
+            <label>Adres</label><input type="text" data-bind="value: zoekvelden.adres"/>
+            <label>Postcode</label><input type="text" data-bind="value: zoekvelden.postcode"/>
+            <label>Woonplaats</label><input type="text" data-bind="value: zoekvelden.woonplaats"/>
+            <label>Bedrijf</label><input type="checkbox" data-bind="checked: zoekvelden.bedrijf"/>
+        </div>
+        <div class="zoekknop">
+            <button data-bind="click: zoeken">Zoeken&nbsp;<span class="fa fa-search" aria-hidden="true"/></button>
+        </div>
+    </form>
+    <div class="actiepunten">
+        &nbsp;
+    </div>
+    <div class="clear"/>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<h3>Statusoverzicht</h3>
+<div class="zoekvelden">
+    <hr/>
+</div>
+<br/>
+
+<div class="eerste box">
+    <div class="centreren">
+        <div class="aantal" data-bind="text: aantalRelaties"></div>
+    </div>
+    <hr/>
+    <div>Relaties</div>
+</div>
+
+<div class="box">
+    <div class="centreren">
+        <div class="aantal">0</div>
+    </div>
+    <hr/>
+    <div>Openstaande taken</div>
+</div>
+
+<div class="box">
+    <div class="centreren">
+        <a class="aantal" data-bind="text: aantalOpenSchades" href="/beheren.html#schades"></a>
+    </div>
+    <hr/>
+    <div>Open schades</div>
+</div>
+<div class="clear:both;"></div>
