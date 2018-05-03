@@ -621,14 +621,14 @@ pipeline {
             steps {
                 slackSend (color: '#4245f4', message: "Deploy naar productie :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 sh '''
-                    scp Communicatie/src/main/resources/tst2/comm.app.properties jetty@192.168.91.220:/opt/jetty
-                    scp Communicatie/src/main/resources/tst2/comm.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp Communicatie/src/main/resources/prd/comm.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp Communicatie/src/main/resources/prd/comm.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp Communicatie/target/communicatie.war jetty@192.168.91.220:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/communicatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
-                    scp LicentieBeheer/src/main/resources/tst2/lb.app.properties jetty@192.168.91.220:/opt/jetty
-                    scp LicentieBeheer/src/main/resources/tst2/lb.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/prd/lb.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/prd/lb.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp LicentieBeheer/target/licentie.war jetty@192.168.91.220:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
