@@ -1,4 +1,4 @@
-<h2>Relatie zoeken</h2>
+<h3>Relatie zoeken</h3>
 <div class="zoekvelden">
     <hr/>
 </div>
@@ -25,20 +25,37 @@
     </div>
     <div class="clear"/>
 </div>
-
-<h2>Snel starten</h2>
+<br/>
+<br/>
+<br/>
+<br/>
+<h3>Statusoverzicht</h3>
 <div class="zoekvelden">
     <hr/>
 </div>
 <br/>
 
-<div class="box">
-    <div>Aantal relaties :</div>
-    <div data-bind="text: aantalRelaties"></div>
+<div class="eerste box">
+    <div class="centreren">
+        <div class="aantal" data-bind="text: aantalRelaties"></div>
+    </div>
+    <hr/>
+    <div>Relaties</div>
 </div>
 
 <div class="box">
-    <div>Aantal open schades :</div>
-    <a data-bind="text: aantalOpenSchades" href="/beheren.html#schades"></a>
+    <div class="centreren">
+        <div class="aantal">0</div>
+    </div>
+    <hr/>
+    <div>Openstaande taken</div>
+</div>
+
+<div class="box">
+    <div class="centreren">
+        <a class="aantal" data-bind="text: aantalOpenSchades" href="/beheren.html#schades"></a>
+    </div>
+    <hr/>
+    <div>Open schades</div>
 </div>
 <div class="clear:both;"></div>
