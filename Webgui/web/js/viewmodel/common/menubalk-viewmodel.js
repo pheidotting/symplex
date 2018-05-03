@@ -10,6 +10,11 @@ define(['redirect',
             this.licentieSoort;
             if (soortEntiteit != null) {
                 this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
+            }else {
+                $('#linkNaarRelatie').hide();
+                $('#polisLijstLink').hide();
+                $('#schadeLijstLink').hide();
+                $('#belastingzakenLink').hide();
             }
 
             this.getSoortEntiteit = function () {
@@ -68,6 +73,23 @@ define(['redirect',
                 success: function (beschikbaar) {
                     if (!!beschikbaar) {
                         $('#instellingenLink').show();
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: navRegister.bepaalUrl('TOGGLZ') + '/DASHBOARD',
+                contentType: "application/json",
+                ataType: "json",
+                async: false,
+                success: function (beschikbaar) {
+                    if (!!beschikbaar) {
+                        $('#zoekenLink').hide();
+                        $('#dashboardLink').show();
+                    }else{
+                        $('#zoekenLink').show();
+                        $('#dashboardLink').hide();
                     }
                 }
             });

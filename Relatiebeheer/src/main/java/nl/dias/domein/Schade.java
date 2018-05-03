@@ -20,7 +20,8 @@ import java.util.Date;
         // @NamedQuery(name = "Schade.zoekOpschadeNummerMaatschappij", query = "select s from Schade s where s.schadeNummerMaatschappij = :schadeNummerMaatschappij"),
         //                @NamedQuery(name = "Schade.allesVanRelatie", query = "select s from Schade s where s.polis.relatie = :relatie"),
         //                @NamedQuery(name = "Schade.allesVanBedrijf", query = "select s from Schade s where s.polis.bedrijf = :bedrijf")
-        @NamedQuery(name = "Schade.allesBijPolis", query = "select s from Schade s where s.polis = :polis")})
+        @NamedQuery(name = "Schade.allesBijPolis", query = "select s from Schade s where s.polis = :polis"),//
+        @NamedQuery(name = "Schade.alleOpenSchades", query = "select s from Schade s inner join Polis p on s.polis = p.id inner join Relatie r on p.relatie = r.id where r.kantoor = :kantoor and s.datumAfgehandeld is null")})
 public class Schade implements Comparable, Serializable {
     private static final long serialVersionUID = -8340805705038811388L;
 

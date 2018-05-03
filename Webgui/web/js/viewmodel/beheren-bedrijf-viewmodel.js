@@ -107,14 +107,14 @@ define(['jquery',
                 } else {
                     var foutmelding;
                     bedrijfService.opslaan(_this.bedrijf, _this.telefoonnummersModel.telefoonnummers).done(function () {
-                        document.location.href = 'zoeken.html';
+                        document.location.href = 'dashboard.html';
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }).fail(function (response) {
                         commonFunctions.plaatsFoutmelding(response);
                         foutmelding = true;
                     });
                     if (foutmelding === undefined || foutmelding === null) {
-                        document.location.href = 'zoeken.html';
+                        document.location.href = 'dashboard.html';
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }
                 }
