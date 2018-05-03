@@ -102,14 +102,14 @@ define(['jquery',
                 } else {
                     var foutmelding;
                     gebruikerService.opslaan(_this.relatie, _this.adressenModel.adressen, _this.telefoonnummersModel.telefoonnummers, _this.rekeningnummerModel.rekeningnummers, _this.opmerkingenModel.opmerkingen).done(function () {
-                        document.location.href = 'zoeken.html';
+                        document.location.href = 'dashboard.html';
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }).fail(function (response) {
                         commonFunctions.plaatsFoutmelding(response);
                         foutmelding = true;
                     });
                     if (foutmelding === undefined || foutmelding === null) {
-                        document.location.href = 'zoeken.html';
+                        document.location.href = 'dashboard.html';
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }
                 }

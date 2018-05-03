@@ -30,25 +30,35 @@ define(['jquery',
 
                 _this.id(id);
                 _this.basisEntiteit = basisEntiteit;
-                $.when(schadeService.lijstSchades(_this.identificatie), schadeService.lijstStatusSchade()).then(function (data, statussenSchade) {
-                    _this.basisId = data.identificatie;
-                    if (data.kvk != null) {
-                        _this.basisEntiteit = "BEDRIJF";
-                    } else {
-                        _this.basisEntiteit = "RELATIE";
-                    }
+                if(basisEntiteit != null){
+                    $.when(schadeService.lijstSchades(_this.identificatie), schadeService.lijstStatusSchade()).then(function (data, statussenSchade) {
+                        _this.basisId = data.identificatie;
+                        if (data.kvk != null) {
+                            _this.basisEntiteit = "BEDRIJF";
+                        } else {
+                            _this.basisEntiteit = "RELATIE";
+                        }
 
-                    var lijstSchades = _.chain(data.polissen)
-                        .map('schades')
-                        .flatten()
-                        .value();
+                        var lijstSchades = _.chain(data.polissen)
+                            .map('schades')
+                            .flatten()
+                            .value();
 
-                    _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
-                    _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
-                    _this.licentieViewmodel = new LicentieViewmodel();
+                        _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
+                        _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
+                        _this.licentieViewmodel = new LicentieViewmodel();
 
-                    return deferred.resolve();
-                });
+                        return deferred.resolve();
+                    });
+                } else {
+                    $.when(schadeService.lijstStatusSchade(), schadeService.lijstOpenSchades()).then(function (statussenSchade, lijstSchades) {
+                        _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
+                        _this.menubalkViewmodel = new menubalkViewmodel();
+                        _this.licentieViewmodel = new LicentieViewmodel();
+
+                        return deferred.resolve();
+                    });
+                }
 
                 return deferred.promise();
             };
