@@ -30,6 +30,7 @@
         app.addView('polis/:identificatie/:readonly', 'js/view/beheren-polis-view');
 
         app.addView('schades/:identificatie', 'js/view/lijst-schades-view');
+        app.addView('schades', 'js/view/lijst-schades-view');
         app.addView('schade/:identificatie', 'js/view/beheren-schade-view');
         app.addView('schade/:identificatie/:readonly', 'js/view/beheren-schade-view');
 
@@ -86,8 +87,8 @@
                 <ul>
                     <li class="first" id="zoekenLink"><a href="zoeken.html">Zoeken</a></li>
                     <li class="first" id="dashboardLink"><a href="dashboard.html">Dashboard</a></li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
+                    <li id="linkNaarRelatie"><a style="cursor: pointer;"
+                                                data-bind="click: $root.menubalkViewmodel.naarRelatiegegevens, text: $root.menubalkViewmodel.soortEntiteit">Relatie</a>
                     </li>
                     </li>
                     <li id="polisLijstLink"><a style="cursor: pointer;"
@@ -103,8 +104,8 @@
                                 style="cursor: pointer;"
                                 data-bind="click: $root.menubalkViewmodel.naarHypotheken">Hypotheken</a>
                     </li>
-                    <li><a style="cursor: pointer;"
-                           data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
+                    <li id="belastingzakenLink"><a style="cursor: pointer;"
+                                                   data-bind="click: $root.menubalkViewmodel.belastingzaken">Belastingzaken</a>
                     </li>
                     <li id="instellingenLink" style="display:none;"><a style="cursor: pointer;"
                                                                        data-bind="click: $root.menubalkViewmodel.instellingen">Instellingen</a>

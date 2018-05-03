@@ -10,6 +10,11 @@ define(['redirect',
             this.licentieSoort;
             if (soortEntiteit != null) {
                 this.soortEntiteit = soortEntiteit.substring(0, 1).toUpperCase() + soortEntiteit.substring(1).toLowerCase();
+            }else {
+                $('#linkNaarRelatie').hide();
+                $('#polisLijstLink').hide();
+                $('#schadeLijstLink').hide();
+                $('#belastingzakenLink').hide();
             }
 
             this.getSoortEntiteit = function () {

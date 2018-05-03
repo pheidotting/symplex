@@ -2,6 +2,8 @@ package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
 import com.google.common.base.Stopwatch;
+import nl.dias.domein.Kantoor;
+import nl.dias.domein.Medewerker;
 import nl.dias.domein.Schade;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.BedrijfService;
@@ -123,6 +125,16 @@ public class SchadeController extends AbstractController {
         } catch (IllegalArgumentException e) {
             LOGGER.error("Fout bij verwijderen Schade", e);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/alleOpenSchade", produces = MediaType.APPLICATION_JSON)
+    @ResponseBody
+    public List<JsonSchade> alleOpenSchade(HttpServletRequest httpServletRequest) {
+        LOGGER.debug("Alle open schades");
+
+        Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
+
+        return schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor));
     }
 
 }

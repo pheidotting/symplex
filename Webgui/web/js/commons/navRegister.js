@@ -128,6 +128,7 @@ define([],
                     {naam: 'VERWIJDER_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/verwijder'},
                     {naam: 'LEES_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lees'},
                     {naam: 'LIJST_SCHADES', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijst'},
+                    {naam: 'LIJST_OPEN_SCHADES', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/alleOpenSchade'},
                     {
                         naam: 'LIJST_SCHADES_BIJ_BEDRIJF',
                         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'
