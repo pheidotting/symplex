@@ -2,9 +2,11 @@ package nl.dias.service;
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.ullink.slack.simpleslackapi.SlackSession;
+import nl.dias.domein.Bedrijf;
 import nl.dias.domein.EmailCheck;
 import nl.dias.domein.Relatie;
 import nl.dias.repository.EmailCheckRepository;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -22,23 +25,54 @@ public class EmailCheckService {
     @Inject
     private GebruikerService gebruikerService;
     @Inject
+    private BedrijfService bedrijfService;
+    @Inject
     private EmailCheckRepository emailCheckRepository;
     @Inject
     private SlackService slackService;
 
+    private class Subject {
+        private Long id;
+        private String emailadres;
+        private SoortEntiteit soortEntiteit;
+
+        public Subject(Long id, String emailadres, SoortEntiteit soortEntiteit) {
+            this.id = id;
+            this.emailadres = emailadres;
+            this.soortEntiteit = soortEntiteit;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getEmailadres() {
+            return emailadres;
+        }
+
+        public SoortEntiteit getSoortEntiteit() {
+            return soortEntiteit;
+        }
+    }
+
     public void checkEmailAdressen(SlackSession session, String channelName, RateLimiter rateLimiter) {
         List<EmailCheck> checks = emailCheckRepository.alles();
         List<Relatie> relaties = gebruikerService.alleRelaties();
-        List<Relatie> verdwenenAdressen = newArrayList();
-        List<Relatie> gemuteerdeAdressen = newArrayList();
+        List<Bedrijf> bedrijven = bedrijfService.alles();
+        List<Subject> verdwenenAdressen = newArrayList();
+        List<Subject> gemuteerdeAdressen = newArrayList();
+        List<Subject> teChecken;
+
+        teChecken = relaties.stream().map(relatie -> new Subject(relatie.getId(), relatie.getEmailadres(), SoortEntiteit.RELATIE)).collect(Collectors.toList());
+        teChecken.addAll(bedrijven.stream().map(bedrijf -> new Subject(bedrijf.getId(), bedrijf.getEmail(), SoortEntiteit.BEDRIJF)).collect(Collectors.toList()));
 
         checks.stream().forEach(emailCheck -> {
             LOGGER.debug("Evalueren {}", emailCheck);
 
-            Optional<Relatie> optionalRelatie = relaties.stream().filter(relatie -> relatie.getId().equals(emailCheck.getGebruiker())).findFirst();
+            Optional<Subject> optionalRelatie = teChecken.stream().filter(relatie -> relatie.getId().equals(emailCheck.getGebruiker())).findFirst();
 
             if (optionalRelatie.isPresent()) {
-                Relatie relatie = optionalRelatie.get();
+                Subject relatie = optionalRelatie.get();
 
                 LOGGER.debug("Relatie gevonden, e-mailadres is {}", relatie.getEmailadres());
                 if (relatie.getEmailadres() == null || "".equals(relatie.getEmailadres())) {
@@ -60,10 +94,10 @@ public class EmailCheckService {
         LOGGER.debug("{} bestaande checks", checks.size());
         //checken op nieuwe adressen
         LOGGER.debug("{} Relaties bekijken", relaties.size());
-        relaties.stream().filter(relatie -> relatie.getEmailadres() != null && !"".equals(relatie.getEmailadres())).forEach(relatie -> {
+        teChecken.stream().filter(relatie -> relatie.getEmailadres() != null && !"".equals(relatie.getEmailadres())).forEach(relatie -> {
             if (checks.stream().noneMatch(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId()))) {
                 emailCheckRepository.opslaan(new EmailCheck(relatie.getId(), relatie.getEmailadres()));
-                slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.NIEUW, session, channelName, rateLimiter);
+                slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), relatie.getSoortEntiteit(), SlackService.Soort.NIEUW, session, channelName, rateLimiter);
             }
         });
 
@@ -72,11 +106,11 @@ public class EmailCheckService {
             Optional<EmailCheck> emailCheckOptional = checks.stream().filter(emailCheck -> emailCheck.getGebruiker().equals(relatie.getId())).findFirst();
 
             if (emailCheckOptional.isPresent()) {
-                slackService.stuurBericht(emailCheckOptional.get().getMailadres(), relatie.getId(), SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
+                slackService.stuurBericht(emailCheckOptional.get().getMailadres(), relatie.getId(), relatie.getSoortEntiteit(), SlackService.Soort.VERWIJDERD, session, channelName, rateLimiter);
             }
         });
 
         LOGGER.debug("{} gemuteerde E-mailadressen", gemuteerdeAdressen.size());
-        gemuteerdeAdressen.stream().forEach(relatie -> slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter));
+        gemuteerdeAdressen.stream().forEach(relatie -> slackService.stuurBericht(relatie.getEmailadres(), relatie.getId(), relatie.getSoortEntiteit(), SlackService.Soort.GEWIJZIGD, session, channelName, rateLimiter));
     }
 }
