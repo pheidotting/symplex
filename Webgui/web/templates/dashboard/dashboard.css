@@ -26,3 +26,13 @@ font-weight: bold;
 .centreren{
 text-align:center;
 }
+
+.precontent{
+margin-left: 75px;
+    margin-right: 75px;
+    margin-bottom: 40px;
+}
+
+.top-zoek-scherm{
+ margin-bottom:65px;
+}
