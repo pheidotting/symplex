@@ -167,7 +167,6 @@ public class GebruikerRepository {
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekAllesVoorKantoor");
-        query.setMaxResults(MAX_RESULTS);
         query.setParameter("kantoor", kantoor);
 
         List<Relatie> result = query.list();
