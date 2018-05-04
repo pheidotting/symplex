@@ -90,11 +90,11 @@ public class GebruikerServiceTest extends EasyMockSupport {
         List<Relatie> relaties = new ArrayList<>();
         relaties.add(relatie);
 
-        expect(gebruikerRepository.alleRelaties(kantoor)).andReturn(relaties);
+        expect(gebruikerRepository.alleRelaties(kantoor, true)).andReturn(relaties);
 
         replayAll();
 
-        assertEquals(relaties, gebruikerService.alleRelaties(kantoor));
+        assertEquals(relaties, gebruikerService.alleRelaties(kantoor, true));
     }
 
     @Test

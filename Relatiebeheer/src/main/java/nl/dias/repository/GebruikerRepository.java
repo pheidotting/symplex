@@ -161,12 +161,15 @@ public class GebruikerRepository {
     }
 
     @Transactional
-    public List<Relatie> alleRelaties(Kantoor kantoor) {
+    public List<Relatie> alleRelaties(Kantoor kantoor, boolean alles) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerRepository.class);
 
         getTransaction();
 
         Query query = getEm().getNamedQuery("Relatie.zoekAllesVoorKantoor");
+        if (!alles) {
+            query.setMaxResults(MAX_RESULTS);
+        }
         query.setParameter("kantoor", kantoor);
 
         List<Relatie> result = query.list();
