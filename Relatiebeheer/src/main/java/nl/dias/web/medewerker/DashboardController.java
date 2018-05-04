@@ -48,7 +48,7 @@ public class DashboardController extends AbstractController {
 
         Dashboard dashboard = new Dashboard();
 
-        List<RelatieZoekResultaat> relaties = gebruikerService.alleRelaties(kantoor).stream().map(new Function<Relatie, RelatieZoekResultaat>() {
+        List<RelatieZoekResultaat> relaties = gebruikerService.alleRelaties(kantoor, true).stream().map(new Function<Relatie, RelatieZoekResultaat>() {
             @Override
             public RelatieZoekResultaat apply(Relatie relatie) {
                 RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();
