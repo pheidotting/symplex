@@ -51,6 +51,26 @@ define(['jquery',
                 logger.debug('we gaan zoeken');
                 window.location = 'zoeken.html#zoeken/' +btoa(ko.toJSON(_this.zoekvelden));
             };
+
+            this.maaklink = function (index, se) {
+                var postLink = '';
+                var soortEntiteit = se;
+                if (index) {
+                    var entiteit = _this.zoekResultaat()[index()];
+                    soortEntiteit = entiteit.soortEntiteit().toLowerCase();
+
+                    postLink = '/' + entiteit.identificatie();
+                }
+                return 'beheren.html#' + soortEntiteit + postLink;
+            };
+
+            this.nieuweRelatie = function () {
+                window.location = _this.maaklink(0, 'relatie');
+            };
+
+            this.nieuwBedrijf = function () {
+                window.location = _this.maaklink(0, 'bedrijf');
+            };
         };
     }
 );
