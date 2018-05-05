@@ -64,36 +64,6 @@ define(['redirect',
 
             this.kantoorAfkorting = ko.observable();
 
-            $.ajax({
-                type: "GET",
-                url: navRegister.bepaalUrl('TOGGLZ') + '/INSTELLINGEN_PAGINA',
-                contentType: "application/json",
-                ataType: "json",
-                async: false,
-                success: function (beschikbaar) {
-                    if (!!beschikbaar) {
-                        $('#instellingenLink').show();
-                    }
-                }
-            });
-
-            $.ajax({
-                type: "GET",
-                url: navRegister.bepaalUrl('TOGGLZ') + '/DASHBOARD',
-                contentType: "application/json",
-                ataType: "json",
-                async: false,
-                success: function (beschikbaar) {
-                    if (!!beschikbaar) {
-                        $('#zoekenLink').hide();
-                        $('#dashboardLink').show();
-                    }else{
-                        $('#zoekenLink').show();
-                        $('#dashboardLink').hide();
-                    }
-                }
-            });
-
             if (localStorage.getItem('symplexAccessToken') != null) {
                 var base64Url = localStorage.getItem('symplexAccessToken').split('.')[1];
                 var base64 = base64Url.replace('-', '+').replace('_', '/');

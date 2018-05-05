@@ -42,7 +42,7 @@ define(['jquery',
                 if (_this.identificatie.isValid() && _this.wachtwoord.isValid()) {
                     $.blockUI({message: '<span class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></span>'});
 
-                    $.when(gebruikerService.inloggen(this), toggleService.isFeatureBeschikbaar('DASHBOARD')).then(function (result, dashboardToggle) {
+                    $.when(gebruikerService.inloggen(this)).then(function (result) {
                         if (result.returnCode == 0) {
                             _this.onjuisteGebruikersnaam(false);
                             _this.onjuistWachtwoord(false);
@@ -51,20 +51,9 @@ define(['jquery',
                                 _this.moetWachtwoordUpdaten(true);
                             } else {
                                 if (localStorage.getItem("symplexPreviousLocation") == null) {
-                                    if (dashboardToggle) {
-                                        window.location = 'dashboard.html';
-                                    } else {
-                                        window.location = 'zoeken.html';
-                                    }
+                                    window.location = 'dashboard.html';
                                 } else {
-                                    if (dashboardToggle) {
-                                        window.location = localStorage.getItem("symplexPreviousLocation");
-                                    } else {
-                                        var previousLoc = localStorage.getItem("symplexPreviousLocation");
-                                        if (previousLoc.indexOf("dashboard") > 0) {
-                                            window.location = 'zoeken.html';
-                                        }
-                                    }
+                                    window.location = localStorage.getItem("symplexPreviousLocation");
                                 }
                             }
                         } else if (result.returnCode == 1) {
