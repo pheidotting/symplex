@@ -72,7 +72,7 @@ public class KantoorFilter implements Filter {
             LOGGER.trace("Gevraagd, bedrijf met id {}, kantoor {}", bedrijf.getId(), bedrijf.getKantoor());
             LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
 
-            if (bedrijf != null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
+            if (bedrijf == null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
                 ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 responseString = "";
             }
