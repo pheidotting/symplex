@@ -50,17 +50,26 @@ define(['jquery',
             this.zoeken = function () {
                 logger.debug('we gaan zoeken');
                 window.location = 'zoeken.html#zoeken/' +btoa(ko.toJSON(_this.zoekvelden));
-//                _this.zoekResultaat([]);
-//                if (_this.zoekvelden.geboortedatum() != null && _this.zoekvelden.geboortedatum() == '') {
-//                    _this.zoekvelden.geboortedatum(undefined);
-//                }
-//
-//                $.when(zoekenService.zoeken(btoa(ko.toJSON(_this.zoekvelden)))).then(function (zoekResultaat) {
-//                    $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function (i, gemapt) {
-//                        _this.zoekResultaat.push(gemapt);
-//                        _this.zoekResultaat.valueHasMutated();
-//                    });
-//                });
+            };
+
+            this.maaklink = function (index, se) {
+                var postLink = '';
+                var soortEntiteit = se;
+                if (index) {
+                    var entiteit = _this.zoekResultaat()[index()];
+                    soortEntiteit = entiteit.soortEntiteit().toLowerCase();
+
+                    postLink = '/' + entiteit.identificatie();
+                }
+                return 'beheren.html#' + soortEntiteit + postLink;
+            };
+
+            this.nieuweRelatie = function () {
+                window.location = _this.maaklink(0, 'relatie');
+            };
+
+            this.nieuwBedrijf = function () {
+                window.location = _this.maaklink(0, 'bedrijf');
             };
         };
     }
