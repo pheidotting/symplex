@@ -1,6 +1,5 @@
 .zoekvelden {
     width: 800px;
-    float: left;
 }
 
 .zoekvelden label {
@@ -17,15 +16,9 @@
     height: 20px;
 }
 
-.zoekknop {
-    float: left;
-    padding-top: 95px;
-}
-
 .zoekknop button {
     margin-top: 10px;
     margin-right: 20px;
-    float: right;
     border: 1px solid #575656;
     height: 25px;
     width: 90px;
