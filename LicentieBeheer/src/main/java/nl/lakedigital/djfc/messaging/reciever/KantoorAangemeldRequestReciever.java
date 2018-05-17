@@ -1,7 +1,8 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
+import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.request.KantoorAangemeldRequest;
-import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.LicentieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ public class KantoorAangemeldRequestReciever extends AbstractReciever<KantoorAan
 
     @Inject
     private LicentieService licentieService;
+    @Inject
+    private MetricsService metricsService;
 
     public KantoorAangemeldRequestReciever() {
         super(KantoorAangemeldRequest.class, LOGGER);
@@ -20,7 +23,11 @@ public class KantoorAangemeldRequestReciever extends AbstractReciever<KantoorAan
 
     @Override
     public void verwerkMessage(KantoorAangemeldRequest kantoorAangemeldRequest) {
-        LOGGER.info("Verwerken KantoorAangemeldRequest voor Kantoor {}", ReflectionToStringBuilder.toString(kantoorAangemeldRequest.getKantoor()));
+        Timer.Context context = metricsService.addTimerMetric("verwerkMessage", KantoorAangemeldRequestReciever.class);
+
+        LOGGER.info("Verwerken KantoorAangemeldRequest voor Kantoor met id {}", kantoorAangemeldRequest.getKantoor().getId());
         licentieService.maakTrialAan(kantoorAangemeldRequest.getKantoor());
+
+        metricsService.stop(context);
     }
 }

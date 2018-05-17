@@ -32,20 +32,31 @@ define(['jquery',
                 datum(commonFunctions.zetDatumOm(datum()));
             };
 
-            this.init = function () {
+            this.init = function (zoekvelden) {
                 var deferred = $.Deferred();
 
                 _this.menubalkViewmodel = new menubalkViewmodel();
                 _this.licentieViewmodel = new LicentieViewmodel();
 
-                $.when(zoekenService.zoeken(), gebruikerService.haalIngelogdeGebruiker()).then(function (zoekResultaat) {
-                    $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function (i, gemapt) {
-                        _this.zoekResultaat.push(gemapt);
-                        _this.zoekResultaat.valueHasMutated();
-                    });
+                if(zoekvelden!=null&&zoekvelden.zoekvelden!=null){
+                    $.when(zoekenService.zoeken(zoekvelden.zoekvelden), gebruikerService.haalIngelogdeGebruiker()).then(function (zoekResultaat) {
+                        $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function (i, gemapt) {
+                            _this.zoekResultaat.push(gemapt);
+                            _this.zoekResultaat.valueHasMutated();
+                        });
 
-                    return deferred.resolve();
-                });
+                        return deferred.resolve();
+                    });
+                } else {
+                    $.when(zoekenService.zoeken(), gebruikerService.haalIngelogdeGebruiker()).then(function (zoekResultaat) {
+                        $.each(zoekresultaatMapper.mapZoekresultaten(zoekResultaat.bedrijfOfRelatieList)(), function (i, gemapt) {
+                            _this.zoekResultaat.push(gemapt);
+                            _this.zoekResultaat.valueHasMutated();
+                        });
+
+                        return deferred.resolve();
+                    });
+                }
 
                 return deferred.promise();
             };

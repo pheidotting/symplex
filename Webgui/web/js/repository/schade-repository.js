@@ -19,6 +19,10 @@ define(["commons/3rdparty/log",
                 return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_STATUS_SCHADE'), null);
             },
 
+            lijstOpenSchades: function () {
+                return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_OPEN_SCHADES'), null);
+            },
+
             lijstSchades: function (entiteitId, soortEntiteit) {
                 if (soortEntiteit == 'RELATIE') {
                     return abstractRepository.voerUitGet(navRegister.bepaalUrl('LIJST_SCHADES'), {relatieId: entiteitId});
