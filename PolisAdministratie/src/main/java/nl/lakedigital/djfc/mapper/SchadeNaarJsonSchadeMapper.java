@@ -23,11 +23,11 @@ public class SchadeNaarJsonSchadeMapper extends AbstractMapper<Schade, JsonSchad
         if (schade.getDatumAfgehandeld() != null) {
             jsonSchade.setDatumAfgehandeld(schade.getDatumAfgehandeld().toString(patternDatum));
         }
-        if (schade.getDatumTijdMelding() != null) {
-            jsonSchade.setDatumTijdMelding(schade.getDatumTijdMelding().toString(patternDatumTijd));
+        if (schade.getDatumMelding() != null) {
+            jsonSchade.setDatumMelding(schade.getDatumMelding().toString(patternDatumTijd));
         }
-        if (schade.getDatumTijdSchade() != null) {
-            jsonSchade.setDatumTijdSchade(schade.getDatumTijdSchade().toString(patternDatumTijd));
+        if (schade.getDatumSchade() != null) {
+            jsonSchade.setDatumSchade(schade.getDatumSchade().toString(patternDatumTijd));
         }
         if (schade.getEigenRisico() != null) {
             jsonSchade.setEigenRisico(schade.getEigenRisico().getBedrag().toString());
