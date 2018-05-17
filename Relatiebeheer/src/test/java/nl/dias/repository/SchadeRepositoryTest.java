@@ -153,8 +153,8 @@
 //        Schade schade1 = new Schade();
 //        schade1.setSchadeNummerMaatschappij(schadeNummer);
 //        schade1.setStatusSchade(statusSchade);
-//        schade1.setDatumTijdSchade(new LocalDateTime());
-//        schade1.setDatumTijdMelding(new LocalDateTime());
+//        schade1.setDatumSchade(new LocalDateTime());
+//        schade1.setDatumMelding(new LocalDateTime());
 //
 //        return schade1;
 //    }
