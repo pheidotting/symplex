@@ -50,16 +50,16 @@ public class MessagingSchadeNaarDomainSchadeMapper implements Function<Schade, n
         schade.setDatumAfgehandeld(datumAfgehandeld);
 
         LocalDateTime datumTijdMelding = null;
-        if (schadeIn.getDatumTijdMelding() != null && !"".equals(schadeIn.getDatumTijdMelding())) {
-            datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumTijdMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+        if (schadeIn.getDatumMelding() != null && !"".equals(schadeIn.getDatumMelding())) {
+            datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatumTijd));
         }
-        schade.setDatumTijdMelding(datumTijdMelding);
+        schade.setDatumMelding(datumTijdMelding);
 
         LocalDateTime datumTijdSchade = null;
-        if (schadeIn.getDatumTijdSchade() != null && !"".equals(schadeIn.getDatumTijdSchade())) {
-            datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumTijdSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+        if (schadeIn.getDatumSchade() != null && !"".equals(schadeIn.getDatumSchade())) {
+            datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatumTijd));
         }
-        schade.setDatumTijdSchade(datumTijdSchade);
+        schade.setDatumSchade(datumTijdSchade);
         if (schadeIn.getEigenRisico() != null) {
             schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico()));
         }

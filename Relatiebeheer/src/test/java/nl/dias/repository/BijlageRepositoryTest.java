@@ -49,8 +49,8 @@
 //
 //        Schade schade = new Schade();
 //        schade.setPolis(polis2);
-//        schade.setDatumTijdMelding(new LocalDateTime());
-//        schade.setDatumTijdSchade(new LocalDateTime());
+//        schade.setDatumMelding(new LocalDateTime());
+//        schade.setDatumSchade(new LocalDateTime());
 //        schade.setSchadeNummerMaatschappij("schadeNummerMaatschappij");
 //        schade.setStatusSchade(statusSchade);
 //        schade.setSoortSchade(soortSchade);

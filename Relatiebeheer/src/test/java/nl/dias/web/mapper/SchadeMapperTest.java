@@ -39,8 +39,8 @@
 //
 //        schade = new Schade();
 //        schade.setDatumAfgehandeld(new LocalDate(2014, 7, 1));
-//        schade.setDatumTijdMelding(new LocalDateTime(2014, 6, 30, 9, 12));
-//        schade.setDatumTijdSchade(new LocalDateTime(2014, 6, 29, 10, 23));
+//        schade.setDatumMelding(new LocalDateTime(2014, 6, 30, 9, 12));
+//        schade.setDatumSchade(new LocalDateTime(2014, 6, 29, 10, 23));
 //        schade.setEigenRisico(new Bedrag(100.0));
 //        schade.setLocatie("Ergens tussen de weg en de straat");
 //        schade.setOmschrijving("Tja, toen was het ineens boem!");
@@ -60,8 +60,8 @@
 //
 //        jsonSchade = new JsonSchade();
 //        jsonSchade.setDatumAfgehandeld("01-07-2014");
-//        jsonSchade.setDatumTijdMelding("30-06-2014 09:12");
-//        jsonSchade.setDatumTijdSchade("29-06-2014 10:23");
+//        jsonSchade.setDatumMelding("30-06-2014 09:12");
+//        jsonSchade.setDatumSchade("29-06-2014 10:23");
 //        jsonSchade.setEigenRisico("100.0");
 //        jsonSchade.setLocatie("Ergens tussen de weg en de straat");
 //        jsonSchade.setOmschrijving("Tja, toen was het ineens boem!");
@@ -85,8 +85,8 @@
 //
 //        assertEquals(schade.getId(), schade.getId());
 //        assertEquals(schade.getDatumAfgehandeld(), schade.getDatumAfgehandeld());
-//        assertEquals(schade.getDatumTijdMelding(), schade.getDatumTijdMelding());
-//        assertEquals(schade.getDatumTijdSchade(), schade.getDatumTijdSchade());
+//        assertEquals(schade.getDatumMelding(), schade.getDatumMelding());
+//        assertEquals(schade.getDatumSchade(), schade.getDatumSchade());
 //        assertEquals(schade.getEigenRisico(), schade.getEigenRisico());
 //        assertEquals(schade.getLocatie(), schade.getLocatie());
 //        assertEquals(schade.getOmschrijving(), schade.getOmschrijving());
