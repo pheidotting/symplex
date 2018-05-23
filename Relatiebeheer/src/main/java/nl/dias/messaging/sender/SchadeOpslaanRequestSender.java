@@ -33,8 +33,8 @@ public class SchadeOpslaanRequestSender extends AbstractSender<SchadeOpslaanRequ
             schade.setId(jsonSchade1.getId());
             schade.setIdentificatie(jsonSchade1.getIdentificatie());
             schade.setDatumAfgehandeld(jsonSchade1.getDatumAfgehandeld());
-            schade.setDatumTijdMelding(jsonSchade1.getDatumTijdMelding());
-            schade.setDatumTijdSchade(jsonSchade1.getDatumTijdSchade());
+            schade.setDatumMelding(jsonSchade1.getDatumMelding());
+            schade.setDatumSchade(jsonSchade1.getDatumSchade());
             schade.setEigenRisico(jsonSchade1.getEigenRisico());
             schade.setLocatie(jsonSchade1.getLocatie());
             schade.setOmschrijving(jsonSchade1.getOmschrijving());

@@ -60,14 +60,14 @@ public class SchadeRepositoryTest {
 
         Schade openSchade = new Schade();
         openSchade.setPolis(polis.getId());
-        openSchade.setDatumTijdMelding(LocalDateTime.now());
-        openSchade.setDatumTijdSchade(LocalDateTime.now());
+        openSchade.setDatumMelding(LocalDateTime.now());
+        openSchade.setDatumSchade(LocalDateTime.now());
         openSchade.setSchadeNummerMaatschappij("123");
         openSchade.setStatusSchade(statusSchade);
         Schade afgehandeldeSchade = new Schade();
         afgehandeldeSchade.setPolis(polis.getId());
-        afgehandeldeSchade.setDatumTijdMelding(LocalDateTime.now());
-        afgehandeldeSchade.setDatumTijdSchade(LocalDateTime.now());
+        afgehandeldeSchade.setDatumMelding(LocalDateTime.now());
+        afgehandeldeSchade.setDatumSchade(LocalDateTime.now());
         afgehandeldeSchade.setSchadeNummerMaatschappij("1234");
         afgehandeldeSchade.setStatusSchade(statusSchade);
         afgehandeldeSchade.setDatumAfgehandeld(LocalDate.now());
@@ -95,8 +95,8 @@ public class SchadeRepositoryTest {
 
         Schade openSchade2 = new Schade();
         openSchade2.setPolis(polis2.getId());
-        openSchade2.setDatumTijdMelding(LocalDateTime.now());
-        openSchade2.setDatumTijdSchade(LocalDateTime.now());
+        openSchade2.setDatumMelding(LocalDateTime.now());
+        openSchade2.setDatumSchade(LocalDateTime.now());
         openSchade2.setSchadeNummerMaatschappij("12345");
         openSchade2.setStatusSchade(statusSchade);
 
@@ -122,8 +122,8 @@ public class SchadeRepositoryTest {
 
         Schade afgehandeldeSchade3 = new Schade();
         afgehandeldeSchade3.setPolis(polis3.getId());
-        afgehandeldeSchade3.setDatumTijdMelding(LocalDateTime.now());
-        afgehandeldeSchade3.setDatumTijdSchade(LocalDateTime.now());
+        afgehandeldeSchade3.setDatumMelding(LocalDateTime.now());
+        afgehandeldeSchade3.setDatumSchade(LocalDateTime.now());
         afgehandeldeSchade3.setSchadeNummerMaatschappij("123456");
         afgehandeldeSchade3.setStatusSchade(statusSchade);
         afgehandeldeSchade3.setDatumAfgehandeld(LocalDate.now());

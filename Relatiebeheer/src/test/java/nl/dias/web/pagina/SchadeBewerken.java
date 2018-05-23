@@ -64,9 +64,9 @@
 //        Hulp.wachtFf();
 //        Hulp.selecteerUitSelectieBox(statusSchade, jsonSchade.getStatusSchade());
 //        Hulp.wachtFf();
-//        Hulp.vulVeld(datumTijdSchade, jsonSchade.getDatumTijdSchade());
+//        Hulp.vulVeld(datumTijdSchade, jsonSchade.getDatumSchade());
 //        Hulp.wachtFf();
-//        Hulp.vulVeld(datumTijdMelding, jsonSchade.getDatumTijdMelding());
+//        Hulp.vulVeld(datumTijdMelding, jsonSchade.getDatumMelding());
 //        Hulp.wachtFf();
 //        Hulp.vulVeld(datumAfgehandeld, jsonSchade.getDatumAfgehandeld());
 //        Hulp.wachtFf();
