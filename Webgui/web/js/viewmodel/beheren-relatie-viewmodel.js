@@ -116,16 +116,18 @@ define(['jquery',
             };
 
             this.verwijderenRelatie = function (relatie) {
-                logger.debug("verwijderen Relatie met id " + _this.relatie.id());
+                var r = confirm("Weet je zeker dat je deze Relatie wilt verwijderen?");
+                if (r) {
+                    logger.debug("verwijderen Relatie met id " + _this.relatie.id());
 
-                gebruikerService.verwijderRelatie(_this.identificatie).done(function () {
-
-                    redirect.redirect('LIJST_RELATIES');
-                });
+                    $.when(gebruikerService.verwijderRelatie(_this.identificatie)).then(function () {
+                        window.location = 'zoeken.html';
+                    });
+                }
             };
 
             this.annuleren = function () {
-                redirect.redirect('LIJST_RELATIES');
+                window.location = 'zoeken.html';
             };
 
             this.naarPolissen = function () {
