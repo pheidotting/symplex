@@ -33,8 +33,8 @@ define(['jquery',
                 schade.soortSchade(data.soortSchade);
                 schade.locatie(data.locatie);
                 schade.statusSchade(data.statusSchade);
-                schade.datumTijdSchade(data.datumTijdSchade);
-                schade.datumTijdMelding(data.datumTijdMelding);
+                schade.datumSchade(data.datumSchade);
+                schade.datumMelding(data.datumMelding);
                 schade.datumAfgehandeld(data.datumAfgehandeld);
                 schade.eigenRisico(data.eigenRisico);
                 schade.omschrijving(data.omschrijving);

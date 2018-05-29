@@ -44,7 +44,7 @@ define(['commons/3rdparty/log',
                     _this.melding(melding + ' Klik <a href="instellingen.html#licenties">hier</a> om een nieuwe licentie aan te schaffen');
                 }
 
-                if (moment(_this.einddatumLicentie()).isBefore(moment()) && window.location.pathname != '/zoeken.html' && window.location.pathname != '/instellingen.html') {
+                if (moment(_this.einddatumLicentie()).isBefore(moment()) && window.location.pathname != '/dashboard.html' && window.location.pathname != '/instellingen.html') {
                     window.location = 'instellingen.html#licenties';
                 }
 

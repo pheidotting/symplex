@@ -38,20 +38,20 @@ define(['knockout',
                     message: 'Dit veld is verplicht.'
                 }
             });
-            _this.datumTijdSchade = ko.observable().extend({
+            _this.datumSchade = ko.observable().extend({
                 required: true, validation: {
                     validator: function (val) {
-                        return moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") != "Invalid date";
+                        return moment(val, "DD-MM-YYYY").format("DD-MM-YYYY") != "Invalid date";
                     },
-                    message: 'Juiste invoerformaat is : dd-mm-eejj uu:mm'
+                    message: 'Juiste invoerformaat is : dd-mm-eejj'
                 }
             });
-            _this.datumTijdMelding = ko.observable().extend({
+            _this.datumMelding = ko.observable().extend({
                 required: true, validation: {
                     validator: function (val) {
-                        return moment(val, "DD-MM-YYYY HH:mm").format("DD-MM-YYYY HH:mm") != "Invalid date";
+                        return moment(val, "DD-MM-YYYY").format("DD-MM-YYYY") != "Invalid date";
                     },
-                    message: 'Juiste invoerformaat is : dd-mm-eejj uu:mm'
+                    message: 'Juiste invoerformaat is : dd-mm-eejj'
                 }
             });
             _this.datumAfgehandeld = ko.observable().extend({

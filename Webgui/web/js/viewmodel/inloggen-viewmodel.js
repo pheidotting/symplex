@@ -4,11 +4,12 @@ define(['jquery',
         'commons/3rdparty/log',
         'redirect',
         'service/gebruiker-service',
+        'service/toggle-service',
         'complexify',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, ko, commonFunctions, log, redirect, gebruikerService) {
+    function ($, ko, commonFunctions, log, redirect, gebruikerService, toggleService, complexify) {
 
         return function () {
             var _this = this;
@@ -50,7 +51,7 @@ define(['jquery',
                                 _this.moetWachtwoordUpdaten(true);
                             } else {
                                 if (localStorage.getItem("symplexPreviousLocation") == null) {
-                                    window.location = 'zoeken.html';
+                                    window.location = 'dashboard.html';
                                 } else {
                                     window.location = localStorage.getItem("symplexPreviousLocation");
                                 }
@@ -101,9 +102,9 @@ define(['jquery',
                     _this.wachtwoordenKomenNietOvereen(false);
                     $.when(gebruikerService.wijzigWachtwoord(_this.nieuwWachtwoord())).then(function () {
                         logger.info('wachtwoord gewijzigd');
-                        window.location = 'zoeken.html';
+                        window.location = 'dashboard.html';
                     });
-                    window.location = 'zoeken.html';
+                    window.location = 'dashboard.html';
                 } else {
                     _this.wachtwoordenKomenNietOvereen(true);
                 }
