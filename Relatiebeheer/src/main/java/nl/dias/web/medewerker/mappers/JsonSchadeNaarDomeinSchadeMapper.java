@@ -49,7 +49,7 @@ public class JsonSchadeNaarDomeinSchadeMapper {
             schade.setDatumAfgehandeld(datumAfgehandeld);
         }
         if (schadeIn.getEigenRisico() != null) {
-            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",",".")));
+            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",", ".")));
         }
         schade.setLocatie(schadeIn.getLocatie());
         schade.setOmschrijving(schadeIn.getOmschrijving());

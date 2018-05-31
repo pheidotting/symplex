@@ -3,7 +3,6 @@ package nl.dias.repository;
 import inloggen.SessieHolder;
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.Relatie;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -36,7 +35,7 @@ public class GebruikerRepositoryTest {
     }
 
     @Test
-    public void zoek() throws UnsupportedEncodingException, NoSuchAlgorithmException, PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
+    public void zoek() throws UnsupportedEncodingException, NoSuchAlgorithmException, PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException {
         Kantoor kantoor = new Kantoor();
         kantoor.setNaam("naam");
 
@@ -68,7 +67,7 @@ public class GebruikerRepositoryTest {
     }
 
     @Test
-    public void testAlleRelaties() throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
+    public void testAlleRelaties() throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException {
         Kantoor kantoor1 = new Kantoor();
         kantoor1.setNaam("kantoor1");
         Kantoor kantoor2 = new Kantoor();
@@ -104,7 +103,7 @@ public class GebruikerRepositoryTest {
     }
 
     @Test
-    public void testZoekOpNaam() throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
+    public void testZoekOpNaam() throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException {
         Kantoor kantoor = new Kantoor();
         kantoor.setNaam("naam");
 

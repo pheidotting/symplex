@@ -180,24 +180,6 @@ public class GebruikerRepository {
     }
 
     @Transactional
-    public Relatie zoekOpBsn(String bsn) {
-        Timer.Context timer = metricsService.addTimerMetric("zoekOpBsn", GebruikerRepository.class);
-
-        getTransaction();
-
-        Query query = getEm().getNamedQuery("Relatie.zoekOpBsn");
-        query.setParameter("bsn", bsn);
-
-        Relatie relatie = (Relatie) query.list().get(0);
-
-        getTransaction().commit();
-
-        metricsService.stop(timer);
-
-        return relatie;
-    }
-
-    @Transactional
     public Gebruiker zoek(String emailadres) throws NietGevondenException {
         Timer.Context timer = metricsService.addTimerMetric("zoek", GebruikerRepository.class);
 

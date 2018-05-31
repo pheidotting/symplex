@@ -55,11 +55,11 @@ public class Schade implements Comparable, Serializable {
     @Audited
     private StatusSchade statusSchade;
 
-    @Column(name = "DATUMTIJD", nullable = false)
+    @Column(name = "DATUM", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date datumTijdSchade;
 
-    @Column(name = "DATUMTIJDMELDING", nullable = false)
+    @Column(name = "DATUMMELDING", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date datumTijdMelding;
 
