@@ -102,7 +102,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
         Long relatieId = 46L;
 
         Relatie relatie = new Relatie();
-        relatie.setBsn("1234");
         relatie.setIdentificatie("id");
         relatie.setId(relatieId);
 
@@ -121,7 +120,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
     @Test
     public void testOpslaanMetRekeningNummer() throws UnsupportedEncodingException, NoSuchAlgorithmException, NietGevondenException {
         Relatie relatie = new Relatie();
-        relatie.setBsn("1234");
         relatie.setIdentificatie("id");
 
         gebruikerRepository.opslaan(relatie);
@@ -139,7 +137,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
     @Test
     public void testOpslaanMetTelefoonNummer() throws UnsupportedEncodingException, NoSuchAlgorithmException, NietGevondenException {
         Relatie relatie = new Relatie();
-        relatie.setBsn("1234");
         relatie.setIdentificatie("id");
 
         gebruikerRepository.opslaan(relatie);
@@ -178,7 +175,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
     public void testOpslaanZonderEmail() throws UnsupportedEncodingException, NoSuchAlgorithmException, NietGevondenException {
         Relatie relatie = new Relatie();
         relatie.setId(2L);
-        relatie.setBsn("id");
 
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
@@ -198,7 +194,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
     public void testOpslaanZonderAdres() throws UnsupportedEncodingException, NoSuchAlgorithmException, NietGevondenException {
         Relatie relatie = new Relatie();
         relatie.setId(2L);
-        relatie.setBsn("bsn");
         relatie.setIdentificatie("id");
 
         gebruikerRepository.opslaan(relatie);
@@ -219,7 +214,6 @@ public class GebruikerServiceTest extends EasyMockSupport {
     public void testOpslaanMetAdresMaarIncompleet() throws UnsupportedEncodingException, NoSuchAlgorithmException, NietGevondenException {
         Relatie relatie = new Relatie();
         relatie.setId(2L);
-        relatie.setBsn("bsn");
         relatie.setIdentificatie("id");
 
         Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();

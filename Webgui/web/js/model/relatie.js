@@ -11,7 +11,6 @@ define(['knockout'],
             _this.roepnaam = ko.observable();
             _this.tussenvoegsel = ko.observable();
             _this.achternaam = ko.observable().extend({required: true});
-            _this.bsn = ko.observable();
             _this.geboorteDatum = ko.observable();
             _this.overlijdensdatum = ko.observable();
             _this.geslacht = ko.observable();
