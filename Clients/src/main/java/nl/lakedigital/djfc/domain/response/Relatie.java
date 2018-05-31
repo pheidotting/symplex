@@ -13,7 +13,6 @@ public class Relatie {
     private String voornaam;
     private String tussenvoegsel;
     private String achternaam;
-    private String bsn;
     private Long kantoor;
     private String geboorteDatum;
     private String overlijdensdatum;
@@ -81,13 +80,6 @@ public class Relatie {
         this.achternaam = achternaam;
     }
 
-    public String getBsn() {
-        return bsn;
-    }
-
-    public void setBsn(String bsn) {
-        this.bsn = bsn;
-    }
 
     public Long getKantoor() {
         return kantoor;
@@ -253,16 +245,16 @@ public class Relatie {
             return false;
         }
         Relatie relatie = (Relatie) o;
-        return Objects.equals(getId(), relatie.getId()) && Objects.equals(getIdentificatie(), relatie.getIdentificatie()) && Objects.equals(getRoepnaam(), relatie.getRoepnaam()) && Objects.equals(getVoornaam(), relatie.getVoornaam()) && Objects.equals(getTussenvoegsel(), relatie.getTussenvoegsel()) && Objects.equals(getAchternaam(), relatie.getAchternaam()) && Objects.equals(getBsn(), relatie.getBsn()) && Objects.equals(getKantoor(), relatie.getKantoor()) && Objects.equals(getGeboorteDatum(), relatie.getGeboorteDatum()) && Objects.equals(getOverlijdensdatum(), relatie.getOverlijdensdatum()) && Objects.equals(getGeslacht(), relatie.getGeslacht()) && Objects.equals(getBurgerlijkeStaat(), relatie.getBurgerlijkeStaat()) && Objects.equals(getEmailadres(), relatie.getEmailadres());
+        return Objects.equals(getId(), relatie.getId()) && Objects.equals(getIdentificatie(), relatie.getIdentificatie()) && Objects.equals(getRoepnaam(), relatie.getRoepnaam()) && Objects.equals(getVoornaam(), relatie.getVoornaam()) && Objects.equals(getTussenvoegsel(), relatie.getTussenvoegsel()) && Objects.equals(getAchternaam(), relatie.getAchternaam()) && Objects.equals(getKantoor(), relatie.getKantoor()) && Objects.equals(getGeboorteDatum(), relatie.getGeboorteDatum()) && Objects.equals(getOverlijdensdatum(), relatie.getOverlijdensdatum()) && Objects.equals(getGeslacht(), relatie.getGeslacht()) && Objects.equals(getBurgerlijkeStaat(), relatie.getBurgerlijkeStaat()) && Objects.equals(getEmailadres(), relatie.getEmailadres());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getIdentificatie(), getRoepnaam(), getVoornaam(), getTussenvoegsel(), getAchternaam(), getBsn(), getKantoor(), getGeboorteDatum(), getOverlijdensdatum(), getGeslacht(), getBurgerlijkeStaat(), getEmailadres());
+        return Objects.hash(getId(), getIdentificatie(), getRoepnaam(), getVoornaam(), getTussenvoegsel(), getAchternaam(), getKantoor(), getGeboorteDatum(), getOverlijdensdatum(), getGeslacht(), getBurgerlijkeStaat(), getEmailadres());
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("roepnaam", roepnaam).append("voornaam", voornaam).append("tussenvoegsel", tussenvoegsel).append("achternaam", achternaam).append("bsn", bsn).append("kantoor", kantoor).append("geboorteDatum", geboorteDatum).append("overlijdensdatum", overlijdensdatum).append("geslacht", geslacht).append("burgerlijkeStaat", burgerlijkeStaat).append("emailadres", emailadres).append("adressen", adressen).append("bijlages", bijlages).append("groepBijlages", groepBijlages).append("rekeningNummers", rekeningNummers).append("telefoonnummers", telefoonnummers).append("opmerkingen", opmerkingen).append("telefoonnummerMetGesprekkens", telefoonnummerMetGesprekkens).append("polissen", polissen).toString();
+        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("roepnaam", roepnaam).append("voornaam", voornaam).append("tussenvoegsel", tussenvoegsel).append("achternaam", achternaam).append("kantoor", kantoor).append("geboorteDatum", geboorteDatum).append("overlijdensdatum", overlijdensdatum).append("geslacht", geslacht).append("burgerlijkeStaat", burgerlijkeStaat).append("emailadres", emailadres).append("adressen", adressen).append("bijlages", bijlages).append("groepBijlages", groepBijlages).append("rekeningNummers", rekeningNummers).append("telefoonnummers", telefoonnummers).append("opmerkingen", opmerkingen).append("telefoonnummerMetGesprekkens", telefoonnummerMetGesprekkens).append("polissen", polissen).toString();
     }
 }

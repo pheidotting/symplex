@@ -49,7 +49,6 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
             relatie.setGeboorteDatum(LocalDate.parse(jsonRelatie.getGeboorteDatum(), DateTimeFormat.forPattern(patternDatum)));
         }
 
-        relatie.setBsn(jsonRelatie.getBsn());
         if (jsonRelatie.getGeslacht() != null) {
             relatie.setGeslacht(Geslacht.valueOf(jsonRelatie.getGeslacht().substring(0, 1)));
         }
@@ -80,7 +79,6 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
             jsonRelatie.setTussenvoegsel("");
         }
         jsonRelatie.setAchternaam(relatie.getAchternaam());
-        jsonRelatie.setBsn(relatie.getBsn());
         if (relatie.getGeboorteDatum() != null) {
             jsonRelatie.setGeboorteDatum(relatie.getGeboorteDatum().toString("dd-MM-yyyy"));
         } else {
