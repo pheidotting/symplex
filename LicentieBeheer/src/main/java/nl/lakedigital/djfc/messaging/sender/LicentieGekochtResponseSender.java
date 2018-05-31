@@ -1,15 +1,12 @@
 package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.request.licentie.LicentieGekochtResponse;
-import nl.lakedigital.djfc.service.LicentieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 public class LicentieGekochtResponseSender extends nl.lakedigital.djfc.messaging.sender.AbstractSender<LicentieGekochtResponse, LicentieGekochtResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControleerLicentieResponseSender.class);
-
-    private LicentieService licentieService;
 
     public LicentieGekochtResponseSender(JmsTemplate jmsTemplate) {
         super(jmsTemplate, LicentieGekochtResponse.class);

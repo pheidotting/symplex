@@ -5,3 +5,6 @@
 *.iml
 db.data
 db.redo
+/Webgui/.idea/misc.xml
+/Webgui/.idea/modules.xml
+/Webgui/.idea/workspace.xml

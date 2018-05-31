@@ -786,6 +786,9 @@ pipeline {
         success {
             slackSend (color: '#4245f4', message: "Afgerond : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
         }
+        failure {
+            slackSend (color: '#FF0000', message: "FOUT : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
     }
 }
 

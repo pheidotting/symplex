@@ -80,7 +80,6 @@ public class Relatie {
         this.achternaam = achternaam;
     }
 
-
     public Long getKantoor() {
         return kantoor;
     }

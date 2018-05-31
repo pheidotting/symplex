@@ -1,5 +1,6 @@
 package nl.dias.service;
 
+import nl.dias.domein.Kantoor;
 import nl.dias.domein.Schade;
 import nl.dias.domein.SoortSchade;
 import nl.dias.domein.StatusSchade;
@@ -19,7 +20,9 @@ import java.util.List;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @Ignore
 @RunWith(EasyMockRunner.class)
@@ -197,6 +200,20 @@ public class SchadeServiceTest extends EasyMockSupport {
         replayAll();
 
         service.alleSchadesBijRelatie(relatie);
+
+        verifyAll();
+    }
+
+    @Test
+    public void testAlleOpenSchades() {
+        List<Schade> schades = new ArrayList<>();
+        Kantoor kantoor = new Kantoor();
+
+        expect(schadeRepository.alleOpenSchade(kantoor)).andReturn(schades);
+
+        replayAll();
+
+        assertThat(service.alleOpenSchade(kantoor), is(schades));
 
         verifyAll();
     }

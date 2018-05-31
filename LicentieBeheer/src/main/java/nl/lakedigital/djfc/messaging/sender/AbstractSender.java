@@ -6,6 +6,8 @@ import org.slf4j.MDC;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -50,36 +52,37 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public void send(final AbstractMessage abstractMessage, Logger logger) {
         for (JmsTemplate jmsTemplate : jmsTemplates) {
-            jmsTemplate.send(session -> {
-                try {
-                    abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
-                    abstractMessage.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
-                    abstractMessage.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
-                    abstractMessage.setUrl(MDC.get("url"));
-
-                    JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
-                    Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-                    jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-                    StringWriter sw = new StringWriter();
-
-                    jaxbMarshaller.marshal(abstractMessage, sw);
-
-                    TextMessage message = session.createTextMessage(sw.toString());
-
-                    if (replyTo != null) {
-                        message.setJMSReplyTo(replyTo);
-                    }
-
-                    logger.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
-
-                    return message;
-                } catch (JAXBException e) {
-                    logger.error("{}", e);
-                }
-                return null;
-            });
+            jmsTemplate.send(session -> createMessage(abstractMessage, logger, session, jmsTemplate));
         }
+    }
+
+    private TextMessage createMessage(AbstractMessage abstractMessage, Logger logger, Session session, JmsTemplate jmsTemplate) {
+        try {
+            abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
+            abstractMessage.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
+            abstractMessage.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+            abstractMessage.setUrl(MDC.get("url"));
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            StringWriter sw = new StringWriter();
+            jaxbMarshaller.marshal(abstractMessage, sw);
+
+            TextMessage message = session.createTextMessage(sw.toString());
+
+            if (replyTo != null) {
+                message.setJMSReplyTo(replyTo);
+            }
+
+            logger.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
+
+            return message;
+        } catch (JAXBException | JMSException e) {
+            logger.error("{}", e);
+        }
+        return null;
     }
 }

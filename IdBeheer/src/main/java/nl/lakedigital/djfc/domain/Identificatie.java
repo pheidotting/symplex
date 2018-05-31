@@ -11,7 +11,7 @@ import java.util.UUID;
 @NamedQueries(//
         {//
                 @NamedQuery(name = "Identificatie.zoek", query = "select i from Identificatie i where i.soortEntiteit = :soortEntiteit and i.entiteitId = :entiteitId"),//
-                @NamedQuery(name = "Identificatie.zoekOpIdentificatieCode", query = "select i from Identificatie i where i.identificatie = :identificatie")//
+                @NamedQuery(name = "Identificatie.zoekOpIdentificatieCode", query = "select i from Identificatie i where i.identificatieCode = :identificatieCode")//
         }//
 )
 public class Identificatie implements Serializable {
@@ -22,14 +22,15 @@ public class Identificatie implements Serializable {
     @Column(name = "ID")
     private Long id;
     @Column(name = "IDENTIFICATIE")
-    private String identificatie;
+    private String identificatieCode;
     @Column(length = 50, name = "SOORTENTITEIT")
     private String soortEntiteit;
     @Column(name = "ENTITEITID")
     private Long entiteitId;
 
     public Identificatie() {
-        //Hibernate wil een default constructor
+        super();
+        nieuweIdentificatieCode();
     }
 
     public Identificatie(String soortEntiteit, Long entiteitId) {
@@ -38,7 +39,7 @@ public class Identificatie implements Serializable {
     }
 
     public void nieuweIdentificatieCode() {
-        identificatie = UUID.randomUUID().toString();
+        identificatieCode = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -50,11 +51,11 @@ public class Identificatie implements Serializable {
     }
 
     public String getIdentificatie() {
-        return identificatie;
+        return identificatieCode;
     }
 
     public void setIdentificatie(String identificatie) {
-        this.identificatie = identificatie;
+        this.identificatieCode = identificatie;
     }
 
     public String getSoortEntiteit() {
@@ -75,6 +76,6 @@ public class Identificatie implements Serializable {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("soortEntiteit", soortEntiteit).append("entiteitId", entiteitId).toString();
+        return new ToStringBuilder(this).append("id", id).append("identificatieCode", identificatieCode).append("soortEntiteit", soortEntiteit).append("entiteitId", entiteitId).toString();
     }
 }

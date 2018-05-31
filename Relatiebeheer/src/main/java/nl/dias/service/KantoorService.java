@@ -1,7 +1,6 @@
 package nl.dias.service;
 
 import nl.dias.domein.Kantoor;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -22,7 +21,7 @@ public class KantoorService {
     @Inject
     private KantoorAangemeldRequestSender kantoorAangemeldRequestSender;
 
-    public void aanmelden(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException, BsnNietGoedException {
+    public void aanmelden(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException {
         LOGGER.debug("Aanmelden Kantoor");
         kantoorRepository.opslaan(kantoor);
         kantoorAangemeldRequestSender.send(kantoor);

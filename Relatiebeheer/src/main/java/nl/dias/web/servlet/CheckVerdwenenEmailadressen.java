@@ -69,6 +69,7 @@ public class CheckVerdwenenEmailadressen {
             .append("d")//
             .append("W")//
             .toString();
+
     @Scheduled(cron = "0 0 2 * * ?")
     public void run() {
         SlackSession session = SlackSessionFactory.createWebSocketSlackSession(token);

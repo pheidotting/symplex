@@ -19,7 +19,6 @@ public class JsonSchadeNaarDomeinSchadeMapper {
     }
 
     public Schade map(nl.lakedigital.djfc.domain.response.Schade schadeIn) {
-        String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
         String patternDatum = "yyyy-MM-dd";
 
         LocalDate datumAfgehandeld = null;
@@ -36,20 +35,20 @@ public class JsonSchadeNaarDomeinSchadeMapper {
             schade.setId(identificatie.getEntiteitId());
         }
 
-        if (schadeIn.getDatumTijdMelding() != null) {
-            LocalDateTime datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumTijdMelding(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdMelding(datumTijdMelding);
+        if (schadeIn.getDatumMelding() != null) {
+            LocalDateTime datumMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatum));
+            schade.setDatumMelding(datumMelding);
         }
-        if (schadeIn.getDatumTijdSchade() != null) {
-            LocalDateTime datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumTijdSchade(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdSchade(datumTijdSchade);
+        if (schadeIn.getDatumSchade() != null) {
+            LocalDateTime datumSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatum));
+            schade.setDatumSchade(datumSchade);
         }
 
         if (datumAfgehandeld != null) {
             schade.setDatumAfgehandeld(datumAfgehandeld);
         }
         if (schadeIn.getEigenRisico() != null) {
-            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",",".")));
+            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",", ".")));
         }
         schade.setLocatie(schadeIn.getLocatie());
         schade.setOmschrijving(schadeIn.getOmschrijving());

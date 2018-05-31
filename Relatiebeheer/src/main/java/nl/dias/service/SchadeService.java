@@ -1,5 +1,6 @@
 package nl.dias.service;
 
+import nl.dias.domein.Kantoor;
 import nl.dias.domein.Schade;
 import nl.dias.domein.SoortSchade;
 import nl.dias.domein.StatusSchade;
@@ -150,5 +151,9 @@ public class SchadeService {
         Schade schade = schadeRepository.lees(id);
         LOGGER.debug(ReflectionToStringBuilder.toString(schade));
         return schade;
+    }
+
+    public List<Schade> alleOpenSchade(Kantoor kantoor) {
+        return schadeRepository.alleOpenSchade(kantoor);
     }
 }

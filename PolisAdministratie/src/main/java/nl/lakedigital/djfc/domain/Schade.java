@@ -46,11 +46,11 @@ public class Schade implements Serializable {
 
     @Column(name = "DATUMTIJD", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date datumTijdSchade;
+    private Date datumSchade;
 
     @Column(name = "DATUMTIJDMELDING", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date datumTijdMelding;
+    private Date datumMelding;
 
     @Column(name = "DATUMAFGEHANDELD")
     @Temporal(TemporalType.DATE)
@@ -129,23 +129,23 @@ public class Schade implements Serializable {
         this.statusSchade = statusSchade;
     }
 
-    public LocalDateTime getDatumTijdSchade() {
-        if (datumTijdSchade != null) {
-            return new LocalDateTime(datumTijdSchade);
+    public LocalDateTime getDatumSchade() {
+        if (datumSchade != null) {
+            return new LocalDateTime(datumSchade);
         }
         return null;
     }
 
-    public void setDatumTijdSchade(LocalDateTime datumTijdSchade) {
-        this.datumTijdSchade = datumTijdSchade.toDate();
+    public void setDatumSchade(LocalDateTime datumSchade) {
+        this.datumSchade = datumSchade.toDate();
     }
 
-    public LocalDateTime getDatumTijdMelding() {
-        return new LocalDateTime(datumTijdMelding);
+    public LocalDateTime getDatumMelding() {
+        return new LocalDateTime(datumMelding);
     }
 
-    public void setDatumTijdMelding(LocalDateTime datumTijdMelding) {
-        this.datumTijdMelding = datumTijdMelding.toDate();
+    public void setDatumMelding(LocalDateTime datumMelding) {
+        this.datumMelding = datumMelding.toDate();
     }
 
     public LocalDate getDatumAfgehandeld() {
@@ -199,9 +199,7 @@ public class Schade implements Serializable {
                 Objects.equals(getSoortSchade(), schade.getSoortSchade()) &&
                 Objects.equals(getSoortSchadeOngedefinieerd(), schade.getSoortSchadeOngedefinieerd()) &&
                 Objects.equals(getLocatie(), schade.getLocatie()) &&
-                Objects.equals(getStatusSchade(), schade.getStatusSchade()) &&
-                Objects.equals(getDatumTijdSchade(), schade.getDatumTijdSchade()) &&
-                Objects.equals(getDatumTijdMelding(), schade.getDatumTijdMelding()) &&
+                Objects.equals(getStatusSchade(), schade.getStatusSchade()) && Objects.equals(getDatumSchade(), schade.getDatumSchade()) && Objects.equals(getDatumMelding(), schade.getDatumMelding()) &&
                 Objects.equals(getDatumAfgehandeld(), schade.getDatumAfgehandeld()) &&
                 Objects.equals(getEigenRisico(), schade.getEigenRisico()) &&
                 Objects.equals(getOmschrijving(), schade.getOmschrijving());
@@ -209,11 +207,11 @@ public class Schade implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getPolis(), getSchadeNummerMaatschappij(), getSchadeNummerTussenPersoon(), getSoortSchade(), getSoortSchadeOngedefinieerd(), getLocatie(), getStatusSchade(), getDatumTijdSchade(), getDatumTijdMelding(), getDatumAfgehandeld(), getEigenRisico(), getOmschrijving());
+        return Objects.hash(getId(), getPolis(), getSchadeNummerMaatschappij(), getSchadeNummerTussenPersoon(), getSoortSchade(), getSoortSchadeOngedefinieerd(), getLocatie(), getStatusSchade(), getDatumSchade(), getDatumMelding(), getDatumAfgehandeld(), getEigenRisico(), getOmschrijving());
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("polis", polis).append("schadeNummerMaatschappij", schadeNummerMaatschappij).append("schadeNummerTussenPersoon", schadeNummerTussenPersoon).append("soortSchade", soortSchade).append("soortSchadeOngedefinieerd", soortSchadeOngedefinieerd).append("locatie", locatie).append("statusSchade", statusSchade).append("datumTijdSchade", datumTijdSchade).append("datumTijdMelding", datumTijdMelding).append("datumAfgehandeld", datumAfgehandeld).append("eigenRisico", eigenRisico).append("omschrijving", omschrijving).toString();
+        return new ToStringBuilder(this).append("id", id).append("polis", polis).append("schadeNummerMaatschappij", schadeNummerMaatschappij).append("schadeNummerTussenPersoon", schadeNummerTussenPersoon).append("soortSchade", soortSchade).append("soortSchadeOngedefinieerd", soortSchadeOngedefinieerd).append("locatie", locatie).append("statusSchade", statusSchade).append("datumSchade", datumSchade).append("datumMelding", datumMelding).append("datumAfgehandeld", datumAfgehandeld).append("eigenRisico", eigenRisico).append("omschrijving", omschrijving).toString();
     }
 }

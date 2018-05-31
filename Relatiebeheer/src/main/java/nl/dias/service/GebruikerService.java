@@ -84,8 +84,8 @@ public class GebruikerService {
         return (Relatie) this.lees(id);
     }
 
-    public List<Relatie> alleRelaties(Kantoor kantoor) {
-        return gebruikerRepository.alleRelaties(kantoor);
+    public List<Relatie> alleRelaties(Kantoor kantoor, boolean alles) {
+        return gebruikerRepository.alleRelaties(kantoor, alles);
     }
 
     public void opslaan(Gebruiker gebruiker) {

@@ -2,7 +2,6 @@ package nl.dias.repository;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Kantoor;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -48,7 +47,7 @@ public class KantoorRepository {
     }
 
     @Transactional
-    public void opslaan(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, BsnNietGoedException, IbanNietGoedException {
+    public void opslaan(Kantoor kantoor) throws PostcodeNietGoedException, TelefoonnummerNietGoedException, IbanNietGoedException {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", KantoorRepository.class);
 
         getTransaction();
