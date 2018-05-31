@@ -18,7 +18,6 @@ import java.util.Date;
 @AttributeOverrides({@AttributeOverride(name = "identificatie", column = @Column(name = "GEBRUIKERSNAAM"))})
 @NamedQueries({@NamedQuery(name = "Relatie.zoekAllesVoorKantoor", query = "select r from Relatie r where r.kantoor = :kantoor"), //
         @NamedQuery(name = "Relatie.zoekOpEmail", query = "select r from Relatie r where r.identificatie = :emailadres"), //
-        @NamedQuery(name = "Relatie.zoekOpBsn", query = "select r from Relatie r where r.bsn = :bsn"), //
         @NamedQuery(name = "Relatie.zoekOpGeboortedatum", query = "select g from Relatie g where g.geboorteDatum = :geboorteDatum"),//
         @NamedQuery(name = "Relatie.roepnaam", query = "select g from Relatie g where g.roepnaam LIKE :roepnaam")//
 })
@@ -27,9 +26,6 @@ public class Relatie extends Gebruiker implements Serializable {
 
     @Column(name = "ROEPNAAM")
     private String roepnaam;
-
-    @Column(name = "BSN")
-    private String bsn;
 
     @NotAudited
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false, targetEntity = Kantoor.class)
@@ -58,14 +54,6 @@ public class Relatie extends Gebruiker implements Serializable {
 
     public void setRoepnaam(String roepnaam) {
         this.roepnaam = roepnaam;
-    }
-
-    public String getBsn() {
-        return bsn;
-    }
-
-    public void setBsn(String bsn) {
-        this.bsn = bsn;
     }
 
     public Kantoor getKantoor() {
@@ -119,7 +107,7 @@ public class Relatie extends Gebruiker implements Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.burgerlijkeStaat).append(this.bsn).append(this.geboorteDatum).append(this.geslacht).append(this.overlijdensdatum).toHashCode();
+        return new HashCodeBuilder().append(this.burgerlijkeStaat).append(this.geboorteDatum).append(this.geslacht).append(this.overlijdensdatum).toHashCode();
     }
 
     /**
@@ -131,7 +119,7 @@ public class Relatie extends Gebruiker implements Serializable {
             return false;
         }
         Relatie rhs = (Relatie) object;
-        return new EqualsBuilder().appendSuper(super.equals(object)).append(this.burgerlijkeStaat, rhs.burgerlijkeStaat).append(this.bsn, rhs.bsn).append(this.geboorteDatum, rhs.geboorteDatum).append(this.geslacht, rhs.geslacht).append(this.overlijdensdatum, rhs.overlijdensdatum).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(object)).append(this.burgerlijkeStaat, rhs.burgerlijkeStaat).append(this.geboorteDatum, rhs.geboorteDatum).append(this.geslacht, rhs.geslacht).append(this.overlijdensdatum, rhs.overlijdensdatum).isEquals();
     }
 
     /**
@@ -139,7 +127,7 @@ public class Relatie extends Gebruiker implements Serializable {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("\ngeslacht", this.geslacht).append("burgerlijkeStaat", this.burgerlijkeStaat).append("identificatie", this.getIdentificatie()).append("voornaam", this.getVoornaam()).append("id", this.getId()).append("overlijdensdatum", this.overlijdensdatum).append("geboorteDatum", this.geboorteDatum).append("bsn", this.bsn).append("wachtwoordString", this.getWachtwoordString()).append("tussenvoegsel", this.getTussenvoegsel()).append("achternaam", this.getAchternaam()).toString();
+        return new ToStringBuilder(this).append("\ngeslacht", this.geslacht).append("burgerlijkeStaat", this.burgerlijkeStaat).append("identificatie", this.getIdentificatie()).append("voornaam", this.getVoornaam()).append("id", this.getId()).append("overlijdensdatum", this.overlijdensdatum).append("geboorteDatum", this.geboorteDatum).append("wachtwoordString", this.getWachtwoordString()).append("tussenvoegsel", this.getTussenvoegsel()).append("achternaam", this.getAchternaam()).toString();
     }
 
     public String getName() {

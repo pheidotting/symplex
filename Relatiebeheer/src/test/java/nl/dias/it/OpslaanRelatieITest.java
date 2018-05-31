@@ -80,7 +80,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         relatie.setGeboorteDatum("1979-09-06");
         relatie.setEmailadres("a@b.c");
         relatie.setRoepnaam("Batman");
-        relatie.setBsn("123456789");
         relatie.setGeslacht("Man");
         relatie.setBurgerlijkeStaat("Ongehuwd");
 
@@ -90,7 +89,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         assertThat(result.getGeboorteDatum(), is(relatie.getGeboorteDatum()));
         assertThat(result.getEmailadres(), is(nullValue()));
         assertThat(result.getRoepnaam(), is(relatie.getRoepnaam()));
-        assertThat(result.getBsn(), is(relatie.getBsn()));
         assertThat(result.getOverlijdensdatum(), is(relatie.getOverlijdensdatum()));
         assertThat(result.getGeslacht(), is(relatie.getGeslacht()));
         assertThat(result.getBurgerlijkeStaat(), is(relatie.getBurgerlijkeStaat()));
@@ -103,7 +101,6 @@ public class OpslaanRelatieITest extends AbstractITest {
         assertThat(result2.getGeboorteDatum(), is(result.getGeboorteDatum()));
         //        assertThat(result2.getEmailadres(), is(result.getOverlijdensdatum()));
         assertThat(result2.getRoepnaam(), is(result.getRoepnaam()));
-        assertThat(result2.getBsn(), is(result.getBsn()));
         assertThat(result2.getOverlijdensdatum(), is(result.getOverlijdensdatum()));
         assertThat(result2.getGeslacht(), is(result.getGeslacht()));
         assertThat(result2.getBurgerlijkeStaat(), is(result.getBurgerlijkeStaat()));
