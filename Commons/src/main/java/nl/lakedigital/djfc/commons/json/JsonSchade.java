@@ -14,8 +14,8 @@ public class JsonSchade {
     private String soortSchade;
     private String locatie;
     private String statusSchade;
-    private String datumTijdSchade;
-    private String datumTijdMelding;
+    private String datumSchade;
+    private String datumMelding;
     private String datumAfgehandeld;
     private String eigenRisico;
     private String omschrijving;
@@ -87,20 +87,20 @@ public class JsonSchade {
         this.statusSchade = statusSchade;
     }
 
-    public String getDatumTijdSchade() {
-        return datumTijdSchade;
+    public String getDatumSchade() {
+        return datumSchade;
     }
 
-    public void setDatumTijdSchade(String datumTijdSchade) {
-        this.datumTijdSchade = datumTijdSchade;
+    public void setDatumSchade(String datumSchade) {
+        this.datumSchade = datumSchade;
     }
 
-    public String getDatumTijdMelding() {
-        return datumTijdMelding;
+    public String getDatumMelding() {
+        return datumMelding;
     }
 
-    public void setDatumTijdMelding(String datumTijdMelding) {
-        this.datumTijdMelding = datumTijdMelding;
+    public void setDatumMelding(String datumMelding) {
+        this.datumMelding = datumMelding;
     }
 
     public String getDatumAfgehandeld() {
@@ -227,8 +227,7 @@ public class JsonSchade {
             return false;
         }
         JsonSchade rhs = (JsonSchade) object;
-        return new EqualsBuilder().append(this.soortSchade, rhs.soortSchade).append(this.datumTijdMelding, rhs.datumTijdMelding).append(this.locatie, rhs.locatie)
-                .append(this.schadeNummerMaatschappij, rhs.schadeNummerMaatschappij).append(this.datumTijdSchade, rhs.datumTijdSchade).append(this.statusSchade, rhs.statusSchade)
+        return new EqualsBuilder().append(this.soortSchade, rhs.soortSchade).append(this.datumMelding, rhs.datumMelding).append(this.locatie, rhs.locatie).append(this.schadeNummerMaatschappij, rhs.schadeNummerMaatschappij).append(this.datumSchade, rhs.datumSchade).append(this.statusSchade, rhs.statusSchade)
                 .append(this.id, rhs.id).append(this.schadeNummerTussenPersoon, rhs.schadeNummerTussenPersoon).append(this.eigenRisico, rhs.eigenRisico).append(this.omschrijving, rhs.omschrijving)
                 .append(this.datumAfgehandeld, rhs.datumAfgehandeld).isEquals();
     }
@@ -238,7 +237,7 @@ public class JsonSchade {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.soortSchade).append(this.datumTijdMelding).append(this.locatie).append(this.schadeNummerMaatschappij).append(this.datumTijdSchade)
+        return new HashCodeBuilder().append(this.soortSchade).append(this.datumMelding).append(this.locatie).append(this.schadeNummerMaatschappij).append(this.datumSchade)
                 .append(this.statusSchade).append(this.id).append(this.schadeNummerTussenPersoon).append(this.eigenRisico).append(this.omschrijving).append(this.datumAfgehandeld).toHashCode();
     }
 
@@ -257,10 +256,10 @@ public class JsonSchade {
         builder.append(locatie);
         builder.append(", statusSchade=");
         builder.append(statusSchade);
-        builder.append(", datumTijdSchade=");
-        builder.append(datumTijdSchade);
-        builder.append(", datumTijdMelding=");
-        builder.append(datumTijdMelding);
+        builder.append(", datumSchade=");
+        builder.append(datumSchade);
+        builder.append(", datumMelding=");
+        builder.append(datumMelding);
         builder.append(", datumAfgehandeld=");
         builder.append(datumAfgehandeld);
         builder.append(", eigenRisico=");

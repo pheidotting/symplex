@@ -80,11 +80,11 @@
 //        if (!Hulp.controleerVeld(this.statusSchade.get(nummer), (jsonSchade.getStatusSchade()))) {
 //            sb.append("|").append(Hulp.getText(this.statusSchade.get(nummer))).append(",").append((jsonSchade.getStatusSchade())).append(";").append("statusSchade");
 //        }
-//        if (!Hulp.controleerVeld(this.datumTijdSchade.get(nummer), (jsonSchade.getDatumTijdSchade()))) {
-//            sb.append("|").append(Hulp.getText(this.datumTijdSchade.get(nummer))).append(",").append((jsonSchade.getDatumTijdSchade())).append(";").append("datumTijdSchade");
+//        if (!Hulp.controleerVeld(this.datumTijdSchade.get(nummer), (jsonSchade.getDatumSchade()))) {
+//            sb.append("|").append(Hulp.getText(this.datumTijdSchade.get(nummer))).append(",").append((jsonSchade.getDatumSchade())).append(";").append("datumTijdSchade");
 //        }
-//        if (!Hulp.controleerVeld(this.datumTijdMelding.get(nummer), (jsonSchade.getDatumTijdMelding()))) {
-//            sb.append("|").append(Hulp.getText(this.datumTijdMelding.get(nummer))).append(",").append((jsonSchade.getDatumTijdMelding())).append(";").append("datumTijdMelding");
+//        if (!Hulp.controleerVeld(this.datumTijdMelding.get(nummer), (jsonSchade.getDatumMelding()))) {
+//            sb.append("|").append(Hulp.getText(this.datumTijdMelding.get(nummer))).append(",").append((jsonSchade.getDatumMelding())).append(";").append("datumTijdMelding");
 //        }
 //        if (!Hulp.controleerVeld(this.datumAfgehandeld.get(nummer), (jsonSchade.getDatumAfgehandeld()))) {
 //            sb.append("|").append(Hulp.getText(this.datumAfgehandeld.get(nummer))).append(",").append((jsonSchade.getDatumAfgehandeld())).append(";").append("datumAfgehandeld");

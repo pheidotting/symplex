@@ -1,5 +1,5 @@
 <div>
-    <div class="kolom">
+    <div class="kolom-2">
         <h3>Persoonsgegevens</h3>
 
         <label for="voornaam">Voornamen</label>
@@ -50,13 +50,11 @@
         <div id="taken"></div>
     </div>
 
-    <div class="kolom">
+    <div class="kolom-2">
         <div id="telefoonnummers"></div>
 
         <div id="telefonie"></div>
-    </div>
 
-    <div class="kolom">
         <div id="rekeningnummers"></div>
 
         <div id="bijlages"></div>
@@ -65,52 +63,6 @@
     </div>
     <div style="clear: both;"></div>
 </div>
-
-<!--<div class="persoonsgegevens_links">-->
-<!--<span class="glyphicon glyphicon-plus" data-bind="click: voegRelatieToe"></span>-->
-<!--<table>-->
-<!--<thead>-->
-<!--<th>Naam Relatie</th>-->
-<!--<th>Soort Relatie</th>-->
-<!--</thead>-->
-<!--<tbody data-bind="foreach: onderlingeRelaties, visible: onderlingeRelaties().length > 0">-->
-<!--<tr>-->
-<!--<td class="user-box-name" data-bind="text: relatieMet, click: navigeerNaar" style="cursor:pointer;"></td>-->
-<!--<td data-bind="text: soortRelatie, click: navigeerNaar" style="cursor:pointer;"></td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--<div id="onderlingeRelatieDialog" title="Zoek een relatie" style="display: none; ">-->
-<!--<span class="validationMessage" style="display:none;" id="foutmeldingGeenSoortRelatie">Kies een Soort Relatie uit de lijst</span>-->
-<!--<input class="form-control" type="text" id="zoekRelatie" data-bind="value: zoekTerm" />-->
-<!--<button class="btn btn-default" type="button" id="zoeken" data-bind="click: zoekRelaties">Zoek</button>-->
-<!--<select id="soortRelatie" >-->
-<!--<option value="">Selecteer een optie...</option>-->
-<!--<option value="O">Ouder</option>-->
-<!--<option value="K">Kind</option>-->
-<!--<option value="W">Werknemer</option>-->
-<!--<option value="WG">Werkgever</option>-->
-<!--</select>-->
-<!--<table class="table">-->
-<!--<tr>-->
-<!--<th>Voornaam</th>-->
-<!--<th>Tussenvoegsel</th>-->
-<!--<th>Achternaam</th>-->
-<!--<th>Geboortedatum</th>-->
-<!--<th>Adres</th>-->
-<!--</tr>-->
-<!--<tbody data-bind="foreach: lijst">-->
-<!--<tr>-->
-<!--<td data-bind="text : voornaam, click: $parent.opslaanOnderlingeRelatie" name="voornaam" style="cursor:pointer;"></td>-->
-<!--<td data-bind="text : tussenvoegsel, click: $parent.opslaanOnderlingeRelatie" name="tussenvoegsel" style="cursor:pointer;"></td>-->
-<!--<td data-bind="text : achternaam, click: $parent.opslaanOnderlingeRelatie" name="achternaam" style="cursor:pointer;"></td>-->
-<!--<td data-bind="text : geboorteDatum, click: $parent.opslaanOnderlingeRelatie" name="geboortedatum" style="cursor:pointer;"></td>-->
-<!--<td data-bind="text : adresOpgemaakt, click: $parent.opslaanOnderlingeRelatie" name="adres" style="cursor:pointer;"></td>-->
-<!--</tr>-->
-<!--</tbody>-->
-<!--</table>-->
-<!--</div>-->
-<!--</div>-->
 
 <div style="clear: both;"></div>
 <button id="opslaanRelatie" class="fa fa-floppy-o fa-3x btn-awesome" data-bind="click: opslaan"></button>

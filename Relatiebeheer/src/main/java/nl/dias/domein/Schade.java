@@ -20,7 +20,8 @@ import java.util.Date;
         // @NamedQuery(name = "Schade.zoekOpschadeNummerMaatschappij", query = "select s from Schade s where s.schadeNummerMaatschappij = :schadeNummerMaatschappij"),
         //                @NamedQuery(name = "Schade.allesVanRelatie", query = "select s from Schade s where s.polis.relatie = :relatie"),
         //                @NamedQuery(name = "Schade.allesVanBedrijf", query = "select s from Schade s where s.polis.bedrijf = :bedrijf")
-        @NamedQuery(name = "Schade.allesBijPolis", query = "select s from Schade s where s.polis = :polis")})
+        @NamedQuery(name = "Schade.allesBijPolis", query = "select s from Schade s where s.polis = :polis"),//
+        @NamedQuery(name = "Schade.alleOpenSchades", query = "select s from Schade s inner join Polis p on s.polis = p.id inner join Relatie r on p.relatie = r.id where r.kantoor = :kantoor and s.datumAfgehandeld is null")})
 public class Schade implements Comparable, Serializable {
     private static final long serialVersionUID = -8340805705038811388L;
 
@@ -55,13 +56,13 @@ public class Schade implements Comparable, Serializable {
     @Audited
     private StatusSchade statusSchade;
 
-    @Column(name = "DATUMTIJD", nullable = false)
+    @Column(name = "DATUM", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date datumTijdSchade;
+    private Date datumSchade;
 
-    @Column(name = "DATUMTIJDMELDING", nullable = false)
+    @Column(name = "DATUMMELDING", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date datumTijdMelding;
+    private Date datumMelding;
 
     @Column(name = "DATUMAFGEHANDELD")
     @Temporal(TemporalType.DATE)
@@ -137,20 +138,20 @@ public class Schade implements Comparable, Serializable {
         this.statusSchade = statusSchade;
     }
 
-    public LocalDateTime getDatumTijdSchade() {
-        return new LocalDateTime(datumTijdSchade);
+    public LocalDateTime getDatumSchade() {
+        return new LocalDateTime(datumSchade);
     }
 
-    public void setDatumTijdSchade(LocalDateTime datumTijdSchade) {
-        this.datumTijdSchade = datumTijdSchade.toDate();
+    public void setDatumSchade(LocalDateTime datumSchade) {
+        this.datumSchade = datumSchade.toDate();
     }
 
-    public LocalDateTime getDatumTijdMelding() {
-        return new LocalDateTime(datumTijdMelding);
+    public LocalDateTime getDatumMelding() {
+        return new LocalDateTime(datumMelding);
     }
 
-    public void setDatumTijdMelding(LocalDateTime datumTijdMelding) {
-        this.datumTijdMelding = datumTijdMelding.toDate();
+    public void setDatumMelding(LocalDateTime datumMelding) {
+        this.datumMelding = datumMelding.toDate();
     }
 
     public LocalDate getDatumAfgehandeld() {
@@ -182,7 +183,7 @@ public class Schade implements Comparable, Serializable {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("soortSchade", this.soortSchade).append("datumTijdMelding", this.datumTijdMelding).append("locatie", this.locatie).append("schadeNummerMaatschappij", this.schadeNummerMaatschappij).append("datumTijdSchade", this.datumTijdSchade).append("statusSchade", this.statusSchade).append("id", this.id).append("soortSchadeOngedefinieerd", this.soortSchadeOngedefinieerd).append("schadeNummerTussenPersoon", this.schadeNummerTussenPersoon).append("eigenRisico", this.eigenRisico).append("omschrijving", this.omschrijving).append("datumAfgehandeld", this.datumAfgehandeld).toString();
+        return new ToStringBuilder(this).append("soortSchade", this.soortSchade).append("datumMelding", this.datumMelding).append("locatie", this.locatie).append("schadeNummerMaatschappij", this.schadeNummerMaatschappij).append("datumSchade", this.datumSchade).append("statusSchade", this.statusSchade).append("id", this.id).append("soortSchadeOngedefinieerd", this.soortSchadeOngedefinieerd).append("schadeNummerTussenPersoon", this.schadeNummerTussenPersoon).append("eigenRisico", this.eigenRisico).append("omschrijving", this.omschrijving).append("datumAfgehandeld", this.datumAfgehandeld).toString();
     }
 
     /**
@@ -191,7 +192,7 @@ public class Schade implements Comparable, Serializable {
     @Override
     public int compareTo(Object object) {
         Schade myClass = (Schade) object;
-        return new CompareToBuilder().append(this.datumTijdMelding, myClass.datumTijdMelding).append(this.locatie, myClass.locatie).append(this.schadeNummerMaatschappij, myClass.schadeNummerMaatschappij).append(this.datumTijdSchade, myClass.datumTijdSchade).append(this.statusSchade, myClass.statusSchade).append(this.id, myClass.id).append(this.soortSchadeOngedefinieerd, myClass.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon, myClass.schadeNummerTussenPersoon).append(this.eigenRisico, myClass.eigenRisico).append(this.omschrijving, myClass.omschrijving).append(this.datumAfgehandeld, myClass.datumAfgehandeld).toComparison();
+        return new CompareToBuilder().append(this.datumMelding, myClass.datumMelding).append(this.locatie, myClass.locatie).append(this.schadeNummerMaatschappij, myClass.schadeNummerMaatschappij).append(this.datumSchade, myClass.datumSchade).append(this.statusSchade, myClass.statusSchade).append(this.id, myClass.id).append(this.soortSchadeOngedefinieerd, myClass.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon, myClass.schadeNummerTussenPersoon).append(this.eigenRisico, myClass.eigenRisico).append(this.omschrijving, myClass.omschrijving).append(this.datumAfgehandeld, myClass.datumAfgehandeld).toComparison();
     }
 
     /**
@@ -199,7 +200,7 @@ public class Schade implements Comparable, Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(761314323, 831310645).appendSuper(super.hashCode()).append(this.datumTijdMelding).append(this.locatie).append(this.schadeNummerMaatschappij).append(this.datumTijdSchade).append(this.statusSchade).append(this.id).append(this.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon).append(this.eigenRisico).append(this.omschrijving).append(this.datumAfgehandeld).toHashCode();
+        return new HashCodeBuilder(761314323, 831310645).appendSuper(super.hashCode()).append(this.datumMelding).append(this.locatie).append(this.schadeNummerMaatschappij).append(this.datumSchade).append(this.statusSchade).append(this.id).append(this.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon).append(this.eigenRisico).append(this.omschrijving).append(this.datumAfgehandeld).toHashCode();
     }
 
     /**
@@ -211,6 +212,6 @@ public class Schade implements Comparable, Serializable {
             return false;
         }
         Schade rhs = (Schade) object;
-        return new EqualsBuilder().appendSuper(super.equals(object)).append(this.soortSchade, rhs.soortSchade).append(this.datumTijdMelding, rhs.datumTijdMelding).append(this.locatie, rhs.locatie).append(this.polis, rhs.polis).append(this.schadeNummerMaatschappij, rhs.schadeNummerMaatschappij).append(this.datumTijdSchade, rhs.datumTijdSchade).append(this.statusSchade, rhs.statusSchade).append(this.id, rhs.id).append(this.soortSchadeOngedefinieerd, rhs.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon, rhs.schadeNummerTussenPersoon).append(this.eigenRisico, rhs.eigenRisico).append(this.omschrijving, rhs.omschrijving).append(this.datumAfgehandeld, rhs.datumAfgehandeld).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(object)).append(this.soortSchade, rhs.soortSchade).append(this.datumMelding, rhs.datumMelding).append(this.locatie, rhs.locatie).append(this.polis, rhs.polis).append(this.schadeNummerMaatschappij, rhs.schadeNummerMaatschappij).append(this.datumSchade, rhs.datumSchade).append(this.statusSchade, rhs.statusSchade).append(this.id, rhs.id).append(this.soortSchadeOngedefinieerd, rhs.soortSchadeOngedefinieerd).append(this.schadeNummerTussenPersoon, rhs.schadeNummerTussenPersoon).append(this.eigenRisico, rhs.eigenRisico).append(this.omschrijving, rhs.omschrijving).append(this.datumAfgehandeld, rhs.datumAfgehandeld).isEquals();
     }
 }

@@ -7,13 +7,13 @@ define(['jquery',
         var logger = log.getLogger('zoeken-view');
 
         return {
-            init: function () {
+            init: function (zoekvelden) {
                 $('#content').html(html);
 
                 logger.debug('content geladen, viewmodel init');
 
                 var v = new viewmodel();
-                $.when(v.init()).then(function () {
+                $.when(v.init(zoekvelden)).then(function () {
                     ko.applyBindings(v);
                 });
             }

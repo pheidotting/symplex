@@ -47,7 +47,7 @@ define(["commons/3rdparty/log",
                                     localStorage.setItem("symplexAccessToken", request.getResponseHeader('Authorization'));
                                 }
                             } else if (!foutmeldingOnderdrukken) {
-                                foutpagina = new foutpaginaViewmodel(response.responseText);
+                                new foutpaginaViewmodel(response.responseText);
                             }
 
                             return deferred.resolve(response);
@@ -85,7 +85,7 @@ define(["commons/3rdparty/log",
                         if (response.status.toString() == '401') {
                             location.href = 'inloggen.html';
                         } else {
-                            foutpagina = new foutpaginaViewmodel(response.responseText);
+                            new foutpaginaViewmodel(response.responseText);
                         }
                     }
                 });

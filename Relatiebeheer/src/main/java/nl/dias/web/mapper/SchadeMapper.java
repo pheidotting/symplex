@@ -20,7 +20,6 @@ import javax.inject.Inject;
 @Component
 public class SchadeMapper extends Mapper<Schade, JsonSchade> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchadeMapper.class);
-    private String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
     private String patternDatum = "yyyy-MM-dd";
 
     @Inject
@@ -46,13 +45,13 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
         }
         schade.setId(json.getId());
 
-        if (json.getDatumTijdMelding() != null) {
-            LocalDateTime datumTijdMelding = LocalDateTime.parse(json.getDatumTijdMelding(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdMelding(datumTijdMelding);
+        if (json.getDatumMelding() != null) {
+            LocalDateTime datumMelding = LocalDateTime.parse(json.getDatumMelding(), DateTimeFormat.forPattern(patternDatum));
+            schade.setDatumMelding(datumMelding);
         }
-        if (json.getDatumTijdSchade() != null) {
-            LocalDateTime datumTijdSchade = LocalDateTime.parse(json.getDatumTijdSchade(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdSchade(datumTijdSchade);
+        if (json.getDatumSchade() != null) {
+            LocalDateTime datumSchade = LocalDateTime.parse(json.getDatumSchade(), DateTimeFormat.forPattern(patternDatum));
+            schade.setDatumSchade(datumSchade);
         }
 
         if (datumAfgehandeld != null) {
@@ -78,8 +77,8 @@ public class SchadeMapper extends Mapper<Schade, JsonSchade> {
         if (schade.getDatumAfgehandeld() != null) {
             jsonSchade.setDatumAfgehandeld(schade.getDatumAfgehandeld().toString(patternDatum));
         }
-        jsonSchade.setDatumTijdMelding(schade.getDatumTijdMelding().toString(patternDatumTijd));
-        jsonSchade.setDatumTijdSchade(schade.getDatumTijdSchade().toString(patternDatumTijd));
+        jsonSchade.setDatumMelding(schade.getDatumMelding().toString(patternDatum));
+        jsonSchade.setDatumSchade(schade.getDatumSchade().toString(patternDatum));
         if (schade.getEigenRisico() != null) {
             jsonSchade.setEigenRisico(schade.getEigenRisico().getBedrag().toString());
         }

@@ -17,7 +17,6 @@ public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Sc
     private OpmerkingClient opmerkingClient;
     private IdentificatieClient identificatieClient;
     private GebruikerService gebruikerService;
-    private String patternDatumTijd = "yyyy-MM-dd'T'HH:mm";
     private String patternDatum = "yyyy-MM-dd";
 
     public JsonToDtoSchadeMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService) {
@@ -38,8 +37,8 @@ public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Sc
         if (domein.getDatumAfgehandeld() != null) {
             schade.setDatumAfgehandeld(domein.getDatumAfgehandeld().toString(patternDatum));
         }
-        schade.setDatumTijdMelding(domein.getDatumTijdMelding().toString(patternDatumTijd));
-        schade.setDatumTijdSchade(domein.getDatumTijdSchade().toString(patternDatumTijd));
+        schade.setDatumMelding(domein.getDatumMelding().toString(patternDatum));
+        schade.setDatumSchade(domein.getDatumSchade().toString(patternDatum));
         if (domein.getEigenRisico() != null) {
             schade.setEigenRisico(domein.getEigenRisico().getBedrag().toString());
         }

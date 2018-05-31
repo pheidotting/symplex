@@ -91,8 +91,8 @@ public class GebruikerRepositoryTest {
         gebruikerRepository.opslaan(relatie2);
         gebruikerRepository.opslaan(relatie3);
 
-        assertEquals(2, gebruikerRepository.alleRelaties(kantoor1).size());
-        assertEquals(1, gebruikerRepository.alleRelaties(kantoor2).size());
+        assertEquals(2, gebruikerRepository.alleRelaties(kantoor1, true).size());
+        assertEquals(1, gebruikerRepository.alleRelaties(kantoor2, true).size());
         assertEquals(3, gebruikerRepository.alleRelaties().size());
 
         gebruikerRepository.verwijder(relatie1);

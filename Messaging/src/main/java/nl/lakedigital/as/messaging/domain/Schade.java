@@ -2,7 +2,6 @@ package nl.lakedigital.as.messaging.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Schade {
     private Long id;
@@ -12,8 +11,8 @@ public class Schade {
     private String soortSchade;
     private String locatie;
     private String statusSchade;
-    private String datumTijdSchade;
-    private String datumTijdMelding;
+    private String datumSchade;
+    private String datumMelding;
     private String datumAfgehandeld;
     private String eigenRisico;
     private String omschrijving;
@@ -76,20 +75,20 @@ public class Schade {
         this.statusSchade = statusSchade;
     }
 
-    public String getDatumTijdSchade() {
-        return datumTijdSchade;
+    public String getDatumSchade() {
+        return datumSchade;
     }
 
-    public void setDatumTijdSchade(String datumTijdSchade) {
-        this.datumTijdSchade = datumTijdSchade;
+    public void setDatumSchade(String datumSchade) {
+        this.datumSchade = datumSchade;
     }
 
-    public String getDatumTijdMelding() {
-        return datumTijdMelding;
+    public String getDatumMelding() {
+        return datumMelding;
     }
 
-    public void setDatumTijdMelding(String datumTijdMelding) {
-        this.datumTijdMelding = datumTijdMelding;
+    public void setDatumMelding(String datumMelding) {
+        this.datumMelding = datumMelding;
     }
 
     public String getDatumAfgehandeld() {

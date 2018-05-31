@@ -62,7 +62,7 @@ define(['jquery',
             };
 
             this.annuleren = function () {
-                window.location = 'zoeken.html';
+                window.location = 'dashboard.html';
             };
         };
     });

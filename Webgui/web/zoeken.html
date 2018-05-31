@@ -18,6 +18,7 @@
         var app = new App();
 
         app.addView('zoeken', 'js/view/zoeken-view');
+        app.addView('zoeken/:zoekvelden', 'js/view/zoeken-view');
 
         app.run('#zoeken');
     });
@@ -58,23 +59,34 @@
 <img class="logo-bedrijf"
      data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
 
-<button class="nieuw" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
-<button class="nieuw" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
-
 <div class="main">
     <div id="hoofd"></div>
     <div class="menu-balk">
         <div class="menu-balk-within">
             <div class="menu-balk-holder">
                 <ul>
-                    <li class="first"><a href="zoeken.html">Home</a></li>
-                    <li class="first" id="instellingenLink" style="display:none;"><a href="instellingen.html">Instellingen</a>
+                    <li class="first" id="dashboardLink"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="first" id="instellingenLink"><a href="instellingen.html">Instellingen</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class="nieuwKnopDiv">
+        <h2>Snel starten</h2>
+        <div class="zoekvelden">
+            <hr/>
+        </div>
+        <br/>
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>
+
+        <span class="fa fa-plus nieuwKnopPlus"></span>
+        <button class="nieuwKnop" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>
+    </div>
+
     <div id="content"></div>
+
 </div>
 
 <div class="bottom"></div>
