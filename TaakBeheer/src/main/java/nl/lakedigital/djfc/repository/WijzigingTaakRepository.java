@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 
 @Repository
-public class TaakRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TaakRepository.class);
+public class WijzigingTaakRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WijzigingTaakRepository.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -33,7 +33,7 @@ public class TaakRepository {
 
     @Transactional
     public void opslaan(Taak taak) {
-        Timer.Context timer = metricsService.addTimerMetric("opslaan", TaakRepository.class);
+        Timer.Context timer = metricsService.addTimerMetric("opslaan", WijzigingTaakRepository.class);
 
         if (taak.getId() == null) {
             getSession().save(taak);

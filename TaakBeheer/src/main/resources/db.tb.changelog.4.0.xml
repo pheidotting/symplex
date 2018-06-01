@@ -4,22 +4,33 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="1" author="Patrick Heidotting">
-        <createTable tableName="LICENTIE">
+        <createTable tableName="REVINFO">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp" type="bigint"/>
+            <column name="userid" type="bigint"/>
+        </createTable>
+        <createTable tableName="TAAK">
             <column name="ID" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="SOORT" type="varchar(1)"/>
-            <column name="STARTDATUM" type="date"/>
-            <column name="KANTOOR" type="bigint"/>
-            <column name="AANTALDAGEN" type="integer"></column>
+            <column name="TIJDSTIPCREATIE" type="datetime"/>
+            <column name="TIJDSTIP" type="datetime"/>
+            <column name="TIJDSTIPAFGEHANDELD" type="datetime"/>
+            <column name="TITEL" type="varchar(255)"/>
+            <column name="OMSCHRIJVING" type="varchar(255)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
         </createTable>
-    </changeSet>
-    <changeSet id="2" author="Patrick Heidotting">
-        <insert tableName="LICENTIE">
-            <column name="SOORT" value="L"></column>
-            <column name="STARTDATUM" value="2018-01-01"></column>
-            <column name="KANTOOR" value="1"></column>
-            <column name="AANTALDAGEN" value="0"></column>
-        </insert>
+        <createTable tableName="WIJZIGINGTAAK">
+            <column name="ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TAAKID" type="bigint"/>
+            <column name="STATUS" type="varchar(50)"/>
+            <column name="TOEGEWEZENAAN" type="bigint"/>
+            <column name="TIJDSTIP" type="datetime"/>
+        </createTable>
     </changeSet>
 </databaseChangeLog>

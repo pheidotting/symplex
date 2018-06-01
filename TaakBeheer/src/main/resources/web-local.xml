@@ -9,7 +9,7 @@
     </context-param>
 
     <servlet>
-        <servlet-name>idbeheer</servlet-name>
+        <servlet-name>taakbeheer</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
         <!--&lt;!&ndash;multipart-config>-->
@@ -20,7 +20,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>idbeheer</servlet-name>
+        <servlet-name>taakbeheer</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
