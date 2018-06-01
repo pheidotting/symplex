@@ -32,10 +32,7 @@
     <logger name="ch.vorburger">
         <level value="off"/>
     </logger>
-    <logger name="com.ullink.slack.simpleslackapi.impl">
-        <level value="error"/>
-    </logger>
-    <logger name="com.ullink.slack.simpleslackapi.impl">
+    <logger name="com.ullink.slack">
         <level value="error"/>
     </logger>
     <!--<logger name="nl.lakedigital.djfc">-->
