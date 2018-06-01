@@ -1,19 +1,19 @@
 package nl.lakedigital.djfc.web.servlet;
 
-import nl.lakedigital.djfc.repository.LicentieRepository;
+import nl.lakedigital.djfc.repository.TaakRepository;
 
 public class CheckDatabaseConnectie implements Runnable {
-    private LicentieRepository licentieRepository;
+    private TaakRepository taakRepository;
 
-    public CheckDatabaseConnectie(LicentieRepository licentieRepository) {
-        this.licentieRepository = licentieRepository;
+    public CheckDatabaseConnectie(TaakRepository taakRepository) {
+        this.taakRepository = taakRepository;
     }
 
     @Override
     public void run() {
-        licentieRepository.getSession().getTransaction().begin();
-        licentieRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
-        licentieRepository.getSession().getTransaction().commit();
+        taakRepository.getSession().getTransaction().begin();
+        taakRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
+        taakRepository.getSession().getTransaction().commit();
     }
 
 }
