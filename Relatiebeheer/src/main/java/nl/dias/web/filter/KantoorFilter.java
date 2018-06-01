@@ -48,16 +48,20 @@ public class KantoorFilter implements Filter {
 
             nl.lakedigital.djfc.domain.response.Relatie relatieRes = (nl.lakedigital.djfc.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Relatie.class);
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(relatieRes.getIdentificatie());
-            Relatie relatie = gebruikerService.leesRelatie(identificatie.getEntiteitId());
+            if (identificatie != null) {
+                Relatie relatie = gebruikerService.leesRelatie(identificatie.getEntiteitId());
+                if (relatie != null) {
 
-            Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+                    Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
-            LOGGER.trace("Gevraagd, relatie met id {}, kantoor {}", relatie.getId(), relatie.getKantoor());
-            LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
+                    LOGGER.trace("Gevraagd, relatie met id {}, kantoor {}", relatie.getId(), relatie.getKantoor());
+                    LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
 
-            if (relatie == null || relatie.getKantoor().getId() != ingelogdeGebruiker.getKantoor().getId()) {
-                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                responseString = "";
+                    if (relatie == null || relatie.getKantoor().getId() != ingelogdeGebruiker.getKantoor().getId()) {
+                        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        responseString = "";
+                    }
+                }
             }
         } else if (getFullURL((HttpServletRequest) request).contains("/bedrijf/lees/")) {
             LOGGER.trace("Bedrijf opvragen");
@@ -65,16 +69,20 @@ public class KantoorFilter implements Filter {
             nl.lakedigital.djfc.domain.response.Bedrijf bedrijfRes = (nl.lakedigital.djfc.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Bedrijf.class);
 
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(bedrijfRes.getIdentificatie());
-            Bedrijf bedrijf = bedrijfService.lees(identificatie.getEntiteitId());
+            if (identificatie != null) {
+                Bedrijf bedrijf = bedrijfService.lees(identificatie.getEntiteitId());
+                if (bedrijf != null) {
 
-            Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+                    Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
 
-            LOGGER.trace("Gevraagd, bedrijf met id {}, kantoor {}", bedrijf.getId(), bedrijf.getKantoor());
-            LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
+                    LOGGER.trace("Gevraagd, bedrijf met id {}, kantoor {}", bedrijf.getId(), bedrijf.getKantoor());
+                    LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
 
-            if (bedrijf == null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                responseString = "";
+                    if (bedrijf == null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
+                        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        responseString = "";
+                    }
+                }
             }
         }
 
