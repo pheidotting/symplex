@@ -767,6 +767,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd TaakBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd Webgui
                     /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=development
                 '''
@@ -822,6 +826,10 @@ pipeline {
                 '''
                 sh '''
                     cd Relatiebeheer
+                    mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd TaakBeheer
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
