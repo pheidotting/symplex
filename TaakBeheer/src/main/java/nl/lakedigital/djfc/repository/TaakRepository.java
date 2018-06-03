@@ -1,9 +1,11 @@
 package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Taak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Repository
 public class TaakRepository {
@@ -40,6 +43,31 @@ public class TaakRepository {
         } else {
             getSession().merge(taak);
         }
+
+        metricsService.stop(timer);
+    }
+
+    @Transactional
+    public List<Taak> alleTaken(SoortEntiteit soortEntiteit, Long entiteitId) {
+        Timer.Context timer = metricsService.addTimerMetric("alleTaken", TaakRepository.class);
+
+        Query query = getSession().getNamedQuery("Taak.zoekOpSoortEntiteitEnEntiteitId");
+        query.setParameter("entiteitId", entiteitId);
+        query.setParameter("soortEntiteit", soortEntiteit);
+
+        List<Taak> result = query.list();
+
+        metricsService.stop(timer);
+
+        return result;
+    }
+
+    @Transactional
+    public void verwijder(Taak taak) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", TaakRepository.class);
+
+        getSession().delete(taak);
+
         metricsService.stop(timer);
     }
 }

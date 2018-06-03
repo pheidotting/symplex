@@ -19,7 +19,7 @@
             <column name="TIJDSTIP" type="datetime"/>
             <column name="TIJDSTIPAFGEHANDELD" type="datetime"/>
             <column name="TITEL" type="varchar(255)"/>
-            <column name="OMSCHRIJVING" type="varchar(255)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
             <column name="ENTITEITID" type="bigint"/>
             <column name="SOORTENTITEIT" type="varchar(50)"/>
         </createTable>

@@ -2,8 +2,10 @@ package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
 import nl.lakedigital.djfc.domain.Taak;
+import nl.lakedigital.djfc.domain.WijzigingTaak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Repository
 public class WijzigingTaakRepository {
@@ -32,14 +35,37 @@ public class WijzigingTaakRepository {
     }
 
     @Transactional
-    public void opslaan(Taak taak) {
+    public void opslaan(WijzigingTaak wijzigingTaak) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", WijzigingTaakRepository.class);
 
-        if (taak.getId() == null) {
-            getSession().save(taak);
+        if (wijzigingTaak.getId() == null) {
+            getSession().save(wijzigingTaak);
         } else {
-            getSession().merge(taak);
+            getSession().merge(wijzigingTaak);
         }
         metricsService.stop(timer);
+    }
+
+    @Transactional
+    public void verwijder(WijzigingTaak wijzigingTaak) {
+        Timer.Context timer = metricsService.addTimerMetric("verwijder", WijzigingTaakRepository.class);
+
+        getSession().delete(wijzigingTaak);
+
+        metricsService.stop(timer);
+    }
+
+    @Transactional
+    public List<WijzigingTaak> allesBijTaak(Taak taak) {
+        Timer.Context timer = metricsService.addTimerMetric("allesBijTaak", TaakRepository.class);
+
+        Query query = getSession().getNamedQuery("WijzigingTaak.zoekBijTaak");
+        query.setParameter("taak", taak.getId());
+
+        List<WijzigingTaak> result = query.list();
+
+        metricsService.stop(timer);
+
+        return result;
     }
 }
