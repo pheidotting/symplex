@@ -7,7 +7,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "WIJZIGINGTAAK")
-@NamedQueries({@NamedQuery(name = "WijzigingTaak.zoekBijTaak", query = "select w from WijzigingTaak w where w.taak = :taak")//
+@NamedQueries({//
+        @NamedQuery(name = "WijzigingTaak.zoekBijTaak", query = "select w from WijzigingTaak w where w.taak = :taak")//
 })
 public class WijzigingTaak {
     @Id

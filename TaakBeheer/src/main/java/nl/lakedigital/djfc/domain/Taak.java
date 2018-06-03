@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "TAAK")
 //@Audited
-@NamedQueries({@NamedQuery(name = "Taak.zoekOpSoortEntiteitEnEntiteitId", query = "select t from Taak t where t.entiteitId = :entiteitId and t.soortEntiteit = :soortEntiteit")//
+@NamedQueries({//
+        @NamedQuery(name = "Taak.zoekOpSoortEntiteitEnEntiteitId", query = "select t from Taak t where t.entiteitId = :entiteitId and t.soortEntiteit = :soortEntiteit")//
 })
 public class Taak {
     @Id
