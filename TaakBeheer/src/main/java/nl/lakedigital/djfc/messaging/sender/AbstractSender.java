@@ -32,6 +32,8 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public abstract M maakMessage(T t);
 
+    public abstract void send(T t);
+
     public void send(T t, Logger logger) {
         M m = maakMessage(t);
 
