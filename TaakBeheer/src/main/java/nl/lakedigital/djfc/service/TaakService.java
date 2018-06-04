@@ -29,7 +29,7 @@ public class TaakService {
     public Long nieuweTaak(LocalDateTime tijdstip, String titel, String omschrijving, Long entiteitId, SoortEntiteit soortEntiteit, Long toegewezenAan) {
         Taak taak = new Taak();
         taak.setTijdstipCreatie(LocalDateTime.now());
-        taak.setTijdstip(tijdstip);
+        taak.setDeadline(tijdstip);
         taak.setTitel(titel);
         taak.setOmschrijving(omschrijving);
         taak.setEntiteitId(entiteitId);
@@ -42,4 +42,7 @@ public class TaakService {
         return taak.getId();
     }
 
+    public Taak lees(Long id) {
+        return taakRepository.lees(id);
+    }
 }

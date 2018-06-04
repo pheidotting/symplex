@@ -4,6 +4,12 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="1" author="Patrick Heidotting">
+        <createTable tableName="hibernate_sequence">
+            <column name="next_val" type="bigint(20)"/>
+        </createTable>
+        <insert tableName="hibernate_sequence">
+            <column name="next_val">1</column>
+        </insert>
         <createTable tableName="REVINFO">
             <column name="ID" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -16,7 +22,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="TIJDSTIPCREATIE" type="datetime"/>
-            <column name="TIJDSTIP" type="datetime"/>
+            <column name="DEADLINE" type="datetime"/>
             <column name="TIJDSTIPAFGEHANDELD" type="datetime"/>
             <column name="TITEL" type="varchar(255)"/>
             <column name="OMSCHRIJVING" type="varchar(2500)"/>

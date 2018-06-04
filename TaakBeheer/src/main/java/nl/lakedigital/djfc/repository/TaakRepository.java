@@ -63,6 +63,17 @@ public class TaakRepository {
     }
 
     @Transactional
+    public Taak lees(Long id) {
+        Timer.Context timer = metricsService.addTimerMetric("lees", TaakRepository.class);
+
+        Taak taak = getSession().get(Taak.class, id);
+
+        metricsService.stop(timer);
+
+        return taak;
+    }
+
+    @Transactional
     public void verwijder(Taak taak) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", TaakRepository.class);
 

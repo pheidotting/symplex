@@ -28,7 +28,7 @@
         <property name="targetMethod" value="initLogging"/>
         <property name="arguments">
             <list>
-                <value>lb.log4j.xml</value>
+                <value>tb.log4j.xml</value>
             </list>
         </property>
     </bean>
@@ -36,7 +36,7 @@
     <bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>file:lb.app.properties</value>
+                <value>file:tb.app.properties</value>
             </list>
         </property>
         <property name="placeholderPrefix" value="${"/>
@@ -47,9 +47,9 @@
         <!--<property name="minPoolSize" value="2" />-->
         <!--<property name="maxPoolSize" value="30" />-->
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="${id.db.name}"/>
-        <property name="username" value="${id.db.user}"/>
-        <property name="password" value="${id.db.pass}"/>
+        <property name="url" value="${tb.db.name}"/>
+        <property name="username" value="${tb.db.user}"/>
+        <property name="password" value="${tb.db.pass}"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="liquibase">

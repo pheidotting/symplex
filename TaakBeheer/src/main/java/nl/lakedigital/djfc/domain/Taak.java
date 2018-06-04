@@ -19,9 +19,9 @@ public class Taak {
     @Column(name = "TIJDSTIPCREATIE")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstipCreatie;
-    @Column(name = "TIJDSTIP")
+    @Column(name = "DEADLINE")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime tijdstip;
+    private LocalDateTime deadline;
     @Column(name = "TIJDSTIPAFGEHANDELD")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstipAfgehandeld;
@@ -51,12 +51,12 @@ public class Taak {
         this.tijdstipCreatie = tijdstipCreatie;
     }
 
-    public LocalDateTime getTijdstip() {
-        return tijdstip;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setTijdstip(LocalDateTime tijdstip) {
-        this.tijdstip = tijdstip;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     public LocalDateTime getTijdstipAfgehandeld() {

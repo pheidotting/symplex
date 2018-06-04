@@ -7,7 +7,7 @@
     <artifactId>taakbeheer</artifactId>
     <version>5.0-SNAPSHOT</version>
 
-    <name>TaakeBeheer</name>
+    <name>TaakBeheer</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -451,8 +451,8 @@
                                         <resource>
                                             <directory>${basedir}/src/main/resources/dev</directory>
                                             <includes>
-                                                <include>lb.app.properties</include>
-                                                <include>lb.log4j.xml</include>
+                                                <include>tb.app.properties</include>
+                                                <include>tb.log4j.xml</include>
                                             </includes>
                                         </resource>
                                     </resources>

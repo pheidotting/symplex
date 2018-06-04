@@ -33,7 +33,7 @@ public class TaakRepositoryTest {
         taak.setEntiteitId(entiteitId);
         taak.setSoortEntiteit(soortEntiteit);
         taak.setOmschrijving(lorem.getParagraphs(10, 10).substring(0, 2500));
-        taak.setTijdstip(LocalDateTime.now());
+        taak.setDeadline(LocalDateTime.now());
         taak.setTijdstipAfgehandeld(LocalDateTime.now());
         taak.setTijdstipCreatie(LocalDateTime.now());
         taak.setTitel(lorem.getParagraphs(1, 1).substring(0, 50));
