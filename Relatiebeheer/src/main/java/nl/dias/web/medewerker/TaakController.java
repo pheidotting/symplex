@@ -29,4 +29,21 @@ public class TaakController {
 
         return "abc";
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/opslan")
+    @ResponseBody
+    public String opslan(HttpServletRequest httpServletRequest) {
+        Taak taak = new Taak();
+        taak.setIdentificatie("fa15f345-5feb-4fd4-9c0b-dcf48682c6de");
+        taak.setTitel("a");
+        taak.setOmschrijving("b");
+        taak.setEntiteitId(4L);
+        taak.setSoortEntiteit("RELATIE");
+        taak.setToegewezenAan(3L);
+        taak.setStatus("AFGEROND");
+
+        nieuweTaakRequestSender.send(taak);
+
+        return "abc";
+    }
 }

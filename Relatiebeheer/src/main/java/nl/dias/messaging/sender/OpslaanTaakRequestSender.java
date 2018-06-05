@@ -13,6 +13,9 @@ import org.springframework.stereotype.Component;
 public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest, Taak> {
     private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanTaakRequestSender.class);
 
+    public OpslaanTaakRequestSender() {
+    }
+
     public OpslaanTaakRequestSender(JmsTemplate jmsTemplate) {
         this.jmsTemplates.add(jmsTemplate);
         this.clazz = OpslaanTaakRequest.class;
@@ -30,6 +33,8 @@ public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest,
         }
         opslaanTaakRequest.setTitel(taak.getTitel());
         opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());
+        opslaanTaakRequest.setIdentificatie(taak.getIdentificatie());
+        opslaanTaakRequest.setStatus(taak.getStatus());
 
         return opslaanTaakRequest;
     }

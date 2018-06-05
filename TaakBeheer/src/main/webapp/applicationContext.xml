@@ -77,5 +77,10 @@
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
     </bean>
 
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <constructor-arg value="${id.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
+
     <import resource="applicationContext-jms.xml"/>
 </beans>

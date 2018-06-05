@@ -10,6 +10,7 @@ public class Taak {
     private Long entiteitId;
     private String soortEntiteit;
     private Long toegewezenAan;
+    private String status;
 
     public String getIdentificatie() {
         return identificatie;
@@ -81,5 +82,13 @@ public class Taak {
 
     public void setToegewezenAan(Long toegewezenAan) {
         this.toegewezenAan = toegewezenAan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
