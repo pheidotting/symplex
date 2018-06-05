@@ -1,23 +1,26 @@
 package nl.lakedigital.as.messaging.request.taak;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import org.joda.time.LocalDateTime;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "nieuweTaakRequest")
 public class NieuweTaakRequest extends AbstractMessage {
-    private LocalDateTime tijdstip;
+    private LocalDateTime deadline;
     private String titel;
     private String omschrijving;
     private Long entiteitId;
     private SoortEntiteit soortEntiteit;
     private Long toegewezenAan;
 
-    public LocalDateTime getTijdstip() {
-        return tijdstip;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public void setTijdstip(LocalDateTime tijdstip) {
-        this.tijdstip = tijdstip;
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
     public String getTitel() {

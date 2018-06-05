@@ -2,6 +2,9 @@ package nl.lakedigital.as.messaging.request.taak;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "wijzigenTaakRequest")
 public class WijzigenTaakRequest extends AbstractMessage {
     private String identificatie;
     private String taakStatus;

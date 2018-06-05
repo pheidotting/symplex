@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.request.taak.NieuweTaakRequest;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.messaging.sender.NieuweTaakResponseSender;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.TaakService;
@@ -29,7 +30,7 @@ public class NieuweTaakRequestReciever extends AbstractReciever<NieuweTaakReques
         Timer.Context context = metricsService.addTimerMetric("verwerkMessage", NieuweTaakRequestReciever.class);
 
         LOGGER.info("Verwerken NieuweTaakRequest");
-        Long taakId = taakService.nieuweTaak(nieuweTaakRequest.getTijdstip(), nieuweTaakRequest.getTitel(), nieuweTaakRequest.getOmschrijving(), nieuweTaakRequest.getEntiteitId(), nieuweTaakRequest.getSoortEntiteit(), nieuweTaakRequest.getToegewezenAan());
+        Long taakId = taakService.nieuweTaak(nieuweTaakRequest.getDeadline(), nieuweTaakRequest.getTitel(), nieuweTaakRequest.getOmschrijving(), nieuweTaakRequest.getEntiteitId(), SoortEntiteit.valueOf(nieuweTaakRequest.getSoortEntiteit().name()), nieuweTaakRequest.getToegewezenAan());
 
         nieuweTaakResponseSender.send(taakId);
 

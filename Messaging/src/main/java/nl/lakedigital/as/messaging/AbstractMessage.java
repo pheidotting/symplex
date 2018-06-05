@@ -4,8 +4,10 @@ import nl.lakedigital.as.messaging.request.*;
 import nl.lakedigital.as.messaging.request.communicatie.AbstractCommunicatieRequest;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
 import nl.lakedigital.as.messaging.request.taak.NieuweTaakRequest;
+import nl.lakedigital.as.messaging.request.taak.WijzigenTaakRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
+import nl.lakedigital.as.messaging.response.taak.NieuweTaakResponse;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -28,7 +30,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         EntiteitenOpgeslagenRequest.class,//
         AbstractCommunicatieRequest.class,//
         WachtwoordVergetenRequest.class,//
-        NieuweTaakRequest.class
+        NieuweTaakRequest.class,//
+        WijzigenTaakRequest.class,//
+        NieuweTaakResponse.class
 })
 public abstract class AbstractMessage {
     private String trackAndTraceId;
