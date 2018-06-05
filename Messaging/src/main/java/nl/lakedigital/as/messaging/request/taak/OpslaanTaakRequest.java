@@ -6,14 +6,24 @@ import org.joda.time.LocalDateTime;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "nieuweTaakRequest")
-public class NieuweTaakRequest extends AbstractMessage {
+@XmlRootElement(name = "opslaanTaakRequest")
+public class OpslaanTaakRequest extends AbstractMessage {
+    private String identificatie;
     private LocalDateTime deadline;
     private String titel;
     private String omschrijving;
     private Long entiteitId;
     private SoortEntiteit soortEntiteit;
     private Long toegewezenAan;
+    private String status;
+
+    public String getIdentificatie() {
+        return identificatie;
+    }
+
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
+    }
 
     public LocalDateTime getDeadline() {
         return deadline;
@@ -61,5 +71,13 @@ public class NieuweTaakRequest extends AbstractMessage {
 
     public void setToegewezenAan(Long toegewezenAan) {
         this.toegewezenAan = toegewezenAan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

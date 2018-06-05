@@ -38,17 +38,10 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <constructor-arg ref="amqConnectionFactory"/>
     </bean>
 
-    <bean id="nieuweTaakRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.NieuweTaakRequestReciever"/>
+    <bean id="opslaanTaakRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.OpslaanTaakRequestReciever"/>
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.tb.nieuweTaakRequestQueue" ref="nieuweTaakRequestReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
-
-    <bean id="wijzigenTaakRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.WijzigenTaakRequestReciever"/>
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.tb.WijzigenTaakRequestQueue" ref="wijzigenTaakRequestReciever"
+        <jms:listener destination="rb.tb.opslaanTaakRequestQueue" ref="opslaanTaakRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
 
@@ -59,16 +52,16 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <!--method="onMessage"/>-->
     <!--</jms:listener-container>-->
 
-    <bean id="nieuweTaakResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="tb.rb.nieuweTaakResponseQueue"/>
+    <bean id="opslaanTaakResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="tb.rb.opslaanTaakResponseQueue"/>
     </bean>
-    <bean id="nieuweTaakResponseTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <bean id="opslaanTaakResponseTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="nieuweTaakResponseDestination"/>
+        <property name="defaultDestination" ref="opslaanTaakResponseDestination"/>
     </bean>
-    <bean id="nieuweTaakResponseSender"
-          class="nl.lakedigital.djfc.messaging.sender.NieuweTaakResponseSender">
-        <constructor-arg index="0" ref="nieuweTaakResponseTemplate"/>
+    <bean id="opslaanTaakResponseSender"
+          class="nl.lakedigital.djfc.messaging.sender.OpslaanTaakResponseSender">
+        <constructor-arg index="0" ref="opslaanTaakResponseTemplate"/>
     </bean>
 
 </beans>

@@ -4,15 +4,15 @@ import nl.lakedigital.as.messaging.AbstractMessage;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "nieuweTaakResponse")
-public class NieuweTaakResponse extends AbstractMessage {
+@XmlRootElement(name = "opslaanTaakResponse")
+public class OpslaanTaakResponse extends AbstractMessage {
     private Long id;
 
-    public NieuweTaakResponse(Long id) {
+    public OpslaanTaakResponse(Long id) {
         this.id = id;
     }
 
-    public NieuweTaakResponse() {
+    public OpslaanTaakResponse() {
     }
 
     public Long getId() {

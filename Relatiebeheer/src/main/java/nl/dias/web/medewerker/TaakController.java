@@ -1,6 +1,6 @@
 package nl.dias.web.medewerker;
 
-import nl.dias.messaging.sender.NieuweTaakRequestSender;
+import nl.dias.messaging.sender.OpslaanTaakRequestSender;
 import nl.lakedigital.djfc.commons.json.Taak;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class TaakController {
     @Inject
-    private NieuweTaakRequestSender nieuweTaakRequestSender;
+    private OpslaanTaakRequestSender nieuweTaakRequestSender;
 
     @RequestMapping(method = RequestMethod.GET, value = "/opslaan")
     @ResponseBody

@@ -284,5 +284,5 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <import resource="applicationcontextJms/senders/rb.lb.licentieGekochtRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.licentieGekochtCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.herinnerLicentiesRequest.xml"/>
-    <import resource="applicationcontextJms/senders/rb.tb.nieuweTaakRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.tb.opslaanTaakRequest.xml"/>
 </beans>
