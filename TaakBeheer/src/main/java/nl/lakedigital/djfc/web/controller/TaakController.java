@@ -27,8 +27,8 @@ public class TaakController {
 
     @Inject
     private TaakService taakService;
-    //    @Inject
-    private IdentificatieClient identificatieClient = new IdentificatieClient("http://localhost:8080/identificatie");
+    @Inject
+    private IdentificatieClient identificatieClient;
     @Inject
     private MetricsService metricsService;
 
