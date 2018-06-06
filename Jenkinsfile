@@ -187,6 +187,11 @@ pipeline {
         }
 
         stage ('Sonar Sonarbranch Taakbeheer') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'sonar'
+                }
+            }
             steps {
                 sh '''
                     cd TaakBeheer
@@ -295,6 +300,22 @@ pipeline {
             post {
                 failure {
                     slackSend (color: '#FF0000', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+        stage ('Sonar Sonarbranch Taakbeheer') {
+            steps {
+                sh '''
+                    cd TaakBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar Taakbeheer mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
