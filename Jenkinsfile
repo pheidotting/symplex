@@ -303,7 +303,7 @@ pipeline {
                 }
             }
         }
-        stage ('Sonar Sonarbranch Taakbeheer') {
+        stage ('Sonar Sonarbranch Taakbeheer2') {
             steps {
                 sh '''
                     cd TaakBeheer
