@@ -9,6 +9,7 @@ import org.easymock.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -46,5 +47,24 @@ public class TaakServiceTest extends EasyMockSupport {
         assertThat(wijzigingTaak.getTaak(), is(taakId));
         assertThat(wijzigingTaak.getTaakStatus(), is(taakStatus));
         assertThat(wijzigingTaak.getToegewezenAan(), is(toegewezenAan));
+    }
+
+    @Test
+    public void testLees() {
+        Long taakId = 4L;
+
+        Taak taak = new Taak();
+        WijzigingTaak wijzigingTaak = new WijzigingTaak();
+
+        expect(taakRepository.lees(taakId)).andReturn(taak);
+        expect(wijzigingTaakRepository.allesBijTaak(taak)).andReturn(newArrayList(wijzigingTaak));
+
+        replayAll();
+
+        Taak taakOpgehaald = taakService.lees(taakId);
+
+        verifyAll();
+
+        assertThat(taakOpgehaald.getWijzigingTaak().size(), is(1));
     }
 }

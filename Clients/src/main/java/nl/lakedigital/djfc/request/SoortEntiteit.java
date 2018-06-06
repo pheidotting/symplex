@@ -4,10 +4,11 @@ public enum SoortEntiteit {
     AANGIFTE, //
     ADRES, //
     BEDRIJF, //
-    BELASTINGZAKEN,//
+    BELASTINGZAKEN, //
     BIJLAGE, //
     COMMUNICATIEPRODUCT, //
     CONTACTPERSOON, //
+    GROEPBIJLAGES,//
     HYPOTHEEK, //
     KANTOOR, //
     IBAANGIFTE, //
@@ -19,5 +20,7 @@ public enum SoortEntiteit {
     RELATIE, //
     RISICOANALYSE, //
     SCHADE, //
-    TELEFOONNUMMER;
+    TAAK,//
+    TELEFOONNUMMER,//
+    VERSIE, WIJZIGINGTAAK;
 }

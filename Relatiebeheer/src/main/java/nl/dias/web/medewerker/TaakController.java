@@ -40,7 +40,6 @@ public class TaakController {
         taak.setEntiteitId(4L);
         taak.setSoortEntiteit("RELATIE");
         taak.setToegewezenAan(3L);
-        taak.setStatus("AFGEROND");
 
         nieuweTaakRequestSender.send(taak);
 

@@ -22,5 +22,5 @@ public enum SoortEntiteit {
     SCHADE, //
     TAAK,//
     TELEFOONNUMMER,//
-    VERSIE;
+    VERSIE, WIJZIGINGTAAK;
 }

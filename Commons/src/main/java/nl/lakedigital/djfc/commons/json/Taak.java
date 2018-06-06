@@ -1,5 +1,9 @@
 package nl.lakedigital.djfc.commons.json;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+
 public class Taak {
     private String identificatie;
     private String tijdstipCreatie;
@@ -10,7 +14,7 @@ public class Taak {
     private Long entiteitId;
     private String soortEntiteit;
     private Long toegewezenAan;
-    private String status;
+    private List<WijzigingTaak> wijzigingTaaks;
 
     public String getIdentificatie() {
         return identificatie;
@@ -84,11 +88,15 @@ public class Taak {
         this.toegewezenAan = toegewezenAan;
     }
 
-    public String getStatus() {
-        return status;
+
+    public List<WijzigingTaak> getWijzigingTaaks() {
+        if (wijzigingTaaks == null) {
+            wijzigingTaaks = newArrayList();
+        }
+        return wijzigingTaaks;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setWijzigingTaaks(List<WijzigingTaak> wijzigingTaaks) {
+        this.wijzigingTaaks = wijzigingTaaks;
     }
 }

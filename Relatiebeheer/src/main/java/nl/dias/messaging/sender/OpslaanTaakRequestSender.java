@@ -34,7 +34,6 @@ public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest,
         opslaanTaakRequest.setTitel(taak.getTitel());
         opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());
         opslaanTaakRequest.setIdentificatie(taak.getIdentificatie());
-        opslaanTaakRequest.setStatus(taak.getStatus());
 
         return opslaanTaakRequest;
     }

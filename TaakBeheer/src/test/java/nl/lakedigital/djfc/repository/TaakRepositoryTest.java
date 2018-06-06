@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,5 +49,21 @@ public class TaakRepositoryTest {
 
         taken = taakRepository.alleTaken(soortEntiteit, entiteitId);
         assertThat(taken.size(), is(0));
+    }
+
+    @Test
+    public void allesOpenstaand() {
+        LocalDateTime tijdstip = LocalDateTime.now();
+
+        Taak taakNietAfgehandeld = new Taak();
+        Taak taakAfgehandeld = new Taak();
+        taakAfgehandeld.setTijdstipAfgehandeld(tijdstip);
+
+        taakRepository.opslaan(taakAfgehandeld);
+        taakRepository.opslaan(taakNietAfgehandeld);
+
+        List<Taak> result = taakRepository.allesOpenstaand();
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).getTijdstipAfgehandeld(), is(nullValue()));
     }
 }

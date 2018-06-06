@@ -4,12 +4,15 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "TAAK")
 //@Audited
 @NamedQueries({//
-        @NamedQuery(name = "Taak.zoekOpSoortEntiteitEnEntiteitId", query = "select t from Taak t where t.entiteitId = :entiteitId and t.soortEntiteit = :soortEntiteit")//
+        @NamedQuery(name = "Taak.zoekOpSoortEntiteitEnEntiteitId", query = "select t from Taak t where t.entiteitId = :entiteitId and t.soortEntiteit = :soortEntiteit"),//
+        @NamedQuery(name = "Taak.allesOpenstaand", query = "select t from Taak t where t.tijdstipAfgehandeld is null")//
 })
 public class Taak {
     @Id
@@ -34,6 +37,8 @@ public class Taak {
     @Column(name = "SOORTENTITEIT")
     @Enumerated(EnumType.STRING)
     private SoortEntiteit soortEntiteit;
+    @Transient
+    private List<WijzigingTaak> wijzigingTaak;
 
     public Long getId() {
         return id;
@@ -97,5 +102,16 @@ public class Taak {
 
     public void setSoortEntiteit(SoortEntiteit soortEntiteit) {
         this.soortEntiteit = soortEntiteit;
+    }
+
+    public List<WijzigingTaak> getWijzigingTaak() {
+        if (wijzigingTaak == null) {
+            wijzigingTaak = new ArrayList<>();
+        }
+        return wijzigingTaak;
+    }
+
+    public void setWijzigingTaak(List<WijzigingTaak> wijzigingTaak) {
+        this.wijzigingTaak = wijzigingTaak;
     }
 }

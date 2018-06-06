@@ -187,11 +187,6 @@ pipeline {
         }
 
         stage ('Sonar Sonarbranch Taakbeheer') {
-            when {
-                expression {
-                    return env.BRANCH_NAME == 'sonar'
-                }
-            }
             steps {
                 sh '''
                     cd TaakBeheer
@@ -480,6 +475,12 @@ pipeline {
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp TaakBeheer/src/main/resources/tst2/tb.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp TaakBeheer/src/main/resources/tst2/tb.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp TaakBeheer/target/taakbeheer.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/taakbeheer/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui

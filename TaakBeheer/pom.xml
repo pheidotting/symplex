@@ -408,7 +408,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>licentie</finalName>
+        <finalName>taakbeheer</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -471,7 +471,7 @@
                                         <resource>
                                             <directory>${basedir}/target</directory>
                                             <includes>
-                                                <include>licentie.war</include>
+                                                <include>taakbeheer.war</include>
                                             </includes>
                                         </resource>
                                     </resources>

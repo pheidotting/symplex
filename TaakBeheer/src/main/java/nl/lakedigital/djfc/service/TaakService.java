@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @Service
 public class TaakService {
@@ -43,6 +44,26 @@ public class TaakService {
     }
 
     public Taak lees(Long id) {
-        return taakRepository.lees(id);
+        Taak taak = taakRepository.lees(id);
+
+        taak.setWijzigingTaak(wijzigingTaakRepository.allesBijTaak(taak));
+
+        return taak;
+    }
+
+    public List<Taak> alleTaken(SoortEntiteit soortEntiteit, Long entiteitId) {
+        List<Taak> result = taakRepository.alleTaken(soortEntiteit, entiteitId);
+
+        result.stream().forEach(taak -> taak.setWijzigingTaak(wijzigingTaakRepository.allesBijTaak(taak)));
+
+        return result;
+    }
+
+    public List<Taak> allesOpenstaand() {
+        List<Taak> result = taakRepository.allesOpenstaand();
+
+        result.stream().forEach(taak -> taak.setWijzigingTaak(wijzigingTaakRepository.allesBijTaak(taak)));
+
+        return result;
     }
 }

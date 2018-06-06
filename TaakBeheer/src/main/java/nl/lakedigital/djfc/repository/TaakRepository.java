@@ -63,6 +63,19 @@ public class TaakRepository {
     }
 
     @Transactional
+    public List<Taak> allesOpenstaand() {
+        Timer.Context timer = metricsService.addTimerMetric("allesOpenstaand", TaakRepository.class);
+
+        Query query = getSession().getNamedQuery("Taak.allesOpenstaand");
+
+        List<Taak> result = query.list();
+
+        metricsService.stop(timer);
+
+        return result;
+    }
+
+    @Transactional
     public Taak lees(Long id) {
         Timer.Context timer = metricsService.addTimerMetric("lees", TaakRepository.class);
 
