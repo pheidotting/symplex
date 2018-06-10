@@ -1,17 +1,17 @@
-package nl.lakedigital.djfc.commons.json;
+package nl.lakedigital.djfc.domain.response;
 
 public class WijzigingTaak {
-    private Long id;
+    private String identificatie;
     private String taakStatus;
     private Long toegewezenAan;
     private String tijdstip;
 
-    public Long getId() {
-        return id;
+    public String getIdentificatie() {
+        return identificatie;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
     }
 
     public String getTaakStatus() {

@@ -42,7 +42,7 @@ public class TaakController {
         Taak taak = taakService.lees(id);
 
         OpvragenTakenResponse opvragenTakenResponse = new OpvragenTakenResponse();
-        opvragenTakenResponse.getTaken().add(new TaakMapper(identificatieClient).apply(taak));
+        opvragenTakenResponse.getTaken().add(new TaakMapper().apply(taak));
 
         metricsService.stop(timer);
 
@@ -59,7 +59,7 @@ public class TaakController {
         List<Taak> taken = taakService.alleTaken(SoortEntiteit.valueOf(soortentiteit), parentid);
 
         OpvragenTakenResponse opvragenTakenResponse = new OpvragenTakenResponse();
-        opvragenTakenResponse.getTaken().addAll(taken.stream().map(new TaakMapper(identificatieClient)).collect(Collectors.toList()));
+        opvragenTakenResponse.getTaken().addAll(taken.stream().map(new TaakMapper()).collect(Collectors.toList()));
 
         metricsService.stop(timer);
 
@@ -76,7 +76,7 @@ public class TaakController {
         List<Taak> taken = taakService.allesOpenstaand();
 
         OpvragenTakenResponse opvragenTakenResponse = new OpvragenTakenResponse();
-        opvragenTakenResponse.getTaken().addAll(taken.stream().map(new TaakMapper(identificatieClient)).collect(Collectors.toList()));
+        opvragenTakenResponse.getTaken().addAll(taken.stream().map(new TaakMapper()).collect(Collectors.toList()));
 
         metricsService.stop(timer);
 

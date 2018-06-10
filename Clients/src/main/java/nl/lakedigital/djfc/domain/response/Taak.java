@@ -1,11 +1,10 @@
-package nl.lakedigital.djfc.commons.json;
+package nl.lakedigital.djfc.domain.response;
 
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 public class Taak {
-    private Long id;
     private String identificatie;
     private String tijdstipCreatie;
     private String deadline;
@@ -16,14 +15,6 @@ public class Taak {
     private String soortEntiteit;
     private Long toegewezenAan;
     private List<WijzigingTaak> wijzigingTaaks;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getIdentificatie() {
         return identificatie;

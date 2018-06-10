@@ -1,25 +1,16 @@
 package nl.lakedigital.djfc.web.controller.mapper;
 
-import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.Taak;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TaakMapper implements Function<Taak, nl.lakedigital.djfc.commons.json.Taak> {
-    private IdentificatieClient identificatieClient;
-
-    public TaakMapper(IdentificatieClient identificatieClient) {
-        this.identificatieClient = identificatieClient;
-    }
-
     @Override
     public nl.lakedigital.djfc.commons.json.Taak apply(Taak in) {
         nl.lakedigital.djfc.commons.json.Taak uit = new nl.lakedigital.djfc.commons.json.Taak();
 
-        Identificatie identificatie = identificatieClient.zoekIdentificatie("TAAK", in.getId());
-        uit.setIdentificatie(identificatie.getIdentificatie());
+        uit.setId(in.getId());
         if (in.getDeadline() != null) {
             uit.setDeadline(in.getDeadline().toString());
         }
@@ -34,7 +25,7 @@ public class TaakMapper implements Function<Taak, nl.lakedigital.djfc.commons.js
         }
         uit.setTitel(in.getTitel());
 
-        uit.setWijzigingTaaks(in.getWijzigingTaak().stream().map(new WijzigingTaakMapper(identificatieClient)).collect(Collectors.toList()));
+        uit.setWijzigingTaaks(in.getWijzigingTaak().stream().map(new WijzigingTaakMapper()).collect(Collectors.toList()));
 
         return uit;
     }

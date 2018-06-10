@@ -1,48 +1,71 @@
 package nl.dias.web.medewerker;
 
+import com.codahale.metrics.Timer;
 import nl.dias.messaging.sender.OpslaanTaakRequestSender;
+import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Taak;
+import nl.lakedigital.djfc.metrics.MetricsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @RequestMapping("/taak")
 @Controller
-public class TaakController {
+public class TaakController extends AbstractController {
+    @Inject
+    private TaakClient taakClient;
     @Inject
     private OpslaanTaakRequestSender nieuweTaakRequestSender;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/opslaan")
+    @Inject
+    private MetricsService metricsService;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaan(HttpServletRequest httpServletRequest) {
-        Taak taak = new Taak();
-        taak.setTitel("a");
-        taak.setOmschrijving("b");
-        taak.setEntiteitId(4L);
-        taak.setSoortEntiteit("RELATIE");
+    public Taak lees(@PathVariable("id") Long id, HttpServletRequest httpServletRequest) {
+        Timer.Context timer = metricsService.addTimerMetric(" lees", TaakController.class);
 
-        nieuweTaakRequestSender.send(taak);
+        zetSessieWaarden(httpServletRequest);
 
-        return "abc";
+        Taak taak = taakClient.lees(id);
+
+        metricsService.stop(timer);
+
+        return taak;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/opslan")
+    //    @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_JSON)
+    //    @ResponseBody
+    //    public List<Taak> alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+    //        Timer.Context timer = metricsService.addTimerMetric(" alles", TaakController.class);
+    //
+    //        zetSessieWaarden(httpServletRequest);
+    //
+    //        List<Taak> taken = taakClient.alles(soortentiteit, parentid);
+    //
+    //        metricsService.stop(timer);
+    //
+    //        return taken;
+    //    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/allesopenstaand", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslan(HttpServletRequest httpServletRequest) {
-        Taak taak = new Taak();
-        taak.setIdentificatie("fa15f345-5feb-4fd4-9c0b-dcf48682c6de");
-        taak.setTitel("a");
-        taak.setOmschrijving("b");
-        taak.setEntiteitId(4L);
-        taak.setSoortEntiteit("RELATIE");
-        taak.setToegewezenAan(3L);
+    public List<Taak> allesopenstaand(HttpServletRequest httpServletRequest) {
+        Timer.Context timer = metricsService.addTimerMetric(" allesopenstaand", TaakController.class);
 
-        nieuweTaakRequestSender.send(taak);
+        zetSessieWaarden(httpServletRequest);
 
-        return "abc";
+        List<Taak> taken = taakClient.allesopenstaand();
+
+        metricsService.stop(timer);
+
+        return taken;
     }
 }

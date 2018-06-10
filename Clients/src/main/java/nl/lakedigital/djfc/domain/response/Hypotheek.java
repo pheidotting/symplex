@@ -3,6 +3,8 @@ package nl.lakedigital.djfc.domain.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 public class Hypotheek {
     private Long hypotheekVorm;
     private String omschrijving;
@@ -34,6 +36,7 @@ public class Hypotheek {
     private String soortEntiteit;
     private Long entiteitId;
     private String parentIdentificatie;
+    private List<Taak> taken;
 
     public Long getHypotheekVorm() {
         return hypotheekVorm;
@@ -279,5 +282,16 @@ public class Hypotheek {
 
     public void setParentIdentificatie(String parentIdentificatie) {
         this.parentIdentificatie = parentIdentificatie;
+    }
+
+    public List<Taak> getTaken() {
+        if (taken == null) {
+            taken = newArrayList();
+        }
+        return taken;
+    }
+
+    public void setTaken(List<Taak> taken) {
+        this.taken = taken;
     }
 }

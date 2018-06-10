@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 public class Relatie {
     private Long id;
     private String identificatie;
@@ -29,6 +31,7 @@ public class Relatie {
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens;
     private List<Polis> polissen;
     private List<Hypotheek> hypotheken;
+    private List<Taak> taken;
 
     private Belastingzaken belastingzaken;
 
@@ -233,6 +236,17 @@ public class Relatie {
 
     public void setBelastingzaken(Belastingzaken belastingzaken) {
         this.belastingzaken = belastingzaken;
+    }
+
+    public List<Taak> getTaken() {
+        return taken;
+    }
+
+    public void setTaken(List<Taak> taken) {
+        if (taken == null) {
+            taken = newArrayList();
+        }
+        this.taken = taken;
     }
 
     @Override
