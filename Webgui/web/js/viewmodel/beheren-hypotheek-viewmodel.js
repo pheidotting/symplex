@@ -10,9 +10,10 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'moment',
+        'underscore',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment) {
+    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment, _) {
 
         return function () {
             var _this = this;
