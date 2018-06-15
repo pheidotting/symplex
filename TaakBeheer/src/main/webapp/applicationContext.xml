@@ -18,11 +18,6 @@
         <property name="metricRegistry" ref="metricRegistry"/>
     </bean>
 
-    <!--<bean id="Redis" class="redis.embedded.RedisServer" init-method="start" destroy-method="stop" />-->
-    <!--<bean id="redis" class="redis.clients.jedis.Jedis">-->
-    <!--<constructor-arg index="0" value="localhost" />-->
-    <!--</bean>-->
-
     <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetClass" value="org.springframework.util.Log4jConfigurer"/>
         <property name="targetMethod" value="initLogging"/>
@@ -57,8 +52,9 @@
         <property name="packagesToScan" value="nl.lakedigital.djfc"/>
         <property name="hibernateProperties">
             <props>
+                <prop key="hibernate.connection.release_mode">after_statement</prop>
                 <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.use_sql_comments">true</prop>
+                <!--<prop key="hibernate.use_sql_comments">true</prop>-->
                 <prop key="hibernate.hbm2ddl.auto">validate</prop>
                 <!--<prop key="hibernate.show_sql">true</prop>-->
             </props>
@@ -75,11 +71,6 @@
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
-    </bean>
-
-    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
-        <constructor-arg value="${id.url}"/>
-        <property name="metricsService" ref="metricsService"/>
     </bean>
 
     <import resource="applicationContext-jms.xml"/>

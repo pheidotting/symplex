@@ -1,13 +1,14 @@
 package nl.lakedigital.djfc.web.controller;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.xml.OpvragenTakenResponse;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Taak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.TaakService;
 import nl.lakedigital.djfc.web.controller.mapper.TaakMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +25,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/taak")
 @Controller
 public class TaakController {
+    private static Logger LOGGER = LoggerFactory.getLogger(TaakController.class);
 
     @Inject
     private TaakService taakService;
-    @Inject
-    private IdentificatieClient identificatieClient;
+    //    @Inject
+    //    private IdentificatieClient identificatieClient;
     @Inject
     private MetricsService metricsService;
 
@@ -52,6 +54,7 @@ public class TaakController {
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenTakenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
+        LOGGER.info("OPHALEN");
         Timer.Context timer = metricsService.addTimerMetric(" alles", TaakController.class);
 
         zetSessieWaarden(httpServletRequest);

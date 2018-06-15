@@ -43,6 +43,8 @@ public class RelatieController extends AbstractController {
     @Inject
     private RekeningClient rekeningClient;
     @Inject
+    private TaakClient taakClient;
+    @Inject
     private TelefoonnummerClient telefoonnummerClient;
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
@@ -54,8 +56,6 @@ public class RelatieController extends AbstractController {
     private RelatieService relatieService;
     @Inject
     private PolisClient polisClient;
-    @Inject
-    private TaakClient taakClient;
     @Inject
     private PolisService polisService;
     @Inject
@@ -187,7 +187,6 @@ public class RelatieController extends AbstractController {
                         }
 
                         jsonHypotheek.setOpmerkingen(opmerkingClient.lijst("HYPOTHEEK", hypotheek.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
-                        jsonHypotheek.setTaken(taakClient.alles("HYPOTHEEK", hypotheek.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
 
                         return jsonHypotheek;

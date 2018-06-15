@@ -3,8 +3,6 @@ package nl.lakedigital.djfc.messaging.reciever;
 import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
-import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.TaakStatus;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
@@ -29,8 +27,8 @@ public class OpslaanTaakRequestReciever extends AbstractReciever<OpslaanTaakRequ
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
     @Inject
     private MetricsService metricsService;
-    @Inject
-    private IdentificatieClient identificatieClient;
+    //    @Inject
+    //    private IdentificatieClient identificatieClient;
 
     public OpslaanTaakRequestReciever() {
         super(OpslaanTaakRequest.class, LOGGER);
@@ -42,7 +40,7 @@ public class OpslaanTaakRequestReciever extends AbstractReciever<OpslaanTaakRequ
 
         LOGGER.info("Verwerken NieuweTaakRequest");
 
-        if (opslaanTaakRequest.getIdentificatie() == null || "".equals(opslaanTaakRequest.getIdentificatie())) {
+        if (opslaanTaakRequest.getId() == null) {
             Long taakId = taakService.nieuweTaak(opslaanTaakRequest.getDeadline(), opslaanTaakRequest.getTitel(), opslaanTaakRequest.getOmschrijving(), opslaanTaakRequest.getEntiteitId(), SoortEntiteit.valueOf(opslaanTaakRequest.getSoortEntiteit().name()), opslaanTaakRequest.getToegewezenAan());
 
             nieuweTaakResponseSender.send(taakId);
@@ -51,8 +49,7 @@ public class OpslaanTaakRequestReciever extends AbstractReciever<OpslaanTaakRequ
             soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.as.messaging.domain.SoortEntiteit.TAAK);
             entiteitenOpgeslagenRequestSender.send(newArrayList(soortEntiteitEnEntiteitId));
         } else {
-            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(opslaanTaakRequest.getIdentificatie());
-            taakService.wijzig(taakService.lees(identificatie.getEntiteitId()), TaakStatus.valueOf(opslaanTaakRequest.getStatus()), opslaanTaakRequest.getToegewezenAan());
+            taakService.wijzig(taakService.lees(opslaanTaakRequest.getId()), TaakStatus.valueOf(opslaanTaakRequest.getStatus()), opslaanTaakRequest.getToegewezenAan());
         }
 
 

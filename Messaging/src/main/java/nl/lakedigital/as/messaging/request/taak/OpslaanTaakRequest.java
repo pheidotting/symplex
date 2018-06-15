@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "opslaanTaakRequest")
 public class OpslaanTaakRequest extends AbstractMessage {
-    private String identificatie;
+    private Long id;
     private LocalDateTime deadline;
     private String titel;
     private String omschrijving;
@@ -17,12 +17,12 @@ public class OpslaanTaakRequest extends AbstractMessage {
     private Long toegewezenAan;
     private String status;
 
-    public String getIdentificatie() {
-        return identificatie;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdentificatie(String identificatie) {
-        this.identificatie = identificatie;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getDeadline() {
