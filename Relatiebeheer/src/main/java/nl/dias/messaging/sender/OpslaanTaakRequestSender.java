@@ -51,4 +51,8 @@ public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest,
     public void send(Taak taak) {
         super.send(taak, LOGGER);
     }
+
+    public void send(OpslaanTaakRequest opslaanTaakRequest) {
+        super.send(opslaanTaakRequest, LOGGER);
+    }
 }

@@ -1,52 +1,58 @@
-<h3>Taken</h3>
-<span class="glyphicon glyphicon-question-sign" data-bind="click: taakModel.hideOrDisplay"></span>
-<div id="zelfToevoegen" style="display:none">Een bestaande taak toevoegen? Voeg dan 1 label toe met <span
-        data-bind="text: taakModel.soortEntiteit"></span> en 1 label met <span data-bind="text: taakModel.id"></span>
-</div>
+<h3>
+    Taken
+    <!--&nbsp;<span class="fa fa-plus rechts-icon" aria-hidden="true" data-bind="click: takenViewmodel.voeTaakToe"-->
+    <!--id="voeTaakToe"-->
+    <!--style="cursor:pointer">Toevoegen</span>-->
+</h3>
 
-<textarea id="nieuweTaakTextarea" data-bind="value: taakModel.nieuweTaakTekst"
-          placeholder="Tekst voor nieuwe taak"></textarea><br/>
-<input type="text" id="nieuweTaakReminder"
-       data-bind="value: taakModel.nieuweTaakReminder, event: {blur: exitNieuweTaakReminder}"
-       placeholder="Tijdstip voor reminder, Optioneel (dd-mm-yyyy hh:mm)" style="width:350px !important;"/><br/>
-<button id="voegTaakToe" class="btn btn-primary" data-bind="click: taakModel.voegTaakToe">Opslaan</button>
+<!--<button id="voegTaakToe" class="btn btn-primary" data-bind="click: takenViewmodel.voegTaakToe">Opslaan</button>-->
 
-<div id="takenForEach" data-bind="foreach: taakModel.taken, visible: taakModel.taken().length > 0">
+<div id="takenForEach" data-bind="foreach: takenViewmodel.taken, visible: takenViewmodel.taken().length > 0">
     <hr/>
-    <a class="glyphicon glyphicon-new-window" data-bind="attr:{href: link}" target="_blank"></a>
-    <span data-bind="text: titel"></span>
+    <span data-bind="if: tijdstipCreatie() != null">
+        <span data-bind="text: titel"></span>
+    </span>
 
-    <span class="glyphicon glyphicon-plus"
-          data-bind="visible: showKlapOpenKnop,attr:{id: idShowKnop}, click: $parent.taakModel.klapOpenOfDicht"></span>
-    <span class="glyphicon glyphicon-minus" style="display:none;"
-          data-bind="attr:{id: idHideKnop}, click: $parent.taakModel.klapOpenOfDicht"></span>
-    <div data-bind="attr:{id: id}" style="display: none;">
-        <div name="notesForEach" data-bind="foreach: notities, visible: notities().length > 0">
-            <span data-bind="text: user"></span>
-            <span data-bind="text: tijdstip"></span>
-            <div data-bind="text: omschrijving"></div>
-            <br/>
-        </div>
-    </div>
+    <span data-bind="if: tijdstipCreatie() == null">
+        <textarea id="nieuweTaakTextarea" data-bind="value: titel"
+                  placeholder="Tekst voor nieuwe taak"></textarea><br/>
+        <input type="text" id="nieuweTaakDeadline"
+               data-bind="value: deadline, event: {blur: $parent.takenViewmodel.exitNieuweTaakDeadline}"
+               placeholder="Tijdstip deadline, Optioneel (dd-mm-yyyy hh:mm)" style="width:395px !important;"/><br/>
+        <select id="toewijzenAan" data-bind="value: toegewezenAan">
+        </select>
+    </span>
+
+    <!--<span class="glyphicon glyphicon-plus"-->
+    <!--data-bind="visible: showKlapOpenKnop,attr:{id: idShowKnop}, click: $parent.takenViewmodel.klapOpenOfDicht"></span>-->
+    <!--<span class="glyphicon glyphicon-minus" style="display:none;"-->
+    <!--data-bind="attr:{id: idHideKnop}, click: $parent.takenViewmodel.klapOpenOfDicht"></span>-->
+    <!--<div data-bind="attr:{id: id}" style="display: none;">-->
+    <!--<div name="notesForEach" data-bind="foreach: notities, visible: notities().length > 0">-->
+    <!--<span data-bind="text: user"></span>-->
+    <!--<span data-bind="text: tijdstip"></span>-->
+    <!--<div data-bind="text: omschrijving"></div>-->
+    <!--<br/>-->
+    <!--</div>-->
+    <!--</div>-->
 </div>
 
 <h3>Afgeronde Taken</h3>
 <div id="afgerondeTakenForEach"
-     data-bind="foreach: taakModel.afgerondeTaken, visible: taakModel.afgerondeTaken().length > 0">
+     data-bind="foreach: takenViewmodel.afgerondeTaken, visible: takenViewmodel.afgerondeTaken().length > 0">
     <hr/>
-    <a class="glyphicon glyphicon-new-window" data-bind="visible: !link, attr:{href: link}" target="_blank"></a>
     <span data-bind="text: titel"></span>
 
-    <span class="glyphicon glyphicon-plus"
-          data-bind="visible: showKlapOpenKnop,attr:{id: idShowKnop}, click: $parent.taakModel.klapOpenOfDicht"></span>
-    <span class="glyphicon glyphicon-minus" style="display:none;"
-          data-bind="attr:{id: idHideKnop}, click: $parent.taakModel.klapOpenOfDicht"></span>
-    <div data-bind="attr:{id: id}" style="display: none;">
-        <div name="notesForEach" data-bind="foreach: notities, visible: notities().length > 0">
-            <span data-bind="text: user"></span>
-            <span data-bind="text: tijdstip"></span>
-            <div data-bind="text: omschrijving"></div>
-            <br/>
-        </div>
+    <!--<span class="glyphicon glyphicon-plus"-->
+    <!--data-bind="visible: showKlapOpenKnop,attr:{id: idShowKnop}, click: $parent.takenViewmodel.klapOpenOfDicht"></span>-->
+    <!--<span class="glyphicon glyphicon-minus" style="display:none;"-->
+    <!--data-bind="attr:{id: idHideKnop}, click: $parent.takenViewmodel.klapOpenOfDicht"></span>-->
+    <!--<div data-bind="attr:{id: id}" style="display: none;">-->
+    <!--<div name="notesForEach" data-bind="foreach: notities, visible: notities().length > 0">-->
+    <!--<span data-bind="text: user"></span>-->
+    <!--<span data-bind="text: tijdstip"></span>-->
+    <!--<div data-bind="text: omschrijving"></div>-->
+    <!--<br/>-->
+    <!--</div>-->
     </div>
-    </span>
+</span>

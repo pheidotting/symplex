@@ -1,12 +1,14 @@
 package nl.lakedigital.djfc.domain;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "WIJZIGINGTAAK")
+@Audited
 @NamedQueries({//
         @NamedQuery(name = "WijzigingTaak.zoekBijTaak", query = "select w from WijzigingTaak w where w.taak = :taak")//
 })

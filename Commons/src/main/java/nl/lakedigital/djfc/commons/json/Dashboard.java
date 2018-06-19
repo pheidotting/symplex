@@ -7,6 +7,7 @@ public class Dashboard {
     private List<JsonSchade> openSchades;
     private List<RelatieZoekResultaat> relaties;
     private List<BedrijfZoekResultaat> bedrijven;
+    private List<Taak> taken;
 
     public List<JsonSchade> getOpenSchades() {
         if (openSchades == null) {
@@ -39,5 +40,16 @@ public class Dashboard {
 
     public void setBedrijven(List<BedrijfZoekResultaat> bedrijven) {
         this.bedrijven = bedrijven;
+    }
+
+    public List<Taak> getTaken() {
+        if (taken == null) {
+            taken = new ArrayList<>();
+        }
+        return taken;
+    }
+
+    public void setTaken(List<Taak> taken) {
+        this.taken = taken;
     }
 }

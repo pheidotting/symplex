@@ -13,7 +13,7 @@ public class Taak {
     private String omschrijving;
     private Long entiteitId;
     private String soortEntiteit;
-    private Long toegewezenAan;
+    private String toegewezenAan;
     private List<WijzigingTaak> wijzigingTaaks;
 
     public String getIdentificatie() {
@@ -80,14 +80,13 @@ public class Taak {
         this.soortEntiteit = soortEntiteit;
     }
 
-    public Long getToegewezenAan() {
+    public String getToegewezenAan() {
         return toegewezenAan;
     }
 
-    public void setToegewezenAan(Long toegewezenAan) {
+    public void setToegewezenAan(String toegewezenAan) {
         this.toegewezenAan = toegewezenAan;
     }
-
 
     public List<WijzigingTaak> getWijzigingTaaks() {
         if (wijzigingTaaks == null) {

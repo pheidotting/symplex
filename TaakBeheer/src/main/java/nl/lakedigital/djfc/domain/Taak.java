@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.domain;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.envers.Audited;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TAAK")
-//@Audited
+@Audited
 @NamedQueries({//
         @NamedQuery(name = "Taak.zoekOpSoortEntiteitEnEntiteitId", query = "select t from Taak t where t.entiteitId = :entiteitId and t.soortEntiteit = :soortEntiteit"),//
         @NamedQuery(name = "Taak.allesOpenstaand", query = "select t from Taak t where t.tijdstipAfgehandeld is null")//
