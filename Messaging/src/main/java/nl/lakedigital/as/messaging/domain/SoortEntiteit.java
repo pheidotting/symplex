@@ -20,6 +20,7 @@ public enum SoortEntiteit {
     RELATIE, //
     RISICOANALYSE, //
     SCHADE, //
+    TAAK,//
     TELEFOONNUMMER,//
-    VERSIE;
+    VERSIE, WIJZIGINGTAAK;
 }

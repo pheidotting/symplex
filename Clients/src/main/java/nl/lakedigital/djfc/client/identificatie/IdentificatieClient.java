@@ -9,7 +9,6 @@ import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.join;
 
-@Component
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
     private MetricsService metricsService;

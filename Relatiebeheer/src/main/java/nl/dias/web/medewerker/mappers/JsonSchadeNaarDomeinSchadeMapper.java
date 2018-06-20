@@ -22,7 +22,7 @@ public class JsonSchadeNaarDomeinSchadeMapper {
         String patternDatum = "yyyy-MM-dd";
 
         LocalDate datumAfgehandeld = null;
-        if (schadeIn.getDatumAfgehandeld() != null) {
+        if (schadeIn.getDatumAfgehandeld() != null && !"".equals(schadeIn.getDatumAfgehandeld())) {
             datumAfgehandeld = LocalDate.parse(schadeIn.getDatumAfgehandeld(), DateTimeFormat.forPattern(patternDatum));
         }
 
@@ -35,11 +35,11 @@ public class JsonSchadeNaarDomeinSchadeMapper {
             schade.setId(identificatie.getEntiteitId());
         }
 
-        if (schadeIn.getDatumMelding() != null) {
+        if (schadeIn.getDatumMelding() != null && !"".equals(schadeIn.getDatumMelding())) {
             LocalDateTime datumMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatum));
             schade.setDatumMelding(datumMelding);
         }
-        if (schadeIn.getDatumSchade() != null) {
+        if (schadeIn.getDatumSchade() != null && !"".equals(schadeIn.getDatumSchade())) {
             LocalDateTime datumSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatum));
             schade.setDatumSchade(datumSchade);
         }
@@ -48,7 +48,7 @@ public class JsonSchadeNaarDomeinSchadeMapper {
             schade.setDatumAfgehandeld(datumAfgehandeld);
         }
         if (schadeIn.getEigenRisico() != null) {
-            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",",".")));
+            schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico().replace(",", ".")));
         }
         schade.setLocatie(schadeIn.getLocatie());
         schade.setOmschrijving(schadeIn.getOmschrijving());

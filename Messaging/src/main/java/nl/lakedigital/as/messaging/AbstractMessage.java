@@ -3,6 +3,7 @@ package nl.lakedigital.as.messaging;
 import nl.lakedigital.as.messaging.request.*;
 import nl.lakedigital.as.messaging.request.communicatie.AbstractCommunicatieRequest;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
+import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,8 +27,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         SchadeOpslaanResponse.class,//
         EntiteitenOpgeslagenRequest.class,//
         AbstractCommunicatieRequest.class,//
-        WachtwoordVergetenRequest.class
-})
+        WachtwoordVergetenRequest.class,//
+        OpslaanTaakRequest.class})
 public abstract class AbstractMessage {
     private String trackAndTraceId;
     private Long ingelogdeGebruiker;

@@ -23,6 +23,7 @@ public class Bedrijf {
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens = new ArrayList<>();
     private List<Polis> polissen = new ArrayList<>();
     private List<ContactPersoon> contactPersoons = new ArrayList<>();
+    private List<Taak> taken = new ArrayList<>();
 
     private Belastingzaken belastingzaken;
 
@@ -176,5 +177,13 @@ public class Bedrijf {
 
     public void setBelastingzaken(Belastingzaken belastingzaken) {
         this.belastingzaken = belastingzaken;
+    }
+
+    public List<Taak> getTaken() {
+        return taken;
+    }
+
+    public void setTaken(List<Taak> taken) {
+        this.taken = taken;
     }
 }

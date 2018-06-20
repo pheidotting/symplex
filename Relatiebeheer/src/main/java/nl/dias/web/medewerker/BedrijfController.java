@@ -15,6 +15,7 @@ import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
@@ -67,6 +68,8 @@ public class BedrijfController extends AbstractController {
     private TelefoonnummerClient telefoonnummerClient;
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
+    @Inject
+    private TaakClient taakClient;
     @Inject
     private RelatieService relatieService;
     @Inject
@@ -184,10 +187,11 @@ public class BedrijfController extends AbstractController {
             bedrijf.setOpmerkingen(opmerkingClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
             List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
-            bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+            bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
             //        bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
             bedrijf.setContactPersoons(gebruikerService.alleContactPersonen(bedrijfDomain.getId()).stream().map(new DomainToDtoContactPersoonMapper(identificatieClient, telefoonnummerClient)).collect(Collectors.toList()));
+            bedrijf.setTaken(taakClient.alles("BEDRIJF", bedrijf.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
             List<String> telefoonnummers = bedrijf.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
             telefoonnummers.addAll(bedrijf.getContactPersoons().stream().map(contactPersoon -> contactPersoon.getTelefoonnummers())//

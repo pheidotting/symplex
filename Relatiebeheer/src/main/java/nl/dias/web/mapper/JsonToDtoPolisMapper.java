@@ -6,6 +6,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.response.Polis;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
@@ -23,13 +24,15 @@ public class JsonToDtoPolisMapper implements Function<nl.dias.domein.polis.Polis
     private OpmerkingClient opmerkingClient;
     private IdentificatieClient identificatieClient;
     private GebruikerService gebruikerService;
+    private TaakClient taakClient;
 
-    public JsonToDtoPolisMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService) {
+    public JsonToDtoPolisMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService, TaakClient taakClient) {
         this.bijlageClient = bijlageClient;
         this.groepBijlagesClient = groepBijlagesClient;
         this.opmerkingClient = opmerkingClient;
         this.identificatieClient = identificatieClient;
         this.gebruikerService = gebruikerService;
+        this.taakClient = taakClient;
     }
 
     @Override
@@ -83,7 +86,9 @@ public class JsonToDtoPolisMapper implements Function<nl.dias.domein.polis.Polis
         polis.setGroepBijlages(groepBijlagesClient.lijstGroepen("POLIS", domein.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         polis.setOpmerkingen(opmerkingClient.lijst("POLIS", domein.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
-        polis.setSchades(domein.getSchades().stream().map(new JsonToDtoSchadeMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+        polis.setSchades(domein.getSchades().stream().map(new JsonToDtoSchadeMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
+
+        polis.setTaken(taakClient.alles("POLIS", domein.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
         return polis;
     }

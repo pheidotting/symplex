@@ -50,6 +50,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public void send(final AbstractMessage abstractMessage, Logger logger) {
         for (JmsTemplate jmsTemplate : jmsTemplates) {
+            System.out.println(jmsTemplate);
             jmsTemplate.send(session -> {
                 try {
                     abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));

@@ -32,7 +32,7 @@ public class LicentieClient extends AbstractClient<LicentieResponse> {
 
     public Licentie eindDatumLicentie(Long kantoorId) {
         if (metricsService != null) {
-            metricsService.addMetric("zoekIdentificatie", LicentieClient.class, null, null);
+            metricsService.addMetric("eindDatumLicentie", LicentieClient.class, null, null);
         }
         List<Licentie> lijst = getXML("/rest/licenties/actievelicentie", LicentieResponse.class, false, LOGGER, false, metricsService, "eindDatumLicentie", LicentieClient.class, String.valueOf(kantoorId)).getLicenties();
 

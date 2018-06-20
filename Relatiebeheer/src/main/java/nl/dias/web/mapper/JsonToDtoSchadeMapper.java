@@ -5,6 +5,7 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.response.Schade;
 
@@ -17,14 +18,16 @@ public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Sc
     private OpmerkingClient opmerkingClient;
     private IdentificatieClient identificatieClient;
     private GebruikerService gebruikerService;
+    private TaakClient taakClient;
     private String patternDatum = "yyyy-MM-dd";
 
-    public JsonToDtoSchadeMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService) {
+    public JsonToDtoSchadeMapper(BijlageClient bijlageClient, GroepBijlagesClient groepBijlagesClient, OpmerkingClient opmerkingClient, IdentificatieClient identificatieClient, GebruikerService gebruikerService, TaakClient taakClient) {
         this.bijlageClient = bijlageClient;
         this.groepBijlagesClient = groepBijlagesClient;
         this.opmerkingClient = opmerkingClient;
         this.identificatieClient = identificatieClient;
         this.gebruikerService = gebruikerService;
+        this.taakClient = taakClient;
     }
 
     @Override
@@ -58,6 +61,8 @@ public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Sc
         schade.setBijlages(bijlageClient.lijst("SCHADE", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         schade.setGroepBijlages(groepBijlagesClient.lijstGroepen("SCHADE", domein.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         schade.setOpmerkingen(opmerkingClient.lijst("SCHADE", domein.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+
+        schade.setTaken(taakClient.alles("SCHADE", domein.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
         return schade;
     }

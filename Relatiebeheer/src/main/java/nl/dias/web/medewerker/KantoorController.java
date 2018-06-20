@@ -2,7 +2,6 @@ package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Medewerker;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -102,7 +101,7 @@ public class KantoorController extends AbstractController {
 
         try {
             kantoorService.aanmelden(kantoor);
-        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
+        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | IbanNietGoedException e) {
             LOGGER.trace("Fout gevonden bij opslaan Kantoor ({}), {}", jsonKantoor.getNaam(), e);
         }
 

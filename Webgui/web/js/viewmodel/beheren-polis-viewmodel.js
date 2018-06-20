@@ -182,9 +182,14 @@ define(['jquery',
                                 _this.type(data[0].handelsbenaming);
                                 _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
+                                var extra = '';
+                                if(data[0].voertuigsoort != 'Personenauto') {
+                                    extra = ' ' + data[0].voertuigsoort;
+                                }
+
                                 $.ajax({
                                     type: "GET",
-                                    url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
+                                    url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar() + extra),
                                     contentType: "application/json",
                                     data: data,
                                     ataType: "json",

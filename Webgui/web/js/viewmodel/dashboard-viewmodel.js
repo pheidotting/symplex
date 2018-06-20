@@ -29,6 +29,7 @@ define(['jquery',
 
             this.aantalOpenSchades = ko.observable();
             this.aantalRelaties = ko.observable();
+            this.aantalOpenTaken = ko.observable();
 
             this.init = function () {
                 var deferred = $.Deferred();
@@ -40,6 +41,7 @@ define(['jquery',
                 repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD')).then(function (result) {
                     _this.aantalOpenSchades(result.openSchades.length);
                     _this.aantalRelaties(result.relaties.length + result.bedrijven.length);
+                    _this.aantalOpenTaken(result.taken.length);
 
                     return deferred.resolve();
                 });

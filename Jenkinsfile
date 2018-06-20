@@ -186,6 +186,28 @@ pipeline {
             }
         }
 
+        stage ('Sonar Sonarbranch Taakbeheer') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'sonar'
+                }
+            }
+            steps {
+                sh '''
+                    cd TaakBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar Taakbeheer mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Sonar Sonarbranch Webgui') {
             when {
                 expression {
@@ -217,6 +239,7 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
             }
         }
@@ -277,6 +300,22 @@ pipeline {
             post {
                 failure {
                     slackSend (color: '#FF0000', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+        stage ('Sonar Sonarbranch Taakbeheer2') {
+            steps {
+                sh '''
+                    cd TaakBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar Taakbeheer mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -368,6 +407,23 @@ pipeline {
             }
         }
 
+        stage ('Build Taakbeheer') {
+            steps {
+                sh '''
+                    cd TaakBeheer
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden Taakbeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Build TestSysteem') {
             steps {
                 sh '''
@@ -440,6 +496,12 @@ pipeline {
                     scp Relatiebeheer/target/dejonge.war jetty@192.168.91.230:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp TaakBeheer/src/main/resources/tst2/tb.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp TaakBeheer/src/main/resources/tst2/tb.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp TaakBeheer/target/taakbeheer.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/taakbeheer/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     ssh jetty@192.168.91.230 rm -fr /data/web/gui/*
                     scp -r Webgui/web/* jetty@192.168.91.230:/data/web/gui
@@ -539,6 +601,23 @@ pipeline {
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Verify Relatiebeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Verify Taakbeheer') {
+            steps {
+                sh '''
+                    cd TaakBeheer
+                    mvn clean verify
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Verify Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Verify Taakbeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -710,6 +789,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd TaakBeheer
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd Webgui
                     /home/sonar-runner/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner -Dsonar.branch=development
                 '''
@@ -765,6 +848,10 @@ pipeline {
                 '''
                 sh '''
                     cd Relatiebeheer
+                    mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd TaakBeheer
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''

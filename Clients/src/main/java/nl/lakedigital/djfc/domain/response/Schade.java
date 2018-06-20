@@ -22,6 +22,7 @@ public class Schade {
     private List<Bijlage> bijlages = newArrayList();
     private List<GroepBijlages> groepBijlages = newArrayList();
     private List<Opmerking> opmerkingen = newArrayList();
+    private List<Taak> taken = newArrayList();
 
     public String getIdentificatie() {
         return identificatie;
@@ -150,5 +151,13 @@ public class Schade {
 
     public void setOpmerkingen(List<Opmerking> opmerkingen) {
         this.opmerkingen = opmerkingen;
+    }
+
+    public List<Taak> getTaken() {
+        return taken;
+    }
+
+    public void setTaken(List<Taak> taken) {
+        this.taken = taken;
     }
 }
