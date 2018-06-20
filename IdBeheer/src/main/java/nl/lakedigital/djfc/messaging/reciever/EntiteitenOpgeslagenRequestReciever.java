@@ -29,9 +29,9 @@ public class EntiteitenOpgeslagenRequestReciever extends AbstractReciever<Entite
     public void verwerkMessage(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
         Timer.Context timer = metricsService.addTimerMetric("verwerkMessage", EntiteitenOpgeslagenRequestReciever.class);
 
-        for(SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId:entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds()){
-            Identificatie identificatie=new Identificatie(soortEntiteitEnEntiteitId.getSoortEntiteit().name(),soortEntiteitEnEntiteitId.getEntiteitId());
-            LOGGER.debug("{}",identificatie);
+        for (SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId : entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds()) {
+            Identificatie identificatie = new Identificatie(soortEntiteitEnEntiteitId.getSoortEntiteit().name(), soortEntiteitEnEntiteitId.getEntiteitId());
+            LOGGER.debug("{}", identificatie);
             identificatieService.opslaan(identificatie);
         }
 

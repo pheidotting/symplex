@@ -7,6 +7,7 @@ import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
+import nl.dias.messaging.sender.OpslaanTaakRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
@@ -17,13 +18,17 @@ import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningN
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
+import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
+import nl.lakedigital.djfc.domain.response.Taak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -65,6 +70,8 @@ public class GebruikerController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
+    @Inject
+    private OpslaanTaakRequestSender opslaanTaakRequestSender;
     @Inject
     private MetricsService metricsService;
 
@@ -192,7 +199,7 @@ public class GebruikerController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
         }
 
-        LOGGER.debug("Relatie met id " + relatie.getId() + " opgeslagen");
+        LOGGER.debug("Relatie met id {} opgeslagen", relatie.getId());
 
         if (jsonRelatie.getIdentificatie() == null) {
 
@@ -202,8 +209,6 @@ public class GebruikerController extends AbstractController {
                 LOGGER.error("Relatie met id {} opgeslagen, maar er werd geen identificatie bij opgeslagen", relatie.getId());
             }
         }
-
-        LOGGER.debug("Return {}", relatie.getIdentificatie());
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
         opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
@@ -216,7 +221,31 @@ public class GebruikerController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        //Taken opslaan
+
+        for (Taak taak : jsonRelatie.getTaken()) {
+            if (taak.getIdentificatie() == null) {
+                LOGGER.debug(ReflectionToStringBuilder.toString(taak));
+
+                OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
+                opslaanTaakRequest.setTitel(taak.getTitel());
+                if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-YYYY HH:mm");
+                    opslaanTaakRequest.setDeadline(LocalDateTime.parse(taak.getDeadline(), dateTimeFormatter));
+                }
+                if (taak.getToegewezenAan() != null && !"".equals(taak.getToegewezenAan())) {
+                    Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taak.getToegewezenAan());
+                    opslaanTaakRequest.setToegewezenAan(identificatieMedewerker.getEntiteitId());
+                }
+                opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
+                opslaanTaakRequest.setEntiteitId(relatie.getId());
+                opslaanTaakRequestSender.send(opslaanTaakRequest);
+            }
+        }
+
         metricsService.stop(timer);
+
+        LOGGER.debug("Return {}", relatie.getIdentificatie());
 
         return relatie.getIdentificatie();
     }

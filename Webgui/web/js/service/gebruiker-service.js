@@ -7,7 +7,7 @@ define(["commons/3rdparty/log",
         var logger = log.getLogger('gebruiker-service');
 
         return {
-            opslaan: function (relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen) {
+            opslaan: function (relatie, adressen, telefoonnummers, rekeningnummers, opmerkingen, taken) {
                 var deferred = $.Deferred();
 
                 relatie.adressen = adressen;
@@ -28,6 +28,7 @@ define(["commons/3rdparty/log",
                     }
                 });
                 relatie.opmerkingen = opmerkingen;
+                relatie.taken = taken;
 
                 gebruikerRepository.opslaan(relatie).done(function (response) {
                     return deferred.resolve(response);
