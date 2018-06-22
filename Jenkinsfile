@@ -675,8 +675,8 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/dejonge/rest/authorisatie/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
-                    scp TaakBeheer/src/main/resources/tst2/tb.app.properties jetty@192.168.91.215:/opt/jetty
-                    scp TaakBeheer/src/main/resources/tst2/tb.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp TaakBeheer/src/main/resources/tst/tb.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp TaakBeheer/src/main/resources/tst/tb.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp TaakBeheer/target/taakbeheer.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/taakbeheer/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
