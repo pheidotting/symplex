@@ -2,6 +2,7 @@ package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
 import nl.dias.messaging.sender.OpslaanTaakRequestSender;
+import nl.dias.service.OpenstaandeTaakService;
 import nl.dias.web.mapper.JsonToDtoTaakMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
@@ -29,6 +30,8 @@ public class TaakController extends AbstractController {
     private IdentificatieClient identificatieClient;
     @Inject
     private OpslaanTaakRequestSender nieuweTaakRequestSender;
+    @Inject
+    private OpenstaandeTaakService openstaandeTaakService;
 
     @Inject
     private MetricsService metricsService;
@@ -77,17 +80,17 @@ public class TaakController extends AbstractController {
     //        return taken;
     //    }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/allesopenstaand", produces = MediaType.APPLICATION_JSON)
-    @ResponseBody
-    public List<Taak> allesopenstaand(HttpServletRequest httpServletRequest) {
-        Timer.Context timer = metricsService.addTimerMetric(" allesopenstaand", TaakController.class);
-
-        zetSessieWaarden(httpServletRequest);
-
-        List<Taak> taken = taakClient.allesopenstaand().stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList());
-
-        metricsService.stop(timer);
-
-        return taken;
-    }
+    //    @RequestMapping(method = RequestMethod.GET, value = "/allesopenstaand", produces = MediaType.APPLICATION_JSON)
+    //    @ResponseBody
+    //    public List<Taak> allesopenstaand(HttpServletRequest httpServletRequest) {
+    //        Timer.Context timer = metricsService.addTimerMetric(" allesopenstaand", TaakController.class);
+    //
+    //        zetSessieWaarden(httpServletRequest);
+    //
+    //        List<Taak> taken = openstaandeTaakService.alleOpenstaandeTaken(((nl.dias.domein.Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList());
+    //
+    //        metricsService.stop(timer);
+    //
+    //        return taken;
+    //    }
 }
