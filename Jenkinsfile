@@ -662,6 +662,12 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/identificatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp LicentieBeheer/src/main/resources/tst/lb.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp LicentieBeheer/src/main/resources/tst/lb.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp LicentieBeheer/target/licentie.war jetty@192.168.91.215:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.app.properties jetty@192.168.91.215:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.215:/opt/jetty/webapps
