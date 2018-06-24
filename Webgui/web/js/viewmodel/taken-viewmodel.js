@@ -10,12 +10,12 @@ define(['jquery',
         'service/toggle-service',
         'service/zoeken-service',
         'service/gebruiker-service',
-        'mapper/zoekresultaat-mapper',
+        'mapper/taak-mapper',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'repository/common/repository',
         'navRegister'],
-    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister) {
+    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, taakMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister) {
 
         return function () {
             commonFunctions.checkNieuweVersie();
@@ -41,7 +41,7 @@ define(['jquery',
                 repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD')).then(function (result) {
 //                    _this.aantalOpenSchades(result.openSchades.length);
 //                    _this.aantalRelaties(result.relaties.length + result.bedrijven.length);
-                    _this.taken(result.taken);
+                    _this.taken = taakMapper.mapTaken(result.taken);
 
                     return deferred.resolve();
                 });
