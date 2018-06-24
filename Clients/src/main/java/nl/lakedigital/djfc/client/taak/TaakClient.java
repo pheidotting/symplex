@@ -49,13 +49,4 @@ public class TaakClient extends AbstractClient<OpvragenTakenResponse> {
 
         return lijst;
     }
-
-    public List<Taak> allesopenstaand() {
-        if (metricsService != null) {
-            metricsService.addMetric("allesopenstaand", TaakClient.class, null, null);
-        }
-        List<Taak> lijst = getXML("/rest/taak/allesopenstaand", OpvragenTakenResponse.class, false, LOGGER, false, metricsService, "allesopenstaand", TaakClient.class).getTaken();
-
-        return lijst;
-    }
 }
