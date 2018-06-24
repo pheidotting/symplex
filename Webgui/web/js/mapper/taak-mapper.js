@@ -3,8 +3,9 @@ define(['jquery',
         'model/wijzigingtaak',
         'commons/3rdparty/log',
         'knockout',
+        'moment',
         'underscore'],
-    function ($, Taak, WijzigingTaak, log, ko, _) {
+    function ($, Taak, WijzigingTaak, log, ko, moment, _) {
         return {
             mapTaak: function (r) {
                 return mappen(r);
@@ -33,9 +34,13 @@ define(['jquery',
                 var taak = new Taak();
 
                 taak.identificatie(data.identificatie);
-                taak.tijdstipCreatie(data.tijdstipCreatie);
-                taak.deadline(data.deadline);
-                taak.tijdstipAfgehandeld(data.tijdstipAfgehandeld);
+                taak.tijdstipCreatie(moment(data.tijdstipCreatie).format("DD-MM-YYYY HH:mm"));
+                if(data.deadline != null && data.deadline != ''){
+                    taak.deadline(moment(data.deadline).format("DD-MM-YYYY HH:mm"));
+                }
+                if(data.tijdstipAfgehandeld != null && data.tijdstipAfgehandeld != ''){
+                    taak.tijdstipAfgehandeld(moment(data.tijdstipAfgehandeld).format("DD-MM-YYYY HH:mm"));
+                }
                 taak.titel(data.titel);
                 taak.omschrijving(data.omschrijving);
                 taak.entiteitId(data.entiteitId);
