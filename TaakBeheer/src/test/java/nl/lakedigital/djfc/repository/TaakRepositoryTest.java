@@ -4,6 +4,7 @@ import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Taak;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class TaakRepositoryTest {
         taak.setEntiteitId(entiteitId);
         taak.setSoortEntiteit(soortEntiteit);
         taak.setOmschrijving(lorem.getParagraphs(10, 10).substring(0, 2500));
-        taak.setDeadline(LocalDateTime.now());
+        taak.setDeadline(LocalDate.now());
         taak.setTijdstipAfgehandeld(LocalDateTime.now());
         taak.setTijdstipCreatie(LocalDateTime.now());
         taak.setTitel(lorem.getParagraphs(1, 1).substring(0, 50));

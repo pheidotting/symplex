@@ -36,7 +36,7 @@ define(['jquery',
                 taak.identificatie(data.identificatie);
                 taak.tijdstipCreatie(moment(data.tijdstipCreatie).format("DD-MM-YYYY HH:mm"));
                 if(data.deadline != null && data.deadline != ''){
-                    taak.deadline(moment(data.deadline).format("DD-MM-YYYY HH:mm"));
+                    taak.deadline(moment(data.deadline).format("DD-MM-YYYY"));
                 }
                 if(data.tijdstipAfgehandeld != null && data.tijdstipAfgehandeld != ''){
                     taak.tijdstipAfgehandeld(moment(data.tijdstipAfgehandeld).format("DD-MM-YYYY HH:mm"));

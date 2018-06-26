@@ -6,6 +6,7 @@ import nl.lakedigital.djfc.domain.TaakStatus;
 import nl.lakedigital.djfc.domain.WijzigingTaak;
 import nl.lakedigital.djfc.repository.TaakRepository;
 import nl.lakedigital.djfc.repository.WijzigingTaakRepository;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class TaakService {
         wijzigingTaakRepository.opslaan(new WijzigingTaak(taak, taakStatus, toegewezenAan));
     }
 
-    public Long nieuweTaak(LocalDateTime tijdstip, String titel, String omschrijving, Long entiteitId, SoortEntiteit soortEntiteit, Long toegewezenAan) {
+    public Long nieuweTaak(LocalDate tijdstip, String titel, String omschrijving, Long entiteitId, SoortEntiteit soortEntiteit, Long toegewezenAan) {
         Taak taak = new Taak();
         taak.setTijdstipCreatie(LocalDateTime.now());
         taak.setDeadline(tijdstip);
