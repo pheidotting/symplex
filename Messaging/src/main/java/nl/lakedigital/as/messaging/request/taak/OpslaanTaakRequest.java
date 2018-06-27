@@ -2,14 +2,14 @@ package nl.lakedigital.as.messaging.request.taak;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import org.joda.time.LocalDateTime;
+import org.joda.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "opslaanTaakRequest")
 public class OpslaanTaakRequest extends AbstractMessage {
     private Long id;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private String titel;
     private String omschrijving;
     private Long entiteitId;
@@ -25,11 +25,11 @@ public class OpslaanTaakRequest extends AbstractMessage {
         this.id = id;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 

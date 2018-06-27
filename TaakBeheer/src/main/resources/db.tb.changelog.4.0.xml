@@ -65,4 +65,16 @@
             <column name="TIJDSTIP" type="datetime"/>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Patrick Heidotting">
+        <addColumn tableName="TAAK">
+            <column name="DEADLINE2" type="date"/>
+        </addColumn>
+        <dropColumn tableName="TAAK" columnName="DEADLINE"/>
+        <renameColumn tableName="TAAK" oldColumnName="DEADLINE2" newColumnName="DEADLINE" columnDataType="date"/>
+        <addColumn tableName="TAAK_AUD">
+            <column name="DEADLINE2" type="date"/>
+        </addColumn>
+        <dropColumn tableName="TAAK_AUD" columnName="DEADLINE"/>
+        <renameColumn tableName="TAAK_AUD" oldColumnName="DEADLINE2" newColumnName="DEADLINE" columnDataType="date"/>
+    </changeSet>
 </databaseChangeLog>

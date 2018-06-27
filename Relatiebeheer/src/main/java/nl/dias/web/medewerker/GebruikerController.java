@@ -23,9 +23,9 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
-import nl.lakedigital.djfc.domain.response.Taak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -222,26 +222,22 @@ public class GebruikerController extends AbstractController {
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         //Taken opslaan
-
-        for (Taak taak : jsonRelatie.getTaken()) {
-            if (taak.getIdentificatie() == null) {
-                LOGGER.debug(ReflectionToStringBuilder.toString(taak));
-
-                OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
-                opslaanTaakRequest.setTitel(taak.getTitel());
-                if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-YYYY HH:mm");
-                    opslaanTaakRequest.setDeadline(LocalDateTime.parse(taak.getDeadline(), dateTimeFormatter));
-                }
-                if (taak.getToegewezenAan() != null && !"".equals(taak.getToegewezenAan())) {
-                    Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taak.getToegewezenAan());
-                    opslaanTaakRequest.setToegewezenAan(identificatieMedewerker.getEntiteitId());
-                }
-                opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
-                opslaanTaakRequest.setEntiteitId(relatie.getId());
-                opslaanTaakRequestSender.send(opslaanTaakRequest);
-            }
-        }
+        jsonRelatie.getTaken().stream().filter(taak -> taak.getIdentificatie() == null && taak.getTitel() != null && !"".equals(taak.getTitel()))//
+                .forEach(taak -> {
+                    OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
+                    opslaanTaakRequest.setTitel(taak.getTitel());
+                    if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
+                        opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
+                    }
+                    if (taak.getToegewezenAan() != null && !"".equals(taak.getToegewezenAan())) {
+                        Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taak.getToegewezenAan());
+                        opslaanTaakRequest.setToegewezenAan(identificatieMedewerker.getEntiteitId());
+                    }
+                    opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
+                    opslaanTaakRequest.setEntiteitId(relatie.getId());
+                    opslaanTaakRequestSender.send(opslaanTaakRequest);
+                });
 
         metricsService.stop(timer);
 

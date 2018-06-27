@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.domain;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -24,8 +25,8 @@ public class Taak {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstipCreatie;
     @Column(name = "DEADLINE")
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private LocalDateTime deadline;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+    private LocalDate deadline;
     @Column(name = "TIJDSTIPAFGEHANDELD")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstipAfgehandeld;
@@ -57,11 +58,11 @@ public class Taak {
         this.tijdstipCreatie = tijdstipCreatie;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
