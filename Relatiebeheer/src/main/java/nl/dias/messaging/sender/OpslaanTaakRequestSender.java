@@ -5,7 +5,7 @@ import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.Taak;
-import org.joda.time.LocalDateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -36,7 +36,7 @@ public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest,
         opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.valueOf(taak.getSoortEntiteit()));
         opslaanTaakRequest.setOmschrijving(taak.getOmschrijving());
         if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
-            opslaanTaakRequest.setDeadline(LocalDateTime.parse(taak.getDeadline()));
+            opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline()));
         }
         opslaanTaakRequest.setTitel(taak.getTitel());
         opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());

@@ -14,11 +14,21 @@
     </span>
 
     <span data-bind="if: tijdstipCreatie() == null">
+        Onderwerp:
+        <br/>
         <textarea id="nieuweTaakTextarea" data-bind="value: titel"
-                  placeholder="Tekst voor nieuwe taak"></textarea><br/>
-        <input type="text" id="nieuweTaakDeadline"
-               data-bind="value: deadline, event: {blur: $parent.takenViewmodel.exitNieuweTaakDeadline}"
-               placeholder="Tijdstip deadline, Optioneel (dd-mm-yyyy hh:mm)" style="width:395px !important;"/><br/>
+                  placeholder="Onderwerp voor nieuwe taak"></textarea>
+        <br/>
+        Omschrijving:
+        <br/>
+        <textarea id="nieuweTaakTextareaOmschrijving" data-bind="value: omschrijving"
+                  placeholder="Omschrijving voor nieuwe taak"></textarea>
+        <br/>
+        Deadline:
+        <br/>
+        <input type="date" id="nieuweTaakDeadline"
+               data-bind="value: deadline" style="width:395px !important;"/>
+        <br/>
         <select id="toewijzenAan" data-bind="value: toegewezenAan">
         </select>
     </span>
