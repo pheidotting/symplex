@@ -32,6 +32,10 @@ public class TaakRepository {
         }
     }
 
+    protected Session getEm() {
+        return sessionFactory.getCurrentSession();
+    }
+
     protected Transaction getTransaction() {
         Transaction transaction = getSession().getTransaction();
         if (transaction.getStatus() != TransactionStatus.ACTIVE) {
@@ -48,9 +52,9 @@ public class TaakRepository {
         getTransaction();
 
         if (taak.getId() == null) {
-            getSession().save(taak);
+            getEm().save(taak);
         } else {
-            getSession().merge(taak);
+            getEm().merge(taak);
         }
 
         getTransaction().commit();

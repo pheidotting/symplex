@@ -4,10 +4,8 @@ import com.codahale.metrics.Timer;
 import nl.lakedigital.djfc.domain.Taak;
 import nl.lakedigital.djfc.domain.WijzigingTaak;
 import nl.lakedigital.djfc.metrics.MetricsService;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +32,29 @@ public class WijzigingTaakRepository {
         }
     }
 
-    @Transactional
+    protected Transaction getTransaction() {
+        Transaction transaction = getSession().getTransaction();
+        if (transaction.getStatus() != TransactionStatus.ACTIVE) {
+            transaction.begin();
+        }
+
+        return transaction;
+    }
+
+
     public void opslaan(WijzigingTaak wijzigingTaak) {
         Timer.Context timer = metricsService.addTimerMetric("opslaan", WijzigingTaakRepository.class);
+
+        getTransaction();
 
         if (wijzigingTaak.getId() == null) {
             getSession().save(wijzigingTaak);
         } else {
             getSession().merge(wijzigingTaak);
         }
+
+        getTransaction().commit();
+
         metricsService.stop(timer);
     }
 

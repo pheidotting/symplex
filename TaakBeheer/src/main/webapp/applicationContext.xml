@@ -47,26 +47,42 @@
         <property name="password" value="${tb.db.pass}"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="liquibase">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="nl.lakedigital.djfc"/>
+        <property name="packagesToScan">
+            <list>
+                <value>nl.lakedigital.djfc</value>
+            </list>
+        </property>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.connection.release_mode">after_statement</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <!--<prop key="hibernate.use_sql_comments">true</prop>-->
-                <prop key="hibernate.hbm2ddl.auto">validate</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">false</prop>
             </props>
         </property>
     </bean>
 
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"
-          id="PersistenceExceptionTranslator"/>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="liquibase">-->
+    <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--<property name="packagesToScan" value="nl.lakedigital.djfc"/>-->
+    <!--<property name="hibernateProperties">-->
+    <!--<props>-->
+    <!--<prop key="hibernate.connection.release_mode">after_statement</prop>-->
+    <!--<prop key="hibernate.format_sql">true</prop>-->
+                <!--<prop key="hibernate.use_sql_comments">true</prop>-->
+    <!--<prop key="hibernate.hbm2ddl.auto">validate</prop>-->
+    <!--<prop key="hibernate.show_sql">true</prop>-->
+    <!--</props>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"-->
+    <!--id="PersistenceExceptionTranslator"/>-->
+    <!---->
+    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
+    <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
 
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
