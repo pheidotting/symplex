@@ -47,13 +47,13 @@ define(['jquery',
                 taak.soortEntiteit(data.soortEntiteit);
                 taak.toegewezenAan(data.toegewezenAan);
 
-                $.each(data, function (i, r) {
+                $.each(data.wijzigingTaaks, function (i, r) {
                     var wijzigingTaak = new WijzigingTaak();
 
-                    wijzigingTaak.identificatie(data.identificatie);
-                    wijzigingTaak.taakStatus(data.taakStatus);
-                    wijzigingTaak.toegewezenAan(data.toegewezenAan);
-                    wijzigingTaak.tijdstip(data.tijdstip);
+                    wijzigingTaak.identificatie(r.identificatie);
+                    wijzigingTaak.taakStatus(r.taakStatus);
+                    wijzigingTaak.toegewezenAan(r.toegewezenAan);
+                    wijzigingTaak.tijdstip(r.tijdstip);
 
                     taak.wijzigingTaaks.push(wijzigingTaak);
                 });

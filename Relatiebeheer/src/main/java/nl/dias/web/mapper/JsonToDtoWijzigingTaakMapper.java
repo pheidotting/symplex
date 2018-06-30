@@ -21,7 +21,7 @@ public class JsonToDtoWijzigingTaakMapper implements Function<WijzigingTaak, nl.
         uit.setIdentificatie(identificatie.getIdentificatie());
         uit.setTaakStatus(in.getTaakStatus());
         uit.setTijdstip(in.getTijdstip().toString());
-        uit.setToegewezenAan(in.getToegewezenAan());
+        uit.setToegewezenAan(Long.valueOf(in.getToegewezenAan()));
 
         return uit;
     }

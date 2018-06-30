@@ -2,6 +2,7 @@
 <table style="width:100%;">
     <thead>
     <tr>
+        <th>Status</th>
         <th>Titel</th>
         <th>Tijdstip Creatie</th>
         <th>Deadline</th>
@@ -10,6 +11,7 @@
     </thead>
     <tbody data-bind="foreach: taken">
     <tr>
+        <td><a data-bind="text: status"></a></td>
         <td><a data-bind="text: titel"></a></td>
         <td><a data-bind="text: tijdstipCreatie"></a></td>
         <td><a data-bind="text: deadline"></a></td>

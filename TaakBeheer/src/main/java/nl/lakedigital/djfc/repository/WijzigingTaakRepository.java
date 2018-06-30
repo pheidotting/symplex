@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -58,23 +57,29 @@ public class WijzigingTaakRepository {
         metricsService.stop(timer);
     }
 
-    @Transactional
     public void verwijder(WijzigingTaak wijzigingTaak) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", WijzigingTaakRepository.class);
 
+        getTransaction();
+
         getSession().delete(wijzigingTaak);
+
+        getTransaction().commit();
 
         metricsService.stop(timer);
     }
 
-    @Transactional
     public List<WijzigingTaak> allesBijTaak(Taak taak) {
         Timer.Context timer = metricsService.addTimerMetric("allesBijTaak", TaakRepository.class);
+
+        getTransaction();
 
         Query query = getSession().getNamedQuery("WijzigingTaak.zoekBijTaak");
         query.setParameter("taak", taak.getId());
 
         List<WijzigingTaak> result = query.list();
+
+        getTransaction().commit();
 
         metricsService.stop(timer);
 
