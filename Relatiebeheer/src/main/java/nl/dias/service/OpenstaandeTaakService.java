@@ -1,15 +1,15 @@
 package nl.dias.service;
 
-import nl.dias.domein.*;
-import nl.dias.domein.polis.Polis;
+import nl.dias.domein.Kantoor;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.Taak;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Service
 public class OpenstaandeTaakService {
@@ -26,57 +26,50 @@ public class OpenstaandeTaakService {
     private HypotheekService hypotheekService;
     @Inject
     private TaakClient taakClient;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     public List<Taak> alleOpenstaandeTaken(Kantoor kantoor) {
         List<Taak> taken = new ArrayList<>();
-        gebruikerService.alleRelaties(kantoor, true).stream().forEach(new Consumer<Relatie>() {
-            @Override
-            public void accept(Relatie relatie) {
-                taken.addAll(taakClient.alles("RELATIE", relatie.getId()));
+        gebruikerService.alleRelaties(kantoor, true).stream().forEach(relatie -> {
+            taken.addAll(taakClient.alles("RELATIE", relatie.getId()));
 
-                polisService.allePolissenBijRelatie(relatie.getId()).stream().forEach(new Consumer<Polis>() {
-                    @Override
-                    public void accept(Polis polis) {
-                        taken.addAll(taakClient.alles("POLIS", polis.getId()));
+            polisService.allePolissenBijRelatie(relatie.getId()).stream().forEach(polis -> {
+                taken.addAll(taakClient.alles("POLIS", polis.getId()));
 
-                        schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(new Consumer<Schade>() {
-                            @Override
-                            public void accept(Schade schade) {
-                                taken.addAll(taakClient.alles("SCHADE", schade.getId()));
-                            }
-                        });
+                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
 
-                        hypotheekService.allesVanRelatie(relatie.getId()).stream().forEach(new Consumer<Hypotheek>() {
-                            @Override
-                            public void accept(Hypotheek hypotheek) {
-                                taken.addAll(taakClient.alles("HYPOTHEEK", hypotheek.getId()));
-                            }
-                        });
-                    }
-                });
+                hypotheekService.allesVanRelatie(relatie.getId()).stream().forEach(hypotheek -> taken.addAll(taakClient.alles("HYPOTHEEK", hypotheek.getId())));
+            });
 
-            }
         });
-        bedrijfService.alles().stream().forEach(new Consumer<Bedrijf>() {
-            @Override
-            public void accept(Bedrijf bedrijf) {
-                taken.addAll(taakClient.alles("BEDRIJF", bedrijf.getId()));
+        bedrijfService.alles().stream().forEach(bedrijf -> {
+            taken.addAll(taakClient.alles("BEDRIJF", bedrijf.getId()));
 
-                polisService.allePolissenBijBedrijf(bedrijf.getId()).stream().forEach(new Consumer<Polis>() {
-                    @Override
-                    public void accept(Polis polis) {
-                        taken.addAll(taakClient.alles("POLIS", polis.getId()));
+            polisService.allePolissenBijBedrijf(bedrijf.getId()).stream().forEach(polis -> {
+                taken.addAll(taakClient.alles("POLIS", polis.getId()));
 
-                        schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(new Consumer<Schade>() {
-                            @Override
-                            public void accept(Schade schade) {
-                                taken.addAll(taakClient.alles("SCHADE", schade.getId()));
-                            }
-                        });
-                    }
-                });
+                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
+            });
 
-            }
+        });
+
+        taken.stream().forEach(taak -> {
+            Identificatie identificatie = identificatieClient.zoekIdentificatie("TAAK", taak.getId());
+            taak.setIdentificatie(identificatie.getIdentificatie());
+
+            taak.setId(null);
+
+            taak.getWijzigingTaaks().stream().forEach(wijzigingTaak -> {
+                Identificatie identificatieM = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(wijzigingTaak.getToegewezenAan()));
+                wijzigingTaak.setToegewezenAan(identificatieM.getIdentificatie());
+
+                Identificatie identificatieW = identificatieClient.zoekIdentificatie("WIJZIGINGTAAK", wijzigingTaak.getId());
+                wijzigingTaak.setIdentificatie(identificatieW.getIdentificatie());
+
+                wijzigingTaak.setId(null);
+
+            });
         });
 
         return taken;

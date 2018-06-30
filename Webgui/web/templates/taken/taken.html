@@ -2,16 +2,20 @@
 <table style="width:100%;">
     <thead>
     <tr>
-        <th>titel</th>
-        <th>tijdstipCreatie</th>
-        <th>deadline</th>
+        <th>Status</th>
+        <th>Titel</th>
+        <th>Tijdstip Creatie</th>
+        <th>Deadline</th>
+        <th>Toegewezen aan</th>
     </tr>
     </thead>
     <tbody data-bind="foreach: taken">
     <tr>
+        <td><a data-bind="text: status"></a></td>
         <td><a data-bind="text: titel"></a></td>
         <td><a data-bind="text: tijdstipCreatie"></a></td>
         <td><a data-bind="text: deadline"></a></td>
+        <td><a data-bind="text: toegewezenAan"></a></td>
     </tr>
     </tbody>
 </table>

@@ -2,8 +2,9 @@ package nl.lakedigital.djfc.commons.json;
 
 public class WijzigingTaak {
     private Long id;
+    private String identificatie;
     private String taakStatus;
-    private Long toegewezenAan;
+    private String toegewezenAan;
     private String tijdstip;
 
     public Long getId() {
@@ -14,6 +15,14 @@ public class WijzigingTaak {
         this.id = id;
     }
 
+    public String getIdentificatie() {
+        return identificatie;
+    }
+
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
+    }
+
     public String getTaakStatus() {
         return taakStatus;
     }
@@ -22,11 +31,11 @@ public class WijzigingTaak {
         this.taakStatus = taakStatus;
     }
 
-    public Long getToegewezenAan() {
+    public String getToegewezenAan() {
         return toegewezenAan;
     }
 
-    public void setToegewezenAan(Long toegewezenAan) {
+    public void setToegewezenAan(String toegewezenAan) {
         this.toegewezenAan = toegewezenAan;
     }
 

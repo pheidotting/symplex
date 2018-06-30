@@ -10,12 +10,14 @@ define(['jquery',
         'service/toggle-service',
         'service/zoeken-service',
         'service/gebruiker-service',
+        'service/kantoor-service',
+        'mapper/medewerker-mapper',
         'mapper/taak-mapper',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'repository/common/repository',
         'navRegister'],
-    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, taakMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister) {
+    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, kantoorService, medewerkerMapper, taakMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister) {
 
         return function () {
             commonFunctions.checkNieuweVersie();
@@ -38,10 +40,26 @@ define(['jquery',
                 _this.licentieViewmodel = new LicentieViewmodel();
 
 //                logger.info('Ophalen Dashboard');
-                repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD')).then(function (result) {
+                $.when(kantoorService.lees(), repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD'))).then(function (kantoor, result) {
+                     var medewerkers = medewerkerMapper.mapMedewerkers(kantoor.medewerkers);
+//                ).then(function () {
 //                    _this.aantalOpenSchades(result.openSchades.length);
 //                    _this.aantalRelaties(result.relaties.length + result.bedrijven.length);
                     _this.taken = taakMapper.mapTaken(result.taken);
+
+                    _.map(_this.taken(), function(taak){
+                        taak.berekenToegewezenAanEnStatus();
+                        var medewerker = _.chain(medewerkers())
+                        .filter(function(medewerker){
+                             return medewerker.identificatie() == taak.toegewezenAan();
+                         })
+                         .last()
+                         .value();
+
+                        if(medewerker != null){
+                            taak.toegewezenAan(medewerker.volledigenaam());
+                        }
+                    });
 
                     return deferred.resolve();
                 });
