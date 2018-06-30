@@ -8,6 +8,7 @@ import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(EasyMockRunner.class)
+@Ignore
 public class OpenstaandeTaakServiceTest extends EasyMockSupport {
     @TestSubject
     private OpenstaandeTaakService openstaandeTaakService = new OpenstaandeTaakService();

@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -32,6 +31,10 @@ public class TaakRepository {
         }
     }
 
+    protected Session getEm() {
+        return sessionFactory.getCurrentSession();
+    }
+
     protected Transaction getTransaction() {
         Transaction transaction = getSession().getTransaction();
         if (transaction.getStatus() != TransactionStatus.ACTIVE) {
@@ -48,9 +51,9 @@ public class TaakRepository {
         getTransaction();
 
         if (taak.getId() == null) {
-            getSession().save(taak);
+            getEm().save(taak);
         } else {
-            getSession().merge(taak);
+            getEm().merge(taak);
         }
 
         getTransaction().commit();
@@ -58,9 +61,10 @@ public class TaakRepository {
         metricsService.stop(timer);
     }
 
-    @Transactional
     public List<Taak> alleTaken(SoortEntiteit soortEntiteit, Long entiteitId) {
         Timer.Context timer = metricsService.addTimerMetric("alleTaken", TaakRepository.class);
+
+        getTransaction();
 
         Query query = getSession().getNamedQuery("Taak.zoekOpSoortEntiteitEnEntiteitId");
         query.setParameter("entiteitId", entiteitId);
@@ -68,40 +72,51 @@ public class TaakRepository {
 
         List<Taak> result = query.list();
 
+        getTransaction().commit();
+
         metricsService.stop(timer);
 
         return result;
     }
 
-    @Transactional
     public List<Taak> allesOpenstaand() {
         Timer.Context timer = metricsService.addTimerMetric("allesOpenstaand", TaakRepository.class);
+
+        getTransaction();
 
         Query query = getSession().getNamedQuery("Taak.allesOpenstaand");
 
         List<Taak> result = query.list();
 
+        getTransaction().commit();
+
         metricsService.stop(timer);
 
         return result;
     }
 
-    @Transactional
     public Taak lees(Long id) {
         Timer.Context timer = metricsService.addTimerMetric("lees", TaakRepository.class);
 
+        getTransaction();
+
         Taak taak = getSession().get(Taak.class, id);
+
+        getTransaction().commit();
 
         metricsService.stop(timer);
 
         return taak;
     }
 
-    @Transactional
     public void verwijder(Taak taak) {
         Timer.Context timer = metricsService.addTimerMetric("verwijder", TaakRepository.class);
 
+        getTransaction();
+
         getSession().delete(taak);
+
+        getTransaction().commit();
 
         metricsService.stop(timer);
     }
