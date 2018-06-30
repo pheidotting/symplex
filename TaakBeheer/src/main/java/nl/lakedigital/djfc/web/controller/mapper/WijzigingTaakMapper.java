@@ -13,7 +13,7 @@ public class WijzigingTaakMapper implements Function<WijzigingTaak, nl.lakedigit
         uit.setId(in.getId());
         uit.setTaakStatus(in.getTaakStatus().name());
         uit.setTijdstip(in.getTijdstip().toString());
-        uit.setToegewezenAan(in.getToegewezenAan());
+        uit.setToegewezenAan(String.valueOf(in.getToegewezenAan()));
 
         return uit;
     }
