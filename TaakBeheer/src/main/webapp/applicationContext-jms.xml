@@ -45,6 +45,13 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
                       method="onMessage"/>
     </jms:listener-container>
 
+    <bean id="wijzigingTaakOpslaanRequestReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.WijzigingTaakOpslaanRequestReciever"/>
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="rb.tb.wijzigingTaakOpslaanRequestQueue" ref="wijzigingTaakOpslaanRequestReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
 
     <!--<jms:listener-container container-type="default"-->
     <!--connection-factory="connectionFactory" acknowledge="auto">-->
@@ -74,6 +81,18 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <bean id="entiteitenOpgeslagenRequestSender"
           class="nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender">
         <constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>
+    </bean>
+
+    <bean id="wijzigingTaakOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="tb.rb.wijzigingTaakOpslaanResponseQueue"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanResponseTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="wijzigingTaakOpslaanResponseDestination"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanResponseSender"
+          class="nl.lakedigital.djfc.messaging.sender.WijzigingTaakOpslaanResponseSender">
+        <constructor-arg index="0" ref="wijzigingTaakOpslaanResponseTemplate"/>
     </bean>
 
 </beans>

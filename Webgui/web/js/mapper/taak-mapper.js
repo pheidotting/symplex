@@ -52,8 +52,12 @@ define(['jquery',
 
                     wijzigingTaak.identificatie(r.identificatie);
                     wijzigingTaak.taakStatus(r.taakStatus);
+                    wijzigingTaak.taakStatus(r.taakStatus.substring(0, 1).toUpperCase() + r.taakStatus.substring(1).toLowerCase());
                     wijzigingTaak.toegewezenAan(r.toegewezenAan);
-                    wijzigingTaak.tijdstip(r.tijdstip);
+                    wijzigingTaak.tijdstip(moment(r.tijdstip).format("DD-MM-YYYY HH:mm"));
+                    if(r.jsonOpmerking!=null){
+                        wijzigingTaak.opmerking(r.jsonOpmerking.opmerking);
+                    }
 
                     taak.wijzigingTaaks.push(wijzigingTaak);
                 });

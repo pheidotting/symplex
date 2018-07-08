@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="wijzigingTaakOpslaanRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.tb.wijzigingTaakOpslaanRequestQueue"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="wijzigingTaakOpslaanRequestDestination"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanRequestSender" class="nl.dias.messaging.sender.WijzigingTaakOpslaanRequestSender">
+        <constructor-arg index="0" ref="wijzigingTaakOpslaanRequestTemplate"/>
+    </bean>
+</beans>

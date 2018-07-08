@@ -24,9 +24,6 @@ define(['jquery',
                 .filter(function(wijzigingTaak) {
                     return wijzigingTaak.toegewezenAan() != null;
                 })
-//                .map(function(wijzigingTaak) {
-//                    return wijzigingTaak.toegewezenAan();
-//                })
                 .last()
                 .value();
 

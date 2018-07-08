@@ -29,8 +29,6 @@ define(['jquery',
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
 
-//            this.aantalOpenSchades = ko.observable();
-//            this.aantalRelaties = ko.observable();
             this.taken = ko.observableArray([]);
 
             this.init = function () {
@@ -39,12 +37,9 @@ define(['jquery',
                 _this.menubalkViewmodel = new menubalkViewmodel();
                 _this.licentieViewmodel = new LicentieViewmodel();
 
-//                logger.info('Ophalen Dashboard');
                 $.when(kantoorService.lees(), repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD'))).then(function (kantoor, result) {
                      var medewerkers = medewerkerMapper.mapMedewerkers(kantoor.medewerkers);
-//                ).then(function () {
-//                    _this.aantalOpenSchades(result.openSchades.length);
-//                    _this.aantalRelaties(result.relaties.length + result.bedrijven.length);
+
                     _this.taken = taakMapper.mapTaken(result.taken);
 
                     _.map(_this.taken(), function(taak){
@@ -66,31 +61,6 @@ define(['jquery',
 
                 return deferred.promise();
             };
-
-//            this.zoeken = function () {
-//                logger.debug('we gaan zoeken');
-//                window.location = 'zoeken.html#zoeken/' +btoa(ko.toJSON(_this.zoekvelden));
-//            };
-//
-//            this.maaklink = function (index, se) {
-//                var postLink = '';
-//                var soortEntiteit = se;
-//                if (index) {
-//                    var entiteit = _this.zoekResultaat()[index()];
-//                    soortEntiteit = entiteit.soortEntiteit().toLowerCase();
-//
-//                    postLink = '/' + entiteit.identificatie();
-//                }
-//                return 'beheren.html#' + soortEntiteit + postLink;
-//            };
-//
-//            this.nieuweRelatie = function () {
-//                window.location = _this.maaklink(0, 'relatie');
-//            };
-//
-//            this.nieuwBedrijf = function () {
-//                window.location = _this.maaklink(0, 'bedrijf');
-//            };
         };
     }
 );
