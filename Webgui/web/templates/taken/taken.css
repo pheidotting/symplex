@@ -1,0 +1,196 @@
+.kolom {
+    width: 30%;
+    float: left;
+    padding: 1em;
+}
+
+.kolom-2 {
+    width: 47%;
+    float: left;
+    padding: 1em;
+}
+
+.kolom-4 {
+    width: 22%;
+    float: left;
+    padding: 1em;
+}
+
+.kolom h3 {
+    padding-bottom: 5px;
+    border-bottom: 4px solid #4a95ca;
+    text-decoration: none;
+}
+
+.telefoongegevens {
+    margin-left: 15px;
+}
+
+.telefoongegevens h4 {
+    padding-bottom: 5px;
+    border-bottom: 4px solid #4a95ca;
+    text-decoration: none;
+}
+
+input {
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+input[type="date"] {
+    font-family: system-ui !important;
+}
+
+label {
+    display: inline-block;
+    width: 33%;
+}
+
+select {
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    font-family: system-ui !important;
+    background-color: #ececec;
+    border: 0px;
+    width: 65%;
+    height: 100px;
+    font-size: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.rechts-icon {
+    float: right;
+    color: #4a95ca;
+}
+
+.rechts-icon::before {
+    margin-right: 10px
+}
+
+#telefoonomschrijving {
+    width: 65%;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+td.overzicht {
+    background-color: #ececec;
+    padding: 4px;
+    border-bottom: 4px solid #ffffff;
+    border-right: 2px solid #ffffff;
+}
+
+td.maatschappij {
+    width: 300px;
+}
+
+td.polisNummer {
+    width: 225px;
+}
+
+td.status {
+    width: 150px;
+}
+
+td.soort {
+    width: 175px;
+}
+
+td.kenmerk {
+    width: 300px;
+}
+
+td.ingangsDatum {
+    width: 135px;
+}
+
+td.Beindigd {
+    color: #ff0000;
+}
+
+td.Aanvraag
+Offerte {
+    color: #000000;
+}
+
+td.Actief {
+    color: #00c541;
+}
+
+td.Geschorst {
+    color: #ff0000;
+}
+
+td.Premievrij {
+    color: #00c541;
+}
+
+td.schade-overzicht {
+    background-color: #ececec;
+    padding: 4px;
+    border-bottom: 4px solid #ffffff;
+    border-right: 2px solid #ffffff;
+}
+
+td.soort-schade {
+    width: 200px;
+}
+
+td.schadenummer-maatschappij {
+    width: 300px;
+}
+
+td.leningNummer {
+    width: 200px;
+}
+
+td.bank {
+    width: 325px;
+}
+
+td.rente {
+    width: 100px;
+}
+
+td.hypotheekBedrag {
+    width: 185px;
+}
+
+.nieuwKnopPlus {
+    color: #0e71b8;
+    padding-top:5px;
+}
+
+.nieuwKnop {
+    background-color: #ffffff;
+    border: 0px;
+    color: #0e71b8;
+    height: 30px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: none;
+    margin-top:-5px;
+}
+
+.nieuwKnopDiv {
+    display: none;
+    margin-left: 90px;
+    padding-bottom:15px;
+}

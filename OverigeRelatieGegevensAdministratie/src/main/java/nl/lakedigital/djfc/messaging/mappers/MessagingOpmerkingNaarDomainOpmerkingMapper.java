@@ -36,7 +36,11 @@ public class MessagingOpmerkingNaarDomainOpmerkingMapper implements Function<Abs
         } else {
             opmerking = new nl.lakedigital.djfc.domain.Opmerking();
             opmerking.setMedewerker(ingelogdeGebruiker);
-            opmerking.setTijd(LocalDateTime.parse(opm.getTijdstip(), dateTimeFormatter));
+            if (opm.getTijdstip() == null) {
+                opmerking.setTijd(LocalDateTime.now());
+            } else {
+                opmerking.setTijd(LocalDateTime.parse(opm.getTijdstip(), dateTimeFormatter));
+            }
             opmerking.setSoortEntiteit(SoortEntiteit.valueOf(opm.getSoortEntiteit().name()));
             opmerking.setEntiteitId(opm.getEntiteitId());
         }
