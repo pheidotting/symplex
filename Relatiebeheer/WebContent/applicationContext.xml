@@ -160,6 +160,18 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </bean>
 
 
+    <bean id="wijzigingTaakOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="tb.rb.wijzigingTaakOpslaanResponseQueue"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanResponseReciever"
+          class="nl.dias.messaging.reciever.WijzigingTaakOpslaanResponseReciever"/>
+
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="tb.rb.wijzigingTaakOpslaanResponseQueue" ref="wijzigingTaakOpslaanResponseReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
+
     <context:annotation-config/>
 
     <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -289,4 +301,5 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <import resource="applicationcontextJms/senders/rb.co.licentieGekochtCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.herinnerLicentiesRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.tb.opslaanTaakRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.tb.wijzigingTaakOpslaanRequest.xml"/>
 </beans>

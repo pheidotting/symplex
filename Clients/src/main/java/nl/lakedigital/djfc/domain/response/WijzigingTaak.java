@@ -1,10 +1,13 @@
 package nl.lakedigital.djfc.domain.response;
 
+import nl.lakedigital.djfc.commons.json.JsonOpmerking;
+
 public class WijzigingTaak {
     private String identificatie;
     private String taakStatus;
-    private Long toegewezenAan;
+    private String toegewezenAan;
     private String tijdstip;
+    private JsonOpmerking jsonOpmerking;
 
     public String getIdentificatie() {
         return identificatie;
@@ -22,11 +25,11 @@ public class WijzigingTaak {
         this.taakStatus = taakStatus;
     }
 
-    public Long getToegewezenAan() {
+    public String getToegewezenAan() {
         return toegewezenAan;
     }
 
-    public void setToegewezenAan(Long toegewezenAan) {
+    public void setToegewezenAan(String toegewezenAan) {
         this.toegewezenAan = toegewezenAan;
     }
 
@@ -36,5 +39,13 @@ public class WijzigingTaak {
 
     public void setTijdstip(String tijdstip) {
         this.tijdstip = tijdstip;
+    }
+
+    public JsonOpmerking getJsonOpmerking() {
+        return jsonOpmerking;
+    }
+
+    public void setJsonOpmerking(JsonOpmerking jsonOpmerking) {
+        this.jsonOpmerking = jsonOpmerking;
     }
 }

@@ -18,10 +18,11 @@ public class JsonToDtoWijzigingTaakMapper implements Function<WijzigingTaak, nl.
         nl.lakedigital.djfc.domain.response.WijzigingTaak uit = new nl.lakedigital.djfc.domain.response.WijzigingTaak();
 
         Identificatie identificatie = identificatieClient.zoekIdentificatie("WIJZIGINGTAAK", in.getId());
+        Identificatie identificatieMW = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(in.getToegewezenAan()));
         uit.setIdentificatie(identificatie.getIdentificatie());
         uit.setTaakStatus(in.getTaakStatus());
-        uit.setTijdstip(in.getTijdstip().toString());
-        uit.setToegewezenAan(Long.valueOf(in.getToegewezenAan()));
+        uit.setTijdstip(in.getTijdstip());
+        uit.setToegewezenAan(identificatieMW.getIdentificatie());
 
         return uit;
     }

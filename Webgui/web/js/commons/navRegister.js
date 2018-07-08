@@ -166,6 +166,7 @@ define([],
                     {naam: 'OPSLAAN_AANGIFTE', url: BASISURL_RELATIEBEHEER + '/medewerker/aangifte/opslaan'},
 
                     {naam: 'LEES_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lees'},
+                    {naam: 'OPSLAAN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/opslaanWijziging'},
                     {naam: 'LIJST_TAKEN', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lijst'},
                     {naam: 'AFHANDELEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/afhandelen'},
                     {naam: 'VRIJGEVEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/vrijgeven'},

@@ -9,5 +9,6 @@ define(['jquery',
             _this.taakStatus = ko.observable();
             _this.toegewezenAan = ko.observable();
             _this.tijdstip = ko.observable();
+            _this.opmerking = ko.observable();
         };
     });

@@ -24,8 +24,12 @@ public class TaakService {
     @Inject
     private WijzigingTaakRepository wijzigingTaakRepository;
 
-    public void wijzig(Taak taak, TaakStatus taakStatus, Long toegewezenAan) {
-        wijzigingTaakRepository.opslaan(new WijzigingTaak(taak, taakStatus, toegewezenAan));
+    public Long wijzig(Taak taak, TaakStatus taakStatus, Long toegewezenAan) {
+        WijzigingTaak wijzigingTaak = new WijzigingTaak(taak, taakStatus, toegewezenAan);
+
+        wijzigingTaakRepository.opslaan(wijzigingTaak);
+
+        return wijzigingTaak.getId();
     }
 
     public Long nieuweTaak(LocalDate tijdstip, String titel, String omschrijving, Long entiteitId, SoortEntiteit soortEntiteit, Long toegewezenAan) {

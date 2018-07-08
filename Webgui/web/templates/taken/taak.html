@@ -1,0 +1,63 @@
+<div>
+    <div class="kolom-2">
+        <h3>Taak</h3>
+
+        <label for="titel">Titel</label>
+        <input type="text" id="titel" data-bind="value: taak.titel" disabled/>
+
+        <label for="omschrijving">Omschrijving</label>
+        <textarea id="omschrijving" data-bind="value: taak.omschrijving" disabled/>
+
+        <label for="creatie">Creatie</label>
+        <input type="text" id="creatie" data-bind="value: taak.tijdstipCreatie" disabled/>
+
+        <label for="deadline">Deadline</label>
+        <input type="text" id="deadline" data-bind="value: taak.deadline" disabled/>
+
+        <label for="afgehandeld">Afgehandeld</label>
+        <input type="text" id="afgehandeld" data-bind="value: taak.tijdstipAfgehandeld" disabled/>
+
+        <label for="toegewezenAan">Toegewezen Aan</label>
+        <input type="text" id="toegewezenAan" data-bind="value: taak.toegewezenAan" disabled/>
+
+        <label for="status">Status</label>
+        <input type="text" id="status" data-bind="value: taak.status" disabled/>
+
+        <div data-bind="foreach: taak.wijzigingTaaks">
+            <hr/>
+
+            <label>Status</label>
+            <input type="text" name="taakStatus" data-bind="value: taakStatus" disabled/>
+
+            <label>Toegewezen Aan</label>
+            <input type="text" name="toegewezenAan" data-bind="value: toegewezenAan" disabled/>
+
+            <label>Tijdstip</label>
+            <input type="text" name="tijdstip" data-bind="value: tijdstip" disabled/>
+
+            <label>Opmerking</label>
+            <textarea name="opmerking" data-bind="value: opmerking" disabled></textarea>
+        </div>
+    </div>
+    <div class="kolom-2">
+        <h3>Wijzigen</h3>
+
+        <label for="toewijzenaanNw">Toewijzen aan</label>
+        <select id="toewijzenaanNw" name="toewijzenaanNw" data-bind="value: toewijzenaanNw"></select>
+
+        <label for="statusNw">Status</label>
+        <select id="statusNw" name="statusNw" data-bind="value: statusNw">
+            <option value=""></option>
+            <option value="OPEN">Open</option>
+            <option value="ONDERHANDEN">Onderhanden</option>
+            <option value="AFGEROND">Afgerond</option>
+        </select>
+
+        <label>Opmerking</label>
+        <textarea name="opmerkingNw" data-bind="value: opmerkingNw"></textarea>
+
+        <label>&nbsp;</label>
+        <button id="opslaan" class="fa fa-floppy-o fa-3x btn-awesome"
+                data-bind="click: opslaan"></button>
+    </div>
+</div>
