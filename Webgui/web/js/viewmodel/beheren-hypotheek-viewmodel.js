@@ -11,10 +11,10 @@ define(['jquery',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/taken-viewmodel',
         'moment',
+        'underscore',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, moment) {
-
+    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, moment, _) {
         return function () {
             var _this = this;
             var logger = log.getLogger('beheren-hypotheek-viewmodel');

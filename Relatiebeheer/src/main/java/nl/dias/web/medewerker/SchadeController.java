@@ -134,7 +134,15 @@ public class SchadeController extends AbstractController {
 
         Kantoor kantoor = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor();
 
-        return schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor));
+        List<JsonSchade> result = schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor));
+
+        result.stream().forEach(jsonSchade -> {
+            Identificatie identificatie = identificatieClient.zoekIdentificatie("SCHADE", jsonSchade.getId());
+            jsonSchade.setId(null);
+            jsonSchade.setIdentificatie(identificatie.getIdentificatie());
+        });
+
+        return result;
     }
 
 }
