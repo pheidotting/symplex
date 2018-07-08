@@ -12,10 +12,11 @@ define(["commons/3rdparty/log",
     function (log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
 
         return {
-            opslaan: function (schade, opmerkingen) {
+            opslaan: function (schade, opmerkingen, taken) {
                 var deferred = $.Deferred();
 
                 schade.opmerkingen = opmerkingen;
+                schade.taken = taken;
                 schade.parentIdentificatie = schade.polis;
 
                 if (schade.datumSchade().indexOf('-') == 2) {

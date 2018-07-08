@@ -4,8 +4,9 @@ define(['jquery',
         'viewmodel/beheren-hypotheek-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view'],
-    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+        'view/common/bijlage-view',
+        'view/common/taak-view'],
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView) {
         var logger = log.getLogger('beheren-hypotheek-view');
 
         return {
@@ -14,6 +15,7 @@ define(['jquery',
 
                 opmerkingView.init(hypotheekId);
                 bijlageView.init(hypotheekId);
+                taakView.init();
 
                 logger.debug('content geladen, viewmodel init');
 

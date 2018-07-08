@@ -12,10 +12,11 @@ define(["commons/3rdparty/log",
     function (log, navRegister, ko, repository, bedrijfRepository, adresService, telefoonnummerService, rekeningnummerService, opmerkingService, bijlageService, _) {
 
         return {
-            opslaan: function (bedrijf, telefoonnummers) {
+            opslaan: function (bedrijf, telefoonnummers, taken) {
                 var deferred = $.Deferred();
 
                 bedrijf.telefoonnummers = telefoonnummers;
+                bedrijf.taken = taken;
                 $.each(bedrijf.telefoonnummers(), function (i, telefoonnummer) {
                     telefoonnummer.parentIdentificatie(bedrijf.id());
                     telefoonnummer.soortEntiteit('BEDRIJF');
