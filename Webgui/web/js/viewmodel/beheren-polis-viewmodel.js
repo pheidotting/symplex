@@ -11,11 +11,12 @@ define(['jquery',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, _) {
+    function ($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, _) {
 
         return function () {
             var _this = this;
@@ -77,6 +78,8 @@ define(['jquery',
                     _this.menubalkViewmodel = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
 
+                    _this.takenViewmodel = new TakenViewmodel(polis.taken);
+
                     var $verzekeringsMaatschappijenSelect = $('#verzekeringsMaatschappijen');
                     $.each(maatschappijen, function (key, value) {
                         $('<option>', {value: key}).text(value).appendTo($verzekeringsMaatschappijenSelect);
@@ -135,7 +138,7 @@ define(['jquery',
                     var allOk = true;
 
                     _this.polis.premie(commonFunctions.stripBedrag(_this.polis.premie()));
-                    polisService.opslaan(_this.polis, _this.opmerkingenModel.opmerkingen, _this.basisId).done(function () {
+                    polisService.opslaan(_this.polis, _this.opmerkingenModel.opmerkingen, _this.basisId, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 
                         redirect.redirect('LIJST_POLISSEN', _this.basisId);

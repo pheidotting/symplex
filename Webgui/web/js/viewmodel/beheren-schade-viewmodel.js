@@ -12,9 +12,10 @@ define(['jquery',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel) {
+    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel) {
 
         return function () {
             var _this = this;
@@ -82,6 +83,8 @@ define(['jquery',
                     _this.menubalkViewmodel = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
 
+                    _this.takenViewmodel = new TakenViewmodel(schade.taken);
+
                     var $selectPolis = $('#polisVoorSchademelding');
                     $('<option>', {value: ''}).text('Kies een polis uit de lijst..').appendTo($selectPolis);
 
@@ -137,7 +140,7 @@ define(['jquery',
                     logger.debug("Versturen : " + ko.toJSON(_this.schade));
 
                     _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
-                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function (data) {
+                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function (data) {
                         _this.id(data);
                         _this.bijlageModel.setId(data);
                         _this.bijlageModel.setSchermTonen(true);
@@ -167,7 +170,7 @@ define(['jquery',
                     var allOk = true;
 
                     _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
-                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function () {
+                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }).fail(function (data) {
                         allOk = false;
