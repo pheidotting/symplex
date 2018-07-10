@@ -12,6 +12,7 @@ import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPolisNaarDomainPolisMapper;
@@ -72,6 +73,8 @@ public class PolisController extends AbstractController {
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -175,6 +178,8 @@ public class PolisController extends AbstractController {
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        takenOpslaanService.opslaan(jsonPolis.getTaken(), polis.getId());
 
         metricsService.stop(timer);
 

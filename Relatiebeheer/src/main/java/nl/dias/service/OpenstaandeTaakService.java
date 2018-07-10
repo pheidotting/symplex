@@ -61,8 +61,10 @@ public class OpenstaandeTaakService {
             taak.setId(null);
 
             taak.getWijzigingTaaks().stream().forEach(wijzigingTaak -> {
-                Identificatie identificatieM = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(wijzigingTaak.getToegewezenAan()));
-                wijzigingTaak.setToegewezenAan(identificatieM.getIdentificatie());
+                if (wijzigingTaak.getToegewezenAan() != null) {
+                    Identificatie identificatieM = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(wijzigingTaak.getToegewezenAan()));
+                    wijzigingTaak.setToegewezenAan(identificatieM.getIdentificatie());
+                }
 
                 Identificatie identificatieW = identificatieClient.zoekIdentificatie("WIJZIGINGTAAK", wijzigingTaak.getId());
                 wijzigingTaak.setIdentificatie(identificatieW.getIdentificatie());
