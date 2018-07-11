@@ -31,6 +31,7 @@ public class TakenOpslaanService {
                 .forEach(taak -> {
                     OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
                     opslaanTaakRequest.setTitel(taak.getTitel());
+                    opslaanTaakRequest.setOmschrijving(taak.getOmschrijving());
                     if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
                         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
                         opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
