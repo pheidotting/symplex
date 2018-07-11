@@ -9,6 +9,7 @@ import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.SchadeService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.SchadeMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonSchadeNaarDomeinSchadeMapper;
@@ -52,6 +53,8 @@ public class SchadeController extends AbstractController {
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
@@ -79,6 +82,8 @@ public class SchadeController extends AbstractController {
         while (identificatie == null && stopwatch.elapsed(TimeUnit.SECONDS) < 60) {
             identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
         }
+
+        takenOpslaanService.opslaan(jsonSchade.getTaken(), schade.getId());
 
         metricsService.stop(timer);
         return identificatie == null ? "" : identificatie.getIdentificatie();

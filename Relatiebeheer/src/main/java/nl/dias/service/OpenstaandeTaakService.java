@@ -5,6 +5,8 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.Taak;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Service
 public class OpenstaandeTaakService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpenstaandeTaakService.class);
 
     @Inject
     private GebruikerService gebruikerService;
@@ -61,8 +64,12 @@ public class OpenstaandeTaakService {
             taak.setId(null);
 
             taak.getWijzigingTaaks().stream().forEach(wijzigingTaak -> {
-                Identificatie identificatieM = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(wijzigingTaak.getToegewezenAan()));
-                wijzigingTaak.setToegewezenAan(identificatieM.getIdentificatie());
+                if (wijzigingTaak != null && wijzigingTaak.getToegewezenAan() != null && !"null".equals(wijzigingTaak.getToegewezenAan())) {
+                    Identificatie identificatieM = identificatieClient.zoekIdentificatie("MEDEWERKER", Long.valueOf(wijzigingTaak.getToegewezenAan()));
+                    wijzigingTaak.setToegewezenAan(identificatieM.getIdentificatie());
+                } else {
+                    wijzigingTaak.setToegewezenAan("");
+                }
 
                 Identificatie identificatieW = identificatieClient.zoekIdentificatie("WIJZIGINGTAAK", wijzigingTaak.getId());
                 wijzigingTaak.setIdentificatie(identificatieW.getIdentificatie());

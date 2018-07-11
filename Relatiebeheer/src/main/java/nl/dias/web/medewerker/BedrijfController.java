@@ -88,6 +88,8 @@ public class BedrijfController extends AbstractController {
     private BelastingzakenService belastingzakenService;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     private static final String BELASTINGZAKEN = "BELASTINGZAKEN";
 
@@ -124,6 +126,9 @@ public class BedrijfController extends AbstractController {
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        //Taken opslaan
+        takenOpslaanService.opslaan(jsonBedrijf.getTaken(), bedrijf.getId());
 
         metricsService.stop(timer);
 
@@ -191,7 +196,7 @@ public class BedrijfController extends AbstractController {
             //        bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
             bedrijf.setContactPersoons(gebruikerService.alleContactPersonen(bedrijfDomain.getId()).stream().map(new DomainToDtoContactPersoonMapper(identificatieClient, telefoonnummerClient)).collect(Collectors.toList()));
-            bedrijf.setTaken(taakClient.alles("BEDRIJF", bedrijf.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
+            bedrijf.setTaken(taakClient.alles("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
             List<String> telefoonnummers = bedrijf.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
             telefoonnummers.addAll(bedrijf.getContactPersoons().stream().map(contactPersoon -> contactPersoon.getTelefoonnummers())//

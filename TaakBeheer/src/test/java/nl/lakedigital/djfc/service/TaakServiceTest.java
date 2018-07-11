@@ -32,6 +32,9 @@ public class TaakServiceTest extends EasyMockSupport {
         TaakStatus taakStatus = TaakStatus.AFGEROND;
         Long toegewezenAan = 5L;
 
+        taakRepository.opslaan(taak);
+        expectLastCall();
+
         Capture<WijzigingTaak> wijzigingTaakCapture = newCapture();
 
         wijzigingTaakRepository.opslaan(capture(wijzigingTaakCapture));

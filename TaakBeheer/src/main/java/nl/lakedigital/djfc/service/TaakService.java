@@ -26,6 +26,10 @@ public class TaakService {
 
     public Long wijzig(Taak taak, TaakStatus taakStatus, Long toegewezenAan) {
         WijzigingTaak wijzigingTaak = new WijzigingTaak(taak, taakStatus, toegewezenAan);
+        if (taakStatus == TaakStatus.AFGEROND) {
+            taak.setTijdstipAfgehandeld(LocalDateTime.now());
+            taakRepository.opslaan(taak);
+        }
 
         wijzigingTaakRepository.opslaan(wijzigingTaak);
 

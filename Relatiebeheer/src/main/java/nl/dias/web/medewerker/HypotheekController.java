@@ -5,6 +5,7 @@ import nl.dias.domein.HypotheekPakket;
 import nl.dias.domein.SoortHypotheek;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.HypotheekService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
@@ -53,6 +54,8 @@ public class HypotheekController extends AbstractController {
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -154,6 +157,8 @@ public class HypotheekController extends AbstractController {
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.HYPOTHEEK);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        takenOpslaanService.opslaan(hypotheekIn.getTaken(), hypotheek.getId());
 
         LOGGER.debug("Opgeslagen");
 
