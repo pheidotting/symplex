@@ -81,6 +81,9 @@ define(['jquery',
                             }
                         });
 
+                        //eeste wijzigingtaak verwijderen, die is overbodig
+                        _this.taak.wijzigingTaaks.remove(_this.taak.wijzigingTaaks()[0]);
+
                     return deferred.resolve();
                 });
 

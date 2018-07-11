@@ -54,7 +54,6 @@ public class TaakController {
     @RequestMapping(method = RequestMethod.GET, value = "/alles/{soortentiteit}/{parentid}", produces = MediaType.APPLICATION_XML)
     @ResponseBody
     public OpvragenTakenResponse alles(@PathVariable("soortentiteit") String soortentiteit, @PathVariable("parentid") Long parentid, HttpServletRequest httpServletRequest) {
-        LOGGER.info("OPHALEN");
         Timer.Context timer = metricsService.addTimerMetric(" alles", TaakController.class);
 
         zetSessieWaarden(httpServletRequest);

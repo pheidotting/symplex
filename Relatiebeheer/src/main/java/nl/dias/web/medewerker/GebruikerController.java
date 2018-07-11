@@ -11,6 +11,7 @@ import nl.dias.messaging.sender.OpslaanTaakRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
@@ -18,17 +19,13 @@ import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningN
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
-import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -74,6 +71,8 @@ public class GebruikerController extends AbstractController {
     private OpslaanTaakRequestSender opslaanTaakRequestSender;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -222,22 +221,7 @@ public class GebruikerController extends AbstractController {
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         //Taken opslaan
-        jsonRelatie.getTaken().stream().filter(taak -> taak.getIdentificatie() == null && taak.getTitel() != null && !"".equals(taak.getTitel()))//
-                .forEach(taak -> {
-                    OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
-                    opslaanTaakRequest.setTitel(taak.getTitel());
-                    if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
-                        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
-                        opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
-                    }
-                    if (taak.getToegewezenAan() != null && !"".equals(taak.getToegewezenAan())) {
-                        Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taak.getToegewezenAan());
-                        opslaanTaakRequest.setToegewezenAan(identificatieMedewerker.getEntiteitId());
-                    }
-                    opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
-                    opslaanTaakRequest.setEntiteitId(relatie.getId());
-                    opslaanTaakRequestSender.send(opslaanTaakRequest);
-                });
+        takenOpslaanService.opslaan(jsonRelatie.getTaken(), relatie.getId());
 
         metricsService.stop(timer);
 

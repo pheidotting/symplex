@@ -30,11 +30,13 @@ public class WijzigingTaakOpslaanRequestSender extends AbstractSender<WijzigingT
         WijzigingTaakOpslaanRequest wijzigingTaakOpslaanRequest = new WijzigingTaakOpslaanRequest();
 
         Long taakId = identificatieClient.zoekIdentificatieCode(wijzigingTaakOpslaan.getTaak()).getEntiteitId();
-        Long medewerkerId = identificatieClient.zoekIdentificatieCode(wijzigingTaakOpslaan.getToegewezenAan()).getEntiteitId();
+        if (wijzigingTaakOpslaan.getToegewezenAan() != null && !"null".equals(wijzigingTaakOpslaan.getToegewezenAan()) && !"".equals(wijzigingTaakOpslaan.getToegewezenAan())) {
+            Long medewerkerId = identificatieClient.zoekIdentificatieCode(wijzigingTaakOpslaan.getToegewezenAan()).getEntiteitId();
+            wijzigingTaakOpslaanRequest.setToegewezenAan(medewerkerId);
+        }
 
         wijzigingTaakOpslaanRequest.setTaak(taakId);
         wijzigingTaakOpslaanRequest.setTaakStatus(wijzigingTaakOpslaan.getTaakStatus());
-        wijzigingTaakOpslaanRequest.setToegewezenAan(medewerkerId);
         wijzigingTaakOpslaanRequest.setOpmerking(wijzigingTaakOpslaan.getOpmerking());
 
         return wijzigingTaakOpslaanRequest;
