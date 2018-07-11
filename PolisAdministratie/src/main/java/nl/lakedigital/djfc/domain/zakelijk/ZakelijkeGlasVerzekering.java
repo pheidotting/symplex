@@ -30,7 +30,7 @@ public class ZakelijkeGlasVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "ZakelijkeGlas";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

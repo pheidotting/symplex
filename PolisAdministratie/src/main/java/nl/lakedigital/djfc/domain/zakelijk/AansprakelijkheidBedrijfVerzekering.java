@@ -30,7 +30,7 @@ public class AansprakelijkheidBedrijfVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "AansprakelijkheidBedrijf";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

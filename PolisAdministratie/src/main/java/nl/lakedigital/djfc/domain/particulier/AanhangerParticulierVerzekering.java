@@ -30,7 +30,7 @@ public class AanhangerParticulierVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "AanhangerParticulier";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

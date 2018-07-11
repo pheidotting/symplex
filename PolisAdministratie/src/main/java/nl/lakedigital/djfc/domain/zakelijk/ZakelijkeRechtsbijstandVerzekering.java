@@ -30,7 +30,7 @@ public class ZakelijkeRechtsbijstandVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "ZakelijkeRechtsbijstand";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

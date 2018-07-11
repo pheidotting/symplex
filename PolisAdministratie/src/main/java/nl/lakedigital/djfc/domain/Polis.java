@@ -117,7 +117,7 @@ public abstract class Polis implements Serializable, Cloneable {
 
     protected String getSchermNaamDefault(String canonicalName) {
         String pakket = this.getClass().getPackage().toString().replace("package ", "") + ".";
-        return canonicalName.replace("Verzekering", "").replace(pakket, "");
+        return maakNaam(canonicalName.replace("Verzekering", "").replace(pakket, ""));
     }
 
 
@@ -286,6 +286,35 @@ public abstract class Polis implements Serializable, Cloneable {
 
     public void setOmschrijvingVerzekering(String omschrijvingVerzekering) {
         this.omschrijvingVerzekering = omschrijvingVerzekering;
+    }
+
+    protected String maakNaam(String klasse) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(klasse.substring(0, 1));
+
+        for (int i = 1; i < klasse.length() - 1; i++) {
+            if (klasse.substring(i, i + 1).equals(klasse.substring(i, i + 1).toUpperCase())) {
+                sb.append(" ");
+            }
+            sb.append(klasse.substring(i, i + 1));
+        }
+
+        sb.append(klasse.substring(klasse.length() - 1));
+
+        String metSpaties = sb.toString();
+
+        String[] s = metSpaties.split(" ");
+
+        sb = new StringBuilder();
+        for (int i = 0; i < s.length; i++) {
+            if (s[i].length() > 1) {
+                sb.append(" ");
+            }
+            sb.append(s[i]);
+        }
+
+        return sb.toString().trim();
     }
 
     @Override

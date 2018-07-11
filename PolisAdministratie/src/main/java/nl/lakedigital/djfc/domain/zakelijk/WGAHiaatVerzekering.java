@@ -14,12 +14,12 @@ import javax.persistence.Table;
 @Component
 @Entity
 @Table(name = "POLIS")
-@DiscriminatorValue(value = "GO")
-public class GebouewenEnOpstalVerzekering extends Polis {
-    public GebouewenEnOpstalVerzekering() {//Hibernate wil deze, maar SonarQube niet
+@DiscriminatorValue(value = "WH")
+public class WGAHiaatVerzekering extends Polis {
+    public WGAHiaatVerzekering() {//Hibernate wil deze, maar SonarQube niet
     }
 
-    public GebouewenEnOpstalVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
+    public WGAHiaatVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
         super(soortEntiteit, entiteitId);
     }
 
@@ -35,6 +35,6 @@ public class GebouewenEnOpstalVerzekering extends Polis {
 
     @Override
     public Polis nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new GebouewenEnOpstalVerzekering(soortEntiteit,entiteitId);
+        return new WGAHiaatVerzekering(soortEntiteit, entiteitId);
     }
 }

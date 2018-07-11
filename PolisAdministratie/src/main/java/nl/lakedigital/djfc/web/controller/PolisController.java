@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequestMapping("/polis")
@@ -38,7 +39,11 @@ public class PolisController {
     @ResponseBody
     public OpvragenPolisSoortenResponse alleParticulierePolisSoorten() {
         OpvragenPolisSoortenResponse opvragenPolisSoortenResponse = new OpvragenPolisSoortenResponse();
-        opvragenPolisSoortenResponse.setPolisSoorten(polisService.allePolisSoorten(SoortVerzekering.PARTICULIER));
+
+        List<String> polisSoorten = polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
+        Collections.sort(polisSoorten);
+
+        opvragenPolisSoortenResponse.setPolisSoorten(polisSoorten);
 
         return opvragenPolisSoortenResponse;
     }
@@ -47,7 +52,11 @@ public class PolisController {
     @ResponseBody
     public OpvragenPolisSoortenResponse alleZakelijkePolisSoorten() {
         OpvragenPolisSoortenResponse opvragenPolisSoortenResponse = new OpvragenPolisSoortenResponse();
-        opvragenPolisSoortenResponse.setPolisSoorten(polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK));
+
+        List<String> polisSoorten = polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
+        Collections.sort(polisSoorten);
+
+        opvragenPolisSoortenResponse.setPolisSoorten(polisSoorten);
 
         return opvragenPolisSoortenResponse;
     }

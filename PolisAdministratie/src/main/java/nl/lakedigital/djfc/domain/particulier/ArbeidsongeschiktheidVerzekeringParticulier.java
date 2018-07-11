@@ -30,7 +30,7 @@ public class ArbeidsongeschiktheidVerzekeringParticulier extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "ArbeidsongeschiktheidParticulier";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

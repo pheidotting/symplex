@@ -30,7 +30,7 @@ public class SviSchadeverzekeringinzittende extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "SviSchadeverzekeringinzittende";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override

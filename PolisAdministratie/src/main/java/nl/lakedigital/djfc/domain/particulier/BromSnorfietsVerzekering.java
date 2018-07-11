@@ -28,10 +28,8 @@ public class BromSnorfietsVerzekering extends Polis {
         return SoortVerzekering.PARTICULIER;
     }
 
-    @Override
     public String getSchermNaam() {
-        String pakket = this.getClass().getPackage().toString().replace("package ", "") + ".";
-        return this.getClass().getCanonicalName().replace("Verzekering", "").replace(pakket, "");
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override
