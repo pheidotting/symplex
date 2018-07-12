@@ -3,7 +3,6 @@ package nl.dias.web.medewerker;
 import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
-import nl.dias.domein.polis.SoortVerzekering;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.sender.BeindigenPolisRequestSender;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
@@ -79,16 +78,16 @@ public class PolisController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleParticulierePolisSoorten() {
-        //        return polisClient.alleParticulierePolisSoorten();
-        //
-        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
+        return polisClient.alleParticulierePolisSoorten();
+
+        //        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleZakelijkePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
     public List<String> alleZakelijkePolisSoorten() {
-        //        return polisClient.alleZakelijkePolisSoorten();
-        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
+        return polisClient.alleZakelijkePolisSoorten();
+        //        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
@@ -96,7 +95,7 @@ public class PolisController extends AbstractController {
     public JsonPolis lees(@QueryParam("id") String id) {
         LOGGER.debug("ophalen Polis met id " + id);
 
-        //        return polisClient.lees(id);
+        //                return polisClient.lees(id);
         if (id != null && !"".equals(id) && !"0".equals(id)) {
             LOGGER.debug("ophalen Polis");
             return polisMapper.mapNaarJson(polisService.lees(Long.valueOf(id)));

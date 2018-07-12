@@ -191,9 +191,9 @@ public class BedrijfController extends AbstractController {
             bedrijf.setTelefoonnummers(telefoonnummerClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
             bedrijf.setOpmerkingen(opmerkingClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
-            List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
-            bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
-            //        bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+            //            List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
+            //            bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
+            bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
 
             bedrijf.setContactPersoons(gebruikerService.alleContactPersonen(bedrijfDomain.getId()).stream().map(new DomainToDtoContactPersoonMapper(identificatieClient, telefoonnummerClient)).collect(Collectors.toList()));
             bedrijf.setTaken(taakClient.alles("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));

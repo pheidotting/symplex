@@ -1,7 +1,6 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Hypotheek;
-import nl.dias.domein.polis.Polis;
 import nl.dias.service.*;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -94,9 +93,9 @@ public class RelatieController extends AbstractController {
                 relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
                 relatie.setTaken(taakClient.alles("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
-                List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
-                relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
-                //        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                //                List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
+                //                relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
+                relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
 
                 List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 
