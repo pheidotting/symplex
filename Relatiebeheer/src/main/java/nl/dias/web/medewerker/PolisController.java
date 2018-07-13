@@ -179,7 +179,7 @@ public class PolisController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        takenOpslaanService.opslaan(jsonPolis.getTaken(), polis.getId());
+        takenOpslaanService.opslaan(jsonPolis.getTaken(), polis.getId(), SoortEntiteit.POLIS);
 
         metricsService.stop(timer);
 

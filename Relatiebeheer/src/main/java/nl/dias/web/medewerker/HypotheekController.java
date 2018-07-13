@@ -158,7 +158,7 @@ public class HypotheekController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        takenOpslaanService.opslaan(hypotheekIn.getTaken(), hypotheek.getId());
+        takenOpslaanService.opslaan(hypotheekIn.getTaken(), hypotheek.getId(), SoortEntiteit.HYPOTHEEK);
 
         LOGGER.debug("Opgeslagen");
 
