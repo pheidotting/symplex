@@ -73,7 +73,7 @@ public class SchadeController extends AbstractController {
         opslaanEntiteitenRequest.getLijst().addAll(jsonSchade.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(schade.getId(), SoortEntiteit.SCHADE)).collect(Collectors.toList()));
 
         opslaanEntiteitenRequest.setEntiteitId(schade.getId());
-        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.SCHADE);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
@@ -83,7 +83,7 @@ public class SchadeController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("SCHADE", schade.getId());
         }
 
-        takenOpslaanService.opslaan(jsonSchade.getTaken(), schade.getId());
+        takenOpslaanService.opslaan(jsonSchade.getTaken(), schade.getId(), SoortEntiteit.SCHADE);
 
         metricsService.stop(timer);
         return identificatie == null ? "" : identificatie.getIdentificatie();
