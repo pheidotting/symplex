@@ -4,10 +4,8 @@ import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +25,22 @@ public class PolisRepository {
     public Session getSession() {
         try {
             return sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            return sessionFactory.openSession();//NOSONAR
+        } catch (HibernateException e) {//NOSONAR
+            return sessionFactory.openSession();
         }
+    }
+
+    protected Session getEm() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    protected Transaction getTransaction() {
+        Transaction transaction = getSession().getTransaction();
+        if (transaction.getStatus() != TransactionStatus.ACTIVE) {
+            transaction.begin();
+        }
+
+        return transaction;
     }
 
     @Transactional
@@ -54,26 +65,33 @@ public class PolisRepository {
         opslaan(polissen);
     }
 
-    @Transactional
+    //    @Transactional
     public void opslaan(List<Polis> polissen) {
+        getTransaction();
+
         //        if(        getSession().getTransaction().isTransactionInProgress){
         //        getSession().getTransaction().begin();
         //            getSession().beginTransaction();
         //        }
         for (Polis t : polissen) {
             LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
-            //            if (t.getId() == null) {
-            getSession().saveOrUpdate(t);
-            getSession().flush();
-            //            } else {
-            //                getSession().merge(t);
-            //            }
+            if (t.getId() == null) {
+                getSession().save(t);
+            } else {
+                getSession().merge(t);
+            }
         }
+
+        getTransaction().commit();
     }
 
-    @Transactional(readOnly = true)
+    //    @Transactional(readOnly = true)
     public Polis lees(Long id) {
+        getTransaction();
+
         Polis t = getSession().get(Polis.class, id);
+
+        getTransaction().commit();
 
         LOGGER.debug("Opzoeken Polis met id {}, gevonden {}", id, t);
 
@@ -95,18 +113,31 @@ public class PolisRepository {
         return query.list();
     }
 
-    @Transactional(readOnly = true)
+    //    @Transactional(readOnly = true)
     public List<Polis> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
+        LOGGER.debug("Ophalen polissen voor SoortEntiteit {} en entiteitId {}", soortEntiteit, entiteitId);
         String queryString = null;
+
+        getTransaction();
+
         if (soortEntiteit == SoortEntiteit.RELATIE) {
             queryString = "select p from Polis p where relatie = :entiteitId";
         } else if (soortEntiteit == SoortEntiteit.BEDRIJF) {
             queryString = "select p from Polis p where bedrijf = :entiteitId";
         }
 
+        LOGGER.debug("A");
         Query query = getSession().createQuery(queryString);
+        LOGGER.debug("B");
         query.setParameter("entiteitId",entiteitId);
+        LOGGER.debug("C");
 
-        return query.list();
+        List<Polis> result = query.list();
+        LOGGER.debug("D");
+
+        getTransaction().commit();
+        LOGGER.debug("E");
+
+        return result;
     }
 }

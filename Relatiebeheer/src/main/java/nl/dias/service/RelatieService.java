@@ -74,6 +74,8 @@ public class RelatieService {
 
         if (relatieId == null) {
             LOGGER.debug("RelatieId kon niet worden bepaald");
+
+            return null;
         }
         return (Relatie) gebruikerService.lees(relatieId);
     }
@@ -87,7 +89,7 @@ public class RelatieService {
 
         //        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
 
-        return polis.getRelatie();
+        return polis == null ? null : polis.getRelatie();
         //
         //        return polis.getEntiteitId();
     }

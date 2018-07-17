@@ -161,14 +161,30 @@ public class PolisController extends AbstractController {
 
         zetSessieWaarden(httpServletRequest);
 
-        //        Polis polis = polisMapper.mapVanJson(jsonPolis);
-        Polis polis = new JsonPolisNaarDomainPolisMapper(polisService, identificatieClient).map(jsonPolis);
-        try {
-            polisService.opslaan(polis);
-        } catch (IllegalArgumentException e) {
-            LOGGER.debug("Fout opgetreden bij opslaan Polis", e);
-            throw new IllegalStateException(e.getLocalizedMessage());
-        }
+        //        nl.lakedigital.djfc.domain.response.Polis polis = jsonPolis;
+        //                Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polis.getParentIdentificatie());
+        //                polis.setEntiteitId(identificatie.getEntiteitId());
+        //                polis.setSoortEntiteit(identificatie.getSoortEntiteit());
+        //
+        //                polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
+        //                polisOpslaanRequestSender.send(polis);
+
+        //                Polis polis = polisMapper.mapVanJson(jsonPolis);
+        //        Polis polis = new JsonPolisNaarDomainPolisMapper(polisService, identificatieClient).map(jsonPolis);
+        //        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getIdentificatie());
+        JsonPolis polis = new JsonPolisNaarDomainPolisMapper(polisClient, identificatieClient).map(jsonPolis);//         polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        //        polis.set
+        //        polis.setMaatschappij(jsonPolis.getMaatschappij());
+        LOGGER.debug("ID van de Polis {}", polis.getId());
+        //        try {
+        //            polisService.opslaan(polis);
+        //        } catch (IllegalArgumentException e) {
+        //            LOGGER.debug("Fout opgetreden bij opslaan Polis", e);
+        //            throw new IllegalStateException(e.getLocalizedMessage());
+        //        }
+
+        polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
+        polisOpslaanRequestSender.send(polis);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
         opslaanEntiteitenRequest.getLijst().addAll(jsonPolis.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(polis.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
@@ -183,16 +199,6 @@ public class PolisController extends AbstractController {
         metricsService.stop(timer);
 
         return polis.getId();
-        //        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(polis));
-        //
-        //        zetSessieWaarden(httpServletRequest);
-        //
-        //        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polis.getParentIdentificatie());
-        //        polis.setEntiteitId(identificatie.getEntiteitId());
-        //        polis.setSoortEntiteit(identificatie.getSoortEntiteit());
-        //
-        //        polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
-        //        polisOpslaanRequestSender.send(polis);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)

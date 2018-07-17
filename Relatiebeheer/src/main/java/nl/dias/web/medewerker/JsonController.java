@@ -11,15 +11,16 @@ import com.sun.jersey.api.json.JSONConfiguration;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import nl.dias.domein.StatusSchade;
-import nl.dias.domein.VerzekeringsMaatschappij;
 import nl.dias.service.EmailCheckService;
 import nl.dias.service.PostcodeService;
 import nl.dias.service.SchadeService;
 import nl.dias.service.VerzekeringsMaatschappijService;
 import nl.dias.web.mapper.SoortSchadeMapper;
 import nl.dias.web.servlet.CheckVerdwenenEmailadressen;
+import nl.lakedigital.djfc.client.polisadministratie.VerzekeringsMaatschappijClient;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonSoortSchade;
+import nl.lakedigital.djfc.commons.json.JsonVerzekeringsMaatschappij;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,8 @@ public class JsonController {
     private EmailCheckService emailCheckService;
     @Value("${slack.channel}")
     private String channel;
+    @Inject
+    private VerzekeringsMaatschappijClient verzekeringsMaatschappijClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lijstVerzekeringsMaatschappijen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -64,13 +67,14 @@ public class JsonController {
 
         LOGGER.debug("ophalen lijst met VerzekeringsMaatschappijen");
 
-        List<VerzekeringsMaatschappij> lijst = maatschappijService.alles();
+        //        List<VerzekeringsMaatschappij> lijst = maatschappijService.alles();
+        List<JsonVerzekeringsMaatschappij> lijst = verzekeringsMaatschappijClient.lijstVerzekeringsMaatschappijen();
 
         LOGGER.debug("Gevonden, " + lijst.size() + " VerzekeringsMaatschappijen");
 
-        lijst.sort(new Comparator<VerzekeringsMaatschappij>() {
+        lijst.sort(new Comparator<JsonVerzekeringsMaatschappij>() {
             @Override
-            public int compare(VerzekeringsMaatschappij o1, VerzekeringsMaatschappij o2) {
+            public int compare(JsonVerzekeringsMaatschappij o1, JsonVerzekeringsMaatschappij o2) {
                 return o1.getNaam().compareTo(o2.getNaam());
             }
         });
@@ -78,7 +82,7 @@ public class JsonController {
         Map<Long, String> ret = new HashMap<>();
         ret.put(0L, "Kies een maatschappij...");
 
-        for (VerzekeringsMaatschappij vm : lijst) {
+        for (JsonVerzekeringsMaatschappij vm : lijst) {
             ret.put(vm.getId(), vm.getNaam());
         }
 

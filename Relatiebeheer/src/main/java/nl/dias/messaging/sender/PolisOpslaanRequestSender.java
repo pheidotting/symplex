@@ -34,8 +34,8 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
         polisOpslaanRequest.setPolissen(newArrayList(polis).stream().map(jsonPolis -> {
             Polis polis1 = new Polis();
 
-            //            polis1.setId(polis1.getId());
-            polis1.setIdentificatie(jsonPolis.getIdentificatie());
+            polis1.setId(polis.getId());
+            //            polis1.setIdentificatie(jsonPolis.getIdentificatie());
             // polissen die al in het systeem staan hoeven net per se een status te
             // hebben
             if (polis1.getStatus() != null) {

@@ -80,7 +80,8 @@ public class JsonToDtoPolisMapper implements Function<JsonPolis, Polis> {
         if (domein.getMaatschappij() != null) {
             polis.setMaatschappij(domein.getMaatschappij().toString());
         }
-        polis.setSoort(domein.getClass().getSimpleName().replace("Verzekering", ""));
+        //        polis.setSoort(domein.getClass().getSimpleName().replace("Verzekering", ""));
+        polis.setSoort(domein.getSoort());
         //        if (domein.getBedrijf() != null) {
         //            polis.setEntiteitId(domein.getBedrijf());
         //            polis.setSoortEntiteit("BEDRIJF");
