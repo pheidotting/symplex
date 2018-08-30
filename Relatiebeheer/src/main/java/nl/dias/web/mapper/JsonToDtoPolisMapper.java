@@ -77,9 +77,9 @@ public class JsonToDtoPolisMapper implements Function<JsonPolis, Polis> {
         }
         polis.setDekking(domein.getDekking());
         polis.setVerzekerdeZaak(domein.getVerzekerdeZaak());
-        if (domein.getMaatschappij() != null) {
-            polis.setMaatschappij(domein.getMaatschappij().toString());
-        }
+        //        if (domein.getMaatschappij() != null) {
+        //            polis.setMaatschappij(domein.getMaatschappij().toString());
+        //        }
         //        polis.setSoort(domein.getClass().getSimpleName().replace("Verzekering", ""));
         polis.setSoort(domein.getSoort());
         //        if (domein.getBedrijf() != null) {
@@ -90,17 +90,11 @@ public class JsonToDtoPolisMapper implements Function<JsonPolis, Polis> {
         //            polis.setEntiteitId(domein.getBedrijf());
         //            polis.setSoortEntiteit("RELATIE");
         //        }
-        polis.setSoortEntiteit(domein.getSoortEntiteit());
-        polis.setEntiteitId(domein.getEntiteitId());
+        //        polis.setSoortEntiteit(domein.getSoortEntiteit());
+        //        polis.setEntiteitId(domein.getEntiteitId());
         polis.setOmschrijvingVerzekering(domein.getOmschrijvingVerzekering());
 
-        polis.setBijlages(bijlageClient.lijst("POLIS", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        polis.setGroepBijlages(groepBijlagesClient.lijstGroepen("POLIS", domein.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
-        polis.setOpmerkingen(opmerkingClient.lijst("POLIS", domein.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
-
         polis.setSchades(domein.getSchades().stream().map(new JsonToDtoSchadeMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
-
-        polis.setTaken(taakClient.alles("POLIS", domein.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
         return polis;
     }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="5" author="Patrick Heidotting">
+        <createTable tableName="PAKKET">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="PAKKET_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </createTable>
+        <addColumn tableName="POLIS">
+            <column name="PAKKET" type="BIGINT"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </addColumn>
+        <addColumn tableName="POLIS_AUD">
+            <column name="PAKKET" type="BIGINT"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </addColumn>
+        <sql>update POLIS set ENTITEITID = RELATIE where RELATIE is not null;</sql>
+        <sql>update POLIS_AUD set ENTITEITID = RELATIE where RELATIE is not null;</sql>
+        <sql>update POLIS set SOORTENTITEIT = 'RELATIE' where RELATIE is not null;</sql>
+        <sql>update POLIS_AUD set SOORTENTITEIT = 'RELATIE' where RELATIE is not null;</sql>
+        <sql>update POLIS set ENTITEITID = BEDRIJF where BEDRIJF is not null;</sql>
+        <sql>update POLIS_AUD set ENTITEITID = BEDRIJF where BEDRIJF is not null;</sql>
+        <sql>update POLIS set SOORTENTITEIT = 'BEDRIJF' where BEDRIJF is not null;</sql>
+        <sql>update POLIS_AUD set SOORTENTITEIT = 'BEDRIJF' where BEDRIJF is not null;</sql>
+        <dropColumn tableName="POLIS" columnName="RELATIE"/>
+        <dropColumn tableName="POLIS_AUD" columnName="RELATIE"/>
+        <dropColumn tableName="POLIS" columnName="BEDRIJF"/>
+        <dropColumn tableName="POLIS_AUD" columnName="BEDRIJF"/>
+        <sql>insert into PAKKET (`ID`, `POLISNUMMER`, `SOORTENTITEIT`, `ENTITEITID`) select `ID`, `POLISNUMMER`,
+            `SOORTENTITEIT`, `ENTITEITID` FROM POLIS;
+        </sql>
+        <sql>update POLIS set PAKKET = ID</sql>
+        <dropColumn tableName="POLIS" columnName="ENTITEITID"/>
+        <dropColumn tableName="POLIS_AUD" columnName="ENTITEITID"/>
+        <dropColumn tableName="POLIS" columnName="SOORTENTITEIT"/>
+        <dropColumn tableName="POLIS_AUD" columnName="SOORTENTITEIT"/>
+    </changeSet>
+</databaseChangeLog>

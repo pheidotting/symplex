@@ -1,19 +1,19 @@
 package nl.lakedigital.djfc.commons.xml;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OpvragenPolisSoortenResponse {
-    List<String> polisSoorten;
+    Map<String, String> polisSoorten;
 
-    public List<String> getPolisSoorten() {
+    public Map<String, String> getPolisSoorten() {
         if (polisSoorten == null) {
-            polisSoorten = new ArrayList<>();
+            polisSoorten = new HashMap<>();
         }
         return polisSoorten;
     }
 
-    public void setPolisSoorten(List<String> polisSoorten) {
+    public void setPolisSoorten(Map<String, String> polisSoorten) {
         this.polisSoorten = polisSoorten;
     }
 }

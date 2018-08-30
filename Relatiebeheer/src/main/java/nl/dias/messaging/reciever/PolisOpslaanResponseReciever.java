@@ -35,7 +35,7 @@ public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanR
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        polisOpslaanRequest.getPolissen().stream().forEach(polis -> {
+        polisOpslaanRequest.getPokketten().stream().forEach(polis -> {
 
             LOGGER.debug("Opgeslagen polis : {}", ReflectionToStringBuilder.toString(polis));
             if (!polis.getOpmerkingen().isEmpty()) {

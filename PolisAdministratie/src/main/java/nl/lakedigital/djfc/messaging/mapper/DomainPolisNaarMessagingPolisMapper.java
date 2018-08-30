@@ -15,9 +15,6 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
         if (polisIn.getStatus() != null) {
             polis.setStatus(polisIn.getStatus().name());
         }
-        if (polisIn.getMaatschappij() != null) {
-            polis.setMaatschappij(polisIn.getMaatschappij().toString());
-        }
         if (polisIn.getBetaalfrequentie() != null) {
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie().name());
         }
@@ -49,7 +46,6 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie().name());
         }
 
-        polis.setMaatschappij(polisIn.getMaatschappij().toString());
         polis.setOmschrijvingVerzekering(polisIn.getOmschrijvingVerzekering());
         polis.setStatus(polisIn.getStatus().name());
         polis.setIdentificatie(polisIn.getIdentificatie());

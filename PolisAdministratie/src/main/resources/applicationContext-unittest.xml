@@ -16,30 +16,30 @@
     <mvc:annotation-driven/>
 
     <bean id="MariaDbServer" class="nl.lakedigital.djfc.mariadbserver.MariaDBServer" init-method="init">
-        <property name="poortNummer" value="3309"/>
+        <property name="poortNummer" value="3339"/>
     </bean>
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
-          depends-on="MariaDbServer">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" depends-on="MariaDbServer">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <!--<property name="url" value="jdbc:mysql://localhost:3306/kattekoop"/>-->
         <!--<property name="username" value="dev"/>-->
         <!--<property name="password" value="dev"/>-->
-        <property name="url" value="jdbc:mysql://localhost:3309/test"/>
+        <property name="url" value="jdbc:mysql://localhost:3339/test"/>
         <property name="username" value=""/>
         <property name="password" value=""/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" depends-on="liquibase">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="nl.lakedigital.djfc"/>
+        <property name="packagesToScan">
+            <list>
+                <value>nl.lakedigital.djfc</value>
+            </list>
+        </property>
         <property name="hibernateProperties">
             <props>
-                <!--<prop key="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.WeblogicTransactionManagerLookup</prop>-->
-                <!--<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</prop>-->
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.use_sql_comments">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
@@ -54,7 +54,7 @@
 
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
-        <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
+        <property name="changeLog" value="classpath:databaseChangeLog-unit.xml"/>
     </bean>
 
     <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">

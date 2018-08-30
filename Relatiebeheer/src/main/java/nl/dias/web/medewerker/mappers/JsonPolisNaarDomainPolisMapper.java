@@ -50,7 +50,8 @@ public class JsonPolisNaarDomainPolisMapper {
         //            LOGGER.debug(ReflectionToStringBuilder.toString(identificatie));
         //            //POLISCLIENT!
         //            polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
-        polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        //        polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        polis = new JsonPolis();
         polis.setId(identificatie.getEntiteitId());
         //        }
         //        polis=new P
@@ -79,7 +80,7 @@ public class JsonPolisNaarDomainPolisMapper {
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie());
         }
 
-        polis.setMaatschappij(polisIn.getMaatschappij());
+        //        polis.setMaatschappij(polisIn.getMaatschappij());
 
         Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(polisIn.getParentIdentificatie());
         //        if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
@@ -87,8 +88,8 @@ public class JsonPolisNaarDomainPolisMapper {
         //        } else {
         //            polis.setBedrijf(identificatie1.getEntiteitId());
         //        }
-        polis.setEntiteitId(polisIn.getEntiteitId());
-        polis.setSoortEntiteit(polisIn.getSoortEntiteit());
+        //        polis.setEntiteitId(polisIn.getEntiteitId());
+        //        polis.setSoortEntiteit(polisIn.getSoortEntiteit());
 
         polis.setOmschrijvingVerzekering(polisIn.getOmschrijvingVerzekering());
 

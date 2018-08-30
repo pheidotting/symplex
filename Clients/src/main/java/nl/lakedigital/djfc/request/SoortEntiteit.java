@@ -15,6 +15,7 @@ public enum SoortEntiteit {
     JAARCIJFERS, //
     MEDEWERKER, //
     OPMERKING, //
+    PAKKET,//
     POLIS, //
     REKENINGNUMMER, //
     RELATIE, //
@@ -22,5 +23,6 @@ public enum SoortEntiteit {
     SCHADE, //
     TAAK,//
     TELEFOONNUMMER,//
-    VERSIE, WIJZIGINGTAAK;
+    VERSIE, //
+    WIJZIGINGTAAK;
 }

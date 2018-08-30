@@ -21,7 +21,7 @@ public class Bedrijf {
     private List<Telefoonnummer> telefoonnummers = new ArrayList<>();
     private List<Opmerking> opmerkingen = new ArrayList<>();
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens = new ArrayList<>();
-    private List<Polis> polissen = new ArrayList<>();
+    private List<Pakket> pakketten;
     private List<ContactPersoon> contactPersoons = new ArrayList<>();
     private List<Taak> taken = new ArrayList<>();
 
@@ -155,12 +155,15 @@ public class Bedrijf {
         this.telefoonnummerMetGesprekkens = telefoonnummerMetGesprekkens;
     }
 
-    public List<Polis> getPolissen() {
-        return polissen;
+    public List<Pakket> getPakketten() {
+        if (pakketten == null) {
+            pakketten = new ArrayList<>();
+        }
+        return pakketten;
     }
 
-    public void setPolissen(List<Polis> polissen) {
-        this.polissen = polissen;
+    public void setPakketten(List<Pakket> pakketten) {
+        this.pakketten = pakketten;
     }
 
     public List<ContactPersoon> getContactPersoons() {

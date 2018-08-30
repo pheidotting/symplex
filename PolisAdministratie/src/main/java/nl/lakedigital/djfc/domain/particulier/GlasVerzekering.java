@@ -1,26 +1,27 @@
 package nl.lakedigital.djfc.domain.particulier;
 
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//@Audited
+@Audited
 
 @Component
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "G")
 public class GlasVerzekering extends Polis {
-    public GlasVerzekering() {//Hibernate wil deze, maar SonarQube niet
+    public GlasVerzekering() {
     }
 
-    public GlasVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
-        super(soortEntiteit, entiteitId);
+    public GlasVerzekering(Pakket pakket) {
+        super(pakket);
     }
 
     @Override
@@ -35,8 +36,8 @@ public class GlasVerzekering extends Polis {
     }
 
     @Override
-    public GlasVerzekering nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new GlasVerzekering(soortEntiteit,entiteitId);
+    public GlasVerzekering nieuweInstantie(Pakket pakket) {
+        return new GlasVerzekering(pakket);
     }
 }
 

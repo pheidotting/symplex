@@ -54,6 +54,7 @@ public class RelatieService {
                 relatieId = identificatie.getEntiteitId();
                 LOGGER.trace("relatieId {} opgehaald uit RELATIE", relatieId);
                 break;
+            case "PAKKET":
             case "POLIS":
                 relatieId = pakRelatieBijPolis(identificatie.getEntiteitId());
                 LOGGER.trace("relatieId {} opgehaald uit POLIS", relatieId);

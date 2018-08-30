@@ -1,10 +1,9 @@
 package nl.lakedigital.djfc.mapper;
 
-import com.google.common.collect.Lists;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
 import nl.lakedigital.djfc.predicates.PolisOpSchermNaamPredicate;
-import nl.lakedigital.djfc.predicates.StatusPolisBijStatusPredicate;
 import nl.lakedigital.djfc.service.PolisService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -17,7 +16,8 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 import java.util.List;
 
-import static com.google.common.collect.Iterables.*;
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.getOnlyElement;
 
 @Component
 public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> implements JsonMapper{
@@ -45,7 +45,7 @@ public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> i
             prolongatieDatum = LocalDate.parse(jsonPolis.getProlongatieDatum(), DateTimeFormat.forPattern(patternDatum));
         }
 
-        Polis polis;
+        Polis polis = new AutoVerzekering();
         SoortEntiteit soortEntiteit = null;
         Long entiteitId = null;
         //        if (jsonPolis.getBedrijf() != null) {
@@ -56,17 +56,17 @@ public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> i
         //            entiteitId = Long.valueOf(jsonPolis.getRelatie());
         //        }
         if (jsonPolis.getId() == null || jsonPolis.getId() == 0L) {
-            polis = getOnlyElement(filter(polissen, new PolisOpSchermNaamPredicate(jsonPolis.getSoort()))).nieuweInstantie(soortEntiteit,entiteitId);
+            polis = getOnlyElement(filter(polissen, new PolisOpSchermNaamPredicate(jsonPolis.getSoort()))).nieuweInstantie(new Pakket(soortEntiteit, entiteitId));
         } else {
-            polis = polisService.lees(jsonPolis.getId());
-            polis.setSoortEntiteitEnEntiteitId(soortEntiteit, entiteitId);
+            //            polis = polisService.lees(jsonPolis.getId());
+            //            polis.setEntiteitId(entiteitId);polis.setSoortEntiteit(soortEntiteit);
         }
 
         if (jsonPolis.getStatus() != null) {
-            polis.setStatus(getFirst(filter(Lists.newArrayList(StatusPolis.values()), new StatusPolisBijStatusPredicate(jsonPolis.getStatus())), StatusPolis.ACT));
+            //            polis.setStatus(getFirst(filter(Lists.newArrayList(StatusPolis.values()), new StatusPolisBijStatusPredicate(jsonPolis.getStatus())), StatusPolis.ACT));
         }
 
-        polis.setPolisNummer(jsonPolis.getPolisNummer());
+        //        polis.setPolisNummer(jsonPolis.getPolisNummer());
         polis.setKenmerk(jsonPolis.getKenmerk());
         polis.setIngangsDatum(ingangsDatum);
         if (jsonPolis.getPremie() != null) {
@@ -80,7 +80,7 @@ public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> i
             polis.setBetaalfrequentie(Betaalfrequentie.valueOf(jsonPolis.getBetaalfrequentie().toUpperCase().substring(0, 1)));
         }
 
-        polis.setMaatschappij(Long.valueOf(jsonPolis.getMaatschappij()));
+        //        polis.setMaatschappij(Long.valueOf(jsonPolis.getMaatschappij()));
         //        if (StringUtils.isNotEmpty(jsonPolis.getRelatie())) {
         //            polis.setRelatie(Long.valueOf(jsonPolis.getRelatie()));
         //        }

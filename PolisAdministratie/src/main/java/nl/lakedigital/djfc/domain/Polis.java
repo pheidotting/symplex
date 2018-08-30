@@ -17,10 +17,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorColumn(name = "SOORT", length = 2)
-@NamedQueries({@NamedQuery(name = "Polis.allesBijMaatschappij", query = "select p from Polis p where p.maatschappij = :maatschappij"),//
+@NamedQueries({@NamedQuery(name = "Polis.allesBijMaatschappij", query = "select p from Polis p where p.pakket.maatschappij = :maatschappij"),//
         @NamedQuery(name = "Polis.zoekOpPolisNummer", query = "select p from Polis p where p.polisNummer = :polisNummer"),//
-        @NamedQuery(name = "Polis.allesVanRelatie", query = "select p from Polis p where p.relatie = :relatie"),//
-        @NamedQuery(name = "Polis.allesVanBedrijf", query = "select p from Polis p where p.bedrijf = :bedrijf")//
+        @NamedQuery(name = "Polis.allesVanRelatie", query = "select p from Polis p where p.pakket.entiteitId = :relatie and p.pakket.soortEntiteit = 'RELATIE'"),//
+        @NamedQuery(name = "Polis.allesVanBedrijf", query = "select p from Polis p where p.pakket.entiteitId = :bedrijf and p.pakket.soortEntiteit = 'BEDRIJF'")//
 })
 public abstract class Polis implements Serializable, Cloneable {
     private static final long serialVersionUID = 1011438129295546984L;
@@ -69,27 +69,24 @@ public abstract class Polis implements Serializable, Cloneable {
     @Column(name = "VERZEKERDEZAAK", length = 250)
     private String verzekerdeZaak;
 
-    @Column(name = "RELATIE")
-    private Long relatie;
-
-    @Column(name = "BEDRIJF")
-    private Long bedrijf;
-
-    @Column(name = "MAATSCHAPPIJ")
-    private Long maatschappij;
-
     @Column(name = "OMSCHRIJVING", columnDefinition = "varchar(2500)")
     private String omschrijvingVerzekering;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PAKKET")
+    private Pakket pakket;
 
     @Transient
     private String identificatie;
     @Transient
     private List<Schade> schades;
+
     public Polis() {
     }
 
-    public Polis(SoortEntiteit soortEntiteit, Long entiteitId) {
-        setSoortEntiteitEnEntiteitId(soortEntiteit, entiteitId);
+    public Polis(Pakket pakket) {
+        this.pakket = pakket;
+        this.pakket.getPolissen().add(this);
     }
 
     public String getIdentificatie() {
@@ -120,16 +117,7 @@ public abstract class Polis implements Serializable, Cloneable {
         return maakNaam(canonicalName.replace("Verzekering", "").replace(pakket, ""));
     }
 
-
-    public void setSoortEntiteitEnEntiteitId(SoortEntiteit soortEntiteit, Long entiteitId) {
-        if (soortEntiteit == SoortEntiteit.RELATIE) {
-            this.relatie = entiteitId;
-        } else if (soortEntiteit == SoortEntiteit.BEDRIJF) {
-            this.bedrijf = entiteitId;
-        }
-    }
-
-    public abstract Polis nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId);
+    public abstract Polis nieuweInstantie(Pakket pakket);
 
     public Long getId() {
         return id;
@@ -202,21 +190,6 @@ public abstract class Polis implements Serializable, Cloneable {
         this.premie = premie;
     }
 
-    public Long getRelatie() {
-        return relatie;
-    }
-
-    public void setRelatie(Long relatie) {
-        this.relatie = relatie;
-    }
-
-    public Long getMaatschappij() {
-        return maatschappij;
-    }
-
-    public void setMaatschappij(Long maatschappij) {
-        this.maatschappij = maatschappij;
-    }
 
     public LocalDate getWijzigingsDatum() {
         if (wijzigingsDatum == null) {
@@ -272,13 +245,6 @@ public abstract class Polis implements Serializable, Cloneable {
         this.verzekerdeZaak = verzekerdeZaak;
     }
 
-    public Long getBedrijf() {
-        return bedrijf;
-    }
-
-    public void setBedrijf(Long bedrijf) {
-        this.bedrijf = bedrijf;
-    }
 
     public String getOmschrijvingVerzekering() {
         return omschrijvingVerzekering;
@@ -286,6 +252,14 @@ public abstract class Polis implements Serializable, Cloneable {
 
     public void setOmschrijvingVerzekering(String omschrijvingVerzekering) {
         this.omschrijvingVerzekering = omschrijvingVerzekering;
+    }
+
+    public Pakket getPakket() {
+        return pakket;
+    }
+
+    public void setPakket(Pakket pakket) {
+        this.pakket = pakket;
     }
 
     protected String maakNaam(String klasse) {
@@ -326,16 +300,16 @@ public abstract class Polis implements Serializable, Cloneable {
             return false;
         }
         Polis polis = (Polis) o;
-        return Objects.equals(getId(), polis.getId()) && getStatus() == polis.getStatus() && Objects.equals(getPolisNummer(), polis.getPolisNummer()) && Objects.equals(getKenmerk(), polis.getKenmerk()) && Objects.equals(getIngangsDatum(), polis.getIngangsDatum()) && Objects.equals(getEindDatum(), polis.getEindDatum()) && Objects.equals(getPremie(), polis.getPremie()) && Objects.equals(getWijzigingsDatum(), polis.getWijzigingsDatum()) && Objects.equals(getProlongatieDatum(), polis.getProlongatieDatum()) && getBetaalfrequentie() == polis.getBetaalfrequentie() && Objects.equals(getDekking(), polis.getDekking()) && Objects.equals(getVerzekerdeZaak(), polis.getVerzekerdeZaak()) && Objects.equals(getRelatie(), polis.getRelatie()) && Objects.equals(getBedrijf(), polis.getBedrijf()) && Objects.equals(getMaatschappij(), polis.getMaatschappij()) && Objects.equals(getOmschrijvingVerzekering(), polis.getOmschrijvingVerzekering());
+        return Objects.equals(getId(), polis.getId()) && getStatus() == polis.getStatus() && Objects.equals(getPolisNummer(), polis.getPolisNummer()) && Objects.equals(getKenmerk(), polis.getKenmerk()) && Objects.equals(getIngangsDatum(), polis.getIngangsDatum()) && Objects.equals(getEindDatum(), polis.getEindDatum()) && Objects.equals(getPremie(), polis.getPremie()) && Objects.equals(getWijzigingsDatum(), polis.getWijzigingsDatum()) && Objects.equals(getProlongatieDatum(), polis.getProlongatieDatum()) && getBetaalfrequentie() == polis.getBetaalfrequentie() && Objects.equals(getDekking(), polis.getDekking()) && Objects.equals(getVerzekerdeZaak(), polis.getVerzekerdeZaak()) && Objects.equals(getOmschrijvingVerzekering(), polis.getOmschrijvingVerzekering());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStatus(), getPolisNummer(), getKenmerk(), getIngangsDatum(), getEindDatum(), getPremie(), getWijzigingsDatum(), getProlongatieDatum(), getBetaalfrequentie(), getDekking(), getVerzekerdeZaak(), getRelatie(), getBedrijf(), getMaatschappij(), getOmschrijvingVerzekering());
+        return Objects.hash(getId(), getStatus(), getPolisNummer(), getKenmerk(), getIngangsDatum(), getEindDatum(), getPremie(), getWijzigingsDatum(), getProlongatieDatum(), getBetaalfrequentie(), getDekking(), getVerzekerdeZaak(), getOmschrijvingVerzekering());
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("status", status).append("polisNummer", polisNummer).append("kenmerk", kenmerk).append("ingangsDatum", ingangsDatum).append("eindDatum", eindDatum).append("premie", premie).append("wijzigingsDatum", wijzigingsDatum).append("prolongatieDatum", prolongatieDatum).append("betaalfrequentie", betaalfrequentie).append("dekking", dekking).append("verzekerdeZaak", verzekerdeZaak).append("relatie", relatie).append("bedrijf", bedrijf).append("maatschappij", maatschappij).append("omschrijvingVerzekering", omschrijvingVerzekering).toString();
+        return new ToStringBuilder(this).append("id", id).append("status", status).append("polisNummer", polisNummer).append("kenmerk", kenmerk).append("ingangsDatum", ingangsDatum).append("eindDatum", eindDatum).append("premie", premie).append("wijzigingsDatum", wijzigingsDatum).append("prolongatieDatum", prolongatieDatum).append("betaalfrequentie", betaalfrequentie).append("dekking", dekking).append("verzekerdeZaak", verzekerdeZaak).append("omschrijvingVerzekering", omschrijvingVerzekering).toString();
     }
 }

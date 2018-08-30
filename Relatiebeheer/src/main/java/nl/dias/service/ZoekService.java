@@ -8,9 +8,6 @@ import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
-import nl.lakedigital.djfc.commons.json.JsonPolis;
-import nl.lakedigital.djfc.commons.json.JsonSchade;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,35 +54,35 @@ public class ZoekService {
                 relaties.addAll(result);
             }
         }
-        if (polisnummer != null && !"".equals(polisnummer)) {
-            LOGGER.debug("Zoeken op polisnummer {}", polisnummer);
-            List<JsonPolis> polissen = polisClient.zoekOpPolisNummer(polisnummer);
-            for (JsonPolis polis : polissen) {
-                LOGGER.debug("Polis gevonden: {}", ReflectionToStringBuilder.toString(polis));
-                if ("RELATIE".equals(polis.getSoortEntiteit())) {
-                    LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());
-                    relaties.add((Relatie) gebruikerService.lees(polis.getEntiteitId()));
-                } else if ("BEDRIJF".equals(polis.getSoortEntiteit())) {
-                    LOGGER.debug("Hoort bij een Bedrijf met id {}", polis.getEntiteitId());
-                    bedrijven.add(bedrijfService.lees(polis.getEntiteitId()));
-                }
-            }
-        }
-        if (schadenummer != null && !"".equals(schadenummer)) {
-            List<JsonSchade> schades = schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer);
-            for (JsonSchade schade : schades) {
-                JsonPolis polis = polisClient.lees(String.valueOf(schade.getPolis()));
-                if (polis != null) {
-                    if ("RELATIE".equals(polis.getSoortEntiteit())) {
-                        LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());
-                        relaties.add((Relatie) gebruikerService.lees(polis.getEntiteitId()));
-                    } else if ("BEDRIJF".equals(polis.getSoortEntiteit())) {
-                        LOGGER.debug("Hoort bij een Bedrijf met id {}", polis.getEntiteitId());
-                        bedrijven.add(bedrijfService.lees(polis.getEntiteitId()));
-                    }
-                }
-            }
-        }
+        //        if (polisnummer != null && !"".equals(polisnummer)) {
+        //            LOGGER.debug("Zoeken op polisnummer {}", polisnummer);
+        //            List<JsonPolis> polissen = polisClient.zoekOpPolisNummer(polisnummer);
+        //            for (JsonPolis polis : polissen) {
+        //                LOGGER.debug("Polis gevonden: {}", ReflectionToStringBuilder.toString(polis));
+        //                if ("RELATIE".equals(polis.getSoortEntiteit())) {
+        //                    LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());
+        //                    relaties.add((Relatie) gebruikerService.lees(polis.getEntiteitId()));
+        //                } else if ("BEDRIJF".equals(polis.getSoortEntiteit())) {
+        //                    LOGGER.debug("Hoort bij een Bedrijf met id {}", polis.getEntiteitId());
+        //                    bedrijven.add(bedrijfService.lees(polis.getEntiteitId()));
+        //                }
+        //            }
+        //        }
+        //        if (schadenummer != null && !"".equals(schadenummer)) {
+        //            List<JsonSchade> schades = schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer);
+        //            for (JsonSchade schade : schades) {
+        //                JsonPolis polis = polisClient.lees(String.valueOf(schade.getPolis()));
+        //                if (polis != null) {
+        //                    if ("RELATIE".equals(polis.getSoortEntiteit())) {
+        //                        LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());
+        //                        relaties.add((Relatie) gebruikerService.lees(polis.getEntiteitId()));
+        //                    } else if ("BEDRIJF".equals(polis.getSoortEntiteit())) {
+        //                        LOGGER.debug("Hoort bij een Bedrijf met id {}", polis.getEntiteitId());
+        //                        bedrijven.add(bedrijfService.lees(polis.getEntiteitId()));
+        //                    }
+        //                }
+        //            }
+        //        }
         if (adres != null && !"".equals(adres)) {
             LOGGER.debug("Zoeken op adres : {}", adres);
             List<JsonAdres> adressen = adresClient.zoekOpAdres(adres);

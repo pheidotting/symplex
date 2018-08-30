@@ -27,7 +27,7 @@ public class PolisTest extends EasyMockSupport {
             }
 
             @Override
-            public Polis nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
+            public Polis nieuweInstantie(Pakket pakket) {
                 return null;
             }
         };

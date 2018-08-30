@@ -15,7 +15,7 @@ import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
-import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -68,7 +68,7 @@ public class BedrijfService {
             case "BEDRIJF":
                 bedrijfId = identificatie.getEntiteitId();
                 break;
-            case "POLIS":
+            case "PAKKET":
                 bedrijfId = pakBedrijfBijPolis(identificatie.getEntiteitId());
                 break;
             case "ADRES":
@@ -84,12 +84,12 @@ public class BedrijfService {
     }
 
     private Long pakBedrijfBijPolis(Long polisId) {
-        JsonPolis polis = polisClient.lees(String.valueOf(polisId));
+        JsonPakket pakket = polisClient.lees(polisId);
         //        Polis polis = polisService.lees(polisId);
 
-        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(polis));
+        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(pakket));
 
-        return polis.getEntiteitId();
+        return pakket.getEntiteitId();
         //        return polis.getBedrijf();
     }
 

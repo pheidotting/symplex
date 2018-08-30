@@ -86,10 +86,10 @@ public class ZoekServiceTest extends EasyMockSupport {
         Long relatieId = 2L;
 
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(relatieId);
-        polis.setSoortEntiteit("RELATIE");
+        //        polis.setEntiteitId(relatieId);
+        //        polis.setSoortEntiteit("RELATIE");
 
-        expect(polisClient.zoekOpPolisNummer(polisnummer)).andReturn(newArrayList(polis));
+        //        expect(polisClient.zoekOpPolisNummer(polisnummer)).andReturn(newArrayList(polis));
 
         Relatie relatie = new Relatie();
 
@@ -110,10 +110,10 @@ public class ZoekServiceTest extends EasyMockSupport {
         Long bedrijfsId = 3L;
 
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(bedrijfsId);
-        polis.setSoortEntiteit("BEDRIJF");
+        //        polis.setEntiteitId(bedrijfsId);
+        //        polis.setSoortEntiteit("BEDRIJF");
 
-        expect(polisClient.zoekOpPolisNummer(polisnummer)).andReturn(newArrayList(polis));
+        //        expect(polisClient.zoekOpPolisNummer(polisnummer)).andReturn(newArrayList(polis));
 
         Bedrijf bedrijf = new Bedrijf();
 
@@ -140,10 +140,10 @@ public class ZoekServiceTest extends EasyMockSupport {
         expect(schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer)).andReturn(newArrayList(schade));
 
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(relatieId);
-        polis.setSoortEntiteit("RELATIE");
+        //        polis.setEntiteitId(relatieId);
+        //        polis.setSoortEntiteit("RELATIE");
 
-        expect(polisClient.lees(polisId)).andReturn(polis);
+        //        expect(polisClient.lees(polisId)).andReturn(polis);
 
         Relatie relatie = new Relatie();
 
@@ -170,10 +170,10 @@ public class ZoekServiceTest extends EasyMockSupport {
         expect(schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer)).andReturn(newArrayList(schade));
 
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(bedrijfsId);
-        polis.setSoortEntiteit("BEDRIJF");
+        //        polis.setEntiteitId(bedrijfsId);
+        //        polis.setSoortEntiteit("BEDRIJF");
 
-        expect(polisClient.lees(polisId)).andReturn(polis);
+        //        expect(polisClient.lees(polisId)).andReturn(polis);
 
         Bedrijf bedrijf = new Bedrijf();
 

@@ -38,12 +38,14 @@ public class SchadeServiceTest extends EasyMockSupport {
         SoortEntiteit soortEntiteit = SoortEntiteit.RELATIE;
         Long entiteitId = 5L;
 
-        Polis polis = new AutoVerzekering(soortEntiteit, entiteitId);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
+        Polis polis = new AutoVerzekering(pakket);
         polis.setId(4L);
         List<Polis> polissen = new ArrayList<>();
         polissen.add(polis);
 
-        expect(polisService.alles(soortEntiteit, entiteitId)).andReturn(polissen);
+
+        expect(polisService.alles(soortEntiteit, entiteitId)).andReturn(newArrayList(pakket));
 
         Schade schade = new Schade();
         List<Schade> schades = new ArrayList<>();

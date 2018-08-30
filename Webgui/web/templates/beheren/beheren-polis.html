@@ -4,78 +4,98 @@
 
         <label for="verzekeringsMaatschappijen">Maatschappij</label>
         <select id="verzekeringsMaatschappijen" name="verzekeringsMaatschappijen"
-                data-bind="value: polis.maatschappij.id, disable: readOnly"></select>
-        <label for="soortVerzekering">Soort</label>
-        <select id="soortVerzekering" name="soortVerzekering"
-                data-bind="value: polis.soort, disable: readOnly"></select>
-
-        <label for="status">Status</label>
-        <select id="status" name="status" data-bind="value: polis.status, disable: readOnly">
-            <option value="Aanvraag/Offerte">Aanvraag/Offerte</option>
-            <option value="Actief">Actief</option>
-            <option value="Geschorst">Geschorst</option>
-            <option value="Premievrij">Premievrij</option>
-            <option value="Beindigd">Be&euml;ndigd</option>
-        </select>
+                data-bind="value: pakket.maatschappij.id, disable: readOnly"></select>
 
         <label for="polisNummer">Polisnummer</label>
         <input class="form-control" type="text" id="polisNummer" name="polisNummer" placeholder="Polisnummer..."
-               maxlength="25" data-bind="value: polis.polisNummer, disable: readOnly"/>
+               maxlength="25" data-bind="value: pakket.polisNummer, disable: readOnly"/>
 
-        <label for="kenmerk">Kenmerk</label>
-        <input class="form-control" type="text" id="kenmerk" name="kenmerk" placeholder="Kenmerk..." maxlength="100"
-               data-bind="value: polis.kenmerk, disable: readOnly, event: {blur: wijzigKenmerk} "/>
-
-        <div id="voertuiginfo" data-bind="visible: voertuiginfo">
+        <div data-bind="foreach: pakket.polissen, as: 'polis'">
             <hr/>
+            <h4>
+                <span data-bind="text: soort"/>
+                <span data-bind="attr: {id: identificatie()+'dicht'}, event: {click: $parent.toonOfVerberg}"
+                      class="fa fa-caret-square-o-right" aria-hidden="true"></span>
+                <span data-bind="attr: {id: identificatie()+'open'}, event: {click: $parent.toonOfVerberg}, visible:false"
+                      class="fa fa-caret-square-o-down" aria-hidden="true"></span>
+            </h4>
 
-            Merk : <span id="merk" data-bind="text: merk"></span><br/>
-            Handelsbenaming : <span id="type" data-bind="text: type"></span><br/>
-            Bouwjaar : <span id="type" data-bind="text: bouwjaar"></span><br/>
-            <img data-bind="attr: {src: voertuigImage1}" style="width: 32%;"/>
-            <img data-bind="attr: {src: voertuigImage2}" style="width: 32%;"/>
-            <img data-bind="attr: {src: voertuigImage3}" style="width: 32%;"/>
+            <div data-bind="attr: {id: identificatie, style: $parent.style()}">
+                <label for="soortVerzekering">Soort</label>
+                <select id="soortVerzekering" name="soortVerzekering"
+                        data-bind="value: soort, disable: $parent.readOnly"></select>
+
+                <label for="status">Status</label>
+                <select id="status" name="status" data-bind="value: status, disable: $parent.readOnly">
+                    <option value="Aanvraag/Offerte">Aanvraag/Offerte</option>
+                    <option value="Actief">Actief</option>
+                    <option value="Geschorst">Geschorst</option>
+                    <option value="Premievrij">Premievrij</option>
+                    <option value="Beindigd">Be&euml;ndigd</option>
+                </select>
+
+                <label for="polisNummer">Polisnummer</label>
+                <input class="form-control" type="text" id="polisNummer" name="polisNummer" placeholder="Polisnummer..."
+                       maxlength="25" data-bind="value: polisNummer, disable: $parent.readOnly"/>
+
+                <label for="kenmerk">Kenmerk</label>
+                <input class="form-control" type="text" id="kenmerk" name="kenmerk" placeholder="Kenmerk..."
+                       maxlength="100"
+                       data-bind="value: kenmerk, disable: $parent.readOnly, event: {blur: $parent.wijzigKenmerk} "/>
+
+                <div id="voertuiginfo" data-bind="visible: voertuiginfo">
+                    <hr/>
+
+                    Merk : <span id="merk" data-bind="text: merk"></span><br/>
+                    Handelsbenaming : <span id="type" data-bind="text: type"></span><br/>
+                    Bouwjaar : <span id="type" data-bind="text: bouwjaar"></span><br/>
+                    <img data-bind="attr: {src: voertuigImage1}" style="width: 32%;"/>
+                    <img data-bind="attr: {src: voertuigImage2}" style="width: 32%;"/>
+                    <img data-bind="attr: {src: voertuigImage3}" style="width: 32%;"/>
+                </div>
+
+                <label for="dekking">Dekking</label>
+                <input class="form-control" type="text" id="dekking" name="dekking" placeholder="Dekking..."
+                       maxlength="250"
+                       data-bind="value: dekking, disable: $parent.readOnly"/>
+
+                <label for="verzekerdeZaak">Verzekerde Zaak</label>
+                <input class="form-control" type="text" id="verzekerdeZaak" name="verzekerdeZaak"
+                       placeholder="Verzekerde Zaak/Object..." maxlength="250"
+                       data-bind="value: verzekerdeZaak, disable: $parent.readOnly"/>
+
+                <label for="premie">Premie</label>
+                <input class="form-control" type="text" id="premie" placeholder="Premie..."
+                       data-bind="value: premie, disable: $parent.readOnly, event: {input: $parent.startBewerkenPremie, blur: $parent.stopBewerkenPremie}"/>
+
+                <label for="ingangsDatumString">Ingangsdatum</label>
+                <input class="form-control" type="date" id="ingangsDatumString" placeholder="Ingangs datum..."
+                       data-bind="value: ingangsDatum, event: {blur: $parent.exitIngangsDatum}, disable: $parent.readOnly"/>
+
+                <label for="wijzigingsdatumString">Wijzigingsdatum</label>
+                <input class="form-control" type="date" id="wijzigingsdatumString" placeholder="Wijzigingsdatum..."
+                       data-bind="value: wijzigingsDatum, disable: $parent.readOnly"/>
+
+                <label for="prolongatiedatumString">Prolongatiedatum</label>
+                <input class="form-control" type="date" id="prolongatiedatumString" placeholder="Prolongatiedatum..."
+                       data-bind="value: prolongatieDatum, disable: $parent.readOnly"/>
+
+                <label for="betaalfrequentie">Betaalfrequentie</label>
+                <!--<div id="div_betaalfrequentie">-->
+                <select id="betaalfrequentie" data-bind="value: betaalfrequentie, disable: $parent.readOnly">
+                    <option value="">Betaalfrequentie...</option>
+                    <option value="Maand">Maand</option>
+                    <option value="Kwartaal">Kwartaal</option>
+                    <option value="Half jaar">Half jaar</option>
+                    <option value="Jaar">Jaar</option>
+                </select>
+                <!--</div>-->
+                <br/>
+                <label for="omschrijvingVerzekering">Omschrijving</label>
+                <textarea id="omschrijvingVerzekering" placeholder="Omschrijving Verzekering..."
+                          data-bind="value: omschrijvingVerzekering, disable: $parent.readOnly"></textarea>
+            </div>
         </div>
-
-        <label for="dekking">Dekking</label>
-        <input class="form-control" type="text" id="dekking" name="dekking" placeholder="Dekking..." maxlength="250"
-               data-bind="value: polis.dekking, disable: readOnly"/>
-
-        <label for="verzekerdeZaak">Verzekerde Zaak</label>
-        <input class="form-control" type="text" id="verzekerdeZaak" name="verzekerdeZaak"
-               placeholder="Verzekerde Zaak/Object..." maxlength="250"
-               data-bind="value: polis.verzekerdeZaak, disable: readOnly"/>
-
-        <label for="premie">Premie</label>
-        <input class="form-control" type="text" id="premie" placeholder="Premie..."
-               data-bind="value: polis.premie, disable: readOnly, event: {input: startBewerkenPremie, blur: stopBewerkenPremie}"/>
-
-        <label for="ingangsDatumString">Ingangsdatum</label>
-        <input class="form-control" type="date" id="ingangsDatumString" placeholder="Ingangs datum..."
-               data-bind="value: polis.ingangsDatum, event: {blur: exitIngangsDatum}, disable: readOnly"/>
-
-        <label for="wijzigingsdatumString">Wijzigingsdatum</label>
-        <input class="form-control" type="date" id="wijzigingsdatumString" placeholder="Wijzigingsdatum..."
-               data-bind="value: polis.wijzigingsDatum, disable: readOnly"/>
-
-        <label for="prolongatiedatumString">Prolongatiedatum</label>
-        <input class="form-control" type="date" id="prolongatiedatumString" placeholder="Prolongatiedatum..."
-               data-bind="value: polis.prolongatieDatum, disable: readOnly"/>
-
-        <label for="betaalfrequentie">Betaalfrequentie</label>
-        <!--<div id="div_betaalfrequentie">-->
-        <select id="betaalfrequentie" data-bind="value: polis.betaalfrequentie, disable: readOnly">
-            <option value="">Betaalfrequentie...</option>
-            <option value="Maand">Maand</option>
-            <option value="Kwartaal">Kwartaal</option>
-            <option value="Half jaar">Half jaar</option>
-            <option value="Jaar">Jaar</option>
-        </select>
-        <!--</div>-->
-        <br/>
-        <label for="omschrijvingVerzekering">Omschrijving</label>
-        <textarea id="omschrijvingVerzekering" placeholder="Omschrijving Verzekering..."
-                  data-bind="value: polis.omschrijvingVerzekering, disable: readOnly"></textarea>
     </div>
     <div class="kolom-2">
         <div id="bijlages"></div>

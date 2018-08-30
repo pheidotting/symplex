@@ -14,12 +14,14 @@ import nl.dias.service.PolisService;
 import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
-import nl.dias.web.medewerker.mappers.JsonPolisNaarDomainPolisMapper;
+import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -36,6 +38,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -77,7 +80,7 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public List<String> alleParticulierePolisSoorten() {
+    public Map<String, String> alleParticulierePolisSoorten() {
         return polisClient.alleParticulierePolisSoorten();
 
         //        return polisService.allePolisSoorten(SoortVerzekering.PARTICULIER);
@@ -85,7 +88,7 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleZakelijkePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public List<String> alleZakelijkePolisSoorten() {
+    public Map<String, String> alleZakelijkePolisSoorten() {
         return polisClient.alleZakelijkePolisSoorten();
         //        return polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK);
     }
@@ -153,11 +156,11 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Polis jsonPolis, HttpServletRequest httpServletRequest) {
-        metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPolis.getIdentificatie() == null);
+    public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Pakket jsonPakket, HttpServletRequest httpServletRequest) {
+        metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPakket.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", PolisController.class);
 
-        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPolis));
+        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPakket));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -172,10 +175,14 @@ public class PolisController extends AbstractController {
         //                Polis polis = polisMapper.mapVanJson(jsonPolis);
         //        Polis polis = new JsonPolisNaarDomainPolisMapper(polisService, identificatieClient).map(jsonPolis);
         //        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getIdentificatie());
-        JsonPolis polis = new JsonPolisNaarDomainPolisMapper(polisClient, identificatieClient).map(jsonPolis);//         polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        JsonPakket pakket = new JsonPakketNaarDomainPakketMapper(polisClient, identificatieClient).map(jsonPakket);//         polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+
+        Identificatie identificatieParent = identificatieClient.zoekIdentificatieCode(jsonPakket.getParentIdentificatie());
+        pakket.setEntiteitId(identificatieParent.getEntiteitId());
+        pakket.setSoortEntiteit(identificatieParent.getSoortEntiteit());
         //        polis.set
         //        polis.setMaatschappij(jsonPolis.getMaatschappij());
-        LOGGER.debug("ID van de Polis {}", polis.getId());
+        LOGGER.debug("ID van de Polis {}", pakket.getId());
         //        try {
         //            polisService.opslaan(polis);
         //        } catch (IllegalArgumentException e) {
@@ -184,21 +191,21 @@ public class PolisController extends AbstractController {
         //        }
 
         polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
-        polisOpslaanRequestSender.send(polis);
+        polisOpslaanRequestSender.send(pakket);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        opslaanEntiteitenRequest.getLijst().addAll(jsonPolis.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(polis.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
+        opslaanEntiteitenRequest.getLijst().addAll(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
 
-        opslaanEntiteitenRequest.setEntiteitId(polis.getId());
+        opslaanEntiteitenRequest.setEntiteitId(pakket.getId());
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
-        takenOpslaanService.opslaan(jsonPolis.getTaken(), polis.getId());
+        takenOpslaanService.opslaan(jsonPakket.getTaken(), pakket.getId());
 
         metricsService.stop(timer);
 
-        return polis.getId();
+        return pakket.getId();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}", produces = MediaType.APPLICATION_JSON)

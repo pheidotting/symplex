@@ -1,17 +1,12 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import nl.lakedigital.as.messaging.request.VerwijderEntiteitenRequest;
-import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.Schade;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.PolisService;
 import nl.lakedigital.djfc.service.SchadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class VerwijderEntiteitenRequestReciever extends AbstractReciever<VerwijderEntiteitenRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(VerwijderEntiteitenRequestReciever.class);
@@ -27,13 +22,13 @@ public class VerwijderEntiteitenRequestReciever extends AbstractReciever<Verwijd
 
     @Override
     public void verwerkMessage(VerwijderEntiteitenRequest verwijderEntiteitenRequest) {
-        List<Polis> polissen = polisService.alles(SoortEntiteit.valueOf(verwijderEntiteitenRequest.getSoortEntiteit().name()), verwijderEntiteitenRequest.getEntiteitId());
+        //        List<Polis> polissen = polisService.alles(SoortEntiteit.valueOf(verwijderEntiteitenRequest.getSoortEntiteit().name()), verwijderEntiteitenRequest.getEntiteitId());
 
-        List<Schade> schades = schadeService.alles(SoortEntiteit.valueOf(verwijderEntiteitenRequest.getSoortEntiteit().name()), verwijderEntiteitenRequest.getEntiteitId());
-
-        for (Schade schade : schades) {
-            schadeService.verwijder(schade.getId());
-        }
-        polisService.verwijder(polissen.stream().map(polis -> polis.getId()).collect(Collectors.toList()));
+        //        List<Schade> schades = schadeService.alles(SoortEntiteit.valueOf(verwijderEntiteitenRequest.getSoortEntiteit().name()), verwijderEntiteitenRequest.getEntiteitId());
+        //
+        //        for (Schade schade : schades) {
+        //            schadeService.verwijder(schade.getId());
+        //        }
+        //        polisService.verwijder(polissen.stream().map(polis -> polis.getId()).collect(Collectors.toList()));
     }
 }
