@@ -3,6 +3,7 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
         'redirect',
+        'model/polis',
         'mapper/pakket-mapper',
         'service/polis-service',
         'viewmodel/common/opmerking-viewmodel',
@@ -16,7 +17,7 @@ define(['jquery',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, log, redirect, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, _) {
+    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, _) {
 
         return function () {
             var _this = this;
@@ -110,6 +111,21 @@ define(['jquery',
                 return deferred.promise();
             };
 
+            this.voegPolisToe = function() {
+                var p = new Polis();
+                p.identificatie('__new__' + new Date().getTime());
+                _this.pakket.polissen.push(p);
+                $('#'+p.identificatie()).show();
+                $('#'+p.identificatie()+'open').show();
+                $('#'+p.identificatie()+'dicht').hide();
+            };
+
+            this.verwijderPolis = function(polis) {
+                console.log('Verwijderen polis met nummer ' + polis.polisNummer());
+
+                _this.pakket.polissen.remove(polis);
+            };
+
             this.style = function() {
                 if(_this.pakket.polissen().length == 1){
                     return 'display:block;';
@@ -159,6 +175,9 @@ define(['jquery',
 
                     _.each(_this.pakket.polissen(), function(polis){
                         polis.premie(commonFunctions.stripBedrag(polis.premie()));
+                        if(polis.identificatie().substr(0, 7) == '__new__'){
+                            polis.identificatie(null);
+                        }
                     });
                     polisService.opslaan(_this.pakket, _this.opmerkingenModel.opmerkingen, _this.basisId, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");

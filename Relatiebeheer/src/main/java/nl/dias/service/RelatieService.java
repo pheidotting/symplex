@@ -3,11 +3,12 @@ package nl.dias.service;
 import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Relatie;
 import nl.dias.domein.Schade;
-import nl.dias.domein.polis.Polis;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
@@ -27,8 +28,8 @@ public class RelatieService {
     @Inject
     private GebruikerService gebruikerService;
     @Inject
-    //    private PolisClient polisClient;
-    private PolisService polisService;
+    private PolisClient polisClient;
+    //    private PolisService polisService;
     @Inject
     private HypotheekService hypotheekService;
     @Inject
@@ -83,14 +84,14 @@ public class RelatieService {
 
     private Long pakRelatieBijPolis(Long polisId) {
         LOGGER.debug("polisId {}", polisId);
-        //        JsonPolis polis = polisClient.lees(String.valueOf(polisId));
-        Polis polis = polisService.lees(polisId);
+        JsonPakket pakket = polisClient.lees(polisId);
+        //        Polis polis = polisService.lees(polisId);
 
-        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(polis));
+        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(pakket));
 
         //        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", polisId);
 
-        return polis == null ? null : polis.getRelatie();
+        return pakket == null ? null : pakket.getEntiteitId();
         //
         //        return polis.getEntiteitId();
     }

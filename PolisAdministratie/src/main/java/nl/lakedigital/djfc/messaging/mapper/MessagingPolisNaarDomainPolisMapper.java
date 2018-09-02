@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -26,13 +25,13 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
     private PolisService polisService;
     private List<nl.lakedigital.djfc.domain.Polis> polissen;
     private IdentificatieClient identificatieClient;
-    private Set<nl.lakedigital.djfc.domain.Polis> bestaandePolissen;
+    private Pakket pakket;
 
-    public MessagingPolisNaarDomainPolisMapper(PolisService polisService, List<nl.lakedigital.djfc.domain.Polis> polissen, IdentificatieClient identificatieClient, Set<nl.lakedigital.djfc.domain.Polis> bestaandePolissen) {
+    public MessagingPolisNaarDomainPolisMapper(PolisService polisService, List<nl.lakedigital.djfc.domain.Polis> polissen, IdentificatieClient identificatieClient, Pakket pakket) {
         this.polisService = polisService;
         this.polissen = polissen;
         this.identificatieClient = identificatieClient;
-        this.bestaandePolissen = bestaandePolissen;
+        this.pakket = pakket;
     }
 
     @Override
@@ -54,14 +53,16 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
             Optional<nl.lakedigital.djfc.domain.Polis> firstPolisOptional = polissen.stream().filter(new JPolisOpSchermNaamPredicate(polisIn.getSoort()))
                     .findFirst();
 
+            if (this.pakket == null) {
+                this.pakket = new Pakket(SoortEntiteit.valueOf(polisIn.getSoortEntiteit()), polisIn.getEntiteitId());
+            }
             if(firstPolisOptional.isPresent()){
-            polis = firstPolisOptional
-                    .get().nieuweInstantie(new Pakket(SoortEntiteit.valueOf(polisIn.getSoortEntiteit()), polisIn.getEntiteitId()));
+            polis = firstPolisOptional.get().nieuweInstantie(this.pakket);
             }
         } else {
             LOGGER.debug("Bestaande polis, ophalen dus..");
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
-            polis = bestaandePolissen.stream().filter(polis1 -> polis1.getId() == polisIn.getId()).findFirst().get();
+            polis = pakket.getPolissen().stream().filter(polis1 -> polis1.getId() == polisIn.getId()).findFirst().get();
         }
 
         String patternDatum = "yyyy-MM-dd";

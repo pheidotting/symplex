@@ -27,7 +27,9 @@ public class JsonPakketNaarDomainPakketMapper {
         pakket = new JsonPakket();
         //        } else {
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(pakketIn.getIdentificatie());
-        pakket.setId(identificatie.getEntiteitId());
+        if (identificatie != null) {
+            pakket.setId(identificatie.getEntiteitId());
+        }
         //            pakket = polisClient.lees(identificatie.getEntiteitId());
         //        }
         pakket.setMaatschappij(pakketIn.getMaatschappij());

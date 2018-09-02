@@ -10,8 +10,14 @@
         <input class="form-control" type="text" id="polisNummer" name="polisNummer" placeholder="Polisnummer..."
                maxlength="25" data-bind="value: pakket.polisNummer, disable: readOnly"/>
 
+        <span class="fa fa-plus rechts-icon" aria-hidden="true"
+              data-bind="click: voegPolisToe"
+              id="voegPolisToe" style="cursor:pointer">Toevoegen</span>
+
         <div data-bind="foreach: pakket.polissen, as: 'polis'">
             <hr/>
+            <a class="fa fa-trash" aria-hidden="true" id="verwijderPolis"
+               data-bind="click: $parent.verwijderPolis" style="cursor:pointer"></a>
             <h4>
                 <span data-bind="text: soort"/>
                 <span data-bind="attr: {id: identificatie()+'dicht'}, event: {click: $parent.toonOfVerberg}"
@@ -66,7 +72,8 @@
 
                 <label for="premie">Premie</label>
                 <input class="form-control" type="text" id="premie" placeholder="Premie..."
-                       data-bind="value: premie, disable: $parent.readOnly, event: {input: $parent.startBewerkenPremie, blur: $parent.stopBewerkenPremie}"/>
+                       data-bind="value: premie"/>
+                <!--, disable: $parent.readOnly, event: {input: $parent.startBewerkenPremie, blur: $parent.stopBewerkenPremie}"/>-->
 
                 <label for="ingangsDatumString">Ingangsdatum</label>
                 <input class="form-control" type="date" id="ingangsDatumString" placeholder="Ingangs datum..."

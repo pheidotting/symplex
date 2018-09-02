@@ -46,14 +46,15 @@ public class JsonPolisNaarDomainPolisMapper {
         //        if (polisIn.getIdentificatie() == null) {
         //            polis = polisClient.definieerPolisSoort(polisIn.getSoort());
         //        } else {
-        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
         //            LOGGER.debug(ReflectionToStringBuilder.toString(identificatie));
         //            //POLISCLIENT!
         //            polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
         //        polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
         polis = new JsonPolis();
-        polis.setId(identificatie.getEntiteitId());
-        //        }
+        if (polisIn.getIdentificatie() != null) {
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
+            polis.setId(identificatie.getEntiteitId());
+        }
         //        polis=new P
 
         if (polisIn.getStatus() != null) {
@@ -75,6 +76,7 @@ public class JsonPolisNaarDomainPolisMapper {
         polis.setEindDatum(polisIn.getEindDatum());
         polis.setDekking(polisIn.getDekking());
         polis.setVerzekerdeZaak(polisIn.getVerzekerdeZaak());
+        polis.setSoort(polisIn.getSoort());
         if (StringUtils.isNotEmpty(polisIn.getBetaalfrequentie())) {
             //            polis.setBetaalfrequentie(Betaalfrequentie.valueOf(polisIn.getBetaalfrequentie().toUpperCase().substring(0, 1)));
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie());
@@ -82,7 +84,7 @@ public class JsonPolisNaarDomainPolisMapper {
 
         //        polis.setMaatschappij(polisIn.getMaatschappij());
 
-        Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(polisIn.getParentIdentificatie());
+        //        Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(polisIn.getParentIdentificatie());
         //        if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
         //            polis.setRelatie(identificatie1.getEntiteitId());
         //        } else {

@@ -48,7 +48,7 @@ public class MessagingPakketNaarDomainPakketMapper implements Function<nl.lakedi
         pakket.setPolisNummer(pakketIn.getPolisNummer());
         pakket.setMaatschappij(pakketIn.getMaatschappij());
 
-        pakket.setPolissen(pakketIn.getPolissen().stream().map(new MessagingPolisNaarDomainPolisMapper(polisService, polissen, identificatieClient, pakket.getPolissen())).collect(Collectors.toSet()));
+        pakket.setPolissen(pakketIn.getPolissen().stream().map(new MessagingPolisNaarDomainPolisMapper(polisService, polissen, identificatieClient, pakket)).collect(Collectors.toSet()));
 
         return pakket;
     }
