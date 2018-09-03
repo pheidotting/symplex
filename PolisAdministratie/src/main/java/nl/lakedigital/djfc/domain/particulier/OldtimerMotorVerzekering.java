@@ -1,26 +1,28 @@
 package nl.lakedigital.djfc.domain.particulier;
 
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//@Audited
+@Audited
+
 
 @Component
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "OM")
 public class OldtimerMotorVerzekering extends Polis {
-    public OldtimerMotorVerzekering() {//Hibernate wil deze, maar SonarQube niet
+    public OldtimerMotorVerzekering() {
     }
 
-    public OldtimerMotorVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
-        super(soortEntiteit, entiteitId);
+    public OldtimerMotorVerzekering(Pakket pakket) {
+        super(pakket);
     }
 
     @Override
@@ -30,13 +32,12 @@ public class OldtimerMotorVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        String pakket = this.getClass().getPackage().toString().replace("package ", "") + ".";
-        return this.getClass().getCanonicalName().replace("Verzekering", "").replace(pakket, "");
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override
-    public OldtimerMotorVerzekering nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new OldtimerMotorVerzekering(soortEntiteit,entiteitId);
+    public OldtimerMotorVerzekering nieuweInstantie(Pakket pakket) {
+        return new OldtimerMotorVerzekering(pakket);
     }
 }
 

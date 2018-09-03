@@ -1,7 +1,7 @@
 define(['knockout'],
     function (ko) {
 
-        return function polisModel() {
+        return function Polis() {
             var _this = this;
 
             _this.identificatie = ko.observable();
@@ -26,5 +26,14 @@ define(['knockout'],
             _this.titel = ko.computed(function () {
                 return _this.soort() + " (" + _this.polisNummer() + ")";
             }, this);
+
+            _this.voertuiginfo = ko.observable(false);
+            _this.merk = ko.observable();
+            _this.type = ko.observable();
+            _this.bouwjaar = ko.observable();
+            _this.voertuigImage1 = ko.observable();
+            _this.voertuigImage2 = ko.observable();
+            _this.voertuigImage3 = ko.observable();
+
         };
     });

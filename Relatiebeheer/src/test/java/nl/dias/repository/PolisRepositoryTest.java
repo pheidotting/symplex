@@ -46,8 +46,8 @@
 //        reisVerzekering.setMaatschappij(maatschappij.getId());
 //        reisVerzekering.setRelatie(relatie);
 //
-//        relatie.getPolissen().add(autoVerzekering);
-//        relatie.getPolissen().add(reisVerzekering);
+//        relatie.getPokketten().add(autoVerzekering);
+//        relatie.getPokketten().add(reisVerzekering);
 //
 //        polisRepository.opslaan(autoVerzekering);
 //        polisRepository.opslaan(reisVerzekering);
@@ -57,7 +57,7 @@
 //        assertEquals(1, polisRepository.zoekPolissenOpSoort(ReisVerzekering.class).size());
 //
 //        // TODO delete werkt nog niet
-//        relatie.getPolissen().remove(autoVerzekering);
+//        relatie.getPokketten().remove(autoVerzekering);
 //        polisRepository.verwijder(autoVerzekering);
 //
 //        assertEquals(0, polisRepository.zoekPolissenOpSoort(AutoVerzekering.class).size());
@@ -101,9 +101,9 @@
 //        ongevallenVerzekering.setBedrijf(bedrijf2);
 //        ongevallenVerzekering.setMaatschappij(maatschappij.getId());
 //
-//        relatie.getPolissen().add(autoVerzekering);
-//        bedrijf1.getPolissen().add(woonhuisVerzekering);
-//        bedrijf2.getPolissen().add(ongevallenVerzekering);
+//        relatie.getPokketten().add(autoVerzekering);
+//        bedrijf1.getPokketten().add(woonhuisVerzekering);
+//        bedrijf2.getPokketten().add(ongevallenVerzekering);
 //
 //        opslaan(relatie);
 //
@@ -156,9 +156,9 @@
 //        opslaan(verzekering2);
 //        opslaan(verzekering3);
 //
-//        relatie1.getPolissen().add(verzekering1);
-//        relatie1.getPolissen().add(verzekering2);
-//        relatie2.getPolissen().add(verzekering3);
+//        relatie1.getPokketten().add(verzekering1);
+//        relatie1.getPokketten().add(verzekering2);
+//        relatie2.getPokketten().add(verzekering3);
 //
 //        update(relatie1);
 //        update(relatie2);

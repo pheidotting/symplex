@@ -45,6 +45,8 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
             }
             if (ontvangenObject.getIngelogdeGebruiker() != null) {
                 MDC.put("ingelogdeGebruiker", String.valueOf(ontvangenObject.getIngelogdeGebruiker()));
+            }
+            if (ontvangenObject.getIngelogdeGebruikerOpgemaakt() != null) {
                 MDC.put("ingelogdeGebruikerOpgemaakt", ontvangenObject.getIngelogdeGebruikerOpgemaakt());
             }
             if (ontvangenObject.getUrl() != null) {

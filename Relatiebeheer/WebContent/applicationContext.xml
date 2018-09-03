@@ -268,6 +268,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <constructor-arg value="${pa.url}"/>
         <property name="metricsService" ref="metricsService"/>
     </bean>
+    <bean id="verzekeringsMaatschappijClient"
+          class="nl.lakedigital.djfc.client.polisadministratie.VerzekeringsMaatschappijClient">
+        <constructor-arg value="${pa.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
     <bean id="schadeClient" class="nl.lakedigital.djfc.client.polisadministratie.SchadeClient">
         <constructor-arg value="${pa.url}"/>
         <property name="metricsService" ref="metricsService"/>

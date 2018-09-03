@@ -4,9 +4,9 @@ import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.messaging.mapper.DomainPolisNaarMessagingPolisMapper;
-import nl.lakedigital.djfc.messaging.mapper.MessagingPolisNaarDomainPolisMapper;
+import nl.lakedigital.djfc.domain.Pakket;
+import nl.lakedigital.djfc.messaging.mapper.DomainPakketNaarMessagingPakketMapper;
+import nl.lakedigital.djfc.messaging.mapper.MessagingPakketNaarDomainPakketMapper;
 import nl.lakedigital.djfc.service.PolisService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
@@ -20,6 +20,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRequest> {
@@ -39,22 +40,27 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
     @Override
     public void verwerkMessage(PolisOpslaanRequest polisOpslaanRequest) {
         LOGGER.debug("Inkomend request {}", ReflectionToStringBuilder.toString(polisOpslaanRequest));
-        for (nl.lakedigital.as.messaging.domain.Polis p : polisOpslaanRequest.getPolissen()) {
+        for (nl.lakedigital.as.messaging.domain.Pakket p : polisOpslaanRequest.getPokketten()) {
             LOGGER.debug(ReflectionToStringBuilder.toString(p));
         }
-        List<Polis> polissenOpslaan = polisOpslaanRequest.getPolissen().stream().map(new MessagingPolisNaarDomainPolisMapper(polisService, polissen, identificatieClient))//
+        List<Pakket> pakkettenOpslaan = polisOpslaanRequest.getPokketten().stream().map(new MessagingPakketNaarDomainPakketMapper(polisService, polissen, identificatieClient))//
                 .map(polis -> {
                     LOGGER.debug(ReflectionToStringBuilder.toString(polis));
                     return polis;
                 }).collect(Collectors.toList());
 
-        polisService.opslaan(polissenOpslaan);
+        pakkettenOpslaan.stream().forEach(new Consumer<Pakket>() {
+            @Override
+            public void accept(Pakket pakket) {
+                polisService.opslaan(pakket);
+            }
+        });
 
         if (replyTo != null) {
             LOGGER.debug("Response versturen");
             PolisOpslaanResponse polisOpslaanResponse = new PolisOpslaanResponse();
             polisOpslaanResponse.setAntwoordOp(polisOpslaanRequest);
-            polisOpslaanResponse.setPolissen(polissenOpslaan.stream().map(new DomainPolisNaarMessagingPolisMapper()).collect(Collectors.toList()));
+            polisOpslaanResponse.setPakketten(pakkettenOpslaan.stream().map(new DomainPakketNaarMessagingPakketMapper()).collect(Collectors.toList()));
 
             try {
                 setupMessageQueueConsumer();

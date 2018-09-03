@@ -11,9 +11,12 @@ import nl.dias.repository.PolisRepository;
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
+import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -39,8 +42,8 @@ public class BedrijfService {
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
-    //    private PolisClient polisClient;
-    private PolisService polisService;
+    private PolisClient polisClient;
+    //    private PolisService polisService;
     @Inject
     private AdresClient adresClient;
     @Inject
@@ -65,7 +68,7 @@ public class BedrijfService {
             case "BEDRIJF":
                 bedrijfId = identificatie.getEntiteitId();
                 break;
-            case "POLIS":
+            case "PAKKET":
                 bedrijfId = pakBedrijfBijPolis(identificatie.getEntiteitId());
                 break;
             case "ADRES":
@@ -81,13 +84,13 @@ public class BedrijfService {
     }
 
     private Long pakBedrijfBijPolis(Long polisId) {
-        //        JsonPolis polis = polisClient.lees(String.valueOf(polisId));
-        Polis polis = polisService.lees(polisId);
+        JsonPakket pakket = polisClient.lees(polisId);
+        //        Polis polis = polisService.lees(polisId);
 
-        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(polis));
+        LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(pakket));
 
-        //        return polis.getEntiteitId();
-        return polis.getBedrijf();
+        return pakket.getEntiteitId();
+        //        return polis.getBedrijf();
     }
 
     private Long pakBedrijfBijAdres(Long adresId) {
@@ -97,8 +100,8 @@ public class BedrijfService {
     }
 
     private Long pakBedrijfBijSchade(Long schadeId) {
-        //        JsonSchade schade = schadeClient.lees(String.valueOf(schadeId));
-        Schade schade = schadeService.lees(schadeId);
+        JsonSchade schade = schadeClient.lees(String.valueOf(schadeId));
+        //        Schade schade = schadeService.lees(schadeId);
 
         LOGGER.debug("Schade ({}) gevonden : {}", schadeId, ReflectionToStringBuilder.toString(schade));
 

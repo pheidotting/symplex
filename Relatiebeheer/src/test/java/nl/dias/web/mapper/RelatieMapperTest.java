@@ -54,7 +54,7 @@
 //        relatie.setGeboorteDatum(new LocalDate(2014, 2, 3));
 //        relatie.setOverlijdensdatum(new LocalDate(2014, 6, 7));
 //        relatie.setTelefoonnummers(new HashSet<Telefoonnummer>());
-//        relatie.setPolissen(new HashSet<Polis>());
+//        relatie.setPokketten(new HashSet<Polis>());
 //        relatie.setRekeningnummers(new HashSet<RekeningNummer>());
 //        relatie.setOpmerkingen(new HashSet<Opmerking>());
 //

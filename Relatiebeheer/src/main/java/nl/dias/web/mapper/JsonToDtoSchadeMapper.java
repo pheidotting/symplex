@@ -7,12 +7,14 @@ import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.domain.response.Schade;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Schade> {
+public class JsonToDtoSchadeMapper implements Function<JsonSchade, Schade> {
+    //public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Schade> {
     private BijlageClient bijlageClient;
     private GroepBijlagesClient groepBijlagesClient;
     private OpmerkingClient opmerkingClient;
@@ -31,31 +33,37 @@ public class JsonToDtoSchadeMapper implements Function<nl.dias.domein.Schade, Sc
     }
 
     @Override
-    public Schade apply(nl.dias.domein.Schade domein) {
+    public Schade apply(JsonSchade domein) {
+        //        return null;
+        //    }
+        //
+        //    @Override
+        //    public Schade apply(nl.dias.domein.Schade domein) {
         Schade schade = new Schade();
 
         Identificatie identificatie = identificatieClient.zoekIdentificatie("SCHADE", domein.getId());
 
         schade.setIdentificatie(identificatie.getIdentificatie());
         if (domein.getDatumAfgehandeld() != null) {
-            schade.setDatumAfgehandeld(domein.getDatumAfgehandeld().toString(patternDatum));
+            schade.setDatumAfgehandeld(domein.getDatumAfgehandeld());//.toString(patternDatum));
         }
-        schade.setDatumMelding(domein.getDatumMelding().toString(patternDatum));
-        schade.setDatumSchade(domein.getDatumSchade().toString(patternDatum));
+        schade.setDatumMelding(domein.getDatumMelding());//.toString(patternDatum));
+        schade.setDatumSchade(domein.getDatumSchade());//.toString(patternDatum));
         if (domein.getEigenRisico() != null) {
-            schade.setEigenRisico(domein.getEigenRisico().getBedrag().toString());
+            schade.setEigenRisico(domein.getEigenRisico());//.getBedrag().toString());
         }
         schade.setLocatie(domein.getLocatie());
         schade.setOmschrijving(domein.getOmschrijving());
         schade.setSchadeNummerMaatschappij(domein.getSchadeNummerMaatschappij());
         schade.setSchadeNummerTussenPersoon(domein.getSchadeNummerTussenPersoon());
         if (domein.getSoortSchade() != null) {
-            schade.setSoortSchade(domein.getSoortSchade().getOmschrijving());
+            schade.setSoortSchade(domein.getSoortSchade());//.getOmschrijving());
         } else {
-            schade.setSoortSchade(domein.getSoortSchadeOngedefinieerd());
+            //            schade.setSoortSchade(domein.getSoortSchadeOngedefinieerd());
+            schade.setSoortSchade(domein.getSoortSchade());
         }
         if (domein.getStatusSchade() != null) {
-            schade.setStatusSchade(domein.getStatusSchade().getStatus());
+            schade.setStatusSchade(domein.getStatusSchade());//.getStatus());
         }
 
         schade.setBijlages(bijlageClient.lijst("SCHADE", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));

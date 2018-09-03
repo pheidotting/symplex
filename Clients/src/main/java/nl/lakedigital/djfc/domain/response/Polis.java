@@ -3,8 +3,6 @@ package nl.lakedigital.djfc.domain.response;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 public class Polis {
     private String identificatie;
     private String status;
@@ -18,7 +16,6 @@ public class Polis {
     private String betaalfrequentie;
     private String dekking;
     private String verzekerdeZaak;
-    private String maatschappij;
     private String soort;
     private String idDiv;
     private String idDivLink;
@@ -31,10 +28,6 @@ public class Polis {
 
     private List<Schade> schades;
 
-    private List<Bijlage> bijlages = newArrayList();
-    private List<GroepBijlages> groepBijlages = newArrayList();
-    private List<Opmerking> opmerkingen = newArrayList();
-    private List<Taak> taken = newArrayList();
 
     public String getIdentificatie() {
         return identificatie;
@@ -132,14 +125,6 @@ public class Polis {
         this.verzekerdeZaak = verzekerdeZaak;
     }
 
-    public String getMaatschappij() {
-        return maatschappij;
-    }
-
-    public void setMaatschappij(String maatschappij) {
-        this.maatschappij = maatschappij;
-    }
-
     public String getSoort() {
         return soort;
     }
@@ -223,35 +208,4 @@ public class Polis {
         this.schades = schades;
     }
 
-    public List<Bijlage> getBijlages() {
-        return bijlages;
-    }
-
-    public void setBijlages(List<Bijlage> bijlages) {
-        this.bijlages = bijlages;
-    }
-
-    public List<GroepBijlages> getGroepBijlages() {
-        return groepBijlages;
-    }
-
-    public void setGroepBijlages(List<GroepBijlages> groepBijlages) {
-        this.groepBijlages = groepBijlages;
-    }
-
-    public List<Opmerking> getOpmerkingen() {
-        return opmerkingen;
-    }
-
-    public void setOpmerkingen(List<Opmerking> opmerkingen) {
-        this.opmerkingen = opmerkingen;
-    }
-
-    public List<Taak> getTaken() {
-        return taken;
-    }
-
-    public void setTaken(List<Taak> taken) {
-        this.taken = taken;
-    }
 }

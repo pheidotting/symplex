@@ -7,4 +7,22 @@
     <changeSet id="1" author="Patrick Heidotting">
         <delete tableName="TELEFONIEBESTAND"/>
     </changeSet>
+    <changeSet id="2" author="Patrick Heidotting">
+        <update tableName="BIJLAGE">
+            <column name="SOORTENTITEIT" value="PAKKET"/>
+            <where>SOORTENTITEIT = 'POLIS'</where>
+        </update>
+        <update tableName="BIJLAGE_AUD">
+            <column name="SOORTENTITEIT" value="PAKKET"/>
+            <where>SOORTENTITEIT = 'POLIS'</where>
+        </update>
+        <update tableName="OPMERKING">
+            <column name="SOORTENTITEIT" value="PAKKET"/>
+            <where>SOORTENTITEIT = 'POLIS'</where>
+        </update>
+        <update tableName="OPMERKING_AUD">
+            <column name="SOORTENTITEIT" value="PAKKET"/>
+            <where>SOORTENTITEIT = 'POLIS'</where>
+        </update>
+    </changeSet>
 </databaseChangeLog>

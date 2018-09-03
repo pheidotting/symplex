@@ -95,11 +95,13 @@ public class SchadeService {
     }
 
     public List<Schade> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
-        List<Polis> polissen = polisService.alles(soortEntiteit, entiteitId);
+        List<Pakket> pakketten = polisService.alles(soortEntiteit, entiteitId);
         List<Schade> result = new ArrayList<>();
 
-        for (Polis polis : polissen) {
-            result.addAll(schadeRepository.alleSchades(polis.getId()));
+        for (Pakket pakket : pakketten) {
+            for (Polis polis : pakket.getPolissen()) {
+                result.addAll(schadeRepository.alleSchades(polis.getId()));
+            }
         }
 
         return result;

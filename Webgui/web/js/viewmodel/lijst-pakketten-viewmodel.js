@@ -6,22 +6,22 @@ define(['jquery',
         'commons/3rdparty/log',
         'redirect',
         'service/polis-service',
-        'mapper/polis-mapper',
+        'mapper/pakket-mapper',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'moment',
         'commons/opmaak'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, polisMapper, menubalkViewmodel, LicentieViewmodel, moment, opmaak) {
+    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, pakketMapper, menubalkViewmodel, LicentieViewmodel, moment, opmaak) {
 
         return function () {
             var _this = this;
-            var logger = log.getLogger('lijst-polissen-viewmodel');
+            var logger = log.getLogger('lijst-pakketten-viewmodel');
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
 
             this.basisEntiteit = null;
             this.id = ko.observable();
-            this.polissen = ko.observableArray();
+            this.pakketten = ko.observableArray();
             this.identificatie = null;
 
             this.init = function (id, basisEntiteit) {
@@ -38,7 +38,7 @@ define(['jquery',
                         _this.basisEntiteit = "RELATIE";
                     }
 
-                    _this.polissen = polisMapper.mapPolissen(data.polissen, maatschappijen);
+                    _this.pakketten = pakketMapper.mapPakketten(data.pakketten, maatschappijen);
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
