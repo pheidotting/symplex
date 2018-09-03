@@ -221,7 +221,7 @@ public class GebruikerController extends AbstractController {
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         //Taken opslaan
-        takenOpslaanService.opslaan(jsonRelatie.getTaken(), relatie.getId());
+        takenOpslaanService.opslaan(jsonRelatie.getTaken(), relatie.getId(), SoortEntiteit.RELATIE);
 
         metricsService.stop(timer);
 

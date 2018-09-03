@@ -25,7 +25,7 @@ public class TakenOpslaanService {
     @Inject
     private IdentificatieClient identificatieClient;
 
-    public void opslaan(List<Taak> taken, Long entiteitId) {
+    public void opslaan(List<Taak> taken, Long entiteitId, SoortEntiteit soortEntiteit) {
         LOGGER.info("Opslaan {} taken", taken.size());
         taken.stream().filter(taak -> taak.getIdentificatie() == null && taak.getTitel() != null && !"".equals(taak.getTitel()))//
                 .forEach(taak -> {
@@ -40,7 +40,7 @@ public class TakenOpslaanService {
                         Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taak.getToegewezenAan());
                         opslaanTaakRequest.setToegewezenAan(identificatieMedewerker.getEntiteitId());
                     }
-                    opslaanTaakRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
+                    opslaanTaakRequest.setSoortEntiteit(soortEntiteit);
                     opslaanTaakRequest.setEntiteitId(entiteitId);
                     opslaanTaakRequestSender.send(opslaanTaakRequest);
                 });

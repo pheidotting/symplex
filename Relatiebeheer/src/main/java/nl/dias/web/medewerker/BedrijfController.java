@@ -128,7 +128,7 @@ public class BedrijfController extends AbstractController {
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         //Taken opslaan
-        takenOpslaanService.opslaan(jsonBedrijf.getTaken(), bedrijf.getId());
+        takenOpslaanService.opslaan(jsonBedrijf.getTaken(), bedrijf.getId(), SoortEntiteit.BEDRIJF);
 
         metricsService.stop(timer);
 
