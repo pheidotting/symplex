@@ -1,7 +1,7 @@
 package nl.lakedigital.as.messaging.response;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.as.messaging.domain.Polis;
+import nl.lakedigital.as.messaging.domain.Pakket;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -9,16 +9,16 @@ import java.util.List;
 
 @XmlRootElement(name = "polisOpslaanResponse")
 public class PolisOpslaanResponse extends AbstractMessage {
-    private List<Polis> polissen;
+    private List<Pakket> pakketten;
 
-    public List<Polis> getPolissen() {
-        if (polissen == null) {
-            polissen = new ArrayList<>();
+    public List<Pakket> getPakketten() {
+        if (pakketten == null) {
+            pakketten = new ArrayList<>();
         }
-        return polissen;
+        return pakketten;
     }
 
-    public void setPolissen(List<Polis> polissen) {
-        this.polissen = polissen;
+    public void setPakketten(List<Pakket> pakketten) {
+        this.pakketten = pakketten;
     }
 }

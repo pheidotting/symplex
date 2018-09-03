@@ -106,7 +106,7 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
             polis.setBetaalfrequentie(Betaalfrequentie.valueOf(jsonPolis.getBetaalfrequentie().toUpperCase().substring(0, 1)));
         }
 
-        polis.setMaatschappij(Long.valueOf(jsonPolis.getMaatschappij()));
+        //        polis.setMaatschappij(Long.valueOf(jsonPolis.getMaatschappij()));
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getParentIdentificatie());
         if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
@@ -127,50 +127,50 @@ public class PolisMapper extends Mapper<Polis, JsonPolis> {
 
         JsonPolis jsonPolis = new JsonPolis();
 
-        jsonPolis.setId(polis.getId());
-        // polissen die al in het systeem staan hoeven net per se een status te
-        // hebben
-        if (polis.getStatus() != null) {
-            jsonPolis.setStatus(polis.getStatus().getOmschrijving());
-        }
-        jsonPolis.setPolisNummer(polis.getPolisNummer());
-        jsonPolis.setKenmerk(polis.getKenmerk());
-        if (polis.getPremie() != null) {
-            jsonPolis.setPremie(zetBedragOm(polis.getPremie()));
-        }
-        if (polis.getIngangsDatum() != null) {
-            jsonPolis.setIngangsDatum(polis.getIngangsDatum().toString("yyyy-MM-dd"));
-        }
-        if (polis.getEindDatum() != null) {
-            jsonPolis.setEindDatum(polis.getEindDatum().toString("yyyy-MM-dd"));
-        }
-        if (polis.getWijzigingsDatum() != null) {
-            jsonPolis.setWijzigingsDatum(polis.getWijzigingsDatum().toString("yyyy-MM-dd"));
-        }
-        if (polis.getProlongatieDatum() != null) {
-            jsonPolis.setProlongatieDatum(polis.getProlongatieDatum().toString("yyyy-MM-dd"));
-        }
-        if (polis.getBetaalfrequentie() != null) {
-            jsonPolis.setBetaalfrequentie(polis.getBetaalfrequentie().getOmschrijving());
-        }
-        jsonPolis.setDekking(polis.getDekking());
-        jsonPolis.setVerzekerdeZaak(polis.getVerzekerdeZaak());
-        if (polis.getMaatschappij() != null) {
-            jsonPolis.setMaatschappij(polis.getMaatschappij().toString());
-        }
-        jsonPolis.setSoort(polis.getClass().getSimpleName().replace("Verzekering", ""));
-        if (polis.getBedrijf() != null) {
-            jsonPolis.setEntiteitId(polis.getBedrijf());
-            jsonPolis.setSoortEntiteit("BEDRIJF");
-        }
-        if (polis.getRelatie() != null) {
-            jsonPolis.setEntiteitId(polis.getBedrijf());
-            jsonPolis.setSoortEntiteit("RELATIE");
-        }
-        jsonPolis.setOmschrijvingVerzekering(polis.getOmschrijvingVerzekering());
-
-        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", jsonPolis.getId());
-        jsonPolis.setIdentificatie(identificatie.getIdentificatie());
+        //        jsonPolis.setId(polis.getId());
+        //        // polissen die al in het systeem staan hoeven net per se een status te
+        //        // hebben
+        //        if (polis.getStatus() != null) {
+        //            jsonPolis.setStatus(polis.getStatus().getOmschrijving());
+        //        }
+        //        jsonPolis.setPolisNummer(polis.getPolisNummer());
+        //        jsonPolis.setKenmerk(polis.getKenmerk());
+        //        if (polis.getPremie() != null) {
+        //            jsonPolis.setPremie(zetBedragOm(polis.getPremie()));
+        //        }
+        //        if (polis.getIngangsDatum() != null) {
+        //            jsonPolis.setIngangsDatum(polis.getIngangsDatum().toString("yyyy-MM-dd"));
+        //        }
+        //        if (polis.getEindDatum() != null) {
+        //            jsonPolis.setEindDatum(polis.getEindDatum().toString("yyyy-MM-dd"));
+        //        }
+        //        if (polis.getWijzigingsDatum() != null) {
+        //            jsonPolis.setWijzigingsDatum(polis.getWijzigingsDatum().toString("yyyy-MM-dd"));
+        //        }
+        //        if (polis.getProlongatieDatum() != null) {
+        //            jsonPolis.setProlongatieDatum(polis.getProlongatieDatum().toString("yyyy-MM-dd"));
+        //        }
+        //        if (polis.getBetaalfrequentie() != null) {
+        //            jsonPolis.setBetaalfrequentie(polis.getBetaalfrequentie().getOmschrijving());
+        //        }
+        //        jsonPolis.setDekking(polis.getDekking());
+        //        jsonPolis.setVerzekerdeZaak(polis.getVerzekerdeZaak());
+        //        if (polis.getMaatschappij() != null) {
+        //            jsonPolis.setMaatschappij(polis.getMaatschappij().toString());
+        //        }
+        //        jsonPolis.setSoort(polis.getClass().getSimpleName().replace("Verzekering", ""));
+        //        if (polis.getBedrijf() != null) {
+        //            jsonPolis.setEntiteitId(polis.getBedrijf());
+        //            jsonPolis.setSoortEntiteit("BEDRIJF");
+        //        }
+        //        if (polis.getRelatie() != null) {
+        //            jsonPolis.setEntiteitId(polis.getBedrijf());
+        //            jsonPolis.setSoortEntiteit("RELATIE");
+        //        }
+        //        jsonPolis.setOmschrijvingVerzekering(polis.getOmschrijvingVerzekering());
+        //
+        //        Identificatie identificatie = identificatieClient.zoekIdentificatie("POLIS", jsonPolis.getId());
+        //        jsonPolis.setIdentificatie(identificatie.getIdentificatie());
 
         return jsonPolis;
     }

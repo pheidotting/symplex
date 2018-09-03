@@ -8,7 +8,7 @@ import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
-import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
@@ -85,7 +85,7 @@ public class ZoekServiceTest extends EasyMockSupport {
         String polisnummer = "123";
         Long relatieId = 2L;
 
-        JsonPolis polis = new JsonPolis();
+        JsonPakket polis = new JsonPakket();
         polis.setEntiteitId(relatieId);
         polis.setSoortEntiteit("RELATIE");
 
@@ -109,7 +109,7 @@ public class ZoekServiceTest extends EasyMockSupport {
         String polisnummer = "123";
         Long bedrijfsId = 3L;
 
-        JsonPolis polis = new JsonPolis();
+        JsonPakket polis = new JsonPakket();
         polis.setEntiteitId(bedrijfsId);
         polis.setSoortEntiteit("BEDRIJF");
 
@@ -131,15 +131,15 @@ public class ZoekServiceTest extends EasyMockSupport {
     @Test
     public void testZoekOpSchadenummerRelatie() {
         String schadenummer = "234";
-        String polisId = "4";
+        Long polisId = 4L;
         Long relatieId = 2L;
 
         JsonSchade schade = new JsonSchade();
-        schade.setPolis(polisId);
+        schade.setPolis(String.valueOf(polisId));
 
         expect(schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer)).andReturn(newArrayList(schade));
 
-        JsonPolis polis = new JsonPolis();
+        JsonPakket polis = new JsonPakket();
         polis.setEntiteitId(relatieId);
         polis.setSoortEntiteit("RELATIE");
 
@@ -169,11 +169,11 @@ public class ZoekServiceTest extends EasyMockSupport {
 
         expect(schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer)).andReturn(newArrayList(schade));
 
-        JsonPolis polis = new JsonPolis();
+        JsonPakket polis = new JsonPakket();
         polis.setEntiteitId(bedrijfsId);
         polis.setSoortEntiteit("BEDRIJF");
 
-        expect(polisClient.lees(polisId)).andReturn(polis);
+        expect(polisClient.lees(Long.valueOf(polisId))).andReturn(polis);
 
         Bedrijf bedrijf = new Bedrijf();
 

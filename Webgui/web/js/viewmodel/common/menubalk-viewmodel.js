@@ -103,7 +103,7 @@ define(['redirect',
             loc =loc.substring(posHashtag);
             var posSlash = loc.indexOf("/");
 
-            if(loc.substring(0, posSlash) =='#polissen'){
+            if(loc.substring(0, posSlash) =='#pakketten'){
                 $('#nieuwKnopDiv').show();
                 $('#nieuwePolisLink').show();
             }

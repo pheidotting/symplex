@@ -29,7 +29,7 @@ public class Relatie {
     private List<Telefoonnummer> telefoonnummers;
     private List<Opmerking> opmerkingen;
     private List<TelefoonnummerMetGesprekken> telefoonnummerMetGesprekkens;
-    private List<Polis> polissen;
+    private List<Pakket> pakketten;
     private List<Hypotheek> hypotheken;
     private List<Taak> taken;
 
@@ -208,15 +208,15 @@ public class Relatie {
         this.telefoonnummerMetGesprekkens = telefoonnummerMetGesprekkens;
     }
 
-    public List<Polis> getPolissen() {
-        if (polissen == null) {
-            polissen = new ArrayList<>();
+    public List<Pakket> getPakketten() {
+        if (pakketten == null) {
+            pakketten = new ArrayList<>();
         }
-        return polissen;
+        return pakketten;
     }
 
-    public void setPolissen(List<Polis> polissen) {
-        this.polissen = polissen;
+    public void setPakketten(List<Pakket> pakketten) {
+        this.pakketten = pakketten;
     }
 
     public List<Hypotheek> getHypotheken() {
@@ -268,6 +268,6 @@ public class Relatie {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("roepnaam", roepnaam).append("voornaam", voornaam).append("tussenvoegsel", tussenvoegsel).append("achternaam", achternaam).append("kantoor", kantoor).append("geboorteDatum", geboorteDatum).append("overlijdensdatum", overlijdensdatum).append("geslacht", geslacht).append("burgerlijkeStaat", burgerlijkeStaat).append("emailadres", emailadres).append("adressen", adressen).append("bijlages", bijlages).append("groepBijlages", groepBijlages).append("rekeningNummers", rekeningNummers).append("telefoonnummers", telefoonnummers).append("opmerkingen", opmerkingen).append("telefoonnummerMetGesprekkens", telefoonnummerMetGesprekkens).append("polissen", polissen).toString();
+        return new ToStringBuilder(this).append("id", id).append("identificatie", identificatie).append("roepnaam", roepnaam).append("voornaam", voornaam).append("tussenvoegsel", tussenvoegsel).append("achternaam", achternaam).append("kantoor", kantoor).append("geboorteDatum", geboorteDatum).append("overlijdensdatum", overlijdensdatum).append("geslacht", geslacht).append("burgerlijkeStaat", burgerlijkeStaat).append("emailadres", emailadres).append("adressen", adressen).append("bijlages", bijlages).append("groepBijlages", groepBijlages).append("rekeningNummers", rekeningNummers).append("telefoonnummers", telefoonnummers).append("opmerkingen", opmerkingen).append("telefoonnummerMetGesprekkens", telefoonnummerMetGesprekkens).append("paketten", pakketten).toString();
     }
 }

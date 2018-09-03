@@ -2,15 +2,15 @@
     <thead>
     <tr>
         <th>&nbsp;</th>
-        <th>Status</th>
+        <!--<th>Status</th>-->
         <th>Polisnummer</th>
-        <th>Soort</th>
+        <!--<th>Soort</th>-->
         <th>Maatschappij</th>
-        <th>Kenmerk</th>
-        <th>Ingangsdatum</th>
+        <!--<th>Kenmerk</th>-->
+        <!--<th>Ingangsdatum</th>-->
     </tr>
     </thead>
-    <tbody data-bind="foreach: polissen">
+    <tbody data-bind="foreach: pakketten">
     <tr>
         <td>
             <a class="fa fa-pencil-square-o"
@@ -20,12 +20,12 @@
             <a class="fa fa-times"
                data-bind="click: $parent.verwijder, attr: {title: 'Polis met nummer : ' + polisNummer() + ' verwijderen'}"></a>
         </td>
-        <td data-bind="text: status, attr: {class: 'overzicht status ' + status()}"></td>
+        <!--<td data-bind="text: status, attr: {class: 'overzicht status ' + status()}"></td>-->
         <td data-bind="text: polisNummer" class="overzicht polisNummer"></td>
-        <td data-bind="text: soort" class="overzicht soort"></td>
+        <!--<td data-bind="text: soort" class="overzicht soort"></td>-->
         <td data-bind="text: maatschappij.omschrijving" class="overzicht maatschappij"></td>
-        <td data-bind="text: kenmerk" class="overzicht kenmerk"></td>
-        <td data-bind="text: $parent.formatDatum(ingangsDatum)" class="overzicht ingangsDatum"></td>
+        <!--<td data-bind="text: kenmerk" class="overzicht kenmerk"></td>-->
+        <!--<td data-bind="text: $parent.formatDatum(ingangsDatum)" class="overzicht ingangsDatum"></td>-->
     </tr>
     </tbody>
 </table>

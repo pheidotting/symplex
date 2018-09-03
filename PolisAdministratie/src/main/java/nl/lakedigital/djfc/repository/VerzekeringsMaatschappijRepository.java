@@ -3,10 +3,8 @@ package nl.lakedigital.djfc.repository;
 import nl.lakedigital.djfc.domain.VerzekeringsMaatschappij;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ import java.util.List;
 
 @Repository
 public class VerzekeringsMaatschappijRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SchadeRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerzekeringsMaatschappijRepository.class);
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -25,10 +23,22 @@ public class VerzekeringsMaatschappijRepository {
     public Session getSession() {
         try {
             return sessionFactory.getCurrentSession();
-        } catch (HibernateException e) {
-            LOGGER.trace("{}", e);
+        } catch (HibernateException e) {//NOSONAR
             return sessionFactory.openSession();
         }
+    }
+
+    protected Session getEm() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    protected Transaction getTransaction() {
+        Transaction transaction = getSession().getTransaction();
+        if (transaction.getStatus() != TransactionStatus.ACTIVE) {
+            transaction.begin();
+        }
+
+        return transaction;
     }
 
     @Transactional
@@ -51,10 +61,15 @@ public class VerzekeringsMaatschappijRepository {
         return result;
     }
 
-    @Transactional(readOnly = true)
+    //    @Transactional(readOnly = true)
     public List<VerzekeringsMaatschappij> alles() {
+        LOGGER.debug("Lijst Maatschappijen");
+        getTransaction();
+
         Query query = getSession().getNamedQuery("VerzekeringsMaatschappij.zoekAlles");
         List<VerzekeringsMaatschappij> result = query.list();
+
+        getTransaction().commit();
 
         return result;
     }

@@ -1,10 +1,10 @@
 define(['jquery',
         'commons/3rdparty/log',
-        'text!../../../templates/beheren/lijst-polissen.html',
-        'viewmodel/lijst-polissen-viewmodel',
+        'text!../../../templates/beheren/lijst-pakketten.html',
+        'viewmodel/lijst-pakketten-viewmodel',
         'knockout'],
     function ($, log, html, viewmodel, ko) {
-        var logger = log.getLogger('lijst-polissen-view');
+        var logger = log.getLogger('lijst-pakketten-view');
 
         return {
             init: function (id, basisEntiteit) {

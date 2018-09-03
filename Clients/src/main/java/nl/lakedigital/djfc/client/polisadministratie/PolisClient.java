@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.client.polisadministratie;
 
 import com.google.gson.reflect.TypeToken;
 import nl.lakedigital.djfc.client.AbstractClient;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.commons.xml.OpvragenPolisSoortenResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenPolissenResponse;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PolisClient extends AbstractClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisClient.class);
@@ -36,36 +38,36 @@ public class PolisClient extends AbstractClient {
         this.metricsService = metricsService;
     }
 
-    public List<String> alleParticulierePolisSoorten() {
+    public Map<String, String> alleParticulierePolisSoorten() {
         return ((OpvragenPolisSoortenResponse) getXML(URL_ALLE_PARTICULIERE_POLIS_SOORTEN, OpvragenPolisSoortenResponse.class, false, LOGGER, false, metricsService, "alleParticulierePolisSoorten", PolisClient.class)).getPolisSoorten();
     }
 
-    public List<String> alleZakelijkePolisSoorten() {
+    public Map<String, String> alleZakelijkePolisSoorten() {
         return ((OpvragenPolisSoortenResponse) getXML(URL_ALLE_PARTICULIERE_ZAKELIJKE_SOORTEN, OpvragenPolisSoortenResponse.class, false, LOGGER, false, metricsService, "alleZakelijkePolisSoorten", PolisClient.class)).getPolisSoorten();
     }
 
-    public JsonPolis lees(String id) {
-        JsonPolis polis = null;
-        OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_LEES, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lees", PolisClient.class, id));
-        if (!response.getPolissen().isEmpty()) {
-            polis = response.getPolissen().get(0);
+    public JsonPakket lees(Long id) {
+        JsonPakket polis = null;
+        OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_LEES, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lees", PolisClient.class, String.valueOf(id)));
+        if (!response.getPakketten().isEmpty()) {
+            polis = response.getPakketten().get(0);
         }
 
         return polis;
     }
 
-    public List<JsonPolis> lijst(String relatieId) {
-        return ((OpvragenPolissenResponse) getXML(URL_LIJST, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lijst", PolisClient.class, relatieId)).getPolissen();
+    public List<JsonPakket> lijst(String relatieId) {
+        return ((OpvragenPolissenResponse) getXML(URL_LIJST, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lijst", PolisClient.class, relatieId)).getPakketten();
     }
 
-    public List<JsonPolis> lijstBijBedrijf(Long bedrijfId) {
-        return ((OpvragenPolissenResponse) getXML(URL_LIJST_BEDRIJF, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lijstBijBedrijf", PolisClient.class, String.valueOf(bedrijfId))).getPolissen();
+    public List<JsonPakket> lijstBijBedrijf(Long bedrijfId) {
+        return ((OpvragenPolissenResponse) getXML(URL_LIJST_BEDRIJF, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lijstBijBedrijf", PolisClient.class, String.valueOf(bedrijfId))).getPakketten();
     }
 
-    public List<JsonPolis> zoekOpPolisNummer(String polisNummer) {
+    public List<JsonPakket> zoekOpPolisNummer(String polisNummer) {
         OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_ZOEK_OP_POLISNUMMER, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "zoekOpPolisNummer", PolisClient.class, polisNummer));
 
-        return response.getPolissen();
+        return response.getPakketten();
     }
 
     @Override

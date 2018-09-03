@@ -1,8 +1,6 @@
 package nl.lakedigital.as.messaging.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
 @XmlRootElement(name = "polis")
 public class Polis {
@@ -18,12 +16,10 @@ public class Polis {
     private String betaalfrequentie;
     private String dekking;
     private String verzekerdeZaak;
-    private String maatschappij;
     private String soort;
     private String omschrijvingVerzekering;
     private String soortEntiteit;
     private Long entiteitId;
-    private List<Opmerking> opmerkingen;
     private String identificatie;
 
     public Long getId() {
@@ -122,14 +118,6 @@ public class Polis {
         this.verzekerdeZaak = verzekerdeZaak;
     }
 
-    public String getMaatschappij() {
-        return maatschappij;
-    }
-
-    public void setMaatschappij(String maatschappij) {
-        this.maatschappij = maatschappij;
-    }
-
     public String getSoort() {
         return soort;
     }
@@ -162,16 +150,6 @@ public class Polis {
         this.entiteitId = entiteitId;
     }
 
-    public List<Opmerking> getOpmerkingen() {
-        if (opmerkingen == null) {
-            opmerkingen = new ArrayList<>();
-        }
-        return opmerkingen;
-    }
-
-    public void setOpmerkingen(List<Opmerking> opmerkingen) {
-        this.opmerkingen = opmerkingen;
-    }
 
     public String getIdentificatie() {
         return identificatie;

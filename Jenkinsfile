@@ -238,6 +238,7 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/ogpa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
@@ -390,6 +391,23 @@ pipeline {
             }
         }
 
+        stage ('Build PolisAdministratie') {
+            steps {
+                sh '''
+                    cd PolisAdministratie
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden PolisAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden PolisAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Build Relatiebeheer') {
             steps {
                 sh '''
@@ -489,6 +507,12 @@ pipeline {
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.230:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/oga/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp PolisAdministratie/src/main/resources/tst2/pa.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp PolisAdministratie/src/main/resources/tst2/pa.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp PolisAdministratie/target/pa.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/pa/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     scp Relatiebeheer/src/main/resources/tst2/djfc.app.properties jetty@192.168.91.230:/opt/jetty
                     scp Relatiebeheer/src/main/resources/tst2/djfc.log4j.xml jetty@192.168.91.230:/opt/jetty
