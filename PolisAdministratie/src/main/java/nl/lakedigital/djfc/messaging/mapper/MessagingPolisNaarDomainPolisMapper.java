@@ -60,9 +60,14 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
             polis = firstPolisOptional.get().nieuweInstantie(this.pakket);
             }
         } else {
-            LOGGER.debug("Bestaande polis, ophalen dus..");
-            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
-            polis = pakket.getPolissen().stream().filter(polis1 -> polis1.getId() == polisIn.getId()).findFirst().get();
+            LOGGER.debug("Bestaande polis met id {}, ophalen dus..", polisIn.getId());
+            Optional<nl.lakedigital.djfc.domain.Polis> polisOptional = pakket.getPolissen().stream().filter(polis1 -> polis1.getId() == polisIn.getId()).findFirst();
+            if (polisOptional.isPresent()) {
+                polis = polisOptional.get();
+            } else {
+                LOGGER.error("Geen Polis met id {} gevonden bij Pakket met id {}", polisIn.getId(), pakket.getId());
+            }
+
         }
 
         String patternDatum = "yyyy-MM-dd";
@@ -83,6 +88,7 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
         if (polisIn.getEindDatum() != null && !"".equals(polisIn.getEindDatum())) {
             eindDatum = LocalDate.parse(polisIn.getEindDatum(), DateTimeFormat.forPattern(patternDatum));
         }
+        if (polis != null) {
         polis.setPolisNummer(polisIn.getPolisNummer());
         polis.setKenmerk(polisIn.getKenmerk());
         polis.setIngangsDatum(ingangsDatum);
@@ -102,7 +108,8 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
         polis.setOmschrijvingVerzekering(polisIn.getOmschrijvingVerzekering());
         polis.setStatus(newArrayList(StatusPolis.values()).stream().filter(statusPolis -> statusPolis.getOmschrijving()//
                 .equals(polisIn.getStatus())).findFirst().orElse(null));
-        polis.setIdentificatie(polisIn.getIdentificatie());
+            polis.setIdentificatie(polisIn.getIdentificatie());
+        }
         return polis;
     }
 }
