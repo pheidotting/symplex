@@ -61,6 +61,9 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
             }
         } else {
             LOGGER.debug("Bestaande polis met id {}, ophalen dus..", polisIn.getId());
+            LOGGER.debug("Polissen :");
+            pakket.getPolissen().stream().forEach(polis12 -> LOGGER.debug("Polis met id {}, {}", polis12.getId(), ReflectionToStringBuilder.toString(polis12)));
+            LOGGER.debug("Einde polissen");
             Optional<nl.lakedigital.djfc.domain.Polis> polisOptional = pakket.getPolissen().stream().filter(polis1 -> polis1.getId() == polisIn.getId()).findFirst();
             if (polisOptional.isPresent()) {
                 polis = polisOptional.get();
