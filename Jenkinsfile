@@ -164,6 +164,28 @@ pipeline {
             }
         }
 
+        stage ('Sonar Sonarbranch PolisAdministratie') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'sonar'
+                }
+            }
+            steps {
+                sh '''
+                    cd PolisAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar PolisAdministratiegelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar PolisAdministratie mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Sonar Sonarbranch Relatiebeheer') {
             when {
                 expression {
@@ -301,22 +323,6 @@ pipeline {
             post {
                 failure {
                     slackSend (color: '#FF0000', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-        stage ('Sonar Sonarbranch Taakbeheer2') {
-            steps {
-                sh '''
-                    cd TaakBeheer
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Sonar Taakbeheer gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Sonar Taakbeheer mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -833,6 +839,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd PolisAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd Relatiebeheer
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
@@ -896,6 +906,10 @@ pipeline {
                 '''
                 sh '''
                     cd Relatiebeheer
+                    mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd PolisAdministratie
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
