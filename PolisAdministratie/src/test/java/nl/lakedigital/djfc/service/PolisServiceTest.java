@@ -20,7 +20,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
@@ -146,13 +148,13 @@ public class PolisServiceTest extends EasyMockSupport {
         polissen.add(aanhangerVerzekering);
         polissen.add(geldVerzekering);
 
-        List<String> verwachtParticulier = new ArrayList<>();
-        verwachtParticulier.add(annuleringsVerzekering.getSchermNaam());
-        verwachtParticulier.add(inboedelVerzekering.getSchermNaam());
+        Map<String, String> verwachtParticulier = new HashMap<>();
+        verwachtParticulier.put(annuleringsVerzekering.getClass().getSimpleName().replace("Verzekering", ""), annuleringsVerzekering.getSchermNaam());
+        verwachtParticulier.put(inboedelVerzekering.getClass().getSimpleName().replace("Verzekering", ""), inboedelVerzekering.getSchermNaam());
 
-        List<String> verwachtZakelijk = new ArrayList<>();
-        verwachtZakelijk.add(aanhangerVerzekering.getSchermNaam());
-        verwachtZakelijk.add(geldVerzekering.getSchermNaam());
+        Map<String, String> verwachtZakelijk = new HashMap<>();
+        verwachtZakelijk.put(aanhangerVerzekering.getClass().getSimpleName().replace("Verzekering", ""), aanhangerVerzekering.getSchermNaam());
+        verwachtZakelijk.put(geldVerzekering.getClass().getSimpleName().replace("Verzekering", ""), geldVerzekering.getSchermNaam());
 
         ReflectionTestUtils.setField(polisService, "polissen", polissen);
 

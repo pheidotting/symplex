@@ -82,7 +82,7 @@ public class PolisService {
 
         entiteitenOpgeslagenRequestSender.send(maakSoortEntiteitEnEntiteitId(newArrayList(polis.getId())));
 
-        LOGGER.debug("{}", lees(polis.getId()));
+        //        LOGGER.debug("{}", lees(polis.getId()));
     }
 
     public void opslaan(List<Polis> polissen) {
