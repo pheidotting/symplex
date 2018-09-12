@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="1" author="Patrick Heidotting">
+        <createTable tableName="REVINFO">
+            <column name="ID" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp" type="bigint"/>
+            <column name="userid" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Patrick Heidotting">
+        <createTable tableName="POLIS">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SOORT" type="varchar(2)"/>
+            <column name="STATUS" type="varchar(3)"/>
+            <column name="BETAALFREQUENTIE" type="varchar(1)"/>
+            <column name="INGANGSDATUM" type="date"/>
+            <column name="EINDDATUM" type="date"/>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="KENMERK" type="varchar(100)"/>
+            <column name="PREMIE" type="double"/>
+            <column name="WIJZIGINGSDATUM" type="date"/>
+            <column name="PROLONGATIEDATUM" type="date"/>
+            <column name="BEDRIJF" type="bigint(20)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="RELATIE" type="bigint(20)"/>
+            <column name="DEKKING" type="varchar(250)"/>
+            <column name="VERZEKERDEZAAK" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="POLIS_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="SOORT" type="varchar(2)"/>
+            <column name="STATUS" type="varchar(3)"/>
+            <column name="BETAALFREQUENTIE" type="varchar(1)"/>
+            <column name="INGANGSDATUM" type="date"/>
+            <column name="EINDDATUM" type="date"/>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="KENMERK" type="varchar(100)"/>
+            <column name="PREMIE" type="double"/>
+            <column name="WIJZIGINGSDATUM" type="date"/>
+            <column name="PROLONGATIEDATUM" type="date"/>
+            <column name="BEDRIJF" type="bigint(20)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="RELATIE" type="bigint(20)"/>
+            <column name="DEKKING" type="varchar(250)"/>
+            <column name="VERZEKERDEZAAK" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="SCHADE">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="DATUMAFGEHANDELD" type="date"/>
+            <column name="DATUMTIJDMELDING" type="datetime"/>
+            <column name="DATUMTIJD" type="datetime"/>
+            <column name="EIGENRISICO" type="double"/>
+            <column name="LOCATIE" type="varchar(50)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="SCHADENUMMERMAATSCHAPPIJ" type="varchar(25)"/>
+            <column name="SCHADENUMMERTUSSENPERSOON" type="varchar(25)"/>
+            <column name="POLIS" type="bigint(20)"/>
+            <column name="SOORT" type="bigint(20)"/>
+            <column name="SOORTSCHADEONGEDEFINIEERD" type="varchar(100)"/>
+            <column name="STATUS" type="bigint(20)"/>
+        </createTable>
+        <createTable tableName="SCHADE_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="DATUMAFGEHANDELD" type="date"/>
+            <column name="DATUMTIJDMELDING" type="datetime"/>
+            <column name="DATUMTIJD" type="datetime"/>
+            <column name="EIGENRISICO" type="double"/>
+            <column name="LOCATIE" type="varchar(50)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="SCHADENUMMERMAATSCHAPPIJ" type="varchar(25)"/>
+            <column name="SCHADENUMMERTUSSENPERSOON" type="varchar(25)"/>
+            <column name="POLIS" type="bigint(20)"/>
+            <column name="SOORT" type="bigint(20)"/>
+            <column name="SOORTSCHADEONGEDEFINIEERD" type="varchar(100)"/>
+            <column name="STATUS" type="bigint(20)"/>
+        </createTable>
+        <createTable tableName="SOORTSCHADE">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="INGEBRUIK" type="tinyint(1)"/>
+            <column name="OMSCHRIJVING" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="SOORTSCHADE_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="INGEBRUIK" type="tinyint(1)"/>
+            <column name="OMSCHRIJVING" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="STATUSSCHADE">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="INGEBRUIK" type="tinyint(1)"/>
+            <column name="STATUS" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="STATUSSCHADE_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="INGEBRUIK" type="tinyint(1)"/>
+            <column name="STATUS" type="varchar(250)"/>
+        </createTable>
+        <createTable tableName="VERZEKERINGSMAATSCHAPPIJ">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAAM" type="varchar(255)"/>
+            <column name="TONEN" type="tinyint(1)"/>
+        </createTable>
+        <createTable tableName="VERZEKERINGSMAATSCHAPPIJ_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="NAAM" type="varchar(255)"/>
+            <column name="TONEN" type="tinyint(1)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Patrick Heidotting">
+        <createTable tableName="hibernate_sequence">
+            <column name="next_val" type="bigint(20)"/>
+        </createTable>
+        <insert tableName="hibernate_sequence">
+            <column name="next_val">1</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="Patrick Heidotting">
+        <addColumn tableName="REVINFO">
+            <column name="TRACKANDTRACEID" type="varchar(36)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="5" author="Patrick Heidotting">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <sqlCheck expectedResult="0">select count(*) from POLIS limit 1;</sqlCheck>
+            </not>
+        </preConditions>
+        <createTable tableName="PAKKET">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
+        </createTable>
+        <createTable tableName="PAKKET_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="tinyint"/>
+            <column name="POLISNUMMER" type="varchar(25)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
+        </createTable>
+        <addColumn tableName="POLIS">
+            <column name="PAKKET" type="BIGINT"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </addColumn>
+        <addColumn tableName="POLIS_AUD">
+            <column name="PAKKET" type="BIGINT"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </addColumn>
+        <sql>update POLIS set ENTITEITID = RELATIE where RELATIE is not null;</sql>
+        <sql>update POLIS_AUD set ENTITEITID = RELATIE where RELATIE is not null;</sql>
+        <sql>update POLIS set SOORTENTITEIT = 'RELATIE' where RELATIE is not null;</sql>
+        <sql>update POLIS_AUD set SOORTENTITEIT = 'RELATIE' where RELATIE is not null;</sql>
+        <sql>update POLIS set ENTITEITID = BEDRIJF where BEDRIJF is not null;</sql>
+        <sql>update POLIS_AUD set ENTITEITID = BEDRIJF where BEDRIJF is not null;</sql>
+        <sql>update POLIS set SOORTENTITEIT = 'BEDRIJF' where BEDRIJF is not null;</sql>
+        <sql>update POLIS_AUD set SOORTENTITEIT = 'BEDRIJF' where BEDRIJF is not null;</sql>
+        <dropColumn tableName="POLIS" columnName="RELATIE"/>
+        <dropColumn tableName="POLIS_AUD" columnName="RELATIE"/>
+        <dropColumn tableName="POLIS" columnName="BEDRIJF"/>
+        <dropColumn tableName="POLIS_AUD" columnName="BEDRIJF"/>
+        <sql>insert into PAKKET (`ID`, `POLISNUMMER`, `SOORTENTITEIT`, `ENTITEITID`, `MAATSCHAPPIJ`) select `ID`,
+            `POLISNUMMER`, `SOORTENTITEIT`, `ENTITEITID`, `MAATSCHAPPIJ` FROM POLIS;
+        </sql>
+        <sql>update POLIS set PAKKET = ID</sql>
+        <dropColumn tableName="POLIS" columnName="ENTITEITID"/>
+        <dropColumn tableName="POLIS_AUD" columnName="ENTITEITID"/>
+        <dropColumn tableName="POLIS" columnName="SOORTENTITEIT"/>
+        <dropColumn tableName="POLIS_AUD" columnName="SOORTENTITEIT"/>
+        <dropColumn tableName="POLIS" columnName="MAATSCHAPPIJ"/>
+        <dropColumn tableName="POLIS_AUD" columnName="MAATSCHAPPIJ"/>
+    </changeSet>
+</databaseChangeLog>

@@ -8,6 +8,16 @@ public class Opmerking extends AbstracteEntiteitMetSoortEnId {
     private String tijdstip;
     private String tekst;
 
+    public Opmerking() {
+    }
+
+    public Opmerking(SoortEntiteit soortEntiteit, Long entiteitId, String identificatie, Long medewerker, String tijdstip, String tekst) {
+        super(soortEntiteit, entiteitId, identificatie);
+        this.medewerker = medewerker;
+        this.tijdstip = tijdstip;
+        this.tekst = tekst;
+    }
+
     public Long getMedewerker() {
         return medewerker;
     }

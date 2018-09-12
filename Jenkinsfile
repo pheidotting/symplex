@@ -164,6 +164,28 @@ pipeline {
             }
         }
 
+        stage ('Sonar Sonarbranch OpdrachtenAdministratie') {
+            when {
+                expression {
+                    return env.BRANCH_NAME == 'sonar'
+                }
+            }
+            steps {
+                sh '''
+                    cd OpdrachtenAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar OpdrachtenAdministratie mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Sonar Sonarbranch PolisAdministratie') {
             when {
                 expression {
