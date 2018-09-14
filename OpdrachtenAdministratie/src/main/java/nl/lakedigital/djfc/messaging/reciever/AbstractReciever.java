@@ -14,7 +14,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 
 public abstract class AbstractReciever<T extends AbstractMessage> implements MessageListener {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractReciever.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractReciever.class);
     private Class<T> clazz;
     protected MessageProducer replyProducer;
     protected Session session;
@@ -33,7 +33,6 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
             T ontvangenObject = (T) jaxbUnmarshaller.unmarshal(new StringReader(((TextMessage) message).getText()));
-
 
             SessieHolder.get().setIngelogdeGebruiker(ontvangenObject.getIngelogdeGebruiker());
             SessieHolder.get().setTrackAndTraceId(ontvangenObject.getTrackAndTraceId());

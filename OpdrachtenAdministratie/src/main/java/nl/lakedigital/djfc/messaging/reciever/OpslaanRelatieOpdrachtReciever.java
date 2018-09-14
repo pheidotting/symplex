@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-public class OpslaanPolisOpdrachtReciever extends AbstractReciever<OpslaanRelatieOpdracht> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanPolisOpdrachtReciever.class);
+public class OpslaanRelatieOpdrachtReciever extends AbstractReciever<OpslaanRelatieOpdracht> {
+    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanRelatieOpdrachtReciever.class);
 
     @Inject
     private OpslaanRelatieAfhandelenService opslaanRelatieAfhandelenService;
 
-    public OpslaanPolisOpdrachtReciever() {
+    public OpslaanRelatieOpdrachtReciever() {
         super(OpslaanRelatieOpdracht.class);
     }
 

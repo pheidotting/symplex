@@ -1,12 +1,15 @@
 package nl.lakedigital.djfc.mapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
 import java.io.StringWriter;
 
 public abstract class AbstractMapper<T> {
+    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractMapper.class);
     private Class clazz;
 
     public AbstractMapper(Class clazz) {
@@ -23,10 +26,8 @@ public abstract class AbstractMapper<T> {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             jaxbMarshaller.marshal(request, sw);
-        } catch (PropertyException e) {
-            e.printStackTrace();
         } catch (JAXBException e) {
-            e.printStackTrace();
+            LOGGER.error("Error : ", e);
         }
         return sw.toString();
     }
