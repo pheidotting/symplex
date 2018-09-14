@@ -1,27 +1,27 @@
-package nl.lakedigital.djfc.messaging.mapper;
+package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.entities.Telefoonnummer;
+import nl.lakedigital.as.messaging.entities.RekeningNummer;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
 
 import java.util.function.Function;
 
-public class MessagingTelefoonnummerToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanEntiteitenRequest> implements Function<Telefoonnummer, UitgaandeOpdracht> {
+public class MessagingRekeningNummerToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanEntiteitenRequest> implements Function<RekeningNummer, UitgaandeOpdracht> {
     private UitgaandeOpdracht uitgaandeOpdrachtWachtenOp;
 
-    public MessagingTelefoonnummerToUitgaandeOpdrachtMapper(UitgaandeOpdracht uitgaandeOpdrachtWachtenOp) {
+    public MessagingRekeningNummerToUitgaandeOpdrachtMapper(UitgaandeOpdracht uitgaandeOpdrachtWachtenOp) {
         super(OpslaanEntiteitenRequest.class);
         this.uitgaandeOpdrachtWachtenOp = uitgaandeOpdrachtWachtenOp;
     }
 
     @Override
-    public UitgaandeOpdracht apply(Telefoonnummer telefoonnummer) {
+    public UitgaandeOpdracht apply(RekeningNummer rekeningNummer) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Telefoonnummer(SoortEntiteit.RELATIE, 1L, null, telefoonnummer.getTelefoonnummer(), telefoonnummer.getSoort(), telefoonnummer.getOmschrijving(), null));
+        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.RekeningNummer(SoortEntiteit.RELATIE, 1L, null, rekeningNummer.getBic(), rekeningNummer.getRekeningnummer()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

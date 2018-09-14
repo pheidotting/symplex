@@ -3,7 +3,7 @@ package nl.lakedigital.djfc.service;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
 import nl.lakedigital.djfc.domain.SoortOpdracht;
 import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
-import nl.lakedigital.djfc.messaging.mapper.*;
+import nl.lakedigital.djfc.mapper.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package nl.lakedigital.djfc.messaging.mapper;
+package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.as.messaging.entities.Relatie;
 import nl.lakedigital.as.messaging.request.relatie.OpslaanRelatieRequest;

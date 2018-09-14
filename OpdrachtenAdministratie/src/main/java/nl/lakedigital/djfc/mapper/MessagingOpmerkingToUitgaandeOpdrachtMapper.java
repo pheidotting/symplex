@@ -1,27 +1,27 @@
-package nl.lakedigital.djfc.messaging.mapper;
+package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.entities.Adres;
+import nl.lakedigital.as.messaging.entities.Opmerking;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
 
 import java.util.function.Function;
 
-public class MessagingAdresToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanEntiteitenRequest> implements Function<Adres, UitgaandeOpdracht> {
+public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanEntiteitenRequest> implements Function<Opmerking, UitgaandeOpdracht> {
     private UitgaandeOpdracht uitgaandeOpdrachtWachtenOp;
 
-    public MessagingAdresToUitgaandeOpdrachtMapper(UitgaandeOpdracht uitgaandeOpdrachtWachtenOp) {
+    public MessagingOpmerkingToUitgaandeOpdrachtMapper(UitgaandeOpdracht uitgaandeOpdrachtWachtenOp) {
         super(OpslaanEntiteitenRequest.class);
         this.uitgaandeOpdrachtWachtenOp = uitgaandeOpdrachtWachtenOp;
     }
 
     @Override
-    public UitgaandeOpdracht apply(Adres adres) {
+    public UitgaandeOpdracht apply(Opmerking opmerking) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Adres(SoortEntiteit.RELATIE, 1L, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres()));
+        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Opmerking(SoortEntiteit.RELATIE, 1L, null, opmerking.getMedewerkerId(), opmerking.getOpmerking(), opmerking.getTijd()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);
