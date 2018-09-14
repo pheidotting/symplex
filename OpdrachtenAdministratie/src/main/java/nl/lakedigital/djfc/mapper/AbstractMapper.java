@@ -1,4 +1,4 @@
-package nl.lakedigital.djfc.messaging.mapper;
+package nl.lakedigital.djfc.mapper;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
