@@ -1,13 +1,16 @@
 package nl.lakedigital.as.messaging;
 
+import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
 import nl.lakedigital.as.messaging.request.*;
 import nl.lakedigital.as.messaging.request.communicatie.AbstractCommunicatieRequest;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
+import nl.lakedigital.as.messaging.request.relatie.OpslaanRelatieRequest;
 import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanResponse;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
+import nl.lakedigital.as.messaging.response.relatie.OpslaanRelatieResponse;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,6 +28,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         VerwijderEntiteitenRequest.class,//
         VerwijderRelatiesRequest.class,//
         OpslaanEntiteitenRequest.class,//
+        OpslaanRelatieOpdracht.class,//
+        OpslaanRelatieRequest.class,//
+        OpslaanRelatieResponse.class,//
         SchadeOpslaanRequest.class,//
         SchadeOpslaanResponse.class,//
         EntiteitenOpgeslagenRequest.class,//

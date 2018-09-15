@@ -1,8 +1,12 @@
 package nl.lakedigital.as.messaging.request.relatie;
 
+import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.entities.Relatie;
 
-public class OpslaanRelatieRequest {
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "opslaanRelatieRequest")
+public class OpslaanRelatieRequest extends AbstractMessage {
     private Relatie relatie;
 
     public Relatie getRelatie() {

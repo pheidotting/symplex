@@ -3,10 +3,12 @@ package nl.lakedigital.as.messaging.opdracht.opdracht;
 import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.entities.*;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+@XmlRootElement(name = "opslaanRelatieOpdracht")
 public class OpslaanRelatieOpdracht extends AbstractMessage {
     private Relatie relatie;
 

@@ -21,7 +21,7 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Opmerking(SoortEntiteit.RELATIE, 1L, null, opmerking.getMedewerkerId(), opmerking.getOpmerking(), opmerking.getTijd()));
+        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Opmerking(SoortEntiteit.RELATIE, 1L, null, opmerking.getMedewerkerId(), opmerking.getTijd(), opmerking.getOpmerking()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

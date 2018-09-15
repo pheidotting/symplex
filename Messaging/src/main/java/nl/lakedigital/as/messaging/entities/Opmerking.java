@@ -1,5 +1,10 @@
 package nl.lakedigital.as.messaging.entities;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "opmerking")
+@XmlType(namespace = "entities")
 public class Opmerking {
     private String identificatie;
     private String tijd;

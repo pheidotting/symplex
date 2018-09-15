@@ -1,7 +1,11 @@
 package nl.lakedigital.as.messaging.entities;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
+@XmlRootElement(name = "adres")
+@XmlType(namespace = "entities")
 public class Adres implements Serializable {
     private String identificatie;
     private String straat;

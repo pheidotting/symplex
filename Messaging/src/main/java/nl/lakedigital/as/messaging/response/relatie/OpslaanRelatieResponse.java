@@ -1,6 +1,11 @@
 package nl.lakedigital.as.messaging.response.relatie;
 
-public class OpslaanRelatieResponse {
+import nl.lakedigital.as.messaging.AbstractMessage;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "opslaanRelatieResponse")
+public class OpslaanRelatieResponse extends AbstractMessage {
     private Long id;
 
     public Long getId() {

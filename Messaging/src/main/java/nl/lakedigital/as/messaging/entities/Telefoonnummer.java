@@ -1,5 +1,10 @@
 package nl.lakedigital.as.messaging.entities;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "telefoonnummer")
+@XmlType(namespace = "entities")
 public class Telefoonnummer {
     private String identificatie;
     private String telefoonnummer;
