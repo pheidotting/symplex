@@ -18,6 +18,7 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
     @Override
     public UitgaandeOpdracht apply(Opmerking opmerking) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
+        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.OPMERKING);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 

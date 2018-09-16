@@ -18,6 +18,7 @@ public class MessagingAdresToUitgaandeOpdrachtMapper extends AbstractMapper<Opsl
     @Override
     public UitgaandeOpdracht apply(Adres adres) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
+        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.ADRES);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 

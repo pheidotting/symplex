@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.jms.core.JmsTemplate;
@@ -31,6 +32,8 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
     }
 
     public abstract M maakMessage(T t);
+
+    public abstract List<SoortEntiteit> getSoortEntiteiten();
 
     public void send(T t) {
         M m = maakMessage(t);

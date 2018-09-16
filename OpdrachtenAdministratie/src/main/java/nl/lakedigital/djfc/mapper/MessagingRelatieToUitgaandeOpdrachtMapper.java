@@ -14,6 +14,7 @@ public class MessagingRelatieToUitgaandeOpdrachtMapper extends AbstractMapper<Op
     @Override
     public UitgaandeOpdracht apply(Relatie relatie) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
+        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE);
 
         OpslaanRelatieRequest opslaanRelatieRequest = new OpslaanRelatieRequest();
         opslaanRelatieRequest.setRelatie(relatie);

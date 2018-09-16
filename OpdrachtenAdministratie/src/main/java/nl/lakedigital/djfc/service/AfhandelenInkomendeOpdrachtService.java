@@ -12,6 +12,8 @@ import java.util.Set;
 public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessage> {
     @Inject
     private InkomendeOpdrachtRepository inkomendeOpdrachtRepository;
+    @Inject
+    private VerstuurUitgaandeOpdrachtenService verstuurUitgaandeOpdrachtenService;
 
     protected abstract Set<UitgaandeOpdracht> genereerUitgaandeOpdrachten(T opdracht);
 
@@ -22,5 +24,7 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
         inkomendeOpdracht.setUitgaandeOpdrachten(genereerUitgaandeOpdrachten(message));
 
         inkomendeOpdrachtRepository.opslaan(inkomendeOpdracht);
+
+        verstuurUitgaandeOpdrachtenService.verstuurUitgaandeOpdrachten();
     }
 }

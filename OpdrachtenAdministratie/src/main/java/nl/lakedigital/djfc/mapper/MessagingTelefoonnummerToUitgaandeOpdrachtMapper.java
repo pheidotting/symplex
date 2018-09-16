@@ -18,6 +18,7 @@ public class MessagingTelefoonnummerToUitgaandeOpdrachtMapper extends AbstractMa
     @Override
     public UitgaandeOpdracht apply(Telefoonnummer telefoonnummer) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
+        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.TELEFOONNUMMER);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 

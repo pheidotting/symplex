@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 @Component
 public class EntiteitenOpgeslagenRequestSender extends AbstractSender<EntiteitenOpgeslagenRequest, List<SoortEntiteitEnEntiteitId>> {
@@ -23,6 +26,11 @@ public class EntiteitenOpgeslagenRequestSender extends AbstractSender<Entiteiten
         this.jmsTemplates.add(jmsTemplate);
         this.LOGGER_ = LOGGER;
         this.clazz = EntiteitenOpgeslagenRequest.class;
+    }
+
+    @Override
+    public List<SoortEntiteit> getSoortEntiteiten() {
+        return newArrayList(SoortEntiteit.ADRES, SoortEntiteit.OPMERKING, SoortEntiteit.REKENINGNUMMER, SoortEntiteit.TELEFOONNUMMER);
     }
 
     @Override

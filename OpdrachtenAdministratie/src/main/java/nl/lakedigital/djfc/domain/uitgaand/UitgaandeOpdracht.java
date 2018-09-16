@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.domain.uitgaand;
 
-import nl.lakedigital.djfc.domain.SoortOpdracht;
+import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.inkomend.InkomendeOpdracht;
 import org.hibernate.annotations.Type;
 
@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "UITGAAND")
 @DiscriminatorColumn(name = "SOORT", length = 3)
+@NamedQueries({@NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachten", query = "select u from UitgaandeOpdracht where tijdstipVerzonden is null and wachtenOp is null")})
 public class UitgaandeOpdracht {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,7 @@ public class UitgaandeOpdracht {
     private Long id;
     @Column(name = "SOORTOPDRACHT")
     @Enumerated(EnumType.STRING)
-    private SoortOpdracht soortOpdracht;
+    private SoortEntiteit soortEntiteit;
     @Column(name = "TIJDSTIPVERZONDEN")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstipVerzonden;
@@ -39,6 +40,14 @@ public class UitgaandeOpdracht {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public SoortEntiteit getSoortEntiteit() {
+        return soortEntiteit;
+    }
+
+    public void setSoortEntiteit(SoortEntiteit soortEntiteit) {
+        this.soortEntiteit = soortEntiteit;
     }
 
     public LocalDateTime getTijdstipVerzonden() {
