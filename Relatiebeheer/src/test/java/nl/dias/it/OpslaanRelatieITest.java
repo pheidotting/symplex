@@ -2,9 +2,9 @@ package nl.dias.it;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.google.gson.Gson;
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.response.Relatie;
 import org.junit.After;
 import org.junit.Before;

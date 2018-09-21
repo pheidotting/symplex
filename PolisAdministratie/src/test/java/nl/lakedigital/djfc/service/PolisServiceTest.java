@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.domain.SoortVerzekering;

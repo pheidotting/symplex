@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.service;
 
 import com.google.common.collect.Lists;
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenVerwijderdRequestSender;
@@ -74,7 +74,7 @@ public abstract class AbstractServiceTest<T extends AbstracteEntiteitMetSoortEnI
         T entiteit = getMinimaalGevuldeEntiteit();
 
         getRepository().opslaan(Lists.newArrayList(entiteit));
-            expectLastCall();
+        expectLastCall();
 
         replayAll();
 
@@ -95,7 +95,7 @@ public abstract class AbstractServiceTest<T extends AbstracteEntiteitMetSoortEnI
         expect(getRepository().alles(soortEntiteit, entiteitId)).andReturn(Lists.newArrayList(bestaand, teVerwijderen));
 
         getRepository().opslaan(Lists.newArrayList(nieuw, bestaand));
-            expectLastCall();
+        expectLastCall();
         getRepository().verwijder(Lists.newArrayList(teVerwijderen));
         expectLastCall();
 

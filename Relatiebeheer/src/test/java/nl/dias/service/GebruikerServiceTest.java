@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import nl.dias.domein.*;
 import nl.dias.domein.polis.AutoVerzekering;
 import nl.dias.domein.polis.Polis;
-import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
@@ -12,6 +11,7 @@ import nl.dias.repository.KantoorRepository;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonTelefoonnummer;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
@@ -108,7 +108,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -125,7 +125,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -142,7 +142,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -160,7 +160,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -179,7 +179,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -199,7 +199,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         gebruikerRepository.opslaan(relatie);
         expectLastCall();
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 
@@ -216,7 +216,7 @@ public class GebruikerServiceTest extends EasyMockSupport {
         relatie.setId(2L);
         relatie.setIdentificatie("id");
 
-        Capture<nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
+        Capture<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIdCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(newArrayList(capture(soortEntiteitEnEntiteitIdCapture)));
         expectLastCall();
 

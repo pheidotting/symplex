@@ -1,7 +1,7 @@
 package nl.dias.messaging.sender;
 
-import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.VerwijderEntiteitRequest;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;

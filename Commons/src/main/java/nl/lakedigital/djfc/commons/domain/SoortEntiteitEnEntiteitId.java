@@ -1,13 +1,10 @@
-package nl.dias.messaging;
-
-import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+package nl.lakedigital.djfc.commons.domain;
 
 public class SoortEntiteitEnEntiteitId {
     private SoortEntiteit soortEntiteit;
     private Long entiteitId;
 
     public SoortEntiteitEnEntiteitId() {
-        //lege constructor
     }
 
     public SoortEntiteitEnEntiteitId(SoortEntiteit soortEntiteit, Long entiteitId) {

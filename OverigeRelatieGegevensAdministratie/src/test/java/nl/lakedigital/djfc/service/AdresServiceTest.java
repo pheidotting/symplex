@@ -2,10 +2,10 @@ package nl.lakedigital.djfc.service;
 
 import com.google.common.collect.Lists;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Adres;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.AdresRepository;
-import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.easymock.Capture;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
