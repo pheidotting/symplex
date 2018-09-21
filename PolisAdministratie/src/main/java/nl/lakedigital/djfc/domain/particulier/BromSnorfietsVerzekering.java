@@ -20,7 +20,7 @@ public class BromSnorfietsVerzekering extends Polis {
     public BromSnorfietsVerzekering() {
     }
 
-    public BromSnorfietsVerzekering(Pakket pakket) {
+    public BromSnorfietsVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

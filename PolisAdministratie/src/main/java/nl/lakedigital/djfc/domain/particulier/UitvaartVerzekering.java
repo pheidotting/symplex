@@ -21,7 +21,7 @@ public class UitvaartVerzekering extends Polis {
     public UitvaartVerzekering() {
     }
 
-    public UitvaartVerzekering(Pakket pakket) {
+    public UitvaartVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

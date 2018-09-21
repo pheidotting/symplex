@@ -21,7 +21,7 @@ public class RecreatieVerzekering extends Polis {
     public RecreatieVerzekering() {
     }
 
-    public RecreatieVerzekering(Pakket pakket) {
+    public RecreatieVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

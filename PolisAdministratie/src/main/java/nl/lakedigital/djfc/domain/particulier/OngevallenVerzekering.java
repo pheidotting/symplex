@@ -21,7 +21,7 @@ public class OngevallenVerzekering extends Polis {
     public OngevallenVerzekering() {
     }
 
-    public OngevallenVerzekering(Pakket pakket) {
+    public OngevallenVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

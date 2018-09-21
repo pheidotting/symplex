@@ -20,7 +20,7 @@ public class MobieleApparatuurVerzekering extends Polis {
     public MobieleApparatuurVerzekering() {
     }
 
-    public MobieleApparatuurVerzekering(Pakket pakket) {
+    public MobieleApparatuurVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

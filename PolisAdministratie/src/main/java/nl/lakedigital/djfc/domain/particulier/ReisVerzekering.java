@@ -21,7 +21,7 @@ public class ReisVerzekering extends Polis {
     public ReisVerzekering() {
     }
 
-    public ReisVerzekering(Pakket pakket) {
+    public ReisVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

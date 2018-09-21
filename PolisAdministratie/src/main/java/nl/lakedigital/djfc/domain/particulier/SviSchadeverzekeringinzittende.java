@@ -21,7 +21,7 @@ public class SviSchadeverzekeringinzittende extends Polis {
     public SviSchadeverzekeringinzittende() {
     }
 
-    public SviSchadeverzekeringinzittende(Pakket pakket) {
+    public SviSchadeverzekeringinzittende(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 
