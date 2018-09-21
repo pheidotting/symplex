@@ -8,10 +8,10 @@ import nl.dias.messaging.sender.NieuweVersieRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.VersieRepository;
 import nl.dias.web.medewerker.AbstractController;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.communicatie.NieuweVersieRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,14 +103,14 @@ public class VersieController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/leesVersie/{identificatie}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public nl.lakedigital.djfc.domain.response.Versie leesVersie(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
+    public nl.lakedigital.djfc.commons.domain.response.Versie leesVersie(@PathVariable("identificatie") String identificatieCode, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("leesVersie", VersieController.class, null, null);
 
         Long id = identificatieClient.zoekIdentificatieCode(identificatieCode).getEntiteitId();
 
         Versie versie = versieRepository.lees(id);
 
-        return new nl.lakedigital.djfc.domain.response.Versie(versie.getVersie(), versie.getReleasenotes());
+        return new nl.lakedigital.djfc.commons.domain.response.Versie(versie.getVersie(), versie.getReleasenotes());
     }
 
 }

@@ -1,6 +1,6 @@
 package nl.dias.messaging;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 
 public class SoortEntiteitEnEntiteitId {
     private SoortEntiteit soortEntiteit;

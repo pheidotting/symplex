@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.VerwijderEntiteitenRequest;
-import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.commons.domain.Identificatie;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.IdentificatieService;
 import org.easymock.*;

@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.Taak;
-import nl.lakedigital.djfc.domain.TaakStatus;
-import nl.lakedigital.djfc.domain.WijzigingTaak;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Taak;
+import nl.lakedigital.djfc.commons.domain.TaakStatus;
+import nl.lakedigital.djfc.commons.domain.WijzigingTaak;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

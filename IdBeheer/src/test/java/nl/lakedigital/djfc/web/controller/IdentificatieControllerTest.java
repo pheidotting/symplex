@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.Identificatie;
 import nl.lakedigital.djfc.commons.json.ZoekIdentificatieResponse;
-import nl.lakedigital.djfc.domain.Identificatie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.IdentificatieService;
 import org.easymock.*;

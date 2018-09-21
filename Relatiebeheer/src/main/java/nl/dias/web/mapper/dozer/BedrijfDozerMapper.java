@@ -4,20 +4,20 @@ import nl.dias.domein.Bedrijf;
 import org.dozer.DozerBeanMapper;
 import org.dozer.DozerConverter;
 
-public class BedrijfDozerMapper extends DozerConverter<Bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf> {
+public class BedrijfDozerMapper extends DozerConverter<Bedrijf, nl.lakedigital.djfc.commons.domain.response.Bedrijf> {
     public BedrijfDozerMapper() {
-        super(Bedrijf.class, nl.lakedigital.djfc.domain.response.Bedrijf.class);
+        super(Bedrijf.class, nl.lakedigital.djfc.commons.domain.response.Bedrijf.class);
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.Bedrijf convertTo(Bedrijf bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf) {
+    public nl.lakedigital.djfc.commons.domain.response.Bedrijf convertTo(Bedrijf bedrijf, nl.lakedigital.djfc.commons.domain.response.Bedrijf jsonBedrijf) {
         DozerBeanMapper mapper = new DozerBeanMapper();
 
-        return mapper.map(bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf.class);
+        return mapper.map(bedrijf, nl.lakedigital.djfc.commons.domain.response.Bedrijf.class);
     }
 
     @Override
-    public Bedrijf convertFrom(nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, Bedrijf bedrijf) {
+    public Bedrijf convertFrom(nl.lakedigital.djfc.commons.domain.response.Bedrijf jsonBedrijf, Bedrijf bedrijf) {
         Bedrijf result = new Bedrijf();
         result.setKvk(jsonBedrijf.getKvk());
         result.setNaam(jsonBedrijf.getNaam());

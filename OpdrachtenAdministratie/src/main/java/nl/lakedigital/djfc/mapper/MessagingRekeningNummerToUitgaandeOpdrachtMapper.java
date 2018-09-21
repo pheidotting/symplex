@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.mapper;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.entities.RekeningNummer;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.RekeningNummer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 
 import java.util.function.Function;
 
@@ -18,11 +18,11 @@ public class MessagingRekeningNummerToUitgaandeOpdrachtMapper extends AbstractMa
     @Override
     public UitgaandeOpdracht apply(RekeningNummer rekeningNummer) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
-        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.REKENINGNUMMER);
+        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.REKENINGNUMMER);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.RekeningNummer(SoortEntiteit.RELATIE, 1L, null, rekeningNummer.getBic(), rekeningNummer.getRekeningnummer()));
+        opslaanEntiteitenRequest.getLijst().add(new RekeningNummer(SoortEntiteit.RELATIE, 1L, null, rekeningNummer.getBic(), rekeningNummer.getRekeningnummer()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

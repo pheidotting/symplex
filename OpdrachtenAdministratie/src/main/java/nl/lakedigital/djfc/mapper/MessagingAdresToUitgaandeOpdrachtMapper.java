@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.mapper;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.entities.Adres;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.Adres;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 
 import java.util.function.Function;
 
@@ -18,11 +18,11 @@ public class MessagingAdresToUitgaandeOpdrachtMapper extends AbstractMapper<Opsl
     @Override
     public UitgaandeOpdracht apply(Adres adres) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
-        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.ADRES);
+        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.ADRES);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Adres(SoortEntiteit.RELATIE, 1L, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres()));
+        opslaanEntiteitenRequest.getLijst().add(new Adres(SoortEntiteit.RELATIE, 1L, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

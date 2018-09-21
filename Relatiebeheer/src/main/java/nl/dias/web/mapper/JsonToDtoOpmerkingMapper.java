@@ -3,9 +3,9 @@ package nl.dias.web.mapper;
 import nl.dias.domein.Medewerker;
 import nl.dias.service.GebruikerService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.response.Opmerking;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
-import nl.lakedigital.djfc.domain.response.Opmerking;
 
 import java.util.function.Function;
 

@@ -2,7 +2,7 @@ package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;

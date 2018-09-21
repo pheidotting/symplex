@@ -1,5 +1,7 @@
 package nl.lakedigital.as.messaging.domain;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+
 public class SoortEntiteitEnEntiteitId {
     private SoortEntiteit soortEntiteit;
     private Long entiteitId;

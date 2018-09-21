@@ -32,7 +32,7 @@
     <bean id="properties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>file:pa.app.properties</value>
+                <value>file:oa.app.properties</value>
             </list>
         </property>
         <property name="placeholderPrefix" value="${"/>
@@ -43,9 +43,9 @@
         <!--<property name="minPoolSize" value="2" />-->
         <!--<property name="maxPoolSize" value="30" />-->
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="${pa.db.name}"/>
-        <property name="username" value="${pa.db.user}"/>
-        <property name="password" value="${pa.db.pass}"/>
+        <property name="url" value="${oa.db.name}"/>
+        <property name="username" value="${oa.db.user}"/>
+        <property name="password" value="${oa.db.pass}"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -77,22 +77,22 @@
     <!--</props>-->
     <!--</property>-->
     <!--</bean>-->
-    <!---->
+
     <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"-->
     <!--id="PersistenceExceptionTranslator"/>-->
     <!---->
     <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
     <!--<property name="sessionFactory" ref="sessionFactory"/>-->
     <!--</bean>-->
-
-    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
-        <constructor-arg value="${id.url}"/>
-    </bean>
+    <!---->
+    <!--<bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">-->
+    <!--<constructor-arg value="${id.url}"/>-->
+    <!--</bean>-->
 
     <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
         <property name="dataSource" ref="dataSource"/>
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
     </bean>
 
-    <import resource="applicationContext-jms.xml"/>
+    <!--<import resource="applicationContext-jms.xml"/>-->
 </beans>

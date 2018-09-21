@@ -7,7 +7,7 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
 
     <!-- Activemq connection factory -->
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory"
-          p:brokerURL="tcp://localhost:61616" p:userName="admin" p:password="secret" />
+          p:brokerURL="tcp://localhost:61616" p:userName="admin" p:password="secret"/>
 
     <!-- ConnectionFactory Definition -->
     <bean id="connectionFactory"

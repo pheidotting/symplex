@@ -18,14 +18,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 @Component
-public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domain.response.Relatie> {
+public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.commons.domain.response.Relatie> {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonRelatieMapper.class);
 
     @Inject
     private GebruikerService gebruikerService;
 
     @Override
-    public Relatie mapVanJson(nl.lakedigital.djfc.domain.response.Relatie jsonRelatie) {
+    public Relatie mapVanJson(nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie) {
         String patternDatum = "yyyy-MM-dd";
 
         Relatie relatie = new Relatie();
@@ -64,10 +64,10 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.Relatie mapNaarJson(Relatie relatie) {
+    public nl.lakedigital.djfc.commons.domain.response.Relatie mapNaarJson(Relatie relatie) {
         LOGGER.debug("Map naar JSON : {}", ReflectionToStringBuilder.toString(relatie));
 
-        nl.lakedigital.djfc.domain.response.Relatie jsonRelatie = new nl.lakedigital.djfc.domain.response.Relatie();
+        nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie = new nl.lakedigital.djfc.commons.domain.response.Relatie();
 
         jsonRelatie.setId(relatie.getId());
         jsonRelatie.setRoepnaam(relatie.getRoepnaam());

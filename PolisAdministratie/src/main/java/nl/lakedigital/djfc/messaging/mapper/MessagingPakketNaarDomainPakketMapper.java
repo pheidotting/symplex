@@ -1,8 +1,9 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Pakket;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.djfc.service.PolisService;
 import org.slf4j.Logger;
@@ -12,22 +13,22 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class MessagingPakketNaarDomainPakketMapper implements Function<nl.lakedigital.as.messaging.domain.Pakket, Pakket> {
+public class MessagingPakketNaarDomainPakketMapper implements Function<nl.lakedigital.djfc.commons.domain.Pakket, Pakket> {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessagingPakketNaarDomainPakketMapper.class);
 
     private PolisService polisService;
-    private List<nl.lakedigital.djfc.domain.Polis> polissen;
+    private List<Polis> polissen;
     private IdentificatieClient identificatieClient;
 
-    public MessagingPakketNaarDomainPakketMapper(PolisService polisService, List<nl.lakedigital.djfc.domain.Polis> polissen, IdentificatieClient identificatieClient) {
+    public MessagingPakketNaarDomainPakketMapper(PolisService polisService, List<Polis> polissen, IdentificatieClient identificatieClient) {
         this.polisService = polisService;
         this.polissen = polissen;
         this.identificatieClient = identificatieClient;
     }
 
     @Override
-    public Pakket apply(nl.lakedigital.as.messaging.domain.Pakket pakketIn) {
-        nl.lakedigital.djfc.domain.Pakket pakket = null;
+    public Pakket apply(nl.lakedigital.djfc.commons.domain.Pakket pakketIn) {
+        Pakket pakket = null;
 
         LOGGER.debug(ReflectionToStringBuilder.toString(pakketIn));
 

@@ -1,18 +1,17 @@
 package nl.dias.service;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.dias.domein.VerzekeringsMaatschappij;
 import nl.dias.repository.VerzekeringsMaatschappijRepository;
-
 import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class VerzekeringsMaatschappijServiceTest extends EasyMockSupport {
     private VerzekeringsMaatschappijService service;

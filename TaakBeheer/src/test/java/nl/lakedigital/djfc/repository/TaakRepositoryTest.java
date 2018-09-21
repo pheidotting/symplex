@@ -2,8 +2,8 @@ package nl.lakedigital.djfc.repository;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.Taak;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Taak;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Ignore;

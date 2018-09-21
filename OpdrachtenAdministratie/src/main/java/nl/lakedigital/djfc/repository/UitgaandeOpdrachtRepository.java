@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

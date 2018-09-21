@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.djfc.domain.Taak;
-import nl.lakedigital.djfc.domain.WijzigingTaak;
+import nl.lakedigital.djfc.commons.domain.Taak;
+import nl.lakedigital.djfc.commons.domain.WijzigingTaak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;

@@ -1,11 +1,11 @@
 package nl.dias.messaging.reciever;
 
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;

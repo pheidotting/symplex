@@ -1,8 +1,12 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.entities.*;
+import nl.lakedigital.as.messaging.entities.Relatie;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.Adres;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.RekeningNummer;
+import nl.lakedigital.djfc.commons.domain.Telefoonnummer;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import org.easymock.EasyMockRunner;
 import org.easymock.EasyMockSupport;
 import org.easymock.TestSubject;

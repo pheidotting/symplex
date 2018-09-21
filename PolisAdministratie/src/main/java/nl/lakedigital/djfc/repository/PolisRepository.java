@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.repository;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
@@ -147,7 +147,7 @@ public class PolisRepository {
         }
 
         Query query = getSession().createQuery(queryString);
-        query.setParameter("entiteitId",entiteitId);
+        query.setParameter("entiteitId", entiteitId);
 
         List<Pakket> result = query.list();
 

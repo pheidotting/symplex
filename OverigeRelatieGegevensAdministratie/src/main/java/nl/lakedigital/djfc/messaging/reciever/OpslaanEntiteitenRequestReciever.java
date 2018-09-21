@@ -2,12 +2,12 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.domain.Adres;
-import nl.lakedigital.as.messaging.domain.Opmerking;
-import nl.lakedigital.as.messaging.domain.RekeningNummer;
-import nl.lakedigital.as.messaging.domain.Telefoonnummer;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.RekeningNummer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Telefoonnummer;
 import nl.lakedigital.djfc.messaging.mappers.MessagingAdresNaarDomainAdresMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingOpmerkingNaarDomainOpmerkingMapper;
 import nl.lakedigital.djfc.messaging.mappers.MessagingRekeningNummerNaarDomainRekeningNummerMapper;

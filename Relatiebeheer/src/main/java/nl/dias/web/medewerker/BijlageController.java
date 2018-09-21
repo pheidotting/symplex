@@ -4,10 +4,10 @@ import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
-import nl.dias.web.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
@@ -218,7 +218,7 @@ public class BijlageController extends AbstractController {
                 EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest = new EntiteitenOpgeslagenRequest();
                 SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
                 soortEntiteitEnEntiteitId.setEntiteitId(Long.valueOf(id));
-                soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.djfc.request.SoortEntiteit.BIJLAGE);
+                soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.BIJLAGE);
                 entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds().add(soortEntiteitEnEntiteitId);
                 Identificatie identificatie = identificatieClient.opslaan(entiteitenOpgeslagenRequest);
 

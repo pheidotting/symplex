@@ -1,8 +1,8 @@
 package nl.lakedigital.it;
 
 import nl.lakedigital.djfc.client.oga.AbstractOgaClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

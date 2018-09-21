@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.web.controller.mapper;
 
-import nl.lakedigital.djfc.domain.WijzigingTaak;
+import nl.lakedigital.djfc.commons.domain.WijzigingTaak;
 
 import java.util.function.Function;
 

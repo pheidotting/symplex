@@ -21,7 +21,8 @@
       previous versions back to 5.4.
       https://issues.apache.org/jira/browse/AMQ-3570
     -->
-    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" useJmx="true" schedulePeriodForDestinationPurge="60000">
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" useJmx="true"
+            schedulePeriodForDestinationPurge="60000">
         <!--
           MCollective generally expects producer flow control to be turned off.
           It will also generate a limitless number of single-use reply queues,
@@ -32,12 +33,12 @@
           http://activemq.apache.org/producer-flow-control.html
         -->
         <destinationPolicy>
-          <policyMap>
-            <policyEntries>
-              <policyEntry topic=">" producerFlowControl="false"/>
-              <policyEntry queue="*.reply.>" gcInactiveDestinations="true" inactiveTimoutBeforeGC="300000" />
-            </policyEntries>
-          </policyMap>
+            <policyMap>
+                <policyEntries>
+                    <policyEntry topic=">" producerFlowControl="false"/>
+                    <policyEntry queue="*.reply.>" gcInactiveDestinations="true" inactiveTimoutBeforeGC="300000"/>
+                </policyEntries>
+            </policyMap>
         </destinationPolicy>
 
         <managementContext>
@@ -45,48 +46,51 @@
         </managementContext>
 
         <plugins>
-          <statisticsBrokerPlugin/>
+            <statisticsBrokerPlugin/>
 
-          <!--
-            This configures the users and groups used by this broker. Groups
-            are referenced below, in the write/read/admin attributes
-            of each authorizationEntry element.
-          -->
-          <simpleAuthenticationPlugin>
-            <users>
-              <authenticationUser username="mcollective" password="marionette" groups="mcollective,everyone"/>
-              <authenticationUser username="admin" password="secret" groups="mcollective,admins,everyone"/>
-            </users>
-          </simpleAuthenticationPlugin>
+            <!--
+              This configures the users and groups used by this broker. Groups
+              are referenced below, in the write/read/admin attributes
+              of each authorizationEntry element.
+            -->
+            <simpleAuthenticationPlugin>
+                <users>
+                    <authenticationUser username="mcollective" password="marionette" groups="mcollective,everyone"/>
+                    <authenticationUser username="admin" password="secret" groups="mcollective,admins,everyone"/>
+                </users>
+            </simpleAuthenticationPlugin>
 
-          <!--
-            Configure which users are allowed to read and write where. Permissions
-            are organized by group; groups are configured above, in the
-            authentication plugin.
+            <!--
+              Configure which users are allowed to read and write where. Permissions
+              are organized by group; groups are configured above, in the
+              authentication plugin.
 
-            With the rules below, both servers and admin users belong to group
-            mcollective, which can both issue and respond to commands. For an
-            example that splits permissions and doesn't allow servers to issue
-            commands, see:
-            http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#detailed-restrictions
-          -->
-          <authorizationPlugin>
-            <map>
-              <authorizationMap>
-                <authorizationEntries>
-                  <authorizationEntry queue=">" write="admins" read="admins" admin="admins" />
-                  <authorizationEntry topic=">" write="admins" read="admins" admin="admins" />
-                  <authorizationEntry topic="mcollective.>" write="mcollective" read="mcollective" admin="mcollective" />
-                  <authorizationEntry queue="mcollective.>" write="mcollective" read="mcollective" admin="mcollective" />
-                  <!--
-                    The advisory topics are part of ActiveMQ, and all users need access to them.
-                    The "everyone" group is not special; you need to ensure every user is a member.
-                  -->
-                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="everyone" write="everyone" admin="everyone"/>
-                </authorizationEntries>
-              </authorizationMap>
-            </map>
-          </authorizationPlugin>
+              With the rules below, both servers and admin users belong to group
+              mcollective, which can both issue and respond to commands. For an
+              example that splits permissions and doesn't allow servers to issue
+              commands, see:
+              http://docs.puppetlabs.com/mcollective/deploy/middleware/activemq.html#detailed-restrictions
+            -->
+            <authorizationPlugin>
+                <map>
+                    <authorizationMap>
+                        <authorizationEntries>
+                            <authorizationEntry queue=">" write="admins" read="admins" admin="admins"/>
+                            <authorizationEntry topic=">" write="admins" read="admins" admin="admins"/>
+                            <authorizationEntry topic="mcollective.>" write="mcollective" read="mcollective"
+                                                admin="mcollective"/>
+                            <authorizationEntry queue="mcollective.>" write="mcollective" read="mcollective"
+                                                admin="mcollective"/>
+                            <!--
+                              The advisory topics are part of ActiveMQ, and all users need access to them.
+                              The "everyone" group is not special; you need to ensure every user is a member.
+                            -->
+                            <authorizationEntry topic="ActiveMQ.Advisory.>" read="everyone" write="everyone"
+                                                admin="everyone"/>
+                        </authorizationEntries>
+                    </authorizationMap>
+                </map>
+            </authorizationPlugin>
         </plugins>
 
         <!--

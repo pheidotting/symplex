@@ -1,12 +1,12 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.commons.json.JsonSoortSchade;
 import nl.lakedigital.djfc.commons.xml.OpvragenSchadesResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenSoortSchadeResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenStatusSchadeResponse;
 import nl.lakedigital.djfc.domain.Schade;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortSchade;
 import nl.lakedigital.djfc.domain.StatusSchade;
 import nl.lakedigital.djfc.mapper.Mapper;

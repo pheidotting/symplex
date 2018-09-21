@@ -18,7 +18,7 @@ public class JsonSchadeNaarDomeinSchadeMapper {
         this.identificatieClient = identificatieClient;
     }
 
-    public Schade map(nl.lakedigital.djfc.domain.response.Schade schadeIn) {
+    public Schade map(nl.lakedigital.djfc.commons.domain.response.Schade schadeIn) {
         String patternDatum = "yyyy-MM-dd";
 
         LocalDate datumAfgehandeld = null;

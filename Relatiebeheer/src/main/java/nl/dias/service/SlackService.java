@@ -3,7 +3,7 @@ package nl.dias.service;
 import com.google.common.util.concurrent.RateLimiter;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

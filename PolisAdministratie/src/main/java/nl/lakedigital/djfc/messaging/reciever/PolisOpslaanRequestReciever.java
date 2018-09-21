@@ -5,6 +5,7 @@ import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.domain.Pakket;
+import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.messaging.mapper.DomainPakketNaarMessagingPakketMapper;
 import nl.lakedigital.djfc.messaging.mapper.MessagingPakketNaarDomainPakketMapper;
 import nl.lakedigital.djfc.service.PolisService;
@@ -29,7 +30,7 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
     @Inject
     private PolisService polisService;
     @Inject
-    private List<nl.lakedigital.djfc.domain.Polis> polissen;
+    private List<Polis> polissen;
     @Inject
     private IdentificatieClient identificatieClient;
 
@@ -40,7 +41,7 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
     @Override
     public void verwerkMessage(PolisOpslaanRequest polisOpslaanRequest) {
         LOGGER.debug("Inkomend request {}", ReflectionToStringBuilder.toString(polisOpslaanRequest));
-        for (nl.lakedigital.as.messaging.domain.Pakket p : polisOpslaanRequest.getPokketten()) {
+        for (nl.lakedigital.djfc.commons.domain.Pakket p : polisOpslaanRequest.getPokketten()) {
             LOGGER.debug(ReflectionToStringBuilder.toString(p));
         }
         List<Pakket> pakkettenOpslaan = polisOpslaanRequest.getPokketten().stream().map(new MessagingPakketNaarDomainPakketMapper(polisService, polissen, identificatieClient))//

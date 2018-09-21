@@ -379,7 +379,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>pa</finalName>
+        <finalName>oa</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>

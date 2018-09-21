@@ -2,6 +2,7 @@ package nl.dias.web.medewerker.mappers;
 
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.domain.response.Polis;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
@@ -22,7 +23,7 @@ public class JsonPolisNaarDomainPolisMapper {
         this.identificatieClient = identificatieClient;
     }
 
-    public JsonPolis map(nl.lakedigital.djfc.domain.response.Polis polisIn) {
+    public JsonPolis map(Polis polisIn) {
         String patternDatum = "yyyy-MM-dd";
 
         LocalDate ingangsDatum = null;

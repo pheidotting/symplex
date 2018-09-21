@@ -8,7 +8,7 @@ import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.BedrijfRepository;
 import nl.dias.repository.PolisRepository;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.easymock.*;
 import org.junit.After;
 import org.junit.Test;

@@ -1,7 +1,11 @@
 package nl.lakedigital.djfc.mapper;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
-import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.domain.Bedrag;
+import nl.lakedigital.djfc.domain.Betaalfrequentie;
+import nl.lakedigital.djfc.domain.Pakket;
+import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
 import nl.lakedigital.djfc.predicates.PolisOpSchermNaamPredicate;
 import nl.lakedigital.djfc.service.PolisService;
@@ -20,7 +24,7 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 @Component
-public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> implements JsonMapper{
+public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> implements JsonMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonPolisnaarPolisMapper.class);
 
     @Inject
@@ -91,7 +95,7 @@ public class JsonPolisnaarPolisMapper extends AbstractMapper<JsonPolis, Polis> i
     }
 
     @Override
-public    boolean isVoorMij(Object object) {
+    public boolean isVoorMij(Object object) {
         return object instanceof JsonPolis;
     }
 }

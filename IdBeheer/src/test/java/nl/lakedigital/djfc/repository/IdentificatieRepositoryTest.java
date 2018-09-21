@@ -1,21 +1,18 @@
 package nl.lakedigital.djfc.repository;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.*;
-import static org.easymock.EasyMock.*;
-
-import nl.lakedigital.djfc.domain.Identificatie;
-import org.easymock.EasyMockRunner;
+import nl.lakedigital.djfc.commons.domain.Identificatie;
 import org.easymock.EasyMockSupport;
-import org.easymock.*;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-unittest.xml")

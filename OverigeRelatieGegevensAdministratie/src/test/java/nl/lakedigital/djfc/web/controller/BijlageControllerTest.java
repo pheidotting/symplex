@@ -1,10 +1,10 @@
 package nl.lakedigital.djfc.web.controller;
 
 import com.google.gson.Gson;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.xml.OpvragenBijlagesResponse;
 import nl.lakedigital.djfc.domain.Bijlage;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.BijlageService;
 import org.easymock.Mock;

@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.messaging.sender.AbstractSender;
 import nl.lakedigital.djfc.repository.UitgaandeOpdrachtRepository;
 import org.slf4j.Logger;

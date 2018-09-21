@@ -1,6 +1,6 @@
 package nl.dias.domein;
 
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 
 import javax.persistence.*;
 

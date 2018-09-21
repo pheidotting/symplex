@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.mapper;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.as.messaging.entities.Opmerking;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
-import nl.lakedigital.djfc.domain.uitgaand.UitgaandeOpdracht;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 
 import java.util.function.Function;
 
@@ -18,11 +18,11 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
     @Override
     public UitgaandeOpdracht apply(Opmerking opmerking) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
-        uitgaandeOpdracht.setSoortEntiteit(nl.lakedigital.djfc.domain.SoortEntiteit.OPMERKING);
+        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.OPMERKING);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
 
-        opslaanEntiteitenRequest.getLijst().add(new nl.lakedigital.as.messaging.domain.Opmerking(SoortEntiteit.RELATIE, 1L, null, opmerking.getMedewerkerId(), opmerking.getTijd(), opmerking.getOpmerking()));
+        opslaanEntiteitenRequest.getLijst().add(new Opmerking(SoortEntiteit.RELATIE, 1L, null, opmerking.getTijd(), opmerking.getOpmerking(), null, opmerking.getMedewerkerId()));
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

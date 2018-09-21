@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenVerwijderdRequestSender;
 import nl.lakedigital.djfc.repository.AbstractRepository;
@@ -19,14 +19,14 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
 
 public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
-    private nl.lakedigital.as.messaging.domain.SoortEntiteit soortEntiteit;
+    private SoortEntiteit soortEntiteit;
 
     @Inject
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
     @Inject
     private EntiteitenVerwijderdRequestSender entiteitenVerwijderdRequestSender;
 
-    public AbstractService(nl.lakedigital.as.messaging.domain.SoortEntiteit soortEntiteit) {
+    public AbstractService(SoortEntiteit soortEntiteit) {
         this.soortEntiteit = soortEntiteit;
     }
 

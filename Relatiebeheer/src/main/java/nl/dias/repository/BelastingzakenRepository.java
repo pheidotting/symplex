@@ -4,7 +4,7 @@ import com.codahale.metrics.Timer;
 import nl.dias.domein.Belastingzaken;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
@@ -68,7 +68,7 @@ public class BelastingzakenRepository {
         List<SoortEntiteitEnEntiteitId> soortEntiteitEnEntiteitIds = new ArrayList<>();
 
         SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
-        soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.as.messaging.domain.SoortEntiteit.BELASTINGZAKEN);
+        soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.BELASTINGZAKEN);
         soortEntiteitEnEntiteitId.setEntiteitId(belastingzaken.getId());
 
         soortEntiteitEnEntiteitIds.add(soortEntiteitEnEntiteitId);

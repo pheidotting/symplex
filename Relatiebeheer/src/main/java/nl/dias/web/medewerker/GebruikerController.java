@@ -17,9 +17,9 @@ import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
@@ -162,7 +162,7 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String opslaan(@RequestBody nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
 
         Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerController.class);

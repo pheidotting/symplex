@@ -2,8 +2,8 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.TaakStatus;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.TaakStatus;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.messaging.sender.OpslaanTaakResponseSender;
 import nl.lakedigital.djfc.metrics.MetricsService;

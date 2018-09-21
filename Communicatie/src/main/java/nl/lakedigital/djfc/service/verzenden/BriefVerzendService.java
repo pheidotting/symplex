@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.service.verzenden;
 
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.UitgaandeBrief;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.UitgaandeBrief;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;

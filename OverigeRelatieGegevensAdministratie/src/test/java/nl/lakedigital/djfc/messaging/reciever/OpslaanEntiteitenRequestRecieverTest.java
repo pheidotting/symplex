@@ -1,8 +1,12 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
-import nl.lakedigital.as.messaging.domain.*;
+import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.RekeningNummer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Telefoonnummer;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.AdresService;
 import nl.lakedigital.djfc.service.OpmerkingService;
@@ -47,7 +51,7 @@ public class OpslaanEntiteitenRequestRecieverTest extends EasyMockSupport {
 
         Opmerking opmerking = new Opmerking();
         opmerking.setIdentificatie("a");
-        opmerking.setTijdstip("01-04-2018 23:59");
+        opmerking.setTijd("01-04-2018 23:59");
         opmerking.setSoortEntiteit(soortEntiteit);
         opmerking.setEntiteitId(entiteitId);
         opslaanEntiteitenRequest.getLijst().add(opmerking);
@@ -79,10 +83,10 @@ public class OpslaanEntiteitenRequestRecieverTest extends EasyMockSupport {
         Capture<List> telefoonnummerCapture = newCapture();
         Capture<List> rekeningNummerCapture = newCapture();
 
-        opmerkingService.opslaan(capture(opmerkingCapture), eq(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE), eq(entiteitId));
-        adresService.opslaan(capture(adresCapture), eq(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE), eq(entiteitId));
-        telefoonnummerService.opslaan(capture(telefoonnummerCapture), eq(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE), eq(entiteitId));
-        rekeningNummerService.opslaan(capture(rekeningNummerCapture), eq(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE), eq(entiteitId));
+        opmerkingService.opslaan(capture(opmerkingCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
+        adresService.opslaan(capture(adresCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
+        telefoonnummerService.opslaan(capture(telefoonnummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
+        rekeningNummerService.opslaan(capture(rekeningNummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
 
         replayAll();
 
@@ -90,10 +94,10 @@ public class OpslaanEntiteitenRequestRecieverTest extends EasyMockSupport {
 
         verifyAll();
 
-        List<nl.lakedigital.djfc.domain.Opmerking> opmerkingen = opmerkingCapture.getValue();
+        List<Opmerking> opmerkingen = opmerkingCapture.getValue();
         List<nl.lakedigital.djfc.domain.Adres> adressen = adresCapture.getValue();
-        List<nl.lakedigital.djfc.domain.Telefoonnummer> telefoonnummers = telefoonnummerCapture.getValue();
-        List<nl.lakedigital.djfc.domain.RekeningNummer> rekeningNummers = rekeningNummerCapture.getValue();
+        List<Telefoonnummer> telefoonnummers = telefoonnummerCapture.getValue();
+        List<RekeningNummer> rekeningNummers = rekeningNummerCapture.getValue();
 
         assertThat(opmerkingen.size(), is(1));
         assertThat(adressen.size(), is(1));

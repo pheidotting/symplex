@@ -9,7 +9,7 @@ import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.HypotheekPakketRepository;
 import nl.dias.repository.HypotheekRepository;
 import nl.dias.web.mapper.HypotheekMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonHypotheek;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;

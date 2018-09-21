@@ -4,10 +4,7 @@ import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
-import nl.dias.messaging.sender.BeindigenPolisRequestSender;
-import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
-import nl.dias.messaging.sender.PolisOpslaanRequestSender;
-import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
+import nl.dias.messaging.sender.*;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
@@ -15,10 +12,11 @@ import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.Pakket;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
 import nl.lakedigital.djfc.commons.json.JsonPakket;
@@ -63,6 +61,8 @@ public class PolisController extends AbstractController {
     private PolisVerwijderenRequestSender polisVerwijderenRequestSender;
     @Inject
     private PolisOpslaanRequestSender polisOpslaanRequestSender;
+    @Inject
+    private OpslaanPolisOpdrachtSender opslaanPolisOpdrachtSender;
     @Inject
     private Destination polisOpslaanResponseDestination;
     @Inject
@@ -156,7 +156,7 @@ public class PolisController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Long opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Pakket jsonPakket, HttpServletRequest httpServletRequest) {
+    public Long opslaan(@RequestBody Pakket jsonPakket, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPakket.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", PolisController.class);
 
@@ -192,6 +192,7 @@ public class PolisController extends AbstractController {
 
         polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
         polisOpslaanRequestSender.send(pakket);
+        opslaanPolisOpdrachtSender.send(pakket);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
         opslaanEntiteitenRequest.getLijst().addAll(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));

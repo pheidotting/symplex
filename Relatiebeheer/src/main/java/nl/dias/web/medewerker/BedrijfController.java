@@ -10,16 +10,16 @@ import nl.dias.web.mapper.*;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.*;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.response.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -95,7 +95,7 @@ public class BedrijfController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
+    public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.commons.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("bedrijfOpslaan", BedrijfController.class, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfController.class);
 
@@ -171,11 +171,11 @@ public class BedrijfController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{identificatieCode}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public nl.lakedigital.djfc.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
+    public nl.lakedigital.djfc.commons.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
         LOGGER.debug("Zoeken met identificatiecode {}", identificatieCode);
 
-        nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = null;
+        nl.lakedigital.djfc.commons.domain.response.Bedrijf bedrijf = null;
 
         try {
 
@@ -219,7 +219,7 @@ public class BedrijfController extends AbstractController {
                 bedrijf.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
             }
 
-            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(nl.lakedigital.djfc.domain.SoortEntiteit.BEDRIJF, bedrijfDomain.getId());
+            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.BEDRIJF, bedrijfDomain.getId());
 
             Belastingzaken belastingzaken = new Belastingzaken();
 

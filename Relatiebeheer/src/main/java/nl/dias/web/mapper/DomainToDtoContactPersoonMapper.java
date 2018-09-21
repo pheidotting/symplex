@@ -8,7 +8,7 @@ import nl.lakedigital.djfc.commons.json.Identificatie;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class DomainToDtoContactPersoonMapper implements Function<ContactPersoon, nl.lakedigital.djfc.domain.response.ContactPersoon> {
+public class DomainToDtoContactPersoonMapper implements Function<ContactPersoon, nl.lakedigital.djfc.commons.domain.response.ContactPersoon> {
     private IdentificatieClient identificatieClient;
     private TelefoonnummerClient telefoonnummerClient;
 
@@ -18,8 +18,8 @@ public class DomainToDtoContactPersoonMapper implements Function<ContactPersoon,
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.ContactPersoon apply(ContactPersoon contactPersoon) {
-        nl.lakedigital.djfc.domain.response.ContactPersoon cp = new nl.lakedigital.djfc.domain.response.ContactPersoon();
+    public nl.lakedigital.djfc.commons.domain.response.ContactPersoon apply(ContactPersoon contactPersoon) {
+        nl.lakedigital.djfc.commons.domain.response.ContactPersoon cp = new nl.lakedigital.djfc.commons.domain.response.ContactPersoon();
 
         Identificatie identificatie = identificatieClient.zoekIdentificatie("CONTACTPERSOON", contactPersoon.getId());
 

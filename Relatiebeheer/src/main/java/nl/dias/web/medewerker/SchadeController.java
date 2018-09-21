@@ -13,9 +13,9 @@ import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.SchadeMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonSchadeNaarDomeinSchadeMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.metrics.MetricsService;
@@ -58,7 +58,7 @@ public class SchadeController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
-    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
+    public String opslaan(@RequestBody nl.lakedigital.djfc.commons.domain.response.Schade jsonSchade, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("schadeOpslaan", SchadeController.class, null, jsonSchade.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", SchadeController.class);
 
