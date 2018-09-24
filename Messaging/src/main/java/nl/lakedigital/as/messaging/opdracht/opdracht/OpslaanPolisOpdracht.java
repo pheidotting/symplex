@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement(name = "opslaanPolisOpdracht")
-public class OpslaanPolisOpdracht extends AbstractMessage {
+public class OpslaanPolisOpdracht extends AbstractMessage implements MetOpmerkingen, MetTaken {
     private Pakket pakket;
     private List<Opmerking> opmerkingen;
 
@@ -20,6 +20,7 @@ public class OpslaanPolisOpdracht extends AbstractMessage {
     public void setPakket(Pakket pakket) {
         this.pakket = pakket;
     }
+
 
     public List<Opmerking> getOpmerkingen() {
         if (opmerkingen == null) {

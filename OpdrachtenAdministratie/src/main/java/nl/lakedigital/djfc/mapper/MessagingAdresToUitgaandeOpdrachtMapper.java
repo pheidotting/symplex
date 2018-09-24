@@ -21,6 +21,7 @@ public class MessagingAdresToUitgaandeOpdrachtMapper extends AbstractMapper<Opsl
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.ADRES);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        setMDC(opslaanEntiteitenRequest);
 
         opslaanEntiteitenRequest.getLijst().add(new Adres(SoortEntiteit.RELATIE, 1L, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres()));
 

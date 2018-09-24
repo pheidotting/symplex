@@ -10,7 +10,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="SOORTOPDRACHT" type="varchar(50)"/>
-            <column name="TRACKANDTRACEID" type="varchar(25)"/>
+            <column name="TRACKANDTRACEID" type="varchar(45)"/>
             <column name="BERICHT" type="text"/>
             <column name="TIJDSTIP" type="datetime"/>
         </createTable>

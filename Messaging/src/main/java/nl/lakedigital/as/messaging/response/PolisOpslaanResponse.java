@@ -1,24 +1,25 @@
 package nl.lakedigital.as.messaging.response;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.djfc.commons.domain.Pakket;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
 @XmlRootElement(name = "polisOpslaanResponse")
 public class PolisOpslaanResponse extends AbstractMessage {
-    private List<Pakket> pakketten;
+    private Long id;
 
-    public List<Pakket> getPakketten() {
-        if (pakketten == null) {
-            pakketten = new ArrayList<>();
-        }
-        return pakketten;
+    public PolisOpslaanResponse() {
     }
 
-    public void setPakketten(List<Pakket> pakketten) {
-        this.pakketten = pakketten;
+    public PolisOpslaanResponse(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

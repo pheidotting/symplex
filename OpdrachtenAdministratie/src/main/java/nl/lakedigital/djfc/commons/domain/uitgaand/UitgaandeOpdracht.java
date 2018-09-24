@@ -3,13 +3,17 @@ package nl.lakedigital.djfc.commons.domain.uitgaand;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.inkomend.InkomendeOpdracht;
 import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "UITGAAND")
-@NamedQueries({@NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachten", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp is null")})
+@NamedQueries({//
+        @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachten", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp is null"),//
+        @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachtenOpTAndTEnWachtenOp", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp = :wachtenOp AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId"),//
+        @NamedQuery(name = "UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where soortEntiteit = :soortEntiteit AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId")//
+})
 public class UitgaandeOpdracht {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +33,8 @@ public class UitgaandeOpdracht {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "INKOMENDEOPDRACHT")
     private InkomendeOpdracht inkomendeOpdracht;
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UitgaandeOpdracht.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = UitgaandeOpdracht.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "WACHTENOP")
-    @Transient
     private UitgaandeOpdracht wachtenOp;
 
     public Long getId() {

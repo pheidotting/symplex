@@ -21,6 +21,7 @@ public class MessagingRekeningNummerToUitgaandeOpdrachtMapper extends AbstractMa
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.REKENINGNUMMER);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        setMDC(opslaanEntiteitenRequest);
 
         opslaanEntiteitenRequest.getLijst().add(new RekeningNummer(SoortEntiteit.RELATIE, 1L, null, rekeningNummer.getBic(), rekeningNummer.getRekeningnummer()));
 

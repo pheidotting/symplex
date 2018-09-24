@@ -4,7 +4,10 @@ import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
-import nl.dias.messaging.sender.*;
+import nl.dias.messaging.sender.BeindigenPolisRequestSender;
+import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
+import nl.dias.messaging.sender.OpslaanPolisOpdrachtSender;
+import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
@@ -12,7 +15,7 @@ import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
-import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
+import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
@@ -59,8 +62,6 @@ public class PolisController extends AbstractController {
     private Mapper mapper;
     @Inject
     private PolisVerwijderenRequestSender polisVerwijderenRequestSender;
-    @Inject
-    private PolisOpslaanRequestSender polisOpslaanRequestSender;
     @Inject
     private OpslaanPolisOpdrachtSender opslaanPolisOpdrachtSender;
     @Inject
@@ -190,17 +191,16 @@ public class PolisController extends AbstractController {
         //            throw new IllegalStateException(e.getLocalizedMessage());
         //        }
 
-        polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
-        polisOpslaanRequestSender.send(pakket);
-        opslaanPolisOpdrachtSender.send(pakket);
-
-        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        opslaanEntiteitenRequest.getLijst().addAll(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
-
-        opslaanEntiteitenRequest.setEntiteitId(pakket.getId());
-        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
-
-        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+        OpslaanPolisOpdracht opslaanPolisOpdracht = opslaanPolisOpdrachtSender.maakMessage(pakket);
+        opslaanPolisOpdracht.setOpmerkingen(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
+        opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
+        //        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
+        //        opslaanEntiteitenRequest.getLijst().addAll(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
+        //
+        //        opslaanEntiteitenRequest.setEntiteitId(pakket.getId());
+        //        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
+        //
+        //        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         takenOpslaanService.opslaan(jsonPakket.getTaken(), pakket.getId(), SoortEntiteit.POLIS);
 

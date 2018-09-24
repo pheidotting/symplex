@@ -5,7 +5,6 @@ import nl.lakedigital.djfc.commons.domain.Polis;
 
 import java.util.function.Function;
 
-//import org.joda.time.format.DateTimeFormatter;
 
 public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigital.djfc.domain.Polis, Polis> {
 

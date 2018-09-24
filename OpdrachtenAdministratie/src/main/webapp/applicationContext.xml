@@ -94,5 +94,5 @@
         <property name="changeLog" value="classpath:databaseChangeLog.xml"/>
     </bean>
 
-    <!--<import resource="applicationContext-jms.xml"/>-->
+    <import resource="applicationContext-jms.xml"/>
 </beans>

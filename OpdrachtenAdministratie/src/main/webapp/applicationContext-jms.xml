@@ -16,20 +16,55 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     </bean>
 
     <!-- Polis Opslaan -->
-    <bean id="polisOpslaanRequestReciever" class="nl.lakedigital.djfc.messaging.reciever.PolisOpslaanRequestReciever"/>
+    <bean id="opslaanPolisOpdrachtReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.OpslaanPolisOpdrachtReciever"/>
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.pa.polisOpslaanRequestQueue" ref="polisOpslaanRequestReciever"
+        <jms:listener destination="rb.oa.opslaanPolisOpdrachtQueue" ref="opslaanPolisOpdrachtReciever"
                       method="onMessage"/>
     </jms:listener-container>
 
-    <bean id="schadeOpslaanRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.SchadeOpslaanRequestReciever"/>
+    <bean id="polisOpslaanRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="oa.pa.polisOpslaanRequestQueue"/>
+    </bean>
+    <bean id="polisOpslaanRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="polisOpslaanRequestDestination"/>
+    </bean>
+    <bean id="polisOpslaanRequestSender" class="nl.lakedigital.djfc.messaging.sender.PolisOpslaanRequestSender">
+        <constructor-arg index="0" ref="polisOpslaanRequestTemplate"/>
+    </bean>
+    <bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="pa.oa.polisOpslaanResponseQueue"/>
+    </bean>
+    <bean id="polisOpslaanResponseReciever"
+          class="nl.lakedigital.djfc.messaging.reciever.PolisOpslaanResponseReciever"/>
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.pa.schadeOpslaanRequestQueue" ref="schadeOpslaanRequestReciever"
+        <jms:listener destination="pa.oa.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"
                       method="onMessage"/>
     </jms:listener-container>
+
+    <bean id="opslaanEntiteitenRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.oga.opslaanEntiteitenRequestQueue"/>
+    </bean>
+    <bean id="opslaanEntiteitenRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="opslaanEntiteitenRequestDestination"/>
+    </bean>
+    <bean id="opslaanEntiteitenRequestSender"
+          class="nl.lakedigital.djfc.messaging.sender.OpslaanEntiteitenRequestSender">
+        <constructor-arg index="0" ref="opslaanEntiteitenRequestTemplate"/>
+    </bean>
+
+    <!---->
+    <!--<bean id="schadeOpslaanRequestReciever"-->
+    <!--class="nl.lakedigital.djfc.messaging.reciever.SchadeOpslaanRequestReciever"/>-->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="rb.pa.schadeOpslaanRequestQueue" ref="schadeOpslaanRequestReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
+
     <!--<bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
-    <!--<constructor-arg index="0" value="rb.pa.polisOpslaanResponseQueue"/>-->
+    <!--<constructor-arg index="0" value="oa.pa.polisOpslaanResponseQueue"/>-->
     <!--</bean>-->
     <!--<bean id="polisOpslaanResponseTemplate" class="org.springframework.jms.core.JmsTemplate">-->
     <!--<property name="connectionFactory" ref="connectionFactory"/>-->
@@ -42,39 +77,39 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <!-- //  Polis Opslaan -->
 
     <!-- Polis Verwijderen -->
-    <bean id="polisVerwijderenRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.PolisVerwijderenRequestReciever"/>
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.pa.polisVerwijderenRequestQueue" ref="polisVerwijderenRequestReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
-    <bean id="verwijderEntiteitenRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.VerwijderEntiteitenRequestReciever"/>
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.verwijderEntiteitenRequestQueue" ref="verwijderEntiteitenRequestReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
-    <!-- //  Polis Verwijderen -->
+    <!--<bean id="polisVerwijderenRequestReciever"-->
+    <!--class="nl.lakedigital.djfc.messaging.reciever.PolisVerwijderenRequestReciever"/>-->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="rb.pa.polisVerwijderenRequestQueue" ref="polisVerwijderenRequestReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
+    <!--<bean id="verwijderEntiteitenRequestReciever"-->
+    <!--class="nl.lakedigital.djfc.messaging.reciever.VerwijderEntiteitenRequestReciever"/>-->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.verwijderEntiteitenRequestQueue" ref="verwijderEntiteitenRequestReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
+    <!--&lt;!&ndash; //  Polis Verwijderen &ndash;&gt;-->
 
-    <!-- Polis Beindigen -->
-    <bean id="beindigenPolisRequestReciever"
-          class="nl.lakedigital.djfc.messaging.reciever.BeindigenPolisRequestReciever"/>
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.pa.beindigenPolisRequestQueue" ref="beindigenPolisRequestReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
-    <!-- //  Polis Beindigen -->
+    <!--&lt;!&ndash; Polis Beindigen &ndash;&gt;-->
+    <!--<bean id="beindigenPolisRequestReciever"-->
+    <!--class="nl.lakedigital.djfc.messaging.reciever.BeindigenPolisRequestReciever"/>-->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="rb.pa.beindigenPolisRequestQueue" ref="beindigenPolisRequestReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
+    <!--&lt;!&ndash; //  Polis Beindigen &ndash;&gt;-->
 
-    <bean id="entiteitenOpgeslagenRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="id.entiteitenOpgeslagenRequestQueue"/>
-    </bean>
-    <bean id="entiteitenOpgeslagenRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="entiteitenOpgeslagenRequestDestination"/>
-    </bean>
-    <bean id="entiteitenOpgeslagenRequestSender"
-          class="nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender">
-        <constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>
-    </bean>
+    <!--<bean id="entiteitenOpgeslagenRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="id.entiteitenOpgeslagenRequestQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="entiteitenOpgeslagenRequestTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+    <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--<property name="defaultDestination" ref="entiteitenOpgeslagenRequestDestination"/>-->
+    <!--</bean>-->
+    <!--<bean id="entiteitenOpgeslagenRequestSender"-->
+    <!--class="nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender">-->
+    <!--<constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>-->
+    <!--</bean>-->
 
 </beans>

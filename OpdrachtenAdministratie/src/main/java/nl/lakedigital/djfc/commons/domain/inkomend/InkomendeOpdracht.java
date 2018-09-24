@@ -6,6 +6,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,7 @@ public class InkomendeOpdracht {
     @Column(name = "TIJDSTIP")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
     private LocalDateTime tijdstip;
-    @OneToMany(mappedBy = "inkomendeOpdracht")
+    @OneToMany(mappedBy = "inkomendeOpdracht", cascade = CascadeType.ALL)
     private Set<UitgaandeOpdracht> uitgaandeOpdrachten;
 
     public InkomendeOpdracht() {
@@ -36,6 +37,7 @@ public class InkomendeOpdracht {
         this.soortOpdracht = soortOpdracht;
         this.trackAndTraceId = trackAndTraceId;
         this.bericht = bericht;
+        this.tijdstip = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -71,6 +73,9 @@ public class InkomendeOpdracht {
     }
 
     public Set<UitgaandeOpdracht> getUitgaandeOpdrachten() {
+        if (uitgaandeOpdrachten == null) {
+            uitgaandeOpdrachten = new HashSet<>();
+        }
         return uitgaandeOpdrachten;
     }
 

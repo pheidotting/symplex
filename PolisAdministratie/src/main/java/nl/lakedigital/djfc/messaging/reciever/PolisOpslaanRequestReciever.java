@@ -1,17 +1,16 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
-import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.messaging.mapper.DomainPakketNaarMessagingPakketMapper;
 import nl.lakedigital.djfc.messaging.mapper.MessagingPakketNaarDomainPakketMapper;
 import nl.lakedigital.djfc.service.PolisService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.inject.Inject;
 import javax.jms.JMSException;
@@ -59,15 +58,15 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
 
         if (replyTo != null) {
             LOGGER.debug("Response versturen");
-            PolisOpslaanResponse polisOpslaanResponse = new PolisOpslaanResponse();
-            polisOpslaanResponse.setAntwoordOp(polisOpslaanRequest);
-            polisOpslaanResponse.setPakketten(pakkettenOpslaan.stream().map(new DomainPakketNaarMessagingPakketMapper()).collect(Collectors.toList()));
+            PolisOpslaanResponse polisOpslaanResponse = new PolisOpslaanResponse(pakkettenOpslaan.get(0).getId());
 
             try {
                 setupMessageQueueConsumer();
 
-                polisOpslaanResponse.setTrackAndTraceId(SessieHolder.get().getTrackAndTraceId());
-                polisOpslaanResponse.setIngelogdeGebruiker(SessieHolder.get().getIngelogdeGebruiker());
+                polisOpslaanResponse.setTrackAndTraceId(MDC.get("trackAndTraceId"));
+                polisOpslaanResponse.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
+                polisOpslaanResponse.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+                polisOpslaanResponse.setUrl(MDC.get("url"));
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(PolisOpslaanResponse.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

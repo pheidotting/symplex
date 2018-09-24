@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.repository;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 @Repository
 public class UitgaandeOpdrachtRepository {
@@ -51,37 +54,29 @@ public class UitgaandeOpdrachtRepository {
         return result;
     }
 
-    //    @Transactional
-    //    public void verwijder(Polis polis) {
-    //        List<Polis> polissen = new ArrayList();
-    //        polissen.add(polis);
-    //
-    //        getTransaction();
-    //
-    //        verwijder(polissen);
-    //
-    //        getTransaction().commit();
-    //    }
-    //
-    //    @Transactional
-    //    public void verwijder(List<Polis> polissen) {
-    //        getTransaction();
-    //
-    //        for (Polis polis : polissen) {
-    //            getSession().delete(polis);
-    //        }
-    //
-    //        getTransaction().commit();
-    //    }
-    //
-    //    public void opslaan(InkomendeOpdracht inkomendeOpdracht) {
-    //        List<InkomendeOpdracht> inkomendeOpdrachten = new ArrayList();
-    //        inkomendeOpdrachten.add(inkomendeOpdracht);
-    //
-    //        opslaan(inkomendeOpdrachten);
-    //    }
-    //
-    //    @Transactional
+    public List<UitgaandeOpdracht> teVersturenUitgaandeOpdrachten(String trackAndTraceId, UitgaandeOpdracht uitgaandeOpdracht) {
+        getTransaction();
+
+        List<UitgaandeOpdracht> result = getSession().getNamedQuery("UitgaandeOpdracht.teVersturenUitgaandeOpdrachtenOpTAndTEnWachtenOp").setParameter("trackAndTraceId", trackAndTraceId).setParameter("wachtenOp", uitgaandeOpdracht).list();
+
+        getTransaction().commit();
+
+        return result;
+    }
+
+    public UitgaandeOpdracht zoekObvSoortEntiteitEnTrackAndTrackeId(String trackAndTraceId, SoortEntiteit soortEntiteit) {
+        getTransaction();
+
+        UitgaandeOpdracht result = (UitgaandeOpdracht) getSession().getNamedQuery("UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId").setParameter("trackAndTraceId", trackAndTraceId).setParameter("soortEntiteit", soortEntiteit).list().get(0);
+
+        getTransaction().commit();
+
+        return result;
+    }
+
+    public void opslaan(UitgaandeOpdracht uitgaandeOpdracht) {
+        opslaan(newArrayList(uitgaandeOpdracht));
+    }
     public void opslaan(List<UitgaandeOpdracht> uitgaandeOpdrachten) {
         getTransaction();
 

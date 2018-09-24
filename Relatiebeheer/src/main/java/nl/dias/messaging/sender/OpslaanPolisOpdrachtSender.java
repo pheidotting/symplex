@@ -1,5 +1,6 @@
 package nl.dias.messaging.sender;
 
+import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.djfc.commons.domain.Opmerking;
 import nl.lakedigital.djfc.commons.domain.Pakket;
@@ -87,6 +88,9 @@ public class OpslaanPolisOpdrachtSender extends AbstractSender<OpslaanPolisOpdra
         return opslaanPolisOpdracht;
     }
 
+    public void send(AbstractMessage abstractMessage) {
+        super.send(abstractMessage, LOGGER);
+    }
 
     public void send(JsonPakket jsonPakket) {
         super.send(jsonPakket, LOGGER);
