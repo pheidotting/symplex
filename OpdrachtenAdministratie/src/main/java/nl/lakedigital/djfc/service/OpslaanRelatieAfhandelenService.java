@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingRelatieToUitgaandeOpdrachtMapper;
@@ -35,5 +36,10 @@ public class OpslaanRelatieAfhandelenService extends AfhandelenInkomendeOpdracht
     @Override
     public void verwerkTerugkoppeling(OpslaanRelatieOpdracht response) {
 
+    }
+
+    @Override
+    protected SoortEntiteitEnEntiteitId getSoortEntiteitEnEntiteitId(OpslaanRelatieOpdracht message) {
+        return null;
     }
 }

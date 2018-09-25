@@ -55,6 +55,17 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <constructor-arg index="0" ref="opslaanEntiteitenRequestTemplate"/>
     </bean>
 
+    <bean id="opslaanTaakRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="rb.tb.opslaanTaakRequestQueue"/>
+    </bean>
+    <bean id="opslaanTaakRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="opslaanTaakRequestDestination"/>
+    </bean>
+    <bean id="opslaanTaakRequestSender" class="nl.lakedigital.djfc.messaging.sender.OpslaanTaakRequestSender">
+        <constructor-arg index="0" ref="opslaanTaakRequestTemplate"/>
+    </bean>
+
     <!---->
     <!--<bean id="schadeOpslaanRequestReciever"-->
     <!--class="nl.lakedigital.djfc.messaging.reciever.SchadeOpslaanRequestReciever"/>-->
@@ -111,5 +122,4 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <!--class="nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender">-->
     <!--<constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>-->
     <!--</bean>-->
-
 </beans>

@@ -3,6 +3,7 @@ package nl.lakedigital.as.messaging.opdracht.opdracht;
 import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.djfc.commons.domain.Opmerking;
 import nl.lakedigital.djfc.commons.domain.Pakket;
+import nl.lakedigital.djfc.commons.domain.Taak;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 public class OpslaanPolisOpdracht extends AbstractMessage implements MetOpmerkingen, MetTaken {
     private Pakket pakket;
     private List<Opmerking> opmerkingen;
+    private List<Taak> taken;
 
     public Pakket getPakket() {
         return pakket;
@@ -33,4 +35,16 @@ public class OpslaanPolisOpdracht extends AbstractMessage implements MetOpmerkin
         this.opmerkingen = opmerkingen;
     }
 
+    @Override
+    public List<Taak> getTaken() {
+        if (taken == null) {
+            taken = new ArrayList<>();
+        }
+        return taken;
+    }
+
+    @Override
+    public void setTaken(List<Taak> taken) {
+        this.taken = taken;
+    }
 }

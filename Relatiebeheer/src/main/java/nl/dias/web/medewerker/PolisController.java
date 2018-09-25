@@ -19,6 +19,7 @@ import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Taak;
 import nl.lakedigital.djfc.commons.domain.response.Pakket;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
@@ -165,44 +166,31 @@ public class PolisController extends AbstractController {
 
         zetSessieWaarden(httpServletRequest);
 
-        //        nl.lakedigital.djfc.domain.response.Polis polis = jsonPolis;
-        //                Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polis.getParentIdentificatie());
-        //                polis.setEntiteitId(identificatie.getEntiteitId());
-        //                polis.setSoortEntiteit(identificatie.getSoortEntiteit());
-        //
-        //                polisOpslaanRequestSender.setReplyTo(polisOpslaanResponseDestination);
-        //                polisOpslaanRequestSender.send(polis);
-
-        //                Polis polis = polisMapper.mapVanJson(jsonPolis);
-        //        Polis polis = new JsonPolisNaarDomainPolisMapper(polisService, identificatieClient).map(jsonPolis);
-        //        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(jsonPolis.getIdentificatie());
-        JsonPakket pakket = new JsonPakketNaarDomainPakketMapper(polisClient, identificatieClient).map(jsonPakket);//         polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        JsonPakket pakket = new JsonPakketNaarDomainPakketMapper(polisClient, identificatieClient).map(jsonPakket);
 
         Identificatie identificatieParent = identificatieClient.zoekIdentificatieCode(jsonPakket.getParentIdentificatie());
         pakket.setEntiteitId(identificatieParent.getEntiteitId());
         pakket.setSoortEntiteit(identificatieParent.getSoortEntiteit());
-        //        polis.set
-        //        polis.setMaatschappij(jsonPolis.getMaatschappij());
+
         LOGGER.debug("ID van de Polis {}", pakket.getId());
-        //        try {
-        //            polisService.opslaan(polis);
-        //        } catch (IllegalArgumentException e) {
-        //            LOGGER.debug("Fout opgetreden bij opslaan Polis", e);
-        //            throw new IllegalStateException(e.getLocalizedMessage());
-        //        }
 
         OpslaanPolisOpdracht opslaanPolisOpdracht = opslaanPolisOpdrachtSender.maakMessage(pakket);
         opslaanPolisOpdracht.setOpmerkingen(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
-        opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
-        //        OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        //        opslaanEntiteitenRequest.getLijst().addAll(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
-        //
-        //        opslaanEntiteitenRequest.setEntiteitId(pakket.getId());
-        //        opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.POLIS);
-        //
-        //        opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+        opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(taakIn -> {
+            Taak taak = new Taak();
+            taak.setTitel(taakIn.getTitel());
+            taak.setOmschrijving(taakIn.getOmschrijving());
+            taak.setDeadline(taakIn.getDeadline());
+            if (taakIn.getToegewezenAan() != null && !"".equals(taakIn.getToegewezenAan())) {
+                Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taakIn.getToegewezenAan());
+                taak.setToegewezenAan(identificatieMedewerker.getEntiteitId());
+            }
+            taak.setSoortEntiteit("POLIS");
+            taak.setEntiteitId(pakket.getId());
 
-        takenOpslaanService.opslaan(jsonPakket.getTaken(), pakket.getId(), SoortEntiteit.POLIS);
+            return taak;
+        }).collect(Collectors.toList()));
+        opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
 
         metricsService.stop(timer);
 

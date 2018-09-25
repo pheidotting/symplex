@@ -3,6 +3,7 @@ package nl.lakedigital.djfc.service;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingPolisToUitgaandeOpdrachtMapper;
@@ -34,6 +35,11 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
     }
 
     @Override
+    protected SoortEntiteitEnEntiteitId getSoortEntiteitEnEntiteitId(OpslaanPolisOpdracht message) {
+        return new SoortEntiteitEnEntiteitId(SoortEntiteit.PAKKET, message.getPakket().getId());
+    }
+
+    @Override
     public void verwerkTerugkoppeling(PolisOpslaanResponse response) {
         UitgaandeOpdracht uitgaandeOpdracht = uitgaandeOpdrachtRepository.zoekObvSoortEntiteitEnTrackAndTrackeId(response.getTrackAndTraceId(), SoortEntiteit.POLIS);
 
@@ -43,6 +49,7 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
         LOGGER.debug("Opzoeken openstaande opdrachten op {} en {}", response.getTrackAndTraceId(), uitgaandeOpdracht.getId());
 
         List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.teVersturenUitgaandeOpdrachten(response.getTrackAndTraceId(), uitgaandeOpdracht);
+        uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getId() + "</entiteitId>")));
 
         LOGGER.debug("Gevonden : {}", uitgaandeOpdrachten);
 
