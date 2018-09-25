@@ -15,11 +15,11 @@ import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
+import nl.dias.web.medewerker.mappers.JsonTaakNaarOpdrachtMapper;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
-import nl.lakedigital.djfc.commons.domain.Taak;
 import nl.lakedigital.djfc.commons.domain.response.Pakket;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonFoutmelding;
@@ -176,20 +176,7 @@ public class PolisController extends AbstractController {
 
         OpslaanPolisOpdracht opslaanPolisOpdracht = opslaanPolisOpdrachtSender.maakMessage(pakket);
         opslaanPolisOpdracht.setOpmerkingen(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
-        opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(taakIn -> {
-            Taak taak = new Taak();
-            taak.setTitel(taakIn.getTitel());
-            taak.setOmschrijving(taakIn.getOmschrijving());
-            taak.setDeadline(taakIn.getDeadline());
-            if (taakIn.getToegewezenAan() != null && !"".equals(taakIn.getToegewezenAan())) {
-                Identificatie identificatieMedewerker = identificatieClient.zoekIdentificatieCode(taakIn.getToegewezenAan());
-                taak.setToegewezenAan(identificatieMedewerker.getEntiteitId());
-            }
-            taak.setSoortEntiteit("POLIS");
-            taak.setEntiteitId(pakket.getId());
-
-            return taak;
-        }).collect(Collectors.toList()));
+        opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(new JsonTaakNaarOpdrachtMapper(identificatieClient, pakket.getId(), SoortEntiteit.POLIS);
         opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
 
         metricsService.stop(timer);
