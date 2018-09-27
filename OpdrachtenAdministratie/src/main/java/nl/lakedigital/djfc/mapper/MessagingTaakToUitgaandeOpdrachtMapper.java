@@ -48,6 +48,7 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
 
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TAAK);
+        opslaanTaakRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
 
         uitgaandeOpdracht.setBericht(marshall(opslaanTaakRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

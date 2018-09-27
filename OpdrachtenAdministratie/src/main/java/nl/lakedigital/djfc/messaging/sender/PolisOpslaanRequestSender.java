@@ -23,7 +23,7 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanRequestSender.class);
 
     @Inject
-    private Destination polisOpslaanResponseDestination;
+    private Destination responseDestination;
 
     public PolisOpslaanRequestSender() {
         this.jmsTemplates = new ArrayList<>();
@@ -37,7 +37,7 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
 
     @Override
     protected Destination getReplyTo() {
-        return polisOpslaanResponseDestination;
+        return responseDestination;
     }
 
     @Override

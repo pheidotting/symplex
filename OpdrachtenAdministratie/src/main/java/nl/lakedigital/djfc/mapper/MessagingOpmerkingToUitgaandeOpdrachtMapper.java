@@ -30,6 +30,7 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
     public UitgaandeOpdracht finish() {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.OPMERKING);
+        opslaanEntiteitenRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
 
         uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

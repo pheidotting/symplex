@@ -3,7 +3,7 @@ package nl.dias.messaging.reciever;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
-import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
+import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
-public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanResponse> {
+public class PolisOpslaanResponseReciever extends AbstractReciever<Response> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanResponseReciever.class);
 
     @Inject
@@ -26,11 +26,11 @@ public class PolisOpslaanResponseReciever extends AbstractReciever<PolisOpslaanR
     private MetricsService metricsService;
 
     public PolisOpslaanResponseReciever() {
-        super(PolisOpslaanResponse.class);
+        super(Response.class);
     }
 
     @Override
-    public void verwerkMessage(PolisOpslaanResponse polisOpslaanResponse) {
+    public void verwerkMessage(Response polisOpslaanResponse) {
         PolisOpslaanRequest polisOpslaanRequest = (PolisOpslaanRequest) polisOpslaanResponse.getAntwoordOp();
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();

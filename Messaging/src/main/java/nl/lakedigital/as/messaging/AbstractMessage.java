@@ -8,9 +8,10 @@ import nl.lakedigital.as.messaging.request.relatie.OpslaanRelatieRequest;
 import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanResponse;
-import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
+import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
 import nl.lakedigital.as.messaging.response.relatie.OpslaanRelatieResponse;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         OpvragenPersoonSOfBedrijfsGegevensRequest.class,//
         OpvragenPersoonSOfBedrijfsGegevensRequest.class,//
         PolisOpslaanRequest.class,//
-        PolisOpslaanResponse.class,//
+        Response.class,//
         PolisVerwijderenRequest.class, //
         VerwijderBedrijvenRequest.class, //
         VerwijderEntiteitenRequest.class,//
@@ -45,6 +46,7 @@ public abstract class AbstractMessage {
     private String ingelogdeGebruikerOpgemaakt;
     private String url;
     private AbstractMessage antwoordOp;
+    private SoortEntiteit hoofdSoortEntiteit;
 
     public String getTrackAndTraceId() {
         return trackAndTraceId;
@@ -84,6 +86,14 @@ public abstract class AbstractMessage {
 
     public void setAntwoordOp(AbstractMessage antwoordOp) {
         this.antwoordOp = antwoordOp;
+    }
+
+    public SoortEntiteit getHoofdSoortEntiteit() {
+        return hoofdSoortEntiteit;
+    }
+
+    public void setHoofdSoortEntiteit(SoortEntiteit hoofdSoortEntiteit) {
+        this.hoofdSoortEntiteit = hoofdSoortEntiteit;
     }
 
     @Override

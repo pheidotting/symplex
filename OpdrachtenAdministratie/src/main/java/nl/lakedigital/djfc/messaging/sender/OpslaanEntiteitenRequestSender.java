@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.jms.Destination;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ import static com.google.common.collect.Lists.newArrayList;
 @Component
 public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntiteitenRequest, OpslaanEntiteitenRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(OpslaanEntiteitenRequestSender.class);
+    @Inject
+    private Destination responseDestination;
 
     public OpslaanEntiteitenRequestSender() {
         this.jmsTemplates = new ArrayList<>();
@@ -33,7 +36,7 @@ public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntite
 
     @Override
     protected Destination getReplyTo() {
-        return null;
+        return responseDestination;
     }
     //    @Override
     //    public OpslaanEntiteitenRequest maakMessage(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {

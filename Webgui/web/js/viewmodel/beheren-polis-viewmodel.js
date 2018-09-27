@@ -66,6 +66,15 @@ define(['jquery',
 
                     _this.pakket = pakketMapper.mapPakket(pakket, maatschappijen);
 
+                    if(_this.pakket.polissen().length == 0){
+                        var p = new Polis();
+                        p.identificatie('__new__' + new Date().getTime());
+                        _this.pakket.polissen.push(p);
+                        $('#'+p.identificatie()).show();
+                        $('#'+p.identificatie()+'open').show();
+                        $('#'+p.identificatie()+'dicht').hide();
+                    }
+
                     _.each(_this.pakket.polissen(), function(polis){
                         try {
                             zoekVoertuigGegevens(polis);

@@ -4,14 +4,14 @@ import nl.lakedigital.as.messaging.AbstractMessage;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "polisOpslaanResponse")
-public class PolisOpslaanResponse extends AbstractMessage {
+@XmlRootElement(name = "response")
+public class Response extends AbstractMessage {
     private Long id;
 
-    public PolisOpslaanResponse() {
+    public Response() {
     }
 
-    public PolisOpslaanResponse(Long id) {
+    public Response(Long id) {
         this.id = id;
     }
 

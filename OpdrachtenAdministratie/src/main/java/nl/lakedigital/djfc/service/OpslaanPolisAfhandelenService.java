@@ -1,21 +1,21 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
-import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingPolisToUitgaandeOpdrachtMapper;
-import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 @Service
-public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtService<OpslaanPolisOpdracht, PolisOpslaanResponse> {
+public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtService<OpslaanPolisOpdracht> {
     private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanPolisAfhandelenService.class);
 
     @Override
@@ -26,7 +26,12 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
 
     @Override
     protected SoortOpdracht getSoortOpdracht() {
-        return SoortOpdracht.OPSLAANRELATIE;
+        return SoortOpdracht.OPSLAANPOLIS;
+    }
+
+    @Override
+    public List<SoortEntiteit> getSoortEntiteiten() {
+        return newArrayList(SoortEntiteit.POLIS, SoortEntiteit.PAKKET);
     }
 
     @Override
@@ -39,20 +44,4 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
         return new SoortEntiteitEnEntiteitId(SoortEntiteit.PAKKET, message.getPakket().getId());
     }
 
-    @Override
-    public void verwerkTerugkoppeling(PolisOpslaanResponse response) {
-        UitgaandeOpdracht uitgaandeOpdracht = uitgaandeOpdrachtRepository.zoekObvSoortEntiteitEnTrackAndTrackeId(response.getTrackAndTraceId(), SoortEntiteit.POLIS);
-
-        uitgaandeOpdracht.setTijdstipAfgerond(LocalDateTime.now());
-        uitgaandeOpdrachtRepository.opslaan(uitgaandeOpdracht);
-
-        LOGGER.debug("Opzoeken openstaande opdrachten op {} en {}", response.getTrackAndTraceId(), uitgaandeOpdracht.getId());
-
-        List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.teVersturenUitgaandeOpdrachten(response.getTrackAndTraceId(), uitgaandeOpdracht);
-        uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getId() + "</entiteitId>")));
-
-        LOGGER.debug("Gevonden : {}", uitgaandeOpdrachten);
-
-        verstuurUitgaandeOpdrachtenService.verstuurUitgaandeOpdrachten(uitgaandeOpdrachten);
-    }
 }

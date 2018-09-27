@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
-import nl.lakedigital.as.messaging.response.PolisOpslaanResponse;
+import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
@@ -20,7 +20,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRequest> {
@@ -49,37 +48,33 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
                     return polis;
                 }).collect(Collectors.toList());
 
-        pakkettenOpslaan.stream().forEach(new Consumer<Pakket>() {
-            @Override
-            public void accept(Pakket pakket) {
-                polisService.opslaan(pakket);
-            }
-        });
+        pakkettenOpslaan.stream().forEach(pakket -> polisService.opslaan(pakket));
 
         if (replyTo != null) {
             LOGGER.debug("Response versturen");
-            PolisOpslaanResponse polisOpslaanResponse = new PolisOpslaanResponse(pakkettenOpslaan.get(0).getId());
+            Response response = new Response(pakkettenOpslaan.get(0).getId());
 
             try {
                 setupMessageQueueConsumer();
 
-                polisOpslaanResponse.setTrackAndTraceId(MDC.get("trackAndTraceId"));
-                polisOpslaanResponse.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
-                polisOpslaanResponse.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
-                polisOpslaanResponse.setUrl(MDC.get("url"));
+                response.setTrackAndTraceId(MDC.get("trackAndTraceId"));
+                response.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
+                response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+                response.setUrl(MDC.get("url"));
+                response.setHoofdSoortEntiteit(polisOpslaanRequest.getHoofdSoortEntiteit());
 
-                JAXBContext jaxbContext = JAXBContext.newInstance(PolisOpslaanResponse.class);
+                JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
                 jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
                 StringWriter sw = new StringWriter();
 
-                jaxbMarshaller.marshal(polisOpslaanResponse, sw);
+                jaxbMarshaller.marshal(response, sw);
 
                 TextMessage message = session.createTextMessage(sw.toString());
 
-                LOGGER.debug("Verzenden message {}", message.getText());
+                LOGGER.debug("Verzenden message {}, naar {}", message.getText(), replyTo);
                 this.replyProducer.send(replyTo, message);
             } catch (JMSException | JAXBException e) {
                 LOGGER.error("{}", e);

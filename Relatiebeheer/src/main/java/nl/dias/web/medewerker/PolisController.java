@@ -176,7 +176,7 @@ public class PolisController extends AbstractController {
 
         OpslaanPolisOpdracht opslaanPolisOpdracht = opslaanPolisOpdrachtSender.maakMessage(pakket);
         opslaanPolisOpdracht.setOpmerkingen(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
-        opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(new JsonTaakNaarOpdrachtMapper(identificatieClient, pakket.getId(), SoortEntiteit.POLIS);
+        opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(new JsonTaakNaarOpdrachtMapper(identificatieClient, pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
         opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
 
         metricsService.stop(timer);

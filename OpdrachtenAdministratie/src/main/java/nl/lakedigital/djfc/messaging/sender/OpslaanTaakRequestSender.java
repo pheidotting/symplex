@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.jms.Destination;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import static nl.lakedigital.djfc.commons.domain.SoortEntiteit.TAAK;
 @Component
 public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest, Taak> {
     private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanTaakRequestSender.class);
+    @Inject
+    private Destination responseDestination;
 
     public OpslaanTaakRequestSender() {
     }
@@ -28,7 +31,7 @@ public class OpslaanTaakRequestSender extends AbstractSender<OpslaanTaakRequest,
 
     @Override
     protected Destination getReplyTo() {
-        return null;
+        return responseDestination;
     }
 
     @Override
