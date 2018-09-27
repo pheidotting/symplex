@@ -64,6 +64,16 @@ public class UitgaandeOpdrachtRepository {
         return result;
     }
 
+    public List<UitgaandeOpdracht> zoekObvTrackAndTrackeId(String trackAndTraceId) {
+        getTransaction();
+
+        List<UitgaandeOpdracht> result = getSession().getNamedQuery("UitgaandeOpdracht.zoekObvTrackAndTrackeId").setParameter("trackAndTraceId", trackAndTraceId).list();
+
+        getTransaction().commit();
+
+        return result;
+    }
+
     public UitgaandeOpdracht zoekObvSoortEntiteitEnTrackAndTrackeId(String trackAndTraceId, SoortEntiteit soortEntiteit) {
         getTransaction();
 
