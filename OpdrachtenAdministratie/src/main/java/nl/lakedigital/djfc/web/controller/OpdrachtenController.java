@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @RequestMapping("/opdracht")
 @Controller
@@ -26,7 +28,12 @@ public class OpdrachtenController {
     @RequestMapping(method = RequestMethod.GET, value = "/status/{trackandtraceid}")
     @ResponseBody
     public OpvragenOpdrachtenStatusResponse alleParticulierePolisSoorten(@PathVariable("trackandtraceid") String trackandtraceid) {
-        List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.zoekObvTrackAndTrackeId(trackandtraceid);
+        List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.zoekObvTrackAndTrackeId(trackandtraceid).stream().filter(new Predicate<UitgaandeOpdracht>() {
+            @Override
+            public boolean test(UitgaandeOpdracht uitgaandeOpdracht) {
+                return uitgaandeOpdracht.getTijdstipAfgerond() == null;
+            }
+        }).collect(Collectors.toList());
 
         return new OpvragenOpdrachtenStatusResponse(uitgaandeOpdrachten.isEmpty() ? OpvragenOpdrachtenStatusResponse.Status.KLAAR : OpvragenOpdrachtenStatusResponse.Status.BEZIG);
     }
