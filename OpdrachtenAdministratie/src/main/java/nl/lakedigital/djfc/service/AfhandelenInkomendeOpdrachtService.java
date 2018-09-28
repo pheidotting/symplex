@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessage> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AfhandelenInkomendeOpdrachtService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AfhandelenInkomendeOpdrachtService.class);
     @Inject
     private InkomendeOpdrachtRepository inkomendeOpdrachtRepository;
     @Inject
