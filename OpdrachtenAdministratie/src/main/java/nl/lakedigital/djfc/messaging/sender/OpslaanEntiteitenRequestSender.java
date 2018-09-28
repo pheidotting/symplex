@@ -2,8 +2,6 @@ package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +13,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Component
-public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntiteitenRequest, OpslaanEntiteitenRequest> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OpslaanEntiteitenRequestSender.class);
+public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntiteitenRequest> {
     @Inject
     private Destination responseDestination;
 
@@ -38,9 +35,4 @@ public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntite
     protected Destination getReplyTo() {
         return responseDestination;
     }
-    //    @Override
-    //    public OpslaanEntiteitenRequest maakMessage(OpslaanEntiteitenRequest opslaanEntiteitenRequest) {
-    //        return opslaanEntiteitenRequest;
-    //    }
-
 }

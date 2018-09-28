@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.function.Function;
 
 public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanTaakRequest> implements Function<Taak, UitgaandeOpdracht> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(MessagingTaakToUitgaandeOpdrachtMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessagingTaakToUitgaandeOpdrachtMapper.class);
     private UitgaandeOpdracht uitgaandeOpdrachtWachtenOp;
     private SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId;
 
@@ -42,6 +42,8 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
             } catch (java.lang.IllegalArgumentException e) {
                 dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
                 opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
+
+                LOGGER.trace("{}", e);
             }
         }
         opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());

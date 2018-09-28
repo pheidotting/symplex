@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Component
-public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanRequest, Pakket> {
+public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanRequestSender.class);
 
     @Inject

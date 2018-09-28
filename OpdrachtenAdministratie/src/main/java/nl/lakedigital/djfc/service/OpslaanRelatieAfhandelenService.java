@@ -17,15 +17,6 @@ public class OpslaanRelatieAfhandelenService extends AfhandelenInkomendeOpdracht
     @Override
     protected UitgaandeOpdracht genereerUitgaandeOpdrachten(OpslaanRelatieOpdracht opdracht) {
         return new MessagingRelatieToUitgaandeOpdrachtMapper().apply(opdracht.getRelatie());
-
-
-        //        UitgaandeOpdracht uitgaandeOpdrachtWachtenOp = opdracht.getRelatie().getId() != null ? null : uitgaandeOpdracht;
-        //
-        //        opdrachten.addAll(opdracht.getAdressen().stream().map(new MessagingAdresToUitgaandeOpdrachtMapper(uitgaandeOpdrachtWachtenOp)).collect(Collectors.toSet()));
-        //        opdrachten.addAll(opdracht.getRekeningNummers().stream().map(new MessagingRekeningNummerToUitgaandeOpdrachtMapper(uitgaandeOpdrachtWachtenOp)).collect(Collectors.toSet()));
-        //        opdrachten.addAll(opdracht.getTelefoonnummers().stream().map(new MessagingTelefoonnummerToUitgaandeOpdrachtMapper(uitgaandeOpdrachtWachtenOp)).collect(Collectors.toSet()));
-        //
-        //        return opdrachten;
     }
 
     @Override

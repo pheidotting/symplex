@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class VerstuurUitgaandeOpdrachtenService {
-    private final static Logger LOGGER = LoggerFactory.getLogger(VerstuurUitgaandeOpdrachtenService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VerstuurUitgaandeOpdrachtenService.class);
 
     @Inject
     private UitgaandeOpdrachtRepository uitgaandeOpdrachtRepository;

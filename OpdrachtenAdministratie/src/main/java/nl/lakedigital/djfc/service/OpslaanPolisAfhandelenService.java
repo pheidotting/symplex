@@ -6,8 +6,6 @@ import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingPolisToUitgaandeOpdrachtMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +14,6 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtService<OpslaanPolisOpdracht> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanPolisAfhandelenService.class);
-
     @Override
     protected UitgaandeOpdracht genereerUitgaandeOpdrachten(OpslaanPolisOpdracht opdracht) {
 

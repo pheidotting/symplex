@@ -52,8 +52,6 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
 
     }
 
-    ;
-
     protected abstract SoortOpdracht getSoortOpdracht();
 
     public abstract List<SoortEntiteit> getSoortEntiteiten();

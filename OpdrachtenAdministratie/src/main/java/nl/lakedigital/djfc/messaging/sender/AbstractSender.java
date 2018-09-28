@@ -11,8 +11,8 @@ import javax.jms.TextMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractSender<M extends AbstractMessage, T extends Object> {
-    protected static Logger LOGGER = LoggerFactory.getLogger(AbstractSender.class);
+public abstract class AbstractSender<M extends AbstractMessage> {
+    protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractSender.class);
     protected List<JmsTemplate> jmsTemplates = new ArrayList<>();
     protected Class<M> clazz;
 

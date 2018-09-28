@@ -11,7 +11,7 @@ import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
 public abstract class AbstractMapper<T> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMapper.class);
     private Class clazz;
 
     public AbstractMapper(Class clazz) {
