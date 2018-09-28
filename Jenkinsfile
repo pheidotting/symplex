@@ -397,6 +397,23 @@ pipeline {
             }
         }
 
+        stage ('Build OpdrachtenAdministratie') {
+            steps {
+                sh '''
+                    cd OpdrachtenAdministratie
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden OpdrachtenAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
         stage ('Build OverigeGegevensAdministratie') {
             steps {
                 sh '''
