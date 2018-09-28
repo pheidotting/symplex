@@ -4,7 +4,7 @@
     <!-- APPENDERS LIST -->
     <!-- show log entries on console -->
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
-        <param name="file" value="/var/log/djfc/pa.log"/>
+        <param name="file" value="/var/log/djfc/oa.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%p] %d %c %M - %m%n"/>
         </layout>
