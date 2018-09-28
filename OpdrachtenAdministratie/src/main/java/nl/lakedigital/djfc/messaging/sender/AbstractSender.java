@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSender<M extends AbstractMessage> {
-    protected final static Logger LOGGER = LoggerFactory.getLogger(AbstractSender.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractSender.class);
     protected List<JmsTemplate> jmsTemplates = new ArrayList<>();
     protected Class<M> clazz;
 

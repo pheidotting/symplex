@@ -5,8 +5,6 @@ import nl.lakedigital.djfc.commons.domain.Opmerking;
 import nl.lakedigital.djfc.commons.domain.Pakket;
 import nl.lakedigital.djfc.commons.domain.Polis;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +18,6 @@ import static com.google.common.collect.Lists.newArrayList;
 
 @Component
 public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanRequest> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PolisOpslaanRequestSender.class);
-
     @Inject
     private Destination responseDestination;
 
