@@ -81,6 +81,8 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
             inkomendeOpdracht.getUitgaandeOpdrachten().addAll(((MetTaken) message).getTaken().stream().map(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId)).collect(Collectors.toList()));
         }
 
+        inkomendeOpdracht.setUitgaandeOpdrachten(inkomendeOpdracht.getUitgaandeOpdrachten().stream().filter(uo -> uo != null).collect(Collectors.toSet()));
+
         inkomendeOpdracht.getUitgaandeOpdrachten().stream().forEach(uitgaandeOpdracht1 -> uitgaandeOpdracht1.setInkomendeOpdracht(inkomendeOpdracht));
 
         inkomendeOpdrachtRepository.opslaan(inkomendeOpdracht);
