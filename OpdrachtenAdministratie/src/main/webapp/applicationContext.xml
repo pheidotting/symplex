@@ -24,7 +24,7 @@
         <property name="targetMethod" value="initLogging"/>
         <property name="arguments">
             <list>
-                <value>pa.log4j.xml</value>
+                <value>oa.log4j.xml</value>
             </list>
         </property>
     </bean>
