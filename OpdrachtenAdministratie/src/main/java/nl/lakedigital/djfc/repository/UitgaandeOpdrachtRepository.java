@@ -75,7 +75,7 @@ public class UitgaandeOpdrachtRepository {
     public UitgaandeOpdracht zoekObvSoortEntiteitEnTrackAndTrackeId(String trackAndTraceId, SoortEntiteit soortEntiteit) {
         getTransaction();
 
-        UitgaandeOpdracht result = (UitgaandeOpdracht) getSession().getNamedQuery("UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId").setParameter("c", trackAndTraceId).setParameter("soortEntiteit", soortEntiteit).list().get(0);
+        UitgaandeOpdracht result = (UitgaandeOpdracht) getSession().getNamedQuery("UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId").setParameter("trackAndTraceId", trackAndTraceId).setParameter("soortEntiteit", soortEntiteit).list().get(0);
 
         getTransaction().commit();
 
