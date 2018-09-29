@@ -28,32 +28,36 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
 
     @Override
     public UitgaandeOpdracht apply(Taak taak) {
-        OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
-        setMDC(opslaanTaakRequest);
-        opslaanTaakRequest.setEntiteitId(this.soortEntiteitEnEntiteitId.getEntiteitId());
-        opslaanTaakRequest.setSoortEntiteit(this.soortEntiteitEnEntiteitId.getSoortEntiteit());
+        UitgaandeOpdracht uitgaandeOpdracht = null;
 
-        opslaanTaakRequest.setTitel(taak.getTitel());
-        opslaanTaakRequest.setOmschrijving(taak.getOmschrijving());
-        if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
-            DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-YYYY");
-            try {
-                opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
-            } catch (java.lang.IllegalArgumentException e) {
-                dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
-                opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
+        if ((taak.getTitel() != null && !"".equals(taak.getTitel())) || (taak.getOmschrijving() != null && !"".equals(taak.getOmschrijving()))) {
+            OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
+            setMDC(opslaanTaakRequest);
+            opslaanTaakRequest.setEntiteitId(this.soortEntiteitEnEntiteitId.getEntiteitId());
+            opslaanTaakRequest.setSoortEntiteit(this.soortEntiteitEnEntiteitId.getSoortEntiteit());
 
-                LOGGER.trace("{}", e);
+            opslaanTaakRequest.setTitel(taak.getTitel());
+            opslaanTaakRequest.setOmschrijving(taak.getOmschrijving());
+            if (taak.getDeadline() != null && !"".equals(taak.getDeadline())) {
+                DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd-MM-YYYY");
+                try {
+                    opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
+                } catch (java.lang.IllegalArgumentException e) {
+                    dateTimeFormatter = DateTimeFormat.forPattern("YYYY-MM-dd");
+                    opslaanTaakRequest.setDeadline(LocalDate.parse(taak.getDeadline(), dateTimeFormatter));
+
+                    LOGGER.trace("{}", e);
+                }
             }
+            opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());
+
+            uitgaandeOpdracht = new UitgaandeOpdracht();
+            uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TAAK);
+            opslaanTaakRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
+
+            uitgaandeOpdracht.setBericht(marshall(opslaanTaakRequest));
+            uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);
         }
-        opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());
-
-        UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
-        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TAAK);
-        opslaanTaakRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
-
-        uitgaandeOpdracht.setBericht(marshall(opslaanTaakRequest));
-        uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);
 
         return uitgaandeOpdracht;
     }
