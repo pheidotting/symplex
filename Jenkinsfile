@@ -259,8 +259,9 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/ogpa.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
@@ -275,12 +276,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
             }
         }
@@ -651,9 +654,11 @@ pipeline {
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
             }
         }
