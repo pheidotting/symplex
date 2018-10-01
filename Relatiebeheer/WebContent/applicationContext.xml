@@ -289,6 +289,10 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <constructor-arg value="${tb.url}"/>
         <property name="metricsService" ref="metricsService"/>
     </bean>
+    <bean id="opdrachtenClient" class="nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient">
+        <constructor-arg value="${oa.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
 
     <import resource="applicationcontextJms/senders/rb.oga.verwijderEntiteitRequest.xml"/>
     <import resource="applicationcontextJms/senders/verwijderEntiteitenRequest.xml"/>

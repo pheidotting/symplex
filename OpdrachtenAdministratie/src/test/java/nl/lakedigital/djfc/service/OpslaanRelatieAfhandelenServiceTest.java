@@ -13,6 +13,8 @@ import org.easymock.TestSubject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 @RunWith(EasyMockRunner.class)
 public class OpslaanRelatieAfhandelenServiceTest extends EasyMockSupport {
 
@@ -61,7 +63,7 @@ public class OpslaanRelatieAfhandelenServiceTest extends EasyMockSupport {
 
         replayAll();
 
-        UitgaandeOpdracht uitgaandeOpdracht = opslaanRelatieAfhandelenService.genereerUitgaandeOpdrachten(opslaanRelatieOpdracht);
+        List<UitgaandeOpdracht> uitgaandeOpdracht = opslaanRelatieAfhandelenService.genereerUitgaandeOpdrachten(opslaanRelatieOpdracht);
 
         verifyAll();
 

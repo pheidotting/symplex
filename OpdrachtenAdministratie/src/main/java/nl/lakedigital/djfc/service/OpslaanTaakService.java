@@ -14,7 +14,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @Service
 public class OpslaanTaakService extends AfhandelenInkomendeOpdrachtService<OpslaanTaakRequest> {
     @Override
-    protected UitgaandeOpdracht genereerUitgaandeOpdrachten(OpslaanTaakRequest opdracht) {
+    protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(OpslaanTaakRequest opdracht) {
         return null;
     }
 
@@ -29,12 +29,12 @@ public class OpslaanTaakService extends AfhandelenInkomendeOpdrachtService<Opsla
     }
 
     @Override
-    protected UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(OpslaanTaakRequest opdracht, UitgaandeOpdracht uitgaandeOpdracht) {
+    protected SoortEntiteitEnEntiteitId getSoortEntiteitEnEntiteitId(OpslaanTaakRequest message) {
         return null;
     }
 
     @Override
-    protected SoortEntiteitEnEntiteitId getSoortEntiteitEnEntiteitId(OpslaanTaakRequest message) {
+    protected UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(OpslaanTaakRequest opdracht, List<UitgaandeOpdracht> uitgaandeOpdrachten) {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.commons.domain;
 
 public enum SoortEntiteit {
+    ENTITEITOPGESLAGEN,//
     AANGIFTE, //
     ADRES, //
     BEDRIJF, //

@@ -18,6 +18,7 @@ import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
 import nl.dias.web.medewerker.mappers.JsonTaakNaarOpdrachtMapper;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanPolisOpdracht;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.response.Pakket;
@@ -73,6 +74,8 @@ public class PolisController extends AbstractController {
     private BeindigenPolisRequestSender beindigenPolisRequestSender;
     @Inject
     private IdentificatieClient identificatieClient;
+    @Inject
+    private OpdrachtenClient opdrachtenClient;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
@@ -178,6 +181,10 @@ public class PolisController extends AbstractController {
         opslaanPolisOpdracht.setOpmerkingen(jsonPakket.getOpmerkingen().stream().map(new DomainOpmerkingNaarMessagingOpmerkingMapper(pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
         opslaanPolisOpdracht.setTaken(jsonPakket.getTaken().stream().map(new JsonTaakNaarOpdrachtMapper(identificatieClient, pakket.getId(), SoortEntiteit.POLIS)).collect(Collectors.toList()));
         opslaanPolisOpdrachtSender.send(opslaanPolisOpdracht);
+
+        while (!opdrachtenClient.isOpdrachtKlaar(getTrackAndTraceId(httpServletRequest))) {
+
+        }
 
         metricsService.stop(timer);
 

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.filter;
@@ -71,7 +72,7 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
     }
 
-    public void opslaan(final List<T> entiteitenIn, SoortEntiteit soortEntiteit, Long entiteitId) {
+    public List<SoortEntiteitEnEntiteitId> opslaan(final List<T> entiteitenIn, SoortEntiteit soortEntiteit, Long entiteitId) {
         List<T> entiteiten = entiteitenIn.stream().filter(t -> isGevuld(t)).collect(Collectors.toList());
 
         getLogger().debug("Op te slaan entiteiten");
@@ -117,6 +118,16 @@ public abstract class AbstractService<T extends AbstracteEntiteitMetSoortEnId> {
 
         getLogger().debug("Versturen {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitIds));
         entiteitenOpgeslagenRequestSender.send(soortEntiteitEnEntiteitIds);
+
+        SoortEntiteit soortEntiteit1 = this.soortEntiteit;
+
+        return entiteiten.stream().map(new Function<T, SoortEntiteitEnEntiteitId>() {
+
+            @Override
+            public SoortEntiteitEnEntiteitId apply(T t) {
+                return new SoortEntiteitEnEntiteitId(soortEntiteit1, t.getId());
+            }
+        }).collect(Collectors.toList());
     }
 
     public void verwijderen(SoortEntiteit soortEntiteit, Long entiteitId) {

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NamedQueries({//
         @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachten", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp is null"),//
         @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachtenOpTAndTEnWachtenOp", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp = :wachtenOp AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId"),//
-        @NamedQuery(name = "UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where soortEntiteit = :soortEntiteit AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId"),//
+        @NamedQuery(name = "UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where soortEntiteit = :soortEntiteit AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId and tijdstipAfgerond is null"),//
         @NamedQuery(name = "UitgaandeOpdracht.zoekObvTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where inkomendeOpdracht.trackAndTraceId = :trackAndTraceId")//
 })
 public class UitgaandeOpdracht {

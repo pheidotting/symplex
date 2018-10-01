@@ -6,19 +6,18 @@ import nl.lakedigital.djfc.commons.domain.Pakket;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 
-import java.util.function.Function;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-public class MessagingPolisToUitgaandeOpdrachtMapper extends AbstractMapper<PolisOpslaanRequest> implements Function<Pakket, UitgaandeOpdracht> {
+public class MessagingPolisToUitgaandeOpdrachtMapper extends AbstractMapper<PolisOpslaanRequest> {
     public MessagingPolisToUitgaandeOpdrachtMapper() {
         super(OpslaanPolisOpdracht.class);
     }
 
-    @Override
-    public UitgaandeOpdracht apply(Pakket pakket) {
+    public List<UitgaandeOpdracht> map(Pakket pakket) {
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
-        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.POLIS);
+        uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.PAKKET);
 
         PolisOpslaanRequest polisOpslaanRequest = new PolisOpslaanRequest();
         polisOpslaanRequest.setPokketten(newArrayList(pakket));
@@ -27,7 +26,7 @@ public class MessagingPolisToUitgaandeOpdrachtMapper extends AbstractMapper<Poli
 
         uitgaandeOpdracht.setBericht(marshall(polisOpslaanRequest));
 
-        return uitgaandeOpdracht;
+        return newArrayList(uitgaandeOpdracht, new EntiteitenOpgeslagenMapper().maakEntiteitenOpgeslagenRequest(uitgaandeOpdracht));
     }
 
 }

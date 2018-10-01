@@ -3,6 +3,8 @@ package nl.lakedigital.djfc.messaging.reciever;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
 import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
 import nl.lakedigital.djfc.messaging.mapper.MessagingPakketNaarDomainPakketMapper;
@@ -20,6 +22,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRequest> {
@@ -52,7 +55,13 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
 
         if (replyTo != null) {
             LOGGER.debug("Response versturen");
-            Response response = new Response(pakkettenOpslaan.get(0).getId());
+            Response response = new Response();
+            pakkettenOpslaan.stream().forEach(new Consumer<Pakket>() {
+                @Override
+                public void accept(Pakket pakket) {
+                    response.getSoortEntiteitEnEntiteitIds().add(new SoortEntiteitEnEntiteitId(SoortEntiteit.PAKKET, pakket.getId()));
+                }
+            });
 
             try {
                 setupMessageQueueConsumer();

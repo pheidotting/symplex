@@ -12,9 +12,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Function;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanTaakRequest> implements Function<Taak, UitgaandeOpdracht> {
+public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<OpslaanTaakRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessagingTaakToUitgaandeOpdrachtMapper.class);
     private UitgaandeOpdracht uitgaandeOpdrachtWachtenOp;
     private SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId;
@@ -26,9 +27,8 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
 
     }
 
-    @Override
-    public UitgaandeOpdracht apply(Taak taak) {
-        UitgaandeOpdracht uitgaandeOpdracht = null;
+    public List<UitgaandeOpdracht> apply(Taak taak) {
+        List<UitgaandeOpdracht> uitgaandeOpdrachten = new ArrayList<>();
 
         if ((taak.getTitel() != null && !"".equals(taak.getTitel())) || (taak.getOmschrijving() != null && !"".equals(taak.getOmschrijving()))) {
             OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
@@ -51,14 +51,17 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
             }
             opslaanTaakRequest.setToegewezenAan(taak.getToegewezenAan());
 
-            uitgaandeOpdracht = new UitgaandeOpdracht();
+            UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
             uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TAAK);
             opslaanTaakRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
 
             uitgaandeOpdracht.setBericht(marshall(opslaanTaakRequest));
             uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);
+
+            uitgaandeOpdrachten.add(uitgaandeOpdracht);
+            uitgaandeOpdrachten.add(new EntiteitenOpgeslagenMapper().maakEntiteitenOpgeslagenRequest(uitgaandeOpdracht));
         }
 
-        return uitgaandeOpdracht;
+        return uitgaandeOpdrachten;
     }
 }

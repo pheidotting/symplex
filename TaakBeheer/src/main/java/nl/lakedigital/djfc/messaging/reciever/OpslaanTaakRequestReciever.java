@@ -4,6 +4,7 @@ import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.request.taak.OpslaanTaakRequest;
 import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.TaakStatus;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.messaging.sender.OpslaanTaakResponseSender;
@@ -59,7 +60,7 @@ public class OpslaanTaakRequestReciever extends AbstractReciever<OpslaanTaakRequ
 
         if (replyTo != null) {
             LOGGER.debug("Response versturen");
-            Response response = new Response(taakId);
+            Response response = new Response(new SoortEntiteitEnEntiteitId(SoortEntiteit.TAAK, taakId));
 
             try {
                 setupMessageQueueConsumer();

@@ -12,7 +12,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Service
-public class OpslaanEntiteitenService extends AfhandelenInkomendeOpdrachtService<OpslaanEntiteitenRequest> {
+public class OpgeslagenEntiteitenService extends AfhandelenInkomendeOpdrachtService<OpslaanEntiteitenRequest> {
     @Override
     protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(OpslaanEntiteitenRequest opdracht) {
         return null;
@@ -25,7 +25,7 @@ public class OpslaanEntiteitenService extends AfhandelenInkomendeOpdrachtService
 
     @Override
     public List<SoortEntiteit> getSoortEntiteiten() {
-        return newArrayList(SoortEntiteit.ADRES, SoortEntiteit.OPMERKING, SoortEntiteit.REKENINGNUMMER, SoortEntiteit.TELEFOONNUMMER);
+        return newArrayList(SoortEntiteit.ENTITEITOPGESLAGEN);
     }
 
     @Override

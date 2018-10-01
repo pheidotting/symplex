@@ -4,10 +4,7 @@ import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.opdracht.opdracht.MetOpmerkingen;
 import nl.lakedigital.as.messaging.opdracht.opdracht.MetTaken;
 import nl.lakedigital.as.messaging.response.Response;
-import nl.lakedigital.djfc.commons.domain.Opmerking;
-import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
-import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
-import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
+import nl.lakedigital.djfc.commons.domain.*;
 import nl.lakedigital.djfc.commons.domain.inkomend.InkomendeOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingOpmerkingToUitgaandeOpdrachtMapper;
@@ -20,7 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AfhandelenInkomendeOpdrachtService.class);
@@ -31,7 +31,7 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
     @Inject
     protected VerstuurUitgaandeOpdrachtenService verstuurUitgaandeOpdrachtenService;
 
-    protected abstract UitgaandeOpdracht genereerUitgaandeOpdrachten(T opdracht);
+    protected abstract List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(T opdracht);
 
     public void verwerkTerugkoppeling(Response response) {
         UitgaandeOpdracht uitgaandeOpdracht = uitgaandeOpdrachtRepository.zoekObvSoortEntiteitEnTrackAndTrackeId(response.getTrackAndTraceId(), response.getHoofdSoortEntiteit());
@@ -43,7 +43,7 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
 
         List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.teVersturenUitgaandeOpdrachten(response.getTrackAndTraceId(), uitgaandeOpdracht);
         if (!uitgaandeOpdrachten.isEmpty()) {
-            uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getId() + "</entiteitId>")));
+            uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getSoortEntiteitEnEntiteitIds().get(0).getEntiteitId() + "</entiteitId>")));
 
             LOGGER.debug("Gevonden : {}", uitgaandeOpdrachten);
 
@@ -56,15 +56,15 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
 
     public abstract List<SoortEntiteit> getSoortEntiteiten();
 
-    protected abstract UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(T opdracht, UitgaandeOpdracht uitgaandeOpdracht);
+    protected abstract UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(T opdracht, List<UitgaandeOpdracht> uitgaandeOpdrachten);
 
     protected abstract SoortEntiteitEnEntiteitId getSoortEntiteitEnEntiteitId(T message);
 
     public void verwerkInkomendeOpdracht(T message, String berichtTekst) {
         InkomendeOpdracht inkomendeOpdracht = new InkomendeOpdracht(getSoortOpdracht(), message.getTrackAndTraceId(), berichtTekst);
-        inkomendeOpdracht.getUitgaandeOpdrachten().add(genereerUitgaandeOpdrachten(message));
+        inkomendeOpdracht.getUitgaandeOpdrachten().addAll(genereerUitgaandeOpdrachten(message));
 
-        UitgaandeOpdracht uitgaandeOpdracht = bepaalUitgaandeOpdrachtWachtenOp(message, inkomendeOpdracht.getUitgaandeOpdrachten().iterator().next());
+        UitgaandeOpdracht uitgaandeOpdracht = bepaalUitgaandeOpdrachtWachtenOp(message, newArrayList(inkomendeOpdracht.getUitgaandeOpdrachten()));
 
         SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = getSoortEntiteitEnEntiteitId(message);
         if (soortEntiteitEnEntiteitId.getEntiteitId() == null) {
@@ -75,10 +75,17 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
             List<Opmerking> opmerkingen = ((MetOpmerkingen) message).getOpmerkingen();
             MessagingOpmerkingToUitgaandeOpdrachtMapper mapper = new MessagingOpmerkingToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId);
             opmerkingen.stream().forEach(mapper);
-            inkomendeOpdracht.getUitgaandeOpdrachten().add(mapper.finish());
+            inkomendeOpdracht.getUitgaandeOpdrachten().addAll(mapper.finish());
         }
         if (message instanceof MetTaken) {
-            inkomendeOpdracht.getUitgaandeOpdrachten().addAll(((MetTaken) message).getTaken().stream().map(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId)).collect(Collectors.toList()));
+            ((MetTaken) message).getTaken().stream().forEach(new Consumer<Taak>() {
+                @Override
+                public void accept(Taak taak) {
+                    inkomendeOpdracht.getUitgaandeOpdrachten().addAll(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId).apply(taak));
+                }
+            });
+            //                    ).collect(Collectors.toList()));
+            //            inkomendeOpdracht.getUitgaandeOpdrachten().addAll(((MetTaken) message).getTaken().stream().map(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId)).collect(Collectors.toList()));
         }
 
         inkomendeOpdracht.setUitgaandeOpdrachten(inkomendeOpdracht.getUitgaandeOpdrachten().stream().filter(uo -> uo != null).collect(Collectors.toSet()));
@@ -89,4 +96,5 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
 
         verstuurUitgaandeOpdrachtenService.verstuurUitgaandeOpdrachten();
     }
+
 }
