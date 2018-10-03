@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class OpslaanEntiteitenService extends AfhandelenInkomendeOpdrachtService<OpslaanEntiteitenRequest> {
     @Override
     protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(OpslaanEntiteitenRequest opdracht) {
-        return null;
+        return newArrayList();
     }
 
     @Override

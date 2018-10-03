@@ -1,7 +1,6 @@
 package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
-import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.commons.domain.Opmerking;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
@@ -39,12 +38,7 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
 
             uitgaandeOpdrachten.add(uitgaandeOpdracht);
 
-            opslaanEntiteitenRequest.getLijst().stream().forEach(new Consumer<AbstracteEntiteitMetSoortEnId>() {
-                @Override
-                public void accept(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
-                    uitgaandeOpdrachten.add(new EntiteitenOpgeslagenMapper().maakEntiteitenOpgeslagenRequest(uitgaandeOpdracht));
-                }
-            });
+            opslaanEntiteitenRequest.getLijst().stream().forEach(abstracteEntiteitMetSoortEnId -> uitgaandeOpdrachten.add(new EntiteitenOpgeslagenMapper().maakEntiteitenOpgeslagenRequest(uitgaandeOpdracht)));
         }
 
         return uitgaandeOpdrachten;

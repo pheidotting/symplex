@@ -4,7 +4,10 @@ import nl.lakedigital.as.messaging.AbstractMessage;
 import nl.lakedigital.as.messaging.opdracht.opdracht.MetOpmerkingen;
 import nl.lakedigital.as.messaging.opdracht.opdracht.MetTaken;
 import nl.lakedigital.as.messaging.response.Response;
-import nl.lakedigital.djfc.commons.domain.*;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.inkomend.InkomendeOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingOpmerkingToUitgaandeOpdrachtMapper;
@@ -17,7 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -78,14 +80,7 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
             inkomendeOpdracht.getUitgaandeOpdrachten().addAll(mapper.finish());
         }
         if (message instanceof MetTaken) {
-            ((MetTaken) message).getTaken().stream().forEach(new Consumer<Taak>() {
-                @Override
-                public void accept(Taak taak) {
-                    inkomendeOpdracht.getUitgaandeOpdrachten().addAll(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId).apply(taak));
-                }
-            });
-            //                    ).collect(Collectors.toList()));
-            //            inkomendeOpdracht.getUitgaandeOpdrachten().addAll(((MetTaken) message).getTaken().stream().map(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId)).collect(Collectors.toList()));
+            ((MetTaken) message).getTaken().stream().forEach(taak -> inkomendeOpdracht.getUitgaandeOpdrachten().addAll(new MessagingTaakToUitgaandeOpdrachtMapper(uitgaandeOpdracht, soortEntiteitEnEntiteitId).apply(taak)));
         }
 
         inkomendeOpdracht.setUitgaandeOpdrachten(inkomendeOpdracht.getUitgaandeOpdrachten().stream().filter(uo -> uo != null).collect(Collectors.toSet()));

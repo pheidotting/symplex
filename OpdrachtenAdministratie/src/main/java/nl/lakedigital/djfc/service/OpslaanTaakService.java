@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class OpslaanTaakService extends AfhandelenInkomendeOpdrachtService<OpslaanTaakRequest> {
     @Override
     protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(OpslaanTaakRequest opdracht) {
-        return null;
+        return newArrayList();
     }
 
     @Override
