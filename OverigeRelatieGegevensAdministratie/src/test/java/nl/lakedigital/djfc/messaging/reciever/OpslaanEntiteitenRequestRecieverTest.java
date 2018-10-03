@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -83,10 +84,10 @@ public class OpslaanEntiteitenRequestRecieverTest extends EasyMockSupport {
         Capture<List> telefoonnummerCapture = newCapture();
         Capture<List> rekeningNummerCapture = newCapture();
 
-        opmerkingService.opslaan(capture(opmerkingCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
-        adresService.opslaan(capture(adresCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
-        telefoonnummerService.opslaan(capture(telefoonnummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
-        rekeningNummerService.opslaan(capture(rekeningNummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId));
+        expect(opmerkingService.opslaan(capture(opmerkingCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId))).andReturn(newArrayList());
+        expect(adresService.opslaan(capture(adresCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId))).andReturn(newArrayList());
+        expect(telefoonnummerService.opslaan(capture(telefoonnummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId))).andReturn(newArrayList());
+        expect(rekeningNummerService.opslaan(capture(rekeningNummerCapture), eq(SoortEntiteit.RELATIE), eq(entiteitId))).andReturn(newArrayList());
 
         replayAll();
 

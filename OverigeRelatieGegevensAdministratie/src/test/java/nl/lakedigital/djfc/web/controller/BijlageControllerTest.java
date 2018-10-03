@@ -122,7 +122,7 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
         expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         expect(mapper.map(jsonBijlage, Bijlage.class)).andReturn(bijlage);
-        bijlageService.opslaan(newArrayList(bijlage), SoortEntiteit.RELATIE, null);
+        expect(bijlageService.opslaan(newArrayList(bijlage), SoortEntiteit.RELATIE, null)).andReturn(newArrayList());
         expectLastCall();
 
         replayAll();
