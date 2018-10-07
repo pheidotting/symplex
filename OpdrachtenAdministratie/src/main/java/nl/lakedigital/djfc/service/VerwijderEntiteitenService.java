@@ -16,7 +16,7 @@ import static nl.lakedigital.djfc.commons.domain.SoortEntiteit.ENTITEITVERWIJDER
 public class VerwijderEntiteitenService extends AfhandelenInkomendeOpdrachtService<VerwijderEntiteitenRequest> {
     @Override
     protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(VerwijderEntiteitenRequest opdracht) {
-        return null;
+        return newArrayList();
     }
 
     @Override

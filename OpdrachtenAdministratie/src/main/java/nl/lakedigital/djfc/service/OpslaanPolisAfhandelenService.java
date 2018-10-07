@@ -6,19 +6,15 @@ import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import nl.lakedigital.djfc.mapper.MessagingPolisToUitgaandeOpdrachtMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 @Service
 public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtService<OpslaanPolisOpdracht> {
-    private final static Logger LOGGER = LoggerFactory.getLogger(OpslaanPolisAfhandelenService.class);
-
     @Override
     protected List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(OpslaanPolisOpdracht opdracht) {
         return new MessagingPolisToUitgaandeOpdrachtMapper().map(opdracht.getPakket());
@@ -36,12 +32,8 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
 
     @Override
     protected UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(OpslaanPolisOpdracht opdracht, List<UitgaandeOpdracht> uitgaandeOpdrachten) {
-        return opdracht.getPakket().getId() != null ? null : uitgaandeOpdrachten.stream().filter(new Predicate<UitgaandeOpdracht>() {
-            @Override
-            public boolean test(UitgaandeOpdracht uitgaandeOpdracht) {
-                return getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit());
-            }
-        }).findFirst().get();
+        Optional<UitgaandeOpdracht> optionalUitgaandeOpdracht = opdracht.getPakket().getId() != null ? null : uitgaandeOpdrachten.stream().filter(uitgaandeOpdracht -> getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit())).findFirst();
+        return optionalUitgaandeOpdracht.isPresent() ? optionalUitgaandeOpdracht.get() : null;
     }
 
     @Override

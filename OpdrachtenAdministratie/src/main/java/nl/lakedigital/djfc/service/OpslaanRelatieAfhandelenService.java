@@ -9,7 +9,7 @@ import nl.lakedigital.djfc.mapper.MessagingRelatieToUitgaandeOpdrachtMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -32,12 +32,8 @@ public class OpslaanRelatieAfhandelenService extends AfhandelenInkomendeOpdracht
 
     @Override
     protected UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(OpslaanRelatieOpdracht opdracht, List<UitgaandeOpdracht> uitgaandeOpdrachten) {
-        return opdracht.getRelatie().getId() != null ? null : uitgaandeOpdrachten.stream().filter(new Predicate<UitgaandeOpdracht>() {
-            @Override
-            public boolean test(UitgaandeOpdracht uitgaandeOpdracht) {
-                return uitgaandeOpdracht.getSoortEntiteit() == SoortEntiteit.RELATIE;
-            }
-        }).findFirst().get();
+        Optional<UitgaandeOpdracht> optionalUitgaandeOpdracht = opdracht.getRelatie().getId() != null ? null : uitgaandeOpdrachten.stream().filter(uitgaandeOpdracht -> uitgaandeOpdracht.getSoortEntiteit() == SoortEntiteit.RELATIE).findFirst();
+        return optionalUitgaandeOpdracht.isPresent() ? optionalUitgaandeOpdracht.get() : null;
     }
 
 
