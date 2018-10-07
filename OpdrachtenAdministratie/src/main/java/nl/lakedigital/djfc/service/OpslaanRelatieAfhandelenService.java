@@ -22,7 +22,7 @@ public class OpslaanRelatieAfhandelenService extends AfhandelenInkomendeOpdracht
 
     @Override
     protected SoortOpdracht getSoortOpdracht() {
-        return SoortOpdracht.OPSLAANRELATIE;
+        return SoortOpdracht.OPSLAAN;
     }
 
     @Override

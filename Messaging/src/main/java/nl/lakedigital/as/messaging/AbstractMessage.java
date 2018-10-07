@@ -1,6 +1,7 @@
 package nl.lakedigital.as.messaging;
 
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
+import nl.lakedigital.as.messaging.opdracht.opdracht.VerwijderPolisOpdracht;
 import nl.lakedigital.as.messaging.request.*;
 import nl.lakedigital.as.messaging.request.communicatie.AbstractCommunicatieRequest;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         AbstractCommunicatieRequest.class,//
         WachtwoordVergetenRequest.class,//
         OpslaanTaakRequest.class,//
+        VerwijderPolisOpdracht.class,//
         WijzigingTaakOpslaanRequest.class,//
         WijzigingTaakOpslaanResponse.class})
 public abstract class AbstractMessage {

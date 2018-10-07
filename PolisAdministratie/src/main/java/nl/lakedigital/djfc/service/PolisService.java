@@ -145,12 +145,13 @@ public class PolisService {
     }
 
     public void verwijder(List<Long> ids) {
-        LOGGER.debug("Ophalen Polis");
-        List<Polis> polissen = newArrayList();
+        LOGGER.debug("Ophalen te verwijderen Polissen");
+
+        List<Pakket> polissen = newArrayList();
         for (Long id : ids) {
-            polissen.add(null);//polisRepository.lees(id));
+            polissen.add(polisRepository.lees(id));
         }
 
-        polisRepository.verwijder(polissen);
+        polisRepository.verwijderPakketten(polissen);
     }
 }

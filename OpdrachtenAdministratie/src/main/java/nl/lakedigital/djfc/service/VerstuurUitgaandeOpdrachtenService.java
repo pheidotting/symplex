@@ -29,16 +29,17 @@ public class VerstuurUitgaandeOpdrachtenService {
         List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtenIn == null ? uitgaandeOpdrachtRepository.teVersturenUitgaandeOpdrachten() : uitgaandeOpdrachtenIn;
         LOGGER.info("Versturen {} uitgaande opdrachten", uitgaandeOpdrachten.size());
 
-        uitgaandeOpdrachten.stream().forEach(uitgaandeOpdracht -> {
-            Optional<AbstractSender> abstractSenderOptional = senders.stream().filter(abstractSender -> abstractSender.getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit())).findFirst();
+        for (UitgaandeOpdracht uitgaandeOpdracht : uitgaandeOpdrachten) {
+            Optional<AbstractSender> abstractSenderOptional = senders.stream().filter(abstractSender -> abstractSender.getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit()) && abstractSender.getSoortOpdracht() == uitgaandeOpdracht.getInkomendeOpdracht().getSoortOpdracht()).findFirst();
             if (abstractSenderOptional.isPresent()) {
+                LOGGER.trace("Gevonden sender: {}", abstractSenderOptional.get());
                 abstractSenderOptional.get().send(uitgaandeOpdracht.getBericht());
             } else {
                 LOGGER.error("Bij opdracht met Id {}, type {} is geen sender gevonden", uitgaandeOpdracht.getId(), uitgaandeOpdracht.getSoortEntiteit());
             }
 
             uitgaandeOpdracht.setTijdstipVerzonden(LocalDateTime.now());
-        });
+        }
 
         uitgaandeOpdrachtRepository.opslaan(uitgaandeOpdrachten);
     }

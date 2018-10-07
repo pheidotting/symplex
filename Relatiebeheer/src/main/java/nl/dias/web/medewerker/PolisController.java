@@ -4,10 +4,7 @@ import com.codahale.metrics.Timer;
 import com.google.common.collect.Lists;
 import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
-import nl.dias.messaging.sender.BeindigenPolisRequestSender;
-import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
-import nl.dias.messaging.sender.OpslaanPolisOpdrachtSender;
-import nl.dias.messaging.sender.PolisVerwijderenRequestSender;
+import nl.dias.messaging.sender.*;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.PolisService;
@@ -66,6 +63,8 @@ public class PolisController extends AbstractController {
     private PolisVerwijderenRequestSender polisVerwijderenRequestSender;
     @Inject
     private OpslaanPolisOpdrachtSender opslaanPolisOpdrachtSender;
+    @Inject
+    private VerwijderPolisOpdrachtSender verwijderPolisOpdrachtSender;
     @Inject
     private Destination polisOpslaanResponseDestination;
     @Inject
@@ -198,23 +197,14 @@ public class PolisController extends AbstractController {
 
         LOGGER.debug("verwijderen Polis met id " + id);
 
-        //        zetSessieWaarden(httpServletRequest);
-        //
-        //        try {
-        //            polisService.verwijder(id);
-        //        } catch (IllegalArgumentException e) {
-        //            LOGGER.error("Fout bij verwijderen Polis", e);
-        //            return Response.status(500).entity(new JsonFoutmelding(e.getMessage())).build();
-        //        }
-        //        return Response.status(202).entity(new JsonFoutmelding()).build();
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
 
-        try {
-            polisService.verwijder(id);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("Fout bij verwijderen Polis", e);
-            return Response.status(500).entity(new JsonFoutmelding(e.getMessage())).build();
+        verwijderPolisOpdrachtSender.send(identificatie.getEntiteitId());
+
+        while (!opdrachtenClient.isOpdrachtKlaar(getTrackAndTraceId(httpServletRequest))) {
+
         }
+
         return Response.status(202).entity(new JsonFoutmelding("")).build();
-        //        polisVerwijderenRequestSender.send(newArrayList(id));
     }
 }

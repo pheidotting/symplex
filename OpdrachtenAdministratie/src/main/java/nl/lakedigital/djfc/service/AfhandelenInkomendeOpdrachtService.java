@@ -45,13 +45,14 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
 
         List<UitgaandeOpdracht> uitgaandeOpdrachten = uitgaandeOpdrachtRepository.teVersturenUitgaandeOpdrachten(response.getTrackAndTraceId(), uitgaandeOpdracht);
         if (!uitgaandeOpdrachten.isEmpty()) {
-            uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getSoortEntiteitEnEntiteitIds().get(0).getEntiteitId() + "</entiteitId>")));
-
             LOGGER.debug("Gevonden : {}", uitgaandeOpdrachten);
 
-            verstuurUitgaandeOpdrachtenService.verstuurUitgaandeOpdrachten(uitgaandeOpdrachten);
-        }
+            uitgaandeOpdrachten.stream().forEach(uo -> uo.setBericht(uo.getBericht().replace("<entiteitId>0</entiteitId>", "<entiteitId>" + response.getSoortEntiteitEnEntiteitIds().get(0).getEntiteitId() + "</entiteitId>")));
 
+            verstuurUitgaandeOpdrachtenService.verstuurUitgaandeOpdrachten(uitgaandeOpdrachten);
+        } else {
+            LOGGER.debug("Geen openstaande opdrachten gevonden");
+        }
     }
 
     protected abstract SoortOpdracht getSoortOpdracht();

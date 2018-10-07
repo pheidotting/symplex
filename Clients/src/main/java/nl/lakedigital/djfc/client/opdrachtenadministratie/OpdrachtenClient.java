@@ -33,7 +33,7 @@ public class OpdrachtenClient extends AbstractClient<OpvragenOpdrachtenStatusRes
         if (metricsService != null) {
             metricsService.addMetric("zoekIdentificatieCode", OpdrachtenClient.class, null, null);
         }
-        OpvragenOpdrachtenStatusResponse response = getXML("/rest/opdracht/status/", OpvragenOpdrachtenStatusResponse.class, false, LOGGER, false, metricsService, "isOpdrachtKlaar", OpdrachtenClient.class, trackAndTraceId);
+        OpvragenOpdrachtenStatusResponse response = getXML("/rest/opdracht/status", OpvragenOpdrachtenStatusResponse.class, false, LOGGER, false, metricsService, "isOpdrachtKlaar", OpdrachtenClient.class, trackAndTraceId);
 
         return response.getStatus() == OpvragenOpdrachtenStatusResponse.Status.KLAAR;
     }

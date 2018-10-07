@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.request.EntiteitenOpgeslagenRequest;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -34,5 +35,10 @@ public class EntiteitenOpgeslagenRequestSender extends AbstractSender<Entiteiten
     @Override
     protected Destination getReplyTo() {
         return responseDestination;
+    }
+
+    @Override
+    public SoortOpdracht getSoortOpdracht() {
+        return SoortOpdracht.OPSLAAN;
     }
 }

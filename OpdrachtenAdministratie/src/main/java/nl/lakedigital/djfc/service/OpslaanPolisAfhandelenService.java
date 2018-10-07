@@ -26,7 +26,7 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
 
     @Override
     protected SoortOpdracht getSoortOpdracht() {
-        return SoortOpdracht.OPSLAANPOLIS;
+        return SoortOpdracht.OPSLAAN;
     }
 
     @Override

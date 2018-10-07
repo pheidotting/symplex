@@ -2,6 +2,7 @@ package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,11 @@ public class OpslaanEntiteitenRequestSender extends AbstractSender<OpslaanEntite
     @Override
     public List<SoortEntiteit> getSoortEntiteiten() {
         return newArrayList(SoortEntiteit.ADRES, SoortEntiteit.OPMERKING, SoortEntiteit.REKENINGNUMMER, SoortEntiteit.TELEFOONNUMMER);
+    }
+
+    @Override
+    public SoortOpdracht getSoortOpdracht() {
+        return SoortOpdracht.OPSLAAN;
     }
 
     @Override

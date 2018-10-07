@@ -45,7 +45,7 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <bean id="polisVerwijderenRequestReciever"
           class="nl.lakedigital.djfc.messaging.reciever.PolisVerwijderenRequestReciever"/>
     <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="rb.pa.polisVerwijderenRequestQueue" ref="polisVerwijderenRequestReciever"
+        <jms:listener destination="oa.pa.polisVerwijderenRequestQueue" ref="polisVerwijderenRequestReciever"
                       method="onMessage"/>
     </jms:listener-container>
     <bean id="verwijderEntiteitenRequestReciever"

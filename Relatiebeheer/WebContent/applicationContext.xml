@@ -298,6 +298,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <import resource="applicationcontextJms/senders/verwijderEntiteitenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.polisOpslaanRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.oa.opslaanPolisOpdracht.xml"/>
+    <import resource="applicationcontextJms/senders/rb.oa.verwijderPolisOpdracht.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.polisVerwijderenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.oga.opslaanEntiteitenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.schadeOpslaanRequest.xml"/>

@@ -48,6 +48,14 @@ public class InkomendeOpdracht {
         this.id = id;
     }
 
+    public SoortOpdracht getSoortOpdracht() {
+        return soortOpdracht;
+    }
+
+    public void setSoortOpdracht(SoortOpdracht soortOpdracht) {
+        this.soortOpdracht = soortOpdracht;
+    }
+
     public String getTrackAndTraceId() {
         return trackAndTraceId;
     }

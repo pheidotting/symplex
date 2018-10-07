@@ -41,8 +41,6 @@ public class PolisRepository {
 
         return transaction;
     }
-
-    @Transactional
     public void verwijder(Polis polis) {
         List<Polis> polissen = new ArrayList();
         polissen.add(polis);
@@ -54,12 +52,33 @@ public class PolisRepository {
         getTransaction().commit();
     }
 
-    @Transactional
     public void verwijder(List<Polis> polissen) {
         getTransaction();
 
         for (Polis polis : polissen) {
             getSession().delete(polis);
+        }
+
+        getTransaction().commit();
+    }
+
+    public void verwijderPakket(Pakket pakket) {
+        List<Pakket> pakketten = new ArrayList();
+        pakketten.add(pakket);
+
+        getTransaction();
+
+        verwijderPakketten(pakketten);
+
+        getTransaction().commit();
+    }
+
+    //    @Transactional
+    public void verwijderPakketten(List<Pakket> pakketten) {
+        getTransaction();
+
+        for (Pakket pakket : pakketten) {
+            getSession().delete(pakket);
         }
 
         getTransaction().commit();
