@@ -4,17 +4,14 @@
     <!-- APPENDERS LIST -->
     <!-- show log entries on console -->
     <appender name="fileAppender" class="org.apache.log4j.FileAppender">
-        <param name="file" value="/var/log/djfc/pa.log"/>
-        <param name="immediateFlush" value="true"/>
-        <!--<param name="threshold" value="debug"/>-->
-        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <param name="file" value="/var/log/djfc/oa.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="[%p] %d %c %M - %m%n"/>
         </layout>
     </appender>
 
     <appender name="Slack" class="com.coaxys.log4slack.SlackAppender">
-        <param name="url" value="https://hooks.slack.com/services/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"/>
+        <param name="url" value="https://hooks.slack.com/services/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"/>
         <param name="immediateFlush" value="true"/>
         <param name="threshold" value="error"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
