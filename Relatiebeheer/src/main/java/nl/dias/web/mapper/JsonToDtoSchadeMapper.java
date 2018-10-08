@@ -6,9 +6,9 @@ import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.domain.response.Schade;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
-import nl.lakedigital.djfc.domain.response.Schade;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;

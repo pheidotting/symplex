@@ -1,24 +1,5 @@
 package nl.dias.domein.polis;
 
-import nl.dias.domein.polis.AansprakelijkheidVerzekering;
-import nl.dias.domein.polis.AnnuleringsVerzekering;
-import nl.dias.domein.polis.AutoVerzekering;
-import nl.dias.domein.polis.BromSnorfietsVerzekering;
-import nl.dias.domein.polis.CamperVerzekering;
-import nl.dias.domein.polis.FietsVerzekering;
-import nl.dias.domein.polis.InboedelVerzekering;
-import nl.dias.domein.polis.LevensVerzekering;
-import nl.dias.domein.polis.MobieleApparatuurVerzekering;
-import nl.dias.domein.polis.MotorVerzekering;
-import nl.dias.domein.polis.OngevallenVerzekering;
-import nl.dias.domein.polis.PleziervaartuigVerzekering;
-import nl.dias.domein.polis.Polis;
-import nl.dias.domein.polis.RechtsbijstandVerzekering;
-import nl.dias.domein.polis.RecreatieVerzekering;
-import nl.dias.domein.polis.ReisVerzekering;
-import nl.dias.domein.polis.WoonhuisVerzekering;
-import nl.dias.domein.polis.ZorgVerzekering;
-
 import org.junit.Test;
 
 public class TestCoverageOpkrikker {

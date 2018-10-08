@@ -10,7 +10,7 @@ import nl.dias.repository.KantoorRepository;
 import nl.dias.service.KantoorService;
 import nl.dias.service.LoginService;
 import nl.dias.web.medewerker.AbstractController;
-import nl.lakedigital.djfc.domain.response.AanmeldenKantoor;
+import nl.lakedigital.djfc.commons.domain.response.AanmeldenKantoor;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

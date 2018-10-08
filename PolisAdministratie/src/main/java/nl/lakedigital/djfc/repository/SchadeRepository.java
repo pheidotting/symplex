@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.repository;
 
+import com.google.common.collect.Lists;
 import nl.lakedigital.djfc.domain.Schade;
 import nl.lakedigital.djfc.domain.SoortSchade;
 import nl.lakedigital.djfc.domain.StatusSchade;
@@ -15,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 @Repository
 public class SchadeRepository {
@@ -171,7 +170,7 @@ public class SchadeRepository {
 
     @Transactional
     public void opslaan(Schade schade) {
-        opslaan(newArrayList(schade));
+        opslaan(Lists.newArrayList(schade));
     }
 
     @Transactional

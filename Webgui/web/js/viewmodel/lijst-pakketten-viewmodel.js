@@ -60,7 +60,7 @@ define(['jquery',
             this.verwijder = function (polis) {
                 var r = confirm("Weet je zeker dat je deze polis wilt verwijderen?");
                 if (r) {
-                    _this.polissen.remove(polis);
+                    _this.pakketten.remove(polis);
                     polisService.verwijderPolis(polis.identificatie());
                 }
             }
@@ -88,15 +88,6 @@ define(['jquery',
             this.beeindigPolis = function (polis) {
                 polisService.beindigPolis(polis.id());
                 polis.eindDatum(moment().format("DD-MM-YYYY"));
-            };
-
-            this.verwijderPolis = function (polis) {
-                commonFunctions.verbergMeldingen();
-                var r = confirm("Weet je zeker dat je deze polis wilt verwijderen?");
-                if (r) {
-                    _this.polissen.remove(polis);
-                    polisService.verwijderPolis(ko.utils.unwrapObservable(polis.id));
-                }
             };
         };
     });

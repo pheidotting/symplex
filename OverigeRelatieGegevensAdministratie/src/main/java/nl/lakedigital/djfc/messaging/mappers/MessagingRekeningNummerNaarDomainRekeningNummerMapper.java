@@ -1,15 +1,15 @@
 package nl.lakedigital.djfc.messaging.mappers;
 
-import nl.lakedigital.as.messaging.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.as.messaging.domain.RekeningNummer;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.domain.RekeningNummer;
 import nl.lakedigital.djfc.service.RekeningNummerService;
 
 import java.util.function.Function;
 
-public class MessagingRekeningNummerNaarDomainRekeningNummerMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.RekeningNummer> {
+public class MessagingRekeningNummerNaarDomainRekeningNummerMapper implements Function<AbstracteEntiteitMetSoortEnId, RekeningNummer> {
     private IdentificatieClient identificatieClient;
     private RekeningNummerService rekeningNummerService;
 
@@ -19,16 +19,16 @@ public class MessagingRekeningNummerNaarDomainRekeningNummerMapper implements Fu
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.RekeningNummer apply(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
-        RekeningNummer rek = (RekeningNummer) abstracteEntiteitMetSoortEnId;
+    public RekeningNummer apply(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
+        nl.lakedigital.djfc.commons.domain.RekeningNummer rek = (nl.lakedigital.djfc.commons.domain.RekeningNummer) abstracteEntiteitMetSoortEnId;
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(rek.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.RekeningNummer rekeningNummer;
+        RekeningNummer rekeningNummer;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             rekeningNummer = rekeningNummerService.lees(identificatie.getEntiteitId());
         } else {
-            rekeningNummer = new nl.lakedigital.djfc.domain.RekeningNummer();
+            rekeningNummer = new RekeningNummer();
         }
 
         rekeningNummer.setBic(rek.getBic());

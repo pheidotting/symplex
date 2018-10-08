@@ -1,9 +1,9 @@
 package nl.dias.web.mapper;
 
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.response.Bijlage;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
-import nl.lakedigital.djfc.domain.response.Bijlage;
 
 import java.util.function.Function;
 

@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.inloggen.Sessie;
 import nl.lakedigital.djfc.mapper.Mapper;
 import nl.lakedigital.djfc.metrics.MetricsService;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 
 @Component
-public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> implements JsonMapper{
+public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> implements JsonMapper {
     @Inject
     private SchadeNaarJsonSchadeMapper schadeMapper;
 
@@ -62,6 +62,7 @@ public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> i
     public boolean isVoorMij(final Object object) {
         return object instanceof Polis;
     }
+
     public static String zetBedragOm(Bedrag bedrag) {
         String waarde;
         String[] x = bedrag.getBedrag().toString().split("\\.");

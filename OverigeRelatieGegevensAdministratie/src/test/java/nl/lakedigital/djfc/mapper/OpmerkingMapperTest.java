@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.mapper;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
 import nl.lakedigital.djfc.domain.Opmerking;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.OpmerkingService;
 import org.easymock.Mock;

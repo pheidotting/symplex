@@ -1,10 +1,10 @@
 package nl.dias.messaging.sender;
 
 import nl.dias.domein.Bedrag;
-import nl.lakedigital.as.messaging.domain.Opmerking;
-import nl.lakedigital.as.messaging.domain.Pakket;
-import nl.lakedigital.as.messaging.domain.Polis;
 import nl.lakedigital.as.messaging.request.PolisOpslaanRequest;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.Pakket;
+import nl.lakedigital.djfc.commons.domain.Polis;
 import nl.lakedigital.djfc.commons.json.JsonPakket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,9 +77,9 @@ public class PolisOpslaanRequestSender extends AbstractSender<PolisOpslaanReques
                 pakket.setOpmerkingen(jsonPakket1.getOpmerkingen().stream().map(jsonOpmerking -> {
                     Opmerking opmerking = new Opmerking();
 
-                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId());
-                    opmerking.setTekst(jsonOpmerking.getOpmerking());
-                    opmerking.setTijdstip(jsonOpmerking.getTijd());
+                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId().toString());
+                    opmerking.setOpmerking(jsonOpmerking.getOpmerking());
+                    opmerking.setTijd(jsonOpmerking.getTijd());
                     opmerking.setIdentificatie(jsonOpmerking.getIdentificatie());
 
                     return opmerking;

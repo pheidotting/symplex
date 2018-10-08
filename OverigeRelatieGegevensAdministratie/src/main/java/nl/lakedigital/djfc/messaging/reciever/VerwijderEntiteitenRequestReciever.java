@@ -2,7 +2,7 @@ package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
 import nl.lakedigital.as.messaging.request.VerwijderEntiteitenRequest;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.VerwijderEntiteitenService;
 import org.slf4j.Logger;

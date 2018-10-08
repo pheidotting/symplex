@@ -21,7 +21,7 @@ public class MotorVerzekering extends Polis {
     public MotorVerzekering() {
     }
 
-    public MotorVerzekering(Pakket pakket) {
+    public MotorVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

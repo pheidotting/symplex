@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
-import nl.lakedigital.as.messaging.domain.Pakket;
+import nl.lakedigital.djfc.commons.domain.Pakket;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;

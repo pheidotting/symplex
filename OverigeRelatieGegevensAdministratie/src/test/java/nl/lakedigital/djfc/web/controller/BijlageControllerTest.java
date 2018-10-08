@@ -1,10 +1,10 @@
 package nl.lakedigital.djfc.web.controller;
 
 import com.google.gson.Gson;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
 import nl.lakedigital.djfc.commons.xml.OpvragenBijlagesResponse;
 import nl.lakedigital.djfc.domain.Bijlage;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.BijlageService;
 import org.easymock.Mock;
@@ -122,7 +122,7 @@ public class BijlageControllerTest extends AbstractControllerTest<Bijlage, JsonB
         expect(httpServletRequest.getHeader("url")).andReturn("url");
 
         expect(mapper.map(jsonBijlage, Bijlage.class)).andReturn(bijlage);
-        bijlageService.opslaan(newArrayList(bijlage), SoortEntiteit.RELATIE, null);
+        expect(bijlageService.opslaan(newArrayList(bijlage), SoortEntiteit.RELATIE, null)).andReturn(newArrayList());
         expectLastCall();
 
         replayAll();

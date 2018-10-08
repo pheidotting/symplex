@@ -1,4 +1,4 @@
-package nl.lakedigital.djfc.domain.particulier;
+package nl.lakedigital.djfc.commons.domain.particulier;
 
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
@@ -20,7 +20,7 @@ public class AansprakelijkheidVerzekering extends Polis {
     public AansprakelijkheidVerzekering() {
     }
 
-    public AansprakelijkheidVerzekering(Pakket pakket) {
+    public AansprakelijkheidVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

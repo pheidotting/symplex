@@ -21,7 +21,7 @@ public class PleziervaartuigVerzekering extends Polis {
     public PleziervaartuigVerzekering() {
     }
 
-    public PleziervaartuigVerzekering(Pakket pakket) {
+    public PleziervaartuigVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

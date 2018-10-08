@@ -20,7 +20,7 @@ public class ZorgVerzekering extends Polis {
     public ZorgVerzekering() {
     }
 
-    public ZorgVerzekering(Pakket pakket) {
+    public ZorgVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

@@ -11,9 +11,9 @@ import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.HypotheekNaarJsonHypotheekMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
@@ -129,7 +129,7 @@ public class HypotheekController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Response opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
+    public Response opslaan(@RequestBody nl.lakedigital.djfc.commons.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("hypotheekOpslaan", HypotheekController.class, null, hypotheekIn.getIdentificatie() == null);
 
         LOGGER.debug("Opslaan Hypotheek " + hypotheekIn);

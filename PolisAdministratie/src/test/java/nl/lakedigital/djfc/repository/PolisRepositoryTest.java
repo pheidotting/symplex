@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
 import com.google.common.base.Predicate;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;

@@ -1,10 +1,10 @@
 package nl.dias.messaging.reciever;
 
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
 import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 
 import javax.inject.Inject;
 

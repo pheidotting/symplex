@@ -192,17 +192,7 @@ public class Schade implements Serializable {
             return false;
         }
         Schade schade = (Schade) o;
-        return Objects.equals(getId(), schade.getId()) &&
-                Objects.equals(getPolis(), schade.getPolis()) &&
-                Objects.equals(getSchadeNummerMaatschappij(), schade.getSchadeNummerMaatschappij()) &&
-                Objects.equals(getSchadeNummerTussenPersoon(), schade.getSchadeNummerTussenPersoon()) &&
-                Objects.equals(getSoortSchade(), schade.getSoortSchade()) &&
-                Objects.equals(getSoortSchadeOngedefinieerd(), schade.getSoortSchadeOngedefinieerd()) &&
-                Objects.equals(getLocatie(), schade.getLocatie()) &&
-                Objects.equals(getStatusSchade(), schade.getStatusSchade()) && Objects.equals(getDatumSchade(), schade.getDatumSchade()) && Objects.equals(getDatumMelding(), schade.getDatumMelding()) &&
-                Objects.equals(getDatumAfgehandeld(), schade.getDatumAfgehandeld()) &&
-                Objects.equals(getEigenRisico(), schade.getEigenRisico()) &&
-                Objects.equals(getOmschrijving(), schade.getOmschrijving());
+        return Objects.equals(getId(), schade.getId()) && Objects.equals(getPolis(), schade.getPolis()) && Objects.equals(getSchadeNummerMaatschappij(), schade.getSchadeNummerMaatschappij()) && Objects.equals(getSchadeNummerTussenPersoon(), schade.getSchadeNummerTussenPersoon()) && Objects.equals(getSoortSchade(), schade.getSoortSchade()) && Objects.equals(getSoortSchadeOngedefinieerd(), schade.getSoortSchadeOngedefinieerd()) && Objects.equals(getLocatie(), schade.getLocatie()) && Objects.equals(getStatusSchade(), schade.getStatusSchade()) && Objects.equals(getDatumSchade(), schade.getDatumSchade()) && Objects.equals(getDatumMelding(), schade.getDatumMelding()) && Objects.equals(getDatumAfgehandeld(), schade.getDatumAfgehandeld()) && Objects.equals(getEigenRisico(), schade.getEigenRisico()) && Objects.equals(getOmschrijving(), schade.getOmschrijving());
     }
 
     @Override

@@ -7,7 +7,7 @@ import nl.lakedigital.djfc.commons.json.Taak;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class JsonToDtoTaakMapper implements Function<Taak, nl.lakedigital.djfc.domain.response.Taak> {
+public class JsonToDtoTaakMapper implements Function<Taak, nl.lakedigital.djfc.commons.domain.response.Taak> {
     private IdentificatieClient identificatieClient;
 
     public JsonToDtoTaakMapper(IdentificatieClient identificatieClient) {
@@ -15,8 +15,8 @@ public class JsonToDtoTaakMapper implements Function<Taak, nl.lakedigital.djfc.d
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.Taak apply(Taak in) {
-        nl.lakedigital.djfc.domain.response.Taak uit = new nl.lakedigital.djfc.domain.response.Taak();
+    public nl.lakedigital.djfc.commons.domain.response.Taak apply(Taak in) {
+        nl.lakedigital.djfc.commons.domain.response.Taak uit = new nl.lakedigital.djfc.commons.domain.response.Taak();
 
         Identificatie identificatie = identificatieClient.zoekIdentificatie("TAAK", in.getId());
         uit.setIdentificatie(identificatie.getIdentificatie());

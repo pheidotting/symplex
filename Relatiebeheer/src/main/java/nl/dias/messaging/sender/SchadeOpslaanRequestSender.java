@@ -1,8 +1,8 @@
 package nl.dias.messaging.sender;
 
-import nl.lakedigital.as.messaging.domain.Opmerking;
 import nl.lakedigital.as.messaging.domain.Schade;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -48,9 +48,9 @@ public class SchadeOpslaanRequestSender extends AbstractSender<SchadeOpslaanRequ
                 schade.setOpmerkingen(jsonSchade1.getOpmerkingen().stream().map(jsonOpmerking -> {
                     Opmerking opmerking = new Opmerking();
 
-                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId());
-                    opmerking.setTekst(jsonOpmerking.getOpmerking());
-                    opmerking.setTijdstip(jsonOpmerking.getTijd());
+                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId().toString());
+                    opmerking.setOpmerking(jsonOpmerking.getOpmerking());
+                    opmerking.setTijd(jsonOpmerking.getTijd());
                     opmerking.setIdentificatie(jsonOpmerking.getIdentificatie());
 
                     return opmerking;

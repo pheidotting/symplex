@@ -3,8 +3,8 @@ package nl.lakedigital.it;
 import com.google.common.collect.Lists;
 import nl.lakedigital.djfc.client.oga.AbstractOgaClient;
 import nl.lakedigital.djfc.client.oga.OpmerkingClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonOpmerking;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 
 import java.util.List;
 import java.util.UUID;

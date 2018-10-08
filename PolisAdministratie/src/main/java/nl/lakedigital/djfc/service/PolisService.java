@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.predicates.PolissenOpSoortPredicate;
@@ -102,7 +102,7 @@ public class PolisService {
             SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
             soortEntiteitEnEntiteitId.setEntiteitId(id);
 
-            soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.as.messaging.domain.SoortEntiteit.POLIS);
+            soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.POLIS);
 
             result.add(soortEntiteitEnEntiteitId);
         }
@@ -145,12 +145,13 @@ public class PolisService {
     }
 
     public void verwijder(List<Long> ids) {
-        LOGGER.debug("Ophalen Polis");
-        List<Polis> polissen = newArrayList();
+        LOGGER.debug("Ophalen te verwijderen Polissen");
+
+        List<Pakket> polissen = newArrayList();
         for (Long id : ids) {
-            polissen.add(null);//polisRepository.lees(id));
+            polissen.add(polisRepository.lees(id));
         }
 
-        polisRepository.verwijder(polissen);
+        polisRepository.verwijderPakketten(polissen);
     }
 }

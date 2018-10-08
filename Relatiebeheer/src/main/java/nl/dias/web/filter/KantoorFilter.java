@@ -46,7 +46,7 @@ public class KantoorFilter implements Filter {
         if (getFullURL((HttpServletRequest) request).contains("/relatie/lees/")) {
             LOGGER.trace("Relatie opvragen");
 
-            nl.lakedigital.djfc.domain.response.Relatie relatieRes = (nl.lakedigital.djfc.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Relatie.class);
+            nl.lakedigital.djfc.commons.domain.response.Relatie relatieRes = (nl.lakedigital.djfc.commons.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.commons.domain.response.Relatie.class);
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(relatieRes.getIdentificatie());
             if (identificatie != null) {
                 Relatie relatie = gebruikerService.leesRelatie(identificatie.getEntiteitId());
@@ -66,7 +66,7 @@ public class KantoorFilter implements Filter {
         } else if (getFullURL((HttpServletRequest) request).contains("/bedrijf/lees/")) {
             LOGGER.trace("Bedrijf opvragen");
 
-            nl.lakedigital.djfc.domain.response.Bedrijf bedrijfRes = (nl.lakedigital.djfc.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Bedrijf.class);
+            nl.lakedigital.djfc.commons.domain.response.Bedrijf bedrijfRes = (nl.lakedigital.djfc.commons.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.commons.domain.response.Bedrijf.class);
 
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(bedrijfRes.getIdentificatie());
             if (identificatie != null) {

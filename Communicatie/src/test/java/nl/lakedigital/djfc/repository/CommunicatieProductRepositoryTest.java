@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.UitgaandeBrief;
-import nl.lakedigital.djfc.domain.UitgaandeEmail;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.UitgaandeBrief;
+import nl.lakedigital.djfc.commons.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.inloggen.Sessie;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;

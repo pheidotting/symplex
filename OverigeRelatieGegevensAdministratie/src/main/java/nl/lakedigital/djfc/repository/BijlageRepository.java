@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Bijlage;
 import nl.lakedigital.djfc.domain.GroepBijlages;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;

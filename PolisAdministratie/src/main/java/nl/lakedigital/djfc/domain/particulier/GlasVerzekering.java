@@ -20,7 +20,7 @@ public class GlasVerzekering extends Polis {
     public GlasVerzekering() {
     }
 
-    public GlasVerzekering(Pakket pakket) {
+    public GlasVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

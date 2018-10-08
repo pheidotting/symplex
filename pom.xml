@@ -18,6 +18,7 @@
         <module>LicentieBeheer</module>
         <module>Relatiebeheer</module>
         <module>IdBeheer</module>
+        <module>OpdrachtenAdministratie</module>
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>
         <module>TaakBeheer</module>

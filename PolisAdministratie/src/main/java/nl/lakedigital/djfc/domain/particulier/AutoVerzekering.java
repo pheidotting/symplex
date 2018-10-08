@@ -20,7 +20,7 @@ public class AutoVerzekering extends Polis {
     public AutoVerzekering() {
     }
 
-    public AutoVerzekering(Pakket pakket) {
+    public AutoVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

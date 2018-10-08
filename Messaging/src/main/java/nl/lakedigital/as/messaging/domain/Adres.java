@@ -1,5 +1,8 @@
 package nl.lakedigital.as.messaging.domain;
 
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "adres")

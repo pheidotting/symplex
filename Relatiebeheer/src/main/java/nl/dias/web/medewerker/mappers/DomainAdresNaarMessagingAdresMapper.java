@@ -1,7 +1,7 @@
 package nl.dias.web.medewerker.mappers;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.response.Adres;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.Adres;
 
 import java.util.function.Function;
 

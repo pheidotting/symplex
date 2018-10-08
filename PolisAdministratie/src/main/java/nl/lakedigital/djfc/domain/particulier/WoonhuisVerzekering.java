@@ -20,7 +20,7 @@ public class WoonhuisVerzekering extends Polis {
     public WoonhuisVerzekering() {
     }
 
-    public WoonhuisVerzekering(Pakket pakket) {
+    public WoonhuisVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

@@ -2,11 +2,11 @@ package nl.lakedigital.djfc.client.identificatie;
 
 import com.google.gson.Gson;
 import nl.lakedigital.djfc.client.AbstractClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.ZoekIdentificatieResponse;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
-import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
