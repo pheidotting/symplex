@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.UitgaandeBrief;
-import nl.lakedigital.djfc.domain.UitgaandeEmail;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.UitgaandeBrief;
+import nl.lakedigital.djfc.commons.domain.UitgaandeEmail;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.Query;

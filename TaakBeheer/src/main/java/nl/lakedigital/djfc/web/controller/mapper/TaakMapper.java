@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.web.controller.mapper;
 
-import nl.lakedigital.djfc.domain.Taak;
+import nl.lakedigital.djfc.commons.domain.Taak;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;

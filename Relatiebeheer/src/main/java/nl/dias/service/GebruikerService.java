@@ -5,16 +5,16 @@ import com.google.common.base.Predicate;
 import nl.dias.domein.*;
 import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
-import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.GebruikerRepository;
 import nl.dias.repository.InlogPogingRepository;
 import nl.dias.repository.KantoorRepository;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.oga.TelefoonnummerClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
@@ -95,7 +95,7 @@ public class GebruikerService {
 
         // Als Gebruiker een Relatie is en BSN leeg is, moet er een taak worden aangemaakt
         if (gebruiker instanceof Relatie) {
-            nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId();
+            SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
             soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.RELATIE);
             soortEntiteitEnEntiteitId.setEntiteitId(gebruiker.getId());
 
@@ -231,7 +231,7 @@ public class GebruikerService {
     }
 
     private List<Relatie> destilleerRelatie(List<? extends AbstracteJsonEntiteitMetSoortEnId> entiteitenMetSoortEnId) {
-        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, (Predicate<AbstracteJsonEntiteitMetSoortEnId>) adres -> adres.getSoortEntiteit().equals(nl.lakedigital.djfc.domain.SoortEntiteit.RELATIE.name()))), (Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>) adres -> {
+        List<Relatie> relaties = newArrayList(transform(newArrayList(filter(entiteitenMetSoortEnId, (Predicate<AbstracteJsonEntiteitMetSoortEnId>) adres -> adres.getSoortEntiteit().equals(SoortEntiteit.RELATIE.name()))), (Function<AbstracteJsonEntiteitMetSoortEnId, Relatie>) adres -> {
             Gebruiker gebruiker = gebruikerRepository.lees(adres.getEntiteitId());
             if (gebruiker instanceof Relatie) {
                 return (Relatie) gebruikerRepository.lees(adres.getEntiteitId());

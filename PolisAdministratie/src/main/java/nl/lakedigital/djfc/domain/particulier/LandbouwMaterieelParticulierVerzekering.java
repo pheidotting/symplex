@@ -21,7 +21,7 @@ public class LandbouwMaterieelParticulierVerzekering extends Polis {
     public LandbouwMaterieelParticulierVerzekering() {
     }
 
-    public LandbouwMaterieelParticulierVerzekering(Pakket pakket) {
+    public LandbouwMaterieelParticulierVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

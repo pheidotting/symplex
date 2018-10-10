@@ -2,7 +2,7 @@ package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.request.communicatie.Afzender;
 import nl.lakedigital.as.messaging.request.communicatie.Geadresseerde;
-import nl.lakedigital.djfc.domain.*;
+import nl.lakedigital.djfc.commons.domain.*;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import nl.lakedigital.djfc.service.verzenden.VerzendService;
 import org.springframework.stereotype.Service;

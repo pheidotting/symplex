@@ -1,8 +1,9 @@
 package nl.dias.web.medewerker;
 
-import nl.dias.messaging.SoortEntiteitEnEntiteitId;
 import nl.dias.messaging.sender.VerwijderEntiteitRequestSender;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,7 @@ public class OpmerkingController extends AbstractController {
 
         Long id = identificatieClient.zoekIdentificatieCode(identificatieCode).getEntiteitId();
 
-        SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId(nl.lakedigital.as.messaging.domain.SoortEntiteit.OPMERKING, id);
+        SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId(SoortEntiteit.OPMERKING, id);
 
         verwijderEntiteitRequestSender.send(soortEntiteitEnEntiteitId);
     }

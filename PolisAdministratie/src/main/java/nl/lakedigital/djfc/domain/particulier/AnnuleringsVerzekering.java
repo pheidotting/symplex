@@ -20,7 +20,7 @@ public class AnnuleringsVerzekering extends Polis {
     public AnnuleringsVerzekering() {
     }
 
-    public AnnuleringsVerzekering(Pakket pakket) {
+    public AnnuleringsVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

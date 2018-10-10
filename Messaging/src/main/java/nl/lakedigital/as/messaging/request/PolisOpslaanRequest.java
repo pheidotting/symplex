@@ -1,7 +1,7 @@
 package nl.lakedigital.as.messaging.request;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.as.messaging.domain.Pakket;
+import nl.lakedigital.djfc.commons.domain.Pakket;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;

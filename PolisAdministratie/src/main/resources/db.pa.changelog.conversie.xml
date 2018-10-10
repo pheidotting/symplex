@@ -12,6 +12,7 @@
             <column name="POLISNUMMER" type="varchar(25)"/>
             <column name="ENTITEITID" type="bigint"/>
             <column name="SOORTENTITEIT" type="varchar(50)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
         </createTable>
         <createTable tableName="PAKKET_AUD">
             <column name="ID" type="BIGINT">
@@ -22,6 +23,7 @@
             <column name="POLISNUMMER" type="varchar(25)"/>
             <column name="ENTITEITID" type="bigint"/>
             <column name="SOORTENTITEIT" type="varchar(50)"/>
+            <column name="MAATSCHAPPIJ" type="bigint(20)"/>
         </createTable>
         <addColumn tableName="POLIS">
             <column name="PAKKET" type="BIGINT"/>

@@ -1,13 +1,13 @@
 package nl.lakedigital.djfc.web.controller;
 
 import com.google.common.collect.Lists;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonPolis;
 import nl.lakedigital.djfc.commons.xml.OpvragenPolisSoortenResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenPolissenResponse;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
 import nl.lakedigital.djfc.mapper.Mapper;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;

@@ -259,8 +259,9 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
-                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/ogpa.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/dejonge.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
@@ -275,12 +276,14 @@ pipeline {
             }
             steps {
                 sh '''
-                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
             }
         }
@@ -323,6 +326,23 @@ pipeline {
             post {
                 failure {
                     slackSend (color: '#FF0000', message: "Messaging Install Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Sonar Sonarbranch OpdrachtenAdministratie') {
+            steps {
+                sh '''
+                    cd OpdrachtenAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Sonar OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Sonar OpdrachtenAdministratie mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -376,6 +396,23 @@ pipeline {
                 }
                 failure {
                     slackSend (color: '#FF0000', message: "Builden IdBeheer Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+            }
+        }
+
+        stage ('Build OpdrachtenAdministratie') {
+            steps {
+                sh '''
+                    cd OpdrachtenAdministratie
+                    mvn clean package  -P jenkins
+                '''
+            }
+            post {
+                success {
+                    slackSend (color: '#4245f4', message: "Builden OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+                }
+                failure {
+                    slackSend (color: '#FF0000', message: "Builden OpdrachtenAdministratie Failed :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
                 }
             }
         }
@@ -508,6 +545,12 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/identificatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp OpdrachtenAdministratie/src/main/resources/tst2/oa.app.properties jetty@192.168.91.230:/opt/jetty
+                    scp OpdrachtenAdministratie/src/main/resources/tst2/oa.log4j.xml jetty@192.168.91.230:/opt/jetty
+                    scp OpdrachtenAdministratie/target/oa.war jetty@192.168.91.230:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/oa/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.app.properties jetty@192.168.91.230:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst2/oga.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.230:/opt/jetty/webapps
@@ -611,9 +654,11 @@ pipeline {
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/licentie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/pa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/dejonge.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/taakbeheer.war
                 '''
             }
         }

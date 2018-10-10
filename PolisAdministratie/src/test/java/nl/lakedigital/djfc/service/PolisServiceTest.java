@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
 import nl.lakedigital.djfc.domain.particulier.AnnuleringsVerzekering;
 import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
@@ -20,7 +20,9 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
@@ -61,7 +63,7 @@ public class PolisServiceTest extends EasyMockSupport {
     public void testOpslaanPolis() {
         final Long id = 58L;
 
-        AutoVerzekering polis = new AutoVerzekering(new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId));
+        AutoVerzekering polis = new AutoVerzekering(new Pakket(soortEntiteit, entiteitId));
 
         polisRepository.opslaan(polis);
         expectLastCall().andDelegateTo(new PolisRepository() {
@@ -90,7 +92,7 @@ public class PolisServiceTest extends EasyMockSupport {
 
     @Test
     public void testZoekOpPolisNummer() {
-        Pakket pakket = new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
         CamperVerzekering camperVerzekering = new CamperVerzekering(pakket);
 
         expect(polisRepository.zoekOpPolisNummer("1234")).andReturn(newArrayList(pakket));
@@ -116,7 +118,7 @@ public class PolisServiceTest extends EasyMockSupport {
 
     @Test
     public void testVerwijder() {
-        Pakket pakket = new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
         AutoVerzekering autoVerzekering = new AutoVerzekering(pakket);
         autoVerzekering.setId(1L);
 
@@ -134,11 +136,11 @@ public class PolisServiceTest extends EasyMockSupport {
 
     @Test
     public void testAllePolisSoorten() {
-        AnnuleringsVerzekering annuleringsVerzekering = new AnnuleringsVerzekering(new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId));
-        InboedelVerzekering inboedelVerzekering = new InboedelVerzekering(new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId));
+        AnnuleringsVerzekering annuleringsVerzekering = new AnnuleringsVerzekering(new Pakket(soortEntiteit, entiteitId));
+        InboedelVerzekering inboedelVerzekering = new InboedelVerzekering(new Pakket(soortEntiteit, entiteitId));
 
-        AanhangerVerzekering aanhangerVerzekering = new AanhangerVerzekering(new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId));
-        GeldVerzekering geldVerzekering = new GeldVerzekering(new nl.lakedigital.djfc.domain.Pakket(soortEntiteit, entiteitId));
+        AanhangerVerzekering aanhangerVerzekering = new AanhangerVerzekering(new Pakket(soortEntiteit, entiteitId));
+        GeldVerzekering geldVerzekering = new GeldVerzekering(new Pakket(soortEntiteit, entiteitId));
 
         List<Polis> polissen = new ArrayList<>();
         polissen.add(annuleringsVerzekering);
@@ -146,13 +148,13 @@ public class PolisServiceTest extends EasyMockSupport {
         polissen.add(aanhangerVerzekering);
         polissen.add(geldVerzekering);
 
-        List<String> verwachtParticulier = new ArrayList<>();
-        verwachtParticulier.add(annuleringsVerzekering.getSchermNaam());
-        verwachtParticulier.add(inboedelVerzekering.getSchermNaam());
+        Map<String, String> verwachtParticulier = new HashMap<>();
+        verwachtParticulier.put(annuleringsVerzekering.getClass().getSimpleName().replace("Verzekering", ""), annuleringsVerzekering.getSchermNaam());
+        verwachtParticulier.put(inboedelVerzekering.getClass().getSimpleName().replace("Verzekering", ""), inboedelVerzekering.getSchermNaam());
 
-        List<String> verwachtZakelijk = new ArrayList<>();
-        verwachtZakelijk.add(aanhangerVerzekering.getSchermNaam());
-        verwachtZakelijk.add(geldVerzekering.getSchermNaam());
+        Map<String, String> verwachtZakelijk = new HashMap<>();
+        verwachtZakelijk.put(aanhangerVerzekering.getClass().getSimpleName().replace("Verzekering", ""), aanhangerVerzekering.getSchermNaam());
+        verwachtZakelijk.put(geldVerzekering.getClass().getSimpleName().replace("Verzekering", ""), geldVerzekering.getSchermNaam());
 
         ReflectionTestUtils.setField(polisService, "polissen", polissen);
 

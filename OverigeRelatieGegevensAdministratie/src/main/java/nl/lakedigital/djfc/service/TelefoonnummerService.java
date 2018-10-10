@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.service;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Telefoonnummer;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.TelefoonnummerRepository;
@@ -18,7 +19,7 @@ public class TelefoonnummerService extends AbstractService<Telefoonnummer> {
     private TelefoonnummerRepository telefoonnummerRepository;
 
     public TelefoonnummerService() {
-        super(nl.lakedigital.as.messaging.domain.SoortEntiteit.TELEFOONNUMMER);
+        super(SoortEntiteit.TELEFOONNUMMER);
     }
 
     @Override

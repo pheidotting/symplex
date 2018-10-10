@@ -6,7 +6,7 @@ import nl.lakedigital.djfc.commons.json.WijzigingTaak;
 
 import java.util.function.Function;
 
-public class JsonToDtoWijzigingTaakMapper implements Function<WijzigingTaak, nl.lakedigital.djfc.domain.response.WijzigingTaak> {
+public class JsonToDtoWijzigingTaakMapper implements Function<WijzigingTaak, nl.lakedigital.djfc.commons.domain.response.WijzigingTaak> {
     private IdentificatieClient identificatieClient;
 
     public JsonToDtoWijzigingTaakMapper(IdentificatieClient identificatieClient) {
@@ -14,8 +14,8 @@ public class JsonToDtoWijzigingTaakMapper implements Function<WijzigingTaak, nl.
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.WijzigingTaak apply(WijzigingTaak in) {
-        nl.lakedigital.djfc.domain.response.WijzigingTaak uit = new nl.lakedigital.djfc.domain.response.WijzigingTaak();
+    public nl.lakedigital.djfc.commons.domain.response.WijzigingTaak apply(WijzigingTaak in) {
+        nl.lakedigital.djfc.commons.domain.response.WijzigingTaak uit = new nl.lakedigital.djfc.commons.domain.response.WijzigingTaak();
 
         Identificatie identificatie = identificatieClient.zoekIdentificatie("WIJZIGINGTAAK", in.getId());
         if (in != null && in.getToegewezenAan() != null && !"null".equals(in.getToegewezenAan())) {

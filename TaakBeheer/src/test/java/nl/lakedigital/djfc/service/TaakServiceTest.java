@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.djfc.domain.Taak;
-import nl.lakedigital.djfc.domain.TaakStatus;
-import nl.lakedigital.djfc.domain.WijzigingTaak;
+import nl.lakedigital.djfc.commons.domain.Taak;
+import nl.lakedigital.djfc.commons.domain.TaakStatus;
+import nl.lakedigital.djfc.commons.domain.WijzigingTaak;
 import nl.lakedigital.djfc.repository.TaakRepository;
 import nl.lakedigital.djfc.repository.WijzigingTaakRepository;
 import org.easymock.*;

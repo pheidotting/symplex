@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.mapper;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonRekeningNummer;
 import nl.lakedigital.djfc.domain.RekeningNummer;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.RekeningNummerService;
 import org.easymock.Mock;

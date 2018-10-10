@@ -2,9 +2,9 @@ package nl.lakedigital.djfc.service.verzenden;
 
 import com.google.common.util.concurrent.RateLimiter;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;

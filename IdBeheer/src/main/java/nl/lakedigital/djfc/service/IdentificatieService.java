@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.djfc.domain.Identificatie;
+import nl.lakedigital.djfc.commons.domain.Identificatie;
 import nl.lakedigital.djfc.repository.IdentificatieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,10 @@
 package nl.lakedigital.djfc.messaging.mappers;
 
-import nl.lakedigital.as.messaging.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.as.messaging.domain.Opmerking;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.OpmerkingService;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -36,16 +36,16 @@ public class MessagingOpmerkingNaarDomainOpmerkingMapper implements Function<Abs
         } else {
             opmerking = new nl.lakedigital.djfc.domain.Opmerking();
             opmerking.setMedewerker(ingelogdeGebruiker);
-            if (opm.getTijdstip() == null) {
+            if (opm.getTijd() == null) {
                 opmerking.setTijd(LocalDateTime.now());
             } else {
-                opmerking.setTijd(LocalDateTime.parse(opm.getTijdstip(), dateTimeFormatter));
+                opmerking.setTijd(LocalDateTime.parse(opm.getTijd(), dateTimeFormatter));
             }
             opmerking.setSoortEntiteit(SoortEntiteit.valueOf(opm.getSoortEntiteit().name()));
             opmerking.setEntiteitId(opm.getEntiteitId());
         }
 
-        opmerking.setOpmerking(opm.getTekst());
+        opmerking.setOpmerking(opm.getOpmerking());
 
         return opmerking;
     }

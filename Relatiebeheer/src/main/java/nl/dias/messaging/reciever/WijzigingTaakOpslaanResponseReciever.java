@@ -1,11 +1,11 @@
 package nl.dias.messaging.reciever;
 
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
-import nl.lakedigital.as.messaging.domain.Opmerking;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanRequest;
 import nl.lakedigital.as.messaging.request.taak.WijzigingTaakOpslaanResponse;
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +30,8 @@ public class WijzigingTaakOpslaanResponseReciever extends AbstractReciever<Wijzi
         Opmerking opmerking = new Opmerking();
         opmerking.setEntiteitId(wijzigingTaakOpslaanResponse.getId());
         opmerking.setSoortEntiteit(SoortEntiteit.WIJZIGINGTAAK);
-        opmerking.setTekst(wijzigingTaakOpslaanRequest.getOpmerking());
-        opmerking.setMedewerker(wijzigingTaakOpslaanResponse.getIngelogdeGebruiker());
+        opmerking.setOpmerking(wijzigingTaakOpslaanRequest.getOpmerking());
+        opmerking.setMedewerker(wijzigingTaakOpslaanResponse.getIngelogdeGebruiker().toString());
         opslaanEntiteitenRequest.getLijst().add(opmerking);
 
         opslaanEntiteitenRequest.setEntiteitId(wijzigingTaakOpslaanResponse.getId());

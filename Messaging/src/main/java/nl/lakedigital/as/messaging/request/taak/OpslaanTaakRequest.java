@@ -1,7 +1,7 @@
 package nl.lakedigital.as.messaging.request.taak;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.joda.time.LocalDate;
 
 import javax.xml.bind.annotation.XmlRootElement;

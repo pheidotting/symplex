@@ -20,7 +20,7 @@ public class CamperVerzekering extends Polis {
     public CamperVerzekering() {
     }
 
-    public CamperVerzekering(Pakket pakket) {
+    public CamperVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

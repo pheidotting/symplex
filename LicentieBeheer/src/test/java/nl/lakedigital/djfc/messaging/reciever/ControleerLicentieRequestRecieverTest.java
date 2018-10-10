@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import nl.lakedigital.as.messaging.request.ControleerLicentieRequest;
-import nl.lakedigital.djfc.domain.AdministratieKantoor;
-import nl.lakedigital.djfc.domain.Licentie;
+import nl.lakedigital.djfc.commons.domain.AdministratieKantoor;
+import nl.lakedigital.djfc.commons.domain.Licentie;
 import nl.lakedigital.djfc.messaging.sender.ControleerLicentieResponseSender;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.LicentieService;

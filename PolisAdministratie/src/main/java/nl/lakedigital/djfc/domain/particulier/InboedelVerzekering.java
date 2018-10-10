@@ -21,7 +21,7 @@ public class InboedelVerzekering extends Polis {
     public InboedelVerzekering() {
     }
 
-    public InboedelVerzekering(Pakket pakket) {
+    public InboedelVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

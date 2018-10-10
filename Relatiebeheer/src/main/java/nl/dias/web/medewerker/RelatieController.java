@@ -7,9 +7,9 @@ import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.*;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -118,12 +118,12 @@ public class RelatieController extends AbstractController {
                 }
 
                 List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
-                relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
+                relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.commons.domain.response.Hypotheek>() {
                     @Override
-                    public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
+                    public nl.lakedigital.djfc.commons.domain.response.Hypotheek apply(Hypotheek hypotheek) {
                         final String DATUM_FORMAAT = "yyyy-MM-dd";
 
-                        nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
+                        nl.lakedigital.djfc.commons.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.commons.domain.response.Hypotheek();
 
                         jsonHypotheek.setIdentificatie(identificatieClient.zoekIdentificatie("HYPOTHEEK", hypotheek.getId()).getIdentificatie());
                         jsonHypotheek.setDuur(hypotheek.getDuur());

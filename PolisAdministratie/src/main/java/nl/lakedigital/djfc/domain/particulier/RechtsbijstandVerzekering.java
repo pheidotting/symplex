@@ -21,7 +21,7 @@ public class RechtsbijstandVerzekering extends Polis {
     public RechtsbijstandVerzekering() {
     }
 
-    public RechtsbijstandVerzekering(Pakket pakket) {
+    public RechtsbijstandVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

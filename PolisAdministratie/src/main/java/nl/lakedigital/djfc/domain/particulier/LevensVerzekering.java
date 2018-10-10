@@ -21,7 +21,7 @@ public class LevensVerzekering extends Polis {
     public LevensVerzekering() {
     }
 
-    public LevensVerzekering(Pakket pakket) {
+    public LevensVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

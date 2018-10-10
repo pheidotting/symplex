@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.Goud;
 import nl.lakedigital.djfc.commons.json.LicentieResponse;
-import nl.lakedigital.djfc.domain.Goud;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.LicentieService;
 import org.easymock.*;

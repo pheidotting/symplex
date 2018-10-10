@@ -21,7 +21,7 @@ public class FietsVerzekering extends Polis {
     public FietsVerzekering() {
     }
 
-    public FietsVerzekering(Pakket pakket) {
+    public FietsVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

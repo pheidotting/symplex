@@ -7,10 +7,10 @@ import java.util.function.Function;
 /**
  * Created by patrickheidotting on 28-04-17.
  */
-public class BedrijfToDtoBedrijfMapper implements Function<Bedrijf, nl.lakedigital.djfc.domain.response.Bedrijf> {
+public class BedrijfToDtoBedrijfMapper implements Function<Bedrijf, nl.lakedigital.djfc.commons.domain.response.Bedrijf> {
     @Override
-    public nl.lakedigital.djfc.domain.response.Bedrijf apply(Bedrijf bedrijf) {
-        nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf = new nl.lakedigital.djfc.domain.response.Bedrijf();
+    public nl.lakedigital.djfc.commons.domain.response.Bedrijf apply(Bedrijf bedrijf) {
+        nl.lakedigital.djfc.commons.domain.response.Bedrijf jsonBedrijf = new nl.lakedigital.djfc.commons.domain.response.Bedrijf();
 
 
         jsonBedrijf.setKvk(bedrijf.getKvk());

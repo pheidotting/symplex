@@ -1,4 +1,4 @@
-package nl.lakedigital.djfc.domain.particulier;
+package nl.lakedigital.djfc.commons.domain.particulier;
 
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
@@ -21,7 +21,7 @@ public class KostbaarhedenVerzekering extends Polis {
     public KostbaarhedenVerzekering() {
     }
 
-    public KostbaarhedenVerzekering(Pakket pakket) {
+    public KostbaarhedenVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

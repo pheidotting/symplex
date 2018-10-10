@@ -20,7 +20,7 @@ public class ArbeidsongeschiktheidVerzekeringParticulier extends Polis {
     public ArbeidsongeschiktheidVerzekeringParticulier() {
     }
 
-    public ArbeidsongeschiktheidVerzekeringParticulier(Pakket pakket) {
+    public ArbeidsongeschiktheidVerzekeringParticulier(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

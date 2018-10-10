@@ -2,9 +2,10 @@ package nl.dias.web.medewerker.mappers;
 
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.domain.response.Pakket;
+import nl.lakedigital.djfc.commons.domain.response.Polis;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonPakket;
-import nl.lakedigital.djfc.domain.response.Polis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class JsonPakketNaarDomainPakketMapper {
         this.jsonPolisNaarDomainPolisMapper = new JsonPolisNaarDomainPolisMapper(polisClient, identificatieClient);
     }
 
-    public JsonPakket map(nl.lakedigital.djfc.domain.response.Pakket pakketIn) {
+    public JsonPakket map(Pakket pakketIn) {
         JsonPakket pakket;
         //        if (pakketIn.getIdentificatie() == null) {
         pakket = new JsonPakket();

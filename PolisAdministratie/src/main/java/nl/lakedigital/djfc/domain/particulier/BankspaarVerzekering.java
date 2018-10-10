@@ -20,7 +20,7 @@ public class BankspaarVerzekering extends Polis {
     public BankspaarVerzekering() {
     }
 
-    public BankspaarVerzekering(Pakket pakket) {
+    public BankspaarVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
         super(pakket);
     }
 

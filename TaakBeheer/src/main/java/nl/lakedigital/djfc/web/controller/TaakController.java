@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.web.controller;
 
 import com.codahale.metrics.Timer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.Taak;
 import nl.lakedigital.djfc.commons.xml.OpvragenTakenResponse;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.Taak;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.TaakService;
 import nl.lakedigital.djfc.web.controller.mapper.TaakMapper;

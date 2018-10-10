@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+    <changeSet id="1" author="Patrick Heidotting">
+        <createTable tableName="INKOMEND">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SOORTOPDRACHT" type="varchar(50)"/>
+            <column name="TRACKANDTRACEID" type="varchar(45)"/>
+            <column name="BERICHT" type="text"/>
+            <column name="TIJDSTIP" type="datetime"/>
+        </createTable>
+        <createTable tableName="UITGAAND">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SOORTOPDRACHT" type="varchar(50)"/>
+            <column name="TIJDSTIPVERZONDEN" type="datetime"/>
+            <column name="TIJDSTIPAFGEROND" type="datetime"/>
+            <column name="BERICHT" type="text"/>
+            <column name="INKOMENDEOPDRACHT" type="BIGINT"/>
+            <column name="WACHTENOP" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
