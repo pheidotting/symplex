@@ -216,55 +216,52 @@ define(['jquery',
         };
 
         function zoekVoertuigGegevens(polis) {
-            //proberen het kenteken op te zoeken in het geval van een autoverzekering
-            if (polis.soort() === 'Auto' || polis.soort() === 'Motor' || polis.soort() === 'MotorRijtuigen' || polis.soort() === 'BromSnorfiets' || polis.soort() === 'Vrachtwagen') {
-                var kenmerk = polis.kenmerk();
+            var kenmerk = polis.kenmerk();
 
-                if(kenmerk != null) {
-                    polis.voertuigImage1('');
-                    polis.voertuigImage2('');
-                    polis.voertuigImage3('');
-                    var plate = GetSidecodeLicenseplate(kenmerk);
-                    if (plate) {
-                        var kenteken = FormatLicenseplate(plate);
+            if(kenmerk != null) {
+                polis.voertuigImage1('');
+                polis.voertuigImage2('');
+                polis.voertuigImage3('');
+                var plate = GetSidecodeLicenseplate(kenmerk);
+                if (plate) {
+                    var kenteken = FormatLicenseplate(plate);
 
-                        $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
-                            if (data.length > 0) {
-                                polis.voertuiginfo(true);
-                                polis.merk(data[0].merk);
-                                polis.type(data[0].handelsbenaming);
-                                polis.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+                    $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
+                        if (data.length > 0) {
+                            polis.voertuiginfo(true);
+                            polis.merk(data[0].merk);
+                            polis.type(data[0].handelsbenaming);
+                            polis.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
-                                var extra = '';
-                                if(data[0].voertuigsoort != 'Personenauto') {
-                                    extra = ' ' + data[0].voertuigsoort;
-                                }
-
-                                $.ajax({
-                                    type: "GET",
-                                    url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(polis.merk() + ' ' + polis.type() + ' ' + polis.bouwjaar() + extra),
-                                    contentType: "application/json",
-                                    data: data,
-                                    ataType: "json",
-                                    async: false,
-                                    success: function (dataImages) {
-                                        polis.voertuigImage1(dataImages.items[0].link);
-                                        polis.voertuigImage2(dataImages.items[1].link);
-                                        polis.voertuigImage3(dataImages.items[2].link);
-                                    }
-                                });
-
-
-                            } else {
-                                polis.voertuiginfo(false);
+                            var extra = '';
+                            if(data[0].voertuigsoort != 'Personenauto') {
+                                extra = ' ' + data[0].voertuigsoort;
                             }
-                        });
-                    } else {
-                        polis.voertuiginfo(false);
-                    }
+
+                            $.ajax({
+                                type: "GET",
+                                url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(polis.merk() + ' ' + polis.type() + ' ' + polis.bouwjaar() + extra),
+                                contentType: "application/json",
+                                data: data,
+                                ataType: "json",
+                                async: false,
+                                success: function (dataImages) {
+                                    polis.voertuigImage1(dataImages.items[0].link);
+                                    polis.voertuigImage2(dataImages.items[1].link);
+                                    polis.voertuigImage3(dataImages.items[2].link);
+                                }
+                            });
+
+
+                        } else {
+                            polis.voertuiginfo(false);
+                        }
+                    });
                 } else {
                     polis.voertuiginfo(false);
                 }
+            } else {
+                polis.voertuiginfo(false);
             }
         }
 

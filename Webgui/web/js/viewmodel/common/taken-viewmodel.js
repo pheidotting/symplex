@@ -30,7 +30,9 @@ define(['commons/3rdparty/log',
             _this.taken = taakMapper.mapTaken(t, false);
             _this.afgerondeTaken = taakMapper.mapTaken(t, true);
 
-            _this.taken.push(new Taak());
+            _this.voeTaakToe = function () {
+                _this.taken.push(new Taak());
+            }
 
             _this.exitNieuweTaakDeadline = function(taak){
                 if(taak.deadline() != null && taak.deadline() != ''){
