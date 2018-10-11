@@ -330,23 +330,6 @@ pipeline {
             }
         }
 
-        stage ('Sonar Sonarbranch OpdrachtenAdministratie') {
-            steps {
-                sh '''
-                    cd OpdrachtenAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Sonar OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Sonar OpdrachtenAdministratie mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-
         stage ('Build LicentieBeheer') {
             steps {
                 slackSend (color: '#4245f4', message: "Start building wars :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -743,6 +726,12 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp OpdrachtenAdministratie/src/main/resources/tst/oa.app.properties jetty@192.168.91.215:/opt/jetty
+                    scp OpdrachtenAdministratie/src/main/resources/tst/oa.log4j.xml jetty@192.168.91.215:/opt/jetty
+                    scp OpdrachtenAdministratie/target/oa.war jetty@192.168.91.215:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/oa/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.app.properties jetty@192.168.91.215:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/tst/oga.log4j.xml jetty@192.168.91.215:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/target/oga.war jetty@192.168.91.215:/opt/jetty/webapps
@@ -810,6 +799,12 @@ pipeline {
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.220:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/identificatie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp OpdrachtenAdministratie/src/main/resources/prd/oa.app.properties jetty@192.168.91.220:/opt/jetty
+                    scp OpdrachtenAdministratie/src/main/resources/prd/oa.log4j.xml jetty@192.168.91.220:/opt/jetty
+                    scp OpdrachtenAdministratie/target/oa.war jetty@192.168.91.220:/opt/jetty/webapps
+
+                    bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/oa/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/prd/oga.app.properties jetty@192.168.91.220:/opt/jetty
                     scp OverigeRelatieGegevensAdministratie/src/main/resources/prd/oga.log4j.xml jetty@192.168.91.220:/opt/jetty

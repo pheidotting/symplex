@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.client.opdrachtenadministratie;
 
+import com.google.common.base.Stopwatch;
 import nl.lakedigital.djfc.client.AbstractClient;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.commons.xml.OpvragenOpdrachtenStatusResponse;
@@ -8,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.common.base.Stopwatch.createStarted;
 
 public class OpdrachtenClient extends AbstractClient<OpvragenOpdrachtenStatusResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
@@ -36,5 +40,12 @@ public class OpdrachtenClient extends AbstractClient<OpvragenOpdrachtenStatusRes
         OpvragenOpdrachtenStatusResponse response = getXML("/rest/opdracht/status", OpvragenOpdrachtenStatusResponse.class, false, LOGGER, false, metricsService, "isOpdrachtKlaar", OpdrachtenClient.class, trackAndTraceId);
 
         return response.getStatus() == OpvragenOpdrachtenStatusResponse.Status.KLAAR;
+    }
+
+    public void wachtTotOpdrachtKlaarIs(String trackAndTraceId) {
+        Stopwatch stopwatch = createStarted();
+        while (!isOpdrachtKlaar(trackAndTraceId) && stopwatch.elapsed(TimeUnit.MINUTES) < 2) {
+
+        }
     }
 }
