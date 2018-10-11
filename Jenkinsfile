@@ -330,23 +330,6 @@ pipeline {
             }
         }
 
-        stage ('Sonar Sonarbranch OpdrachtenAdministratie') {
-            steps {
-                sh '''
-                    cd OpdrachtenAdministratie
-                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=branch
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Sonar OpdrachtenAdministratie gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Sonar OpdrachtenAdministratie mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-
         stage ('Build LicentieBeheer') {
             steps {
                 slackSend (color: '#4245f4', message: "Start building wars :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
