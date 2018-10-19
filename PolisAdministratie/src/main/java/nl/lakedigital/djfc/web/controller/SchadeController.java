@@ -106,17 +106,6 @@ public class SchadeController {
     public class ResourceNotFoundException extends RuntimeException {
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}")
-    @ResponseBody
-    public void verwijder(@PathVariable("id") Long id) {
-        LOGGER.debug("verwijderen Schade met id " + id);
-        try {
-            schadeService.verwijder(id);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("Fout bij verwijderen Schade", e);
-        }
-    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/soortenSchade{query}")
     @ResponseBody
     public OpvragenSoortSchadeResponse soortenSchade(@PathVariable("query") String query) {

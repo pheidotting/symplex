@@ -39,10 +39,22 @@ define(['jquery',
                             _this.basisEntiteit = "RELATIE";
                         }
 
-                        var lijstSchades = _.chain(data.polissen)
+                        var lijstSchades = _.chain(data.pakketten)
+                            .map(function (pakket) {
+                                return pakket.polissen;
+                            })
+                            .flatten()
+                            .map(function (polis) {
+                                _.each(polis.schades, function (schade) {
+                                    schade.polis = polis.identificatie;
+                                });
+
+                                return polis;
+                            })
                             .map('schades')
                             .flatten()
                             .value();
+
 
                         _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
                         _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);

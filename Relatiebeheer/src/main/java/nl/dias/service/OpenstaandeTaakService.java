@@ -22,10 +22,6 @@ public class OpenstaandeTaakService {
     @Inject
     private BedrijfService bedrijfService;
     @Inject
-    private PolisService polisService;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
     private HypotheekService hypotheekService;
     @Inject
     private TaakClient taakClient;
@@ -37,23 +33,25 @@ public class OpenstaandeTaakService {
         gebruikerService.alleRelaties(kantoor, true).stream().forEach(relatie -> {
             taken.addAll(taakClient.alles("RELATIE", relatie.getId()));
 
-            polisService.allePolissenBijRelatie(relatie.getId()).stream().forEach(polis -> {
-                taken.addAll(taakClient.alles("POLIS", polis.getId()));
-
-                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
-
-                hypotheekService.allesVanRelatie(relatie.getId()).stream().forEach(hypotheek -> taken.addAll(taakClient.alles("HYPOTHEEK", hypotheek.getId())));
-            });
+            //TODO
+            //            polisService.allePolissenBijRelatie(relatie.getId()).stream().forEach(polis -> {
+            //                taken.addAll(taakClient.alles("POLIS", polis.getId()));
+            //
+            //                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
+            //
+            //                hypotheekService.allesVanRelatie(relatie.getId()).stream().forEach(hypotheek -> taken.addAll(taakClient.alles("HYPOTHEEK", hypotheek.getId())));
+            //            });
 
         });
         bedrijfService.alles().stream().forEach(bedrijf -> {
             taken.addAll(taakClient.alles("BEDRIJF", bedrijf.getId()));
 
-            polisService.allePolissenBijBedrijf(bedrijf.getId()).stream().forEach(polis -> {
-                taken.addAll(taakClient.alles("POLIS", polis.getId()));
-
-                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
-            });
+            //TODO
+            //            polisService.allePolissenBijBedrijf(bedrijf.getId()).stream().forEach(polis -> {
+            //                taken.addAll(taakClient.alles("POLIS", polis.getId()));
+            //
+            //                schadeService.alleSchadesBijPolis(polis.getId()).stream().forEach(schade -> taken.addAll(taakClient.alles("SCHADE", schade.getId())));
+            //            });
 
         });
 

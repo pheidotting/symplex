@@ -1,12 +1,13 @@
-package nl.lakedigital.djfc.commons.domain.response;
+package nl.lakedigital.djfc.commons.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import static com.google.common.collect.Lists.newArrayList;
-
+@XmlRootElement(name = "polis")
+@XmlType(namespace = "commons.domain")
 public class Schade {
-    private String identificatie;
+    private Long id;
+    private String polis;
     private String schadeNummerMaatschappij;
     private String schadeNummerTussenPersoon;
     private String soortSchade;
@@ -17,20 +18,22 @@ public class Schade {
     private String datumAfgehandeld;
     private String eigenRisico;
     private String omschrijving;
-    private String parentIdentificatie;
-    private String polis;
+    private String identificatie;
 
-    private List<Bijlage> bijlages = newArrayList();
-    private List<GroepBijlages> groepBijlages = newArrayList();
-    private List<Opmerking> opmerkingen = newArrayList();
-    private List<Taak> taken = newArrayList();
-
-    public String getIdentificatie() {
-        return identificatie;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdentificatie(String identificatie) {
-        this.identificatie = identificatie;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPolis() {
+        return polis;
+    }
+
+    public void setPolis(String polis) {
+        this.polis = polis;
     }
 
     public String getSchadeNummerMaatschappij() {
@@ -113,60 +116,11 @@ public class Schade {
         this.omschrijving = omschrijving;
     }
 
-    public String getParentIdentificatie() {
-        return parentIdentificatie;
+    public String getIdentificatie() {
+        return identificatie;
     }
 
-    public void setParentIdentificatie(String parentIdentificatie) {
-        this.parentIdentificatie = parentIdentificatie;
-    }
-
-    public String getPolis() {
-        return polis;
-    }
-
-    public void setPolis(String polis) {
-        this.polis = polis;
-    }
-
-    public List<Bijlage> getBijlages() {
-        if (bijlages == null) {
-            bijlages = new ArrayList<>();
-        }
-        return bijlages;
-    }
-
-    public void setBijlages(List<Bijlage> bijlages) {
-        this.bijlages = bijlages;
-    }
-
-    public List<GroepBijlages> getGroepBijlages() {
-        if (groepBijlages == null) {
-            groepBijlages = new ArrayList<>();
-        }
-        return groepBijlages;
-    }
-
-    public void setGroepBijlages(List<GroepBijlages> groepBijlages) {
-        this.groepBijlages = groepBijlages;
-    }
-
-    public List<Opmerking> getOpmerkingen() {
-        if (opmerkingen == null) {
-            opmerkingen = new ArrayList<>();
-        }
-        return opmerkingen;
-    }
-
-    public void setOpmerkingen(List<Opmerking> opmerkingen) {
-        this.opmerkingen = opmerkingen;
-    }
-
-    public List<Taak> getTaken() {
-        return taken;
-    }
-
-    public void setTaken(List<Taak> taken) {
-        this.taken = taken;
+    public void setIdentificatie(String identificatie) {
+        this.identificatie = identificatie;
     }
 }

@@ -75,14 +75,6 @@ public class BedrijfController extends AbstractController {
     @Inject
     private PolisClient polisClient;
     @Inject
-    private PolisService polisService;
-    @Inject
-    private PolisMapper polisMapper;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
-    @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private BelastingzakenService belastingzakenService;

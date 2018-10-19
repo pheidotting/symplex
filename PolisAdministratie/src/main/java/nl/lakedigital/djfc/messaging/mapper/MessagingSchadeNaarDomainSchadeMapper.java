@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
-import nl.lakedigital.as.messaging.domain.Schade;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.Schade;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.Bedrag;
 import nl.lakedigital.djfc.service.SchadeService;
@@ -51,13 +51,21 @@ public class MessagingSchadeNaarDomainSchadeMapper implements Function<Schade, n
 
         LocalDateTime datumTijdMelding = null;
         if (schadeIn.getDatumMelding() != null && !"".equals(schadeIn.getDatumMelding())) {
-            datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+            try {
+                datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+            } catch (IllegalArgumentException e) {
+                datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatum));
+            }
         }
         schade.setDatumMelding(datumTijdMelding);
 
         LocalDateTime datumTijdSchade = null;
         if (schadeIn.getDatumSchade() != null && !"".equals(schadeIn.getDatumSchade())) {
-            datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+            try {
+                datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+            } catch (IllegalArgumentException e) {
+                datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatum));
+            }
         }
         schade.setDatumSchade(datumTijdSchade);
         if (schadeIn.getEigenRisico() != null) {

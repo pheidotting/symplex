@@ -134,7 +134,7 @@ define([],
                         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'
                     },
 
-                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/overig/lijstStatusSchade'},
+                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstStatusSchade'},
                     {
                         naam: 'OPHALEN_ADRES_OP_POSTCODE',
                         url: BASISURL_RELATIEBEHEER + '/medewerker/overig/ophalenAdresOpPostcode'

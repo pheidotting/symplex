@@ -2,8 +2,6 @@ package nl.dias.service;
 
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Hypotheek;
-import nl.dias.domein.Schade;
-import nl.dias.domein.polis.Polis;
 import nl.lakedigital.as.messaging.domain.Bedrijf;
 import nl.lakedigital.as.messaging.domain.BedrijfOfPersoon;
 import nl.lakedigital.as.messaging.domain.Persoon;
@@ -15,10 +13,6 @@ import javax.inject.Inject;
 public class OpvragenPersoonsOfBedrijfsGegevensService {
     @Inject
     private GebruikerService gebruikerService;
-    @Inject
-    private PolisService polisService;
-    @Inject
-    private SchadeService schadeService;
     @Inject
     private HypotheekService hypotheekService;
     @Inject
@@ -49,17 +43,17 @@ public class OpvragenPersoonsOfBedrijfsGegevensService {
                 bedrijfId = entiteitId;
         }
 
-        if (schadeId != null) {
-            Schade schade = schadeService.lees(entiteitId);
-
-            polisId = schade.getPolis();
-        }
-
-        if (polisId != null) {
-            Polis polis = polisService.lees(polisId);
-            persoonsId = polis.getRelatie();
-            bedrijfId = polis.getBedrijf();
-        }
+        //        if (schadeId != null) {
+        //            Schade schade = schadeService.lees(entiteitId);
+        //
+        //            polisId = schade.getPolis();
+        //        }
+        //
+        //        if (polisId != null) {
+        //            Polis polis = polisService.lees(polisId);
+        //            persoonsId = polis.getRelatie();
+        //            bedrijfId = polis.getBedrijf();
+        //        }
 
         if (hypotheekId != null) {
             Hypotheek hypotheek = hypotheekService.leesHypotheek(hypotheekId);

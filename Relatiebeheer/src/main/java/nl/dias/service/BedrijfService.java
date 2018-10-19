@@ -2,11 +2,8 @@ package nl.dias.service;
 
 import nl.dias.domein.Bedrijf;
 import nl.dias.domein.Relatie;
-import nl.dias.domein.Schade;
-import nl.dias.domein.polis.Polis;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
 import nl.dias.repository.BedrijfRepository;
-import nl.dias.repository.PolisRepository;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
@@ -19,7 +16,6 @@ import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,10 +31,6 @@ public class BedrijfService {
     private BedrijfRepository bedrijfRepository;
     @Inject
     private VerwijderEntiteitenRequestSender verwijderEntiteitenRequestSender;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private PolisRepository polisRepository;
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
@@ -114,12 +106,12 @@ public class BedrijfService {
         Bedrijf bedrijf = lees(id);
 
         if (bedrijf != null) {
-            LOGGER.debug("Verwijderen : {}", ReflectionToStringBuilder.toString(bedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
-            List<Schade> schades = schadeService.alleSchadesBijBedrijf(bedrijf.getId());
-            schadeService.verwijder(schades);
-
-            List<Polis> polises = polisRepository.allePolissenBijBedrijf(bedrijf.getId());
-            polisRepository.verwijder(polises);
+            //            LOGGER.debug("Verwijderen : {}", ReflectionToStringBuilder.toString(bedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
+            //            List<Schade> schades = schadeService.alleSchadesBijBedrijf(bedrijf.getId());
+            //            schadeService.verwijder(schades);
+            //
+            //            List<Polis> polises = polisRepository.allePolissenBijBedrijf(bedrijf.getId());
+            //            polisRepository.verwijder(polises);
 
             bedrijfRepository.verwijder(bedrijf);
 

@@ -2,7 +2,6 @@ package nl.dias.service;
 
 import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Relatie;
-import nl.dias.domein.Schade;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
@@ -34,9 +33,9 @@ public class RelatieService {
     private HypotheekService hypotheekService;
     @Inject
     private AdresClient adresClient;
-    @Inject
+    //    @Inject
     //    private SchadeClient schadeClient;
-    private SchadeService schadeService;
+    //    private SchadeService schadeService;
 
     public Relatie zoekRelatie(String identificatieCode) {
         LOGGER.trace("Opzoeken identificatieCode {}", identificatieCode);
@@ -113,10 +112,10 @@ public class RelatieService {
 
     private Long pakRelatieBijSchade(Long schadeId) {
         //        JsonSchade schade = schadeClient.lees(String.valueOf(schadeId));
-        Schade schade = schadeService.lees(schadeId);
-
-        LOGGER.debug("Schade ({}) gevonden : {}", schadeId, ReflectionToStringBuilder.toString(schade));
-
-        return pakRelatieBijPolis(Long.valueOf(schade.getPolis()));
+        //        Schade schade = schadeService.lees(schadeId);
+        //
+        //        LOGGER.debug("Schade ({}) gevonden : {}", schadeId, ReflectionToStringBuilder.toString(schade));
+        //
+        return 0L;//pakRelatieBijPolis(Long.valueOf(schade.getPolis()));
     }
 }

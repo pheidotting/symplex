@@ -54,8 +54,12 @@ define(['jquery',
                     } else {
                         _this.basisEntiteit = "RELATIE";
                     }
-                    var polissen = data.polissen;
-                    var schade = _.chain(polissen)
+                    var pakketten = data.pakketten;
+                    var schade = _.chain(pakketten)
+                        .map(function (pakket) {
+                            return pakket.polissen;
+                        })
+                        .flatten()
                         .map(function (polis) {
                             _.each(polis.schades, function (schade) {
                                 schade.polis = polis.identificatie;
@@ -88,10 +92,12 @@ define(['jquery',
                     var $selectPolis = $('#polisVoorSchademelding');
                     $('<option>', {value: ''}).text('Kies een polis uit de lijst..').appendTo($selectPolis);
 
-                    $.each(polissen, function (key, value) {
-                        var polisTitel = value.soort + " (" + value.polisNummer + ")";
+                    $.each(pakketten, function (keyPakket, pakket) {
+                        $.each(pakket.polissen, function (key, value) {
+                            var polisTitel = value.soort + " (" + pakket.polisNummer + ' - ' + value.polisNummer + ")";
 
-                        $('<option>', {value: value.identificatie}).text(polisTitel).appendTo($selectPolis);
+                            $('<option>', {value: value.identificatie}).text(polisTitel).appendTo($selectPolis);
+                        });
                     });
 
                     var $selectStatus = $('#statusSchade');
