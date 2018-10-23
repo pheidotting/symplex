@@ -98,6 +98,7 @@ define(['jquery',
                 if (r) {
                     _this.schades.remove(schade);
                     schadeService.verwijderSchade(schade.identificatie());
+                    location.reload();
                 }
             }
 
@@ -106,6 +107,7 @@ define(['jquery',
                 if (r) {
                     _this.schades.remove(schade);
                     schadeService.verwijderSchade(schade.id());
+                    location.reload();
                 }
             };
         };
