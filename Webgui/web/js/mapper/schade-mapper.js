@@ -1,8 +1,9 @@
 define(['jquery',
         'model/schade',
         'commons/3rdparty/log',
-        'knockout'],
-    function ($, Schade, log, ko) {
+        'knockout',
+        'moment'],
+    function ($, Schade, log, ko, moment) {
         return {
             mapSchade: function (r) {
                 return mappen(r);
@@ -33,8 +34,12 @@ define(['jquery',
                 schade.soortSchade(data.soortSchade);
                 schade.locatie(data.locatie);
                 schade.statusSchade(data.statusSchade);
-                schade.datumSchade(data.datumSchade);
-                schade.datumMelding(data.datumMelding);
+                if (data.datumSchade != null && data.datumSchade != '') {
+                    schade.datumSchade(moment(data.datumSchade).format('YYYY-MM-DD'));
+                }
+                if(data.datumMelding != null && data.datumMelding != ''){
+                    schade.datumMelding(moment(data.datumMelding).format('YYYY-MM-DD'));
+                }
                 schade.datumAfgehandeld(data.datumAfgehandeld);
                 schade.eigenRisico(data.eigenRisico);
                 schade.omschrijving(data.omschrijving);
