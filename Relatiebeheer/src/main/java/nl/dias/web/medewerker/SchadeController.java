@@ -3,6 +3,7 @@ package nl.dias.web.medewerker;
 import com.codahale.metrics.Timer;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.messaging.sender.OpslaanSchadeOpdrachtSender;
+import nl.dias.messaging.sender.VerwijderSchadeOpdrachtSender;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.TakenOpslaanService;
@@ -49,6 +50,8 @@ public class SchadeController extends AbstractController {
     private OpdrachtenClient opdrachtenClient;
     @Inject
     private SchadeClient schadeClient;
+    @Inject
+    private VerwijderSchadeOpdrachtSender verwijderSchadeOpdrachtSender;
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")
     @ResponseBody
@@ -84,12 +87,11 @@ public class SchadeController extends AbstractController {
 
         zetSessieWaarden(httpServletRequest);
 
-        //        try {
-        //            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
-        //            schadeService.verwijder(identificatie.getEntiteitId());
-        //        } catch (IllegalArgumentException e) {
-        //            LOGGER.error("Fout bij verwijderen Schade", e);
-        //        }
+        LOGGER.debug("verwijderen Polis met id " + id);
+
+        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
+
+        verwijderSchadeOpdrachtSender.send(identificatie.getEntiteitId());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/soortenSchade/{query}", produces = MediaType.APPLICATION_JSON)

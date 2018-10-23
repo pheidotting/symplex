@@ -21,7 +21,7 @@ public class MessagingTelefoonnummerToUitgaandeOpdrachtMapper extends AbstractMa
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TELEFOONNUMMER);
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        setMDC(opslaanEntiteitenRequest);
+        setMDC(opslaanEntiteitenRequest, uitgaandeOpdracht);
 
         opslaanEntiteitenRequest.getLijst().add(new Telefoonnummer(SoortEntiteit.RELATIE, 1L, null, telefoonnummer.getTelefoonnummer(), telefoonnummer.getSoort(), telefoonnummer.getOmschrijving(), null));
 

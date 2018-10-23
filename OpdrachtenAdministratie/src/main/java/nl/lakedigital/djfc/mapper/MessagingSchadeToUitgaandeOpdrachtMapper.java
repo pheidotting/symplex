@@ -22,7 +22,7 @@ public class MessagingSchadeToUitgaandeOpdrachtMapper extends AbstractMapper<Sch
         SchadeOpslaanRequest schadeOpslaanRequest = new SchadeOpslaanRequest();
         schadeOpslaanRequest.setSchades(newArrayList(schade));
         schadeOpslaanRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
-        setMDC(schadeOpslaanRequest);
+        setMDC(schadeOpslaanRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(schadeOpslaanRequest));
 

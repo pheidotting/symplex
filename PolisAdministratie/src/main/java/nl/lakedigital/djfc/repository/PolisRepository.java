@@ -137,6 +137,18 @@ public class PolisRepository {
         return t;
     }
 
+    public Pakket leesOpPolis(Long id) {
+        getTransaction();
+
+        Polis p = getSession().get(Polis.class, id);
+
+        getTransaction().commit();
+
+        LOGGER.debug("Opzoeken Polis met id {}, gevonden {}", id, p);
+
+        return p.getPakket();
+    }
+
     @Transactional(readOnly = true)
     public List<Pakket> alles() {
         Query query = getSession().createQuery("select p from Pakket p");

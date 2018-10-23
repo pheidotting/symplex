@@ -70,6 +70,7 @@ public class OpslaanTaakRequestReciever extends AbstractReciever<OpslaanTaakRequ
                 response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                 response.setUrl(MDC.get("url"));
                 response.setHoofdSoortEntiteit(opslaanTaakRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(opslaanTaakRequest.getUitgaandeOpdrachtId());
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

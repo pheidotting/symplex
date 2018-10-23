@@ -4,6 +4,7 @@ import nl.lakedigital.as.messaging.request.PolisVerwijderenRequest;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.SoortOpdracht;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import javax.jms.Destination;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+@Component
 public class PolisVerwijderenRequestSender extends AbstractSender<PolisVerwijderenRequest> {
     @Inject
     private Destination responseDestination;

@@ -55,6 +55,7 @@ public class VerwijderEntiteitenRequestReciever  extends AbstractReciever<Verwij
                 response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                 response.setUrl(MDC.get("url"));
                 response.setHoofdSoortEntiteit(verwijderEntiteitenRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(verwijderEntiteitenRequest.getUitgaandeOpdrachtId());
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

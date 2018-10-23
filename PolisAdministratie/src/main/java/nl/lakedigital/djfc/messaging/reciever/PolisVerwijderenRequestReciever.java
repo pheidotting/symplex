@@ -50,6 +50,7 @@ public class PolisVerwijderenRequestReciever extends AbstractReciever<PolisVerwi
                 response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                 response.setUrl(MDC.get("url"));
                 response.setHoofdSoortEntiteit(polisVerwijderenRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(polisVerwijderenRequest.getUitgaandeOpdrachtId());
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

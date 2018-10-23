@@ -1,7 +1,6 @@
 package nl.lakedigital.as.messaging;
 
-import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanRelatieOpdracht;
-import nl.lakedigital.as.messaging.opdracht.opdracht.VerwijderPolisOpdracht;
+import nl.lakedigital.as.messaging.opdracht.opdracht.*;
 import nl.lakedigital.as.messaging.request.*;
 import nl.lakedigital.as.messaging.request.communicatie.AbstractCommunicatieRequest;
 import nl.lakedigital.as.messaging.request.communicatie.WachtwoordVergetenRequest;
@@ -31,6 +30,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         VerwijderRelatiesRequest.class,//
         OpslaanEntiteitenRequest.class,//
         OpslaanRelatieOpdracht.class,//
+        OpslaanPolisOpdracht.class,//
+        OpslaanSchadeOpdracht.class,//
         OpslaanRelatieRequest.class,//
         OpslaanRelatieResponse.class,//
         SchadeOpslaanRequest.class,//
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
         WachtwoordVergetenRequest.class,//
         OpslaanTaakRequest.class,//
         VerwijderPolisOpdracht.class,//
+        VerwijderSchadeOpdracht.class,//
         WijzigingTaakOpslaanRequest.class,//
         WijzigingTaakOpslaanResponse.class})
 public abstract class AbstractMessage {
@@ -49,6 +51,7 @@ public abstract class AbstractMessage {
     private String url;
     private AbstractMessage antwoordOp;
     private SoortEntiteit hoofdSoortEntiteit;
+    private String uitgaandeOpdrachtId;
 
     public String getTrackAndTraceId() {
         return trackAndTraceId;
@@ -96,6 +99,14 @@ public abstract class AbstractMessage {
 
     public void setHoofdSoortEntiteit(SoortEntiteit hoofdSoortEntiteit) {
         this.hoofdSoortEntiteit = hoofdSoortEntiteit;
+    }
+
+    public String getUitgaandeOpdrachtId() {
+        return uitgaandeOpdrachtId;
+    }
+
+    public void setUitgaandeOpdrachtId(String uitgaandeOpdrachtId) {
+        this.uitgaandeOpdrachtId = uitgaandeOpdrachtId;
     }
 
     @Override

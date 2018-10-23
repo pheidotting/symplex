@@ -32,7 +32,6 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
 
         if ((taak.getTitel() != null && !"".equals(taak.getTitel())) || (taak.getOmschrijving() != null && !"".equals(taak.getOmschrijving()))) {
             OpslaanTaakRequest opslaanTaakRequest = new OpslaanTaakRequest();
-            setMDC(opslaanTaakRequest);
             opslaanTaakRequest.setEntiteitId(this.soortEntiteitEnEntiteitId.getEntiteitId());
             opslaanTaakRequest.setSoortEntiteit(this.soortEntiteitEnEntiteitId.getSoortEntiteit());
 
@@ -54,6 +53,7 @@ public class MessagingTaakToUitgaandeOpdrachtMapper extends AbstractMapper<Opsla
             UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
             uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.TAAK);
             opslaanTaakRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
+            setMDC(opslaanTaakRequest, uitgaandeOpdracht);
 
             uitgaandeOpdracht.setBericht(marshall(opslaanTaakRequest));
             uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

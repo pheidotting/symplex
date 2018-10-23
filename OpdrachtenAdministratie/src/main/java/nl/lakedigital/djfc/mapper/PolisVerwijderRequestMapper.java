@@ -20,7 +20,7 @@ public class PolisVerwijderRequestMapper extends AbstractMapper<PolisVerwijderen
         PolisVerwijderenRequest polisOpslaanRequest = new PolisVerwijderenRequest();
         polisOpslaanRequest.getIds().add(id);
         polisOpslaanRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
-        setMDC(polisOpslaanRequest);
+        setMDC(polisOpslaanRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(polisOpslaanRequest));
 

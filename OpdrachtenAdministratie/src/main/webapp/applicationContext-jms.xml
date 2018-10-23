@@ -23,6 +23,7 @@
     <import resource="recievers/rb.oa.opslaanPolisOpdrachtQueue.xml"/>
     <import resource="recievers/rb.oa.opslaanSchadeOpdrachtQueue.xml"/>
     <import resource="recievers/rb.oa.verwijderPolisOpdrachtQueue.xml"/>
+    <import resource="recievers/rb.oa.verwijderSchadeOpdrachtQueue.xml"/>
     <import resource="senders/rb.oga.opslaanEntiteitenRequestQueue.xml"/>
     <import resource="senders/rb.tb.opslaanTaakRequestQueue.xml"/>
 </beans>

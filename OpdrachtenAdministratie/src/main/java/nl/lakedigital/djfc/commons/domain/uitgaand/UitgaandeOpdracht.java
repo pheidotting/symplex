@@ -6,13 +6,14 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "UITGAAND")
 @NamedQueries({//
         @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachten", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp is null"),//
         @NamedQuery(name = "UitgaandeOpdracht.teVersturenUitgaandeOpdrachtenOpTAndTEnWachtenOp", query = "select u from UitgaandeOpdracht u where tijdstipVerzonden is null and wachtenOp = :wachtenOp AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId"),//
-        @NamedQuery(name = "UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where soortEntiteit = :soortEntiteit AND inkomendeOpdracht.trackAndTraceId = :trackAndTraceId and tijdstipAfgerond is null"),//
+        @NamedQuery(name = "UitgaandeOpdracht.zoekOpBerichtId", query = "select u from UitgaandeOpdracht u where inkomendeOpdracht.trackAndTraceId = :trackAndTraceId and tijdstipAfgerond is null and berichtId = :berichtId"),//
         @NamedQuery(name = "UitgaandeOpdracht.zoekObvTrackAndTrackeId", query = "select u from UitgaandeOpdracht u where inkomendeOpdracht.trackAndTraceId = :trackAndTraceId")//
 })
 public class UitgaandeOpdracht {
@@ -37,6 +38,12 @@ public class UitgaandeOpdracht {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = UitgaandeOpdracht.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "WACHTENOP")
     private UitgaandeOpdracht wachtenOp;
+    @Column(name = "BERICHTID")
+    private String berichtId;
+
+    public UitgaandeOpdracht() {
+        this.berichtId = UUID.randomUUID().toString();
+    }
 
     public Long getId() {
         return id;
@@ -92,5 +99,13 @@ public class UitgaandeOpdracht {
 
     public void setWachtenOp(UitgaandeOpdracht wachtenOp) {
         this.wachtenOp = wachtenOp;
+    }
+
+    public String getBerichtId() {
+        return berichtId;
+    }
+
+    public void setBerichtId(String berichtId) {
+        this.berichtId = berichtId;
     }
 }

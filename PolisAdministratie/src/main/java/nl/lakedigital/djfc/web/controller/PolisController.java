@@ -65,13 +65,24 @@ public class PolisController {
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
     public OpvragenPolissenResponse lees(@PathVariable("id") String id) {
+        return lees(id, false);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}/{oppolis}")
+    @ResponseBody
+    public OpvragenPolissenResponse lees(@PathVariable("id") String id, @PathVariable("oppolis") boolean oppolis) {
         OpvragenPolissenResponse opvragenPolissenResponse = new OpvragenPolissenResponse();
 
         LOGGER.debug("ophalen Polis met id " + id);
         if (id != null && !"".equals(id) && !"0".equals(id)) {
             LOGGER.debug("ophalen Polis");
             List<JsonPolis> polissen = Lists.newArrayList();
-            Pakket pakket = polisService.lees(Long.valueOf(id));
+            Pakket pakket = null;
+            if (oppolis) {
+                pakket = polisService.leesOpPolis(Long.valueOf(id));
+            } else {
+                pakket = polisService.lees(Long.valueOf(id));
+            }
 
             JsonPakket jsonPakket = new JsonPakket();
             jsonPakket.setEntiteitId(pakket.getEntiteitId());
