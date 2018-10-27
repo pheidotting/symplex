@@ -85,7 +85,7 @@ public class RelatieService {
 
     private Long pakRelatieBijPolis(Long polisId) {
         LOGGER.debug("polisId {}", polisId);
-        JsonPakket pakket = polisClient.lees(polisId, true);
+        JsonPakket pakket = polisClient.lees(polisId, false);
         //        Polis polis = polisService.lees(polisId);
 
         LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(pakket));
