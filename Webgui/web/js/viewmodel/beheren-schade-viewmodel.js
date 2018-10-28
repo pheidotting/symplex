@@ -94,7 +94,11 @@ define(['jquery',
 
                     $.each(pakketten, function (keyPakket, pakket) {
                         $.each(pakket.polissen, function (key, value) {
-                            var polisTitel = value.soort + " (" + pakket.polisNummer + ' - ' + value.polisNummer + ")";
+                            var polisTitel = value.soort + " (" + pakket.polisNummer;
+                             if(value.polisNummer != null){
+                                polisTitel += ' - ' + value.polisNummer;
+                             }
+                             polisTitel += ")";
 
                             $('<option>', {value: value.identificatie}).text(polisTitel).appendTo($selectPolis);
                         });
