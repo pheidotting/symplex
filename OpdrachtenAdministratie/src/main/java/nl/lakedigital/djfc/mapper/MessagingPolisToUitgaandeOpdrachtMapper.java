@@ -22,7 +22,7 @@ public class MessagingPolisToUitgaandeOpdrachtMapper extends AbstractMapper<Poli
         PolisOpslaanRequest polisOpslaanRequest = new PolisOpslaanRequest();
         polisOpslaanRequest.setPokketten(newArrayList(pakket));
         polisOpslaanRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
-        setMDC(polisOpslaanRequest);
+        setMDC(polisOpslaanRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(polisOpslaanRequest));
 

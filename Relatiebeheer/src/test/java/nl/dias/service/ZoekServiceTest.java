@@ -143,7 +143,7 @@ public class ZoekServiceTest extends EasyMockSupport {
         polis.setEntiteitId(relatieId);
         polis.setSoortEntiteit("RELATIE");
 
-        expect(polisClient.lees(polisId)).andReturn(polis);
+        expect(polisClient.lees(polisId, true)).andReturn(polis);
 
         Relatie relatie = new Relatie();
 
@@ -173,7 +173,7 @@ public class ZoekServiceTest extends EasyMockSupport {
         polis.setEntiteitId(bedrijfsId);
         polis.setSoortEntiteit("BEDRIJF");
 
-        expect(polisClient.lees(Long.valueOf(polisId))).andReturn(polis);
+        expect(polisClient.lees(Long.valueOf(polisId), true)).andReturn(polis);
 
         Bedrijf bedrijf = new Bedrijf();
 

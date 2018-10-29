@@ -109,7 +109,7 @@ public class SchadeClient extends AbstractClient<OpvragenSchadesResponse> {
         }
 
         public List<String> lijstStatusSchade() {
-            return getXML(URL_SOORTEN_SCHADE, OpvragenStatusSchadeResponse.class, false, LOGGER, false, metricsService, "lijstStatusSchade", SchadeClient.class, "").getStatusSchade();
+            return getXML(URL_STATUSSEN_SCHADE, OpvragenStatusSchadeResponse.class, false, LOGGER, false, metricsService, "lijstStatusSchade", SchadeClient.class, "").getStatusSchade();
         }
     }
 }

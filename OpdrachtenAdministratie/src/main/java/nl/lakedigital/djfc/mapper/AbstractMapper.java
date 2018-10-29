@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.as.messaging.AbstractMessage;
+import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -18,11 +19,13 @@ public abstract class AbstractMapper<T> {
         this.clazz = clazz;
     }
 
-    protected void setMDC(AbstractMessage abstractMessage) {
+    protected void setMDC(AbstractMessage abstractMessage, UitgaandeOpdracht uitgaandeOpdracht) {
         abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
         abstractMessage.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
         abstractMessage.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
         abstractMessage.setUrl(MDC.get("url"));
+        abstractMessage.setUitgaandeOpdrachtId(MDC.get("url"));
+        abstractMessage.setUitgaandeOpdrachtId(uitgaandeOpdracht.getBerichtId());
     }
 
     protected String marshall(T request) {

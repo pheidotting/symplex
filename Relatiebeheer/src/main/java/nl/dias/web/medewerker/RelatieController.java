@@ -1,7 +1,10 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Hypotheek;
-import nl.dias.service.*;
+import nl.dias.service.BelastingzakenService;
+import nl.dias.service.GebruikerService;
+import nl.dias.service.HypotheekService;
+import nl.dias.service.RelatieService;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
@@ -55,14 +58,6 @@ public class RelatieController extends AbstractController {
     private RelatieService relatieService;
     @Inject
     private PolisClient polisClient;
-    @Inject
-    private PolisService polisService;
-    @Inject
-    private PolisMapper polisMapper;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
     @Inject
     private HypotheekService hypotheekService;
     @Inject

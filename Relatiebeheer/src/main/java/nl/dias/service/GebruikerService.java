@@ -3,7 +3,6 @@ package nl.dias.service;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import nl.dias.domein.*;
-import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.dias.messaging.sender.VerwijderEntiteitenRequestSender;
@@ -26,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,10 +41,6 @@ public class GebruikerService {
 
     @Inject
     private GebruikerRepository gebruikerRepository;
-    @Inject
-    private PolisService polisService;
-    @Inject
-    private SchadeService schadeService;
     @Inject
     private KantoorRepository kantoorRepository;
     @Inject
@@ -147,12 +141,12 @@ public class GebruikerService {
                 List<Hypotheek> hypotheeks = hypotheekService.allesVanRelatie(relatie.getId());
                 hypotheekService.verwijder(hypotheeks);
 
-                List<Schade> schades = schadeService.alleSchadesBijRelatie(relatie.getId());
-                schadeService.verwijder(schades);
-
-                //TODO verwijderen via Service en daar Bericht opsturen
-                List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
-                polisService.verwijder(polises);
+                //                List<Schade> schades = schadeService.alleSchadesBijRelatie(relatie.getId());
+                //                schadeService.verwijder(schades);
+                //
+                //                //TODO verwijderen via Service en daar Bericht opsturen
+                //                List<Polis> polises = polisService.allePolissenBijRelatie(relatie.getId());
+                //                polisService.verwijder(polises);
             }
             // en dan verwijderen
             gebruikerRepository.verwijder(gebruiker);
@@ -212,16 +206,16 @@ public class GebruikerService {
             relaties.add((Relatie) g);
         }
 
-        LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
-        Polis polis = null;
-        try {
-            polis = polisService.zoekOpPolisNummer(zoekTerm);
-        } catch (NoResultException e) {
-            LOGGER.trace("Niks gevonden ", e);
-        }
-        if (polis != null) {
-            relaties.add((Relatie) lees(polis.getRelatie()));
-        }
+        //        LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
+        //        Polis polis = null;
+        //        try {
+        //            polis = polisService.zoekOpPolisNummer(zoekTerm);
+        //        } catch (NoResultException e) {
+        //            LOGGER.trace("Niks gevonden ", e);
+        //        }
+        //        if (polis != null) {
+        //            relaties.add((Relatie) lees(polis.getRelatie()));
+        //        }
         LOGGER.debug("Gevonden " + relaties.size() + " Relaties");
 
         List<Relatie> ret = new ArrayList<>();

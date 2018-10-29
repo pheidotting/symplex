@@ -21,7 +21,6 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
         this.soortEntiteitEnEntiteitId = soortEntiteitEnEntiteitId;
 
         opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
-        setMDC(opslaanEntiteitenRequest);
         opslaanEntiteitenRequest.setEntiteitId(this.soortEntiteitEnEntiteitId.getEntiteitId());
         opslaanEntiteitenRequest.setSoortEntiteit(this.soortEntiteitEnEntiteitId.getSoortEntiteit());
     }
@@ -32,6 +31,7 @@ public class MessagingOpmerkingToUitgaandeOpdrachtMapper extends AbstractMapper<
             UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
             uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.OPMERKING);
             opslaanEntiteitenRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
+            setMDC(opslaanEntiteitenRequest, uitgaandeOpdracht);
 
             uitgaandeOpdracht.setBericht(marshall(opslaanEntiteitenRequest));
             uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtWachtenOp);

@@ -1,14 +1,11 @@
 package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
-import nl.dias.domein.polis.Polis;
 import nl.dias.mapper.Mapper;
 import nl.dias.messaging.sender.*;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.PolisService;
 import nl.dias.service.TakenOpslaanService;
-import nl.dias.web.mapper.PolisMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
 import nl.dias.web.medewerker.mappers.JsonTaakNaarOpdrachtMapper;
@@ -33,7 +30,6 @@ import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -43,13 +39,7 @@ public class PolisController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisController.class);
 
     @Inject
-    private PolisService polisService;
-    @Inject
     private GebruikerService gebruikerService;
-    @Inject
-    private PolisMapper polisMapper;
-    @Inject
-    private List<Polis> polissen;
     @Inject
     private BedrijfService bedrijfService;
     @Inject

@@ -46,9 +46,9 @@ public class PolisClient extends AbstractClient {
         return ((OpvragenPolisSoortenResponse) getXML(URL_ALLE_PARTICULIERE_ZAKELIJKE_SOORTEN, OpvragenPolisSoortenResponse.class, false, LOGGER, false, metricsService, "alleZakelijkePolisSoorten", PolisClient.class)).getPolisSoorten();
     }
 
-    public JsonPakket lees(Long id) {
+    public JsonPakket lees(Long id, boolean opPolis) {
         JsonPakket polis = null;
-        OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_LEES, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lees", PolisClient.class, String.valueOf(id)));
+        OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_LEES, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "lees", PolisClient.class, String.valueOf(id), opPolis ? "true" : "false"));
         if (!response.getPakketten().isEmpty()) {
             polis = response.getPakketten().get(0);
         }

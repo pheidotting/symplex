@@ -65,14 +65,26 @@ public class PolisController {
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
     public OpvragenPolissenResponse lees(@PathVariable("id") String id) {
+        return lees(id, false);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}/{oppolis}")
+    @ResponseBody
+    public OpvragenPolissenResponse lees(@PathVariable("id") String id, @PathVariable("oppolis") boolean oppolis) {
         OpvragenPolissenResponse opvragenPolissenResponse = new OpvragenPolissenResponse();
 
-        LOGGER.debug("ophalen Polis met id " + id);
+        LOGGER.debug("ophalen Pakket met id " + id);
         if (id != null && !"".equals(id) && !"0".equals(id)) {
-            LOGGER.debug("ophalen Polis");
+            LOGGER.debug("ophalen Pakket");
             List<JsonPolis> polissen = Lists.newArrayList();
-            Pakket pakket = polisService.lees(Long.valueOf(id));
+            Pakket pakket = null;
+            if (oppolis) {
+                pakket = polisService.leesOpPolis(Long.valueOf(id));
+            } else {
+                pakket = polisService.lees(Long.valueOf(id));
+            }
 
+            LOGGER.debug("Opgehaald Pakket : {}", pakket);
             JsonPakket jsonPakket = new JsonPakket();
             jsonPakket.setEntiteitId(pakket.getEntiteitId());
             jsonPakket.setId(pakket.getId());
@@ -88,7 +100,7 @@ public class PolisController {
 
             opvragenPolissenResponse.getPakketten().add(jsonPakket);
         } else {
-            LOGGER.debug("Nieuwe Polis tonen");
+            LOGGER.debug("Nieuw Pakket tonen");
             opvragenPolissenResponse.getPakketten().add(new JsonPakket());
         }
 

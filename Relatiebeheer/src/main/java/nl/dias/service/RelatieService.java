@@ -2,13 +2,14 @@ package nl.dias.service;
 
 import nl.dias.domein.Hypotheek;
 import nl.dias.domein.Relatie;
-import nl.dias.domein.Schade;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonPakket;
+import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
@@ -35,8 +36,8 @@ public class RelatieService {
     @Inject
     private AdresClient adresClient;
     @Inject
-    //    private SchadeClient schadeClient;
-    private SchadeService schadeService;
+    private SchadeClient schadeClient;
+    //    private SchadeService schadeService;
 
     public Relatie zoekRelatie(String identificatieCode) {
         LOGGER.trace("Opzoeken identificatieCode {}", identificatieCode);
@@ -84,7 +85,7 @@ public class RelatieService {
 
     private Long pakRelatieBijPolis(Long polisId) {
         LOGGER.debug("polisId {}", polisId);
-        JsonPakket pakket = polisClient.lees(polisId);
+        JsonPakket pakket = polisClient.lees(polisId, false);
         //        Polis polis = polisService.lees(polisId);
 
         LOGGER.debug("Polis ({}) gevonden : {}", polisId, ReflectionToStringBuilder.toString(pakket));
@@ -112,8 +113,8 @@ public class RelatieService {
     }
 
     private Long pakRelatieBijSchade(Long schadeId) {
-        //        JsonSchade schade = schadeClient.lees(String.valueOf(schadeId));
-        Schade schade = schadeService.lees(schadeId);
+        JsonSchade schade = schadeClient.lees(String.valueOf(schadeId));
+        //                Schade schade = schadeService.lees(schadeId);
 
         LOGGER.debug("Schade ({}) gevonden : {}", schadeId, ReflectionToStringBuilder.toString(schade));
 

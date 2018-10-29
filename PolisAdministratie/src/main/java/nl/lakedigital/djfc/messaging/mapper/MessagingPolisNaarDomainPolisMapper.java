@@ -40,6 +40,8 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
 
     @Override
     public nl.lakedigital.djfc.domain.Polis apply(Polis polisIn) {
+        LOGGER.debug("Mappen {}", ReflectionToStringBuilder.toString(polisIn));
+
         nl.lakedigital.djfc.domain.Polis polis = null;
 
         if (StringUtils.isNotEmpty(polisIn.getIdentificatie())) {
@@ -50,7 +52,6 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
                 polisIn.setId(identificatie.getEntiteitId());
             }
         }
-        LOGGER.debug(ReflectionToStringBuilder.toString(polisIn));
 
         if (polisIn.getId() == null || polisIn.getId() == 0L) {
             LOGGER.debug("Polis zonder id, nieuwe aanmaken dus");
@@ -60,7 +61,10 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
                 this.pakket = new Pakket(SoortEntiteit.valueOf(polisIn.getSoortEntiteit()), polisIn.getEntiteitId());
             }
             if (firstPolisOptional.isPresent()) {
+                LOGGER.debug("firstPolisOptional gevonden {}", firstPolisOptional.get().getClass());
                 polis = firstPolisOptional.get().nieuweInstantie(this.pakket);
+            } else {
+                LOGGER.debug("firstPolisOptional NIET gevonden");
             }
         } else {
             LOGGER.debug("Bestaande polis met id {}, ophalen dus..", polisIn.getId());

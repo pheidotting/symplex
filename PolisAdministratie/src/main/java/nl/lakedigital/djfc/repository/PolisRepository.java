@@ -3,6 +3,7 @@ package nl.lakedigital.djfc.repository;
 import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.hibernate.*;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Repository
 public class PolisRepository {
@@ -113,6 +115,14 @@ public class PolisRepository {
     }
 
     public void opslaan(Pakket pakket) {
+        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(pakket));
+        pakket.getPolissen().stream().forEach(new Consumer<Polis>() {
+            @Override
+            public void accept(Polis polis) {
+                LOGGER.info("   Opslaan {}", ReflectionToStringBuilder.toString(polis));
+            }
+        });
+        LOGGER.info("##");
         getTransaction();
 
         if (pakket.getId() == null) {
@@ -135,6 +145,18 @@ public class PolisRepository {
         LOGGER.debug("Opzoeken Polis met id {}, gevonden {}", id, t);
 
         return t;
+    }
+
+    public Pakket leesOpPolis(Long id) {
+        getTransaction();
+
+        Polis p = getSession().get(Polis.class, id);
+
+        getTransaction().commit();
+
+        LOGGER.debug("Opzoeken Polis met id {}, gevonden {}", id, p);
+
+        return p.getPakket();
     }
 
     @Transactional(readOnly = true)

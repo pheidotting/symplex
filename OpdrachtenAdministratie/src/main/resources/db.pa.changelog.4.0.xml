@@ -26,4 +26,9 @@
             <column name="WACHTENOP" type="BIGINT"/>
         </createTable>
     </changeSet>
+    <changeSet id="2" author="Patrick Heidotting">
+        <addColumn tableName="UITGAAND">
+            <column name="BERICHTID" type="varchar(45)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

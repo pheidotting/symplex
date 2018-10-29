@@ -37,7 +37,7 @@ public abstract class AfhandelenInkomendeOpdrachtService<T extends AbstractMessa
     protected abstract List<UitgaandeOpdracht> genereerUitgaandeOpdrachten(T opdracht);
 
     public void verwerkTerugkoppeling(Response response) {
-        UitgaandeOpdracht uitgaandeOpdracht = uitgaandeOpdrachtRepository.zoekObvSoortEntiteitEnTrackAndTrackeId(response.getTrackAndTraceId(), response.getHoofdSoortEntiteit());
+        UitgaandeOpdracht uitgaandeOpdracht = uitgaandeOpdrachtRepository.zoekOpBerichtId(response.getTrackAndTraceId(), response.getUitgaandeOpdrachtId());
 
         uitgaandeOpdracht.setTijdstipAfgerond(LocalDateTime.now());
         uitgaandeOpdrachtRepository.opslaan(uitgaandeOpdracht);

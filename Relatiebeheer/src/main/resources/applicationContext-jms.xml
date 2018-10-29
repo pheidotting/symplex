@@ -87,36 +87,36 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <constructor-arg index="0" ref="opslaanEntiteitenRequestTemplate"/>
     </bean>
 
-    <bean id="schadeOpslaanRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="rb.pa.schadeOpslaanRequestQueue"/>
-    </bean>
-    <bean id="schadeOpslaanRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="schadeOpslaanRequestDestination"/>
-    </bean>
-    <bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>
-    </bean>
-    <bean id="schadeOpslaanRequestSender" class="nl.dias.messaging.sender.SchadeOpslaanRequestSender">
-        <constructor-arg index="0" ref="schadeOpslaanRequestTemplate"/>
-    </bean>
-    <bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>
+    <!--<bean id="schadeOpslaanRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="rb.pa.schadeOpslaanRequestQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanRequestTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+    <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--<property name="defaultDestination" ref="schadeOpslaanRequestDestination"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanRequestSender" class="nl.dias.messaging.sender.SchadeOpslaanRequestSender">-->
+    <!--<constructor-arg index="0" ref="schadeOpslaanRequestTemplate"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>-->
 
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
-    <bean id="beindigenPolisRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="rb.pa.beindigenPolisRequestQueue"/>
-    </bean>
-    <bean id="beindigenPolisRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="defaultDestination" ref="beindigenPolisRequestDestination"/>
-    </bean>
-    <bean id="beindigenPolisRequestSender" class="nl.dias.messaging.sender.SchadeOpslaanRequestSender">
-        <constructor-arg index="0" ref="beindigenPolisRequestTemplate"/>
-    </bean>
+    <!--<bean id="beindigenPolisRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="rb.pa.beindigenPolisRequestQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="beindigenPolisRequestTemplate" class="org.springframework.jms.core.JmsTemplate">-->
+    <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+    <!--<property name="defaultDestination" ref="beindigenPolisRequestDestination"/>-->
+    <!--</bean>-->
+    <!--<bean id="beindigenPolisRequestSender" class="nl.dias.messaging.sender.SchadeOpslaanRequestSender">-->
+    <!--<constructor-arg index="0" ref="beindigenPolisRequestTemplate"/>-->
+    <!--</bean>-->
 
 
     <bean id="entiteitenOpgeslagenRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">

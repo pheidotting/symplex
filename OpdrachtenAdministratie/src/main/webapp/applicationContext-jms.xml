@@ -18,9 +18,12 @@
     <import resource="senders/id.verwijderEntiteitenRequestQueue.xml"/>
     <import resource="senders/oa.pa.polisOpslaanRequestQueue.xml"/>
     <import resource="senders/oa.pa.polisVerwijderenRequestQueue.xml"/>
+    <import resource="senders/oa.pa.schadeOpslaanRequestQueue.xml"/>
     <import resource="recievers/oa.responseQueue.xml"/>
     <import resource="recievers/rb.oa.opslaanPolisOpdrachtQueue.xml"/>
+    <import resource="recievers/rb.oa.opslaanSchadeOpdrachtQueue.xml"/>
     <import resource="recievers/rb.oa.verwijderPolisOpdrachtQueue.xml"/>
+    <import resource="recievers/rb.oa.verwijderSchadeOpdrachtQueue.xml"/>
     <import resource="senders/rb.oga.opslaanEntiteitenRequestQueue.xml"/>
     <import resource="senders/rb.tb.opslaanTaakRequestQueue.xml"/>
 </beans>

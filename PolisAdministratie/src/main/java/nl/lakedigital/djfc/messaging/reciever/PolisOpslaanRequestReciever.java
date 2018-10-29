@@ -71,6 +71,7 @@ public class PolisOpslaanRequestReciever extends AbstractReciever<PolisOpslaanRe
                 response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                 response.setUrl(MDC.get("url"));
                 response.setHoofdSoortEntiteit(polisOpslaanRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(polisOpslaanRequest.getUitgaandeOpdrachtId());
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

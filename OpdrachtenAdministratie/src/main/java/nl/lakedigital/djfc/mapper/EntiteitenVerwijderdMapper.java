@@ -11,13 +11,13 @@ public class EntiteitenVerwijderdMapper extends AbstractMapper<VerwijderEntiteit
 
     public UitgaandeOpdracht maakVerwijderEntiteitenRequest(UitgaandeOpdracht uitgaandeOpdrachtHoofd, Long id) {
         VerwijderEntiteitenRequest verwijderEntiteitenRequest = new VerwijderEntiteitenRequest();
-        setMDC(verwijderEntiteitenRequest);
         verwijderEntiteitenRequest.setSoortEntiteit(uitgaandeOpdrachtHoofd.getSoortEntiteit());
         verwijderEntiteitenRequest.setEntiteitId(id);
 
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.ENTITEITVERWIJDERD);
         verwijderEntiteitenRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
+        setMDC(verwijderEntiteitenRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(verwijderEntiteitenRequest));
 

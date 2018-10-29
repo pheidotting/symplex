@@ -1,6 +1,5 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.domain.uitgaand.UitgaandeOpdracht;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -72,10 +71,14 @@ public class UitgaandeOpdrachtRepository {
         return result;
     }
 
-    public UitgaandeOpdracht zoekObvSoortEntiteitEnTrackAndTrackeId(String trackAndTraceId, SoortEntiteit soortEntiteit) {
+    public UitgaandeOpdracht zoekOpBerichtId(String trackAndTraceId, String berichtId) {
         getTransaction();
 
-        UitgaandeOpdracht result = (UitgaandeOpdracht) getSession().getNamedQuery("UitgaandeOpdracht.zoekObvSoortEntiteitEnTrackAndTrackeId").setParameter("trackAndTraceId", trackAndTraceId).setParameter("soortEntiteit", soortEntiteit).list().get(0);
+        List<UitgaandeOpdracht> list = getSession().getNamedQuery("UitgaandeOpdracht.zoekOpBerichtId").setParameter("trackAndTraceId", trackAndTraceId).setParameter("berichtId", berichtId).list();
+        UitgaandeOpdracht result = null;
+        if (!list.isEmpty()) {
+            result = list.get(0);
+        }
 
         getTransaction().commit();
 
