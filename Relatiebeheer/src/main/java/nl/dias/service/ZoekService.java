@@ -74,7 +74,7 @@ public class ZoekService {
         if (schadenummer != null && !"".equals(schadenummer)) {
             List<JsonSchade> schades = schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer);
             for (JsonSchade schade : schades) {
-                JsonPakket polis = polisClient.lees(Long.valueOf(schade.getPolis()));
+                JsonPakket polis = polisClient.lees(Long.valueOf(schade.getPolis()), true);
                 if (polis != null) {
                     if ("RELATIE".equals(polis.getSoortEntiteit())) {
                         LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());

@@ -7,8 +7,6 @@ import nl.dias.domein.Relatie;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
 import nl.dias.service.OpenstaandeTaakService;
-import nl.dias.service.SchadeService;
-import nl.dias.web.mapper.SchadeMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.BedrijfZoekResultaat;
@@ -34,10 +32,6 @@ public class DashboardController extends AbstractController {
     private MetricsService metricsService;
     @Inject
     private GebruikerService gebruikerService;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
     @Inject
     private BedrijfService bedrijfService;
     @Inject
@@ -74,8 +68,8 @@ public class DashboardController extends AbstractController {
         }).collect(Collectors.toList());
 
         dashboard.setRelaties(relaties);
-
-        dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
+        //TODO
+        //        dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
 
         dashboard.setBedrijven(bedrijfService.alles().stream()//
                 .filter(bedrijf -> {

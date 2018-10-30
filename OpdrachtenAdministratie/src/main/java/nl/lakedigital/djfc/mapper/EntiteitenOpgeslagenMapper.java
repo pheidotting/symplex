@@ -12,12 +12,12 @@ public class EntiteitenOpgeslagenMapper extends AbstractMapper<EntiteitenOpgesla
 
     public UitgaandeOpdracht maakEntiteitenOpgeslagenRequest(UitgaandeOpdracht uitgaandeOpdrachtHoofd) {
         EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest = new EntiteitenOpgeslagenRequest();
-        setMDC(entiteitenOpgeslagenRequest);
         entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds().add(new SoortEntiteitEnEntiteitId(uitgaandeOpdrachtHoofd.getSoortEntiteit(), 0L));
 
         UitgaandeOpdracht uitgaandeOpdracht = new UitgaandeOpdracht();
         uitgaandeOpdracht.setSoortEntiteit(SoortEntiteit.ENTITEITOPGESLAGEN);
         entiteitenOpgeslagenRequest.setHoofdSoortEntiteit(uitgaandeOpdracht.getSoortEntiteit());
+        setMDC(entiteitenOpgeslagenRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(entiteitenOpgeslagenRequest));
         uitgaandeOpdracht.setWachtenOp(uitgaandeOpdrachtHoofd);

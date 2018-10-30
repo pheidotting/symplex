@@ -19,7 +19,7 @@ public class MessagingRelatieToUitgaandeOpdrachtMapper extends AbstractMapper<Op
 
         OpslaanRelatieRequest opslaanRelatieRequest = new OpslaanRelatieRequest();
         opslaanRelatieRequest.setRelatie(relatie);
-        setMDC(opslaanRelatieRequest);
+        setMDC(opslaanRelatieRequest, uitgaandeOpdracht);
 
         uitgaandeOpdracht.setBericht(marshall(opslaanRelatieRequest));
 

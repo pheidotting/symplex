@@ -114,6 +114,10 @@ public class PolisService {
         return polisRepository.lees(id);
     }
 
+    public Pakket leesOpPolis(Long id) {
+        return polisRepository.leesOpPolis(id);
+    }
+
 
     public List<Pakket> zoekOpPolisNummer(String polisNummer) {
         try {

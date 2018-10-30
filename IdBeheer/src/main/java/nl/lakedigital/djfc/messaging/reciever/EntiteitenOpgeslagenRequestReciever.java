@@ -55,6 +55,7 @@ public class EntiteitenOpgeslagenRequestReciever extends AbstractReciever<Entite
                     response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                     response.setUrl(MDC.get("url"));
                     response.setHoofdSoortEntiteit(entiteitenOpgeslagenRequest.getHoofdSoortEntiteit());
+                    response.setUitgaandeOpdrachtId(entiteitenOpgeslagenRequest.getUitgaandeOpdrachtId());
 
                     JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                     Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

@@ -89,6 +89,7 @@ public class OpslaanEntiteitenRequestReciever extends AbstractReciever<OpslaanEn
                 response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
                 response.setUrl(MDC.get("url"));
                 response.setHoofdSoortEntiteit(opslaanEntiteitenRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(opslaanEntiteitenRequest.getUitgaandeOpdrachtId());
 
                 JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

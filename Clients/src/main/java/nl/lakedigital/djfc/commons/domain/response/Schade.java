@@ -18,6 +18,7 @@ public class Schade {
     private String eigenRisico;
     private String omschrijving;
     private String parentIdentificatie;
+    private String polis;
 
     private List<Bijlage> bijlages = newArrayList();
     private List<GroepBijlages> groepBijlages = newArrayList();
@@ -118,6 +119,14 @@ public class Schade {
 
     public void setParentIdentificatie(String parentIdentificatie) {
         this.parentIdentificatie = parentIdentificatie;
+    }
+
+    public String getPolis() {
+        return polis;
+    }
+
+    public void setPolis(String polis) {
+        this.polis = polis;
     }
 
     public List<Bijlage> getBijlages() {

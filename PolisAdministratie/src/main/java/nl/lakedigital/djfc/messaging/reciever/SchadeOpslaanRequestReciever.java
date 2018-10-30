@@ -1,15 +1,16 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
-import inloggen.SessieHolder;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
-import nl.lakedigital.as.messaging.response.SchadeOpslaanResponse;
+import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Schade;
-import nl.lakedigital.djfc.messaging.mapper.DomainSchadeNaarMessagingSchadeMapper;
 import nl.lakedigital.djfc.messaging.mapper.MessagingSchadeNaarDomainSchadeMapper;
 import nl.lakedigital.djfc.service.SchadeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.inject.Inject;
 import javax.jms.JMSException;
@@ -39,28 +40,32 @@ public class SchadeOpslaanRequestReciever extends AbstractReciever<SchadeOpslaan
                 .collect(Collectors.toList());
 
         if (replyTo != null) {
-            SchadeOpslaanResponse schadeOpslaanResponse = new SchadeOpslaanResponse();
-            schadeOpslaanResponse.setAntwoordOp(schadeOpslaanRequest);
-            schadeOpslaanResponse.setSchades(schadesOpslaan.stream().map(new DomainSchadeNaarMessagingSchadeMapper()).collect(Collectors.toList()));
+            LOGGER.debug("Response versturen");
+            Response response = new Response();
+            response.getSoortEntiteitEnEntiteitIds().add(new SoortEntiteitEnEntiteitId(SoortEntiteit.SCHADE, schadesOpslaan.get(0).getId()));
 
             try {
                 setupMessageQueueConsumer();
 
-                schadeOpslaanResponse.setTrackAndTraceId(SessieHolder.get().getTrackAndTraceId());
-                schadeOpslaanResponse.setIngelogdeGebruiker(SessieHolder.get().getIngelogdeGebruiker());
+                response.setTrackAndTraceId(MDC.get("trackAndTraceId"));
+                response.setIngelogdeGebruiker(MDC.get("ingelogdeGebruiker") == null ? null : Long.valueOf(MDC.get("ingelogdeGebruiker")));
+                response.setIngelogdeGebruikerOpgemaakt(MDC.get("ingelogdeGebruikerOpgemaakt"));
+                response.setUrl(MDC.get("url"));
+                response.setHoofdSoortEntiteit(schadeOpslaanRequest.getHoofdSoortEntiteit());
+                response.setUitgaandeOpdrachtId(schadeOpslaanRequest.getUitgaandeOpdrachtId());
 
-                JAXBContext jaxbContext = JAXBContext.newInstance(SchadeOpslaanResponse.class);
+                JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
                 Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
                 jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
                 StringWriter sw = new StringWriter();
 
-                jaxbMarshaller.marshal(schadeOpslaanResponse, sw);
+                jaxbMarshaller.marshal(response, sw);
 
                 TextMessage message = session.createTextMessage(sw.toString());
 
-                LOGGER.debug("Verzenden message {}", message.getText());
+                LOGGER.debug("Verzenden message {}, naar {}", message.getText(), replyTo);
                 this.replyProducer.send(replyTo, message);
             } catch (JMSException | JAXBException e) {
                 LOGGER.error("{}", e);

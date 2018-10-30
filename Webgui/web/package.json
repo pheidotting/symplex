@@ -10,20 +10,20 @@
   "license": "ISC",
   "dependencies": {
     "jquery": "3.3.1",
-    "requirejs": "2.3.5",
+    "requirejs": "2.3.6",
     "sammy": "0.7.6",
-    "moment": "2.20.1",
+    "moment": "2.22.2",
     "knockout": "3.4.2",
     "knockout.validation": "2.0.3",
-    "underscore": "1.8.3",
+    "underscore": "1.9.1",
     "crypto-js": "3.1.9-1",
     "block-ui": "2.70.1",
     "requirejs-text": "2.0.15",
     "font-awesome": "4.7.0",
-    "lodash": "4.17.5",
+    "lodash": "4.17.11",
     "jquery.complexify": "0.5.2",
-    "push.js": "1.0.5",
-    "ws": "4.1.0",
+    "push.js": "1.0.8",
+    "ws": "6.1.0",
     "stacktrace-js": "2.0"
   }
 }
