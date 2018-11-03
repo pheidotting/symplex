@@ -10,13 +10,15 @@ define(['jquery',
         'moment',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'commons/opmaak'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, schadeService, schadeMapper, moment, menubalkViewmodel, LicentieViewmodel, opmaak) {
+    function ($, commonFunctions, ko, functions, block, log, redirect, schadeService, schadeMapper, moment, menubalkViewmodel, LicentieViewmodel, BreadcrumbsViewmodel, opmaak) {
 
         return function () {
             var _this = this;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.basisEntiteit = null;
             this.id = ko.observable();
@@ -33,7 +35,7 @@ define(['jquery',
                 if(_this.identificatie != null){
                     $.when(schadeService.lijstSchades(_this.identificatie), schadeService.lijstStatusSchade()).then(function (data, statussenSchade) {
                         _this.basisId = data.identificatie;
-                        if (data.kvk != null) {
+                        if (data.naam != null) {
                             _this.basisEntiteit = "BEDRIJF";
                         } else {
                             _this.basisEntiteit = "RELATIE";
@@ -59,6 +61,7 @@ define(['jquery',
                         _this.schades = schadeMapper.mapSchades(lijstSchades, statussenSchade);
                         _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
                         _this.licentieViewmodel = new LicentieViewmodel();
+                        _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, null, false, true);
 
                         return deferred.resolve();
                     });

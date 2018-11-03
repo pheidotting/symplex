@@ -5,8 +5,9 @@ define(['jquery',
         'knockout',
         'view/common/opmerking-view',
         'view/common/bijlage-view',
-        'view/common/taak-view'],
-    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView) {
+        'view/common/taak-view',
+        'view/common/breadcrumbs-view'],
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView, breadcrumbsView) {
         var logger = log.getLogger('beheren-hypotheek-view');
 
         return {
@@ -16,6 +17,7 @@ define(['jquery',
                 opmerkingView.init(hypotheekId);
                 bijlageView.init(hypotheekId);
                 taakView.init();
+                breadcrumbsView.init();
 
                 logger.debug('content geladen, viewmodel init');
 

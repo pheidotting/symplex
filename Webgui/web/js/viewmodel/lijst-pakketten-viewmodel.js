@@ -9,15 +9,17 @@ define(['jquery',
         'mapper/pakket-mapper',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'moment',
         'commons/opmaak'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, pakketMapper, menubalkViewmodel, LicentieViewmodel, moment, opmaak) {
+    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, pakketMapper, menubalkViewmodel, LicentieViewmodel, BreadcrumbsViewmodel, moment, opmaak) {
 
         return function () {
             var _this = this;
             var logger = log.getLogger('lijst-pakketten-viewmodel');
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.basisEntiteit = null;
             this.id = ko.observable();
@@ -42,6 +44,7 @@ define(['jquery',
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, null, true);
 
                     return deferred.resolve();
                 });

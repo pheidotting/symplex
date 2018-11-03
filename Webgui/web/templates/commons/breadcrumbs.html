@@ -1,1 +1,41 @@
-breadcrumbs
+<a href="dashboard.html" class="breadcrumbs link" data-bind="text: 'Dashboard'"></a>
+<span data-bind="if: breadcrumbsViewmodel.relatienaamTonen()" class="breadcrumbs link">
+     &gt;
+    <a class="breadcrumbs"
+       data-bind="text: 'Relatie (' + breadcrumbsViewmodel.relatienaam() + ')', click: menubalkViewmodel.naarRelatiegegevens"></a>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.lijstpolissenTonen()" class="breadcrumbs link">
+     &gt;
+    <a class="breadcrumbs" data-bind="text: 'Polissen', click: menubalkViewmodel.naarPolissen"></a>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.polisnummerTonen()" class="breadcrumbs">
+     &gt;
+    <span class="breadcrumbs" data-bind="text: 'Polis (' + breadcrumbsViewmodel.polisnummer() + ')'"></span>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.lijstschadenTonen()" class="breadcrumbs link">
+     &gt;
+    <a class="breadcrumbs" data-bind="text: 'Schaden', click: menubalkViewmodel.naarSchades"></a>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.schadenummerTonen()" class="breadcrumbs">
+     &gt;
+    <span class="breadcrumbs" data-bind="text: 'Schade (' + breadcrumbsViewmodel.schadenummer() + ')'"></span>>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.lijsthypothekenTonen()" class="breadcrumbs link">
+     &gt;
+    <a class="breadcrumbs" data-bind="text: 'Hypotheken', click: menubalkViewmodel.naarHypotheken"></a>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.hypotheeknummerTonen()" class="breadcrumbs">
+     &gt;
+    <span class="breadcrumbs" data-bind="text: 'Hypotheek (' + breadcrumbsViewmodel.hypotheeknummer() + ')'"></span>
+</span>
+
+<span data-bind="if: breadcrumbsViewmodel.belastingzakenTonen()" class="breadcrumbs">
+     &gt;
+    <span class="breadcrumbs link" data-bind="text: 'Belastingzaken', click: menubalkViewmodel.belastingzaken"></span>
+</span>
