@@ -11,13 +11,15 @@ define(['jquery',
         'moment',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'commons/opmaak'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, LicentieViewmodel, opmaak) {
+    function ($, commonFunctions, ko, functions, block, log, redirect, hypotheekService, hypotheekMapper, hypotheekPakketMapper, moment, menubalkViewmodel, LicentieViewmodel, BreadcrumbsViewmodel, opmaak) {
 
         return function () {
             var _this = this;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.basisEntiteit = null;
             this.id = ko.observable();
@@ -36,6 +38,7 @@ define(['jquery',
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, "RELATIE");
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, null, false, false, null, true);
 
                     return deferred.resolve();
                 });
