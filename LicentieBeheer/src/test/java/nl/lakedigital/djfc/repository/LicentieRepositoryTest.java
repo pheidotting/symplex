@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.repository;
 
-import nl.lakedigital.djfc.domain.Trial;
+import nl.lakedigital.djfc.commons.domain.Trial;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;

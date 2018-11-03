@@ -18,10 +18,12 @@ define(['jquery',
         'viewmodel/common/telefonie-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel, LicentieViewmodel) {
+    function ($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel) {
 
         return function () {
             var _this = this;
@@ -38,6 +40,8 @@ define(['jquery',
             this.telefonie = null;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.takenViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.onderlingeRelaties = ko.observableArray();
             this.lijst = ko.observableArray();
@@ -62,6 +66,9 @@ define(['jquery',
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, 'Relatie');
                     _this.licentieViewmodel = new LicentieViewmodel();
+
+                    _this.takenViewmodel = new TakenViewmodel(relatie.taken);
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(relatie);
 
                     return deferred.resolve();
                 });
@@ -101,7 +108,7 @@ define(['jquery',
                     result.showAllMessages(true);
                 } else {
                     var foutmelding;
-                    gebruikerService.opslaan(_this.relatie, _this.adressenModel.adressen, _this.telefoonnummersModel.telefoonnummers, _this.rekeningnummerModel.rekeningnummers, _this.opmerkingenModel.opmerkingen).done(function () {
+                    gebruikerService.opslaan(_this.relatie, _this.adressenModel.adressen, _this.telefoonnummersModel.telefoonnummers, _this.rekeningnummerModel.rekeningnummers, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function () {
                         document.location.href = 'dashboard.html';
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                     }).fail(function (response) {

@@ -1,8 +1,7 @@
 package nl.dias.messaging.sender;
 
-import nl.lakedigital.as.messaging.domain.Opmerking;
-import nl.lakedigital.as.messaging.domain.Schade;
 import nl.lakedigital.as.messaging.request.SchadeOpslaanRequest;
+import nl.lakedigital.djfc.commons.domain.Schade;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
@@ -44,18 +43,18 @@ public class SchadeOpslaanRequestSender extends AbstractSender<SchadeOpslaanRequ
             schade.setPolis(jsonSchade1.getPolis());
             schade.setStatusSchade(jsonSchade1.getStatusSchade());
 
-            if (jsonSchade1.getOpmerkingen() != null && !jsonSchade1.getOpmerkingen().isEmpty()) {
-                schade.setOpmerkingen(jsonSchade1.getOpmerkingen().stream().map(jsonOpmerking -> {
-                    Opmerking opmerking = new Opmerking();
-
-                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId());
-                    opmerking.setTekst(jsonOpmerking.getOpmerking());
-                    opmerking.setTijdstip(jsonOpmerking.getTijd());
-                    opmerking.setIdentificatie(jsonOpmerking.getIdentificatie());
-
-                    return opmerking;
-                }).collect(Collectors.toList()));
-            }
+            //            if (jsonSchade1.getOpmerkingen() != null && !jsonSchade1.getOpmerkingen().isEmpty()) {
+            //                schade.setOpmerkingen(jsonSchade1.getOpmerkingen().stream().map(jsonOpmerking -> {
+            //                    Opmerking opmerking = new Opmerking();
+            //
+            //                    opmerking.setMedewerker(jsonOpmerking.getMedewerkerId().toString());
+            //                    opmerking.setOpmerking(jsonOpmerking.getOpmerking());
+            //                    opmerking.setTijd(jsonOpmerking.getTijd());
+            //                    opmerking.setIdentificatie(jsonOpmerking.getIdentificatie());
+            //
+            //                    return opmerking;
+            //                }).collect(Collectors.toList()));
+            //            }
 
             return schade;
         }).collect(Collectors.toList()));

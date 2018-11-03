@@ -1,5 +1,7 @@
 package nl.lakedigital.as.messaging.domain;
 
+import nl.lakedigital.djfc.commons.domain.Opmerking;
+
 import java.util.ArrayList;
 import java.util.List;
 

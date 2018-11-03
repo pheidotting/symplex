@@ -11,13 +11,13 @@
     <bean id="metricsRegistry" class="com.codahale.metrics.MetricRegistry"/>
 
     <!--<bean id="gebruikerRepository" class="nl.dias.repository.GebruikerRepository" depends-on="sessionFactory">-->
-	<!--<property name="sessionFactory" ref="sessionFactory"/>-->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter" depends-on="gebruikerRepository">-->
-	<!--<property name="gebruikerRepository" ref="gebruikerRepository"/>-->
-	<!--</bean>-->
-	<!---->
+    <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
+    <!---->
+    <!--<bean id="headerFilter" class="nl.dias.web.filter.HeaderFilter" depends-on="gebruikerRepository">-->
+    <!--<property name="gebruikerRepository" ref="gebruikerRepository"/>-->
+    <!--</bean>-->
+    <!---->
     <!--<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">-->
     <!--<property name="maxUploadSize" value="50000000"/>-->
     <!--</bean>-->

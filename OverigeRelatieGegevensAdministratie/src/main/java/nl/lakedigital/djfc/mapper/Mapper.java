@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.mapper;
 
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.AbstracteJsonEntiteitMetSoortEnId;
 import nl.lakedigital.djfc.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;

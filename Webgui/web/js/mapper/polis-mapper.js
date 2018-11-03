@@ -50,16 +50,6 @@ define(['jquery',
                 polis.soortEntiteit(data.soortEntiteit);
                 polis.entiteitId(data.entiteitId);
 
-                $.each(maatschappijen, function (i, m) {
-                    if (i == data.maatschappij) {
-                        var d = {};
-                        d.id = i;
-                        d.omschrijving = m;
-
-                        polis.maatschappij = d;
-                    }
-                });
-
                 return polis;
             }
         }

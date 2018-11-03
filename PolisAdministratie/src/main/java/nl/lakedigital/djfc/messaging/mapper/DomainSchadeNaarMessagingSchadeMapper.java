@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
+
 import nl.lakedigital.as.messaging.domain.Schade;
 
 import java.util.function.Function;

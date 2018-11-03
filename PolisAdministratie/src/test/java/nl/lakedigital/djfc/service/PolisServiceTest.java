@@ -1,24 +1,28 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
-import nl.lakedigital.djfc.domain.particulier.*;
+import nl.lakedigital.djfc.domain.particulier.AnnuleringsVerzekering;
+import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
+import nl.lakedigital.djfc.domain.particulier.CamperVerzekering;
+import nl.lakedigital.djfc.domain.particulier.InboedelVerzekering;
 import nl.lakedigital.djfc.domain.zakelijk.AanhangerVerzekering;
 import nl.lakedigital.djfc.domain.zakelijk.GeldVerzekering;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.repository.PolisRepository;
 import org.easymock.*;
-import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.easymock.EasyMock.*;
@@ -38,32 +42,28 @@ public class PolisServiceTest extends EasyMockSupport {
     @Mock
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
 
-    @After
-    public void after() {
-        verifyAll();
-    }
 
-    @Test
-    public void testBeeindigen() {
-        Polis polis = createMock(Polis.class);
-
-        expect(polisRepository.lees(2L)).andReturn(polis);
-        polis.setEindDatum(LocalDate.now());
-        expectLastCall();
-
-        polisRepository.opslaan(polis);
-        expectLastCall();
-
-        replayAll();
-
-        polisService.beeindigen(2L);
-    }
+    //    @Test
+    //    public void testBeeindigen() {
+    //        Polis polis = createMock(Polis.class);
+    //
+    //        expect(polisRepository.lees(2L)).andReturn(polis);
+    //        polis.setEindDatum(LocalDate.now());
+    //        expectLastCall();
+    //
+    //        polisRepository.opslaan(polis);
+    //        expectLastCall();
+    //
+    //        replayAll();
+    //
+    //        polisService.beeindigen(2L);
+    //    }
 
     @Test
     public void testOpslaanPolis() {
         final Long id = 58L;
 
-        AutoVerzekering polis = new AutoVerzekering(soortEntiteit, entiteitId);
+        AutoVerzekering polis = new AutoVerzekering(new Pakket(soortEntiteit, entiteitId));
 
         polisRepository.opslaan(polis);
         expectLastCall().andDelegateTo(new PolisRepository() {
@@ -73,7 +73,7 @@ public class PolisServiceTest extends EasyMockSupport {
             }
         });
 
-        expect(polisRepository.lees(id)).andReturn(polis);
+        //        expect(polisRepository.lees(id)).andReturn(polis);
 
         Capture<List> soortEntiteitEnEntiteitIdsCapture = newCapture();
         entiteitenOpgeslagenRequestSender.send(capture(soortEntiteitEnEntiteitIdsCapture));
@@ -86,17 +86,22 @@ public class PolisServiceTest extends EasyMockSupport {
         assertThat(soortEntiteitEnEntiteitIds.size(), is(1));
         assertThat(soortEntiteitEnEntiteitIds.get(0).getEntiteitId(), is(58L));
         assertThat(soortEntiteitEnEntiteitIds.get(0).getSoortEntiteit().name(), is(SoortEntiteit.POLIS.name()));
+
+        verifyAll();
     }
 
     @Test
     public void testZoekOpPolisNummer() {
-        CamperVerzekering camperVerzekering = new CamperVerzekering(soortEntiteit, entiteitId);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
+        CamperVerzekering camperVerzekering = new CamperVerzekering(pakket);
 
-        expect(polisRepository.zoekOpPolisNummer("1234")).andReturn(newArrayList(camperVerzekering));
+        expect(polisRepository.zoekOpPolisNummer("1234")).andReturn(newArrayList(pakket));
 
         replayAll();
 
-        assertThat(polisService.zoekOpPolisNummer("1234"), is(newArrayList(camperVerzekering)));
+        assertThat(polisService.zoekOpPolisNummer("1234"), is(newArrayList(pakket)));
+
+        verifyAll();
     }
 
     @Test
@@ -106,29 +111,36 @@ public class PolisServiceTest extends EasyMockSupport {
         replayAll();
 
         assertNull(polisService.zoekOpPolisNummer("1234"));
+
+        verifyAll();
     }
 
 
     @Test
     public void testVerwijder() {
-        MobieleApparatuurVerzekering verzekering = new MobieleApparatuurVerzekering(soortEntiteit, entiteitId);
-        expect(polisRepository.lees(1L)).andReturn(verzekering);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
+        AutoVerzekering autoVerzekering = new AutoVerzekering(pakket);
+        autoVerzekering.setId(1L);
 
-        polisRepository.verwijder(verzekering);
+        expect(polisRepository.lees(1L)).andReturn(pakket);
+
+        polisRepository.verwijder(autoVerzekering);
         expectLastCall();
 
         replayAll();
 
         polisService.verwijder(1L);
+
+        verifyAll();
     }
 
     @Test
     public void testAllePolisSoorten() {
-        AnnuleringsVerzekering annuleringsVerzekering = new AnnuleringsVerzekering(soortEntiteit, entiteitId);
-        InboedelVerzekering inboedelVerzekering = new InboedelVerzekering(soortEntiteit, entiteitId);
+        AnnuleringsVerzekering annuleringsVerzekering = new AnnuleringsVerzekering(new Pakket(soortEntiteit, entiteitId));
+        InboedelVerzekering inboedelVerzekering = new InboedelVerzekering(new Pakket(soortEntiteit, entiteitId));
 
-        AanhangerVerzekering aanhangerVerzekering = new AanhangerVerzekering(soortEntiteit, entiteitId);
-        GeldVerzekering geldVerzekering = new GeldVerzekering(soortEntiteit, entiteitId);
+        AanhangerVerzekering aanhangerVerzekering = new AanhangerVerzekering(new Pakket(soortEntiteit, entiteitId));
+        GeldVerzekering geldVerzekering = new GeldVerzekering(new Pakket(soortEntiteit, entiteitId));
 
         List<Polis> polissen = new ArrayList<>();
         polissen.add(annuleringsVerzekering);
@@ -136,13 +148,13 @@ public class PolisServiceTest extends EasyMockSupport {
         polissen.add(aanhangerVerzekering);
         polissen.add(geldVerzekering);
 
-        List<String> verwachtParticulier = new ArrayList<>();
-        verwachtParticulier.add(annuleringsVerzekering.getSchermNaam());
-        verwachtParticulier.add(inboedelVerzekering.getSchermNaam());
+        Map<String, String> verwachtParticulier = new HashMap<>();
+        verwachtParticulier.put(annuleringsVerzekering.getClass().getSimpleName().replace("Verzekering", ""), annuleringsVerzekering.getSchermNaam());
+        verwachtParticulier.put(inboedelVerzekering.getClass().getSimpleName().replace("Verzekering", ""), inboedelVerzekering.getSchermNaam());
 
-        List<String> verwachtZakelijk = new ArrayList<>();
-        verwachtZakelijk.add(aanhangerVerzekering.getSchermNaam());
-        verwachtZakelijk.add(geldVerzekering.getSchermNaam());
+        Map<String, String> verwachtZakelijk = new HashMap<>();
+        verwachtZakelijk.put(aanhangerVerzekering.getClass().getSimpleName().replace("Verzekering", ""), aanhangerVerzekering.getSchermNaam());
+        verwachtZakelijk.put(geldVerzekering.getClass().getSimpleName().replace("Verzekering", ""), geldVerzekering.getSchermNaam());
 
         ReflectionTestUtils.setField(polisService, "polissen", polissen);
 
@@ -150,20 +162,25 @@ public class PolisServiceTest extends EasyMockSupport {
 
         assertEquals(verwachtParticulier, polisService.allePolisSoorten(SoortVerzekering.PARTICULIER));
         assertEquals(verwachtZakelijk, polisService.allePolisSoorten(SoortVerzekering.ZAKELIJK));
+
+        verifyAll();
     }
 
 
     @Test
-    public void testAlles() throws Exception {
+    public void testAlles() {
         SoortEntiteit soortEntiteit = SoortEntiteit.RELATIE;
         Long entiteitId = 44L;
 
-        List<Polis> polissen = new ArrayList<>();
+        //        List<Polis> polissen = new ArrayList<>();
+        List<Pakket> pakketten = new ArrayList<>();
 
-        expect(polisRepository.alles(soortEntiteit, entiteitId)).andReturn(polissen);
+        expect(polisRepository.alles(soortEntiteit, entiteitId)).andReturn(pakketten);
 
         replayAll();
 
-        assertThat(polisService.alles(soortEntiteit, entiteitId), is(polissen));
+        assertThat(polisService.alles(soortEntiteit, entiteitId), is(pakketten));
+
+        verifyAll();
     }
 }

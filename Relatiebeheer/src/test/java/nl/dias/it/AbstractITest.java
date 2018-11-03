@@ -131,6 +131,7 @@ public class AbstractITest {
     protected Stub stubBelastingzakenGroepenBijlage(String response) {
         return new Stub("/rest/bijlage/alleGroepen/BELASTINGZAKEN/([0-9]*)", response, false);
     }
+
     protected Stub stubPolis(String response) {
         return new Stub("/rest/polis/lijst/([0-9]*)", response, false);
     }

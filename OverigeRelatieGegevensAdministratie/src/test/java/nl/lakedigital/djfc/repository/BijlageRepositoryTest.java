@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.repository;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Bijlage;
 import nl.lakedigital.djfc.domain.GroepBijlages;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.inloggen.Sessie;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;

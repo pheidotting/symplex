@@ -1,7 +1,7 @@
 package nl.dias.repository;
 
 import nl.dias.domein.Belastingzaken;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

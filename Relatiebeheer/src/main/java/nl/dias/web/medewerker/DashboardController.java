@@ -6,8 +6,9 @@ import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
 import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
-import nl.dias.service.SchadeService;
-import nl.dias.web.mapper.SchadeMapper;
+import nl.dias.service.OpenstaandeTaakService;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
 import nl.lakedigital.djfc.commons.json.BedrijfZoekResultaat;
 import nl.lakedigital.djfc.commons.json.Dashboard;
 import nl.lakedigital.djfc.commons.json.RelatieZoekResultaat;
@@ -32,11 +33,13 @@ public class DashboardController extends AbstractController {
     @Inject
     private GebruikerService gebruikerService;
     @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
-    @Inject
     private BedrijfService bedrijfService;
+    @Inject
+    private TaakClient taakClient;
+    @Inject
+    private OpenstaandeTaakService openstaandeTaakService;
+    @Inject
+    private IdentificatieClient identificatieClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/dashboard", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -65,8 +68,8 @@ public class DashboardController extends AbstractController {
         }).collect(Collectors.toList());
 
         dashboard.setRelaties(relaties);
-
-        dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
+        //TODO
+        //        dashboard.setOpenSchades(schadeMapper.mapAllNaarJson(schadeService.alleOpenSchade(kantoor)));
 
         dashboard.setBedrijven(bedrijfService.alles().stream()//
                 .filter(bedrijf -> {
@@ -81,6 +84,8 @@ public class DashboardController extends AbstractController {
 
                     return bedrijfZoekResultaat;
                 }).collect(Collectors.toList()));
+
+        dashboard.setTaken(openstaandeTaakService.alleOpenstaandeTaken(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor()));
 
         metricsService.stop(timer);
 

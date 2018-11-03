@@ -1,15 +1,18 @@
 package nl.dias.web.medewerker;
 
 import nl.dias.domein.Hypotheek;
-import nl.dias.domein.polis.Polis;
-import nl.dias.service.*;
+import nl.dias.service.BelastingzakenService;
+import nl.dias.service.GebruikerService;
+import nl.dias.service.HypotheekService;
+import nl.dias.service.RelatieService;
 import nl.dias.web.mapper.*;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.*;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.response.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -42,6 +45,8 @@ public class RelatieController extends AbstractController {
     @Inject
     private RekeningClient rekeningClient;
     @Inject
+    private TaakClient taakClient;
+    @Inject
     private TelefoonnummerClient telefoonnummerClient;
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
@@ -53,14 +58,6 @@ public class RelatieController extends AbstractController {
     private RelatieService relatieService;
     @Inject
     private PolisClient polisClient;
-    @Inject
-    private PolisService polisService;
-    @Inject
-    private PolisMapper polisMapper;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
     @Inject
     private HypotheekService hypotheekService;
     @Inject
@@ -89,10 +86,11 @@ public class RelatieController extends AbstractController {
                 relatie.setRekeningNummers(rekeningClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoRekeningNummerMapper(identificatieClient)).collect(Collectors.toList()));
                 relatie.setTelefoonnummers(telefoonnummerClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
                 relatie.setOpmerkingen(opmerkingClient.lijst("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                relatie.setTaken(taakClient.alles("RELATIE", relatieDomain.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
-                List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
-                relatie.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
-                //        relatie.setPolissen(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+                //                List<Polis> polissen = polisService.allePolissenBijRelatie(relatieDomain.getId());
+                //                relatie.setPokketten(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
+                relatie.setPakketten(polisClient.lijst(String.valueOf(relatieDomain.getId())).stream().map(new JsonToDtoPakketMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
 
                 List<String> telefoonnummers = relatie.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
 
@@ -115,12 +113,12 @@ public class RelatieController extends AbstractController {
                 }
 
                 List<Hypotheek> hypotheken = hypotheekService.allesVanRelatie(relatieDomain.getId());
-                relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.domain.response.Hypotheek>() {
+                relatie.setHypotheken(hypotheken.stream().map(new Function<Hypotheek, nl.lakedigital.djfc.commons.domain.response.Hypotheek>() {
                     @Override
-                    public nl.lakedigital.djfc.domain.response.Hypotheek apply(Hypotheek hypotheek) {
+                    public nl.lakedigital.djfc.commons.domain.response.Hypotheek apply(Hypotheek hypotheek) {
                         final String DATUM_FORMAAT = "yyyy-MM-dd";
 
-                        nl.lakedigital.djfc.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.domain.response.Hypotheek();
+                        nl.lakedigital.djfc.commons.domain.response.Hypotheek jsonHypotheek = new nl.lakedigital.djfc.commons.domain.response.Hypotheek();
 
                         jsonHypotheek.setIdentificatie(identificatieClient.zoekIdentificatie("HYPOTHEEK", hypotheek.getId()).getIdentificatie());
                         jsonHypotheek.setDuur(hypotheek.getDuur());

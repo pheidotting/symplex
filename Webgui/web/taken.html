@@ -1,0 +1,100 @@
+<html>
+<head>
+    <title>Symplex - Zoeken</title>
+    <script src="node_modules/stacktrace-js/dist/stacktrace.min.js" type="text/javascript"></script>
+    <script src="node_modules/requirejs/require.js" data-main="js/commons/app" type="text/javascript"></script>
+
+    <!-- Eigen CSS -->
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="templates/taken/taken.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <script>
+        var refreshIntervalId = 0;
+
+
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+    require(['/js/commons/sammyconfig.js'], function (App) {
+        var app = new App();
+
+        app.addView('taken', 'js/view/taken-view');
+        app.addView('taak/:identificatie', 'js/view/taak-view');
+
+        app.run('#taken');
+    });
+
+</script>
+
+<script type="text/javascript">
+    window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+
+        StackTrace.fromError(errorObj).then(function (error) {
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+
+            fd.append('logger', '');
+            fd.append('timestamp', new Date().getTime());
+            fd.append('level', 'ERROR');
+            fd.append('url', url);
+            fd.append('message', error);
+            fd.append('layout', 'HttpPostDataLayout');
+
+            xhr.open('POST', 'dejonge/rest/authorisatie/log4j/log4javascript', true);
+            xhr.send(fd);
+        });
+    }
+
+
+
+</script>
+<div class="top">
+    <img src="images/Symplex-logo.png"/>
+</div>
+<div class="bar">
+    <button class="uitloggen-button" data-bind="click: $root.menubalkViewmodel.uitloggen">Uitloggen</button>
+</div>
+
+<div data-bind="visible: licentieViewmodel.tonenLicentieWaarschuwing,attr: {class: 'licentiefout'}"
+     style="display:none;">
+    <span data-bind="html: licentieViewmodel.melding"></span>
+</div>
+
+<img class="logo-bedrijf"
+     data-bind="attr: {src: 'images/logo-' + $root.menubalkViewmodel.kantoorAfkorting() + '.jpg'}"/>
+
+<div class="main">
+    <div class="menu-balk">
+        <div class="menu-balk-within">
+            <div class="menu-balk-holder">
+                <ul>
+                    <li class="first"><a href="dashboard.html">Dashboard</a></li>
+                    <li class="first" id="instellingenLink"><a href="instellingen.html">Instellingen</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="precontent">-->
+    <!--<h3>Snel starten</h3>-->
+    <!--<div class="zoekvelden">-->
+    <!--<hr/>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="nieuwKnopDiv">-->
+    <!--<br/>-->
+    <!--<span class="fa fa-plus nieuwKnopPlus"></span>-->
+    <!--<button class="nieuwKnop" data-bind="click: nieuweRelatie" id="nieuweRelatie">Nieuwe Relatie</button>-->
+    <!---->
+    <!--<span class="fa fa-plus nieuwKnopPlus"></span>-->
+    <!--<button class="nieuwKnop" data-bind="click: nieuwBedrijf" id="nieuwBedrijf">Nieuw Bedrijf</button>-->
+    <!--</div>-->
+
+    <div id="content"></div>
+</div>
+
+<div class="bottom"></div>
+</body>
+</html>

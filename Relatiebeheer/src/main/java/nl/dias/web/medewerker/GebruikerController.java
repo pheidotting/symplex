@@ -7,17 +7,19 @@ import nl.dias.mapper.JsonMedewerkerNaarMedewerkerMapper;
 import nl.dias.mapper.Mapper;
 import nl.dias.mapper.MedewerkerNaarJsonMedewerkerMapper;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
+import nl.dias.messaging.sender.OpslaanTaakRequestSender;
 import nl.dias.repository.KantoorRepository;
 import nl.dias.service.AuthorisatieService;
 import nl.dias.service.GebruikerService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.JsonRelatieMapper;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainRekeningNummerNaarMessagingRekeningNummerMapper;
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonContactPersoon;
 import nl.lakedigital.djfc.commons.json.JsonMedewerker;
@@ -66,7 +68,11 @@ public class GebruikerController extends AbstractController {
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
+    private OpslaanTaakRequestSender opslaanTaakRequestSender;
+    @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleContactPersonen", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -156,7 +162,7 @@ public class GebruikerController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String opslaan(@RequestBody nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         LOGGER.info("Opslaan Relatie {} {}", jsonRelatie.getVoornaam(), jsonRelatie.getAchternaam());
 
         Timer.Context timer = metricsService.addTimerMetric("opslaan", GebruikerController.class);
@@ -192,7 +198,7 @@ public class GebruikerController extends AbstractController {
             identificatie = identificatieClient.zoekIdentificatie("RELATIE", relatie.getId());
         }
 
-        LOGGER.debug("Relatie met id " + relatie.getId() + " opgeslagen");
+        LOGGER.debug("Relatie met id {} opgeslagen", relatie.getId());
 
         if (jsonRelatie.getIdentificatie() == null) {
 
@@ -202,8 +208,6 @@ public class GebruikerController extends AbstractController {
                 LOGGER.error("Relatie met id {} opgeslagen, maar er werd geen identificatie bij opgeslagen", relatie.getId());
             }
         }
-
-        LOGGER.debug("Return {}", relatie.getIdentificatie());
 
         OpslaanEntiteitenRequest opslaanEntiteitenRequest = new OpslaanEntiteitenRequest();
         opslaanEntiteitenRequest.getLijst().addAll(jsonRelatie.getAdressen().stream().map(new DomainAdresNaarMessagingAdresMapper(relatie.getId(), SoortEntiteit.RELATIE)).collect(Collectors.toList()));
@@ -216,7 +220,12 @@ public class GebruikerController extends AbstractController {
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
+        //Taken opslaan
+        takenOpslaanService.opslaan(jsonRelatie.getTaken(), relatie.getId(), SoortEntiteit.RELATIE);
+
         metricsService.stop(timer);
+
+        LOGGER.debug("Return {}", relatie.getIdentificatie());
 
         return relatie.getIdentificatie();
     }

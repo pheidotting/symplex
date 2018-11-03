@@ -50,6 +50,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
     public void send(final AbstractMessage abstractMessage, Logger logger) {
         for (JmsTemplate jmsTemplate : jmsTemplates) {
+            logger.trace("jmsTemplate {}", jmsTemplate);
             jmsTemplate.send(session -> {
                 try {
                     abstractMessage.setTrackAndTraceId(MDC.get("trackAndTraceId"));
@@ -72,7 +73,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
                         message.setJMSReplyTo(replyTo);
                     }
 
-                    logger.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
+                    logger.debug("Verzenden naar {}, message {}", jmsTemplate.getDefaultDestination(), message.getText());
 
                     return message;
                 } catch (JAXBException e) {

@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.service;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Bijlage;
 import nl.lakedigital.djfc.domain.GroepBijlages;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.BijlageRepository;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class BijlageService extends AbstractService<Bijlage> {
     private BijlageRepository bijlageRepository;
 
     public BijlageService() {
-        super(nl.lakedigital.as.messaging.domain.SoortEntiteit.BIJLAGE);
+        super(SoortEntiteit.BIJLAGE);
     }
 
     @Override

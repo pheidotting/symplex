@@ -68,7 +68,7 @@ public class RelatieServiceTest extends EasyMockSupport {
         Long relatieId = 4L;
         Relatie relatie = new Relatie();
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(relatieId);
+        //        polis.setEntiteitId(relatieId);
 
         Identificatie identificatie = new Identificatie();
         identificatie.setEntiteitId(polisId);
@@ -76,7 +76,7 @@ public class RelatieServiceTest extends EasyMockSupport {
 
         expect(identificatieClient.zoekIdentificatieCode(code)).andReturn(identificatie);
 
-        expect(polisClient.lees(String.valueOf(polisId))).andReturn(polis);
+        //        expect(polisClient.lees(String.valueOf(polisId))).andReturn(polis);
 
         expect(gebruikerService.lees(relatieId)).andReturn(relatie);
 
@@ -121,7 +121,7 @@ public class RelatieServiceTest extends EasyMockSupport {
         Long relatieId = 4L;
         Relatie relatie = new Relatie();
         JsonPolis polis = new JsonPolis();
-        polis.setEntiteitId(relatieId);
+        //        polis.setEntiteitId(relatieId);
         JsonSchade schade = new JsonSchade();
         schade.setPolis(String.valueOf(polisId));
         schade.setId(schadeId);
@@ -133,7 +133,7 @@ public class RelatieServiceTest extends EasyMockSupport {
         expect(identificatieClient.zoekIdentificatieCode(code)).andReturn(identificatie);
 
         expect(schadeClient.lees(String.valueOf(schadeId))).andReturn(schade);
-        expect(polisClient.lees(String.valueOf(polisId))).andReturn(polis);
+        //        expect(polisClient.lees(String.valueOf(polisId))).andReturn(polis);
 
         expect(gebruikerService.lees(relatieId)).andReturn(relatie);
 

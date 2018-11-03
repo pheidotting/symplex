@@ -132,9 +132,9 @@
 //    // ongevallenVerzekering.setBedrijf(bedrijf2);
 //    // ongevallenVerzekering.setMaatschappij(maatschappij);
 //    //
-//    // relatie.getPolissen().add(autoVerzekering);
-//    // bedrijf1.getPolissen().add(woonhuisVerzekering);
-//    // bedrijf2.getPolissen().add(ongevallenVerzekering);
+//    // relatie.getPokketten().add(autoVerzekering);
+//    // bedrijf1.getPokketten().add(woonhuisVerzekering);
+//    // bedrijf2.getPokketten().add(ongevallenVerzekering);
 //    //
 //    // EasyMock.expect(gebruikerService.lees(1L)).andReturn(relatie);
 //    //

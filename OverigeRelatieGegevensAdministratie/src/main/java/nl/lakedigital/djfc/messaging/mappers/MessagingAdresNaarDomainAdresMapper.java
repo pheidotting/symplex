@@ -1,10 +1,10 @@
 package nl.lakedigital.djfc.messaging.mappers;
 
-import nl.lakedigital.as.messaging.domain.AbstracteEntiteitMetSoortEnId;
 import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.service.AdresService;
 
 import java.util.function.Function;

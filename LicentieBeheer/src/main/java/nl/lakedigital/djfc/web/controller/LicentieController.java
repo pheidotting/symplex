@@ -35,7 +35,7 @@ public class LicentieController {
 
         zetSessieWaarden(httpServletRequest);
 
-        nl.lakedigital.djfc.domain.Licentie licentie = licentieService.actieveLicentie(kantoorid);
+        nl.lakedigital.djfc.commons.domain.Licentie licentie = licentieService.actieveLicentie(kantoorid);
         LocalDate einddatum = licentieService.actieveLicentie(licentie);
 
         LicentieResponse licentieResponse = new LicentieResponse();

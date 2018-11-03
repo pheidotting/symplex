@@ -1,12 +1,13 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
-import nl.lakedigital.as.messaging.domain.Polis;
+
+import nl.lakedigital.djfc.commons.domain.Polis;
 
 import java.util.function.Function;
 
-//import org.joda.time.format.DateTimeFormatter;
 
 public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigital.djfc.domain.Polis, Polis> {
+
     @Override
     public Polis apply(nl.lakedigital.djfc.domain.Polis polisIn) {
         Polis polis = new Polis();
@@ -14,9 +15,6 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
         polis.setId(polisIn.getId());
         if (polisIn.getStatus() != null) {
             polis.setStatus(polisIn.getStatus().name());
-        }
-        if (polisIn.getMaatschappij() != null) {
-            polis.setMaatschappij(polisIn.getMaatschappij().toString());
         }
         if (polisIn.getBetaalfrequentie() != null) {
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie().name());
@@ -26,16 +24,16 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
 
         String patternDatum = "yyyy-MM-dd";
 
-        if (polisIn.getIngangsDatum() != null ) {
+        if (polisIn.getIngangsDatum() != null) {
             polis.setIngangsDatum(polisIn.getIngangsDatum().toString(patternDatum));
         }
-        if (polisIn.getWijzigingsDatum() != null ) {
+        if (polisIn.getWijzigingsDatum() != null) {
             polis.setWijzigingsDatum(polisIn.getWijzigingsDatum().toString(patternDatum));
         }
-        if (polisIn.getProlongatieDatum() != null ) {
+        if (polisIn.getProlongatieDatum() != null) {
             polis.setProlongatieDatum(polisIn.getProlongatieDatum().toString(patternDatum));
         }
-        if (polisIn.getEindDatum() != null ) {
+        if (polisIn.getEindDatum() != null) {
             polis.setEindDatum(polisIn.getEindDatum().toString(patternDatum));
         }
         polis.setPolisNummer(polisIn.getPolisNummer());
@@ -45,11 +43,10 @@ public class DomainPolisNaarMessagingPolisMapper implements Function<nl.lakedigi
         }
         polis.setDekking(polisIn.getDekking());
         polis.setVerzekerdeZaak(polisIn.getVerzekerdeZaak());
-        if (polisIn.getBetaalfrequentie()!=null) {
+        if (polisIn.getBetaalfrequentie() != null) {
             polis.setBetaalfrequentie(polisIn.getBetaalfrequentie().name());
         }
 
-        polis.setMaatschappij(polisIn.getMaatschappij().toString());
         polis.setOmschrijvingVerzekering(polisIn.getOmschrijvingVerzekering());
         polis.setStatus(polisIn.getStatus().name());
         polis.setIdentificatie(polisIn.getIdentificatie());

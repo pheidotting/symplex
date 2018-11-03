@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.repository;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Adres;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.inloggen.Sessie;
 import org.junit.Before;
 import org.junit.Test;

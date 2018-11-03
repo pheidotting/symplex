@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.domain;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.Column;

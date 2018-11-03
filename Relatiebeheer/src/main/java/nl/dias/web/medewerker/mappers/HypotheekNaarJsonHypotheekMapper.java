@@ -2,9 +2,9 @@ package nl.dias.web.medewerker.mappers;
 
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.response.Hypotheek;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonHypotheek;
-import nl.lakedigital.djfc.domain.response.Hypotheek;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

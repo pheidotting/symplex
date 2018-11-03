@@ -1,26 +1,28 @@
-package nl.lakedigital.djfc.domain.particulier;
+package nl.lakedigital.djfc.commons.domain.particulier;
 
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//@Audited
+@Audited
+
 
 @Component
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "KB")
 public class KostbaarhedenVerzekering extends Polis {
-    public KostbaarhedenVerzekering() {//Hibernate wil deze, maar SonarQube niet
+    public KostbaarhedenVerzekering() {
     }
 
-    public KostbaarhedenVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
-        super(soortEntiteit, entiteitId);
+    public KostbaarhedenVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
+        super(pakket);
     }
 
     @Override
@@ -35,7 +37,7 @@ public class KostbaarhedenVerzekering extends Polis {
     }
 
     @Override
-    public KostbaarhedenVerzekering nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new KostbaarhedenVerzekering(soortEntiteit,entiteitId);
+    public KostbaarhedenVerzekering nieuweInstantie(Pakket pakket) {
+        return new KostbaarhedenVerzekering(pakket);
     }
 }

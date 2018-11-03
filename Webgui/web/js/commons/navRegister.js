@@ -134,7 +134,7 @@ define([],
                         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'
                     },
 
-                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/overig/lijstStatusSchade'},
+                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstStatusSchade'},
                     {
                         naam: 'OPHALEN_ADRES_OP_POSTCODE',
                         url: BASISURL_RELATIEBEHEER + '/medewerker/overig/ophalenAdresOpPostcode'
@@ -166,6 +166,7 @@ define([],
                     {naam: 'OPSLAAN_AANGIFTE', url: BASISURL_RELATIEBEHEER + '/medewerker/aangifte/opslaan'},
 
                     {naam: 'LEES_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lees'},
+                    {naam: 'OPSLAAN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/opslaanWijziging'},
                     {naam: 'LIJST_TAKEN', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lijst'},
                     {naam: 'AFHANDELEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/afhandelen'},
                     {naam: 'VRIJGEVEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/vrijgeven'},

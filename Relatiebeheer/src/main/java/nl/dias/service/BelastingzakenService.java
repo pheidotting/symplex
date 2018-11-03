@@ -2,7 +2,7 @@ package nl.dias.service;
 
 import nl.dias.domein.Belastingzaken;
 import nl.dias.repository.BelastingzakenRepository;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

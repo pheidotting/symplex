@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.repository;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.djfc.domain.Licentie;
+import nl.lakedigital.djfc.commons.domain.Licentie;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;

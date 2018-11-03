@@ -5,14 +5,15 @@ import nl.dias.domein.HypotheekPakket;
 import nl.dias.domein.SoortHypotheek;
 import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.service.HypotheekService;
+import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.mapper.HypotheekMapper;
 import nl.dias.web.mapper.HypotheekPakketMapper;
 import nl.dias.web.mapper.SoortHypotheekMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.HypotheekNaarJsonHypotheekMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
@@ -53,6 +54,8 @@ public class HypotheekController extends AbstractController {
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
@@ -126,7 +129,7 @@ public class HypotheekController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public Response opslaan(@RequestBody nl.lakedigital.djfc.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
+    public Response opslaan(@RequestBody nl.lakedigital.djfc.commons.domain.response.Hypotheek hypotheekIn, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("hypotheekOpslaan", HypotheekController.class, null, hypotheekIn.getIdentificatie() == null);
 
         LOGGER.debug("Opslaan Hypotheek " + hypotheekIn);
@@ -154,6 +157,8 @@ public class HypotheekController extends AbstractController {
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.HYPOTHEEK);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        takenOpslaanService.opslaan(hypotheekIn.getTaken(), hypotheek.getId(), SoortEntiteit.HYPOTHEEK);
 
         LOGGER.debug("Opgeslagen");
 

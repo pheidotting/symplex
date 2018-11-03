@@ -1,11 +1,11 @@
 package nl.dias.web.medewerker.mappers;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.response.Opmerking;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.Opmerking;
 
 import java.util.function.Function;
 
-public class DomainOpmerkingNaarMessagingOpmerkingMapper implements Function<Opmerking, nl.lakedigital.as.messaging.domain.Opmerking> {
+public class DomainOpmerkingNaarMessagingOpmerkingMapper implements Function<Opmerking, nl.lakedigital.djfc.commons.domain.Opmerking> {
     private Long entiteitId;
     private SoortEntiteit soortEntiteit;
 
@@ -15,15 +15,15 @@ public class DomainOpmerkingNaarMessagingOpmerkingMapper implements Function<Opm
     }
 
     @Override
-    public nl.lakedigital.as.messaging.domain.Opmerking apply(Opmerking opmerking) {
-        nl.lakedigital.as.messaging.domain.Opmerking jsonOpmerking = new nl.lakedigital.as.messaging.domain.Opmerking();
+    public nl.lakedigital.djfc.commons.domain.Opmerking apply(Opmerking opmerking) {
+        nl.lakedigital.djfc.commons.domain.Opmerking jsonOpmerking = new nl.lakedigital.djfc.commons.domain.Opmerking();
 
-        jsonOpmerking.setTekst(opmerking.getOpmerking());
+        jsonOpmerking.setOpmerking(opmerking.getOpmerking());
         jsonOpmerking.setEntiteitId(entiteitId);
         jsonOpmerking.setSoortEntiteit(soortEntiteit);
-        jsonOpmerking.setMedewerker(opmerking.getMedewerkerId());
+        jsonOpmerking.setMedewerker(opmerking.getMedewerkerId().toString());
         jsonOpmerking.setIdentificatie(opmerking.getIdentificatie());
-        jsonOpmerking.setTijdstip(opmerking.getTijd());
+        jsonOpmerking.setTijd(opmerking.getTijd());
 
         return jsonOpmerking;
     }

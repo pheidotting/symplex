@@ -46,7 +46,7 @@ public abstract class AbstractClient<D> {
 
     protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, MetricsService metrics, String metricsName, Class metricsClass, String... args) {
         if (timeOut == 0) {
-            timeOut = 30000;
+            timeOut = 20000;
         }
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {

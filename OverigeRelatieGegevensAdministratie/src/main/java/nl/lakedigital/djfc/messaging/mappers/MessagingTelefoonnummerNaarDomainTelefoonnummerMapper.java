@@ -1,16 +1,16 @@
 package nl.lakedigital.djfc.messaging.mappers;
 
-import nl.lakedigital.as.messaging.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.as.messaging.domain.Telefoonnummer;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.domain.Telefoonnummer;
 import nl.lakedigital.djfc.domain.TelefoonnummerSoort;
 import nl.lakedigital.djfc.service.TelefoonnummerService;
 
 import java.util.function.Function;
 
-public class MessagingTelefoonnummerNaarDomainTelefoonnummerMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.Telefoonnummer> {
+public class MessagingTelefoonnummerNaarDomainTelefoonnummerMapper implements Function<AbstracteEntiteitMetSoortEnId, Telefoonnummer> {
     private IdentificatieClient identificatieClient;
     private TelefoonnummerService telefoonnummerService;
 
@@ -20,16 +20,16 @@ public class MessagingTelefoonnummerNaarDomainTelefoonnummerMapper implements Fu
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.Telefoonnummer apply(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
-        Telefoonnummer tel = (Telefoonnummer) abstracteEntiteitMetSoortEnId;
+    public Telefoonnummer apply(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
+        nl.lakedigital.djfc.commons.domain.Telefoonnummer tel = (nl.lakedigital.djfc.commons.domain.Telefoonnummer) abstracteEntiteitMetSoortEnId;
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(tel.getIdentificatie());
 
-        nl.lakedigital.djfc.domain.Telefoonnummer telefoonnummer;
+        Telefoonnummer telefoonnummer;
         if (identificatie != null && identificatie.getEntiteitId() != null) {
             telefoonnummer = telefoonnummerService.lees(identificatie.getEntiteitId());
         } else {
-            telefoonnummer = new nl.lakedigital.djfc.domain.Telefoonnummer();
+            telefoonnummer = new Telefoonnummer();
         }
 
         telefoonnummer.setOmschrijving(tel.getOmschrijving());

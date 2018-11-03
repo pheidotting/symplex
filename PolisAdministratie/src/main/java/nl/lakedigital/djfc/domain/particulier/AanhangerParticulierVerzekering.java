@@ -1,26 +1,27 @@
-package nl.lakedigital.djfc.domain.particulier;
+package nl.lakedigital.djfc.commons.domain.particulier;
 
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//@Audited
+@Audited
 
 @Component
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "AA")
 public class AanhangerParticulierVerzekering extends Polis {
-    public AanhangerParticulierVerzekering() {//Hibernate wil deze, maar SonarQube niet
+    public AanhangerParticulierVerzekering() {
     }
 
-    public AanhangerParticulierVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
-        super(soortEntiteit, entiteitId);
+    public AanhangerParticulierVerzekering(nl.lakedigital.djfc.domain.Pakket pakket) {
+        super(pakket);
     }
 
     @Override
@@ -30,11 +31,11 @@ public class AanhangerParticulierVerzekering extends Polis {
 
     @Override
     public String getSchermNaam() {
-        return "AanhangerParticulier";
+        return this.getSchermNaamDefault(this.getClass().getCanonicalName());
     }
 
     @Override
-    public AanhangerParticulierVerzekering nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new AanhangerParticulierVerzekering(soortEntiteit, entiteitId);
+    public AanhangerParticulierVerzekering nieuweInstantie(Pakket pakket) {
+        return new AanhangerParticulierVerzekering(pakket);
     }
 }

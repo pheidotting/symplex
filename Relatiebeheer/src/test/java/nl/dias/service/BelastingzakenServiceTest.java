@@ -3,7 +3,7 @@ package nl.dias.service;
 import nl.dias.builders.BelastingzakenBuilder;
 import nl.dias.domein.Belastingzaken;
 import nl.dias.repository.BelastingzakenRepository;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import org.easymock.*;
 import org.junit.Ignore;
 import org.junit.Test;

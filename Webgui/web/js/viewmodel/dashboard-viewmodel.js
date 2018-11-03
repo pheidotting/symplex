@@ -14,8 +14,9 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'repository/common/repository',
-        'navRegister'],
-    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister) {
+        'navRegister',
+        "underscore"],
+    function ($, commonFunctions, ko, Relatie, zoekvelden, functions, block, log, redirect, toggleService, zoekenService, gebruikerService, zoekresultaatMapper, menubalkViewmodel, LicentieViewmodel, repository, navRegister, _) {
 
         return function () {
             commonFunctions.checkNieuweVersie();
@@ -29,6 +30,7 @@ define(['jquery',
 
             this.aantalOpenSchades = ko.observable();
             this.aantalRelaties = ko.observable();
+            this.aantalOpenTaken = ko.observable();
 
             this.init = function () {
                 var deferred = $.Deferred();
@@ -40,6 +42,12 @@ define(['jquery',
                 repository.voerUitGet(navRegister.bepaalUrl('DASHBOARD')).then(function (result) {
                     _this.aantalOpenSchades(result.openSchades.length);
                     _this.aantalRelaties(result.relaties.length + result.bedrijven.length);
+
+                    var aantalOpenTaken = _.filter(result.taken, function(taak) {
+                        return taak.tijdstipAfgehandeld == null;
+                    }).length;
+
+                    _this.aantalOpenTaken(result.taken.length);
 
                     return deferred.resolve();
                 });
