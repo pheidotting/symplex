@@ -13,9 +13,10 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel) {
+    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel) {
 
         return function () {
             var _this = this;
@@ -28,6 +29,7 @@ define(['jquery',
             this.polis = null;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.id = ko.observable();
             this.readOnly = ko.observable();
@@ -86,6 +88,7 @@ define(['jquery',
                     _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages, _this.id() == _this.basisId);
                     _this.menubalkViewmodel = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, schade, false);
 
                     _this.takenViewmodel = new TakenViewmodel(schade.taken);
 

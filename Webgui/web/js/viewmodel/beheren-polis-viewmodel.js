@@ -13,11 +13,12 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, _) {
+    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, _) {
 
         return function () {
             var _this = this;
@@ -31,6 +32,7 @@ define(['jquery',
             this.taakModel = null;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.lijst = ko.observableArray();
             this.id = ko.observable();
@@ -87,6 +89,7 @@ define(['jquery',
                     _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, polisId, pakket.bijlages, pakket.groepBijlages, _this.id() == _this.basisId);
                     _this.menubalkViewmodel = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(entiteit, pakket, null, true);
 
                     _this.takenViewmodel = new TakenViewmodel(pakket.taken);
 

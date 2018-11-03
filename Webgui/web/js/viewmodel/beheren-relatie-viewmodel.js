@@ -19,10 +19,11 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel) {
+    function ($, commonFunctions, ko, Relatie, functions, block, log, redirect, relatieMapper, gebruikerService, relatieService, toggleService, adresViewModel, rekeningnummerViewModel, telefoonnummerViewModel, opmerkingViewModel, bijlageViewModel, telefonieViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel) {
 
         return function () {
             var _this = this;
@@ -40,6 +41,7 @@ define(['jquery',
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
             this.takenViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.onderlingeRelaties = ko.observableArray();
             this.lijst = ko.observableArray();
@@ -66,6 +68,7 @@ define(['jquery',
                     _this.licentieViewmodel = new LicentieViewmodel();
 
                     _this.takenViewmodel = new TakenViewmodel(relatie.taken);
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(relatie);
 
                     return deferred.resolve();
                 });

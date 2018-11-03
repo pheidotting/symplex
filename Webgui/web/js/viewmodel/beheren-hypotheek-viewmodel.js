@@ -10,17 +10,19 @@ define(['jquery',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'moment',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, moment, _) {
+    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, moment, _) {
         return function () {
             var _this = this;
             var logger = log.getLogger('beheren-hypotheek-viewmodel');
             var soortEntiteit = 'HYPOTHEEK';
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.basisEntiteit = null;
             this.basisId = null;
@@ -59,6 +61,7 @@ define(['jquery',
                     _this.licentieViewmodel = new LicentieViewmodel();
 
                     _this.takenViewmodel = new TakenViewmodel(hypotheek.taken);
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, null, false, false, hypotheek, true);
 
                     $('#gekoppeldeHypotheekGroep').hide();
 
