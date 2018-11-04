@@ -1,11 +1,8 @@
 package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
-import nl.dias.mapper.Mapper;
-import nl.dias.messaging.sender.*;
-import nl.dias.service.BedrijfService;
-import nl.dias.service.GebruikerService;
-import nl.dias.service.TakenOpslaanService;
+import nl.dias.messaging.sender.OpslaanPolisOpdrachtSender;
+import nl.dias.messaging.sender.VerwijderPolisOpdrachtSender;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.JsonPakketNaarDomainPakketMapper;
 import nl.dias.web.medewerker.mappers.JsonTaakNaarOpdrachtMapper;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.jms.Destination;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,33 +35,17 @@ public class PolisController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolisController.class);
 
     @Inject
-    private GebruikerService gebruikerService;
-    @Inject
-    private BedrijfService bedrijfService;
-    @Inject
-    private Mapper mapper;
-    @Inject
-    private PolisVerwijderenRequestSender polisVerwijderenRequestSender;
-    @Inject
     private OpslaanPolisOpdrachtSender opslaanPolisOpdrachtSender;
     @Inject
     private VerwijderPolisOpdrachtSender verwijderPolisOpdrachtSender;
     @Inject
-    private Destination polisOpslaanResponseDestination;
-    @Inject
     private PolisClient polisClient;
-    //    @Inject
-    private BeindigenPolisRequestSender beindigenPolisRequestSender;
     @Inject
     private IdentificatieClient identificatieClient;
     @Inject
     private OpdrachtenClient opdrachtenClient;
     @Inject
-    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
-    @Inject
     private MetricsService metricsService;
-    @Inject
-    private TakenOpslaanService takenOpslaanService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/alleParticulierePolisSoorten", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
