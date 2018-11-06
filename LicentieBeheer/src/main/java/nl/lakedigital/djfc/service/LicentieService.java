@@ -63,6 +63,7 @@ public class LicentieService {
     }
 
     public Licentie actieveLicentie(Long kantoorId) {
+        LOGGER.debug("Ophelen actieve licentie");
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
 
         licenties.sort((o1, o2) -> o2.getStartDatum().compareTo(o1.getStartDatum()));
