@@ -51,6 +51,7 @@ public class JsonToDtoPakketMapper implements Function<JsonPakket, Pakket> {
         pakket.setPolissen(domein.getPolissen().stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
 
         pakket.setBijlages(bijlageClient.lijst("PAKKET", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
+        pakket.getBijlages().addAll(bijlageClient.lijst("POLIS", domein.getId()).stream().map(new JsonToDtoBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         pakket.setGroepBijlages(groepBijlagesClient.lijstGroepen("PAKKET", domein.getId()).stream().map(new JsonToDtoGroepBijlageMapper(identificatieClient)).collect(Collectors.toList()));
         pakket.setOpmerkingen(opmerkingClient.lijst("PAKKET", domein.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
         pakket.setTaken(taakClient.alles("PAKKET", domein.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
