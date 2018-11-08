@@ -885,6 +885,10 @@ pipeline {
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
                 sh '''
+                    cd OpdrachtenAdministratie
+                    mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
+                '''
+                sh '''
                     cd PolisAdministratie
                     mvn clean test -Psonar sonar:sonar -Dsonar.branch=development
                 '''
@@ -944,6 +948,10 @@ pipeline {
                 '''
                 sh '''
                     cd LicentieBeheer
+                    mvn clean test -Psonar sonar:sonar
+                '''
+                sh '''
+                    cd OpdrachtenAdministratie
                     mvn clean test -Psonar sonar:sonar
                 '''
                 sh '''
