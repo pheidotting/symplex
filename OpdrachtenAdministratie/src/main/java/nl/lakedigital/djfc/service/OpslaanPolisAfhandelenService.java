@@ -32,7 +32,7 @@ public class OpslaanPolisAfhandelenService extends AfhandelenInkomendeOpdrachtSe
 
     @Override
     protected UitgaandeOpdracht bepaalUitgaandeOpdrachtWachtenOp(OpslaanPolisOpdracht opdracht, List<UitgaandeOpdracht> uitgaandeOpdrachten) {
-        Optional<UitgaandeOpdracht> optionalUitgaandeOpdracht = opdracht.getPakket().getId() != null ? null : uitgaandeOpdrachten.stream().filter(uitgaandeOpdracht -> getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit())).findFirst();
+        Optional<UitgaandeOpdracht> optionalUitgaandeOpdracht = uitgaandeOpdrachten.stream().filter(uitgaandeOpdracht -> getSoortEntiteiten().contains(uitgaandeOpdracht.getSoortEntiteit())).findFirst();
         return optionalUitgaandeOpdracht.isPresent() ? optionalUitgaandeOpdracht.get() : null;
     }
 
