@@ -130,25 +130,6 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
         <constructor-arg index="0" ref="entiteitenOpgeslagenRequestTemplate"/>
     </bean>
 
-    <!--&lt;!&ndash; Aanmaken Taak &ndash;&gt;-->
-    <!--&lt;!&ndash; Default Destination Queue Definition &ndash;&gt;-->
-    <!--<bean id="aanmakenTaakDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
-    <!--<constructor-arg index="0" value="aanmakenTaakQueue" />-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; aanmakenTaakTemplate Definition &ndash;&gt;-->
-    <!--<bean id="aanmakenTaakTemplate" class="org.springframework.jms.core.JmsTemplate">-->
-    <!--<property name="connectionFactory" ref="connectionFactory" />-->
-    <!--<property name="defaultDestination" ref="aanmakenTaakDestination" />-->
-    <!--</bean>-->
-
-    <!--&lt;!&ndash; Message Sender Definition &ndash;&gt;-->
-    <!--<bean id="aanmakenTaakSender" class="nl.dias.messaging.sender.AanmakenTaakSender">-->
-    <!--<constructor-arg index="0" ref="aanmakenTaakTemplate" />-->
-    <!--</bean>-->
-    <!--&lt;!&ndash; /Aanmaken Taak &ndash;&gt;-->
-
-
     <!-- Opvragen Persoon -->
     <bean id="opvragenPersoonRequestReciever" class="nl.dias.messaging.reciever.OpvragenPersoonRequestReciever"/>
 

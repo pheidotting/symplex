@@ -52,7 +52,7 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
 
             verwerkMessage(ontvangenObject);
         } catch (JMSException | JAXBException e) {
-            logger.error("Fout opgetreden bij ontvangen AanmakenTaak event {}", e);
+            logger.error("Fout opgetreden bij ontvangen event {}", e);
         }
     }
 
@@ -71,7 +71,7 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
             this.replyProducer = this.session.createProducer(null);
             this.replyProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
         } catch (JMSException e) {
-            logger.error("Fout opgetreden bij ontvangen AanmakenTaak event {}", e);
+            logger.error("Fout opgetreden bij ontvangen  event {}", e);
         }
     }
 
