@@ -11,8 +11,9 @@ define(['jquery',
         'viewmodel/common/licentie-viewmodel',
         'viewmodel/common/breadcrumbs-viewmodel',
         'moment',
-        'commons/opmaak'],
-    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, pakketMapper, menubalkViewmodel, LicentieViewmodel, BreadcrumbsViewmodel, moment, opmaak) {
+        'commons/opmaak',
+        'underscore'],
+    function ($, commonFunctions, ko, functions, block, log, redirect, polisService, pakketMapper, menubalkViewmodel, LicentieViewmodel, BreadcrumbsViewmodel, moment, opmaak, _) {
 
         return function () {
             var _this = this;
@@ -41,6 +42,21 @@ define(['jquery',
                     }
 
                     _this.pakketten = pakketMapper.mapPakketten(data.pakketten, maatschappijen);
+                    console.log('saf');
+                    _.each(_this.pakketten(), function(pakket){
+                        pakket.status = ko.observable(pakket.polissen()[0].status());
+                        pakket.soort = ko.observable(pakket.polissen()[0].soort());
+                        pakket.kenmerk = ko.observable(pakket.polissen()[0].kenmerk());
+                        pakket.ingangsDatum = ko.observable(pakket.polissen()[0].ingangsDatum());
+
+                        var polisNummer = pakket.polisNummer();
+                         if(pakket.polissen()[0].polisNummer() != null){
+                            polisNummer += ' - ' + pakket.polissen()[0].polisNummer();
+                         }
+                         pakket.polisNummer(polisNummer);
+
+                    });
+                    console.log('safsdfa');
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
