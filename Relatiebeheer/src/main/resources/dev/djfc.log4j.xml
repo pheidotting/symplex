@@ -30,6 +30,11 @@
         </layout>
     </appender>
 
+    <appender name="jms" class="nl.dias.common.JMSQueueAppender">
+        <param name="brokerUri" value="tcp://localhost:61616"/>
+        <param name="queueName" value="logDjfc"/>
+    </appender>
+
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
@@ -56,5 +61,6 @@
         <priority value="trace"/>
         <appender-ref ref="console"/>
         <appender-ref ref="debugFileAppender"/>
+        <appender-ref ref="jms"/>
     </root>
 </log4j:configuration>
