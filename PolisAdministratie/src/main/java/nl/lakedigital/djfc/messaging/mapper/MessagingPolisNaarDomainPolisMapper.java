@@ -102,8 +102,8 @@ public class MessagingPolisNaarDomainPolisMapper implements Function<Polis, nl.l
             polis.setPolisNummer(polisIn.getPolisNummer());
             polis.setKenmerk(polisIn.getKenmerk());
             polis.setIngangsDatum(ingangsDatum);
-            if (polisIn.getPremie() != null) {
-                polis.setPremie(new Bedrag(polisIn.getPremie()));
+            if (polisIn.getPremie() != null && !"".equals(polisIn.getPremie())) {
+                polis.setPremie(new Bedrag(polisIn.getPremie().replace(",", ".")));
             }
             polis.setWijzigingsDatum(wijzigingsDatum);
             polis.setProlongatieDatum(prolongatieDatum);
