@@ -258,6 +258,7 @@ pipeline {
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/test.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/licentie.war
+                    ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/log.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.230 rm -f /opt/jetty/webapps/oga.war
@@ -278,6 +279,7 @@ pipeline {
                 sh '''
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/licentie.war
+                    ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/log.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.215 rm -f /opt/jetty/webapps/oga.war
@@ -522,6 +524,8 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.230:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp LicentieBeheer/target/log.war jetty@192.168.91.230:/opt/jetty/webapps
+
                     scp IdBeheer/src/main/resources/tst2/id.app.properties jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/src/main/resources/tst2/id.log4j.xml jetty@192.168.91.230:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.230:/opt/jetty/webapps
@@ -636,6 +640,7 @@ pipeline {
                 sh '''
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/communicatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/licentie.war
+                    ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/log.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/identificatie.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oa.war
                     ssh jetty@192.168.91.220 rm -f /opt/jetty/webapps/oga.war
@@ -725,6 +730,8 @@ pipeline {
                     scp LicentieBeheer/target/licentie.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.215:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
+
+                    scp LicentieBeheer/target/log.war jetty@192.168.91.215:/opt/jetty/webapps
 
                     scp OpdrachtenAdministratie/src/main/resources/tst/oa.app.properties jetty@192.168.91.215:/opt/jetty
                     scp OpdrachtenAdministratie/src/main/resources/tst/oa.log4j.xml jetty@192.168.91.215:/opt/jetty

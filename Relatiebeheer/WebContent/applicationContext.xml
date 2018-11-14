@@ -171,16 +171,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
                       method="onMessage"/>
     </jms:listener-container>
 
-
-    <bean id="logDjfcReciever"
-          class="nl.dias.common.LogQueueListener"/>
-
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="logDjfc" ref="logDjfcReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
-
-
     <context:annotation-config/>
 
     <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

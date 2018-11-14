@@ -1,10 +1,10 @@
-package nl.dias.common;
+package nl.lakedigital.djfc.logging;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Appender;
 import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
+import org.slf4j.MDC;
 
 import javax.jms.*;
 
@@ -15,10 +15,10 @@ import javax.jms.*;
  */
 public class JMSQueueAppender extends AppenderSkeleton implements Appender {
 
-    private static Logger logger = Logger.getLogger("JMSQueueAppender");
-
     private String brokerUri;
     private String queueName;
+    private String applicatie = "";
+    private String omgeving;
 
     @Override
     public void close() {
@@ -50,7 +50,19 @@ public class JMSQueueAppender extends AppenderSkeleton implements Appender {
             MessageProducer producer = session.createProducer(destination);
             producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
-            ObjectMessage message = session.createObjectMessage(new LoggingEventWrapper(event));
+
+            String ingelogdeGebruiker = MDC.get("ingelogdeGebruiker");
+            Long ig = null;
+            if (ingelogdeGebruiker != null && !"null".equals(ingelogdeGebruiker)) {
+                ig = Long.valueOf(ingelogdeGebruiker);
+            }
+
+            String m = event.getMessage() != null ? event.getMessage().toString() : "";
+            String trackAndTraceId = event.getMDC("trackAndTraceId") != null ? event.getMDC("trackAndTraceId").toString() : "";
+            String ingelogdeGebruikerOpgemaakt = event.getMDC("ingelogdeGebruikerOpgemaakt") != null ? event.getMDC("ingelogdeGebruikerOpgemaakt").toString() : "";
+            String url = event.getMDC("url") != null ? event.getMDC("url").toString() : "";
+
+            ObjectMessage message = session.createObjectMessage(new KibanaEvent(m, event, ig, trackAndTraceId, ingelogdeGebruikerOpgemaakt, url, applicatie, omgeving));
 
             // Tell the producer to send the message
             producer.send(message);
@@ -77,5 +89,21 @@ public class JMSQueueAppender extends AppenderSkeleton implements Appender {
 
     public String getQueueName() {
         return queueName;
+    }
+
+    public String getApplicatie() {
+        return applicatie;
+    }
+
+    public void setApplicatie(String applicatie) {
+        this.applicatie = applicatie;
+    }
+
+    public String getOmgeving() {
+        return omgeving;
+    }
+
+    public void setOmgeving(String omgeving) {
+        this.omgeving = omgeving;
     }
 }

@@ -21,6 +21,13 @@
         </layout>
     </appender>
 
+    <appender name="jms" class="nl.lakedigital.djfc.logging.JMSQueueAppender">
+        <param name="brokerUri" value="tcp://localhost:61616"/>
+        <param name="queueName" value="logDjfc"/>
+        <param name="applicatie" value="oa"/>
+        <param name="omgeving" value="dev"/>
+    </appender>
+
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
@@ -47,5 +54,6 @@
         <priority value="trace"/>
         <appender-ref ref="console"/>
         <appender-ref ref="fileAppender"/>
+        <appender-ref ref="jms"/>
     </root>
 </log4j:configuration>
