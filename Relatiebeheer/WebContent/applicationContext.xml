@@ -77,25 +77,25 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </bean>
 
 
-    <bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="pa.rb.polisOpslaanResponseQueue"/>
-    </bean>
-    <bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>
+    <!--<bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="pa.rb.polisOpslaanResponseQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>-->
+    <!---->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>-->
 
-    <bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>
-    </bean>
-    <bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>
-
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
     <bean id="controleerLicentiesResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="lb.rb.controleerLicentieResponseQueue"/>
@@ -170,7 +170,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <jms:listener destination="tb.rb.wijzigingTaakOpslaanResponseQueue" ref="wijzigingTaakOpslaanResponseReciever"
                       method="onMessage"/>
     </jms:listener-container>
-
 
     <context:annotation-config/>
 

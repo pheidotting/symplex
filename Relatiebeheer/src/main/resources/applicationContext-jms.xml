@@ -57,12 +57,12 @@ http://www.springframework.org/schema/jms http://www.springframework.org/schema/
     <bean id="polisOpslaanRequestSender" class="nl.dias.messaging.sender.PolisOpslaanRequestSender">
         <constructor-arg index="0" ref="polisOpslaanRequestTemplate"/>
     </bean>
-    <bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>
-
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>-->
+    <!---->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
     <bean id="polisVerwijderenRequestDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="rb.pa.polisVerwijderenRequestQueue"/>
