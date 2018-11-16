@@ -818,6 +818,8 @@ pipeline {
 
                     bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://192.168.91.220:8080/licentie/rest/zabbix/checkDatabase)" != "200" ]]; do sleep 5; done'
 
+                    scp Log/target/log.war jetty@192.168.91.220:/opt/jetty/webapps
+
                     scp IdBeheer/src/main/resources/prd/id.app.properties jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/src/main/resources/prd/id.log4j.xml jetty@192.168.91.220:/opt/jetty
                     scp IdBeheer/target/identificatie.war jetty@192.168.91.220:/opt/jetty/webapps
