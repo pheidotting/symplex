@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>dejonge</display-name>
+    <!--<context-param>-->
+    <!--<param-name>liquibase.changelog</param-name>-->
+    <!--<param-value>nl/dias/service/liquibase/databaseChangeLog.xml</param-value>-->
+    <!--</context-param>-->
+    <!---->
+    <!--<context-param>-->
+    <!--<param-name>liquibase.datasource</param-name>-->
+    <!--<param-value>jdbcDias</param-value>-->
+    <!--</context-param>-->
+    <!---->
+    <!--<listener>-->
+    <!--<listener-class>liquibase.integration.servlet.LiquibaseServletListener</listener-class>-->
+    <!--</listener>-->
+
+    <!--<context-param>-->
+    <!--<param-name>contextConfigLocation</param-name>-->
+    <!--<param-value>-->
+    <!--/applicationContext.xml-->
+    <!--</param-value>-->
+    <!--</context-param>-->
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /applicationContext.xml
+        </param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>relatiebeheer</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>relatiebeheer</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!--<servlet>-->
+    <!--<servlet-name>relatiebeheer-authorisatie</servlet-name>-->
+    <!--<servlet-class>-->
+    <!--org.springframework.web.servlet.DispatcherServlet-->
+    <!--</servlet-class>-->
+    <!--<load-on-startup>1</load-on-startup>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>relatiebeheer-authorisatie</servlet-name>-->
+    <!--<url-pattern>/rest/authorisatie/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!--&lt;!&ndash;<filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-name>HeaderFilter</filter-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-class>nl.dias.web.filter.HeaderFilter</filter-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;</filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-mapping>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-name>HeaderFilter</filter-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<url-pattern>/rest/medewerker/*</url-pattern>&ndash;&gt;-->
+    <!--&lt;!&ndash;</filter-mapping>&ndash;&gt;-->
+    <!--<filter>-->
+    <!--<filter-name>TrackAndTrace</filter-name>-->
+    <!--<filter-class>nl.dias.web.filter.trackandtraceid.TrackAndTraceFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+    <!--<filter-name>TrackAndTrace</filter-name>-->
+    <!--<url-pattern>/rest/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--<filter>-->
+    <!--<filter-name>Authorisatie</filter-name>-->
+    <!--<filter-class>nl.dias.web.filter.JWTFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+    <!--<filter-name>Authorisatie</filter-name>-->
+    <!--<url-pattern>/rest/medewerker/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--&lt;!&ndash;<filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-name>Kantoor</filter-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-class>nl.dias.web.filter.KantoorFilter</filter-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;</filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-mapping>&ndash;&gt;-->
+    <!--&lt;!&ndash;<filter-name>Kantoor</filter-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<url-pattern>/rest/medewerker/*</url-pattern>&ndash;&gt;-->
+    <!--&lt;!&ndash;</filter-mapping>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<servlet-mapping>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet-name>relatiebeheer-applicaties</servlet-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<url-pattern>/rest/applicaties/*</url-pattern>&ndash;&gt;-->
+    <!--&lt;!&ndash;</servlet-mapping>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet-name>relatiebeheer-applicaties</servlet-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;org.springframework.web.servlet.DispatcherServlet&ndash;&gt;-->
+    <!--&lt;!&ndash;</servlet-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;<load-on-startup>1</load-on-startup>&ndash;&gt;-->
+    <!--&lt;!&ndash;</servlet>&ndash;&gt;-->
+
+
+    <!--<listener>-->
+    <!--<listener-class>nl.dias.web.servlet.ScheduleServlet</listener-class>-->
+    <!--</listener>-->
+    <!--&lt;!&ndash;<listener>&ndash;&gt;-->
+    <!--&lt;!&ndash;<listener-class>nl.dias.web.servlet.AanmeldenEntiteitenBijIdentificatieServlet</listener-class>&ndash;&gt;-->
+    <!--&lt;!&ndash;</listener>&ndash;&gt;-->
+
+    <!--<listener>-->
+    <!--<listener-class>nl.dias.web.servlet.MyMetricsServletContextListener</listener-class>-->
+    <!--</listener>-->
+    <!--<listener>-->
+    <!--<listener-class>nl.dias.web.servlet.MyHealthCheckServletContextListener</listener-class>-->
+    <!--</listener>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>metrics</servlet-name>-->
+    <!--<servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>metrics</servlet-name>-->
+    <!--<url-pattern>/metrics/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+</web-app>

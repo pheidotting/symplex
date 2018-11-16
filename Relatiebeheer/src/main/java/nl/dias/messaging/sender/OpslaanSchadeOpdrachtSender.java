@@ -29,7 +29,6 @@ public class OpslaanSchadeOpdrachtSender extends AbstractSender<OpslaanSchadeOpd
     public OpslaanSchadeOpdracht maakMessage(nl.lakedigital.djfc.commons.domain.response.Schade jsonSchade) {
         OpslaanSchadeOpdracht opslaanSchadeOpdracht = new OpslaanSchadeOpdracht();
         Schade schade = new Schade();
-        //        schade.setId(jsonSchade.getId());
         schade.setIdentificatie(jsonSchade.getIdentificatie());
         schade.setDatumAfgehandeld(jsonSchade.getDatumAfgehandeld());
         schade.setDatumMelding(jsonSchade.getDatumMelding());

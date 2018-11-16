@@ -16,6 +16,7 @@
         <module>messaging</module>
         <module>Communicatie</module>
         <module>LicentieBeheer</module>
+        <module>Log</module>
         <module>Relatiebeheer</module>
         <module>IdBeheer</module>
         <module>OpdrachtenAdministratie</module>

@@ -1,12 +1,8 @@
 package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
-import nl.dias.messaging.sender.OpslaanEntiteitenRequestSender;
 import nl.dias.messaging.sender.OpslaanSchadeOpdrachtSender;
 import nl.dias.messaging.sender.VerwijderSchadeOpdrachtSender;
-import nl.dias.service.BedrijfService;
-import nl.dias.service.GebruikerService;
-import nl.dias.service.TakenOpslaanService;
 import nl.dias.web.medewerker.mappers.JsonTaakNaarOpdrachtMapper;
 import nl.lakedigital.as.messaging.opdracht.opdracht.OpslaanSchadeOpdracht;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
@@ -33,17 +29,9 @@ public class SchadeController extends AbstractController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SchadeController.class);
 
     @Inject
-    private GebruikerService gebruikerService;
-    @Inject
-    private BedrijfService bedrijfService;
-    @Inject
     private IdentificatieClient identificatieClient;
     @Inject
-    private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
-    @Inject
     private MetricsService metricsService;
-    @Inject
-    private TakenOpslaanService takenOpslaanService;
     @Inject
     private OpslaanSchadeOpdrachtSender opslaanSchadeOpdrachtSender;
     @Inject
