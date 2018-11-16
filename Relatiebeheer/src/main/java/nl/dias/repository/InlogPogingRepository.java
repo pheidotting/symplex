@@ -67,13 +67,14 @@ public class InlogPogingRepository {
         StringBuilder adres = new StringBuilder();
         Double latitude = null;
         Double longitude = null;
+        BufferedReader in = null;
         if (gelukt) {
             try (DatabaseReader dbReader = new DatabaseReader.Builder(database).build()) {
                 LOGGER.debug("Ipadres uit request : {}", ipadres);
                 if (ipadres == null || "".equals(ipadres) || "127.0.0.1".equals(ipadres) || "0.0.0.0".equals(ipadres) || "0:0:0:0:0:0:0:1".equals(ipadres) || ipadres.startsWith("172") || ipadres.startsWith("192")) {
                     LOGGER.debug("Extern ipadres ophalen");
                     URL whatismyip = new URL("http://checkip.amazonaws.com");
-                    BufferedReader in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
+                    in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
 
                     ip = in.readLine();
                     LOGGER.debug("Extern ipadres {}", ip);
@@ -98,6 +99,12 @@ public class InlogPogingRepository {
 
             } catch (IOException | GeoIp2Exception e) {
                 LOGGER.trace("Fout opgetreden bij bepalen locatie {}", e);
+            } finally {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    LOGGER.trace("Fout opgetreden bij bepalen locatie {}", e);
+                }
             }
         }
 
