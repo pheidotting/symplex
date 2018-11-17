@@ -18,8 +18,10 @@ public class KibanaEvent implements Serializable {
     private String applicatie;
     private String omgeving;
     private String url;
+    private int hash;
 
-    public KibanaEvent(String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String ingelogdeGebruikerOpgemaakt, String url, String applicatie, String omgeving) {
+    public KibanaEvent(int hash, String message, LoggingEvent event, Long ingelogdeGebruiker, String trackAndTraceId, String ingelogdeGebruikerOpgemaakt, String url, String applicatie, String omgeving) {
+        this.hash = hash;
         this.message = message;
         this.ingelogdeGebruiker = ingelogdeGebruiker;
         this.ingelogdeGebruikerOpgemaakt = ingelogdeGebruikerOpgemaakt;
@@ -121,5 +123,13 @@ public class KibanaEvent implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getHash() {
+        return hash;
+    }
+
+    public void setHash(int hash) {
+        this.hash = hash;
     }
 }

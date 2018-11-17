@@ -27,7 +27,7 @@
         </layout>
     </appender>
 
-    <appender name="jms" class="nnl.lakedigital.djfc.logging.JMSQueueAppender">
+    <appender name="jms" class="nl.lakedigital.djfc.logging.JMSQueueAppender">
         <param name="brokerUri" value="tcp://localhost:61616"/>
         <param name="queueName" value="logDjfc"/>
         <param name="applicatie" value="lb"/>
