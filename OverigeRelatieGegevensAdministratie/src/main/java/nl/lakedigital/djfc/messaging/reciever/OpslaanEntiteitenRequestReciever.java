@@ -1,7 +1,6 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
 import com.codahale.metrics.Timer;
-import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.as.messaging.response.Response;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
