@@ -15,6 +15,8 @@ import static com.google.common.base.Stopwatch.createStarted;
 
 public class OpdrachtenClient extends AbstractClient<OpvragenOpdrachtenStatusResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
+
     private MetricsService metricsService;
 
     public OpdrachtenClient(String basisUrl) {
@@ -48,4 +50,9 @@ public class OpdrachtenClient extends AbstractClient<OpvragenOpdrachtenStatusRes
 
         }
     }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
+    }
+
 }

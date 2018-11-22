@@ -30,6 +30,7 @@ public class CommunicatieClient extends AbstractClient {
     private final String URL_MARKEER_OM_TE_VERZENDEN = basisUrl + "/rest/communicatieproduct/markeerOmTeVerzenden";
     private final String URL_MARKEER_GELEZEN = basisUrl + "/rest/communicatieproduct/markeerAlsGelezen";
     private final String URL_LEES = basisUrl + "/rest/communicatieproduct/lees";
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
 
     public CommunicatieClient() {
     }
@@ -139,5 +140,9 @@ public class CommunicatieClient extends AbstractClient {
         List<JsonCommunicatieProduct> yourClassList = gson.fromJson(response.getEntity(String.class), listType);
 
         return yourClassList;
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 }

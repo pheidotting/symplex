@@ -30,6 +30,8 @@ public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenRe
     private final String URL_ZOEK_OP_ADRES = "/rest/adres/zoekOpAdres";
     private final String URL_ZOEK_OP_PLAATS = "/rest/adres/zoekOpPlaats";
 
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
+
     private MetricsService metricsService;
 
     public AdresClient(String basisUrl) {
@@ -178,5 +180,9 @@ public class AdresClient extends AbstractOgaClient<JsonAdres, OpvragenAdressenRe
         }
 
         return result;
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 }
