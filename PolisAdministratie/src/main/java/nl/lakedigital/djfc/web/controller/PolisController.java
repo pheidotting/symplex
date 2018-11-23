@@ -73,7 +73,7 @@ public class PolisController {
     public OpvragenPolissenResponse lees(@PathVariable("id") String id, @PathVariable("oppolis") boolean oppolis) {
         OpvragenPolissenResponse opvragenPolissenResponse = new OpvragenPolissenResponse();
 
-        LOGGER.debug("ophalen Pakket met id " + id);
+        LOGGER.info("ophalen Pakket met id " + id);
         if (id != null && !"".equals(id) && !"0".equals(id)) {
             LOGGER.debug("ophalen Pakket");
             List<JsonPolis> polissen = Lists.newArrayList();
@@ -111,7 +111,7 @@ public class PolisController {
     @RequestMapping(method = RequestMethod.GET, value = "/lijst/{relatieId}")
     @ResponseBody
     public OpvragenPolissenResponse lijst(@PathVariable("relatieId") String relatieId) {
-        LOGGER.debug("Ophalen alle polissen voor Relatie " + relatieId);
+        LOGGER.info("Ophalen alle polissen voor Relatie " + relatieId);
         Long relatie = Long.valueOf(relatieId);
 
         List<JsonPakket> pakketten = Lists.newArrayList();
@@ -140,7 +140,7 @@ public class PolisController {
     @RequestMapping(method = RequestMethod.GET, value = "/lijstBijBedrijf/{bedrijfId}")
     @ResponseBody
     public OpvragenPolissenResponse lijstBijBedrijf(@PathVariable("bedrijfId") Long bedrijfId) {
-        LOGGER.debug("Ophalen alle polissen voor Bedrijf " + bedrijfId);
+        LOGGER.info("Ophalen alle polissen voor Bedrijf " + bedrijfId);
 
         List<JsonPakket> pakketten = Lists.newArrayList();
         for (Pakket pakket : polisService.alles(SoortEntiteit.BEDRIJF, bedrijfId)) {

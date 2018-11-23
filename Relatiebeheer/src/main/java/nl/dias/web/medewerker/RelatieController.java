@@ -69,7 +69,7 @@ public class RelatieController extends AbstractController {
     @ResponseBody
     public Relatie leesRelatie(@PathVariable("id") String identificatie, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
-        LOGGER.debug("Ophalen Relatie met identificatie {}", identificatie);
+        LOGGER.info("Ophalen Relatie met identificatie {}", identificatie);
 
         Relatie relatie = null;
         try {

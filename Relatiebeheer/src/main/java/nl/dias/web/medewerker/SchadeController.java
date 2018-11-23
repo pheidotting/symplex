@@ -47,7 +47,7 @@ public class SchadeController extends AbstractController {
         metricsService.addMetric("schadeOpslaan", SchadeController.class, null, jsonSchade.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", SchadeController.class);
 
-        LOGGER.debug("Opslaan {}", jsonSchade);
+        LOGGER.info("Opslaan {}", jsonSchade);
 
         zetSessieWaarden(httpServletRequest);
 
@@ -71,7 +71,7 @@ public class SchadeController extends AbstractController {
     public void verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("schadeVerwijderen", SchadeController.class, null, null);
 
-        LOGGER.debug("verwijderen Schade met id " + id);
+        LOGGER.info("verwijderen Schade met id " + id);
 
         zetSessieWaarden(httpServletRequest);
 

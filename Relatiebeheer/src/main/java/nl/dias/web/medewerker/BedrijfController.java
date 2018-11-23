@@ -91,7 +91,7 @@ public class BedrijfController extends AbstractController {
         metricsService.addMetric("bedrijfOpslaan", BedrijfController.class, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfController.class);
 
-        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
+        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -165,7 +165,7 @@ public class BedrijfController extends AbstractController {
     @ResponseBody
     public nl.lakedigital.djfc.commons.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
-        LOGGER.debug("Zoeken met identificatiecode {}", identificatieCode);
+        LOGGER.info("Zoeken Bedrijf met identificatiecode {}", identificatieCode);
 
         nl.lakedigital.djfc.commons.domain.response.Bedrijf bedrijf = null;
 
