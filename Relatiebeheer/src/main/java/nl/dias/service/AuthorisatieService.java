@@ -66,6 +66,7 @@ public class AuthorisatieService {
             inloggendeGebruiker.setHashWachtwoord(wachtwoord);
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             LOGGER.error("Fout opgetreden", e);
+        }
 
         if (!uitZabbix) {
             LOGGER.trace("Ingevoerd wachtwoord    {}", inloggendeGebruiker.getWachtwoord());
