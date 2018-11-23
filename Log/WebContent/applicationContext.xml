@@ -60,4 +60,26 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <jms:listener destination="logDjfc" ref="logDjfcReciever"
                       method="onMessage"/>
     </jms:listener-container>
+
+    <bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
+        <constructor-arg value="http://localhost:8080/oga"/>
+    </bean>
+    <bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
+        <constructor-arg value="http://localhost:8080/oga"/>
+    </bean>
+    <bean id="polisClient" class="nl.lakedigital.djfc.client.polisadministratie.PolisClient">
+        <constructor-arg value="http://localhost:8080/pa"/>
+    </bean>
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <constructor-arg value="http://localhost:8080/identificatie"/>
+    </bean>
+    <bean id="licentieClient" class="nl.lakedigital.djfc.client.licentie.LicentieClient">
+        <constructor-arg value="http://localhost:8080/licentie"/>
+    </bean>
+    <bean id="taakClient" class="nl.lakedigital.djfc.client.taak.TaakClient">
+        <constructor-arg value="http://localhost:8080/taakbeheer"/>
+    </bean>
+    <bean id="opdrachtenClient" class="nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient">
+        <constructor-arg value="http://localhost:8080/oa"/>
+    </bean>
 </beans>

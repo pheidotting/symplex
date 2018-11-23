@@ -1,6 +1,7 @@
 package nl.dias.web.authorisatie;
 
 import nl.dias.repository.GebruikerRepository;
+import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ public class ZabbixController {
 
     @Inject
     private GebruikerRepository gebruikerRepository;
+    @Inject
+    private PolisClient polisClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "/checkDatabase", produces = MediaType.TEXT_PLAIN)
     @ResponseBody
@@ -26,6 +29,9 @@ public class ZabbixController {
             gebruikerRepository.getSession().getTransaction().begin();
             gebruikerRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
             gebruikerRepository.getSession().getTransaction().commit();
+
+            polisClient.ping();
+
             return "1";
         } catch (Exception e) {
             LOGGER.error("Database niet beschikbaar", e);

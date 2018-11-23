@@ -186,6 +186,16 @@ public abstract class AbstractClient<D> {
     }
 
     @Deprecated
+    protected String uitvoerenGetAlsString(String adres, Logger LOGGER) {
+        LOGGER.info("Aanroepen via GET " + adres);
+
+        ClientConfig clientConfig = new DefaultClientConfig();
+        Client client = Client.create(clientConfig);
+        WebResource webResource = client.resource(basisUrl + adres);
+        return webResource.get(String.class);
+    }
+
+    @Deprecated
     protected <T> T uitvoerenGet(String adres, Class<T> clazz, Logger LOGGER, String... args) {
         LOGGER.debug("uitvoerenGet");
 
