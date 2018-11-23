@@ -1,12 +1,8 @@
 package nl.lakedigital.djfc.messaging.reciever;
 
-import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
-import nl.lakedigital.djfc.commons.domain.Opmerking;
-import nl.lakedigital.djfc.commons.domain.RekeningNummer;
-import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
-import nl.lakedigital.djfc.commons.domain.Telefoonnummer;
+import nl.lakedigital.djfc.commons.domain.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.service.AdresService;
 import nl.lakedigital.djfc.service.OpmerkingService;

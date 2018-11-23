@@ -24,6 +24,7 @@ public class PolisClient extends AbstractClient {
     private final String URL_LIJST = "/rest/polis/lijst";
     private final String URL_LIJST_BEDRIJF = "/rest/polis/lijstBijBedrijf";
     private final String URL_ZOEK_OP_POLISNUMMER = "/rest/polis/zoekOpPolisNummer";
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
 
     private MetricsService metricsService;
 
@@ -68,6 +69,10 @@ public class PolisClient extends AbstractClient {
         OpvragenPolissenResponse response = ((OpvragenPolissenResponse) getXML(URL_ZOEK_OP_POLISNUMMER, OpvragenPolissenResponse.class, false, LOGGER, false, metricsService, "zoekOpPolisNummer", PolisClient.class, polisNummer));
 
         return response.getPakketten();
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 
     @Override

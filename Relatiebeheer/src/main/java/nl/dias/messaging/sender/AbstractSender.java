@@ -69,6 +69,8 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
 
                     TextMessage message = session.createTextMessage(sw.toString());
 
+                    logger.debug("Versturen {} naar {}", message.getText(), jmsTemplate.getDefaultDestination());
+
                     if (replyTo != null) {
                         message.setJMSReplyTo(replyTo);
                     }

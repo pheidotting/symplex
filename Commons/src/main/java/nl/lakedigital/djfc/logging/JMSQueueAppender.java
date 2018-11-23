@@ -61,8 +61,9 @@ public class JMSQueueAppender extends AppenderSkeleton implements Appender {
             String trackAndTraceId = event.getMDC("trackAndTraceId") != null ? event.getMDC("trackAndTraceId").toString() : "";
             String ingelogdeGebruikerOpgemaakt = event.getMDC("ingelogdeGebruikerOpgemaakt") != null ? event.getMDC("ingelogdeGebruikerOpgemaakt").toString() : "";
             String url = event.getMDC("url") != null ? event.getMDC("url").toString() : "";
+            int hash = event.getMessage().hashCode();
 
-            ObjectMessage message = session.createObjectMessage(new KibanaEvent(m, event, ig, trackAndTraceId, ingelogdeGebruikerOpgemaakt, url, applicatie, omgeving));
+            ObjectMessage message = session.createObjectMessage(new KibanaEvent(hash, m, event, ig, trackAndTraceId, ingelogdeGebruikerOpgemaakt, url, applicatie, omgeving));
 
             // Tell the producer to send the message
             producer.send(message);
