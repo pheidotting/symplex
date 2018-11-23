@@ -27,8 +27,9 @@ public class KibanaEvent implements Serializable {
         this.ingelogdeGebruikerOpgemaakt = ingelogdeGebruikerOpgemaakt;
         this.trackAndTraceId = trackAndTraceId;
 
-        Layout timestampLayout = new PatternLayout("%d{ISO8601}");
-        Layout javaClassLayout = new PatternLayout("%c{1}");
+        //        Layout timestampLayout = new PatternLayout("%d{ISO8601}");
+        Layout timestampLayout = new PatternLayout("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        //        Layout javaClassLayout = new PatternLayout("%c{1}");
         Layout lineNumberLayout = new PatternLayout("%L");
 
         if (event != null) {
@@ -36,7 +37,7 @@ public class KibanaEvent implements Serializable {
                 this.logLevel = event.getLevel().toString();
             }
             this.timestamp = timestampLayout.format(event);
-            this.filename = javaClassLayout.format(event);
+            this.filename = event.getLoggerName();//javaClassLayout.format(event);
             this.lineNumber = lineNumberLayout.format(event);
         }
         this.applicatie = applicatie;

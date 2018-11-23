@@ -69,8 +69,8 @@ public class AuthorisatieService {
         }
 
         if (!uitZabbix) {
-            LOGGER.debug("Ingevoerd wachtwoord    {}", inloggendeGebruiker.getWachtwoord());
-            LOGGER.debug("Wachtwoord uit database {}", gebruikerUitDatabase.getWachtwoord());
+            LOGGER.trace("Ingevoerd wachtwoord    {}", inloggendeGebruiker.getWachtwoord());
+            LOGGER.trace("Wachtwoord uit database {}", gebruikerUitDatabase.getWachtwoord());
         }
 
         if (!gebruikerUitDatabase.getWachtwoord().equals(inloggendeGebruiker.getWachtwoord())) {

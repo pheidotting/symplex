@@ -65,7 +65,7 @@ public class PolisController extends AbstractController {
         metricsService.addMetric("polisOpslaan", PolisController.class, null, jsonPakket.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", PolisController.class);
 
-        LOGGER.debug("Opslaan " + ReflectionToStringBuilder.toString(jsonPakket));
+        LOGGER.info("Opslaan " + ReflectionToStringBuilder.toString(jsonPakket));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -94,7 +94,7 @@ public class PolisController extends AbstractController {
     public Response verwijder(@PathVariable("id") String id, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("polisVerwijderen", PolisController.class, null, null);
 
-        LOGGER.debug("verwijderen Polis met id " + id);
+        LOGGER.info("verwijderen Polis met id " + id);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(id);
 
