@@ -218,6 +218,8 @@ public class GebruikerController extends AbstractController {
         opslaanEntiteitenRequest.setEntiteitId(relatie.getId());
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.RELATIE);
 
+        LOGGER.debug(ReflectionToStringBuilder.toString(opslaanEntiteitenRequest));
+
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
 
         //Taken opslaan

@@ -5,7 +5,7 @@ import nl.lakedigital.djfc.commons.domain.response.Adres;
 
 import java.util.function.Function;
 
-public class DomainAdresNaarMessagingAdresMapper implements Function<Adres, nl.lakedigital.as.messaging.domain.Adres> {
+public class DomainAdresNaarMessagingAdresMapper implements Function<Adres, nl.lakedigital.djfc.commons.domain.Adres> {
     private Long entiteitId;
     private SoortEntiteit soortEntiteit;
 
@@ -15,8 +15,8 @@ public class DomainAdresNaarMessagingAdresMapper implements Function<Adres, nl.l
     }
 
     @Override
-    public nl.lakedigital.as.messaging.domain.Adres apply(Adres adres) {
-        nl.lakedigital.as.messaging.domain.Adres jsonAdres = new nl.lakedigital.as.messaging.domain.Adres(soortEntiteit, entiteitId, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres());
+    public nl.lakedigital.djfc.commons.domain.Adres apply(Adres adres) {
+        nl.lakedigital.djfc.commons.domain.Adres jsonAdres = new nl.lakedigital.djfc.commons.domain.Adres(soortEntiteit, entiteitId, null, adres.getStraat(), adres.getHuisnummer(), adres.getToevoeging(), adres.getPostcode(), adres.getPlaats(), adres.getSoortAdres());
         jsonAdres.setIdentificatie(adres.getIdentificatie());
 
         return jsonAdres;
