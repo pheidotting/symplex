@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="Patrick Heidotting">
+        <createTable tableName="hibernate_sequence">
+            <column name="next_val" type="bigint(20)"/>
+        </createTable>
+        <insert tableName="hibernate_sequence">
+            <column name="next_val">1</column>
+        </insert>
+        <createTable tableName="REVINFO">
+            <column name="ID" type="integer" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="timestamp" type="bigint"/>
+            <column name="userid" type="bigint"/>
+            <column name="TRACKANDTRACEID" type="varchar(36)"/>
+        </createTable>
+        <createTable tableName="TAAK">
+            <column name="ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TIJDSTIPCREATIE" type="datetime"/>
+            <column name="DEADLINE" type="datetime"/>
+            <column name="TIJDSTIPAFGEHANDELD" type="datetime"/>
+            <column name="TITEL" type="varchar(255)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="WIJZIGINGTAAK">
+            <column name="ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TAAKID" type="bigint"/>
+            <column name="STATUS" type="varchar(50)"/>
+            <column name="TOEGEWEZENAAN" type="bigint"/>
+            <column name="TIJDSTIP" type="datetime"/>
+        </createTable>
+        <createTable tableName="TAAK_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="TINYINT"/>
+            <column name="TIJDSTIPCREATIE" type="datetime"/>
+            <column name="DEADLINE" type="datetime"/>
+            <column name="TIJDSTIPAFGEHANDELD" type="datetime"/>
+            <column name="TITEL" type="varchar(255)"/>
+            <column name="OMSCHRIJVING" type="varchar(2500)"/>
+            <column name="ENTITEITID" type="bigint"/>
+            <column name="SOORTENTITEIT" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="WIJZIGINGTAAK_AUD">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REV" type="int"/>
+            <column name="REVTYPE" type="TINYINT"/>
+            <column name="TAAKID" type="bigint"/>
+            <column name="STATUS" type="varchar(50)"/>
+            <column name="TOEGEWEZENAAN" type="bigint"/>
+            <column name="TIJDSTIP" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Patrick Heidotting">
+        <addColumn tableName="TAAK">
+            <column name="DEADLINE2" type="date"/>
+        </addColumn>
+        <dropColumn tableName="TAAK" columnName="DEADLINE"/>
+        <renameColumn tableName="TAAK" oldColumnName="DEADLINE2" newColumnName="DEADLINE" columnDataType="date"/>
+        <addColumn tableName="TAAK_AUD">
+            <column name="DEADLINE2" type="date"/>
+        </addColumn>
+        <dropColumn tableName="TAAK_AUD" columnName="DEADLINE"/>
+        <renameColumn tableName="TAAK_AUD" oldColumnName="DEADLINE2" newColumnName="DEADLINE" columnDataType="date"/>
+    </changeSet>
+</databaseChangeLog>

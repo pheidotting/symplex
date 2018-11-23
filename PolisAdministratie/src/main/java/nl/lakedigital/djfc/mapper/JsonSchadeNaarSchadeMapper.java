@@ -38,13 +38,13 @@ public class JsonSchadeNaarSchadeMapper extends AbstractMapper<JsonSchade, Schad
             schade = schadeService.lees(json.getId());
         }
 
-        if (json.getDatumTijdMelding() != null) {
-            LocalDateTime datumTijdMelding = LocalDateTime.parse(json.getDatumTijdMelding(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdMelding(datumTijdMelding);
+        if (json.getDatumMelding() != null) {
+            LocalDateTime datumTijdMelding = LocalDateTime.parse(json.getDatumMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+            schade.setDatumMelding(datumTijdMelding);
         }
-        if (json.getDatumTijdSchade() != null) {
-            LocalDateTime datumTijdSchade = LocalDateTime.parse(json.getDatumTijdSchade(), DateTimeFormat.forPattern(patternDatumTijd));
-            schade.setDatumTijdSchade(datumTijdSchade);
+        if (json.getDatumSchade() != null) {
+            LocalDateTime datumTijdSchade = LocalDateTime.parse(json.getDatumSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+            schade.setDatumSchade(datumTijdSchade);
         }
 
         if (datumAfgehandeld != null) {

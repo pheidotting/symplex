@@ -12,9 +12,20 @@
         <jersey.version>1.19.3</jersey.version>
         <spring-framework.version>4.2.5.RELEASE</spring-framework.version>
         <metrics.version>4.0.0</metrics.version>
+        <activemq.version>5.10.0</activemq.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-jaas</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-servlets</artifactId>

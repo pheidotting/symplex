@@ -11,15 +11,18 @@
     <url>http://maven.apache.org</url>
 
     <modules>
-        <!--<module>commons</module>-->
-        <!--<module>clients</module>-->
-        <!--<module>messaging</module>-->
-        <!--<module>Communicatie</module>-->
+        <module>commons</module>
+        <module>clients</module>
+        <module>messaging</module>
+        <module>Communicatie</module>
         <module>LicentieBeheer</module>
+        <module>Log</module>
         <module>Relatiebeheer</module>
         <module>IdBeheer</module>
+        <module>OpdrachtenAdministratie</module>
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>
+        <module>TaakBeheer</module>
         <module>TestSysteem</module>
     </modules>
 </project>

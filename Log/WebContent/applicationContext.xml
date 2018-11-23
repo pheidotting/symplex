@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:component-scan base-package="nl.dias"/>
+    <context:component-scan base-package="nl.lakedigital.as.taakbeheer.client"/>
+
+    <cache:annotation-driven/>
+    <task:annotation-driven/>
+
+    <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+        <property name="caches">
+            <set>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatie"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="zoekIdentificatieCode"/>
+                <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+                      name="haalAdresOp"/>
+            </set>
+        </property>
+    </bean>
+    <cache:advice id="cachingBehavior" cache-manager="cacheManager">
+        <cache:caching cache="zoekIdentificatie">
+            <cache:cacheable method="zoekIdentificatie"/>
+        </cache:caching>
+        <cache:caching cache="zoekIdentificatieCode">
+            <cache:cacheable method="zoekIdentificatieCode"/>
+        </cache:caching>
+        <cache:caching cache="haalAdresOp">
+            <cache:cacheable method="haalAdresOp"/>
+        </cache:caching>
+    </cache:advice>
+
+
+    <!-- Activemq connection factory -->
+    <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <constructor-arg index="0" value="tcp://localhost:61616"/>
+    </bean>
+
+    <!-- ConnectionFactory Definition -->
+    <bean id="connectionFactory"
+          class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+    </bean>
+
+    <bean id="logDjfcReciever"
+          class="nl.dias.common.LogQueueListener"/>
+
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="logDjfc" ref="logDjfcReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
+
+    <bean id="adresClient" class="nl.lakedigital.djfc.client.oga.AdresClient">
+        <constructor-arg value="http://localhost:8080/oga"/>
+    </bean>
+    <bean id="communicatieClient" class="nl.lakedigital.djfc.client.communicatie.CommunicatieClient">
+        <constructor-arg value="http://localhost:8080/oga"/>
+    </bean>
+    <bean id="polisClient" class="nl.lakedigital.djfc.client.polisadministratie.PolisClient">
+        <constructor-arg value="http://localhost:8080/pa"/>
+    </bean>
+    <bean id="identificatieClient" class="nl.lakedigital.djfc.client.identificatie.IdentificatieClient">
+        <constructor-arg value="http://localhost:8080/identificatie"/>
+    </bean>
+    <bean id="licentieClient" class="nl.lakedigital.djfc.client.licentie.LicentieClient">
+        <constructor-arg value="http://localhost:8080/licentie"/>
+    </bean>
+    <bean id="taakClient" class="nl.lakedigital.djfc.client.taak.TaakClient">
+        <constructor-arg value="http://localhost:8080/taakbeheer"/>
+    </bean>
+    <bean id="opdrachtenClient" class="nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient">
+        <constructor-arg value="http://localhost:8080/oa"/>
+    </bean>
+</beans>

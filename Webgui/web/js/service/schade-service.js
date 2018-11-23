@@ -12,15 +12,16 @@ define(["commons/3rdparty/log",
     function (log, navRegister, ko, repository, schadeRepository, gebruikerRepository, bedrijfRepository, opmerkingService, bijlageService, _, moment) {
 
         return {
-            opslaan: function (schade, opmerkingen) {
+            opslaan: function (schade, opmerkingen, taken) {
                 var deferred = $.Deferred();
 
                 schade.opmerkingen = opmerkingen;
+                schade.taken = taken;
                 schade.parentIdentificatie = schade.polis;
 
-                if (schade.datumTijdSchade().indexOf('-') == 2) {
-                    schade.datumTijdSchade(moment(schade.datumTijdSchade(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
-                    schade.datumTijdMelding(moment(schade.datumTijdMelding(), 'DD-MM-YYYY HH:mm').format('YYYY-MM-DDTHH:mm'));
+                if (schade.datumSchade().indexOf('-') == 2) {
+                    schade.datumSchade(moment(schade.datumSchade(), 'DD-MM-YYYY').format('YYYY-MM-DD'));
+                    schade.datumMelding(moment(schade.datumMelding(), 'DD-MM-YYYY').format('YYYY-MM-DD'));
                 }
 
                 $.when(schadeRepository.opslaan(schade)).then(function (response) {
@@ -49,6 +50,10 @@ define(["commons/3rdparty/log",
 
             lijstStatusSchade: function () {
                 return schadeRepository.lijstStatusSchade();
+            },
+
+            lijstOpenSchades: function () {
+                return schadeRepository.lijstOpenSchades();
             },
 
             lijstSchades: function (identificatie) {

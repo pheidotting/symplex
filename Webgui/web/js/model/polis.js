@@ -1,14 +1,14 @@
 define(['knockout'],
     function (ko) {
 
-        return function polisModel() {
+        return function Polis() {
             var _this = this;
 
             _this.identificatie = ko.observable();
             _this.entiteitId = ko.observable();
             _this.soortEntiteit = ko.observable();
             _this.status = ko.observable();
-            _this.polisNummer = ko.observable().extend({required: true});
+            _this.polisNummer = ko.observable();
             _this.kenmerk = ko.observable();
             _this.ingangsDatum = ko.observable().extend({required: true});
             _this.eindDatum = ko.observable();
@@ -24,7 +24,20 @@ define(['knockout'],
             _this.bedrijfsId = ko.observable();
             _this.omschrijvingVerzekering = ko.observable();
             _this.titel = ko.computed(function () {
-                return _this.soort() + " (" + _this.polisNummer() + ")";
+                var polisNummer = ' (' + _this.polisNummer() + ')';
+                if(polisNummer == ' ()'){
+                    polisNummer = '';
+                }
+                return _this.soort() + polisNummer;
             }, this);
+
+            _this.voertuiginfo = ko.observable(false);
+            _this.merk = ko.observable();
+            _this.type = ko.observable();
+            _this.bouwjaar = ko.observable();
+            _this.voertuigImage1 = ko.observable();
+            _this.voertuigImage2 = ko.observable();
+            _this.voertuigImage3 = ko.observable();
+
         };
     });

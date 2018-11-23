@@ -2,7 +2,6 @@ package nl.dias.web.authorisatie;
 
 import nl.dias.domein.Kantoor;
 import nl.dias.domein.Medewerker;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -11,7 +10,7 @@ import nl.dias.repository.KantoorRepository;
 import nl.dias.service.KantoorService;
 import nl.dias.service.LoginService;
 import nl.dias.web.medewerker.AbstractController;
-import nl.lakedigital.djfc.domain.response.AanmeldenKantoor;
+import nl.lakedigital.djfc.commons.domain.response.AanmeldenKantoor;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +58,7 @@ public class AanmeldenKantoorController extends AbstractController {
 
         try {
             kantoorService.aanmelden(kantoor);
-        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
+        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | IbanNietGoedException e) {
             LOGGER.trace("Fout bij opslaan kantoor {}", e);
         }
 
@@ -68,8 +67,8 @@ public class AanmeldenKantoorController extends AbstractController {
         medewerker.setAchternaam(aanmeldenKantoor.getAchternaam());
         medewerker.setVoornaam(aanmeldenKantoor.getVoornaam());
         medewerker.setEmailadres(aanmeldenKantoor.getEmailadres());
-            medewerker.setIdentificatie(aanmeldenKantoor.getInlognaam());
-            String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
+        medewerker.setIdentificatie(aanmeldenKantoor.getInlognaam());
+        String nieuwWachtwoord = UUID.randomUUID().toString().replace("-", "");
 
         try {
             medewerker.setHashWachtwoord(nieuwWachtwoord);

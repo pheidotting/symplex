@@ -77,25 +77,25 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     </bean>
 
 
-    <bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="pa.rb.polisOpslaanResponseQueue"/>
-    </bean>
-    <bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>
+    <!--<bean id="polisOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="pa.rb.polisOpslaanResponseQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="polisOpslaanResponseReciever" class="nl.dias.messaging.reciever.PolisOpslaanResponseReciever"/>-->
+    <!---->
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.polisOpslaanResponseQueue" ref="polisOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">-->
+    <!--<constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>-->
+    <!--</bean>-->
+    <!--<bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>-->
 
-    <bean id="schadeOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="pa.rb.schadeOpslaanResponseQueue"/>
-    </bean>
-    <bean id="schadeOpslaanResponseReciever" class="nl.dias.messaging.reciever.SchadeOpslaanResponseReciever"/>
-
-    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
-        <jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"
-                      method="onMessage"/>
-    </jms:listener-container>
+    <!--<jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">-->
+    <!--<jms:listener destination="pa.rb.schadeOpslaanResponseQueue" ref="schadeOpslaanResponseReciever"-->
+    <!--method="onMessage"/>-->
+    <!--</jms:listener-container>-->
 
     <bean id="controleerLicentiesResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="lb.rb.controleerLicentieResponseQueue"/>
@@ -159,6 +159,17 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <constructor-arg index="0" ref="beindigenPolisRequestTemplate"/>
     </bean>
 
+
+    <bean id="wijzigingTaakOpslaanResponseDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="tb.rb.wijzigingTaakOpslaanResponseQueue"/>
+    </bean>
+    <bean id="wijzigingTaakOpslaanResponseReciever"
+          class="nl.dias.messaging.reciever.WijzigingTaakOpslaanResponseReciever"/>
+
+    <jms:listener-container container-type="default" connection-factory="connectionFactory" acknowledge="auto">
+        <jms:listener destination="tb.rb.wijzigingTaakOpslaanResponseQueue" ref="wijzigingTaakOpslaanResponseReciever"
+                      method="onMessage"/>
+    </jms:listener-container>
 
     <context:annotation-config/>
 
@@ -256,6 +267,11 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <constructor-arg value="${pa.url}"/>
         <property name="metricsService" ref="metricsService"/>
     </bean>
+    <bean id="verzekeringsMaatschappijClient"
+          class="nl.lakedigital.djfc.client.polisadministratie.VerzekeringsMaatschappijClient">
+        <constructor-arg value="${pa.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
     <bean id="schadeClient" class="nl.lakedigital.djfc.client.polisadministratie.SchadeClient">
         <constructor-arg value="${pa.url}"/>
         <property name="metricsService" ref="metricsService"/>
@@ -268,10 +284,22 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
         <constructor-arg value="${lb.url}"/>
         <property name="metricsService" ref="metricsService"/>
     </bean>
+    <bean id="taakClient" class="nl.lakedigital.djfc.client.taak.TaakClient">
+        <constructor-arg value="${tb.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
+    <bean id="opdrachtenClient" class="nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient">
+        <constructor-arg value="${oa.url}"/>
+        <property name="metricsService" ref="metricsService"/>
+    </bean>
 
     <import resource="applicationcontextJms/senders/rb.oga.verwijderEntiteitRequest.xml"/>
     <import resource="applicationcontextJms/senders/verwijderEntiteitenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.polisOpslaanRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.oa.opslaanPolisOpdracht.xml"/>
+    <import resource="applicationcontextJms/senders/rb.oa.opslaanSchadeOpdracht.xml"/>
+    <import resource="applicationcontextJms/senders/rb.oa.verwijderPolisOpdracht.xml"/>
+    <import resource="applicationcontextJms/senders/rb.oa.verwijderSchadeOpdracht.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.polisVerwijderenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.oga.opslaanEntiteitenRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.pa.schadeOpslaanRequest.xml"/>
@@ -284,4 +312,6 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <import resource="applicationcontextJms/senders/rb.lb.licentieGekochtRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.licentieGekochtCommuniceerRequest.xml"/>
     <import resource="applicationcontextJms/senders/rb.co.herinnerLicentiesRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.tb.opslaanTaakRequest.xml"/>
+    <import resource="applicationcontextJms/senders/rb.tb.wijzigingTaakOpslaanRequest.xml"/>
 </beans>

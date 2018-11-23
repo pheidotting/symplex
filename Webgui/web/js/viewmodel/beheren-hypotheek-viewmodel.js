@@ -9,17 +9,20 @@ define(['jquery',
         'viewmodel/common/bijlage-viewmodel',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'moment',
+        'underscore',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, moment) {
-
+    function ($, commonFunctions, ko, log, redirect, hypotheekMapper, hypotheekService, opmerkingViewModel, bijlageViewModel, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, moment, _) {
         return function () {
             var _this = this;
             var logger = log.getLogger('beheren-hypotheek-viewmodel');
             var soortEntiteit = 'HYPOTHEEK';
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.basisEntiteit = null;
             this.basisId = null;
@@ -56,6 +59,9 @@ define(['jquery',
                     _this.opmerkingenModel = new opmerkingViewModel(false, soortEntiteit, hypotheekId, hypotheek.opmerkingen);
                     _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, hypotheekId, hypotheek.bijlages, hypotheek.groepenBijlages);
                     _this.licentieViewmodel = new LicentieViewmodel();
+
+                    _this.takenViewmodel = new TakenViewmodel(hypotheek.taken);
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, null, false, false, hypotheek, true);
 
                     $('#gekoppeldeHypotheekGroep').hide();
 
@@ -118,7 +124,7 @@ define(['jquery',
 
                     logger.debug("Versturen : " + ko.toJSON(_this.hypotheek));
 
-                    hypotheekService.opslaanHypotheek(_this.hypotheek, _this.opmerkingenModel.opmerkingen).done(function () {
+                    hypotheekService.opslaanHypotheek(_this.hypotheek, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
                         redirect.redirect('LIJST_HYPOTHEKEN', _this.basisId);
                     }).fail(function (data) {

@@ -1,8 +1,8 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Adres;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.AdresRepository;
@@ -25,7 +25,7 @@ public class AdresService extends AbstractService<Adres> {
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
 
     public AdresService() {
-        super(nl.lakedigital.as.messaging.domain.SoortEntiteit.ADRES);
+        super(SoortEntiteit.ADRES);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AdresService extends AbstractService<Adres> {
 
         for (Adres adres : adressen) {
             SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
-            soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.as.messaging.domain.SoortEntiteit.ADRES);
+            soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.ADRES);
             soortEntiteitEnEntiteitId.setEntiteitId(adres.getId());
 
             LOGGER.debug("soortEntiteitEnEntiteitId {}", ReflectionToStringBuilder.toString(soortEntiteitEnEntiteitId));

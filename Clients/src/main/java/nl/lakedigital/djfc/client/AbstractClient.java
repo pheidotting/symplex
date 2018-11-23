@@ -46,7 +46,7 @@ public abstract class AbstractClient<D> {
 
     protected D getXML(String uri, Class<D> clazz, boolean urlEncoden, Logger LOGGER, boolean retry, MetricsService metrics, String metricsName, Class metricsClass, String... args) {
         if (timeOut == 0) {
-            timeOut = 30000;
+            timeOut = 20000;
         }
         StringBuilder stringBuilder = new StringBuilder();
         if (args != null) {
@@ -183,6 +183,16 @@ public abstract class AbstractClient<D> {
             throw new LeesFoutException("Failed : HTTP error code : " + response.getStatus());
         }
         return response.getEntity(String.class);
+    }
+
+    @Deprecated
+    protected String uitvoerenGetAlsString(String adres, Logger LOGGER) {
+        LOGGER.info("Aanroepen via GET " + adres);
+
+        ClientConfig clientConfig = new DefaultClientConfig();
+        Client client = Client.create(clientConfig);
+        WebResource webResource = client.resource(basisUrl + adres);
+        return webResource.get(String.class);
     }
 
     @Deprecated

@@ -35,8 +35,10 @@ public class LicentieController {
 
         zetSessieWaarden(httpServletRequest);
 
-        nl.lakedigital.djfc.domain.Licentie licentie = licentieService.actieveLicentie(kantoorid);
+        nl.lakedigital.djfc.commons.domain.Licentie licentie = licentieService.actieveLicentie(kantoorid);
+        LOGGER.debug("Opgehaalde licentie : {}", licentie);
         LocalDate einddatum = licentieService.actieveLicentie(licentie);
+        LOGGER.debug("einddatum : {}", einddatum);
 
         LicentieResponse licentieResponse = new LicentieResponse();
 

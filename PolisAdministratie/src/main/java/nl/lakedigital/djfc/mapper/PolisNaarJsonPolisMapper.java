@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 
 @Component
-public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> implements JsonMapper{
+public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> implements JsonMapper {
     @Inject
     private SchadeNaarJsonSchadeMapper schadeMapper;
 
@@ -46,22 +46,13 @@ public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> i
         }
         jsonPolis.setDekking(polis.getDekking());
         jsonPolis.setVerzekerdeZaak(polis.getVerzekerdeZaak());
-        if (polis.getMaatschappij() != null) {
-            jsonPolis.setMaatschappij(polis.getMaatschappij().toString());
-        }
-        jsonPolis.setSoort(polis.getClass().getSimpleName().replace("Verzekering", ""));
-                if (polis.getBedrijf() != null) {
-                    jsonPolis.setEntiteitId(polis.getBedrijf());
-                    jsonPolis.setSoortEntiteit("BEDRIJF");
-                }
-                if (polis.getRelatie() != null) {
-                    jsonPolis.setEntiteitId(polis.getRelatie());
-                    jsonPolis.setSoortEntiteit("RELATIE");
-                }
-        jsonPolis.setSchades(schadeMapper.mapAll(polis.getSchades()));
-        //        if (polis.getRelatie() != null) {
-        //            jsonPolis.setRelatie(polis.getRelatie().toString());
+        //        if (polis.getMaatschappij() != null) {
+        //            jsonPolis.setMaatschappij(polis.getMaatschappij().toString());
         //        }
+        jsonPolis.setSoort(polis.getClass().getSimpleName().replace("Verzekering", ""));
+        //                    jsonPolis.setEntiteitId(polis.getPakket().getEntiteitId());
+        //                    jsonPolis.setSoortEntiteit(polis.getPakket().getSoortEntiteit().toString());
+        jsonPolis.setSchades(schadeMapper.mapAll(polis.getSchades()));
         jsonPolis.setOmschrijvingVerzekering(polis.getOmschrijvingVerzekering());
 
         return jsonPolis;
@@ -71,6 +62,7 @@ public class PolisNaarJsonPolisMapper extends AbstractMapper<Polis, JsonPolis> i
     public boolean isVoorMij(final Object object) {
         return object instanceof Polis;
     }
+
     public static String zetBedragOm(Bedrag bedrag) {
         String waarde;
         String[] x = bedrag.getBedrag().toString().split("\\.");

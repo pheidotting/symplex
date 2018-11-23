@@ -2,7 +2,6 @@ package nl.dias.web.medewerker;
 
 import com.codahale.metrics.Timer;
 import nl.dias.domein.Medewerker;
-import nl.dias.exception.BsnNietGoedException;
 import nl.dias.exception.IbanNietGoedException;
 import nl.dias.exception.PostcodeNietGoedException;
 import nl.dias.exception.TelefoonnummerNietGoedException;
@@ -11,9 +10,9 @@ import nl.dias.repository.KantoorRepository;
 import nl.dias.service.KantoorService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.licentie.LicentieClient;
+import nl.lakedigital.djfc.commons.domain.response.Kantoor;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonKantoor;
-import nl.lakedigital.djfc.domain.response.Kantoor;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +71,7 @@ public class KantoorController extends AbstractController {
             @Override
             public void accept(Medewerker medewerker) {
                 Identificatie identificatie1 = identificatieClient.zoekIdentificatie("MEDEWERKER", medewerker.getId());
-                nl.lakedigital.djfc.domain.response.Medewerker mw = new nl.lakedigital.djfc.domain.response.Medewerker(identificatie1.getIdentificatie(), medewerker.getVoornaam(), medewerker.getTussenvoegsel(), medewerker.getAchternaam(), medewerker.getEmailadres());
+                nl.lakedigital.djfc.commons.domain.response.Medewerker mw = new nl.lakedigital.djfc.commons.domain.response.Medewerker(identificatie1.getIdentificatie(), medewerker.getVoornaam(), medewerker.getTussenvoegsel(), medewerker.getAchternaam(), medewerker.getEmailadres());
 
                 result.addMedewerker(mw);
             }
@@ -102,7 +101,7 @@ public class KantoorController extends AbstractController {
 
         try {
             kantoorService.aanmelden(kantoor);
-        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | BsnNietGoedException | IbanNietGoedException e) {
+        } catch (PostcodeNietGoedException | TelefoonnummerNietGoedException | IbanNietGoedException e) {
             LOGGER.trace("Fout gevonden bij opslaan Kantoor ({}), {}", jsonKantoor.getNaam(), e);
         }
 

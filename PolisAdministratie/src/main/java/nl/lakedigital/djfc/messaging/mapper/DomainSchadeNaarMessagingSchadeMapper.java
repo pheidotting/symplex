@@ -1,5 +1,6 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
+
 import nl.lakedigital.as.messaging.domain.Schade;
 
 import java.util.function.Function;
@@ -17,8 +18,8 @@ public class DomainSchadeNaarMessagingSchadeMapper implements Function<nl.lakedi
         if (schade.getDatumAfgehandeld() != null) {
             schade.setDatumAfgehandeld(schadeIn.getDatumAfgehandeld().toString(patternDatum));
         }
-        schade.setDatumTijdMelding(schadeIn.getDatumTijdMelding().toString(patternDatumTijd));
-        schade.setDatumTijdSchade(schadeIn.getDatumTijdSchade().toString(patternDatumTijd));
+        schade.setDatumMelding(schadeIn.getDatumMelding().toString(patternDatumTijd));
+        schade.setDatumSchade(schadeIn.getDatumSchade().toString(patternDatumTijd));
         if (schadeIn.getEigenRisico() != null) {
             schade.setEigenRisico(schadeIn.getEigenRisico().getBedrag().toString());
         }

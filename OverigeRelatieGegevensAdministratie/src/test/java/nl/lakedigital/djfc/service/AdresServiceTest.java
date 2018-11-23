@@ -1,9 +1,9 @@
 package nl.lakedigital.djfc.service;
 
 import com.google.common.collect.Lists;
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.domain.Adres;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.repository.AbstractRepository;
 import nl.lakedigital.djfc.repository.AdresRepository;
 import org.easymock.Capture;
@@ -131,6 +131,6 @@ public class AdresServiceTest extends AbstractServiceTest<Adres> {
 
         List<SoortEntiteitEnEntiteitId> lijst = listCapture.getValue();
         assertThat(lijst.size(), is(1));
-        assertThat(lijst.get(0).getSoortEntiteit(), is(nl.lakedigital.as.messaging.domain.SoortEntiteit.ADRES));
+        assertThat(lijst.get(0).getSoortEntiteit(), is(SoortEntiteit.ADRES));
     }
 }

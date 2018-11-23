@@ -1,12 +1,12 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
 import nl.lakedigital.djfc.commons.json.JsonSoortSchade;
 import nl.lakedigital.djfc.commons.xml.OpvragenSchadesResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenSoortSchadeResponse;
 import nl.lakedigital.djfc.commons.xml.OpvragenStatusSchadeResponse;
 import nl.lakedigital.djfc.domain.Schade;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortSchade;
 import nl.lakedigital.djfc.domain.StatusSchade;
 import nl.lakedigital.djfc.mapper.Mapper;
@@ -44,7 +44,7 @@ public class SchadeController {
     @RequestMapping(method = RequestMethod.GET, value = "/lijst/{relatieId}")
     @ResponseBody
     public OpvragenSchadesResponse lijst(@PathVariable("relatieId") Long relatieId) {
-        LOGGER.debug("Opzoeken Schades bij Relatie met Id {}", relatieId);
+        LOGGER.info("Opzoeken Schades bij Relatie met Id {}", relatieId);
 
         OpvragenSchadesResponse opvragenSchadesResponse = new OpvragenSchadesResponse();
 
@@ -60,7 +60,7 @@ public class SchadeController {
     @RequestMapping(method = RequestMethod.GET, value = "/lijstBijBedrijf{bedrijfId}")
     @ResponseBody
     public OpvragenSchadesResponse lijstBijBedrijf(@PathVariable("bedrijfId") Long bedrijfId) {
-        LOGGER.debug("Opzoeken Schades bij Bedrijf met Id {}", bedrijfId);
+        LOGGER.info("Opzoeken Schades bij Bedrijf met Id {}", bedrijfId);
 
         OpvragenSchadesResponse opvragenSchadesResponse = new OpvragenSchadesResponse();
         List<Schade> schades = schadeService.alles(SoortEntiteit.SCHADE, bedrijfId);
@@ -75,7 +75,7 @@ public class SchadeController {
     @RequestMapping(method = RequestMethod.GET, value = "/zoekOpSchadeNummerMaatschappij/{schadeNummerMaatschappij}")
     @ResponseBody
     public OpvragenSchadesResponse zoekOpSchadeNummerMaatschappij(@PathVariable("schadeNummerMaatschappij") String schadeNummerMaatschappij) {
-        LOGGER.debug("Opzoeken Schades met schadeNummerMaatschappij {}", schadeNummerMaatschappij);
+        LOGGER.info("Opzoeken Schades met schadeNummerMaatschappij {}", schadeNummerMaatschappij);
 
         OpvragenSchadesResponse opvragenSchadesResponse = new OpvragenSchadesResponse();
         List<Schade> schades = schadeService.zoekOpSchadeNummerMaatschappij(schadeNummerMaatschappij);
@@ -90,7 +90,7 @@ public class SchadeController {
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{id}")
     @ResponseBody
     public OpvragenSchadesResponse lees(@PathVariable("id") Long id) {
-        LOGGER.debug("Opzoeken schade met id {}", id);
+        LOGGER.info("Opzoeken schade met id {}", id);
         Schade schade = schadeService.lees(id);
 
         if (schade == null) {
@@ -104,17 +104,6 @@ public class SchadeController {
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public class ResourceNotFoundException extends RuntimeException {
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/verwijder/{id}")
-    @ResponseBody
-    public void verwijder(@PathVariable("id") Long id) {
-        LOGGER.debug("verwijderen Schade met id " + id);
-        try {
-            schadeService.verwijder(id);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("Fout bij verwijderen Schade", e);
-        }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/soortenSchade{query}")

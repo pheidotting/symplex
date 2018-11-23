@@ -12,10 +12,11 @@ define(["commons/3rdparty/log",
     function (log, navRegister, ko, repository, bedrijfRepository, adresService, telefoonnummerService, rekeningnummerService, opmerkingService, bijlageService, _) {
 
         return {
-            opslaan: function (bedrijf, telefoonnummers) {
+            opslaan: function (bedrijf, telefoonnummers, taken) {
                 var deferred = $.Deferred();
 
                 bedrijf.telefoonnummers = telefoonnummers;
+                bedrijf.taken = taken;
                 $.each(bedrijf.telefoonnummers(), function (i, telefoonnummer) {
                     telefoonnummer.parentIdentificatie(bedrijf.id());
                     telefoonnummer.soortEntiteit('BEDRIJF');
@@ -24,11 +25,10 @@ define(["commons/3rdparty/log",
                     }
                 });
 
-                bedrijfRepository.opslaan(bedrijf).done(function (response) {
+                bedrijfRepository.opslaan(bedrijf).done(function () {
                     if (contactpersonen().length > 0) {
                         _.each(contactpersonen(), function (cp) {
-//                                    cp.telefoonnummers = cp.telefoonnummersModel;
-                            delete cp.telefoonnummersModel;// = undefined;
+                            delete cp.telefoonnummersModel;
                         });
 
                         $.each(contactpersonen(), function (i, contactpersoon) {
@@ -78,7 +78,7 @@ define(["commons/3rdparty/log",
                 var deferred = $.Deferred();
 
                 bedrijfRepository.lijstBedrijven(zoekTerm).done(function (data) {
-                    dataBedrijven = data;
+                    var dataBedrijven = data;
 
                     var ids = _.map(dataBedrijven, function (bedrijf) {
                         return bedrijf.id;

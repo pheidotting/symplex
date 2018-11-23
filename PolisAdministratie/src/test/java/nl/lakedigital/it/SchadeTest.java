@@ -47,8 +47,8 @@ public class SchadeTest {
         schadeRepository.opslaan(statusSchade);
 
         JsonSchade jsonSchade = new JsonSchade();
-        jsonSchade.setDatumTijdMelding(LocalDateTime.now().toString(patternDatumTijd));
-        jsonSchade.setDatumTijdSchade(LocalDateTime.now().toString(patternDatumTijd));
+        jsonSchade.setDatumMelding(LocalDateTime.now().toString(patternDatumTijd));
+        jsonSchade.setDatumSchade(LocalDateTime.now().toString(patternDatumTijd));
         jsonSchade.setSchadeNummerMaatschappij("12345");
         jsonSchade.setStatusSchade("blabla");
 

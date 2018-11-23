@@ -1,15 +1,20 @@
 package nl.lakedigital.djfc.messaging.mappers;
 
-import nl.lakedigital.as.messaging.domain.AbstracteEntiteitMetSoortEnId;
-import nl.lakedigital.as.messaging.domain.Adres;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.AbstracteEntiteitMetSoortEnId;
+import nl.lakedigital.djfc.commons.domain.Adres;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import nl.lakedigital.djfc.service.AdresService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Function;
 
 public class MessagingAdresNaarDomainAdresMapper implements Function<AbstracteEntiteitMetSoortEnId, nl.lakedigital.djfc.domain.Adres> {
+    private final static Logger LOGGER = LoggerFactory.getLogger(MessagingAdresNaarDomainAdresMapper.class);
+
     private IdentificatieClient identificatieClient;
     private AdresService adresService;
 
@@ -20,7 +25,10 @@ public class MessagingAdresNaarDomainAdresMapper implements Function<AbstracteEn
 
     @Override
     public nl.lakedigital.djfc.domain.Adres apply(AbstracteEntiteitMetSoortEnId abstracteEntiteitMetSoortEnId) {
+        LOGGER.trace(ReflectionToStringBuilder.toString(abstracteEntiteitMetSoortEnId));
+
         Adres adr = (Adres) abstracteEntiteitMetSoortEnId;
+        LOGGER.trace(ReflectionToStringBuilder.toString(adr));
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(adr.getIdentificatie());
 
@@ -30,6 +38,8 @@ public class MessagingAdresNaarDomainAdresMapper implements Function<AbstracteEn
         } else {
             adres = new nl.lakedigital.djfc.domain.Adres();
         }
+
+        LOGGER.trace(ReflectionToStringBuilder.toString(adres));
 
         adres.setHuisnummer(adr.getHuisnummer());
         adres.setPlaats(adr.getPlaats());

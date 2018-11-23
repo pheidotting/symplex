@@ -4,8 +4,10 @@ define(['jquery',
         'viewmodel/beheren-polis-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view'],
-    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+        'view/common/bijlage-view',
+        'view/common/taak-view',
+        'view/common/breadcrumbs-view'],
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, taakView, breadcrumbsView) {
         var logger = log.getLogger('beheren-polis-view');
 
         return {
@@ -14,6 +16,8 @@ define(['jquery',
 
                 opmerkingView.init(polisId);
                 bijlageView.init(polisId);
+                taakView.init();
+                breadcrumbsView.init();
 
                 logger.debug('content geladen, viewmodel init');
 

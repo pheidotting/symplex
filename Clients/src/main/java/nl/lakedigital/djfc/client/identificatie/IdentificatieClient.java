@@ -2,14 +2,13 @@ package nl.lakedigital.djfc.client.identificatie;
 
 import com.google.gson.Gson;
 import nl.lakedigital.djfc.client.AbstractClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.ZoekIdentificatieResponse;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
-import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -18,9 +17,10 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.join;
 
-@Component
 public class IdentificatieClient extends AbstractClient<ZoekIdentificatieResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentificatieClient.class);
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
+
     private MetricsService metricsService;
 
     public IdentificatieClient(String basisUrl) {
@@ -106,5 +106,9 @@ public class IdentificatieClient extends AbstractClient<ZoekIdentificatieRespons
     @Deprecated
     public nl.lakedigital.djfc.commons.json.Identificatie opslaan(EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest) {
         return new Gson().fromJson(aanroepenUrlPost("/rest/identificatie/opslaan", entiteitenOpgeslagenRequest, 0L, "", LOGGER), nl.lakedigital.djfc.commons.json.Identificatie.class);
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 }

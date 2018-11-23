@@ -19,8 +19,8 @@ public class BeindigenPolisRequestReciever extends AbstractReciever<BeindigenPol
 
     @Override
     public void verwerkMessage(BeindigenPolisRequest beindigenPolisRequest) {
-        for(Long id : beindigenPolisRequest.getIds()) {
-            polisService.beeindigen(id);
+        for (Long id : beindigenPolisRequest.getIds()) {
+            //            polisService.beeindigen(id);
         }
     }
 }

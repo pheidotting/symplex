@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.sender;
 
 import nl.lakedigital.as.messaging.request.ControleerLicentieResponse;
-import nl.lakedigital.djfc.domain.Licentie;
+import nl.lakedigital.djfc.commons.domain.Licentie;
 import nl.lakedigital.djfc.service.LicentieService;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;

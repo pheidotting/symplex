@@ -12,9 +12,11 @@ define(['jquery',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'knockout.validation',
         'knockoutValidationLocal'],
-    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel) {
+    function ($, commonFunctions, ko, log, redirect, schadeMapper, schadeService, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel) {
 
         return function () {
             var _this = this;
@@ -27,6 +29,7 @@ define(['jquery',
             this.polis = null;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.id = ko.observable();
             this.readOnly = ko.observable();
@@ -53,8 +56,12 @@ define(['jquery',
                     } else {
                         _this.basisEntiteit = "RELATIE";
                     }
-                    var polissen = data.polissen;
-                    var schade = _.chain(polissen)
+                    var pakketten = data.pakketten;
+                    var schade = _.chain(pakketten)
+                        .map(function (pakket) {
+                            return pakket.polissen;
+                        })
+                        .flatten()
                         .map(function (polis) {
                             _.each(polis.schades, function (schade) {
                                 schade.polis = polis.identificatie;
@@ -81,14 +88,23 @@ define(['jquery',
                     _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, schadeId, schade.bijlages, schade.groepBijlages, _this.id() == _this.basisId);
                     _this.menubalkViewmodel = new menubalkViewmodel(data.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(data, null, schade, false);
+
+                    _this.takenViewmodel = new TakenViewmodel(schade.taken);
 
                     var $selectPolis = $('#polisVoorSchademelding');
                     $('<option>', {value: ''}).text('Kies een polis uit de lijst..').appendTo($selectPolis);
 
-                    $.each(polissen, function (key, value) {
-                        var polisTitel = value.soort + " (" + value.polisNummer + ")";
+                    $.each(pakketten, function (keyPakket, pakket) {
+                        $.each(pakket.polissen, function (key, value) {
+                            var polisTitel = value.soort + " (" + pakket.polisNummer;
+                             if(value.polisNummer != null){
+                                polisTitel += ' - ' + value.polisNummer;
+                             }
+                             polisTitel += ")";
 
-                        $('<option>', {value: value.identificatie}).text(polisTitel).appendTo($selectPolis);
+                            $('<option>', {value: value.identificatie}).text(polisTitel).appendTo($selectPolis);
+                        });
                     });
 
                     var $selectStatus = $('#statusSchade');
@@ -118,7 +134,7 @@ define(['jquery',
                 return commonFunctions.zetDatumTijdOm(d);
             };
 
-            this.formatBedrag = function (datum) {
+            this.formatBedrag = function () {
                 return opmaak.maakBedragOp(bedrag());
             };
 
@@ -137,7 +153,7 @@ define(['jquery',
                     logger.debug("Versturen : " + ko.toJSON(_this.schade));
 
                     _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
-                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function (data) {
+                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function (data) {
                         _this.id(data);
                         _this.bijlageModel.setId(data);
                         _this.bijlageModel.setSchermTonen(true);
@@ -167,9 +183,8 @@ define(['jquery',
                     var allOk = true;
 
                     _this.schade.eigenRisico(commonFunctions.stripBedrag(_this.schade.eigenRisico()));
-                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen).done(function () {
+                    schadeService.opslaan(_this.schade, _this.opmerkingenModel.opmerkingen, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
-//                    redirect.redirect('BEHEREN_' + _this.basisEntiteit, _this.basisId, 'schades');
                     }).fail(function (data) {
                         allOk = false;
                         commonFunctions.plaatsFoutmelding(data);

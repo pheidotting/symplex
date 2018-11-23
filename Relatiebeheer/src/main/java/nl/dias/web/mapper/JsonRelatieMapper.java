@@ -18,14 +18,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 @Component
-public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domain.response.Relatie> {
+public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.commons.domain.response.Relatie> {
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonRelatieMapper.class);
 
     @Inject
     private GebruikerService gebruikerService;
 
     @Override
-    public Relatie mapVanJson(nl.lakedigital.djfc.domain.response.Relatie jsonRelatie) {
+    public Relatie mapVanJson(nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie) {
         String patternDatum = "yyyy-MM-dd";
 
         Relatie relatie = new Relatie();
@@ -49,7 +49,6 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
             relatie.setGeboorteDatum(LocalDate.parse(jsonRelatie.getGeboorteDatum(), DateTimeFormat.forPattern(patternDatum)));
         }
 
-        relatie.setBsn(jsonRelatie.getBsn());
         if (jsonRelatie.getGeslacht() != null) {
             relatie.setGeslacht(Geslacht.valueOf(jsonRelatie.getGeslacht().substring(0, 1)));
         }
@@ -65,10 +64,10 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
     }
 
     @Override
-    public nl.lakedigital.djfc.domain.response.Relatie mapNaarJson(Relatie relatie) {
+    public nl.lakedigital.djfc.commons.domain.response.Relatie mapNaarJson(Relatie relatie) {
         LOGGER.debug("Map naar JSON : {}", ReflectionToStringBuilder.toString(relatie));
 
-        nl.lakedigital.djfc.domain.response.Relatie jsonRelatie = new nl.lakedigital.djfc.domain.response.Relatie();
+        nl.lakedigital.djfc.commons.domain.response.Relatie jsonRelatie = new nl.lakedigital.djfc.commons.domain.response.Relatie();
 
         jsonRelatie.setId(relatie.getId());
         jsonRelatie.setRoepnaam(relatie.getRoepnaam());
@@ -80,7 +79,6 @@ public class JsonRelatieMapper extends Mapper<Relatie, nl.lakedigital.djfc.domai
             jsonRelatie.setTussenvoegsel("");
         }
         jsonRelatie.setAchternaam(relatie.getAchternaam());
-        jsonRelatie.setBsn(relatie.getBsn());
         if (relatie.getGeboorteDatum() != null) {
             jsonRelatie.setGeboorteDatum(relatie.getGeboorteDatum().toString("dd-MM-yyyy"));
         } else {

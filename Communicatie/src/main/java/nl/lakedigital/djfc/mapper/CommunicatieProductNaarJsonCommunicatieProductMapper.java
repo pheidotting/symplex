@@ -1,13 +1,13 @@
 package nl.lakedigital.djfc.mapper;
 
 import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.UitgaandeBrief;
+import nl.lakedigital.djfc.commons.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
 import nl.lakedigital.djfc.commons.json.JsonCommunicatieProduct;
 import nl.lakedigital.djfc.commons.json.JsonUitgaandeBrief;
 import nl.lakedigital.djfc.commons.json.JsonUitgaandeEmail;
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.UitgaandeBrief;
-import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;

@@ -13,10 +13,10 @@ import nl.dias.service.GebruikerService;
 import nl.dias.service.ZoekService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
-import nl.lakedigital.djfc.request.SoortEntiteit;
-import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class ZoekController extends AbstractController {
         } else {
             timer = metricsService.addTimerMetric("zoekenZonderZoekwaarden", ZoekController.class);
             LOGGER.debug("We laten alles zien");
-            List<Relatie> lijst = gebruikerService.alleRelaties(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor());
+            List<Relatie> lijst = gebruikerService.alleRelaties(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor(), false);
             LOGGER.debug("Gevonden {} Relaties/Gebruikers", lijst.size());
             for (Gebruiker r : lijst) {
                 LOGGER.trace("{}", r);

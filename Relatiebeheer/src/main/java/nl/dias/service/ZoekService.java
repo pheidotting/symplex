@@ -8,9 +8,9 @@ import nl.lakedigital.djfc.client.oga.AdresClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.polisadministratie.SchadeClient;
 import nl.lakedigital.djfc.commons.json.JsonAdres;
-import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.commons.json.JsonPakket;
 import nl.lakedigital.djfc.commons.json.JsonSchade;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,8 +59,8 @@ public class ZoekService {
         }
         if (polisnummer != null && !"".equals(polisnummer)) {
             LOGGER.debug("Zoeken op polisnummer {}", polisnummer);
-            List<JsonPolis> polissen = polisClient.zoekOpPolisNummer(polisnummer);
-            for (JsonPolis polis : polissen) {
+            List<JsonPakket> polissen = polisClient.zoekOpPolisNummer(polisnummer);
+            for (JsonPakket polis : polissen) {
                 LOGGER.debug("Polis gevonden: {}", ReflectionToStringBuilder.toString(polis));
                 if ("RELATIE".equals(polis.getSoortEntiteit())) {
                     LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());
@@ -74,7 +74,7 @@ public class ZoekService {
         if (schadenummer != null && !"".equals(schadenummer)) {
             List<JsonSchade> schades = schadeClient.zoekOpSchadeNummerMaatschappij(schadenummer);
             for (JsonSchade schade : schades) {
-                JsonPolis polis = polisClient.lees(String.valueOf(schade.getPolis()));
+                JsonPakket polis = polisClient.lees(Long.valueOf(schade.getPolis()), true);
                 if (polis != null) {
                     if ("RELATIE".equals(polis.getSoortEntiteit())) {
                         LOGGER.debug("Hoort bij een Relatie met id {}", polis.getEntiteitId());

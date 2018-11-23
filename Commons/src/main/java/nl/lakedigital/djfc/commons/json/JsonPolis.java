@@ -19,7 +19,6 @@ public class JsonPolis {
     private String betaalfrequentie;
     private String dekking;
     private String verzekerdeZaak;
-    private String maatschappij;
     private String soort;
     private String idDiv;
     private String idDivLink;
@@ -27,12 +26,11 @@ public class JsonPolis {
     private String titel;
     private String omschrijvingVerzekering;
     private List<String> errors;
-    private String soortEntiteit;
-    private Long entiteitId;
+    //    private String soortEntiteit;
+    //    private Long entiteitId;
     private String parentIdentificatie;
     private String readOnly;
     private String notReadOnly;
-    private List<JsonOpmerking> opmerkingen;
     private String identificatie;
     private List<JsonSchade> schades;
 
@@ -132,14 +130,6 @@ public class JsonPolis {
         this.verzekerdeZaak = verzekerdeZaak;
     }
 
-    public String getMaatschappij() {
-        return maatschappij;
-    }
-
-    public void setMaatschappij(String maatschappij) {
-        this.maatschappij = maatschappij;
-    }
-
     public String getSoort() {
         return soort;
     }
@@ -196,13 +186,6 @@ public class JsonPolis {
         this.errors = errors;
     }
 
-    public String getSoortEntiteit() {
-        return soortEntiteit;
-    }
-
-    public void setSoortEntiteit(String soortEntiteit) {
-        this.soortEntiteit = soortEntiteit;
-    }
 
     public String getReadOnly() {
         return readOnly;
@@ -220,13 +203,6 @@ public class JsonPolis {
         this.notReadOnly = notReadOnly;
     }
 
-    public Long getEntiteitId() {
-        return entiteitId;
-    }
-
-    public void setEntiteitId(Long entiteitId) {
-        this.entiteitId = entiteitId;
-    }
 
     public String getParentIdentificatie() {
         return parentIdentificatie;
@@ -236,13 +212,6 @@ public class JsonPolis {
         this.parentIdentificatie = parentIdentificatie;
     }
 
-    public List<JsonOpmerking> getOpmerkingen() {
-        return opmerkingen;
-    }
-
-    public void setOpmerkingen(List<JsonOpmerking> opmerkingen) {
-        this.opmerkingen = opmerkingen;
-    }
 
     public String getIdentificatie() {
         return identificatie;
@@ -275,11 +244,11 @@ public class JsonPolis {
 
         JsonPolis jsonPolis = (JsonPolis) o;
 
-        return new EqualsBuilder().append(getId(), jsonPolis.getId()).append(getStatus(), jsonPolis.getStatus()).append(getPolisNummer(), jsonPolis.getPolisNummer()).append(getKenmerk(), jsonPolis.getKenmerk()).append(getIngangsDatum(), jsonPolis.getIngangsDatum()).append(getEindDatum(), jsonPolis.getEindDatum()).append(getPremie(), jsonPolis.getPremie()).append(getWijzigingsDatum(), jsonPolis.getWijzigingsDatum()).append(getProlongatieDatum(), jsonPolis.getProlongatieDatum()).append(getBetaalfrequentie(), jsonPolis.getBetaalfrequentie()).append(getDekking(), jsonPolis.getDekking()).append(getVerzekerdeZaak(), jsonPolis.getVerzekerdeZaak()).append(getMaatschappij(), jsonPolis.getMaatschappij()).append(getSoort(), jsonPolis.getSoort()).append(getClassName(), jsonPolis.getClassName()).append(getTitel(), jsonPolis.getTitel()).append(getOmschrijvingVerzekering(), jsonPolis.getOmschrijvingVerzekering()).append(getSoortEntiteit(), jsonPolis.getSoortEntiteit()).isEquals();
+        return new EqualsBuilder().append(getId(), jsonPolis.getId()).append(getStatus(), jsonPolis.getStatus()).append(getPolisNummer(), jsonPolis.getPolisNummer()).append(getKenmerk(), jsonPolis.getKenmerk()).append(getIngangsDatum(), jsonPolis.getIngangsDatum()).append(getEindDatum(), jsonPolis.getEindDatum()).append(getPremie(), jsonPolis.getPremie()).append(getWijzigingsDatum(), jsonPolis.getWijzigingsDatum()).append(getProlongatieDatum(), jsonPolis.getProlongatieDatum()).append(getBetaalfrequentie(), jsonPolis.getBetaalfrequentie()).append(getDekking(), jsonPolis.getDekking()).append(getVerzekerdeZaak(), jsonPolis.getVerzekerdeZaak()).append(getSoort(), jsonPolis.getSoort()).append(getClassName(), jsonPolis.getClassName()).append(getTitel(), jsonPolis.getTitel()).append(getOmschrijvingVerzekering(), jsonPolis.getOmschrijvingVerzekering()).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(getId()).append(getStatus()).append(getPolisNummer()).append(getKenmerk()).append(getIngangsDatum()).append(getEindDatum()).append(getPremie()).append(getWijzigingsDatum()).append(getProlongatieDatum()).append(getBetaalfrequentie()).append(getDekking()).append(getVerzekerdeZaak()).append(getMaatschappij()).append(getSoort()).append(getClassName()).append(getTitel()).append(getOmschrijvingVerzekering()).append(getSoortEntiteit()).toHashCode();
+        return new HashCodeBuilder(17, 37).append(getId()).append(getStatus()).append(getPolisNummer()).append(getKenmerk()).append(getIngangsDatum()).append(getEindDatum()).append(getPremie()).append(getWijzigingsDatum()).append(getProlongatieDatum()).append(getBetaalfrequentie()).append(getDekking()).append(getVerzekerdeZaak()).append(getSoort()).append(getClassName()).append(getTitel()).append(getOmschrijvingVerzekering()).toHashCode();
     }
 }

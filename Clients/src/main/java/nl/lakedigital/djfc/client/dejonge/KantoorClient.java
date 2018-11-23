@@ -13,6 +13,7 @@ public class KantoorClient extends AbstractClient<Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(KantoorClient.class);
 
     private final String URL_LEES = basisUrl + "/rest/applicaties/kantoor/lees";
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
 
     public KantoorClient(String basisUrl) {
         super(basisUrl);
@@ -29,5 +30,9 @@ public class KantoorClient extends AbstractClient<Object> {
 
     public JsonKantoor lees(Long id) {
         return uitvoerenGet(URL_LEES, JsonKantoor.class, LOGGER, id.toString());
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 }

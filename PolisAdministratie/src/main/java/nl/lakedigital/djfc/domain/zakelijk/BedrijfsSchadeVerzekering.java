@@ -1,26 +1,28 @@
 package nl.lakedigital.djfc.domain.zakelijk;
 
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
+import org.hibernate.envers.Audited;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-//@Audited
+@Audited
+
 
 @Component
 @Entity
 @Table(name = "POLIS")
 @DiscriminatorValue(value = "BE")
 public class BedrijfsSchadeVerzekering extends Polis {
-    public BedrijfsSchadeVerzekering() {//Hibernate wil deze, maar SonarQube niet
+    public BedrijfsSchadeVerzekering() {
     }
 
-    public BedrijfsSchadeVerzekering(SoortEntiteit soortEntiteit, Long entiteitId) {
-        super(soortEntiteit, entiteitId);
+    public BedrijfsSchadeVerzekering(Pakket pakket) {
+        super(pakket);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class BedrijfsSchadeVerzekering extends Polis {
     }
 
     @Override
-    public Polis nieuweInstantie(SoortEntiteit soortEntiteit, Long entiteitId) {
-        return new BedrijfsSchadeVerzekering(soortEntiteit,entiteitId);
+    public Polis nieuweInstantie(Pakket pakket) {
+        return new BedrijfsSchadeVerzekering(pakket);
     }
 }

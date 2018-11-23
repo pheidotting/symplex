@@ -10,15 +10,16 @@ import nl.dias.web.mapper.*;
 import nl.dias.web.medewerker.mappers.DomainAdresNaarMessagingAdresMapper;
 import nl.dias.web.medewerker.mappers.DomainOpmerkingNaarMessagingOpmerkingMapper;
 import nl.dias.web.medewerker.mappers.DomainTelefoonnummerNaarMessagingTelefoonnummerMapper;
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
 import nl.lakedigital.as.messaging.request.OpslaanEntiteitenRequest;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.*;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.client.taak.TaakClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.*;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.commons.json.JsonBedrijf;
 import nl.lakedigital.djfc.commons.json.JsonTelefonieBestand;
-import nl.lakedigital.djfc.domain.response.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -68,33 +69,29 @@ public class BedrijfController extends AbstractController {
     @Inject
     private TelefonieBestandClient telefonieBestandClient;
     @Inject
+    private TaakClient taakClient;
+    @Inject
     private RelatieService relatieService;
     @Inject
     private PolisClient polisClient;
-    @Inject
-    private PolisService polisService;
-    @Inject
-    private PolisMapper polisMapper;
-    @Inject
-    private SchadeService schadeService;
-    @Inject
-    private SchadeMapper schadeMapper;
     @Inject
     private OpslaanEntiteitenRequestSender opslaanEntiteitenRequestSender;
     @Inject
     private BelastingzakenService belastingzakenService;
     @Inject
     private MetricsService metricsService;
+    @Inject
+    private TakenOpslaanService takenOpslaanService;
 
     private static final String BELASTINGZAKEN = "BELASTINGZAKEN";
 
     @RequestMapping(method = RequestMethod.POST, value = "/opslaan")//, produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
+    public String opslaanBedrijf(@RequestBody nl.lakedigital.djfc.commons.domain.response.Bedrijf jsonBedrijf, HttpServletRequest httpServletRequest) {
         metricsService.addMetric("bedrijfOpslaan", BedrijfController.class, null, jsonBedrijf.getId() == null && jsonBedrijf.getIdentificatie() == null);
         Timer.Context timer = metricsService.addTimerMetric("opslaan", BedrijfController.class);
 
-        LOGGER.debug("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
+        LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(jsonBedrijf, ToStringStyle.SHORT_PREFIX_STYLE));
 
         zetSessieWaarden(httpServletRequest);
 
@@ -121,6 +118,9 @@ public class BedrijfController extends AbstractController {
         opslaanEntiteitenRequest.setSoortEntiteit(SoortEntiteit.BEDRIJF);
 
         opslaanEntiteitenRequestSender.send(opslaanEntiteitenRequest);
+
+        //Taken opslaan
+        takenOpslaanService.opslaan(jsonBedrijf.getTaken(), bedrijf.getId(), SoortEntiteit.BEDRIJF);
 
         metricsService.stop(timer);
 
@@ -163,11 +163,11 @@ public class BedrijfController extends AbstractController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/lees/{identificatieCode}", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public nl.lakedigital.djfc.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
+    public nl.lakedigital.djfc.commons.domain.response.Bedrijf lees(@PathVariable("identificatieCode") String identificatieCode, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
-        LOGGER.debug("Zoeken met identificatiecode {}", identificatieCode);
+        LOGGER.info("Zoeken Bedrijf met identificatiecode {}", identificatieCode);
 
-        nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = null;
+        nl.lakedigital.djfc.commons.domain.response.Bedrijf bedrijf = null;
 
         try {
 
@@ -183,11 +183,12 @@ public class BedrijfController extends AbstractController {
             bedrijf.setTelefoonnummers(telefoonnummerClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoTelefoonnummerMapper(identificatieClient)).collect(Collectors.toList()));
             bedrijf.setOpmerkingen(opmerkingClient.lijst("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoOpmerkingMapper(identificatieClient, gebruikerService)).collect(Collectors.toList()));
 
-            List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
-            bedrijf.setPolissen(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
-            //        bedrijf.setPolissen(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService)).collect(Collectors.toList()));
+            //            List<nl.dias.domein.polis.Polis> polissen = polisService.allePolissenBijBedrijf(bedrijfDomain.getId());
+            //            bedrijf.setPokketten(polissen.stream().map(new JsonToDtoPolisMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
+            bedrijf.setPakketten(polisClient.lijstBijBedrijf(bedrijfDomain.getId()).stream().map(new JsonToDtoPakketMapper(bijlageClient, groepBijlagesClient, opmerkingClient, identificatieClient, gebruikerService, taakClient)).collect(Collectors.toList()));
 
             bedrijf.setContactPersoons(gebruikerService.alleContactPersonen(bedrijfDomain.getId()).stream().map(new DomainToDtoContactPersoonMapper(identificatieClient, telefoonnummerClient)).collect(Collectors.toList()));
+            bedrijf.setTaken(taakClient.alles("BEDRIJF", bedrijfDomain.getId()).stream().map(new JsonToDtoTaakMapper(identificatieClient)).collect(Collectors.toList()));
 
             List<String> telefoonnummers = bedrijf.getTelefoonnummers().stream().map(telefoonnummer -> telefoonnummer.getTelefoonnummer()).collect(Collectors.toList());
             telefoonnummers.addAll(bedrijf.getContactPersoons().stream().map(contactPersoon -> contactPersoon.getTelefoonnummers())//
@@ -210,7 +211,7 @@ public class BedrijfController extends AbstractController {
                 bedrijf.getTelefoonnummerMetGesprekkens().add(telefoonnummerMetGesprekken);
             }
 
-            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(nl.lakedigital.djfc.domain.SoortEntiteit.BEDRIJF, bedrijfDomain.getId());
+            List<nl.dias.domein.Belastingzaken> bzLijst = belastingzakenService.alles(SoortEntiteit.BEDRIJF, bedrijfDomain.getId());
 
             Belastingzaken belastingzaken = new Belastingzaken();
 

@@ -67,11 +67,12 @@ define(["commons/3rdparty/log",
                 return deferred.promise();
             },
 
-            opslaanHypotheek: function (hypotheek, opmerkingen) {
+            opslaanHypotheek: function (hypotheek, opmerkingen, taken) {
                 var deferred = $.Deferred();
 
                 hypotheek.hypotheekVorm = ko.observable(hypotheek.hypotheekVorm.id);
                 hypotheek.opmerkingen = opmerkingen;
+                hypotheek.taken = taken;
 
                 hypotheekRepository.opslaanHypotheek(hypotheek).done(function (response) {
                     return deferred.resolve(response);

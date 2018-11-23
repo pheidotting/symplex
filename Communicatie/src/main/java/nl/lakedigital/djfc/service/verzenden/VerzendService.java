@@ -1,6 +1,6 @@
 package nl.lakedigital.djfc.service.verzenden;
 
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
 import nl.lakedigital.djfc.service.CommunicatieProductService;
 import org.springframework.stereotype.Service;
 

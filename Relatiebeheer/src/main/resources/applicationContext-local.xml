@@ -71,8 +71,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 
     <!--Embedded ActiveMQ -->
     <bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
-        <property name="config" value="classpath:activemq.xml" />
-        <property name="start" value="true" />
+        <property name="config" value="classpath:activemq.xml"/>
+        <property name="start" value="true"/>
     </bean>
 
     <import resource="applicationContext-jms.xml"/>

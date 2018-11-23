@@ -1,31 +1,29 @@
 package nl.dias.web.medewerker.mappers;
 
-import com.google.common.collect.Lists;
-import nl.dias.domein.Bedrag;
-import nl.dias.domein.StatusPolis;
-import nl.dias.domein.polis.Betaalfrequentie;
-import nl.dias.domein.polis.Polis;
-import nl.dias.domein.predicates.StatusPolisBijStatusPredicate;
-import nl.dias.service.PolisService;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
+import nl.lakedigital.djfc.commons.domain.response.Polis;
 import nl.lakedigital.djfc.commons.json.Identificatie;
+import nl.lakedigital.djfc.commons.json.JsonPolis;
+import nl.lakedigital.djfc.reflection.ReflectionToStringBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
-
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.getFirst;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JsonPolisNaarDomainPolisMapper {
-    private PolisService polisService;
+    private final static Logger LOGGER = LoggerFactory.getLogger(JsonPolisNaarDomainPolisMapper.class);
+
+    private PolisClient polisClient;
     private IdentificatieClient identificatieClient;
 
-    public JsonPolisNaarDomainPolisMapper(PolisService polisService, IdentificatieClient identificatieClient) {
-        this.polisService = polisService;
+    public JsonPolisNaarDomainPolisMapper(PolisClient polisClient, IdentificatieClient identificatieClient) {
+        this.polisClient = polisClient;
         this.identificatieClient = identificatieClient;
     }
 
-    public Polis map(nl.lakedigital.djfc.domain.response.Polis polisIn) {
+    public JsonPolis map(Polis polisIn) {
         String patternDatum = "yyyy-MM-dd";
 
         LocalDate ingangsDatum = null;
@@ -45,41 +43,56 @@ public class JsonPolisNaarDomainPolisMapper {
             eindDatum = LocalDate.parse(polisIn.getEindDatum(), DateTimeFormat.forPattern(patternDatum));
         }
 
-        Polis polis;
-        if (polisIn.getIdentificatie() == null) {
-            polis = polisService.definieerPolisSoort(polisIn.getSoort());
-        } else {
+        JsonPolis polis;
+        //        if (polisIn.getIdentificatie() == null) {
+        //            polis = polisClient.definieerPolisSoort(polisIn.getSoort());
+        //        } else {
+        //            LOGGER.debug(ReflectionToStringBuilder.toString(identificatie));
+        //            //POLISCLIENT!
+        //            polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        //        polis = polisClient.lees(String.valueOf(identificatie.getEntiteitId()));
+        polis = new JsonPolis();
+        if (polisIn.getIdentificatie() != null) {
             Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getIdentificatie());
-            polis = polisService.lees(identificatie.getEntiteitId());
+            polis.setId(identificatie.getEntiteitId());
         }
+        //        polis=new P
 
         if (polisIn.getStatus() != null) {
-            polis.setStatus(getFirst(filter(Lists.newArrayList(StatusPolis.values()), new StatusPolisBijStatusPredicate(polisIn.getStatus())), StatusPolis.ACT));
+            LOGGER.debug("Opzoeken Status {}", polisIn.getStatus());
+            LOGGER.debug(ReflectionToStringBuilder.toString(polis));
+            //            polis.setStatus(getFirst(filter(Lists.newArrayList(StatusPolis.values()), new StatusPolisBijStatusPredicate(polisIn.getStatus())), StatusPolis.ACT));
+            polis.setStatus(polisIn.getStatus());
         }
 
         polis.setPolisNummer(polisIn.getPolisNummer());
         polis.setKenmerk(polisIn.getKenmerk());
-        polis.setIngangsDatum(ingangsDatum);
+        polis.setIngangsDatum(polisIn.getIngangsDatum());
         if (polisIn.getPremie() != null) {
-            polis.setPremie(new Bedrag(polisIn.getPremie().replace(",", ".")));
+            //            polis.setPremie(new Bedrag(polisIn.getPremie().replace(",", ".")));
+            polis.setPremie(polisIn.getPremie());
         }
-        polis.setWijzigingsDatum(wijzigingsDatum);
-        polis.setProlongatieDatum(prolongatieDatum);
-        polis.setEindDatum(eindDatum);
+        polis.setWijzigingsDatum(polisIn.getWijzigingsDatum());
+        polis.setProlongatieDatum(polisIn.getProlongatieDatum());
+        polis.setEindDatum(polisIn.getEindDatum());
         polis.setDekking(polisIn.getDekking());
         polis.setVerzekerdeZaak(polisIn.getVerzekerdeZaak());
+        polis.setSoort(polisIn.getSoort());
         if (StringUtils.isNotEmpty(polisIn.getBetaalfrequentie())) {
-            polis.setBetaalfrequentie(Betaalfrequentie.valueOf(polisIn.getBetaalfrequentie().toUpperCase().substring(0, 1)));
+            //            polis.setBetaalfrequentie(Betaalfrequentie.valueOf(polisIn.getBetaalfrequentie().toUpperCase().substring(0, 1)));
+            polis.setBetaalfrequentie(polisIn.getBetaalfrequentie());
         }
 
-        polis.setMaatschappij(Long.valueOf(polisIn.getMaatschappij()));
+        //        polis.setMaatschappij(polisIn.getMaatschappij());
 
-        Identificatie identificatie = identificatieClient.zoekIdentificatieCode(polisIn.getParentIdentificatie());
-        if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
-            polis.setRelatie(identificatie.getEntiteitId());
-        } else {
-            polis.setBedrijf(identificatie.getEntiteitId());
-        }
+        //        Identificatie identificatie1 = identificatieClient.zoekIdentificatieCode(polisIn.getParentIdentificatie());
+        //        if ("relatie".equalsIgnoreCase(identificatie.getSoortEntiteit())) {
+        //            polis.setRelatie(identificatie1.getEntiteitId());
+        //        } else {
+        //            polis.setBedrijf(identificatie1.getEntiteitId());
+        //        }
+        //        polis.setEntiteitId(polisIn.getEntiteitId());
+        //        polis.setSoortEntiteit(polisIn.getSoortEntiteit());
 
         polis.setOmschrijvingVerzekering(polisIn.getOmschrijvingVerzekering());
 

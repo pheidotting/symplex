@@ -4,14 +4,14 @@ import nl.dias.domein.Bijlage;
 import nl.dias.domein.Gebruiker;
 import nl.dias.mapper.BijlageNaarJsonBijlageMapper;
 import nl.dias.service.BijlageService;
-import nl.dias.web.SoortEntiteit;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
 import nl.lakedigital.djfc.client.oga.GroepBijlagesClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
 import nl.lakedigital.djfc.commons.json.*;
 import nl.lakedigital.djfc.metrics.MetricsService;
 import nl.lakedigital.djfc.request.EntiteitenOpgeslagenRequest;
-import nl.lakedigital.djfc.request.SoortEntiteitEnEntiteitId;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -102,8 +102,9 @@ public class BijlageController extends AbstractController {
         zetSessieWaarden(httpServletRequest);
 
         Identificatie identificatie = identificatieClient.zoekIdentificatieCode(identificatieCode);
+        JsonBijlage bijlage = bijlageClient.lees(identificatie.getEntiteitId());
 
-        metricsService.addMetric("downloadBijlage" + identificatie.getSoortEntiteit(), BijlageController.class, null, null);
+        metricsService.addMetric("verwijderen" + bijlage.getSoortEntiteit(), BijlageController.class, null, null);
 
         bijlageClient.verwijder(identificatie.getEntiteitId(), getIngelogdeGebruiker(httpServletRequest).getId(), getTrackAndTraceId(httpServletRequest));
     }
@@ -124,6 +125,8 @@ public class BijlageController extends AbstractController {
         LOGGER.debug("Ophalen bijlage met id {}", identificatie.getEntiteitId());
 
         JsonBijlage bijlage = bijlageClient.lees(identificatie.getEntiteitId());
+
+        metricsService.addMetric("download" + bijlage.getSoortEntiteit(), BijlageController.class, null, null);
 
         File file = new File(bijlageClient.getUploadPad() + "/" + bijlage.getS3Identificatie());
 
@@ -215,7 +218,7 @@ public class BijlageController extends AbstractController {
                 EntiteitenOpgeslagenRequest entiteitenOpgeslagenRequest = new EntiteitenOpgeslagenRequest();
                 SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
                 soortEntiteitEnEntiteitId.setEntiteitId(Long.valueOf(id));
-                soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.djfc.request.SoortEntiteit.BIJLAGE);
+                soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.BIJLAGE);
                 entiteitenOpgeslagenRequest.getSoortEntiteitEnEntiteitIds().add(soortEntiteitEnEntiteitId);
                 Identificatie identificatie = identificatieClient.opslaan(entiteitenOpgeslagenRequest);
 

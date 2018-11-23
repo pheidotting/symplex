@@ -128,12 +128,13 @@ define([],
                     {naam: 'VERWIJDER_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/verwijder'},
                     {naam: 'LEES_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lees'},
                     {naam: 'LIJST_SCHADES', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijst'},
+                    {naam: 'LIJST_OPEN_SCHADES', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/alleOpenSchade'},
                     {
                         naam: 'LIJST_SCHADES_BIJ_BEDRIJF',
                         url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstBijBedrijf'
                     },
 
-                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/overig/lijstStatusSchade'},
+                    {naam: 'LIJST_STATUS_SCHADE', url: BASISURL_RELATIEBEHEER + '/medewerker/schade/lijstStatusSchade'},
                     {
                         naam: 'OPHALEN_ADRES_OP_POSTCODE',
                         url: BASISURL_RELATIEBEHEER + '/medewerker/overig/ophalenAdresOpPostcode'
@@ -165,6 +166,7 @@ define([],
                     {naam: 'OPSLAAN_AANGIFTE', url: BASISURL_RELATIEBEHEER + '/medewerker/aangifte/opslaan'},
 
                     {naam: 'LEES_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lees'},
+                    {naam: 'OPSLAAN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/opslaanWijziging'},
                     {naam: 'LIJST_TAKEN', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/lijst'},
                     {naam: 'AFHANDELEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/afhandelen'},
                     {naam: 'VRIJGEVEN_TAAK', url: BASISURL_RELATIEBEHEER + '/medewerker/taak/vrijgeven'},
@@ -227,7 +229,9 @@ define([],
                     {naam: 'ZOEKEN', url: BASISURL_RELATIEBEHEER + '/medewerker/zoeken/zoeken'},
 
                     {naam: 'LICENTIE_EINDDATUM', url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/einddatum'},
-                    {naam: 'LICENTIE_KOPEN', url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/licentie-kopen'}
+                    {naam: 'LICENTIE_KOPEN', url: BASISURL_RELATIEBEHEER + '/medewerker/licentie/licentie-kopen'},
+
+                    {naam: 'DASHBOARD', url: BASISURL_RELATIEBEHEER + '/medewerker/dashboard'}
                 ];
 
                 var url = '';

@@ -14,6 +14,13 @@
         </layout>
     </appender>
 
+    <appender name="jms" class="nl.lakedigital.djfc.logging.JMSQueueAppender">
+        <param name="brokerUri" value="tcp://localhost:61616"/>
+        <param name="queueName" value="logDjfc"/>
+        <param name="applicatie" value="djfc"/>
+        <param name="omgeving" value="tst"/>
+    </appender>
+
     <logger name="javax.enterprise.system">
         <level value="error"/>
     </logger>
@@ -32,10 +39,7 @@
     <logger name="ch.vorburger">
         <level value="off"/>
     </logger>
-    <logger name="com.ullink.slack.simpleslackapi.impl">
-        <level value="error"/>
-    </logger>
-    <logger name="com.ullink.slack.simpleslackapi.impl">
+    <logger name="com.ullink.slack">
         <level value="error"/>
     </logger>
     <!--<logger name="nl.lakedigital.djfc">-->
@@ -45,5 +49,6 @@
     <root>
         <priority value="trace"/>
         <appender-ref ref="fileAppender"/>
+        <appender-ref ref="jms"/>
     </root>
 </log4j:configuration>

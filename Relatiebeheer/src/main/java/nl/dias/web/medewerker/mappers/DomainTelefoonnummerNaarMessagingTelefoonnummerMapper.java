@@ -1,11 +1,11 @@
 package nl.dias.web.medewerker.mappers;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteit;
-import nl.lakedigital.djfc.domain.response.Telefoonnummer;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.response.Telefoonnummer;
 
 import java.util.function.Function;
 
-public class DomainTelefoonnummerNaarMessagingTelefoonnummerMapper implements Function<Telefoonnummer, nl.lakedigital.as.messaging.domain.Telefoonnummer> {
+public class DomainTelefoonnummerNaarMessagingTelefoonnummerMapper implements Function<Telefoonnummer, nl.lakedigital.djfc.commons.domain.Telefoonnummer> {
     private Long entiteitId;
     private SoortEntiteit soortEntiteit;
 
@@ -15,14 +15,14 @@ public class DomainTelefoonnummerNaarMessagingTelefoonnummerMapper implements Fu
     }
 
     @Override
-    public nl.lakedigital.as.messaging.domain.Telefoonnummer apply(Telefoonnummer telefoonnummer) {
-        nl.lakedigital.as.messaging.domain.Telefoonnummer jsonTelefoonnummer = new nl.lakedigital.as.messaging.domain.Telefoonnummer();
+    public nl.lakedigital.djfc.commons.domain.Telefoonnummer apply(Telefoonnummer telefoonnummer) {
+        nl.lakedigital.djfc.commons.domain.Telefoonnummer jsonTelefoonnummer = new nl.lakedigital.djfc.commons.domain.Telefoonnummer();
 
         jsonTelefoonnummer.setOmschrijving(telefoonnummer.getOmschrijving());
         jsonTelefoonnummer.setSoort(telefoonnummer.getSoort());
         jsonTelefoonnummer.setTelefoonnummer(telefoonnummer.getTelefoonnummer());
         jsonTelefoonnummer.setEntiteitId(entiteitId);
-        jsonTelefoonnummer.setSoortEntiteit(soortEntiteit);
+        jsonTelefoonnummer.setSoortEntiteit(SoortEntiteit.valueOf(soortEntiteit.name()));
         jsonTelefoonnummer.setIdentificatie(telefoonnummer.getIdentificatie());
 
         return jsonTelefoonnummer;

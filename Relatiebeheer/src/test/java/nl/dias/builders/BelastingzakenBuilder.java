@@ -1,7 +1,7 @@
 package nl.dias.builders;
 
 import nl.dias.domein.Belastingzaken;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 
 public class BelastingzakenBuilder {
     private Belastingzaken belastingzaken;

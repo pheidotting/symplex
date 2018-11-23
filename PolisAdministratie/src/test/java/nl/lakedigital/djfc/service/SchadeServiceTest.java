@@ -1,6 +1,7 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.*;
 import nl.lakedigital.djfc.domain.particulier.AutoVerzekering;
@@ -38,12 +39,14 @@ public class SchadeServiceTest extends EasyMockSupport {
         SoortEntiteit soortEntiteit = SoortEntiteit.RELATIE;
         Long entiteitId = 5L;
 
-        Polis polis = new AutoVerzekering(soortEntiteit, entiteitId);
+        Pakket pakket = new Pakket(soortEntiteit, entiteitId);
+        Polis polis = new AutoVerzekering(pakket);
         polis.setId(4L);
         List<Polis> polissen = new ArrayList<>();
         polissen.add(polis);
 
-        expect(polisService.alles(soortEntiteit, entiteitId)).andReturn(polissen);
+
+        expect(polisService.alles(soortEntiteit, entiteitId)).andReturn(newArrayList(pakket));
 
         Schade schade = new Schade();
         List<Schade> schades = new ArrayList<>();
@@ -219,13 +222,13 @@ public class SchadeServiceTest extends EasyMockSupport {
     //    public void testZoekOpSchadeNummerMaatschappij() {
     //        Schade schade = new Schade();
     //        String schadeNummerMaatschappij = "schadeNummerMaatschappij";
-//
+    //
     //        expect(schadeRepository.zoekOpSchadeNummerMaatschappij(schadeNummerMaatschappij)).andReturn(schade);
-//
+    //
     //        replayAll();
-//
+    //
     //        assertEquals(schade, service.zoekOpSchadeNummerMaatschappij(schadeNummerMaatschappij));
-//
+    //
     //        verifyAll();
     //    }
 
@@ -245,17 +248,17 @@ public class SchadeServiceTest extends EasyMockSupport {
         verifyAll();
     }
 
-//    @Test
-//    public void testAlleSchadesBijRelatie() {
-//        List<Schade> lijst = new ArrayList<>();
-//        Relatie relatie = new Relatie();
-//
-//        expect(schadeRepository.alleSchadesBijRelatie(relatie)).andReturn(lijst);
-//
-//        replayAll();
-//
-//        service.alleSchadesBijRelatie(relatie);
-//
-//        verifyAll();
-//    }
+    //    @Test
+    //    public void testAlleSchadesBijRelatie() {
+    //        List<Schade> lijst = new ArrayList<>();
+    //        Relatie relatie = new Relatie();
+    //
+    //        expect(schadeRepository.alleSchadesBijRelatie(relatie)).andReturn(lijst);
+    //
+    //        replayAll();
+    //
+    //        service.alleSchadesBijRelatie(relatie);
+    //
+    //        verifyAll();
+    //    }
 }

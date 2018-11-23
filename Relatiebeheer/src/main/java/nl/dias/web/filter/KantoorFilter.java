@@ -2,10 +2,14 @@ package nl.dias.web.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import nl.dias.domein.Bedrijf;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
 import nl.dias.domein.Relatie;
+import nl.dias.service.BedrijfService;
 import nl.dias.service.GebruikerService;
+import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.loginsystem.exception.NietGevondenException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -27,6 +31,8 @@ public class KantoorFilter implements Filter {
 
     private FilterConfig filterConfig = null;
     private GebruikerService gebruikerService;
+    private IdentificatieClient identificatieClient;
+    private BedrijfService bedrijfService;
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         CharResponseWrapper wrappedResponse = new CharResponseWrapper((HttpServletResponse) response);
@@ -35,24 +41,48 @@ public class KantoorFilter implements Filter {
         byte[] bytes = wrappedResponse.getByteArray();
 
         String responseString = new String(bytes);
+        LOGGER.trace(responseString);
 
         if (getFullURL((HttpServletRequest) request).contains("/relatie/lees/")) {
-            nl.lakedigital.djfc.domain.response.Relatie relatie = (nl.lakedigital.djfc.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Relatie.class);
+            LOGGER.trace("Relatie opvragen");
 
-            Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+            nl.lakedigital.djfc.commons.domain.response.Relatie relatieRes = (nl.lakedigital.djfc.commons.domain.response.Relatie) mapVanJson(responseString, nl.lakedigital.djfc.commons.domain.response.Relatie.class);
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(relatieRes.getIdentificatie());
+            if (identificatie != null) {
+                Relatie relatie = gebruikerService.leesRelatie(identificatie.getEntiteitId());
+                if (relatie != null) {
 
-            if (relatie == null || relatie.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                //                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                //                responseString = "";
+                    Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+
+                    LOGGER.trace("Gevraagd, relatie met id {}, kantoor {}", relatie.getId(), relatie.getKantoor());
+                    LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
+
+                    if (relatie == null || relatie.getKantoor().getId() != ingelogdeGebruiker.getKantoor().getId()) {
+                        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        responseString = "";
+                    }
+                }
             }
         } else if (getFullURL((HttpServletRequest) request).contains("/bedrijf/lees/")) {
-            nl.lakedigital.djfc.domain.response.Bedrijf bedrijf = (nl.lakedigital.djfc.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.domain.response.Bedrijf.class);
+            LOGGER.trace("Bedrijf opvragen");
 
-            Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+            nl.lakedigital.djfc.commons.domain.response.Bedrijf bedrijfRes = (nl.lakedigital.djfc.commons.domain.response.Bedrijf) mapVanJson(responseString, nl.lakedigital.djfc.commons.domain.response.Bedrijf.class);
 
-            if (bedrijf != null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
-                //                    ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                //                    responseString = "";
+            Identificatie identificatie = identificatieClient.zoekIdentificatieCode(bedrijfRes.getIdentificatie());
+            if (identificatie != null) {
+                Bedrijf bedrijf = bedrijfService.lees(identificatie.getEntiteitId());
+                if (bedrijf != null) {
+
+                    Medewerker ingelogdeGebruiker = (Medewerker) getIngelogdeGebruiker((HttpServletRequest) request);
+
+                    LOGGER.trace("Gevraagd, bedrijf met id {}, kantoor {}", bedrijf.getId(), bedrijf.getKantoor());
+                    LOGGER.trace("Ingelogde gebruiker id {}, kantoor id {}", ingelogdeGebruiker.getId(), ingelogdeGebruiker.getKantoor().getId());
+
+                    if (bedrijf == null || bedrijf.getKantoor() != ingelogdeGebruiker.getKantoor().getId()) {
+                        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                        responseString = "";
+                    }
+                }
             }
         }
 
@@ -184,6 +214,8 @@ public class KantoorFilter implements Filter {
         this.filterConfig = filterConfig;
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
         this.gebruikerService = ctx.getBean(GebruikerService.class);
+        this.identificatieClient = ctx.getBean(IdentificatieClient.class);
+        this.bedrijfService = ctx.getBean(BedrijfService.class);
     }
 
     public void destroy() {

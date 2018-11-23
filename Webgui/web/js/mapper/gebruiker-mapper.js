@@ -30,7 +30,6 @@ define(['jquery',
                 relatie.roepnaam(data.roepnaam);
                 relatie.tussenvoegsel(data.tussenvoegsel);
                 relatie.achternaam(data.achternaam);
-                relatie.bsn(data.bsn);
                 relatie.geboorteDatum(data.geboorteDatum);
                 relatie.overlijdensdatum(data.overlijdensdatum);
                 relatie.geslacht(data.geslacht);

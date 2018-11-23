@@ -1,27 +1,29 @@
 package nl.lakedigital.djfc.service;
 
-import nl.lakedigital.as.messaging.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
+import nl.lakedigital.djfc.commons.domain.SoortEntiteitEnEntiteitId;
+import nl.lakedigital.djfc.domain.Pakket;
 import nl.lakedigital.djfc.domain.Polis;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.SoortVerzekering;
 import nl.lakedigital.djfc.messaging.sender.EntiteitenOpgeslagenRequestSender;
 import nl.lakedigital.djfc.predicates.PolissenOpSoortPredicate;
 import nl.lakedigital.djfc.repository.PolisRepository;
-import nl.lakedigital.djfc.transformers.PolisToSchermNaamTransformer;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 
 @Service
@@ -37,29 +39,40 @@ public class PolisService {
     @Inject
     private EntiteitenOpgeslagenRequestSender entiteitenOpgeslagenRequestSender;
 
-    public List<String> allePolisSoorten(final SoortVerzekering soortVerzekering) {
+    public Map<String, String> allePolisSoorten(final SoortVerzekering soortVerzekering) {
         Iterable<Polis> poli = filter(polissen, new PolissenOpSoortPredicate(soortVerzekering));
 
-        Iterable<String> polisString = transform(poli, new PolisToSchermNaamTransformer());
-
-        return newArrayList(polisString);
-    }
-
-    public List<Polis> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
-        List<Polis> poli = polisRepository.alles(soortEntiteit, entiteitId);
-
+        Map<String, String> result = new HashMap<>();
         for (Polis polis : poli) {
-            polis.setSchades(schadeService.allesBijPolis(polis));
+            result.put(polis.getClass().getSimpleName().replace("Verzekering", ""), polis.getSchermNaam());
         }
 
-        return poli;
+        //        Iterable<String,String> polisString = transform(poli, new PolisToSchermNaamTransformer());
+
+        return result;
     }
 
-    public void beeindigen(Long id) {
-        Polis polis = polisRepository.lees(id);
+    public List<Pakket> alles(SoortEntiteit soortEntiteit, Long entiteitId) {
+        List<Pakket> pakketten = polisRepository.alles(soortEntiteit, entiteitId);
 
-        polis.setEindDatum(new LocalDate());
-        polisRepository.opslaan(polis);
+        for (Pakket pakket : pakketten) {
+            for (Polis polis : pakket.getPolissen()) {
+                polis.setSchades(schadeService.allesBijPolis(polis));
+            }
+        }
+
+        return pakketten;
+    }
+
+    //    public void beeindigen(Long id) {
+    //        Polis polis = null;//polisRepository.lees(id);
+    //
+    //        polis.setEindDatum(new LocalDate());
+    //        polisRepository.opslaan(polis);
+    //    }
+
+    public void opslaan(Pakket pakket) {
+        polisRepository.opslaan(pakket);
     }
 
     public void opslaan(Polis polis) {
@@ -69,7 +82,7 @@ public class PolisService {
 
         entiteitenOpgeslagenRequestSender.send(maakSoortEntiteitEnEntiteitId(newArrayList(polis.getId())));
 
-        LOGGER.debug("{}", lees(polis.getId()));
+        //        LOGGER.debug("{}", lees(polis.getId()));
     }
 
     public void opslaan(List<Polis> polissen) {
@@ -89,7 +102,7 @@ public class PolisService {
             SoortEntiteitEnEntiteitId soortEntiteitEnEntiteitId = new SoortEntiteitEnEntiteitId();
             soortEntiteitEnEntiteitId.setEntiteitId(id);
 
-            soortEntiteitEnEntiteitId.setSoortEntiteit(nl.lakedigital.as.messaging.domain.SoortEntiteit.POLIS);
+            soortEntiteitEnEntiteitId.setSoortEntiteit(SoortEntiteit.POLIS);
 
             result.add(soortEntiteitEnEntiteitId);
         }
@@ -97,12 +110,16 @@ public class PolisService {
         return result;
     }
 
-    public Polis lees(Long id) {
+    public Pakket lees(Long id) {
         return polisRepository.lees(id);
     }
 
+    public Pakket leesOpPolis(Long id) {
+        return polisRepository.leesOpPolis(id);
+    }
 
-    public List<Polis> zoekOpPolisNummer(String polisNummer) {
+
+    public List<Pakket> zoekOpPolisNummer(String polisNummer) {
         try {
             return polisRepository.zoekOpPolisNummer(polisNummer);
         } catch (NoResultException e) {
@@ -113,23 +130,32 @@ public class PolisService {
 
     public void verwijder(Long id) {
         LOGGER.debug("Ophalen Polis");
-        Polis polis = polisRepository.lees(id);
 
-        if (polis == null) {
+        Pakket pakket = polisRepository.lees(id);
+        Optional<Polis> polisOptional = pakket.getPolissen().stream().filter(new Predicate<Polis>() {
+            @Override
+            public boolean test(Polis polis) {
+                return polis.getId() == id;
+            }
+        }).findFirst();
+
+        if (!polisOptional.isPresent()) {
             throw new IllegalArgumentException("Geen Polis gevonden met id " + id);
         }
+        Polis polis = polisOptional.get();
         LOGGER.debug("Polis gevonden : " + polis);
 
         polisRepository.verwijder(polis);
     }
 
     public void verwijder(List<Long> ids) {
-        LOGGER.debug("Ophalen Polis");
-        List<Polis> polissen = newArrayList();
+        LOGGER.debug("Ophalen te verwijderen Polissen");
+
+        List<Pakket> polissen = newArrayList();
         for (Long id : ids) {
             polissen.add(polisRepository.lees(id));
         }
 
-        polisRepository.verwijder(polissen);
+        polisRepository.verwijderPakketten(polissen);
     }
 }

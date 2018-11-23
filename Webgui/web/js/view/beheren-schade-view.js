@@ -4,8 +4,10 @@ define(['jquery',
         'viewmodel/beheren-schade-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view'],
-    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+        'view/common/bijlage-view',
+        'view/common/breadcrumbs-view',
+        'view/common/taak-view'],
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, breadcrumbsView, taakView) {
         var logger = log.getLogger('beheren-schade-view');
 
         return {
@@ -14,6 +16,8 @@ define(['jquery',
 
                 opmerkingView.init(schadeId);
                 bijlageView.init(schadeId);
+                taakView.init();
+                breadcrumbsView.init();
 
                 logger.debug('content geladen, viewmodel init');
 

@@ -4,8 +4,9 @@ define(['jquery',
         'viewmodel/beheren-belastingzaken-viewmodel',
         'knockout',
         'view/common/opmerking-view',
-        'view/common/bijlage-view'],
-    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView) {
+        'view/common/bijlage-view',
+        'view/common/breadcrumbs-view'],
+    function ($, log, html, viewmodel, ko, opmerkingView, bijlageView, breadcrumbsView) {
         var logger = log.getLogger('beheren-relatie-view');
 
         return {
@@ -14,6 +15,7 @@ define(['jquery',
 
                 opmerkingView.init(id);
                 bijlageView.init(id);
+                breadcrumbsView.init();
 
                 logger.debug('content geladen, viewmodel init');
 

@@ -4,18 +4,17 @@ import nl.dias.domein.Relatie;
 
 import java.util.function.Function;
 
-public class DomainToDtoRelatieMapper implements Function<Relatie, nl.lakedigital.djfc.domain.response.Relatie> {
+public class DomainToDtoRelatieMapper implements Function<Relatie, nl.lakedigital.djfc.commons.domain.response.Relatie> {
     @Override
-    public nl.lakedigital.djfc.domain.response.Relatie apply(Relatie domain) {
+    public nl.lakedigital.djfc.commons.domain.response.Relatie apply(Relatie domain) {
         String datumFormaat = "yyyy-MM-dd";
 
-        nl.lakedigital.djfc.domain.response.Relatie relatie = new nl.lakedigital.djfc.domain.response.Relatie();
+        nl.lakedigital.djfc.commons.domain.response.Relatie relatie = new nl.lakedigital.djfc.commons.domain.response.Relatie();
 
         relatie.setAchternaam(domain.getAchternaam());
         relatie.setRoepnaam(domain.getRoepnaam());
         relatie.setVoornaam(domain.getVoornaam());
         relatie.setTussenvoegsel(domain.getTussenvoegsel());
-        relatie.setBsn(domain.getBsn());
         if (domain.getGeboorteDatum() != null) {
             relatie.setGeboorteDatum(domain.getGeboorteDatum().toString(datumFormaat));
         }

@@ -8,12 +8,13 @@ define(["commons/3rdparty/log",
     function (log, navRegister, ko, repository, polisRepository, gebruikerRepository, bedrijfRepository) {
 
         return {
-            opslaan: function (polis, opmerkingen, basisId) {
+            opslaan: function (polis, opmerkingen, basisId, taken) {
                 var deferred = $.Deferred();
 
                 polis.maatschappij = ko.observable(polis.maatschappij.id);
 
                 polis.opmerkingen = opmerkingen;
+                polis.taken = taken;
                 polis.parentIdentificatie = basisId;
 
                 $.when(polisRepository.opslaan(polis)).then(function (id) {

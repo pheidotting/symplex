@@ -19,6 +19,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext-unittest.xml")
@@ -188,8 +189,8 @@ public class SchadeRepositoryTest {
         Schade schade1 = new Schade();
         schade1.setSchadeNummerMaatschappij(schadeNummer);
         schade1.setStatusSchade(statusSchade);
-        schade1.setDatumTijdSchade(new LocalDateTime());
-        schade1.setDatumTijdMelding(new LocalDateTime());
+        schade1.setDatumSchade(new LocalDateTime());
+        schade1.setDatumMelding(new LocalDateTime());
         schade1.setPolis(polis);
 
         return schade1;

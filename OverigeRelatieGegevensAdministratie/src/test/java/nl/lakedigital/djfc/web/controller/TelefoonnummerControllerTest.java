@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.web.controller;
 
+import nl.lakedigital.djfc.commons.domain.SoortEntiteit;
 import nl.lakedigital.djfc.commons.json.JsonTelefoonnummer;
-import nl.lakedigital.djfc.domain.SoortEntiteit;
 import nl.lakedigital.djfc.domain.Telefoonnummer;
 import nl.lakedigital.djfc.service.AbstractService;
 import nl.lakedigital.djfc.service.TelefoonnummerService;

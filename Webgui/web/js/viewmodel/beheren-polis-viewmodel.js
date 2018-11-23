@@ -3,7 +3,8 @@ define(['jquery',
         'knockout',
         'commons/3rdparty/log',
         'redirect',
-        'mapper/polis-mapper',
+        'model/polis',
+        'mapper/pakket-mapper',
         'service/polis-service',
         'viewmodel/common/opmerking-viewmodel',
         'viewmodel/common/bijlage-viewmodel',
@@ -11,11 +12,13 @@ define(['jquery',
         'service/toggle-service',
         'viewmodel/common/menubalk-viewmodel',
         'viewmodel/common/licentie-viewmodel',
+        'viewmodel/common/taken-viewmodel',
+        'viewmodel/common/breadcrumbs-viewmodel',
         'underscore',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, log, redirect, polisMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, _) {
+    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, _) {
 
         return function () {
             var _this = this;
@@ -25,23 +28,16 @@ define(['jquery',
             this.basisEntiteit = null;
             this.basisId = null;
             this.bijlageModel = null;
-            this.polis = null;
+            this.pakket = null;
             this.taakModel = null;
             this.menubalkViewmodel = null;
             this.licentieViewmodel = null;
+            this.breadcrumbsViewmodel = null;
 
             this.lijst = ko.observableArray();
             this.id = ko.observable();
             this.readOnly = ko.observable();
             this.notReadOnly = ko.observable();
-
-            this.voertuiginfo = ko.observable(false);
-            this.merk = ko.observable();
-            this.type = ko.observable();
-            this.bouwjaar = ko.observable();
-            this.voertuigImage1 = ko.observable();
-            this.voertuigImage2 = ko.observable();
-            this.voertuigImage3 = ko.observable();
 
             this.init = function (polisId, basisId, readOnly, basisEntiteit) {
                 var deferred = $.Deferred();
@@ -59,23 +55,43 @@ define(['jquery',
                     }
                     _this.basisId = entiteit.identificatie;
 
-                    var polis = _.find(entiteit.polissen, function (polis) {
-                        return polis.identificatie === polisId.identificatie;
+                    var pakket = _.find(entiteit.pakketten, function (pakket) {
+                        return pakket.identificatie === polisId.identificatie;
                     });
-                    if (polis == null) {
-                        polis = {
+                    if (pakket == null) {
+                        pakket = {
                             'opmerkingen': [],
                             'bijlages': [],
                             'groepBijlages': []
                         }
                     }
 
-                    _this.polis = polisMapper.mapPolis(polis, maatschappijen);
+                    _this.pakket = pakketMapper.mapPakket(pakket, maatschappijen);
 
-                    _this.opmerkingenModel = new opmerkingViewModel(false, soortEntiteit, polisId, polis.opmerkingen);
-                    _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, polisId, polis.bijlages, polis.groepBijlages, _this.id() == _this.basisId);
+                    if(_this.pakket.polissen().length == 0){
+                        var p = new Polis();
+                        p.identificatie('__new__' + new Date().getTime());
+                        _this.pakket.polissen.push(p);
+                        $('#'+p.identificatie()).show();
+                        $('#'+p.identificatie()+'open').show();
+                        $('#'+p.identificatie()+'dicht').hide();
+                    }
+
+                    _.each(_this.pakket.polissen(), function(polis){
+                        try {
+                            zoekVoertuigGegevens(polis);
+                        } catch (err) {
+                            logger.info(err.message);
+                        }
+                    });
+
+                    _this.opmerkingenModel = new opmerkingViewModel(false, soortEntiteit, polisId, pakket.opmerkingen);
+                    _this.bijlageModel = new bijlageViewModel(false, soortEntiteit, polisId, pakket.bijlages, pakket.groepBijlages, _this.id() == _this.basisId);
                     _this.menubalkViewmodel = new menubalkViewmodel(entiteit.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();
+                    _this.breadcrumbsViewmodel = new BreadcrumbsViewmodel(entiteit, pakket, null, true);
+
+                    _this.takenViewmodel = new TakenViewmodel(pakket.taken);
 
                     var $verzekeringsMaatschappijenSelect = $('#verzekeringsMaatschappijen');
                     $.each(maatschappijen, function (key, value) {
@@ -90,16 +106,16 @@ define(['jquery',
                     var $soortVerzekeringSelect = $('#soortVerzekering');
                     $('<option>', {value: 0}).text('Kies een soort polis...').appendTo($soortVerzekeringSelect);
                     $.each(lijst, function (key, value) {
-                        $('<option>', {value: value}).text(value).appendTo($soortVerzekeringSelect);
+                        $('<option>', {value: key}).text(value).appendTo($soortVerzekeringSelect);
                     });
 
-                    _this.polis.premie(commonFunctions.maakBedragOp(_this.polis.premie()));
+//                    _this.pakket.premie(commonFunctions.maakBedragOp(_this.pakket.premie()));
 
-                    try {
-                        zoekVoertuigGegevens(_this);
-                    } catch (err) {
-                        logger.info(err.message);
-                    }
+//                    try {
+//                        zoekVoertuigGegevens(_this);
+//                    } catch (err) {
+//                        logger.info(err.message);
+//                    }
 
                     return deferred.resolve();
                 });
@@ -107,35 +123,75 @@ define(['jquery',
                 return deferred.promise();
             };
 
-            this.wijzigKenmerk = function () {
-                zoekVoertuigGegevens(_this);
+            this.voegPolisToe = function() {
+                var p = new Polis();
+                p.identificatie('__new__' + new Date().getTime());
+                _this.pakket.polissen.push(p);
+                $('#'+p.identificatie()).show();
+                $('#'+p.identificatie()+'open').show();
+                $('#'+p.identificatie()+'dicht').hide();
             };
 
-            this.exitIngangsDatum = function () {
-                _this.berekenProlongatieDatum();
+            this.verwijderPolis = function(polis) {
+                console.log('Verwijderen polis met nummer ' + polis.polisNummer());
+
+                _this.pakket.polissen.remove(polis);
+            };
+
+            this.style = function() {
+                if(_this.pakket.polissen().length == 1){
+                    return 'display:block;';
+                } else{
+                    return 'display:none;';
+                }
+            };
+
+            this.wijzigKenmerk = function (polis) {
+                zoekVoertuigGegevens(polis);
+            };
+
+            this.exitIngangsDatum = function (polis) {
+                _this.berekenProlongatieDatum(polis);
             };
 
             this.formatBedrag = function () {
                 return opmaak.maakBedragOp(bedrag());
             };
 
-            this.berekenProlongatieDatum = function () {
-                if (_this.polis.ingangsDatum() !== null && _this.polis.ingangsDatum() !== undefined && _this.polis.ingangsDatum() !== "") {
-                    _this.polis.prolongatieDatum(moment(_this.polis.ingangsDatum(), "YYYY-MM-DD").add(1, 'y').format("YYYY-MM-DD"));
+            this.berekenProlongatieDatum = function (polis) {
+                if (polis.ingangsDatum() !== null && polis.ingangsDatum() !== undefined && polis.ingangsDatum() !== "") {
+                    polis.prolongatieDatum(moment(polis.ingangsDatum(), "YYYY-MM-DD").add(1, 'y').format("YYYY-MM-DD"));
+                }
+            };
+
+            this.toonOfVerberg = function(a){
+                if ($('#'+a.identificatie()).is(':visible')) {
+                    $('#'+a.identificatie()).hide();
+                    $('#'+a.identificatie()+'open').hide();
+                    $('#'+a.identificatie()+'dicht').show();
+                }else{
+                    $('#'+a.identificatie()).show();
+                    $('#'+a.identificatie()+'open').show();
+                    $('#'+a.identificatie()+'dicht').hide();
                 }
             };
 
             this.opslaan = function () {
                 logger.debug('opslaan');
-                var result = ko.validation.group(_this.polis, {deep: true});
+                var result = ko.validation.group(_this.pakket, {deep: true});
                 if (result().length > 0) {
                     result.showAllMessages(true);
                 } else {
                     commonFunctions.verbergMeldingen();
                     var allOk = true;
 
-                    _this.polis.premie(commonFunctions.stripBedrag(_this.polis.premie()));
-                    polisService.opslaan(_this.polis, _this.opmerkingenModel.opmerkingen, _this.basisId).done(function () {
+                    _.each(_this.pakket.polissen(), function(polis){
+                        polis.premie(commonFunctions.stripBedrag(polis.premie()));
+                        if(polis.identificatie().substr(0, 7) == '__new__'){
+                            polis.identificatie(null);
+                        }
+                    });
+                    polisService.opslaan(_this.pakket, _this.opmerkingenModel.opmerkingen, _this.basisId, _this.takenViewmodel.taken).done(function () {
                         commonFunctions.plaatsMelding("De gegevens zijn opgeslagen");
 
                         redirect.redirect('LIJST_POLISSEN', _this.basisId);
@@ -162,47 +218,53 @@ define(['jquery',
             };
         };
 
-        function zoekVoertuigGegevens(_this) {
-            //proberen het kenteken op te zoeken in het geval van een autoverzekering
-            if (_this.polis.soort() === 'Auto' || _this.polis.soort() === 'Motor' || _this.polis.soort() === 'MotorRijtuigen' || _this.polis.soort() === 'BromSnorfiets') {
-                var kenmerk = _this.polis.kenmerk();
+        function zoekVoertuigGegevens(polis) {
+            var kenmerk = polis.kenmerk();
 
-                _this.voertuigImage1('');
-                _this.voertuigImage2('');
-                _this.voertuigImage3('');
+            if(kenmerk != null) {
+                polis.voertuigImage1('');
+                polis.voertuigImage2('');
+                polis.voertuigImage3('');
                 var plate = GetSidecodeLicenseplate(kenmerk);
                 if (plate) {
                     var kenteken = FormatLicenseplate(plate);
 
                     $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
                         if (data.length > 0) {
-                            _this.voertuiginfo(true);
-                            _this.merk(data[0].merk);
-                            _this.type(data[0].handelsbenaming);
-                            _this.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+                            polis.voertuiginfo(true);
+                            polis.merk(data[0].merk);
+                            polis.type(data[0].handelsbenaming);
+                            polis.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
+
+                            var extra = '';
+                            if(data[0].voertuigsoort != 'Personenauto') {
+                                extra = ' ' + data[0].voertuigsoort;
+                            }
 
                             $.ajax({
                                 type: "GET",
-                                url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(_this.merk() + ' ' + _this.type() + ' ' + _this.bouwjaar()),
+                                url: 'https://www.googleapis.com/customsearch/v1?searchType=image&key=AIzaSyBWSvctDqh02781O1LFHESwMqBB5US82YE&cx=009856326316060057713:4jypauff-sk&q=' + encodeURIComponent(polis.merk() + ' ' + polis.type() + ' ' + polis.bouwjaar() + extra),
                                 contentType: "application/json",
                                 data: data,
                                 ataType: "json",
                                 async: false,
                                 success: function (dataImages) {
-                                    _this.voertuigImage1(dataImages.items[0].link);
-                                    _this.voertuigImage2(dataImages.items[1].link);
-                                    _this.voertuigImage3(dataImages.items[2].link);
+                                    polis.voertuigImage1(dataImages.items[0].link);
+                                    polis.voertuigImage2(dataImages.items[1].link);
+                                    polis.voertuigImage3(dataImages.items[2].link);
                                 }
                             });
 
 
                         } else {
-                            _this.voertuiginfo(false);
+                            polis.voertuiginfo(false);
                         }
                     });
                 } else {
-                    _this.voertuiginfo(false);
+                    polis.voertuiginfo(false);
                 }
+            } else {
+                polis.voertuiginfo(false);
             }
         }
 
@@ -233,7 +295,7 @@ define(['jquery',
 
             for (let i = 0; i < arrSC.length; i++) {
                 if (arrSC[i].test(Licenseplate)) {
-                    return {'i': i + 1, 'r': arrSC[i].exec(Licenseplate)};
+                    return {'i': i + 1, 'r': arrSC[i].exec(Licenseplate), 'o': arrSC[i]};
                 }
             }
             if (Licenseplate.match(scUitz)) {

@@ -7,5 +7,6 @@ public class PolisToSchermNaamTransformer implements Function<Polis, String> {
     @Override
     public String apply(Polis polis) {
         return polis.getSchermNaam();
+
     }
 }

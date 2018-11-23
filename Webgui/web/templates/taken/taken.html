@@ -1,0 +1,22 @@
+<!--<h3>Taken</h3>-->
+<table style="width:100%; text-decoration: none; color: black;">
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Titel</th>
+        <th>Tijdstip Creatie</th>
+        <th>Deadline</th>
+        <th>Toegewezen aan</th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: taken">
+    <tr>
+        <td><a data-bind="text: status, attr: {href: 'taken.html#taak/' + identificatie()}"></a></td>
+        <td><a data-bind="text: titel, attr: {href: 'taken.html#taak/' + identificatie()}"></a></td>
+        <td><a data-bind="text: tijdstipCreatie, attr: {href: 'taken.html#taak/' + identificatie()}"></a></td>
+        <td><a data-bind="text: deadline, attr: {href: 'taken.html#taak/' + identificatie()}"></a></td>
+        <td><a data-bind="text: toegewezenAan, attr: {href: 'taken.html#taak/' + identificatie()}"></a></td>
+    </tr>
+    </tbody>
+</table>
+<div class="clear:both;"></div>

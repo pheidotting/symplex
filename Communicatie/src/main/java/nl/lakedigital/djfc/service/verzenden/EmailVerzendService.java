@@ -1,9 +1,10 @@
 package nl.lakedigital.djfc.service.verzenden;
 
+import com.google.common.util.concurrent.RateLimiter;
 import nl.lakedigital.djfc.client.oga.BijlageClient;
+import nl.lakedigital.djfc.commons.domain.CommunicatieProduct;
+import nl.lakedigital.djfc.commons.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.commons.json.JsonBijlage;
-import nl.lakedigital.djfc.domain.CommunicatieProduct;
-import nl.lakedigital.djfc.domain.UitgaandeEmail;
 import nl.lakedigital.djfc.repository.CommunicatieProductRepository;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -22,7 +24,10 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 @Service
 @PropertySource(value = "file:app.properties", ignoreResourceNotFound = true)
@@ -37,8 +42,14 @@ public class EmailVerzendService implements AbstractVerzendService {
 
     @Inject
     private CommunicatieProductRepository communicatieProductRepository;
-    @Inject
+    //    @Inject
     private BijlageClient bijlageClient;
+    private RateLimiter rateLimiter;
+
+    @PostConstruct
+    public void init() {
+        rateLimiter = RateLimiter.create(1);
+    }
 
     @Override
     public boolean isVoorMij(CommunicatieProduct communicatieProduct) {
@@ -107,17 +118,10 @@ public class EmailVerzendService implements AbstractVerzendService {
             transport.connect(mailHost, Integer.valueOf(smtpPort), null, null);
             //Zeker weten dat de mail niet al verstuurd is door een andere Thread
             if (communicatieProductRepository.lees(uitgaandeEmail.getId()).getDatumTijdVerzending() == null) {
+                rateLimiter.acquire();
                 transport.sendMessage(msg, msg.getAllRecipients());
             }
             transport.close();
-
-            try {
-                Random r = new Random();
-                Thread.sleep(r.nextInt() * 10);
-            } catch (InterruptedException ie) {
-                LOGGER.trace("Error bij Sleep {}", ie.getStackTrace());
-                Thread.currentThread().interrupt();
-            }
 
             uitgaandeEmail.setDatumTijdVerzending(LocalDateTime.now());
             uitgaandeEmail.setOnverzondenIndicatie(null);

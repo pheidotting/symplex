@@ -1,7 +1,7 @@
 package nl.lakedigital.djfc.messaging.mapper;
 
-import nl.lakedigital.as.messaging.domain.Schade;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
+import nl.lakedigital.djfc.commons.domain.Schade;
 import nl.lakedigital.djfc.commons.json.Identificatie;
 import nl.lakedigital.djfc.domain.Bedrag;
 import nl.lakedigital.djfc.service.SchadeService;
@@ -50,16 +50,24 @@ public class MessagingSchadeNaarDomainSchadeMapper implements Function<Schade, n
         schade.setDatumAfgehandeld(datumAfgehandeld);
 
         LocalDateTime datumTijdMelding = null;
-        if (schadeIn.getDatumTijdMelding() != null && !"".equals(schadeIn.getDatumTijdMelding())) {
-            datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumTijdMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+        if (schadeIn.getDatumMelding() != null && !"".equals(schadeIn.getDatumMelding())) {
+            try {
+                datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatumTijd));
+            } catch (IllegalArgumentException e) {
+                datumTijdMelding = LocalDateTime.parse(schadeIn.getDatumMelding(), DateTimeFormat.forPattern(patternDatum));
+            }
         }
-        schade.setDatumTijdMelding(datumTijdMelding);
+        schade.setDatumMelding(datumTijdMelding);
 
         LocalDateTime datumTijdSchade = null;
-        if (schadeIn.getDatumTijdSchade() != null && !"".equals(schadeIn.getDatumTijdSchade())) {
-            datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumTijdSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+        if (schadeIn.getDatumSchade() != null && !"".equals(schadeIn.getDatumSchade())) {
+            try {
+                datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatumTijd));
+            } catch (IllegalArgumentException e) {
+                datumTijdSchade = LocalDateTime.parse(schadeIn.getDatumSchade(), DateTimeFormat.forPattern(patternDatum));
+            }
         }
-        schade.setDatumTijdSchade(datumTijdSchade);
+        schade.setDatumSchade(datumTijdSchade);
         if (schadeIn.getEigenRisico() != null) {
             schade.setEigenRisico(new Bedrag(schadeIn.getEigenRisico()));
         }

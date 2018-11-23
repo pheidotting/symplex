@@ -1,8 +1,7 @@
 package nl.lakedigital.djfc.service;
 
 import nl.lakedigital.as.messaging.domain.Kantoor;
-import nl.lakedigital.djfc.domain.*;
-import nl.lakedigital.djfc.exception.LicentieSoortNietGevondenException;
+import nl.lakedigital.djfc.commons.domain.*;
 import nl.lakedigital.djfc.repository.LicentieRepository;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -42,8 +40,8 @@ public class LicentieService {
         LOGGER.debug("ID {}", trial.getId());
     }
 
-    public void nieuweLicentie(String soort, Long kantoor) throws LicentieSoortNietGevondenException {
-        Licentie licentie = null;
+    public void nieuweLicentie(String soort, Long kantoor) {
+        Licentie licentie;
         switch (soort) {
             case "brons":
                 licentie = new Brons();
@@ -55,12 +53,9 @@ public class LicentieService {
                 licentie = new Goud();
                 break;
             case "administratiekantoor":
+            default:
                 licentie = new AdministratieKantoor();
                 break;
-        }
-
-        if (licentie == null) {
-            throw new LicentieSoortNietGevondenException();
         }
 
         licentie.setKantoor(kantoor);
@@ -68,16 +63,10 @@ public class LicentieService {
     }
 
     public Licentie actieveLicentie(Long kantoorId) {
-        LOGGER.debug("AA");
+        LOGGER.debug("Ophelen actieve licentie");
         List<Licentie> licenties = licentieRepository.alleLicenties(kantoorId);
-        LOGGER.debug("BB");
 
-        licenties.sort(new Comparator<Licentie>() {
-            @Override
-            public int compare(Licentie o1, Licentie o2) {
-                return o2.getStartDatum().compareTo(o1.getStartDatum());
-            }
-        });
+        licenties.sort((o1, o2) -> o2.getStartDatum().compareTo(o1.getStartDatum()));
         if (licenties.isEmpty()) {
             return null;
         }
@@ -89,5 +78,26 @@ public class LicentieService {
             return new LocalDate(2999, 12, 31);
         }
         return licentie == null ? null : licentie.getStartDatum().plusDays(licentie.getAantalDagen());
+    }
+
+    public Double bepaalPrijs(String licentieType) {
+        Double prijs;
+        switch (licentieType) {
+            case "brons":
+                prijs = 5.00;
+                break;
+            case "zilver":
+                prijs = 10.00;
+                break;
+            case "goud":
+                prijs = 20.00;
+                break;
+            case "administratiekantoor":
+            default:
+                prijs = 15.00;
+                break;
+        }
+
+        return prijs;
     }
 }
