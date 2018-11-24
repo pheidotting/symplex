@@ -3,6 +3,7 @@ package nl.symplex.test;
 import com.codeborne.selenide.junit.ScreenShooter;
 import nl.symplex.test.pages.Aanmelden;
 import nl.symplex.test.pages.Inloggen;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.Selenide.open;
 
+@Ignore
 public class AanmeldenTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(Inloggen.class);
 
