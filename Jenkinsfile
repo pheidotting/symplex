@@ -702,23 +702,6 @@ pipeline {
             }
         }
 
-        stage ('Integratietest') {
-            steps {
-                sh '''
-                    cd TestSysteem
-                    mvn clean verify
-                '''
-            }
-            post {
-                success {
-                    slackSend (color: '#4245f4', message: "Integratietest gelukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-                failure {
-                    slackSend (color: '#FF0000', message: "Integratietest mislukt :  '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-                }
-            }
-        }
-
         stage ('Deployment Test') {
             when {
                 expression {

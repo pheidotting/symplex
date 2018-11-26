@@ -13,6 +13,9 @@ import java.util.List;
 
 public class TaakClient extends AbstractClient<OpvragenTakenResponse> {
     private static final Logger LOGGER = LoggerFactory.getLogger(LicentieClient.class);
+
+    private final String URL_PING = "/rest/zabbix/checkDatabase";
+
     private MetricsService metricsService;
 
     public TaakClient(String basisUrl) {
@@ -48,5 +51,9 @@ public class TaakClient extends AbstractClient<OpvragenTakenResponse> {
         List<Taak> lijst = getXML("/rest/taak/alles", OpvragenTakenResponse.class, false, LOGGER, false, metricsService, "alles", TaakClient.class, soortentiteit, String.valueOf(parentid)).getTaken();
 
         return lijst;
+    }
+
+    public String ping() {
+        return uitvoerenGetAlsString(URL_PING, LOGGER);
     }
 }
