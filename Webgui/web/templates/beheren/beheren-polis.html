@@ -20,6 +20,9 @@
                data-bind="click: $parent.verwijderPolis" style="cursor:pointer"></a>
             <h4>
                 <span data-bind="text: soort"/>
+                <span data-bind="visible: voertuiginfo">
+                    <span data-bind="text: ' (' + kenteken() + ' ' + merk() + ' ' + type() + ')'"/>
+                </span>
                 <span data-bind="attr: {id: identificatie()+'dicht'}, event: {click: $parent.toonOfVerberg}"
                       class="fa fa-caret-square-o-right" aria-hidden="true"></span>
                 <span data-bind="attr: {id: identificatie()+'open'}, event: {click: $parent.toonOfVerberg}, visible:false"
