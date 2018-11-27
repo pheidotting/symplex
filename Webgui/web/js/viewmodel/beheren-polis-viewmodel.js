@@ -123,6 +123,10 @@ define(['jquery',
                 return deferred.promise();
             };
 
+            this.autoinformatie = function(){
+                return ' (62-JND-2 Volkswagen Golf)';
+            }
+
             this.voegPolisToe = function() {
                 var p = new Polis();
                 p.identificatie('__new__' + new Date().getTime());
@@ -218,6 +222,10 @@ define(['jquery',
             };
         };
 
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
         function zoekVoertuigGegevens(polis) {
             var kenmerk = polis.kenmerk();
 
@@ -232,8 +240,9 @@ define(['jquery',
                     $.get('https://opendata.rdw.nl/resource/m9d7-ebf2.json?kenteken=' + kenteken.replace(/-/g, ''), function (data) {
                         if (data.length > 0) {
                             polis.voertuiginfo(true);
-                            polis.merk(data[0].merk);
-                            polis.type(data[0].handelsbenaming);
+                            polis.kenteken(kenteken);
+                            polis.merk(capitalizeFirstLetter(data[0].merk.toLowerCase()));
+                            polis.type(capitalizeFirstLetter(data[0].handelsbenaming.toLowerCase()));
                             polis.bouwjaar(moment(data[0].datum_eerste_toelating, 'DD/MM/YYYY').format('YYYY'));
 
                             var extra = '';
