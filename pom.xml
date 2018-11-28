@@ -23,5 +23,6 @@
         <module>OverigeRelatieGegevensAdministratie</module>
         <module>PolisAdministratie</module>
         <module>TaakBeheer</module>
+        <module>TestSysteem</module>
     </modules>
 </project>

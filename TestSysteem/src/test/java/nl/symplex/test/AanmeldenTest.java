@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import static com.codeborne.selenide.Selenide.open;
 
+@Ignore
 public class AanmeldenTest extends AbstractTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(Inloggen.class);
 
@@ -18,7 +19,6 @@ public class AanmeldenTest extends AbstractTest {
     public ScreenShooter makeScreenshotOnFailure = ScreenShooter.failedTests();
 
     @Test
-    @Ignore
     public void aanmelden() {
         try {
             Inloggen inloggen = new Aanmelden().aanmelden(basisUrl, "Fa. List Bedrog", "henkie", "jansen", "henk@heidotting.nl");

@@ -32,6 +32,7 @@ define(['knockout'],
             }, this);
 
             _this.voertuiginfo = ko.observable(false);
+            _this.kenteken = ko.observable();
             _this.merk = ko.observable();
             _this.type = ko.observable();
             _this.bouwjaar = ko.observable();
