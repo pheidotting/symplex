@@ -190,7 +190,7 @@ define(['jquery',
                     var allOk = true;
 
                     _.each(_this.pakket.polissen(), function(polis){
-                        polis.premie(commonFunctions.stripBedrag(polis.premie()));
+                        polis.premie(polis.premie());
                         if(polis.identificatie().substr(0, 7) == '__new__'){
                             polis.identificatie(null);
                         }
