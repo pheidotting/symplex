@@ -124,6 +124,11 @@ public class IdentificatieController {
         String ingelogdeGebruikerOpgemaakt = getIngelogdeGebruikerOpgemaakt(httpServletRequest);
         String url = getUrl(httpServletRequest);
 
+        MDC.remove("ingelogdeGebruiker");
+        MDC.remove("ingelogdeGebruikerOpgemaakt");
+        MDC.remove("url");
+        MDC.remove("trackAndTraceId");
+
         MDC.put("ingelogdeGebruiker", ingelogdeGebruiker + "");
         MDC.put("ingelogdeGebruikerOpgemaakt", ingelogdeGebruikerOpgemaakt + "");
         MDC.put("url", url + "");
