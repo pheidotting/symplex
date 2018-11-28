@@ -23,7 +23,9 @@ public class ZabbixController {
     @ResponseBody
     public String checkDatabase() {
         try {
+            taakRepository.getSession().getTransaction().begin();
             taakRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
+            taakRepository.getSession().getTransaction().commit();
             return "1";
         } catch (Exception e) {
             LOGGER.error("Database niet beschikbaar", e);
