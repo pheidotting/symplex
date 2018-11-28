@@ -24,6 +24,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.ullink.slack</groupId>
+            <artifactId>simpleslackapi</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>2.1.4.RELEASE</version>
