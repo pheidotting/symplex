@@ -69,6 +69,12 @@ public class TrackAndTraceFilter implements Filter {
         HeaderMapRequestWrapper requestWrapper = new HeaderMapRequestWrapper(multiReadHttpServletRequest);
         String trackAndTraceId = UUID.randomUUID().toString();
         requestWrapper.addHeader("trackAndTraceId", trackAndTraceId);
+
+        MDC.remove("ingelogdeGebruiker");
+        MDC.remove("ingelogdeGebruikerOpgemaakt");
+        MDC.remove("url");
+        MDC.remove("trackAndTraceId");
+
         if (ingelogdeGebruiker != null) {
             MDC.put("ingelogdeGebruiker", id + "");
             MDC.put("ingelogdeGebruikerOpgemaakt", maakOp(ingelogdeGebruiker));
