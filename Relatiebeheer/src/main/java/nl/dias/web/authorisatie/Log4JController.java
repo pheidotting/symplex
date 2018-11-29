@@ -19,6 +19,7 @@ public class Log4JController extends AbstractController {
     @ResponseBody
     public void log4javascript(@FormParam("logger") String loggerNameIn, @FormParam("timestamp") String timestamp, @FormParam("level") String level, @FormParam("url") String url, @FormParam("message") String message, @FormParam("layout") String layout, HttpServletRequest httpServletRequest) {
         zetSessieWaarden(httpServletRequest);
+        MDC.remove("url");
         MDC.put("url", url);
 
         String loggerName = loggerNameIn;
