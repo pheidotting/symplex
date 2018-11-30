@@ -33,7 +33,7 @@
     </context-param>
 
     <servlet>
-        <servlet-name>relatiebeheer</servlet-name>
+        <servlet-name>log</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
@@ -41,13 +41,13 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>relatiebeheer-medewerker</servlet-name>
+        <servlet-name>log-medewerker</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
 
     <!--<servlet>-->
-    <!--<servlet-name>relatiebeheer-authorisatie</servlet-name>-->
+    <!--<servlet-name>log-authorisatie</servlet-name>-->
     <!--<servlet-class>-->
     <!--org.springframework.web.servlet.DispatcherServlet-->
     <!--</servlet-class>-->
@@ -55,7 +55,7 @@
     <!--</servlet>-->
 
     <!--<servlet-mapping>-->
-    <!--<servlet-name>relatiebeheer-authorisatie</servlet-name>-->
+    <!--<servlet-name>log-authorisatie</servlet-name>-->
     <!--<url-pattern>/rest/authorisatie/*</url-pattern>-->
     <!--</servlet-mapping>-->
 
@@ -99,11 +99,11 @@
     <!--&lt;!&ndash;</filter-mapping>&ndash;&gt;-->
 
     <!--&lt;!&ndash;<servlet-mapping>&ndash;&gt;-->
-    <!--&lt;!&ndash;<servlet-name>relatiebeheer-applicaties</servlet-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet-name>log-applicaties</servlet-name>&ndash;&gt;-->
     <!--&lt;!&ndash;<url-pattern>/rest/applicaties/*</url-pattern>&ndash;&gt;-->
     <!--&lt;!&ndash;</servlet-mapping>&ndash;&gt;-->
     <!--&lt;!&ndash;<servlet>&ndash;&gt;-->
-    <!--&lt;!&ndash;<servlet-name>relatiebeheer-applicaties</servlet-name>&ndash;&gt;-->
+    <!--&lt;!&ndash;<servlet-name>log-applicaties</servlet-name>&ndash;&gt;-->
     <!--&lt;!&ndash;<servlet-class>&ndash;&gt;-->
     <!--&lt;!&ndash;org.springframework.web.servlet.DispatcherServlet&ndash;&gt;-->
     <!--&lt;!&ndash;</servlet-class>&ndash;&gt;-->

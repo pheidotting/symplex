@@ -26,10 +26,10 @@ public abstract class AbstractController {
     protected GebruikerService gebruikerService;
 
     protected void zetSessieWaarden(HttpServletRequest httpServletRequest) {
-        MDC.remove("ingelogdeGebruiker");
-        MDC.remove("ingelogdeGebruikerOpgemaakt");
-        MDC.remove("url");
-        MDC.remove("trackAndTraceId");
+        //        MDC.remove("ingelogdeGebruiker");
+        //        MDC.remove("ingelogdeGebruikerOpgemaakt");
+        //        MDC.remove("url");
+        //        MDC.remove("trackAndTraceId");
 
         String trackAndTraceId = getTrackAndTraceId(httpServletRequest);
         Gebruiker gebruiker = getIngelogdeGebruiker(httpServletRequest);
