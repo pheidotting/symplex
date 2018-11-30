@@ -33,6 +33,11 @@ public abstract class AbstractReciever<T extends AbstractMessage> implements Mes
 
             T ontvangenObject = (T) jaxbUnmarshaller.unmarshal(new StringReader(((TextMessage) message).getText()));
 
+            MDC.remove("ingelogdeGebruiker");
+            MDC.remove("ingelogdeGebruikerOpgemaakt");
+            MDC.remove("url");
+            MDC.remove("trackAndTraceId");
+
             MDC.put("trackAndTraceId", ontvangenObject.getTrackAndTraceId());
             if (ontvangenObject.getIngelogdeGebruiker() != null) {
                 MDC.put("ingelogdeGebruiker", String.valueOf(ontvangenObject.getIngelogdeGebruiker()));
