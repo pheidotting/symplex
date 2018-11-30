@@ -3,7 +3,7 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
-    <display-name>dejonge</display-name>
+    <display-name>log</display-name>
     <!--<context-param>-->
     <!--<param-name>liquibase.changelog</param-name>-->
     <!--<param-value>nl/dias/service/liquibase/databaseChangeLog.xml</param-value>-->
@@ -33,7 +33,7 @@
     </context-param>
 
     <servlet>
-        <servlet-name>relatiebeheer</servlet-name>
+        <servlet-name>log</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
@@ -41,7 +41,7 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>relatiebeheer</servlet-name>
+        <servlet-name>log</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
