@@ -34,6 +34,13 @@ define(['jquery',
 
             this.isWachtwoordVergeten = ko.observable(false);
 
+            gebruikerService.haalIngelogdeGebruiker().then(function(response){
+                if(response != null){
+                    logger.info('inlogpagina geopend, maar al ingelogd');
+                    window.location = 'dashboard.html';
+                }
+            });
+
             this.inloggen = function () {
                 logger.info('poging tot inloggen');
                 commonFunctions.verbergMeldingen();
