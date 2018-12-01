@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
+import static org.joda.time.Days.daysBetween;
+
 public class ControleerLicentieRequestReciever extends AbstractReciever<ControleerLicentieRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ControleerLicentieRequestReciever.class);
 
@@ -37,7 +39,10 @@ public class ControleerLicentieRequestReciever extends AbstractReciever<Controle
         Licentie licentie = licentieService.actieveLicentie(controleerLicentieRequest.getKantoorId());
 
         if (licentieService.actieveLicentie(licentie).isBefore(LocalDate.now().plusDays(7)) && licentieService.actieveLicentie(licentie).isAfter(LocalDate.now())) {
+            LOGGER.debug("Licentie {}, nog maar {} dagen geldig", licentie.getClass(), daysBetween(licentieService.actieveLicentie(licentie), LocalDate.now()));
             controleerLicentieResponseSender.send(licentie);
+        } else {
+            LOGGER.debug("Licentie is ok {}, nog {} dagen geldig", licentie.getClass(), daysBetween(licentieService.actieveLicentie(licentie), LocalDate.now()));
         }
 
         metricsService.stop(context);
