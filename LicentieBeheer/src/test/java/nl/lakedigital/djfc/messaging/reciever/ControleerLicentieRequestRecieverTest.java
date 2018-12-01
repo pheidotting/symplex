@@ -38,7 +38,7 @@ public class ControleerLicentieRequestRecieverTest extends EasyMockSupport {
         expect(licentieService.actieveLicentie(9L)).andReturn(licentie);
 
         LocalDate datum = LocalDate.now().plusDays(1);
-        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(2);
+        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(3);
 
         controleerLicentieResponseSender.send(licentie);
         expectLastCall();
@@ -62,7 +62,7 @@ public class ControleerLicentieRequestRecieverTest extends EasyMockSupport {
         expect(licentieService.actieveLicentie(9L)).andReturn(licentie);
 
         LocalDate datum = LocalDate.now().plusDays(6);
-        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(2);
+        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(3);
 
         controleerLicentieResponseSender.send(licentie);
         expectLastCall();
@@ -86,7 +86,7 @@ public class ControleerLicentieRequestRecieverTest extends EasyMockSupport {
         expect(licentieService.actieveLicentie(9L)).andReturn(licentie);
 
         LocalDate datum = LocalDate.now().plusDays(7);
-        expect(licentieService.actieveLicentie(licentie)).andReturn(datum);
+        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(2);
 
         replayAll();
 
@@ -107,7 +107,7 @@ public class ControleerLicentieRequestRecieverTest extends EasyMockSupport {
         expect(licentieService.actieveLicentie(9L)).andReturn(licentie);
 
         LocalDate datum = LocalDate.now().plusDays(8);
-        expect(licentieService.actieveLicentie(licentie)).andReturn(datum);
+        expect(licentieService.actieveLicentie(licentie)).andReturn(datum).times(2);
 
         replayAll();
 
