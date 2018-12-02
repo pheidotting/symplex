@@ -79,7 +79,7 @@ public abstract class AbstractSender<M extends AbstractMessage, T extends Object
                 message.setJMSReplyTo(replyTo);
             }
 
-            logger.debug("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
+            logger.info("Verzenden naar {}, message {} naar", jmsTemplate.getDefaultDestination(), message.getText());
 
             return message;
         } catch (JAXBException | JMSException e) {

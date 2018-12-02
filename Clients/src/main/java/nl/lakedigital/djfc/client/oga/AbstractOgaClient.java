@@ -171,7 +171,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
     }
 
     protected String uitvoerenGet(String adres, Logger LOGGER) {
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres);
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -198,13 +198,13 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
                 stringBuilder.append(arg);
             }
         }
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
         try {
             adres = URLEncoder.encode(adres, "UTF-8").replace("+", "%20");
         } catch (UnsupportedEncodingException e) {
             throw new LeesFoutException("Fout bij omzetten adres", e);
         }
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -229,7 +229,7 @@ public abstract class AbstractOgaClient<T extends AbstracteJsonEntiteitMetSoortE
                 stringBuilder.append(arg);
             }
         }
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);

@@ -171,7 +171,7 @@ public abstract class AbstractClient<D> {
 
     @Deprecated
     protected String uitvoerenGet(String adres, Logger LOGGER) {
-        LOGGER.info("Aanroepen via GET " + adres);
+        LOGGER.debug("Aanroepen via GET " + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -187,7 +187,7 @@ public abstract class AbstractClient<D> {
 
     @Deprecated
     protected String uitvoerenGetAlsString(String adres, Logger LOGGER) {
-        LOGGER.info("Aanroepen via GET " + adres);
+        LOGGER.debug("Aanroepen via GET " + adres);
 
         ClientConfig clientConfig = new DefaultClientConfig();
         Client client = Client.create(clientConfig);
@@ -208,7 +208,7 @@ public abstract class AbstractClient<D> {
                 stringBuilder.append(arg);
             }
         }
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
@@ -237,7 +237,7 @@ public abstract class AbstractClient<D> {
                 stringBuilder.append(arg);
             }
         }
-        LOGGER.info("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
+        LOGGER.debug("Aanroepen via GET " + basisUrl + adres + stringBuilder.toString());
 
         ClientConfig clientConfig = new DefaultClientConfig();
         clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
