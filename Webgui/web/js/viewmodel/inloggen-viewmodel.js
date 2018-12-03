@@ -35,7 +35,7 @@ define(['jquery',
             this.isWachtwoordVergeten = ko.observable(false);
 
             gebruikerService.haalIngelogdeGebruiker().then(function(response){
-                if(response != null){
+                if(response != null && response != ''){
                     logger.info('inlogpagina geopend, maar al ingelogd');
                     window.location = 'dashboard.html';
                 }
