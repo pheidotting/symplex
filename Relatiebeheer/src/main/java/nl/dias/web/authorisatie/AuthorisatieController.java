@@ -1,7 +1,9 @@
 package nl.dias.web.authorisatie;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import nl.dias.domein.Beheerder;
 import nl.dias.domein.Gebruiker;
 import nl.dias.domein.Medewerker;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -89,11 +92,27 @@ public class AuthorisatieController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/ingelogdeGebruiker", produces = MediaType.APPLICATION_JSON)
     @ResponseBody
-    public IngelogdeGebruiker getIngelogdeGebruiker(@RequestParam String userid) {
-        LOGGER.debug("Ophalen ingelogde gebruiker '{}'", userid);
+    public IngelogdeGebruiker getIngelogdeGebruiker(@RequestParam String userid, HttpServletRequest httpServletRequest) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        if (token != null && !"".equals(token)) {
+            token = token.substring("Bearer".length()).trim();
+        }
+
+        LOGGER.info("Ophalen ingelogde gebruiker '{}', token : {}", userid, token);
 
         Gebruiker gebruiker = getGebruiker(userid);
 
+        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
+        JWTVerifier verifier = JWT.require(algorithm).withIssuer((httpServletRequest).getRemoteUser()).build();
+        try {
+            LOGGER.trace("Verify token");
+            verifier.verify(token);
+        } catch (JWTVerificationException e) {
+            LOGGER.debug("Token niet meer valide");
+            return null;
+        }
+
+        LOGGER.debug("Token is valide");
         IngelogdeGebruiker ingelogdeGebruiker = new IngelogdeGebruiker();
         if (gebruiker != null) {
             ingelogdeGebruiker.setId(gebruiker.getId().toString());
