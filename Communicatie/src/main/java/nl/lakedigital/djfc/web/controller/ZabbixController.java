@@ -24,13 +24,15 @@ public class ZabbixController {
     @ResponseBody
     @Transactional
     public String checkDatabase() {
+        LOGGER.trace("Start checking database");
+
         try {
             communicatieProductRepository.getSession().getTransaction().begin();
             communicatieProductRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
             communicatieProductRepository.getSession().getTransaction().commit();
             return "1";
         } catch (Exception e) {
-            LOGGER.error("Database niet beschikbaar", e);
+            LOGGER.error("Database niet beschikbaar, com", e);
             return "0";
         }
     }
