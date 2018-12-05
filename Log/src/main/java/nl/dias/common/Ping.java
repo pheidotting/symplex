@@ -1,9 +1,11 @@
 package nl.dias.common;
 
 import nl.lakedigital.djfc.client.communicatie.CommunicatieClient;
+import nl.lakedigital.djfc.client.dejonge.KantoorClient;
 import nl.lakedigital.djfc.client.identificatie.IdentificatieClient;
 import nl.lakedigital.djfc.client.licentie.LicentieClient;
 import nl.lakedigital.djfc.client.oga.AdresClient;
+import nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient;
 import nl.lakedigital.djfc.client.polisadministratie.PolisClient;
 import nl.lakedigital.djfc.client.taak.TaakClient;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +27,10 @@ public class Ping {
     private CommunicatieClient communicatieClient;
     @Inject
     private TaakClient taakClient;
+    @Inject
+    private OpdrachtenClient opdrachtenClient;
+    @Inject
+    private KantoorClient kantoorClient;
 
     @Scheduled(fixedDelay = 900000)
     public void ping() {
@@ -34,5 +40,7 @@ public class Ping {
         identificatieClient.ping();
         communicatieClient.ping();
         taakClient.ping();
+        opdrachtenClient.ping();
+        kantoorClient.ping();
     }
 }
