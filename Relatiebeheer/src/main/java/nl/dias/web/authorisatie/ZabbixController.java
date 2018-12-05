@@ -25,6 +25,8 @@ public class ZabbixController {
     @RequestMapping(method = RequestMethod.GET, value = "/checkDatabase", produces = MediaType.TEXT_PLAIN)
     @ResponseBody
     public String checkDatabase() {
+        LOGGER.trace("Start checking database");
+
         try {
             gebruikerRepository.getSession().getTransaction().begin();
             gebruikerRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
@@ -34,7 +36,7 @@ public class ZabbixController {
 
             return "1";
         } catch (Exception e) {
-            LOGGER.error("Database niet beschikbaar", e);
+            LOGGER.error("Database niet beschikbaar, rb", e);
             return "0";
         }
     }
