@@ -23,11 +23,19 @@ public class Aanmelden extends AbstractPage {
         setValue(LOGGER, $(By.id("bedrijfsnaam")), bedrijfsnaam);
         setValue(LOGGER, $(By.id("voornaam")), voornaam);
         setValue(LOGGER, $(By.id("achternaam")), achternaam);
+        String afkorting = getAfkorting();
+
         setValue(LOGGER, $(By.id("emailadres")), emailadres).pressEnter();
 
         //Zou eigenlijk niet nodig hoeven zijn, maar PhantomJS heeft hier wat moeite mee anders
         open(basisUrl + "inloggen.html");
 
-        return page(Inloggen.class);
+        Inloggen inloggen = page(Inloggen.class);
+        inloggen.setAfkorting(afkorting);
+        return inloggen;
+    }
+
+    public String getAfkorting() {
+        return $(By.id("afkorting")).getValue();
     }
 }

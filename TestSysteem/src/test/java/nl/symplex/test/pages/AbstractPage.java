@@ -23,12 +23,14 @@ public class AbstractPage {
         return element;
     }
 
-    protected SelenideElement click(Logger LOGGER, SelenideElement element) {
+    protected SelenideElement click(Logger LOGGER, SelenideElement element, boolean gaatWeg) {
         Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
         wachtff();
         element.click();
         wachtff();
-        Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
+        if (!gaatWeg) {
+            Selenide.screenshot(bepaalBestandsNaam(LOGGER, element));
+        }
 
         return element;
     }

@@ -62,7 +62,7 @@ public class KantoorController extends AbstractController {
 
         result.setNaam(kantoor.getNaam());
         result.setKvk(kantoor.getKvk());
-        result.setRechtsvorm(kantoor.getRechtsvorm().getOmschrijving());
+        result.setRechtsvorm(kantoor.getRechtsvorm() == null ? null : kantoor.getRechtsvorm().getOmschrijving());
         result.setEmailadres(kantoor.getEmailadres());
         result.setAfkorting(kantoor.getAfkorting());
         result.setLicentie(licentieClient.eindDatumLicentie(kantoorId));
