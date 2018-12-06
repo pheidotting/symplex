@@ -75,12 +75,10 @@ public class AbstractRepository<T extends AbstracteEntiteitMetSoortEnId> {
         }
 
         for (T t : adressen) {
-            LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
+            LOGGER.trace("Opslaan {}", ReflectionToStringBuilder.toString(t, ToStringStyle.SHORT_PREFIX_STYLE));
             if (t.getId() == null) {
-                LOGGER.info("save");
                 getSession().save(t);
             } else {
-                LOGGER.info("merge");
                 getSession().merge(t);
             }
         }

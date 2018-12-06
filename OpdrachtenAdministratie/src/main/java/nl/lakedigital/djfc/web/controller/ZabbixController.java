@@ -22,13 +22,15 @@ public class ZabbixController {
     @RequestMapping(method = RequestMethod.GET, value = "/checkDatabase", produces = MediaType.TEXT_PLAIN)
     @ResponseBody
     public String checkDatabase() {
+        LOGGER.trace("Start checking database");
+
         try {
             inkomendeOpdrachtRepository.getSession().getTransaction().begin();
             inkomendeOpdrachtRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
             inkomendeOpdrachtRepository.getSession().getTransaction().commit();
             return "1";
         } catch (Exception e) {
-            LOGGER.error("Database niet beschikbaar", e);
+            LOGGER.error("Database niet beschikbaar, oa", e);
             return "0";
         }
     }

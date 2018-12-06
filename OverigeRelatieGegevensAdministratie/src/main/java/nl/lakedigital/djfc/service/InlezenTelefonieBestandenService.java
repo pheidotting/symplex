@@ -36,7 +36,7 @@ public class InlezenTelefonieBestandenService implements Runnable {
         }).map(file -> telefonieBestandService.maakTelefonieBestand(file)).collect(Collectors.toList());
 
         if (!nieuweBestanden.isEmpty()) {
-            LOGGER.debug("Opslaan {} nieuwe bestanden", nieuweBestanden.size());
+            LOGGER.info("Opslaan {} nieuwe telefoniebestand(en)", nieuweBestanden.size());
             for (TelefonieBestand telefonieBestand : nieuweBestanden) {
                 LOGGER.debug(telefonieBestand.getBestandsnaam());
             }

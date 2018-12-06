@@ -75,10 +75,10 @@ public class TelefonieBestandRepository {
 
         getTransaction().begin();
 
-        LOGGER.debug("Start opslaan telefonieBestands");
+        LOGGER.trace("Start opslaan telefonieBestands");
 
         for (TelefonieBestand telefonieBestand : telefonieBestands) {
-            LOGGER.debug(" Opslaan {}", telefonieBestand.getBestandsnaam());
+            LOGGER.trace("Opslaan {}", telefonieBestand.getBestandsnaam());
             if (telefonieBestand.getId() == null) {
                 getSession().save(telefonieBestand);
             } else {
@@ -86,7 +86,7 @@ public class TelefonieBestandRepository {
             }
         }
 
-        LOGGER.debug("Einde opslaan telefonieBestands");
+        LOGGER.trace("Einde opslaan telefonieBestands");
 
         getTransaction().commit();
 
