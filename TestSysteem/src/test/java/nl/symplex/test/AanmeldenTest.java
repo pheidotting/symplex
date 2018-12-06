@@ -2,7 +2,9 @@ package nl.symplex.test;
 
 import com.codeborne.selenide.junit.ScreenShooter;
 import nl.symplex.test.pages.Aanmelden;
+import nl.symplex.test.pages.Dashboard;
 import nl.symplex.test.pages.Inloggen;
+import nl.symplex.test.pages.beheren.Relatie;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,13 +22,21 @@ public class AanmeldenTest extends AbstractTest {
 
     @Test
     public void aanmelden() {
+        String afkorting = null;
         try {
-            Inloggen inloggen = new Aanmelden().aanmelden(basisUrl, "Fa. List Bedrog", "henkie", "jansen", "henk@heidotting.nl");
+            String voornaam = voornaam();
+            Inloggen inloggen = new Aanmelden().aanmelden(basisUrl, bedrijfsnaam(), voornaam, achternaam(), email());
 
-            inloggen.login("flb.henkie", getWachtwoord());
+            afkorting = inloggen.getAfkorting();
+
+            inloggen.login(inloggen.getAfkorting() + "." + voornaam.toLowerCase(), getWachtwoord());
             inloggen.wijzigwachtwoord("aabbccddeeffgghh");
+
+            new Dashboard().klikOpNieuweRelatie();
+
+            new Relatie().invullen(voornaam(), voornaam(), "", achternaam(), "06-09-1979", "", "Man", "Ongehuwd", email());
         } finally {
-            open(basisUrlRest + "rest/medewerker/kantoor/verwijderen/flb");
+            open(basisUrlRest + "rest/medewerker/kantoor/verwijderen/" + afkorting);
         }
     }
 

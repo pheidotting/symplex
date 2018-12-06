@@ -64,8 +64,8 @@ public abstract class AbstractTest {
             timeOut = 30000L;
         } else {
             uitvoeren = true;
-            setupPhantomJSDriver();
-            //            setupChromeDriver();
+            //            setupPhantomJSDriver();
+            setupChromeDriver();
             basisUrl = "http://localhost:8080/";
             //            basisUrl = "http://tst-diasii:8080/";
         }
@@ -141,9 +141,11 @@ public abstract class AbstractTest {
         Mail mail = mailLijst.getLijst().get(0);
 
         String message = mail.getMessage();
+        LOGGER.trace(message);
         int pos = message.indexOf("Nieuw wachtwoord : <span>");
         message = message.substring(pos + "Nieuw wachtwoord : <span>".length());
         pos = message.indexOf("</span>");
+        LOGGER.trace(message.substring(0, pos));
         return message.substring(0, pos);
     }
 
@@ -168,5 +170,21 @@ public abstract class AbstractTest {
         }
 
         return null;
+    }
+
+    protected String bedrijfsnaam() {
+        return lorem.getFirstName() + " " + lorem.getCity();
+    }
+
+    protected String voornaam() {
+        return lorem.getFirstName();
+    }
+
+    protected String achternaam() {
+        return lorem.getLastName();
+    }
+
+    protected String email() {
+        return lorem.getEmail();
     }
 }

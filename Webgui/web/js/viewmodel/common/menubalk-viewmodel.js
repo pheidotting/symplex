@@ -77,6 +77,9 @@ define(['redirect',
                     ataType: "json",
                     async: false,
                     beforeSend: function (request) {
+                        if (localStorage.getItem('symplexAccessToken') != null) {
+                            request.setRequestHeader('Authorization', localStorage.getItem('symplexAccessToken'));
+                        }
                         request.setRequestHeader('url', window.location);
                     },
                     success: function (response) {
