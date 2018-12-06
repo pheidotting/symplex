@@ -82,4 +82,7 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
     <bean id="opdrachtenClient" class="nl.lakedigital.djfc.client.opdrachtenadministratie.OpdrachtenClient">
         <constructor-arg value="http://localhost:8080/oa"/>
     </bean>
+    <bean id="kantoorClient" class="nl.lakedigital.djfc.client.dejonge.KantoorClient">
+        <constructor-arg value="http://localhost:8080/dejonge"/>
+    </bean>
 </beans>
