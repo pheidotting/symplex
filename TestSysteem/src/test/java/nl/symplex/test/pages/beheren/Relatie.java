@@ -15,8 +15,8 @@ public class Relatie extends AbstractPage {
         setValue(LOGGER, $(By.id("roepnaam")), roepnaam);
         setValue(LOGGER, $(By.id("tussenvoegsel")), tussenvoegsel);
         setValue(LOGGER, $(By.id("achternaam")), achternaam);
-        setValue(LOGGER, $(By.id("geboorteDatum")), geboorteDatum);
-        setValue(LOGGER, $(By.id("overlijdensdatum")), overlijdensdatum);
+        setValue(LOGGER, $(By.id("geboorteDatum")), geboorteDatum, true);
+        setValue(LOGGER, $(By.id("overlijdensdatum")), overlijdensdatum, true);
         setValue(LOGGER, $(By.id("geslacht")), geslacht);
         setValue(LOGGER, $(By.id("burgerlijkeStaat")), burgerlijkeStaat);
         setValue(LOGGER, $(By.id("emailadres")), emailadres);
