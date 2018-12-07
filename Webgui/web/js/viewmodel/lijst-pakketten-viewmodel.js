@@ -42,21 +42,53 @@ define(['jquery',
                     }
 
                     _this.pakketten = pakketMapper.mapPakketten(data.pakketten, maatschappijen);
-                    console.log('saf');
                     _.each(_this.pakketten(), function(pakket){
-                        pakket.status = ko.observable(pakket.polissen()[0].status());
-                        pakket.soort = ko.observable(pakket.polissen()[0].soort());
-                        pakket.kenmerk = ko.observable(pakket.polissen()[0].kenmerk());
-                        pakket.ingangsDatum = ko.observable(pakket.polissen()[0].ingangsDatum());
+                        if(pakket.polissen().length > 1){
+                            var status = '<br />';
+                            _.each(pakket.polissen(), function(polis){
+                                status += '<br />' + polis.status();
+                            });
+                            pakket.status = ko.observable(status);
+                        }else{
+                            pakket.status = ko.observable(pakket.polissen()[0].status());
+                        }
 
-                        var polisNummer = pakket.polisNummer();
-                         if(pakket.polissen()[0].polisNummer() != null){
-                            polisNummer += ' - ' + pakket.polissen()[0].polisNummer();
-                         }
-                         pakket.polisNummer(polisNummer);
+                        if(pakket.polissen().length > 1){
+                            if("Pakket" === pakket.polissen()[0].soort()){
+                                pakket.soort = ko.observable(pakket.polissen()[0].soort());
+                            }else{
+                                var soort = '<b>Pakket</b><br />';
+                                _.each(pakket.polissen(), function(polis){
+                                    soort += '<br />' + polis.soort();
+                                });
+                                pakket.soort = ko.observable(soort);
+                            }
+                        }else{
+                            pakket.soort = ko.observable(pakket.polissen()[0].soort());
+                        }
 
+                        if(pakket.polissen().length > 1){
+                            var kenmerk = '<br />';
+                            _.each(pakket.polissen(), function(polis){
+                                kenmerk += '<br />' + polis.kenmerk();
+                            });
+                            pakket.kenmerk = ko.observable(kenmerk);
+                        }else{
+                            pakket.kenmerk = ko.observable(pakket.polissen()[0].kenmerk());
+                        }
+
+                        if(pakket.polissen().length > 1){
+                            var ingangsDatum = '<br />';
+                            _.each(pakket.polissen(), function(polis){
+                                ingangsDatum += '<br />' + _this.formatDatum(polis.ingangsDatum);
+                            });
+                            pakket.ingangsDatum = ko.observable(ingangsDatum);
+                        }else{
+                            pakket.ingangsDatum = ko.observable(_this.formatDatum(pakket.polissen()[0].ingangsDatum));
+                        }
+
+                        pakket.polisNummer(pakket.polisNummer());
                     });
-                    console.log('safsdfa');
 
                     _this.menubalkViewmodel = new menubalkViewmodel(_this.identificatie, _this.basisEntiteit);
                     _this.licentieViewmodel = new LicentieViewmodel();

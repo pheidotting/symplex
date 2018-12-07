@@ -100,21 +100,29 @@ public class AuthorisatieController {
 
         LOGGER.info("Ophalen ingelogde gebruiker '{}', token : {}", userid, token);
 
-        Gebruiker gebruiker = getGebruiker(userid);
+        IngelogdeGebruiker ingelogdeGebruiker = new IngelogdeGebruiker();
 
-        Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
-        JWTVerifier verifier = JWT.require(algorithm).withIssuer((httpServletRequest).getRemoteUser()).build();
+        Gebruiker gebruiker;
         try {
-            LOGGER.trace("Verify token");
-            verifier.verify(token);
-        } catch (JWTVerificationException e) {
-            LOGGER.debug("Token niet meer valide");
-            return null;
+            gebruiker = getGebruiker(userid);
+        } catch (NietGevondenException e) {
+
+            return ingelogdeGebruiker;
         }
 
-        LOGGER.debug("Token is valide");
-        IngelogdeGebruiker ingelogdeGebruiker = new IngelogdeGebruiker();
         if (gebruiker != null) {
+            Algorithm algorithm = Algorithm.HMAC512(gebruiker.getSalt());
+            JWTVerifier verifier = JWT.require(algorithm).withIssuer((httpServletRequest).getRemoteUser()).build();
+            try {
+                LOGGER.trace("Verify token");
+                verifier.verify(token);
+            } catch (JWTVerificationException e) {
+                LOGGER.debug("Token niet meer valide");
+
+                return ingelogdeGebruiker;
+            }
+
+            LOGGER.debug("Token is valide");
             ingelogdeGebruiker.setId(gebruiker.getId().toString());
             ingelogdeGebruiker.setGebruikersnaam(gebruiker.getNaam());
             if (gebruiker instanceof Beheerder) {
@@ -168,16 +176,8 @@ public class AuthorisatieController {
 
     }
 
-    private Gebruiker getGebruiker(String userid) {
-        Gebruiker gebruiker = null;
-
-        try {
-            gebruiker = authorisatieService.zoekOpIdentificatie(userid);
-        } catch (NietGevondenException nge) {
-            LOGGER.trace("Gebruiker dus niet gevonden", nge);
-        }
-
-        return gebruiker;
+    private Gebruiker getGebruiker(String userid) throws NietGevondenException {
+        return authorisatieService.zoekOpIdentificatie(userid);
     }
 
     private String issueToken(Gebruiker gebruiker, HttpServletRequest httpServletRequest) {
