@@ -15,10 +15,11 @@ define(['jquery',
         'viewmodel/common/taken-viewmodel',
         'viewmodel/common/breadcrumbs-viewmodel',
         'underscore',
+        'commons/opmaak',
         'knockout.validation',
         'knockoutValidationLocal',
         'blockUI'],
-    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, _) {
+    function ($, commonFunctions, ko, log, redirect, Polis, pakketMapper, polisService, opmerkingViewModel, bijlageViewModel, moment, toggleService, menubalkViewmodel, LicentieViewmodel, TakenViewmodel, BreadcrumbsViewmodel, _, opmaak) {
 
         return function () {
             var _this = this;
@@ -38,6 +39,7 @@ define(['jquery',
             this.id = ko.observable();
             this.readOnly = ko.observable();
             this.notReadOnly = ko.observable();
+            this.totaalpremie = ko.observable();
 
             this.init = function (polisId, basisId, readOnly, basisEntiteit) {
                 var deferred = $.Deferred();
@@ -109,18 +111,23 @@ define(['jquery',
                         $('<option>', {value: key}).text(value).appendTo($soortVerzekeringSelect);
                     });
 
-//                    _this.pakket.premie(commonFunctions.maakBedragOp(_this.pakket.premie()));
-
-//                    try {
-//                        zoekVoertuigGegevens(_this);
-//                    } catch (err) {
-//                        logger.info(err.message);
-//                    }
-
+                    _this.berekentotaalpremie();
                     return deferred.resolve();
                 });
 
                 return deferred.promise();
+            };
+
+            this.berekentotaalpremie = function() {
+                let totaal = 0;
+                _.chain(_this.pakket.polissen())
+                .filter(function(polis) {
+                    return polis.premie() != null;
+                })
+                .each(function(polis) {
+                    totaal = Number(totaal) + Number(polis.premie());
+                });
+                _this.totaalpremie(opmaak.maakBedragOp(totaal + ""));
             };
 
             this.autoinformatie = function(){
