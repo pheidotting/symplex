@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Repository
 public class PolisRepository {
@@ -116,13 +115,7 @@ public class PolisRepository {
 
     public void opslaan(Pakket pakket) {
         LOGGER.info("Opslaan {}", ReflectionToStringBuilder.toString(pakket));
-        pakket.getPolissen().stream().forEach(new Consumer<Polis>() {
-            @Override
-            public void accept(Polis polis) {
-                LOGGER.info("   Opslaan {}", ReflectionToStringBuilder.toString(polis));
-            }
-        });
-        LOGGER.info("##");
+        pakket.getPolissen().stream().forEach(polis -> LOGGER.info("   Opslaan {}", ReflectionToStringBuilder.toString(polis)));
         getTransaction();
 
         if (pakket.getId() == null) {
@@ -134,7 +127,6 @@ public class PolisRepository {
         getTransaction().commit();
     }
 
-    //    @Transactional(readOnly = true)
     public Pakket lees(Long id) {
         getTransaction();
 
