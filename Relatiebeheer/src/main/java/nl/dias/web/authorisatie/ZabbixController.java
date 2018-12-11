@@ -32,8 +32,6 @@ public class ZabbixController {
             gebruikerRepository.getSession().createSQLQuery("/* ping */ SELECT 1").uniqueResult();
             gebruikerRepository.getSession().getTransaction().commit();
 
-            polisClient.ping();
-
             return "1";
         } catch (Exception e) {
             LOGGER.error("Database niet beschikbaar, rb", e);
