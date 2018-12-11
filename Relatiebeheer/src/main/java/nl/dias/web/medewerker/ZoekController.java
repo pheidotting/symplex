@@ -116,8 +116,17 @@ public class ZoekController extends AbstractController {
         zoekResultaatResponse.getBedrijfOfRelatieList().addAll(relaties.stream()//
                 .filter(relatie -> {
                     if (getIngelogdeGebruiker(httpServletRequest) != null) {
-                        return relatie.getKantoor().getId() == ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
+                        LOGGER.trace("{}", relatie.getKantoor().getId());
+                        LOGGER.trace("{}", ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId());
+
+                        Long relatieId = relatie.getKantoor().getId();
+                        Long ingelogdId = ((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor().getId();
+
+                        LOGGER.trace("{}", relatieId.longValue() == ingelogdId.longValue());
+
+                        return relatieId.longValue() == ingelogdId.longValue();
                     }
+                    LOGGER.trace("Geen ingelogde gebruiker");
                     return false;
                 }).map(relatie -> {
                     RelatieZoekResultaat relatieZoekResultaat = new RelatieZoekResultaat();

@@ -121,6 +121,8 @@ public class KantoorController extends AbstractController {
             gebruikerService.verwijder(medewerker.getId());
         }
 
+        gebruikerService.verwijderAlleRelaties(kantoor);
+
         kantoorRepository.verwijder(kantoor);
 
         metricsService.stop(timer);

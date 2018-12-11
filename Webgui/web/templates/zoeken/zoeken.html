@@ -5,7 +5,7 @@
 <div class="top-zoek-scherm">
     <form>
         <div class="zoekvelden">
-            <label>Naam</label><input type="text" data-bind="value: zoekvelden.naam"/>
+            <label>Naam</label><input type="text" data-bind="value: zoekvelden.naam" id="zoekveldenNaam"/>
             <label>Geboortedatum</label><input type="date" data-bind="value: zoekvelden.geboortedatum"/>
             <label>Tussenvoegsel</label><input type="text" data-bind="value: zoekvelden.tussenvoegsel"/>
             <label>Polisnummer</label><input type="text" data-bind="value: zoekvelden.polisnummer"/>
@@ -17,7 +17,8 @@
             <label>Bedrijf</label><input type="checkbox" data-bind="checked: zoekvelden.bedrijf"/>
         </div>
         <div class="zoekknop">
-            <button data-bind="click: zoeken">Zoeken&nbsp;<span class="fa fa-search" aria-hidden="true"/></button>
+            <button data-bind="click: zoeken">Zoeken&nbsp;<span class="fa fa-search" aria-hidden="true" id="zoekknop"/>
+            </button>
         </div>
     </form>
     <div class="actiepunten">
@@ -27,7 +28,7 @@
 </div>
 
 <div class="zoek-resultaten">
-    <h3>Resultaten</h3>
+    <h3 id="resultatenH3">Resultaten</h3>
     <table>
         <thead>
         <tr>
@@ -40,7 +41,7 @@
         </thead>
         <tbody data-bind="foreach: zoekResultaat">
         <tr>
-            <td><a data-bind="text: naam, attr: {href: $parent.maaklink($index)}"></a></td>
+            <td><a data-bind="text: naam, attr: {href: $parent.maaklink($index)}" name="overzichtNaam"></a></td>
             <td><a data-bind="text: geboortedatum, attr: {href: $parent.maaklink($index)}"></a></td>
             <td><a data-bind="text: adres, attr: {href: $parent.maaklink($index)}"></a></td>
             <td><a data-bind="text: postcode, attr: {href: $parent.maaklink($index)}"></a></td>

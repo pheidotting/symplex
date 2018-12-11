@@ -244,6 +244,12 @@ public class GebruikerService {
         return gebruikerRepository.alleMedewerkers(kantoor);
     }
 
+    public void verwijderAlleRelaties(Kantoor kantoor) {
+        List<Relatie> relaties = gebruikerRepository.alleRelaties(kantoor);
+
+        relaties.stream().forEach(relatie -> gebruikerRepository.verwijder(relatie));
+    }
+
     public List<Relatie> alleRelaties() {
         return gebruikerRepository.alleRelaties();
     }
