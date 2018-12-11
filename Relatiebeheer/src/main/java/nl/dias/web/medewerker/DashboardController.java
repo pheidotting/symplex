@@ -85,7 +85,7 @@ public class DashboardController extends AbstractController {
                     return bedrijfZoekResultaat;
                 }).collect(Collectors.toList()));
 
-        dashboard.setTaken(openstaandeTaakService.alleOpenstaandeTaken(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor()));
+        //        dashboard.setTaken(openstaandeTaakService.alleOpenstaandeTaken(((Medewerker) getIngelogdeGebruiker(httpServletRequest)).getKantoor()));
 
         metricsService.stop(timer);
 
