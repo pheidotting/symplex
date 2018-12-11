@@ -16,7 +16,7 @@ public class AbstractPage {
         }
     }
 
-    private void wachtOpAanwezigheid(SelenideElement element) {
+    protected void wachtOpAanwezigheid(SelenideElement element) {
         while (!element.isDisplayed()) {
             wachtff();
         }
@@ -27,13 +27,13 @@ public class AbstractPage {
     }
 
     protected SelenideElement setValue(Logger LOGGER, SelenideElement element, String value, SoortVeld soortVeld) {
+        System.out.println("Invullen veld '" + element + "' met waarde '" + value + "'");
         if (value != null && !"".equals(value)) {
             wachtOpAanwezigheid(element);
             if (soortVeld.equals(SoortVeld.DATUM)) {
                 element.sendKeys(value);
             } else if (soortVeld.equals(SoortVeld.DROPDOWN)) {
-                //                Select
-                element.sendKeys(value);
+                element.selectOptionByValue(value);
             } else {
                 element.setValue(value);
             }
@@ -54,7 +54,7 @@ public class AbstractPage {
         return element;
     }
 
-    private String bepaalBestandsNaam(Logger LOGGER, SelenideElement element) {
+    protected String bepaalBestandsNaam(Logger LOGGER, SelenideElement element) {
         String packa = this.getClass().getPackage().toString();
         String loggerNaam = LOGGER.getName();
         String tijdstip = LocalDateTime.now().toString("HH:mm:ss");

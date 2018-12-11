@@ -68,6 +68,7 @@ public abstract class AbstractTest {
             setupChromeDriver();
             basisUrl = "http://localhost:8080/";
             //            basisUrl = "http://tst-diasii:8080/";
+            WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920, 1080));
         }
         if (uitvoeren) {
             basisUrlRest = basisUrl.replace("djfc/", "") + "dejonge/";

@@ -116,12 +116,26 @@ public class GebruikerRepository {
         return relaties;
     }
 
-    @Transactional
     public List<Relatie> alleRelaties() {
         Timer.Context timer = metricsService.addTimerMetric("alleRelaties", GebruikerRepository.class);
 
         getTransaction();
         Query query = getEm().createQuery("select e from Relatie e");
+        List<Relatie> ret = query.list();
+
+        getTransaction().commit();
+
+        metricsService.stop(timer);
+
+        return ret;
+    }
+
+    public List<Relatie> alleRelaties(Kantoor kantoor) {
+        Timer.Context timer = metricsService.addTimerMetric("alleRelaties", GebruikerRepository.class);
+
+        getTransaction();
+        Query query = getEm().createQuery("select e from Relatie e where e.kantoor = :kantoor");
+        query.setParameter("kantoor", kantoor);
         List<Relatie> ret = query.list();
 
         getTransaction().commit();
